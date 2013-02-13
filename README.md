@@ -8,15 +8,18 @@ Baboon Web Toolkit, modular fullstack web application framework for single-page 
 Install with: `npm install baboon`
 
 ```javascript
-var bb = require('baboon')(__dirname),
-    app = bb.app;
+var baboon = require('../lib/baboon')(__dirname),
+    app = baboon.express.app,
+    middleware = baboon.middleware,
+    server = baboon.server,
+    httpRoutes = require('./routes/http');
 
 app.get('/', function(req, res) {
     res.render('index');
 };
 
 bb.startServer();
-``` 
+```
 
 ## Documentation
 _(Coming soon)_

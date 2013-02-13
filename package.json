@@ -1,8 +1,8 @@
 {
     "name": "baboon",
     "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
-    "version": "0.0.1",
-    "homepage": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse",
+    "version": "0.0.3",
+    "homepage": "https://github.com/litixsoft/baboon",
     "author": {
         "name": "Litixsoft GmbH",
         "email": "info@litixsoft.de"
@@ -35,7 +35,10 @@
     ],
     "repository": {
         "type": "git",
-        "url": "ssh://git@code.litixsoft.de:7999/BWT/baboon.git"
+        "url": "https://github.com/litixsoft/baboon.git"
+    },
+    "bugs": {
+        "url": "https://github.com/litixsoft/baboon/issues"
     },
     "keywords": [
         "single-page",
@@ -48,7 +51,7 @@
     "licenses": [
         {
             "type": "MIT",
-            "url": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse/LICENSE"
+            "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
         }
     ],
     "readmeFilename": "README.md",
