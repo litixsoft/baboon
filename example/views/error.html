@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>500 Internal Error</title>
+    <style>
+        body {margin: 0;padding: 0;font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
+            background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+            background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);background-repeat: no-repeat;
+            color: #555;-webkit-font-smoothing: antialiased;}
+        .container{width: 800px;margin:0 auto; padding:150px 0 0 0}
+        img {float:right; margin-left: 10px;}
+        h1, h2, h3 {margin:0 3em 0 0;color: #343434;font-size: 22px;}
+        h1 {font-size: 60px;}
+        ul{list-style: none;line-height: 1.8em;padding: 0;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="/img/robot.png">
+    <h1>{{title}}</h1>
+    <h2><em>500</em> Error: {{msg}}</h2>
+    <ul>
+        {{#each trace}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+</body>
+</html>
