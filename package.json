@@ -1,74 +1,74 @@
 {
-  "name": "baboon",
-  "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
-  "version": "0.0.1",
-  "homepage": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse",
-  "author": {
-    "name": "Litixsoft GmbH",
-    "email": "info@litixsoft.de"
-  },
-  "maintainers": [
-    {
-      "name": "Timo Liebetrau",
-      "email": "t.liebetrau@litixsoft.de"
+    "name": "baboon",
+    "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
+    "version": "0.0.1",
+    "homepage": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
     },
-    {
-      "name": "Thomas Heinrich Linke",
-      "email": "t.heinrich-linke@litixsoft.de"
+    "maintainers": [
+        {
+            "name": "Timo Liebetrau",
+            "email": "t.liebetrau@litixsoft.de"
+        },
+        {
+            "name": "Thomas Heinrich Linke",
+            "email": "t.heinrich-linke@litixsoft.de"
+        },
+        {
+            "name": "Marco Kannenberg",
+            "email": "m.kannenberg@litixsoft.de"
+        },
+        {
+            "name": "Andreas Krummsdorf",
+            "email": "a.krummsdorf@litixsoft.de"
+        },
+        {
+            "name": "Sven Bernstein",
+            "email": "s.bernstein@litixsoft.de"
+        },
+        {
+            "name": "Thomas Scheibe",
+            "email": "th.scheibe@litixsoft.de"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "ssh://git@code.litixsoft.de:7999/BWT/baboon.git"
     },
-    {
-      "name": "Marco Kannenberg",
-      "email": "m.kannenberg@litixsoft.de"
+    "keywords": [
+        "single-page",
+        "realtime app",
+        "web application framework",
+        "web toolkit",
+        "fullstack web application framework"
+    ],
+    "license": "The MIT License (MIT)",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse/LICENSE"
+        }
+    ],
+    "readmeFilename": "README.md",
+    "main": "lib/baboon.js",
+    "scripts": {
+        "test": "grunt test --force"
     },
-    {
-      "name": "Andreas Krummsdorf",
-      "email": "a.krummsdorf@litixsoft.de"
+    "devDependencies": {
+        "grunt": "0.4.0rc7",
+        "grunt-contrib-jshint": "git://github.com/litixsoft/grunt-contrib-jshint.git",
+        "grunt-contrib-watch": "0.2.0rc7",
+        "grunt-jasmine-node": "0.0.6"
     },
-    {
-      "name": "Sven Bernstein",
-      "email": "s.bernstein@litixsoft.de"
-    },
-    {
-      "name": "Thomas Scheibe",
-      "email": "th.scheibe@litixsoft.de"
+    "dependencies": {
+        "express": "~3.1.0",
+        "consolidate": "~0.8.0",
+        "handlebars": "~1.0.8",
+        "connect-redis": "~1.4.5",
+        "redis": "~0.8.2",
+        "pwd": "0.0.2",
+        "bbvalid": "~0.2.0"
     }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@code.litixsoft.de:7999/BWT/baboon.git"
-  },
-  "keywords": [
-    "single-page",
-    "realtime app",
-    "web application framework",
-    "web toolkit",
-    "fullstack web application framework"
-  ],
-  "license": "The MIT License (MIT)",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://code.litixsoft.de:7990/projects/BWT/repos/baboon/browse/LICENSE"
-    }
-  ],
-  "readmeFilename": "README.md",
-  "main": "lib/baboon.js",
-  "scripts": {
-    "test": "grunt test --force"
-  },
-  "devDependencies": {
-    "grunt": "0.4.0rc6",
-    "grunt-contrib-jshint": "git://github.com/litixsoft/grunt-contrib-jshint.git",
-    "grunt-contrib-watch": "0.2.0rc5",
-    "grunt-jasmine-node": "git://github.com/vitch/grunt-jasmine-node.git#patch-1"
-  },
-  "dependencies": {
-    "express": "~3.1.0",
-    "consolidate": "~0.8.0",
-    "handlebars": "~1.0.8",
-    "connect-redis": "~1.4.5",
-    "redis": "~0.8.2",
-    "pwd": "0.0.2",
-    "bbvalid": "~0.2.0"
-  }
 }
