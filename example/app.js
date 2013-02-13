@@ -1,12 +1,13 @@
-var bb = require('../lib/baboon')(__dirname),
-    app = bb.app,
+var baboon = require('../lib/baboon')(__dirname),
+    app = baboon.express.app,
+    middleware = baboon.middleware,
+    server = baboon.server,
     httpRoutes = require('./routes/http');
 
 // routes
 app.get('/', httpRoutes.index);
 app.get('/login', httpRoutes.login);
-app.get('/app', bb.middleware.restricted, httpRoutes.app);
+app.get('/app', middleware.restricted, httpRoutes.app);
 app.get('/contact', httpRoutes.contact);
 
-// Start application server
-bb.startServer();
+server.start();

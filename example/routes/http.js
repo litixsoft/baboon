@@ -1,22 +1,22 @@
-exports.login = function(req, res) {
+exports.login = function (req, res) {
     'use strict';
 
     res.render('login');
 };
 
-exports.index = function(req, res) {
+exports.index = function (req, res) {
     'use strict';
 
     res.render('index');
 };
 
-exports.contact = function(req, res) {
+exports.contact = function (req, res) {
     'use strict';
 
     res.render('contact');
 };
 
-exports.app = function(req, res) {
+exports.app = function (req, res) {
     'use strict';
 
     res.render('app');
