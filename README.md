@@ -2,6 +2,8 @@
 
 Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.
 
+....is still under development
+
 ## Getting Started
 Install with: `npm install baboon`
 
