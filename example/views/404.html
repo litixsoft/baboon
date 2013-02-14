@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>500 Internal error</title>
-    <style>
-        body {margin: 0;padding: 0;font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-            background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-            background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);background-repeat: no-repeat;
-            color: #555;-webkit-font-smoothing: antialiased;}
-        .container{width: 800px;margin:0 auto; padding:150px 0 0 0}
-        img {float:right; margin-left: 10px;}
-        h1, h2, p {margin:0 3em 0 0;color: #343434;font-size: 22px;}
-        h1 {font-size: 60px;}
-    </style>
+    <title>404 Not found</title>
+    <link rel='stylesheet' href='css/errorStyle.css' />
 </head>
 <body>
-<div class="container">
-    <img src="/img/robot.png">
-    <h1>404 Not found</h1>
-    <p>Server cannot find the resource you requested.</p>
+<div class="singlepageFrame">
+    <div class="col1">
+        <div class="error_content">
+            <div class="container">
+                <table>
+                    <colgroup>
+                        <col />
+                        <col width="60" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><span class="errorNumberBig">404</span></th>
+                        <th><div class="errorRotate">ERROR</div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span class="errorMessage">Server cannot find the resource you requested.</span></td>
+                        <td><img src="img/message.png" /></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 0;">
+                            <span class="errorType">404 Not found</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <img class="baboonLogo" src="img/baboon.png" />
+        <div class="footerError">ERROR <span>404</span></div>
+    </footer>
 </div>
 </body>
 </html>
-
-
-

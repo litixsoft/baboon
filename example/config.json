@@ -5,6 +5,8 @@
     "httpPort": 3000,
     "httpsPort": 3002,
     "mongoPort":2701,
+    "mongoHost":"localhost",
+    "baboonDb":"baboon",
     "redisHost":"localhost",
     "redisPort":6379,
     "sessionKey":"baboon.sid",

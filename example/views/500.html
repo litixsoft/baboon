@@ -1,25 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>500 Internal error</title>
-    <style>
-        body {margin: 0;padding: 0;font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-            background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-            background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);background-repeat: no-repeat;
-            color: #555;-webkit-font-smoothing: antialiased;}
-        .container{width: 800px;margin:0 auto; padding:150px 0 0 0}
-        img {float:right; margin-left: 10px;}
-        h1, h2, p {margin:0 3em 0 0;color: #343434;font-size: 22px;}
-        h1 {font-size: 60px;}
-
-
-    </style>
+    <title>500 Internal Error</title>
+    <link rel='stylesheet' href='css/errorStyle.css' />
 </head>
 <body>
-<div class="container">
-    <img src="/img/robot.png">
-    <h1>500 Internal error</h1>
-    <p>Couldn't retrieve the view because of server-configuration problems.</p>
+<div class="singlepageFrame">
+    <div class="col1">
+        <div class="error_content">
+            <div class="container">
+                <table>
+                    <colgroup>
+                        <col />
+                        <col width="60" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><span class="errorNumberBig">500</span></th>
+                        <th><div class="errorRotate">ERROR</div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span class="errorMessage">Couldn't retrieve the view because of server-configuration problems.
+                            Please contact site administrator.</span></td>
+                        <td><img src="img/message.png" /></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 0;">
+                            <span class="errorType">500 Internal Error</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <img class="baboonLogo" src="img/baboon.png" />
+        <div class="footerError">ERROR <span>500</span></div>
+    </footer>
 </div>
 </body>
 </html>
