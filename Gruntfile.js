@@ -46,7 +46,8 @@ module.exports = function (grunt) {
                     exports: true,
                     describe: true,
                     it: true,
-                    expect: true
+                    expect: true,
+                    bbConfig: true
                 }
             }
         },
