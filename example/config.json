@@ -1,16 +1,47 @@
 {
 	"appName": "Baboon Example App",
     "version": "v0.0.1",
-    "serverMode":"development",
-    "httpPort": 3000,
-    "httpsPort": 3002,
-    "mongoPort":2701,
-    "mongoHost":"localhost",
-    "baboonDb":"baboon",
-    "redisHost":"localhost",
-    "redisPort":6379,
+    "serverMode": "development",
     "sessionKey":"baboon.sid",
     "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
     "sessionMaxLife":86400,
-    "sessionInactiveTime":1800
+    "sessionInactiveTime":1800,
+    "settings": {
+        "development": {
+            "httpPort": 3000,
+            "httpsPort": 3002,
+            "mongo": {
+                "serverOptions": {
+                    "auto_reconnect": true
+                },
+                "db_options": {
+                    "safe": true
+                },
+                "server": [
+                    {"host": "localhost", "port": 271017}
+                ]
+            },
+            "baboonDb":"baboon",
+            "redisHost":"localhost",
+            "redisPort":6379
+        },
+        "production": {
+            "httpPort": 3000,
+            "httpsPort": 3002,
+            "mongo": {
+                "serverOptions": {
+                    "auto_reconnect": true
+                },
+                "db_options": {
+                    "safe": true
+                },
+                "server": [
+                    {"host": "localhost", "port": 271017}
+                ]
+            },
+            "baboonDb":"baboon",
+            "redisHost":"localhost",
+            "redisPort":6379
+        }
+    }
 }
