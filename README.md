@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
     res.render('index');
 };
 
-server.start();
+bb.startServer();
 ```
 
 ## Documentation
