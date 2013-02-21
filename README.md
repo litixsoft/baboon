@@ -1,4 +1,4 @@
-# baboon
+# baboon [![Build Status](https://travis-ci.org/litixsoft/baboon.png)](https://travis-ci.org/litixsoft/baboon)
 
 Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.
 
