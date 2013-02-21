@@ -79,5 +79,5 @@ module.exports = function (grunt) {
     // Default task.
     //noinspection JSUnresolvedFunction
     grunt.registerTask('default', ['jshint:files', 'jasmine_node']);
-    grunt.registerTask('test', ['jasmine_node']);
+    grunt.registerTask('test', ['jshint:files', 'jasmine_node']);
 };
