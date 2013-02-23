@@ -18,7 +18,11 @@ app.get('/', function(req, res) {
     res.render('index');
 };
 
+<<<<<<< HEAD
 bb.startServer();
+=======
+server.start();
+>>>>>>> master
 ```
 
 ## Documentation
