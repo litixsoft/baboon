@@ -73,6 +73,7 @@
     "redis": "~0.8.2",
     "pwd": "0.0.2",
     "bbvalid": "~0.2.0",
-    "bbdal": "~0.1.3"
+    "mongodb": "~1.2.13",
+    "baboon-mongodb": "0.0.2"
   }
 }
