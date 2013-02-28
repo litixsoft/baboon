@@ -5,17 +5,30 @@ bbConfig.basePath = __dirname;
 
 //noinspection JSUnresolvedVariable
 var baboon = require('../lib/baboon'),
-    app = baboon.express.app,
-    auth = baboon.middleware.auth,
-    server = baboon.server,
     httpRoutes = require('./routes/http');
 
-// routes
-app.get('/', httpRoutes.index);
-app.get('/login', httpRoutes.login);
-app.post('/login', auth.login);
-app.get('/logout', auth.logout);
-app.get('/app', auth.restricted, httpRoutes.app);
-app.get('/contact', httpRoutes.contact);
+baboon(function (err, res) {
+    'use strict';
 
-server.start();
+    if (err) {
+        console.error(err);
+        throw new Error(err);
+    }
+
+    var app = res.express.app,
+        auth = res.middleware.auth,
+        server = res.server;
+
+    // routes
+    app.get('/', httpRoutes.index);
+    app.get('/login', httpRoutes.login);
+    app.post('/login', auth.login);
+    app.get('/logout', auth.logout);
+    app.get('/app', auth.restricted, httpRoutes.app);
+    app.get('/contact', httpRoutes.contact);
+
+    server.start();
+});
+
+
+
