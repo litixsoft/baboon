@@ -76,6 +76,7 @@
     "mongodb": "~1.2.13",
     "baboon-mongodb": "0.0.2",
     "haredis": "~0.2.8",
-    "connect-mongo": "~0.3.2"
+    "connect-mongo": "~0.3.2",
+    "socket.io": "~0.9.13"
   }
 }
