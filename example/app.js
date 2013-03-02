@@ -1,6 +1,33 @@
 //noinspection JSUnresolvedVariable
 GLOBAL.bbConfig = require('./config.json');
 //noinspection JSUnresolvedVariable
+
+var i, max, args = process.argv;
+//noinspection JSUnresolvedVariable
+for (i = 2, max = args.length; i < max; i += 1) {
+    var tmp = args[i].split(':');
+
+    if (tmp.length === 2) {
+        switch (tmp[0]) {
+            case 'https':
+                console.log("https setting:" + tmp[1]);
+                //noinspection JSUnresolvedVariable
+                bbConfig.https = tmp[1];
+                break;
+            case 'port':
+                //noinspection JSUnresolvedVariable
+                bbConfig.port = tmp[1]
+                console.log("port setting:" + tmp[1]);
+                break;
+            case 'mode':
+                //noinspection JSUnresolvedVariable
+                bbConfig.serverMode = tmp[1]
+                console.log("port setting:" + tmp[1]);
+                break;
+        }
+    }
+}
+
 bbConfig.basePath = __dirname;
 
 //noinspection JSUnresolvedVariable
@@ -39,7 +66,7 @@ baboon(function (err, res) {
             socket.emit('send:time', {
                 time: (new Date()).toString()
             });
-        }, 1000);
+        }, 5000);
     });
 
     server.start();

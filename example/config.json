@@ -6,42 +6,40 @@
     "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
     "sessionMaxLife":86400,
     "sessionInactiveTime":1800,
-    "settings": {
-        "development": {
-            "httpPort": 3000,
-            "httpsPort": 3002,
-            "mongo": {
-                "serverOptions": {
-                    "auto_reconnect": true
-                },
-                "db_options": {
-                    "safe": true
-                },
-                "server": [
-                    {"host": "localhost", "port": 271017}
-                ]
-            },
-            "baboonDb":"baboon",
-            "redisHost":"localhost",
-            "redisPort":6379
+    "https":true,
+    "port":3000,
+    "mongo": {
+        "baboon":
+        {
+            "dbOptions": {"w": 0},
+            "server": [
+                {"host": "localhost", "port": 27017, "options": { "auto_reconnect": true } }
+            ]
+        }
+    },
+    "modules": {
+
+    },
+    "sections": {
+        "develop": {
+
         },
         "production": {
-            "httpPort": 3000,
-            "httpsPort": 3002,
+
+        },
+        "test": {
+
+        },
+        "rplTest": {
             "mongo": {
-                "serverOptions": {
-                    "auto_reconnect": true
-                },
-                "db_options": {
-                    "safe": true
-                },
-                "server": [
-                    {"host": "localhost", "port": 271017}
-                ]
-            },
-            "baboonDb":"baboon",
-            "redisHost":"localhost",
-            "redisPort":6379
+                "baboon": {
+                    "server": [
+                        {"host": "192.168.20.24", "port": 27017, "options": { "auto_reconnect": true } },
+                        {"host": "192.168.20.25", "port": 27017, "options": { "auto_reconnect": true } },
+                        {"host": "192.168.20.26", "port": 27017, "options": { "auto_reconnect": true } }
+                    ]
+                }
+            }
         }
     }
 }
