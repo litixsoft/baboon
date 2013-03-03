@@ -77,6 +77,7 @@
     "baboon-mongodb": "0.0.2",
     "haredis": "~0.2.8",
     "connect-mongo": "~0.3.2",
-    "socket.io": "~0.9.13"
+    "socket.io": "~0.9.13",
+    "winston": "~0.6.2"
   }
 }

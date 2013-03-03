@@ -1,40 +1,8 @@
 //noinspection JSUnresolvedVariable
-GLOBAL.bbConfig = require('./config.json');
-//noinspection JSUnresolvedVariable
-
-var i, max, args = process.argv;
-//noinspection JSUnresolvedVariable
-for (i = 2, max = args.length; i < max; i += 1) {
-    var tmp = args[i].split(':');
-
-    if (tmp.length === 2) {
-        switch (tmp[0]) {
-            case 'https':
-                console.log("https setting:" + tmp[1]);
-                //noinspection JSUnresolvedVariable
-                bbConfig.https = tmp[1];
-                break;
-            case 'port':
-                //noinspection JSUnresolvedVariable
-                bbConfig.port = tmp[1]
-                console.log("port setting:" + tmp[1]);
-                break;
-            case 'mode':
-                //noinspection JSUnresolvedVariable
-                bbConfig.serverMode = tmp[1]
-                console.log("port setting:" + tmp[1]);
-                break;
-        }
-    }
-}
-
-bbConfig.basePath = __dirname;
-
-//noinspection JSUnresolvedVariable
 var baboon = require('../lib/baboon'),
     httpRoutes = require('./routes/http');
 
-baboon(function (err, res) {
+baboon(__dirname, function (err, res) {
     'use strict';
 
     if (err) {
@@ -45,7 +13,8 @@ baboon(function (err, res) {
     var app = res.express.app,
         auth = res.middleware.auth,
         server = res.server,
-        io = server.io;
+        io = server.io,
+        config = server.config;
 
     // routes
     app.get('/', httpRoutes.index);
@@ -54,7 +23,6 @@ baboon(function (err, res) {
     app.get('/logout', auth.logout);
     app.get('/app', auth.restricted, httpRoutes.app);
     app.get('/contact', httpRoutes.contact);
-
 
     io.sockets.on('connection', function (socket) {
         socket.emit('news', { hello: 'world' });
@@ -71,6 +39,3 @@ baboon(function (err, res) {
 
     server.start();
 });
-
-
-

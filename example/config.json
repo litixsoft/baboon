@@ -1,45 +1,45 @@
 {
 	"appName": "Baboon Example App",
     "version": "v0.0.1",
-    "serverMode": "development",
-    "sessionKey":"baboon.sid",
-    "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
-    "sessionMaxLife":86400,
-    "sessionInactiveTime":1800,
-    "https":true,
-    "port":3000,
-    "mongo": {
-        "baboon":
-        {
-            "dbOptions": {"w": 0},
-            "server": [
-                {"host": "localhost", "port": 27017, "options": { "auto_reconnect": true } }
-            ]
-        }
-    },
-    "modules": {
-
-    },
+    "serverMode": "rplTest",
     "sections": {
-        "develop": {
-
-        },
-        "production": {
-
-        },
-        "test": {
-
-        },
-        "rplTest": {
+        "dev": {
+            "sessionKey":"baboon.sid",
+            "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
+            "sessionMaxLife":86400,
+            "sessionInactiveTime":1800,
+            "https":true,
+            "port":3000,
             "mongo": {
                 "baboon": {
+                    "dbOptions": {"w": 0},
+                    "server": [
+                        {"host": "localhost", "port": 27017, "options": { "auto_reconnect": true } }
+                    ]
+                }
+            },
+            "modules": {}
+        },
+        "pro": {},
+        "test": {},
+        "rplTest": {
+            "sessionKey":"baboon.sid",
+            "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
+            "sessionMaxLife":86400,
+            "sessionInactiveTime":1800,
+            "https":true,
+            "port":3000,
+            "mongo": {
+                "baboon": {
+                    "dbOptions": {"w": 0},
                     "server": [
                         {"host": "192.168.20.24", "port": 27017, "options": { "auto_reconnect": true } },
                         {"host": "192.168.20.25", "port": 27017, "options": { "auto_reconnect": true } },
                         {"host": "192.168.20.26", "port": 27017, "options": { "auto_reconnect": true } }
                     ]
                 }
-            }
+            },
+            "modules": {}
         }
     }
 }
