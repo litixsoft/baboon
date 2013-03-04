@@ -8,6 +8,7 @@
     "sessionInactiveTime":1800,
     "https":true,
     "port":3000,
+    "logLevel": "config",
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},
