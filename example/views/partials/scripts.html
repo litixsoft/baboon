@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/js/lib/knockout.min.js" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://localhost');
+    var socket = io.connect('https://localhost:3001');
     socket.on('news', function (data) {
         console.log(data);
         socket.emit('my other event', { my: 'data' });
