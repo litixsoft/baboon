@@ -1,13 +1,14 @@
 {
     "config": "base",
     "appName": "Baboon Example App",
+    "host": "localhost",
     "version": "v0.0.1",
     "sessionKey":"baboon.sid",
     "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
     "sessionMaxLife":86400,
     "sessionInactiveTime":1800,
     "https":true,
-    "port":3000,
+    "port":3001,
     "logLevel": "config",
     "baboonDb" : {
         "dbName": "baboon",

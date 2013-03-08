@@ -2,8 +2,10 @@
 <script type="text/javascript" src="/js/lib/bootstrap.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib/knockout.min.js" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js"></script>
+
 <script>
-    var socket = io.connect('https://localhost:3001');
+    //var socket = io.connect('https://localhost:3001');
+    <!--baboon-socket-->
     socket.on('news', function (data) {
         console.log(data);
         socket.emit('my other event', { my: 'data' });

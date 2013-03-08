@@ -1,6 +1,5 @@
 {
     "config": "dev",
-    "port":3001,
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},
