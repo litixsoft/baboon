@@ -4,8 +4,8 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    //var socket = io.connect('https://localhost:3001');
-    <!--baboon-socket-->
+    // socket connection as baboon var
+    <!--baboon-socketConnection-->
     socket.on('news', function (data) {
         console.log(data);
         socket.emit('my other event', { my: 'data' });

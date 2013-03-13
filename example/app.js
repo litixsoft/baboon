@@ -2,6 +2,7 @@
 var baboon = require('../lib/baboon'),
     httpRoutes = require('./routes/http');
 
+//noinspection JSUnresolvedVariable
 baboon(__dirname, function (err, res) {
     'use strict';
 

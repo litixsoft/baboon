@@ -7,9 +7,15 @@
     "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
     "sessionMaxLife":86400,
     "sessionInactiveTime":1800,
-    "https":true,
     "port":3001,
-    "logLevel": "config",
+    "logging": {
+        "syslog": [
+            { "transport": "file", "level": "error" }
+        ],
+        "audit": [
+            { "transport": "db", "level": "medium" }
+        ]
+    },
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},

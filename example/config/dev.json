@@ -1,5 +1,13 @@
 {
     "config": "dev",
+    "logging": {
+        "syslog": [
+            { "transport": "file", "level": "debug" }
+        ],
+        "audit": [
+            { "transport": "console", "level": "high" }
+        ]
+    },
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},
