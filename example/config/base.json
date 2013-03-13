@@ -8,13 +8,9 @@
     "sessionMaxLife":86400,
     "sessionInactiveTime":1800,
     "port":3001,
-    "logging": {
-        "syslog": [
-            { "transport": "file", "level": "error" }
-        ],
-        "audit": [
-            { "transport": "db", "level": "medium" }
-        ]
+    "logger": {
+        "syslog": { "level": "debug", "transport": ["console", "file"]},
+        "audit": { "level": "A", "transport": ["console", "file"]}
     },
     "baboonDb" : {
         "dbName": "baboon",
