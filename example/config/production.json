@@ -9,8 +9,8 @@
     "sessionInactiveTime":1800,
     "port":3001,
     "logger": {
-        "syslog": { "level": "debug", "transport": ["console", "file"]},
-        "audit": { "level": "A", "transport": ["console", "file"]}
+        "syslog": { "level": "debug", "transport": ["file"]},
+        "audit": { "level": "A", "transport": ["file"]}
     },
     "baboonDb" : {
         "dbName": "baboon",

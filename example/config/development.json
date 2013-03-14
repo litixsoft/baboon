@@ -1,5 +1,9 @@
 {
     "config": "dev",
+    "logger": {
+        "syslog": { "level": "debug", "transport": ["console"]},
+        "audit": { "level": "A", "transport": ["console"]}
+    },
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},
