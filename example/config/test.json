@@ -1,5 +1,5 @@
 {
-    "config": "test",
+    "mode": "test",
     "baboonDb" : {
         "dbName": "baboon",
         "dbOptions": {"w": 0},

@@ -1,8 +1,10 @@
 {
-    "config": "dev",
-    "logger": {
-        "syslog": { "level": "debug", "transport": ["console"]},
-        "audit": { "level": "A", "transport": ["console"]}
+    "mode": "development",
+    "logging": {
+        "syslog": "debug",
+        "audit": "A",
+        "express": "dev",
+        "socket": 1
     },
     "baboonDb" : {
         "dbName": "baboon",

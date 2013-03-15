@@ -69,16 +69,13 @@
     "express": "~3.1.0",
     "consolidate": "~0.8.0",
     "handlebars": "~1.0.8",
-    "connect-redis": "~1.4.5",
-    "redis": "~0.8.2",
     "pwd": "0.0.2",
     "bbvalid": "~0.2.0",
     "mongodb": "~1.2.13",
     "baboon-mongodb": "0.0.2",
-    "haredis": "~0.2.8",
     "connect-mongo": "~0.3.2",
     "socket.io": "~0.9.13",
     "winston": "~0.6.2",
-    "log4js": "~0.5.7"
+    "file-stream-rotator": "0.0.4"
   }
 }

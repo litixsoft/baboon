@@ -1,5 +1,5 @@
 {
-    "config": "base",
+    "mode": "production",
     "appName": "Baboon Example App",
     "host": "localhost",
     "version": "v0.0.1",
@@ -8,9 +8,11 @@
     "sessionMaxLife":86400,
     "sessionInactiveTime":1800,
     "port":3001,
-    "logger": {
-        "syslog": { "level": "debug", "transport": ["file"]},
-        "audit": { "level": "A", "transport": ["file"]}
+    "logging": {
+        "syslog": "debug",
+        "audit": "A",
+        "express": "default",
+        "socket": 1
     },
     "baboonDb" : {
         "dbName": "baboon",
