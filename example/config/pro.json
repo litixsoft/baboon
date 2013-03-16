@@ -9,8 +9,8 @@
     "sessionInactiveTime":1800,
     "port":3001,
     "logging": {
-        "syslog": "debug",
-        "audit": "A",
+        "syslog": "warn",
+        "audit": "B",
         "express": "default",
         "socket": 1
     },
