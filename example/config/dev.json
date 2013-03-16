@@ -4,7 +4,7 @@
         "syslog": "debug",
         "audit": "A",
         "express": "dev",
-        "socket": 1
+        "socket": 3
     },
     "baboonDb" : {
         "dbName": "baboon",

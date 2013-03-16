@@ -75,7 +75,6 @@
     "baboon-mongodb": "0.0.2",
     "connect-mongo": "~0.3.2",
     "socket.io": "~0.9.13",
-    "winston": "~0.6.2",
-    "file-stream-rotator": "0.0.4"
+    "winston": "~0.6.2"
   }
 }
