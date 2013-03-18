@@ -70,11 +70,9 @@
     "consolidate": "~0.8.0",
     "handlebars": "~1.0.8",
     "pwd": "0.0.2",
-    "bbvalid": "~0.2.0",
-    "mongodb": "~1.2.13",
-    "baboon-mongodb": "0.0.2",
-    "connect-mongo": "~0.3.2",
     "socket.io": "~0.9.13",
-    "winston": "~0.6.2"
+    "winston": "~0.6.2",
+    "redis": "~0.8.2",
+    "connect-redis": "~1.4.5"
   }
 }
