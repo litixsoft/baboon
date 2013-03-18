@@ -5,12 +5,5 @@
         "audit": "A",
         "express": "dev",
         "socket": 3
-    },
-    "baboonDb" : {
-        "dbName": "baboon",
-        "dbOptions": {"w": 0},
-        "server": [
-            {"host": "localhost", "port": 27017, "options": { "auto_reconnect": true } }
-        ]
     }
 }

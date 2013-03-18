@@ -9,18 +9,16 @@
     "sessionInactiveTime":1800,
     "port":3001,
     "logging": {
-        "syslog": "info",
+        "syslog": "warn",
         "audit": "B",
         "express": "default",
         "socket": 1
     },
-    "baboonDb" : {
-        "dbName": "baboon",
-        "dbOptions": {"w": 0},
-        "server": [
-            {"host": "localhost", "port": 27017, "options": { "auto_reconnect": true } }
-        ]
-    },
-    "mongoDbs": [],
-    "modules": []
+    "redis": [
+        {"host": "localhost", "port": 6379, "options":{}}
+    ],
+    "mongo": {
+        "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
+        "dbs": ["blog", "users"]
+    }
 }
