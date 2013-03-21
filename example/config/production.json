@@ -9,10 +9,10 @@
     "sessionInactiveTime":1800,
     "port":3001,
     "logging": {
-        "syslog": "warn",
-        "audit": "B",
-        "express": "default",
-        "socket": 1
+        "syslog": "INFO",
+        "audit": "INFO",
+        "express": "INFO",
+        "socket": "INFO"
     },
     "redis": [
         {"host": "localhost", "port": 6379, "options":{}}

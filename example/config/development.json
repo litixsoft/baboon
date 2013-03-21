@@ -1,8 +1,8 @@
 {
     "mode": "development",
     "logging": {
-        "syslog": "debug",
-        "audit": "A",
+        "syslog": "DEBUG",
+        "audit": "DEBUG",
         "express": "dev",
         "socket": 3
     }
