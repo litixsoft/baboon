@@ -2,8 +2,7 @@
 
 Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.
 
-rename to lx-baboon
-moved to https://github.com/litixsoft/lx-baboon
+_(Coming soon)_
 
 ## Getting Started
 _(Coming soon)_
