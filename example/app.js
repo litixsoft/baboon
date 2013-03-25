@@ -27,7 +27,7 @@ io.sockets.on('connection', function (socket) {
         socket.emit('send:time', {
             time: (new Date()).toString()
         });
-    }, 1000);
+    }, 10000);
 });
 
 server.start();

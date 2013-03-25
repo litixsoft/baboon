@@ -4,6 +4,6 @@
         "syslog": "DEBUG",
         "audit": "DEBUG",
         "express": "dev",
-        "socket": 3
+        "socket": 1
     }
 }
