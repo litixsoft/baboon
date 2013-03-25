@@ -1,12 +1,29 @@
-# baboon
+# baboon [![Build Status](https://travis-ci.org/litixsoft/baboon.png)](https://travis-ci.org/litixsoft/baboon)
 
 Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.
 
-rename to lx-baboon
-moved to https://github.com/litixsoft/lx-baboon
+....is still under development
 
 ## Getting Started
-_(Coming soon)_
+Install with: `npm install baboon`
+
+```javascript
+var baboon = require('../lib/baboon')(__dirname),
+    app = baboon.express.app,
+    middleware = baboon.middleware,
+    server = baboon.server,
+    httpRoutes = require('./routes/http');
+
+app.get('/', function(req, res) {
+    res.render('index');
+};
+
+<<<<<<< HEAD
+bb.startServer();
+=======
+server.start();
+>>>>>>> master
+```
 
 ## Documentation
 _(Coming soon)_
