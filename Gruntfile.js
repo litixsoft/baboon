@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         },
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'tests',
+            projectRoot: 'test',
             requirejs: false,
             forceExit: true,
             jUnit: {
