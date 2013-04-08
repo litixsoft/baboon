@@ -1,0 +1,1 @@
+# baboon-seed — the seed for baboon AngularJS apps

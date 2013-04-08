@@ -1,5 +1,5 @@
 atlassian-ide-plugin.xml
 .idea
-/build
+build
 node_modules
 
