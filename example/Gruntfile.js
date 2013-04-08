@@ -50,18 +50,16 @@ module.exports = function (grunt) {
                 node: true
             }
         },
-        // watch files
-        watch: {
-            files: '<%= jshint.files %>',
-            tasks: ['jshint:files']
-        },
         // copy files
         copy: {
             app: {
                 files: [
-                    { dest: '<%= distDir %>/', src : '*.html', expand: true, cwd: '<%= srcDir %>/app/' },
+                    { dest: '<%= distDir %>/', src : '*.html', expand: true, cwd: '<%= srcDir %>/app/' }
+                ]
+            },
+            views: {
+                files: [
                     { dest: '<%= distDir %>/views/', src : '**', expand: true, cwd: '<%= srcDir %>/app/views' }
-
                 ]
             },
             assets: {
@@ -112,7 +110,6 @@ module.exports = function (grunt) {
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
