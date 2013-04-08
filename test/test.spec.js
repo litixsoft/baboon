@@ -1,3 +1,4 @@
+/*global describe, it, expect */
 describe('Baboon', function () {
     'use strict';
 
