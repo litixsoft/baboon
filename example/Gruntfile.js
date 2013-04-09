@@ -15,16 +15,13 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            build: ['build'],
-            dist: ['client/dist']
+            reports: ['build/reports'],
+            dist: ['build/dist']
         },
-        // client dirs
-        distDir: 'client/dist',
-        srcDir: 'client/src',
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/server.js', '<%= srcDir %>/app/scripts/**/*.js', '<%= srcDir %>/test/**/*.js',
-                '<%= srcDir %>/lib/**/*.js', 'server/test/**/*.js', 'server/api/**/*.js'],
+            files: ['Gruntfile.js', 'server/server.js', 'client/app/scripts/**/*.js', 'client/test/**/*.js',
+                'server/test/**/*.js', 'server/api/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -54,56 +51,52 @@ module.exports = function (grunt) {
         copy: {
             app: {
                 files: [
-                    { dest: '<%= distDir %>/', src : '*.html', expand: true, cwd: '<%= srcDir %>/app/' }
+                    { dest: 'build/dist/', src : '*.html', expand: true, cwd: 'client/app/' }
                 ]
             },
             views: {
                 files: [
-                    { dest: '<%= distDir %>/views/', src : '**', expand: true, cwd: '<%= srcDir %>/app/views' }
+                    { dest: 'build/dist/views/', src : '**', expand: true, cwd: 'client/app/views' }
                 ]
             },
             assets: {
                 files: [
-                    { dest: '<%= distDir %>/static/', src : '**', expand: true, cwd: '<%= srcDir %>/assets/' }
+                    { dest: 'build/dist/static/', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             },
             vendor: {
                 files: [
-                    { dest: '<%= distDir %>/static/css/bootstrap.css', src : '<%= srcDir %>/vendor/bootstrap/css/bootstrap.min.css'},
-                    { dest: '<%= distDir %>/static/img/', src : '*.png', expand: true, cwd: '<%= srcDir %>/vendor/bootstrap/img/'},
-                    { dest: '<%= distDir %>/static/js/bootstrap.js', src : '<%= srcDir %>/vendor/bootstrap/js/bootstrap.min.js'},
-                    { dest: '<%= distDir %>/static/js/jquery.js', src : '<%= srcDir %>/vendor/jquery/jquery.min.js'}
+                    { dest: 'build/dist/static/css/bootstrap.css', src : 'client/vendor/bootstrap/css/bootstrap.min.css'},
+                    { dest: 'build/dist/static/img/', src : '*.png', expand: true, cwd: 'client/vendor/bootstrap/img/'},
+                    { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.min.js'},
+                    { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.min.js'}
                 ]
             }
         },
         concat: {
             app: {
-                src: ['<%= srcDir %>/app/scripts/app.js'],
-                dest: '<%= distDir %>/scripts/app.js'
-            },
-            lib: {
-                src: ['<%= srcDir %>/lib/**/*.js'],
-                dest: '<%= distDir %>/scripts/lib.js'
+                src: ['client/app/scripts/app.js','client/app/common/**/*.js'],
+                dest: 'build/dist/scripts/app.js'
             },
             controller: {
-                src: ['<%= srcDir %>/app/scripts/**/controllers.js'],
-                dest: '<%= distDir %>/scripts/controllers.js'
+                src: ['client/app/scripts/**/controllers.js'],
+                dest: 'build/dist/scripts/controllers.js'
             },
             directives: {
-                src: ['<%= srcDir %>/app/scripts/**/directives.js'],
-                dest: '<%= distDir %>/scripts/directives.js'
+                src: ['client/app/scripts/**/directives.js'],
+                dest: 'build/dist/scripts/directives.js'
             },
             filters: {
-                src: ['<%= srcDir %>/app/scripts/**/filters.js'],
-                dest: '<%= distDir %>/scripts/filters.js'
+                src: ['client/app/scripts/**/filters.js'],
+                dest: 'build/dist/scripts/filters.js'
             },
             services: {
-                src: ['<%= srcDir %>/app/scripts/**/services.js'],
-                dest: '<%= distDir %>/scripts/services.js'
+                src: ['client/app/scripts/**/services.js'],
+                dest: 'build/dist/scripts/services.js'
             },
             angular: {
-                src: ['<%= srcDir %>/vendor/angular/angular.min.js'],
-                dest: '<%= distDir %>/static/js/angular.js'
+                src: ['client/vendor/angular/angular.min.js'],
+                dest: 'build/dist/static/js/angular.js'
             }
         }
     });
@@ -116,7 +109,7 @@ module.exports = function (grunt) {
 
     // Default task.
     //noinspection JSUnresolvedFunction
-    grunt.registerTask('default', ['clean:build', 'jshint:files']);
-    grunt.registerTask('test', ['clean:build', 'jshint:files']);
+    grunt.registerTask('default', ['clean:reports', 'jshint:files']);
+    grunt.registerTask('test', ['clean:reports', 'jshint:files']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
 };

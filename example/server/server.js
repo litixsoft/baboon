@@ -3,7 +3,7 @@ var express = require('express'),
     path = require('path'),
     fs = require('fs'),
     rootPath = path.join(__dirname, '../'),
-    distPath = path.join(rootPath, 'client', 'dist'),
+    distPath = path.join(rootPath, 'build', 'dist'),
     mimeTypeMap = {
         'txt': 'text/plain',
         'html': 'text/html',
