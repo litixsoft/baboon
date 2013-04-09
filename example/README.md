@@ -24,15 +24,13 @@ If you've made changes in client/src and if not development mode, you must manua
 
 ``` bash
 example:> grunt build # if not development mode
-example:>run # or server/server.js
+example:>server/server.js
 ```
 
 ### For relaxed develop use nodemon
 
 ``` bash
-example:> run-nomo
-# or
-example:> nodemon --watch client/src/app -e js,css,html server\server.js
+example:> nomo
 ```
 
-If you've made changes in client/src/assets or client/src/vendor, you must restart server.
+If you've made changes in client/assets or client/vendor, you must restart server manually.
