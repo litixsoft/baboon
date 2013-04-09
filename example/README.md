@@ -20,7 +20,7 @@ grunt build # builds client app
 
 ### Start server usual.
 In development mode server run at start grunt build.
-If you've made changes in client/src and if not development mode, you must manually start grunt build.
+If you've made changes in client/ and if not development mode, you must manually start grunt build.
 
 ``` bash
 example:> grunt build # if not development mode
