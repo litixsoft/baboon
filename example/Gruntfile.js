@@ -16,8 +16,7 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist'],
-            dist2: ['build/_dist']
+            dist: ['build/dist']
         },
         src: {
             build: {
@@ -43,8 +42,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/server.js', 'client/app/scripts/**/*.js', 'client/test/**/*.js',
-                'server/test/**/*.js', 'server/api/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -72,14 +70,14 @@ module.exports = function (grunt) {
         },
         // copy files
         copy: {
-            app: {
+            client: {
                 files: [
-                    { dest: 'build/dist/', src : '*.html', expand: true, cwd: 'client/app/' }
+                    { dest: 'build/dist/', src : '*.html', expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    { dest: 'build/dist/views/', src : '**', expand: true, cwd: 'client/app/views' }
+                    {dest: 'build/dist/views/', src: '**/views/*.html', expand: true, cwd:'client/app/'}
                 ]
             },
             assets: {
@@ -94,33 +92,12 @@ module.exports = function (grunt) {
                     { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.min.js'},
                     { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.min.js'}
                 ]
-            },
-            viewsTest: {
-                files: [
-                    {dest: 'build/_dist/views/', src: '**/views/*.html', expand: true, cwd:'_client/app/'}
-                ]
             }
         },
         concat: {
             app: {
-                src: ['client/app/scripts/app.js','client/app/common/**/*.js'],
-                dest: 'build/dist/scripts/app.js'
-            },
-            controller: {
-                src: ['client/app/scripts/**/controllers.js'],
-                dest: 'build/dist/scripts/controllers.js'
-            },
-            directives: {
-                src: ['client/app/scripts/**/directives.js'],
-                dest: 'build/dist/scripts/directives.js'
-            },
-            filters: {
-                src: ['client/app/scripts/**/filters.js'],
-                dest: 'build/dist/scripts/filters.js'
-            },
-            services: {
-                src: ['client/app/scripts/**/services.js'],
-                dest: 'build/dist/scripts/services.js'
+                src: ['client/app/**/*.js'],
+                dest: 'build/dist/app.js'
             },
             angular: {
                 src: ['client/vendor/angular/angular.min.js'],
@@ -139,8 +116,20 @@ module.exports = function (grunt) {
                 files: 'client/app/**/*.*',
                 tasks: ['build', 'livereload']
             },
-            server: {
-                files: 'server/**/*.*',
+            assets: {
+                files: 'client/assets/**/*.*',
+                tasks: ['build', 'livereload']
+            },
+            vendor: {
+                files: 'client/assets/**/*.*',
+                tasks: ['build', 'livereload']
+            },
+            serverApi: {
+                files: 'server/api/**/*.*',
+                tasks: ['express-server','livereload']
+            },
+            serverMiddleware: {
+                files: 'server/middleware/**/*.*',
                 tasks: ['express-server','livereload']
             }
         },
@@ -166,8 +155,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean:reports', 'jshint:files']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
     grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'open:server', 'regarde' ]);
-
-    grunt.registerTask('st', ['clean:dist2','copy:viewsTest']);
 
     // Default task.
     grunt.registerTask('default', ['test']);
