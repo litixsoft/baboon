@@ -1,6 +1,6 @@
-/*global module*/
+'use strict';
+
 module.exports = function (grunt) {
-    'use strict';
 
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
@@ -98,6 +98,28 @@ module.exports = function (grunt) {
                 src: ['client/vendor/angular/angular.min.js'],
                 dest: 'build/dist/static/js/angular.js'
             }
+        },
+        server: {
+            script: 'scripts/server.js'
+        },
+        livereload: {
+            port: 35729 // Default livereload listening port.
+        },
+        // Configuration to be run (and then tested)
+        regarde: {
+            app: {
+                files: 'client/app/**/*.*',
+                tasks: ['build', 'livereload']
+            },
+            server: {
+                files: 'server/**/*.*',
+                tasks: ['express-server','livereload']
+            }
+        },
+        open: {
+            server: {
+                url: 'http://localhost:3000'
+            }
         }
     });
 
@@ -106,10 +128,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-contrib-livereload');
+    grunt.loadNpmTasks('grunt-regarde');
+    grunt.loadNpmTasks('grunt-open');
 
-    // Default task.
-    //noinspection JSUnresolvedFunction
-    grunt.registerTask('default', ['clean:reports', 'jshint:files']);
+
+    // Tasks
     grunt.registerTask('test', ['clean:reports', 'jshint:files']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
+    grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'open:server', 'regarde' ]);
+
+    // Default task.
+    grunt.registerTask('default', ['test']);
 };

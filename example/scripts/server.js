@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express'),
     http = require('http'),
     path = require('path'),
@@ -19,11 +21,12 @@ var express = require('express'),
     },
     app,
     appHelpers = {},
-    serverModus = 'development';
+    server;
 
 app = express();
+server = http.createServer(app);
+
 appHelpers.getMimeType = function(url) {
-    'use strict';
 
     var extName = path.extname(url).substring(1);
     if(mimeTypeMap.hasOwnProperty(extName)) {
@@ -34,7 +37,6 @@ appHelpers.getMimeType = function(url) {
     }
 };
 appHelpers.sendFile = function(pathname, res) {
-    'use strict';
 
     res.setHeader('Content-Type', appHelpers.getMimeType(pathname));
 
@@ -47,20 +49,6 @@ appHelpers.sendFile = function(pathname, res) {
         console.log(error);
     });
 };
-
-if (serverModus === 'development') {
-    var exec = require('child_process').exec;
-    var cmd = 'cd ' + rootPath + '& grunt build';
-    exec(cmd, function (error, stdout) {
-        'use strict';
-
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-
-        console.log('stdout: ' + stdout.toString());
-    });
-}
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -79,33 +67,27 @@ if ('development' === app.get('env')) {
 
 // index route
 app.get('/', function(req, res){
-    'use strict';
     // TODO Rechte
     appHelpers.sendFile('index.html', res);
 });
 
 app.get('/scripts/*', function(req, res){
-    'use strict';
     // TODO Rechte
     appHelpers.sendFile(req.url, res);
 });
 app.get('/views/*', function(req, res){
-    'use strict';
     // TODO Rechte
     appHelpers.sendFile(req.url, res);
 });
 
 app.get('*.*', function (req, res) {
-    'use strict';
     appHelpers.sendFile(req.url, res);
 });
 
 app.get('*', function (req, res) {
-    'use strict';
     appHelpers.sendFile('index.html', res);
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-    'use strict';
     console.log('Express server listening on port ' + app.get('port'));
 });

@@ -9,6 +9,7 @@ app.config(function ($routeProvider, $locationProvider) {
 app.factory('socket', function ($rootScope) {
     'use strict';
 
+    // test
     $rootScope.test = 'Das ist der Socket Test';
 });
 app.enterprise = angular.module('enterprise',['enterprise.services'])
