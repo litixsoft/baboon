@@ -16,7 +16,30 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist']
+            dist: ['build/dist'],
+            dist2: ['build/_dist']
+        },
+        src: {
+            build: {
+                dist: 'build/dist',
+                reports: 'build/reports'
+            },
+            client: {
+                app: {
+                    js: '_client/app/**/*.js',
+                    html: '_client/app/**/*.js'
+                },
+                assets: '_client/assets',
+                vendor: {
+                    angular: '_client/vendor/angular',
+                    bootstrap: '_client/vendor/bootstrap',
+                    jquery: '_client/vendor/jquery'
+                }
+            },
+            server : {
+                api: 'server/api',
+                middleware: 'server/middleware'
+            }
         },
         // lint files
         jshint: {
@@ -70,6 +93,11 @@ module.exports = function (grunt) {
                     { dest: 'build/dist/static/img/', src : '*.png', expand: true, cwd: 'client/vendor/bootstrap/img/'},
                     { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.min.js'},
                     { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.min.js'}
+                ]
+            },
+            viewsTest: {
+                files: [
+                    {dest: 'build/_dist/views/', src: '**/views/*.html', expand: true, cwd:'_client/app/'}
                 ]
             }
         },
@@ -138,6 +166,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean:reports', 'jshint:files']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
     grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'open:server', 'regarde' ]);
+
+    grunt.registerTask('st', ['clean:dist2','copy:viewsTest']);
 
     // Default task.
     grunt.registerTask('default', ['test']);
