@@ -5,32 +5,39 @@ Reference application for Baboon
 ## Installation
 
 ``` bash
-# dependencies grunt-cli and optional for relax development nodemon
+# dependencies grunt-cli
 # linux sudo npm install -g
 npm install -g grunt-cli
-npm install -g nodemon
 
 git clone https://github.com/litixsoft/baboon.git
 cd baboon/example
 npm install
-grunt build # builds client app
+grunt build # build for development
+# grunt release # build for production
 ```
 
 ## Usage
-
 ### Start server usual.
-In development mode server run at start grunt build.
-If you've made changes in client/ and if not development mode, you must manually start grunt build.
+If you've made changes in client/, you must start grunt build and restart server.
 
 ``` bash
-example:> grunt build # if not development mode
-example:>server/server.js
+# development grunt build
+# production grunt release
+example:> grunt build
+example:>scripts/server.js
+# stop server with control C
 ```
 
-### For relaxed develop use nodemon
+Go to http://localhost:3000
+
+### For relaxed develop use grunt relax
+Grunt make build, start server and watch files.
+If you've made changes in /client, grunt make a build and reload site in browser.
+If you've made changes in /server, grunt make a build restarts the server and reload site in browser.
 
 ``` bash
-example:> nomo
+example:> grunt relax
 ```
 
-If you've made changes in client/assets or client/vendor, you must restart server manually.
+#### Webstorm settings
+In webstorm you can use scrpts/relax.js for developing with the integrate console.
