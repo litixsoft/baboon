@@ -1,9 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+<h2>Enterprise New</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td><a href="/new"><i class="icon-plus-sign"></i></a></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="person in crew">
+        <td>{{person.name}}</td>
+        <td>{{person.description}}</td>
+        <td><a href="/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+    </tr>
+    </tbody>
 
-</body>
-</html>
+</table>
+
+

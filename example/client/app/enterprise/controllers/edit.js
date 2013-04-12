@@ -1,3 +1,4 @@
+/*jshint unused:false */
 function EditCtrl($scope, $location, $routeParams) {
     'use strict';
 

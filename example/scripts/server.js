@@ -71,13 +71,13 @@ app.get('/', function(req, res){
     appHelpers.sendFile('index.html', res);
 });
 
-app.get('/scripts/*', function(req, res){
+app.get('/app/*', function(req, res){
     // TODO Rechte
     appHelpers.sendFile(req.url, res);
 });
-app.get('/views/*', function(req, res){
+app.get('/*/views/*.html', function(req, res){
     // TODO Rechte
-    appHelpers.sendFile(req.url, res);
+    appHelpers.sendFile('/app' + req.url, res);
 });
 
 app.get('*.*', function (req, res) {

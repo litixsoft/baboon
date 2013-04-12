@@ -1,5 +1,4 @@
 /*jshint unused:false */
-
-function ListCtrl($scope, crew) {
+function FooCtrl ($scope, crew) {
     'use strict';
 }

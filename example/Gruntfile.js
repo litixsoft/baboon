@@ -1,4 +1,6 @@
 'use strict';
+var path = require('path');
+var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
 module.exports = function (grunt) {
 
@@ -77,7 +79,7 @@ module.exports = function (grunt) {
             },
             views: {
                 files: [
-                    {dest: 'build/dist/views/', src: '**/views/*.html', expand: true, cwd:'client/app/'}
+                    {dest: 'build/dist/app', src: '**/views/*.html', expand: true, cwd:'client/app/'}
                 ]
             },
             assets: {
@@ -96,8 +98,25 @@ module.exports = function (grunt) {
         },
         concat: {
             app: {
-                src: ['client/app/**/*.js'],
+                src: ['client/vendor/livereload.js','client/app/**/*.js','!client/app/**/controllers/*.js', '!client/app/**/directives/*.js',
+                    '!client/app/**/filters/*.js', '!client/app/**/services/*.js'],
                 dest: 'build/dist/app.js'
+            },
+            controller: {
+                src: ['client/app/**/controllers/*.js'],
+                dest: 'build/dist/app/controllers.js'
+            },
+            directives: {
+                src: ['client/app/**/directives/*.js'],
+                dest: 'build/dist/app/directives.js'
+            },
+            filters: {
+                src: ['client/app/**/filters/*.js'],
+                dest: 'build/dist/app/filters.js'
+            },
+            services: {
+                src: ['client/app/**/services/*.js'],
+                dest: 'build/dist/app/services.js'
             },
             angular: {
                 src: ['client/vendor/angular/angular.min.js'],
@@ -155,6 +174,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean:reports', 'jshint:files']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
     grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'open:server', 'regarde' ]);
+    grunt.registerTask('lr', ['livereload-start','regarde']);
 
     // Default task.
     grunt.registerTask('default', ['test']);

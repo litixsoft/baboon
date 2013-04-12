@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module('blog',[])
     .config(function ($routeProvider) {
         'use strict';
