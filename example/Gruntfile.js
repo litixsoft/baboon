@@ -1,11 +1,11 @@
-/*global module*/
+'use strict';
 module.exports = function (grunt) {
-    'use strict';
 
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        conf: grunt.file.readJSON('config/app.conf.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -16,12 +16,13 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist']
+            dist: ['build/dist'],
+            app: ['build/dist/app','build/dist/*.html', 'build/dist/app.js'],
+            static: ['build/dist/static']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/server.js', 'client/app/scripts/**/*.js', 'client/test/**/*.js',
-                'server/test/**/*.js', 'server/api/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -49,54 +50,101 @@ module.exports = function (grunt) {
         },
         // copy files
         copy: {
-            app: {
+            client: {
                 files: [
-                    { dest: 'build/dist/', src : '*.html', expand: true, cwd: 'client/app/' }
+                    { dest: 'build/dist/', src : ['*.html','!index.html'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    { dest: 'build/dist/views/', src : '**', expand: true, cwd: 'client/app/views' }
+                    {dest: 'build/dist/app', src: '**/views/*.html', expand: true, cwd:'client/app/'}
                 ]
             },
-            assets: {
+            static: {
                 files: [
-                    { dest: 'build/dist/static/', src : '**', expand: true, cwd: 'client/assets/' }
-                ]
-            },
-            vendor: {
-                files: [
-                    { dest: 'build/dist/static/css/bootstrap.css', src : 'client/vendor/bootstrap/css/bootstrap.min.css'},
+                    { dest: 'build/dist/static/', src : '**', expand: true, cwd: 'client/assets/' },
+                    { dest: 'build/dist/static/css/bootstrap.css', src : 'client/vendor/bootstrap/css/bootstrap.css'},
                     { dest: 'build/dist/static/img/', src : '*.png', expand: true, cwd: 'client/vendor/bootstrap/img/'},
-                    { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.min.js'},
-                    { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.min.js'}
+                    { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.js'},
+                    { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.js'}
                 ]
             }
         },
         concat: {
             app: {
-                src: ['client/app/scripts/app.js','client/app/common/**/*.js'],
-                dest: 'build/dist/scripts/app.js'
+                src: ['client/vendor/livereload.js','client/app/**/*.js','!client/app/**/controllers/*.js', '!client/app/**/directives/*.js',
+                    '!client/app/**/filters/*.js', '!client/app/**/services/*.js'],
+                dest: 'build/dist/app.js'
             },
             controller: {
-                src: ['client/app/scripts/**/controllers.js'],
-                dest: 'build/dist/scripts/controllers.js'
+                src: ['client/app/**/controllers/*.js'],
+                dest: 'build/dist/app/controllers.js'
             },
             directives: {
-                src: ['client/app/scripts/**/directives.js'],
-                dest: 'build/dist/scripts/directives.js'
+                src: ['client/app/**/directives/*.js'],
+                dest: 'build/dist/app/directives.js'
             },
             filters: {
-                src: ['client/app/scripts/**/filters.js'],
-                dest: 'build/dist/scripts/filters.js'
+                src: ['client/app/**/filters/*.js'],
+                dest: 'build/dist/app/filters.js'
             },
             services: {
-                src: ['client/app/scripts/**/services.js'],
-                dest: 'build/dist/scripts/services.js'
+                src: ['client/app/**/services/*.js'],
+                dest: 'build/dist/app/services.js'
             },
             angular: {
-                src: ['client/vendor/angular/angular.min.js'],
+                src: ['client/vendor/angular/angular.js'],
                 dest: 'build/dist/static/js/angular.js'
+            }
+        },
+        server: {
+            script: 'scripts/server.js'
+        },
+        livereload: {
+            port: 35729 // Default livereload listening port.
+        },
+        // Configuration to be run (and then tested)
+        regarde: {
+            app: {
+                files: 'client/app/**/*.*',
+                tasks: ['build:app', 'livereload']
+            },
+            static: {
+                files: ['client/assets/**/*.*', 'client/vendor/**/*.*'],
+                tasks: ['build:static', 'livereload']
+            },
+            server: {
+                files: 'server/**/*.*',
+                tasks: ['express-server','livereload']
+            }
+        },
+        open: {
+            server: {
+                url: '<%= conf.development.baseUrl %>'
+            }
+        },
+        replace: {
+            debug: {
+                options: {
+                    variables: {
+                        'livereload-->': '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'
+                    },
+                    prefix: '<!--'
+                },
+                files: [
+                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                ]
+            },
+            release: {
+                options: {
+                    variables: {
+                        'livereload-->': ''
+                    },
+                    prefix: '<!--'
+                },
+                files: [
+                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                ]
             }
         }
     });
@@ -106,10 +154,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-contrib-livereload');
+    grunt.loadNpmTasks('grunt-regarde');
+    grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-replace');
+
+    // Tasks
+    grunt.registerTask('test', ['clean:reports', 'jshint:files']);
+    grunt.registerTask('build', ['clean:dist', 'copy', 'concat', 'replace:release']);
+    grunt.registerTask('build:app', ['clean:app', 'copy:client', 'copy:views', 'concat:app', 'concat:controller',
+        'concat:directives', 'concat:filters', 'concat:services', 'replace:debug']);
+    grunt.registerTask('build:static', ['clean:static', 'copy:static', 'concat:angular']);
+    grunt.registerTask('release', ['clean:dist', 'copy', 'concat', 'replace:release']);
+    grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'replace:debug', 'open:server', 'regarde' ]);
 
     // Default task.
-    //noinspection JSUnresolvedFunction
-    grunt.registerTask('default', ['clean:reports', 'jshint:files']);
-    grunt.registerTask('test', ['clean:reports', 'jshint:files']);
-    grunt.registerTask('build', ['clean:dist', 'copy', 'concat']);
+    grunt.registerTask('default', ['test']);
 };
