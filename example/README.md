@@ -18,7 +18,7 @@ grunt build # build for development
 
 ## Usage
 ### Start server usual.
-If you've made changes in client/, you must start grunt build and restart server.
+If you've made changes in client/, you must start grunt build and reload browser.
 
 ``` bash
 # development grunt build
