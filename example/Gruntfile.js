@@ -167,7 +167,7 @@ module.exports = function (grunt) {
         'concat:directives', 'concat:filters', 'concat:services', 'replace:debug']);
     grunt.registerTask('build:static', ['clean:static', 'copy:static', 'concat:angular']);
     grunt.registerTask('release', ['clean:dist', 'copy', 'concat', 'replace:release']);
-    grunt.registerTask('relax', ['build', 'livereload-start', 'express-server', 'replace:debug', 'open:server', 'regarde' ]);
+    grunt.registerTask('server', ['build', 'livereload-start', 'express-server', 'replace:debug', 'open:server', 'regarde' ]);
 
     // Default task.
     grunt.registerTask('default', ['test']);

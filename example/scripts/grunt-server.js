@@ -7,7 +7,7 @@ if(process.platform === 'win32') {
 }
 
 var spawn = require('child_process').spawn,
-    child = spawn(cmd,['relax']);
+    child = spawn(cmd,['server']);
 
 child.stdin.setEncoding = 'utf-8';
 child.stdout.pipe(process.stdout);
