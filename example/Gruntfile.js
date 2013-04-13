@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -146,6 +146,11 @@ module.exports = function (grunt) {
                     {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
                 ]
             }
+        },
+        karma: {
+            unit: {
+                configFile: 'config/karma.conf.js'
+            }
         }
     });
 
@@ -159,9 +164,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-karma');
 
     // Tasks
-    grunt.registerTask('test', ['clean:reports', 'jshint:files']);
+    grunt.registerTask('test', ['clean:reports', 'jshint:files', 'karma']);
     grunt.registerTask('build', ['clean:dist', 'copy', 'concat', 'replace:release']);
     grunt.registerTask('build:app', ['clean:app', 'copy:client', 'copy:views', 'concat:app', 'concat:controller',
         'concat:directives', 'concat:filters', 'concat:services', 'replace:debug']);
