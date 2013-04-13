@@ -13,10 +13,15 @@ _(Coming soon)_
 
 ## (Example and contributing)
 Getting started with the example app.
-Install global dependencies: (linux sudo npm install -g for global modules)
+Install global dependencies:
 
     $ npm install -g grunt-cli
     $ npm install -g karma
+
+On linux use sudo for global modules:
+    
+    $ sudo npm install -g grunt-cli
+    $ sudo npm install -g karma
 
 Clone the baboon repo, then install the dev dependencies to install the example and test suite deps.
 Build the client app and start the server with grunt.
