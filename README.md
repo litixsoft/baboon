@@ -13,7 +13,7 @@ _(Coming soon)_
 
 ## (Example and contributing)
 Getting started with the example app.
-Install global dependencies:
+Install global dependencies: (linux sudo npm install -g for global modules)
 
     $ npm install -g grunt-cli
     $ npm install -g karma
