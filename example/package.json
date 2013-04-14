@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test-client": "grunt test",
+    "build": "grunt build",
+    "release": "grunt release",
+    "test": "grunt test",
     "start": "node scripts/server.js"
   },
   "dependencies": {
@@ -22,7 +24,6 @@
     "grunt-open": "~0.2.0",
     "grunt-replace": "~0.4.2",
     "grunt-bower": "~0.5.1",
-    "grunt-usemin": "~0.1.10",
     "grunt-text-replace": "~0.3.2",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-ngmin": "0.0.2"
