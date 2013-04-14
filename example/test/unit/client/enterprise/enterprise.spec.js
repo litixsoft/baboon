@@ -1,5 +1,5 @@
-/*global describe, it, expect, beforeEach, NewCtrl */
-describe('NewCtrl', function () {
+/*global describe, it, expect, beforeEach, newCtrl */
+describe('newCtrl', function () {
     'use strict';
 
     console.dir('asdadasda');
@@ -8,7 +8,7 @@ describe('NewCtrl', function () {
 
     beforeEach(function () {
         scope = {};
-        ctrl = new NewCtrl(scope);
+        ctrl = new newCtrl(scope);
     });
 
     it('should create a empty person', function () {
@@ -21,3 +21,4 @@ describe('NewCtrl', function () {
         expect(typeof scope.save).toBe('function');
     });
 });
+

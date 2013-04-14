@@ -7,8 +7,7 @@ var express = require('express'),
     fs = require('fs');
 
 // vars
-var rootPath = path.join(__dirname, '../');
-var distPath = path.join(rootPath, 'build', 'dist');
+var distPath = path.join(__dirname, 'dist');
 var app = express();
 var server = http.createServer(app);
 
@@ -48,9 +47,9 @@ app.get('/app/*', function (req, res) {
     // TODO Rechte
     sendFile(req.url, res);
 });
-app.get('/*/views/*.html', function (req, res) {
+app.get('/views/*', function (req, res) {
     // TODO Rechte
-    sendFile('/app' + req.url, res);
+    sendFile(req.url, res);
 });
 
 app.get('*.*', function (req, res) {

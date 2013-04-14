@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('config/app.conf.json'),
+        conf: grunt.file.readJSON('app.config.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -16,14 +16,14 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist'],
-            app: ['build/dist/app','build/dist/*.*'],
-            components: ['build/dist/components'],
-            assets: ['build/dist/assets']
+            dist: ['dist'],
+            app: ['dist/app','dist/*.*'],
+            components: ['dist/components'],
+            assets: ['dist/assets']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'dist/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -46,44 +46,43 @@ module.exports = function (grunt) {
                 es5: true,
                 loopfunc: true,
                 browser: true,
-                node: true
+                node: true,
+                globals: {
+                    angular: true
+                }
             }
         },
         // copy files
         copy: {
             client: {
                 files: [
-                    { dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/' }
+                    { dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    {dest: 'build/dist/app', src: '**/views/*.html', expand: true, cwd:'client/app/'}
+                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
                 ]
             },
             components: {
                 files: [
-                    { dest: 'build/dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                    { dest: 'dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
                 ]
             },
             assets: {
                 files: [
-                    { dest: 'build/dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
+                    { dest: 'dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             }
         },
         concat: {
             app: {
-                src: ['client/app/**/*.js', '!client/app/**/directives/*.js'],
-                dest: 'build/dist/app.js'
-            },
-            directives: {
-                src: ['client/app/**/directives/*.js'],
-                dest: 'build/dist/directives.js'
+                src: ['client/lib/module.prefix', 'client/app/*.js', 'client/app/**/*.js', 'client/lib/module.suffix'],
+                dest: 'dist/app.js'
             }
         },
         server: {
-            script: 'scripts/server.js'
+            script: 'server.js'
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -114,7 +113,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -122,7 +121,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -145,25 +144,13 @@ module.exports = function (grunt) {
             },
             app: {
                 files: {
-                    'build/dist/app.js': 'build/dist/app.js'
+                    'dist/app.js': 'dist/app.js'
                 }
-            }
-        },
-        ngmin: {
-            controllers: {
-                src: ['build/dist/app.js'],
-                dest: 'build/dist/app.js'
-            },
-            directives: {
-                expand: true,
-                cwd: 'build/dist',
-                src: ['directives.js'],
-                dest: 'directives.js'
             }
         },
         karma: {
             unit: {
-                configFile: 'config/karma.conf.js'
+                configFile: 'test/config/karma.conf.js'
             }
         }
     });
@@ -184,16 +171,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // Tasks
-    grunt.registerTask('test', [
-        'clean:reports',
-        'jshint:files',
-        'karma'
-    ]);
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
         'concat',
         'replace:debug'
+    ]);
+    grunt.registerTask('test', [
+        'clean:reports',
+        'build',
+        'jshint:files'
+        //'karma'
     ]);
     grunt.registerTask('build:app', [
         'clean:app',
@@ -216,7 +204,6 @@ module.exports = function (grunt) {
         'clean:dist',
         'copy',
         'concat',
-        'ngmin',
         'uglify',
         'replace:release'
     ]);

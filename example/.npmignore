@@ -1,9 +1,0 @@
-.git*
-/build
-/client
-/scripts
-/test
-.bowerrc
-.travis.yml
-component.json
-Gruntfile.js

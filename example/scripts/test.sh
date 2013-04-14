@@ -6,4 +6,4 @@ echo ""
 echo "Starting Testacular Server (http://vojtajina.github.com/testacular)"
 echo "-------------------------------------------------------------------"
 
-karma start $BASE_DIR/../config/testacular.conf.js $*
+karma start $BASE_DIR/../test/config/karma.conf.js $*

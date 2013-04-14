@@ -1,7 +1,5 @@
-/*global angular*/
 angular.module('enterpriseServices', [])
-    .factory('enterpriseCrew', function ($rootScope){
-        'use strict';
+    .factory('enterpriseCrew', function ($rootScope) {
         $rootScope.enterpriseCrew = [
             {name: 'Picard', description: 'Captain'},
             {name: 'Riker', description: 'Number One'},

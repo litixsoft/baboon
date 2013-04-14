@@ -5,14 +5,13 @@ files = [
     JASMINE_ADAPTER,
 
     'client/components/angular/angular.js',
-    //'client/components/angular/angular-*.js',
-    'test/vendor/angular/angular-mocks.js',
-    'client/app/**/*.js',
+    'client/components/angular-mocks/angular-mocks.js',
+    'dist/app.js',
     'test/unit/**/*.js'
 ];
 
 preprocessors = {
-    'client/app/**/*.js': 'coverage'
+    'dist/app.js': 'coverage'
 };
 
 reporters = ['progress', 'coverage'];

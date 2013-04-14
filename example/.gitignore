@@ -1,5 +1,6 @@
 .idea
-node_modules
-build
-logs
-client/components/*
+/build
+/client/components
+/dist
+/node_modules
+/server/logs
