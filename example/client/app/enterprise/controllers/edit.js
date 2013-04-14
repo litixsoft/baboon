@@ -1,9 +1,9 @@
 /*jshint unused:false */
 function EditCtrl($scope, $location, $routeParams) {
-    'use strict';
+        'use strict';
 
-    $scope.person = $scope.crew[$routeParams.id];
-    $scope.save = function () {
-        $location.path('/');
-    };
-}
+        $scope.person = $scope.crew[$routeParams.id];
+        $scope.save = function () {
+            $location.path('/');
+        };
+    }

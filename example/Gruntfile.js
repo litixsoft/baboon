@@ -17,8 +17,9 @@ module.exports = function (grunt) {
         clean: {
             reports: ['build/reports'],
             dist: ['build/dist'],
-            app: ['build/dist/app','build/dist/*.html', 'build/dist/app.js'],
-            static: ['build/dist/static']
+            app: ['build/dist/app','build/dist/*.*'],
+            components: ['build/dist/components'],
+            assets: ['build/dist/assets']
         },
         // lint files
         jshint: {
@@ -52,7 +53,7 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    { dest: 'build/dist/', src : ['*.html','!index.html'], expand: true, cwd: 'client/' }
+                    { dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
@@ -60,41 +61,25 @@ module.exports = function (grunt) {
                     {dest: 'build/dist/app', src: '**/views/*.html', expand: true, cwd:'client/app/'}
                 ]
             },
-            static: {
+            components: {
                 files: [
-                    { dest: 'build/dist/static/', src : '**', expand: true, cwd: 'client/assets/' },
-                    { dest: 'build/dist/static/css/bootstrap.css', src : 'client/vendor/bootstrap/css/bootstrap.css'},
-                    { dest: 'build/dist/static/img/', src : '*.png', expand: true, cwd: 'client/vendor/bootstrap/img/'},
-                    { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.js'},
-                    { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.js'}
+                    { dest: 'build/dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                ]
+            },
+            assets: {
+                files: [
+                    { dest: 'build/dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             }
         },
         concat: {
             app: {
-                src: ['client/vendor/livereload.js','client/app/**/*.js','!client/app/**/controllers/*.js', '!client/app/**/directives/*.js',
-                    '!client/app/**/filters/*.js', '!client/app/**/services/*.js'],
+                src: ['client/app/**/*.js', '!client/app/**/directives/*.js'],
                 dest: 'build/dist/app.js'
-            },
-            controller: {
-                src: ['client/app/**/controllers/*.js'],
-                dest: 'build/dist/app/controllers.js'
             },
             directives: {
                 src: ['client/app/**/directives/*.js'],
-                dest: 'build/dist/app/directives.js'
-            },
-            filters: {
-                src: ['client/app/**/filters/*.js'],
-                dest: 'build/dist/app/filters.js'
-            },
-            services: {
-                src: ['client/app/**/services/*.js'],
-                dest: 'build/dist/app/services.js'
-            },
-            angular: {
-                src: ['client/vendor/angular/angular.js'],
-                dest: 'build/dist/static/js/angular.js'
+                dest: 'build/dist/directives.js'
             }
         },
         server: {
@@ -106,12 +91,16 @@ module.exports = function (grunt) {
         // Configuration to be run (and then tested)
         regarde: {
             app: {
-                files: ['client/app/**/*.*', 'client/*.html'],
+                files: ['client/app/**/*.*', 'client/*.*'],
                 tasks: ['build:app', 'livereload']
             },
-            static: {
-                files: ['client/assets/**/*.*', 'client/vendor/**/*.*'],
-                tasks: ['build:static', 'livereload']
+            components: {
+                files: ['client/components/**/*.*'],
+                tasks: ['build:components', 'livereload']
+            },
+            assets: {
+                files: ['client/assets/**/*.*'],
+                tasks: ['build:assets', 'livereload']
             },
             server: {
                 files: 'server/**/*.*',
@@ -125,26 +114,51 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                options: {
-                    variables: {
-                        'livereload-->': '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'
-                    },
-                    prefix: '<!--'
-                },
-                files: [
-                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                src: ['build/dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: ''},
+                    {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             release: {
-                options: {
-                    variables: {
-                        'livereload-->': ''
-                    },
-                    prefix: '<!--'
-                },
-                files: [
-                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                src: ['build/dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: '.min'},
+                    {from: '<!--@@livereload-->', to: ''}
+
                 ]
+            },
+            livereload: {
+                src: ['build/dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: ''},
+                    {from: '<!--@@livereload-->', to: '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                ]
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            app: {
+                files: {
+                    'build/dist/app.js': 'build/dist/app.js'
+                }
+            }
+        },
+        ngmin: {
+            controllers: {
+                src: ['build/dist/app.js'],
+                dest: 'build/dist/app.js'
+            },
+            directives: {
+                expand: true,
+                cwd: 'build/dist',
+                src: ['directives.js'],
+                dest: 'directives.js'
             }
         }
     });
@@ -158,17 +172,56 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-bower');
+    grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-ngmin');
 
     // Tasks
-    grunt.registerTask('test', ['clean:reports', 'jshint:files']);
-    grunt.registerTask('build', ['clean:dist', 'copy', 'concat', 'replace:release']);
-    grunt.registerTask('build:app', ['clean:app', 'copy:client', 'copy:views', 'concat:app', 'concat:controller',
-        'concat:directives', 'concat:filters', 'concat:services', 'replace:debug']);
-    grunt.registerTask('build:static', ['clean:static', 'copy:static', 'concat:angular']);
-    grunt.registerTask('release', ['clean:dist', 'copy', 'concat', 'replace:release']);
-    grunt.registerTask('server', ['build', 'livereload-start', 'express-server', 'replace:debug', 'open:server', 'regarde' ]);
+    grunt.registerTask('test', [
+        'clean:reports',
+        'jshint:files'
+    ]);
+    grunt.registerTask('build', [
+        'clean:dist',
+        'copy',
+        'concat',
+        'replace:debug'
+    ]);
+    grunt.registerTask('build:app', [
+        'clean:app',
+        'copy:client',
+        'copy:views',
+        'concat',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('build:components', [
+        'clean:components',
+        'copy:components',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('build:assets', [
+        'clean:assets',
+        'copy:assets',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('release', [
+        'clean:dist',
+        'copy',
+        'concat',
+        'ngmin',
+        'uglify',
+        'replace:release'
+    ]);
+    grunt.registerTask('server', [
+        'build',
+        'livereload-start',
+        'express-server',
+        'replace:livereload',
+        'open:server',
+        'regarde'
+    ]);
 
     // Default task.
-    grunt.registerTask('default', ['test']);
+    grunt.registerTask('default', ['build']);
 };
