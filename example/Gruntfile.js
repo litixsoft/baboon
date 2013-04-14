@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -180,7 +180,8 @@ module.exports = function (grunt) {
     // Tasks
     grunt.registerTask('test', [
         'clean:reports',
-        'jshint:files'
+        'jshint:files',
+        'karma'
     ]);
     grunt.registerTask('build', [
         'clean:dist',

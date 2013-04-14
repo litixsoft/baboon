@@ -1,8 +1,8 @@
 /*global angular*/
-angular.module('enterprise.services', [])
-    .factory('crew', function ($rootScope){
+angular.module('enterpriseServices', [])
+    .factory('enterpriseCrew', function ($rootScope){
         'use strict';
-        $rootScope.crew = [
+        $rootScope.enterpriseCrew = [
             {name: 'Picard', description: 'Captain'},
             {name: 'Riker', description: 'Number One'},
             {name: 'Worf', description: 'Security'}
