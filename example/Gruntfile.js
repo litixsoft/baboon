@@ -160,6 +160,11 @@ module.exports = function (grunt) {
                 src: ['directives.js'],
                 dest: 'directives.js'
             }
+        },
+        karma: {
+            unit: {
+                configFile: 'config/karma.conf.js'
+            }
         }
     });
 
@@ -176,6 +181,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-karma');
 
     // Tasks
     grunt.registerTask('test', [
