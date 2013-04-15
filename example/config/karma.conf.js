@@ -3,15 +3,13 @@ basePath = '../';
 files = [
     JASMINE,
     JASMINE_ADAPTER,
-
     'client/components/angular/angular.js',
     'client/components/angular-mocks/angular-mocks.js',
-    'dist/app.js',
-    'test/unit/**/*.js'
+    'client/app/**/*.js'
 ];
 
 preprocessors = {
-    'dist/app.js': 'coverage'
+    'client/app/**/*.js': 'coverage'
 };
 
 reporters = ['progress', 'coverage'];

@@ -1,14 +1,12 @@
 angular.module('enterprise', [
-        'enterpriseServices'
+        'enterprise.services'
     ])
     .config(function ($routeProvider) {
-        $routeProvider.when('/', {templateUrl: '/views/enterprise/enterprise.html', controller: 'listCtrl'});
+        $routeProvider.when('/', {templateUrl: '/views/enterprise/enterprise.html', controller: 'enterpriseCtrl'});
         $routeProvider.when('/new', {templateUrl: '/views/enterprise/edit.html', controller: 'newCtrl'});
         $routeProvider.when('/edit/:id', {templateUrl: '/views/enterprise/edit.html', controller: 'editCtrl'});
     })
-    .controller('listCtrl', ['$scope', 'enterpriseCrew', function () {
-
-    }])
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function () {}])
     .controller('editCtrl', ['$scope', '$location', '$routeParams', function ($scope, $location, $routeParams) {
         $scope.person = $scope.enterpriseCrew[$routeParams.id];
         $scope.save = function () {

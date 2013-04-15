@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('app.config.json'),
+        conf: grunt.file.readJSON('config/app.config.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'dist/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -40,7 +40,6 @@ module.exports = function (grunt) {
                 regexp: true,
                 undef: true,
                 unused: true,
-                strict: true,
                 indent: 4,
                 quotmark: 'single',
                 es5: true,
@@ -77,7 +76,12 @@ module.exports = function (grunt) {
         },
         concat: {
             app: {
-                src: ['client/lib/module.prefix', 'client/app/*.js', 'client/app/**/*.js', 'client/lib/module.suffix'],
+                src: [
+                    'client/lib/module.prefix',
+                    'client/app/**/*.js',
+                    '!client/app/**/*.spec.js',
+                    'client/lib/module.suffix'
+                ],
                 dest: 'dist/app.js'
             }
         },
@@ -150,7 +154,7 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'test/config/karma.conf.js'
+                configFile: 'config/karma.conf.js'
             }
         }
     });
@@ -177,11 +181,14 @@ module.exports = function (grunt) {
         'concat',
         'replace:debug'
     ]);
+    grunt.registerTask('lint', [
+        'clean:reports',
+        'jshint:files'
+    ]);
     grunt.registerTask('test', [
         'clean:reports',
-        'build',
-        'jshint:files'
-        //'karma'
+        'jshint:files',
+        'karma'
     ]);
     grunt.registerTask('build:app', [
         'clean:app',

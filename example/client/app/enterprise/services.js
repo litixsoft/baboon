@@ -1,4 +1,4 @@
-angular.module('enterpriseServices', [])
+angular.module('enterprise.services', [])
     .factory('enterpriseCrew', function ($rootScope) {
         $rootScope.enterpriseCrew = [
             {name: 'Picard', description: 'Captain'},
