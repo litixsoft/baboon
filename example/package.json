@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test-client": "grunt test",
-    "start": "node scripts/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "3.1.1"
