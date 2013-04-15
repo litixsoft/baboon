@@ -3,12 +3,9 @@ basePath = '../';
 files = [
     JASMINE,
     JASMINE_ADAPTER,
-
-    'client/vendor/angular/angular.js',
-    'client/vendor/angular/angular-*.js',
-    'test/vendor/angular/angular-mocks.js',
-    'client/app/**/*.js',
-    'test/unit/**/*.js'
+    'client/components/angular/angular.js',
+    'client/components/angular-mocks/angular-mocks.js',
+    'client/app/**/*.js'
 ];
 
 preprocessors = {

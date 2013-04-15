@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('config/app.conf.json'),
+        conf: grunt.file.readJSON('config/app.config.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -16,13 +16,14 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist'],
-            app: ['build/dist/app','build/dist/*.html', 'build/dist/app.js'],
-            static: ['build/dist/static']
+            dist: ['dist'],
+            app: ['dist/app','dist/*.*'],
+            components: ['dist/components'],
+            assets: ['dist/assets']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'test/unit/**/*.js', 'test/e2e/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -39,66 +40,53 @@ module.exports = function (grunt) {
                 regexp: true,
                 undef: true,
                 unused: true,
-                strict: true,
                 indent: 4,
                 quotmark: 'single',
                 es5: true,
                 loopfunc: true,
                 browser: true,
-                node: true
+                node: true,
+                globals: {
+                    angular: true
+                }
             }
         },
         // copy files
         copy: {
             client: {
                 files: [
-                    { dest: 'build/dist/', src : ['*.html','!index.html'], expand: true, cwd: 'client/' }
+                    { dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    {dest: 'build/dist/app', src: '**/views/*.html', expand: true, cwd:'client/app/'}
+                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
                 ]
             },
-            static: {
+            components: {
                 files: [
-                    { dest: 'build/dist/static/', src : '**', expand: true, cwd: 'client/assets/' },
-                    { dest: 'build/dist/static/css/bootstrap.css', src : 'client/vendor/bootstrap/css/bootstrap.css'},
-                    { dest: 'build/dist/static/img/', src : '*.png', expand: true, cwd: 'client/vendor/bootstrap/img/'},
-                    { dest: 'build/dist/static/js/bootstrap.js', src : 'client/vendor/bootstrap/js/bootstrap.js'},
-                    { dest: 'build/dist/static/js/jquery.js', src : 'client/vendor/jquery/jquery.js'}
+                    { dest: 'dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                ]
+            },
+            assets: {
+                files: [
+                    { dest: 'dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             }
         },
         concat: {
             app: {
-                src: ['client/vendor/livereload.js','client/app/**/*.js','!client/app/**/controllers/*.js', '!client/app/**/directives/*.js',
-                    '!client/app/**/filters/*.js', '!client/app/**/services/*.js'],
-                dest: 'build/dist/app.js'
-            },
-            controller: {
-                src: ['client/app/**/controllers/*.js'],
-                dest: 'build/dist/app/controllers.js'
-            },
-            directives: {
-                src: ['client/app/**/directives/*.js'],
-                dest: 'build/dist/app/directives.js'
-            },
-            filters: {
-                src: ['client/app/**/filters/*.js'],
-                dest: 'build/dist/app/filters.js'
-            },
-            services: {
-                src: ['client/app/**/services/*.js'],
-                dest: 'build/dist/app/services.js'
-            },
-            angular: {
-                src: ['client/vendor/angular/angular.js'],
-                dest: 'build/dist/static/js/angular.js'
+                src: [
+                    'client/lib/module.prefix',
+                    'client/app/**/*.js',
+                    '!client/app/**/*.spec.js',
+                    'client/lib/module.suffix'
+                ],
+                dest: 'dist/app.js'
             }
         },
         server: {
-            script: 'scripts/server.js'
+            script: 'server.js'
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -106,12 +94,16 @@ module.exports = function (grunt) {
         // Configuration to be run (and then tested)
         regarde: {
             app: {
-                files: ['client/app/**/*.*', 'client/*.html'],
+                files: ['client/app/**/*.*', 'client/*.*', '!client/app/**/*.spec.js'],
                 tasks: ['build:app', 'livereload']
             },
-            static: {
-                files: ['client/assets/**/*.*', 'client/vendor/**/*.*'],
-                tasks: ['build:static', 'livereload']
+            components: {
+                files: ['client/components/**/*.*'],
+                tasks: ['build:components', 'livereload']
+            },
+            assets: {
+                files: ['client/assets/**/*.*'],
+                tasks: ['build:assets', 'livereload']
             },
             server: {
                 files: 'server/**/*.*',
@@ -125,26 +117,39 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                options: {
-                    variables: {
-                        'livereload-->': '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'
-                    },
-                    prefix: '<!--'
-                },
-                files: [
-                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                src: ['dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: ''},
+                    {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             release: {
-                options: {
-                    variables: {
-                        'livereload-->': ''
-                    },
-                    prefix: '<!--'
-                },
-                files: [
-                    {expand: true, flatten: true, src: ['client/index.html'], dest: 'build/dist/'}
+                src: ['dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: '.min'},
+                    {from: '<!--@@livereload-->', to: ''}
+
                 ]
+            },
+            livereload: {
+                src: ['build/dist/index.html'],
+                overwrite: true,
+                replacements: [
+                    {from: '<!--@@min-->', to: ''},
+                    {from: '<!--@@livereload-->', to: '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                ]
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            app: {
+                files: {
+                    'dist/app.js': 'dist/app.js'
+                }
             }
         },
         karma: {
@@ -163,18 +168,61 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-bower');
+    grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-karma');
 
     // Tasks
-    grunt.registerTask('test', ['clean:reports', 'jshint:files', 'karma']);
-    grunt.registerTask('build', ['clean:dist', 'copy', 'concat', 'replace:release']);
-    grunt.registerTask('build:app', ['clean:app', 'copy:client', 'copy:views', 'concat:app', 'concat:controller',
-        'concat:directives', 'concat:filters', 'concat:services', 'replace:debug']);
-    grunt.registerTask('build:static', ['clean:static', 'copy:static', 'concat:angular']);
-    grunt.registerTask('release', ['clean:dist', 'copy', 'concat', 'replace:release']);
-    grunt.registerTask('server', ['build', 'livereload-start', 'express-server', 'replace:debug', 'open:server', 'regarde' ]);
+    grunt.registerTask('build', [
+        'clean:dist',
+        'copy',
+        'concat',
+        'replace:debug'
+    ]);
+    grunt.registerTask('lint', [
+        'clean:reports',
+        'jshint:files'
+    ]);
+    grunt.registerTask('test', [
+        'clean:reports',
+        'jshint:files',
+        'karma'
+    ]);
+    grunt.registerTask('build:app', [
+        'clean:app',
+        'copy:client',
+        'copy:views',
+        'concat',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('build:components', [
+        'clean:components',
+        'copy:components',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('build:assets', [
+        'clean:assets',
+        'copy:assets',
+        'replace:livereload'
+    ]);
+    grunt.registerTask('release', [
+        'clean:dist',
+        'copy',
+        'concat',
+        'uglify',
+        'replace:release'
+    ]);
+    grunt.registerTask('server', [
+        'build',
+        'livereload-start',
+        'express-server',
+        'replace:livereload',
+        'open:server',
+        'regarde'
+    ]);
 
     // Default task.
-    grunt.registerTask('default', ['test']);
+    grunt.registerTask('default', ['build']);
 };
