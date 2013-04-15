@@ -13,11 +13,11 @@ describe( 'enterprise modul', function() {
             $newCtrl = $controller( 'newCtrl', { $scope: $scope});
         }));
 
-        it('should create a empty person', function () {
+        it('should create a empty person', inject(function () {
             expect($scope.person).toBeDefined();
             expect($scope.person.name).toBe('');
             expect($scope.person.description).toBe('');
-        });
+        }));
 
         it('should have a save function', inject(function () {
             expect(typeof $scope.save).toBe('function');
