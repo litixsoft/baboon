@@ -94,7 +94,7 @@ module.exports = function (grunt) {
         // Configuration to be run (and then tested)
         regarde: {
             app: {
-                files: ['client/app/**/*.*', 'client/*.*'],
+                files: ['client/app/**/*.*', 'client/*.*', '!client/app/**/*.spec.js'],
                 tasks: ['build:app', 'livereload']
             },
             components: {
