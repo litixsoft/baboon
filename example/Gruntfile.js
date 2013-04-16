@@ -214,10 +214,12 @@ module.exports = function (grunt) {
         'replace:release'
     ]);
     grunt.registerTask('server', [
-        'build',
-        'livereload-start',
-        'express-server',
+        'clean:dist',
+        'copy',
+        'concat',
         'replace:livereload',
+        'livereload-start',
+        'express-server',        
         'open:server',
         'regarde'
     ]);
