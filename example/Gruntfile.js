@@ -134,7 +134,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -168,7 +168,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-ngmin');
