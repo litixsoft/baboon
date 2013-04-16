@@ -30,9 +30,22 @@ describe( 'enterprise modul', function() {
 
     // newCtrl tests
     describe('enterprise editCtrl', function() {
+        var scope, editCtrl;
+
+        beforeEach( inject( function($controller  ) {
+            scope = {
+                enterpriseCrew: [
+                    {name: 'Picard', description: 'Captain'},
+                    {name: 'Riker', description: 'Number One'},
+                    {name: 'Worf', description: 'Security'}
+                ]
+            };
+
+            editCtrl = $controller( 'editCtrl', { $scope: scope});
+        }));
 
         it( 'should pass a dummy test', inject( function() {
-            expect( true ).toBeTruthy();
+            expect( editCtrl ).toBeTruthy();
         }));
     });
 });
