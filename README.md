@@ -31,7 +31,7 @@ Build the client app and start the server with grunt.
     $ git checkout develop
     $ npm install
     $ cd example
-    $ npm install
+    $ npm install & bower install
     $ grunt build
     $ grunt server
 
@@ -46,7 +46,7 @@ Would do you not have livereload after changes, you need build and start manuall
 To do after each change in manually modus.
 
     $ grunt build
-    $ node scripts/server.js
+    $ node server.js
 
 ## Grunt nodejs scripts
 Grunt tasks are run on the console. But if you want to start this over nodejs,
@@ -54,8 +54,13 @@ you can use the nodejs scripts under scripts/grunt-taskName. This is particularl
 as you will not able to start the task easily run over.
 
 ## Running tests
-You can run all tests with:
+You can run all tests and jshint with:
+
     $ grunt test
+
+You can run jshint linter only without unit tests:
+
+    $ grunt lint
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
