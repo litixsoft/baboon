@@ -65,7 +65,7 @@ module.exports = function (grunt) {
             },
             components: {
                 files: [
-                    { dest: 'dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                    { dest: 'dist/components/', src : ['<%= conf.build.components %>'], expand: true, cwd: 'client/components/' }
                 ]
             },
             assets: {

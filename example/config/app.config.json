@@ -1,4 +1,21 @@
 {
+    "build": {
+        "components": [
+            "angular/**/*.js",
+            "bootstrap.css/**/*.{css,png,js}",
+            "jquery/**/jquery.{js,min.js}",
+            "angular-ui/build/**",
+            "angular-ui/common/*.js",
+            "angular-ui/modules/directives/calendar/*.js",
+            "angular-ui/modules/directives/codemirror/*.js",
+            "angular-ui/modules/filters/highlight/*.js",
+            "angular-bootstrap/*.js"
+        ],
+        "components_min": [
+            "angular-ui/common/*.js",
+            "angular-ui/modules/**/*.js"
+        ]
+    },
     "development": {
         "baseUrl": "http://localhost:3000"
     },
