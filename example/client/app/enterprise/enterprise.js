@@ -1,6 +1,7 @@
 angular.module('enterprise', [
         'enterprise.services'
     ])
+    //
     .config(function ($routeProvider) {
         $routeProvider.when('/', {templateUrl: '/views/enterprise/enterprise.html', controller: 'enterpriseCtrl'});
         $routeProvider.when('/new', {templateUrl: '/views/enterprise/edit.html', controller: 'newCtrl'});

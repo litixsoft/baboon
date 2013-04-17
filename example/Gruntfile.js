@@ -16,10 +16,10 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['test/reports'],
-            build: ['build'],
-            app: ['build/app','build/*.*'],
-            components: ['build/components'],
-            assets: ['build/assets']
+            dist: ['dist'],
+            app: ['dist/app','dist/*.*'],
+            components: ['dist/components'],
+            assets: ['dist/assets']
         },
         // lint files
         jshint: {
@@ -55,38 +55,38 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    { dest: 'build/', src : ['*.*'], expand: true, cwd: 'client/' }
+                    { dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    {dest: 'build/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
+                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
                 ]
             },
             components: {
                 files: [
-                    { dest: 'build/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                    { dest: 'dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
                 ]
             },
             assets: {
                 files: [
-                    { dest: 'build/assets', src : '**', expand: true, cwd: 'client/assets/' }
+                    { dest: 'dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             }
         },
         concat: {
             app: {
                 src: [
-                    'client/lib/module.prefix',
+                    'client/app/module.prefix',
                     'client/app/**/*.js',
                     '!client/app/**/*.spec.js',
-                    'client/lib/module.suffix'
+                    'client/app/module.suffix'
                 ],
-                dest: 'build/app.js'
+                dest: 'dist/app.js'
             }
         },
         server: {
-            script: 'server.js'
+            script: 'scripts/web-server.js'
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -117,7 +117,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -134,7 +134,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/index.html'],
+                src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -148,7 +148,7 @@ module.exports = function (grunt) {
             },
             app: {
                 files: {
-                    'build/app.js': 'build/app.js'
+                    'dist/app.js': 'dist/app.js'
                 }
             }
         },
@@ -158,6 +158,7 @@ module.exports = function (grunt) {
             }
         }
     });
+
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -175,7 +176,7 @@ module.exports = function (grunt) {
 
     // Tasks
     grunt.registerTask('build', [
-        'clean:build',
+        'clean:dist',
         'copy',
         'concat',
         'replace:debug'
@@ -207,14 +208,16 @@ module.exports = function (grunt) {
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
-        'clean:build',
+        'clean:dist',
         'copy',
         'concat',
         'uglify',
         'replace:release'
     ]);
     grunt.registerTask('server', [
-        'build',
+        'clean:dist',
+        'copy',
+        'concat',
         'livereload-start',
         'express-server',
         'replace:livereload',
