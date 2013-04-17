@@ -15,17 +15,17 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            reports: ['build/reports'],
-            dist: ['dist'],
-            app: ['dist/app','dist/*.*'],
-            components: ['dist/components'],
-            assets: ['dist/assets']
+            reports: ['test/reports'],
+            build: ['build'],
+            app: ['build/app','build/*.*'],
+            components: ['build/components'],
+            assets: ['build/assets']
         },
         // lint files
         jshint: {
             files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/**/*.js'],
-            junit: 'build/reports/jshint.xml',
-            checkstyle: 'build/reports/jshint_checkstyle.xml',
+            junit: 'test/reports/jshint.xml',
+            checkstyle: 'test/reports/jshint_checkstyle.xml',
             options: {
                 bitwise: true,
                 curly: true,
@@ -55,22 +55,22 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    { dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/' }
+                    { dest: 'build/', src : ['*.*'], expand: true, cwd: 'client/' }
                 ]
             },
             views: {
                 files: [
-                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
+                    {dest: 'build/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
                 ]
             },
             components: {
                 files: [
-                    { dest: 'dist/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
+                    { dest: 'build/components/', src : '**/*.js', expand: true, cwd: 'client/components/' }
                 ]
             },
             assets: {
                 files: [
-                    { dest: 'dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
+                    { dest: 'build/assets', src : '**', expand: true, cwd: 'client/assets/' }
                 ]
             }
         },
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                     '!client/app/**/*.spec.js',
                     'client/lib/module.suffix'
                 ],
-                dest: 'dist/app.js'
+                dest: 'build/app.js'
             }
         },
         server: {
@@ -117,7 +117,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['dist/index.html'],
+                src: ['build/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['dist/index.html'],
+                src: ['build/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -134,7 +134,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['dist/index.html'],
+                src: ['build/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -148,7 +148,7 @@ module.exports = function (grunt) {
             },
             app: {
                 files: {
-                    'dist/app.js': 'dist/app.js'
+                    'build/app.js': 'build/app.js'
                 }
             }
         },
@@ -175,7 +175,7 @@ module.exports = function (grunt) {
 
     // Tasks
     grunt.registerTask('build', [
-        'clean:dist',
+        'clean:build',
         'copy',
         'concat',
         'replace:debug'
@@ -207,7 +207,7 @@ module.exports = function (grunt) {
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
-        'clean:dist',
+        'clean:build',
         'copy',
         'concat',
         'uglify',

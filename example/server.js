@@ -7,13 +7,13 @@ var express = require('express'),
     fs = require('fs');
 
 // vars
-var distPath = path.join(__dirname, 'dist');
+var buildPath = path.join(__dirname, 'build');
 var app = express();
 var server = http.createServer(app);
 
 function sendFile (pathname, res) {
 
-    var filePath = path.join(distPath, pathname);
+    var filePath = path.join(buildPath, pathname);
     if (fs.existsSync(filePath)) {
         res.sendfile(filePath);
     }

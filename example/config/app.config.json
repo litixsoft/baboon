@@ -1,5 +1,14 @@
 {
-    "development": {
+    "all": {
         "baseUrl": "http://localhost:3000"
+    },
+    "development": {
+
+    },
+    "production": {
+        "baseUrl": "https://localhost:3002"
+    },
+    "test": {
+
     }
 }
