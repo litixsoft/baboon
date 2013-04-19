@@ -1,7 +1,5 @@
 .idea
-/build
-/client/components
+/vendor
 /dist
 /node_modules
-/server/logs
-/Test/Reports
+/test/Reports

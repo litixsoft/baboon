@@ -17,9 +17,7 @@ module.exports = function (grunt) {
         clean: {
             reports: ['test/reports'],
             dist: ['dist'],
-            app: ['dist/app','dist/*.*'],
-            components: ['dist/components'],
-            assets: ['dist/assets']
+            app: ['dist/app','dist/*.*']
         },
         // lint files
         jshint: {
@@ -63,26 +61,80 @@ module.exports = function (grunt) {
                     {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
                 ]
             },
-            components: {
-                files: [
-                    { dest: 'dist/components/', src : ['<%= conf.build.components %>'], expand: true, cwd: 'client/components/' }
-                ]
-            },
             assets: {
                 files: [
-                    { dest: 'dist/assets', src : '**', expand: true, cwd: 'client/assets/' }
+                    { dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets' }
+                ]
+            },
+            // all vendor file that need to be copy
+            vendor: {
+                files: [
+                    { dest: 'dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
                 ]
             }
         },
         concat: {
+            // all angular js libraries
+            angular: {
+                files: {
+                    'dist/js/angular.js': [
+                        'vendor/angular/angular.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js'
+                    ]
+                }
+            },
+            // all min lib css files
+            libCss: {
+                files: {
+                    'dist/css/lib.css': [
+                        'vendor/bootstrap/css/bootstrap.min.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
+                    ]
+                }
+            },
+            // setup application js libraries and angular directives
             app: {
                 src: [
                     'client/app/module.prefix',
+                    // application with common
                     'client/app/**/*.js',
+                    'client/common/**/*.js',
+                    // angular ui-bootstrap templates
+                    'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js',
+                    // setting for angular locale
+                    'vendor/angular/i18n/*_de{-de.js,.js}',
+                    'vendor/angular/i18n/*_en{-us.js,.js}',
+                    // ignore tests
                     '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
                 ],
-                dest: 'dist/app.js'
+                dest: 'dist/js/application.js'
+            },
+            // all app css libraries
+            appCss: {
+                files: {
+                    'dist/css/application.css': [
+                        'client/app/**/*.css'
+                    ]
+                }
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            target: {
+                files: {
+                    'dist/js/application.js': 'dist/js/application.js',
+                    'dist/js/angular.js': 'dist/js/angular.js'
+                }
+            }
+        },
+        cssmin: {
+            combine: {
+                files: {
+                    'dist/css/application.css': ['dist/css/application.css']
+                }
             }
         },
         server: {
@@ -93,17 +145,9 @@ module.exports = function (grunt) {
         },
         // Configuration to be run (and then tested)
         regarde: {
-            app: {
-                files: ['client/app/**/*.*', 'client/*.*', '!client/app/**/*.spec.js'],
-                tasks: ['build:app', 'livereload']
-            },
-            components: {
-                files: ['client/components/**/*.*'],
-                tasks: ['build:components', 'livereload']
-            },
-            assets: {
-                files: ['client/assets/**/*.*'],
-                tasks: ['build:assets', 'livereload']
+            client: {
+                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
+                tasks: ['build:regarde', 'livereload']
             },
             server: {
                 files: 'server/**/*.*',
@@ -120,7 +164,6 @@ module.exports = function (grunt) {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
-                    {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: ''}
                 ]
             },
@@ -128,7 +171,6 @@ module.exports = function (grunt) {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
-                    {from: '<!--@@min-->', to: '.min'},
                     {from: '<!--@@livereload-->', to: ''}
 
                 ]
@@ -137,19 +179,8 @@ module.exports = function (grunt) {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
-                    {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'}
                 ]
-            }
-        },
-        uglify: {
-            options: {
-                mangle: false
-            },
-            app: {
-                files: {
-                    'dist/app.js': 'dist/app.js'
-                }
             }
         },
         karma: {
@@ -158,7 +189,6 @@ module.exports = function (grunt) {
             }
         }
     });
-
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -171,8 +201,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Tasks
     grunt.registerTask('build', [
@@ -180,6 +210,12 @@ module.exports = function (grunt) {
         'copy',
         'concat',
         'replace:debug'
+    ]);
+    grunt.registerTask('build:regarde', [
+        'clean:dist',
+        'copy',
+        'concat',
+        'replace:livereload'
     ]);
     grunt.registerTask('lint', [
         'clean:reports',
@@ -189,23 +225,6 @@ module.exports = function (grunt) {
         'clean:reports',
         'jshint:files',
         'karma'
-    ]);
-    grunt.registerTask('build:app', [
-        'clean:app',
-        'copy:client',
-        'copy:views',
-        'concat',
-        'replace:livereload'
-    ]);
-    grunt.registerTask('build:components', [
-        'clean:components',
-        'copy:components',
-        'replace:livereload'
-    ]);
-    grunt.registerTask('build:assets', [
-        'clean:assets',
-        'copy:assets',
-        'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
