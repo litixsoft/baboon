@@ -3,8 +3,8 @@ basePath = '../';
 files = [
     JASMINE,
     JASMINE_ADAPTER,
-    'client/components/angular/angular.js',
-    'client/components/angular-mocks/angular-mocks.js',
+    'vendor/angular/angular.js',
+    'vendor/angular/angular-mocks.js',
     'client/app/**/*.js'
 ];
 
@@ -16,7 +16,7 @@ reporters = ['progress', 'coverage'];
 
 coverageReporter = {
     type : 'html',
-    dir : 'build/reports/coverage'
+    dir : 'test/reports/coverage'
 };
 
 browsers = ['Chrome'];

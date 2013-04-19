@@ -5,13 +5,13 @@ Baboon Web Toolkit, modular fullstack web application framework for single-page 
 _(Coming soon)_
 
 ## Documentation
-For quickstart and overview baboon, read the "[Example and contributing]" section.
+For quickstart and overview baboon, read the "Example and contributing" section.
 
 ### Install
 
 _(Coming soon)_
 
-## (Example and contributing)
+## Example and contributing
 Getting started with the example app.
 Install global dependencies:
 
@@ -31,7 +31,7 @@ Build the client app and start the server with grunt.
     $ git checkout develop
     $ npm install
     $ cd example
-    $ npm install & bower install
+    $ npm install
     $ grunt build
     $ grunt server
 
