@@ -74,19 +74,22 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            // all angular js libraries
-            angular: {
+            /**
+             * The `libs` target is for all third-party js libraries we need to include
+             * in the final distribution.
+             */
+            libs: {
                 files: {
-                    'dist/js/angular.js': [
+                    'dist/js/libs.js': [
                         'vendor/angular/angular.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js'
                     ]
                 }
             },
             // all min lib css files
-            libCss: {
+            libsCss: {
                 files: {
-                    'dist/css/lib.css': [
+                    'dist/css/libs.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css'
                     ]
@@ -96,14 +99,9 @@ module.exports = function (grunt) {
             app: {
                 src: [
                     'client/app/module.prefix',
-                    // application with common
+                    // application with components
                     'client/app/**/*.js',
-                    'client/common/**/*.js',
-                    // angular ui-bootstrap templates
-                    'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js',
-                    // setting for angular locale
-                    'vendor/angular/i18n/*_de{-de.js,.js}',
-                    'vendor/angular/i18n/*_en{-us.js,.js}',
+                    'client/components/**/*.js',
                     // ignore tests
                     '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
@@ -126,7 +124,7 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'dist/js/application.js': 'dist/js/application.js',
-                    'dist/js/angular.js': 'dist/js/angular.js'
+                    'dist/js/angular.js': 'dist/js/libs.js'
                 }
             }
         },
