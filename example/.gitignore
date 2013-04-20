@@ -1,5 +1,4 @@
 .idea
-/vendor
 /dist
 /node_modules
 /test/Reports
