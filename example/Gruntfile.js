@@ -49,25 +49,21 @@ module.exports = function (grunt) {
                 }
             }
         },
-        // copy files
+
+        /**
+         * `grunt copy` just copies files from client or vendor to dist.
+         */
         copy: {
             client: {
+                // all client files that need to be copy.
                 files: [
-                    { dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/' }
+                    {dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/'},
+                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'},
+                    {dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
                 ]
             },
-            views: {
-                files: [
-                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'}
-                ]
-            },
-            assets: {
-                files: [
-                    { dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets' }
-                ]
-            },
-            // all vendor file that need to be copy
             vendor: {
+                // all vendor files that need to be copy.
                 files: [
                     { dest: 'dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
                 ]
@@ -86,7 +82,10 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            // all min lib css files
+            /**
+             * The `libsCss` target is for all third-party css files we need to include
+             * in the final distribution.
+             */
             libsCss: {
                 files: {
                     'dist/css/libs.css': [
@@ -99,10 +98,8 @@ module.exports = function (grunt) {
             app: {
                 src: [
                     'client/app/module.prefix',
-                    // application with components
                     'client/app/**/*.js',
                     'client/components/**/*.js',
-                    // ignore tests
                     '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
                 ],
@@ -124,7 +121,7 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'dist/js/application.js': 'dist/js/application.js',
-                    'dist/js/angular.js': 'dist/js/libs.js'
+                    'dist/js/libs.js': 'dist/js/libs.js'
                 }
             }
         },
