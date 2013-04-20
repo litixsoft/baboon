@@ -29,7 +29,6 @@ Build the client app and start the server with grunt.
     $ git clone git@gitlab.litixsoft.de:opensource/baboon.git
     $ cd baboon
     $ git checkout develop
-    $ npm install
     $ cd example
     $ npm install
     $ grunt build
@@ -46,7 +45,7 @@ Would do you not have livereload after changes, you need build and start manuall
 To do after each change in manually modus.
 
     $ grunt build
-    $ node server.js
+    $ node scripts/web-server.js
 
 ## Grunt nodejs scripts
 Grunt tasks are run on the console. But if you want to start this over nodejs,
