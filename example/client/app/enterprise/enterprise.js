@@ -4,10 +4,11 @@ angular.module('enterprise', [
 /**
  * Enterprise config area
  */
+
     .config(function ($routeProvider) {
-        $routeProvider.when('/', {templateUrl: '/views/enterprise/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/new', {templateUrl: '/views/enterprise/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/edit/:id', {templateUrl: '/views/enterprise/edit.html', controller: 'editCtrl'});
+        $routeProvider.when('/', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
+        $routeProvider.when('/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
+        $routeProvider.when('/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
     })
 /**
  * Enterprise controller
