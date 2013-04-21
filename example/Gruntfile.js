@@ -78,7 +78,8 @@ module.exports = function (grunt) {
                 files: {
                     'dist/js/libs.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js'
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js'
                     ]
                 }
             },
