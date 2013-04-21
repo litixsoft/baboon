@@ -16,8 +16,7 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['test/reports'],
-            dist: ['dist'],
-            app: ['dist/app','dist/*.*']
+            dist: ['dist','tmp']
         },
         // lint files
         jshint: {
@@ -58,7 +57,6 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'dist/views', src: ['*.html', '**/*.html'], expand: true, cwd:'client/app/'},
                     {dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
                 ]
             },
@@ -67,6 +65,16 @@ module.exports = function (grunt) {
                 files: [
                     { dest: 'dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
                 ]
+            }
+        },
+        html2js: {
+            options: {
+                // custom options, see below
+                base: 'client/app'
+            },
+            main: {
+                src: ['client/app/**/*.html', 'client/components/**/*.html'],
+                dest: 'tmp/app.tpl.js'
             }
         },
         concat: {
@@ -101,6 +109,7 @@ module.exports = function (grunt) {
                     'client/app/module.prefix',
                     'client/app/**/*.js',
                     'client/components/**/*.js',
+                    'tmp/app.tpl.js',
                     '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
                 ],
@@ -115,6 +124,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         uglify: {
             options: {
                 mangle: false
@@ -199,17 +209,20 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-html2js');
 
     // Tasks
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'replace:debug'
     ]);
     grunt.registerTask('build:regarde', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'replace:livereload'
     ]);
@@ -225,6 +238,7 @@ module.exports = function (grunt) {
     grunt.registerTask('release', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'uglify',
         'replace:release'
@@ -232,6 +246,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'livereload-start',
         'express-server',

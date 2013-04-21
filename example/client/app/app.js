@@ -1,4 +1,4 @@
-angular.module('app', ['ui.bootstrap', 'enterprise', 'blog'])
+angular.module('app', ['templates-main', 'ui.bootstrap', 'enterprise', 'blog'])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
