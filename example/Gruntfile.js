@@ -85,9 +85,9 @@ module.exports = function (grunt) {
             libs: {
                 files: {
                     'dist/js/libs.js': [
-                        'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js'
+                        'vendor/angular/angular.min.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js'
                     ]
                 }
             },
@@ -124,15 +124,16 @@ module.exports = function (grunt) {
                 }
             }
         },
-
+        ngmin: {
+            app: {
+                src: ['dist/js/application.js'],
+                dest: 'dist/js/application.js'
+            }
+        },
         uglify: {
-            options: {
-                mangle: false
-            },
             target: {
                 files: {
-                    'dist/js/application.js': 'dist/js/application.js',
-                    'dist/js/libs.js': 'dist/js/libs.js'
+                    'dist/js/application.js': 'dist/js/application.js'
                 }
             }
         },
@@ -210,6 +211,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-ngmin');
 
     // Tasks
     grunt.registerTask('build', [
@@ -240,6 +242,7 @@ module.exports = function (grunt) {
         'copy',
         'html2js',
         'concat',
+        'ngmin',
         'uglify',
         'replace:release'
     ]);
