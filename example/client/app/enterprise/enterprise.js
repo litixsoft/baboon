@@ -152,13 +152,34 @@ angular.module('enterprise', [
 /**
  * Modal Dialog MsgBox Controller
  */
-    .controller('TestDialogController',['$scope','dialoglx',function ($scope,dialoglx) {
+    .controller('StrapDialogController',['$scope','$modal',function ($scope,$modal) {
+
+        $scope.modal = {content: 'Hello Modal', saved: false};
+
+        $scope.viaService = function() {
+            // do something
+            var modal = $modal({
+                template: 'enterprise/popup.html',
+                show: true,
+                scope: $scope, //undokumentiert
+                backdrop: 'static'
+            });
+        }
+        $scope.parentController = function(dismiss) {
+            console.warn(arguments);
+            // do something
+            dismiss();
+        }
+    }])
+
+
+    .controller('TestDialogController',['$scope','dialog',function ($scope,dialog) {
 
         $scope.close = function(result){
-            dialoglx.close(result);
+            dialog.close(result);
         };
     }])
-    .controller('DialogDemoCtrl',['$scope','$dialoglx',function ($scope, $dialoglx) {
+    .controller('DialogDemoCtrl',['$scope','$dialog',function ($scope, $dialog) {
 
         // Inlined template for demo
         var t = '<div class="modal-header">'+
@@ -180,7 +201,7 @@ angular.module('enterprise', [
         };
 
         $scope.openDialog = function(){
-            var d = $dialoglx.dialog($scope.opts);
+            var d = $dialog.dialog($scope.opts);
             d.open().then(function(result){
                 if(result)
                 {
@@ -194,7 +215,7 @@ angular.module('enterprise', [
             var msg = 'This is the content of the message box';
             var btns = [{result:'cancel', label: 'Cancel'}, {result:'ok', label: 'OK', cssClass: 'btn-primary'}];
 
-            $dialoglx.messageBox(title, msg, btns)
+            $dialog.messageBox(title, msg, btns)
                 .open()
                 .then(function(result){
                     alert('dialog closed with result: ' + result);

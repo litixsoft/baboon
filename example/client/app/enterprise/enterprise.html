@@ -322,7 +322,7 @@
 <!-- ------------- -->
 <!--*  Modal Dialogs MsgBoxes   *-->
 <!-- ------------- -->
-<h1 ng-init="DialogIsCollapsed = false" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="text-align:center;cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
+<h1 ng-init="DialogIsCollapsed = true" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="text-align:center;cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
 <div collapse="DialogIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -330,7 +330,7 @@
                 <h3>UI Bootstrap - Modal Dialogs MsgBoxes</h3>
 
                 <!-- Example Begin-->
-                <div ng-controller="DialogDemoCtrl">
+               <div ng-controller="DialogDemoCtrl">
                     <div class="row-fluid">
                         <div class="span6">
                             <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
@@ -362,7 +362,12 @@
                 <h3>AngularStrap - Modal Dialogs MsgBoxes</h3>
 
                 <!-- Example Begin-->
+                <!--<div ng-controller="StrapDialogController">-->
+                    <!-- Button to trigger modal -->
+                    <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
+                    <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
 
+                <!--</div>-->
                 <!-- Example End-->
 
             </div>
