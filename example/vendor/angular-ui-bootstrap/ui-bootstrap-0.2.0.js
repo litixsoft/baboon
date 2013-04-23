@@ -1,4 +1,4 @@
-angular.module("ui.bootstrap", ["ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.collapse","ui.bootstrap.dialog","ui.bootstrap.dropdownToggle","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.tooltip","ui.bootstrap.transition","ui.bootstrap.typeahead"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.collapse","ui.bootstrap.dialoglx","ui.bootstrap.dropdownToggle","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.tooltip","ui.bootstrap.transition","ui.bootstrap.typeahead"]);
 
 angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 
@@ -525,18 +525,18 @@ angular.module('ui.bootstrap.collapse',['ui.bootstrap.transition'])
 
 // The `$dialogProvider` can be used to configure global defaults for your
 // `$dialog` service.
-var dialogModule = angular.module('ui.bootstrap.dialog', ['ui.bootstrap.transition']);
+var dialogModule = angular.module('ui.bootstrap.dialoglx', ['ui.bootstrap.transition']);
 
-dialogModule.controller('MessageBoxController', ['$scope', 'dialog', 'model', function($scope, dialog, model){
+dialogModule.controller('MessageBoxController', ['$scope', 'dialoglx', 'model', function($scope, dialoglx, model){
   $scope.title = model.title;
   $scope.message = model.message;
   $scope.buttons = model.buttons;
   $scope.close = function(res){
-    dialog.close(res);
+    dialoglx.close(res);
   };
 }]);
 
-dialogModule.provider("$dialog", function(){
+dialogModule.provider("$dialoglx", function(){
 
   // The default options for all dialogs.
   var defaults = {
@@ -867,8 +867,8 @@ angular.module('ui.bootstrap.dropdownToggle', []).directive('dropdownToggle',
   };
 }]);
 
-angular.module('ui.bootstrap.modal', ['ui.bootstrap.dialog'])
-.directive('modal', ['$parse', '$dialog', function($parse, $dialog) {
+angular.module('ui.bootstrap.modal', ['ui.bootstrap.dialoglx'])
+.directive('modal', ['$parse', '$dialoglx', function($parse, $dialoglx) {
   var backdropEl;
   var body = angular.element(document.getElementsByTagName('body')[0]);
   return {
@@ -885,7 +885,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.dialog'])
         template: elm.html(), 
         resolve: { $scope: function() { return scope; } }
       });
-      var dialog = $dialog.dialog(opts);
+      var dialog = $dialoglx.dialog(opts);
 
       elm.remove();
 
@@ -903,13 +903,13 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.dialog'])
 
       scope.$watch(shownExpr, function(isShown, oldShown) {
         if (isShown) {
-          dialog.open().then(function(){
+          dialoglx.open().then(function(){
             setClosed();
           });
         } else {
           //Make sure it is not opened
-          if (dialog.isOpen()){
-            dialog.close();
+          if (dialoglx.isOpen()){
+            dialoglx.close();
           }
         }
       });
