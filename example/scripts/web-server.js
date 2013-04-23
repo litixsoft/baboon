@@ -1,65 +1,32 @@
 'use strict';
+//noinspection JSUnresolvedVariable
+var path = require('path'),
+    baboon = require('../../lib/baboon')(path.join(__dirname, '../')),
+    auth = baboon.middleware.auth,
+    server = baboon.server,
+    io = server.io,
+    config = server.config;
 
-// includes
-var express = require('express'),
-    http = require('http'),
-    path = require('path'),
-    fs = require('fs');
+io.sockets.on('connection', function (client) {
+    'use strict';
 
-// vars
-var distPath = path.join(__dirname, '../', 'dist');
-var app = express();
-var server = http.createServer(app);
+    client.on('message', function(message) {
+        console.log(message);
+    });
 
-function sendFile (pathname, res) {
+    client.on('disconnect', function() {
+        console.log('client: ' + client.id + ' disconnected');
+    });
 
-    var filePath = path.join(distPath, pathname);
-    if (fs.existsSync(filePath)) {
-        res.sendfile(filePath);
-    }
-    else {
-        res.send(404);
-    }
-}
+    client.emit('send:name', {
+        name: 'Bob'
+    });
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
-
-// development only
-if ('development' === app.get('env')) {
-    app.use(express.errorHandler());
-}
-
-// index route
-app.get('/', function (req, res) {
-    // TODO Rechte
-    sendFile('index.html', res);
+    setInterval(function () {
+        client.emit('send:time', {
+            time: (new Date()).toString()
+        });
+    }, 1000);
 });
 
-app.get('/app/*', function (req, res) {
-    // TODO Rechte
-    sendFile(req.url, res);
-});
-app.get('/views/*', function (req, res) {
-    // TODO Rechte
-    sendFile(req.url, res);
-});
-
-app.get('*.*', function (req, res) {
-    sendFile(req.url, res);
-});
-
-app.get('*', function (req, res) {
-    sendFile('index.html', res);
-});
-
-server.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
+server.start();

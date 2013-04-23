@@ -3,7 +3,27 @@ angular.module('app', ['templates-main', 'ui.bootstrap', 'enterprise', 'blog'])
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
     })
-    .service('socket', function ($rootScope) {
-        // test
-        $rootScope.test = 'Das ist der Socket Test';
+    .factory('socket', function ($rootScope) {
+        var socket = io.connect();
+
+        return {
+            on: function (eventName, callback) {
+                socket.on(eventName, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        callback.apply(socket, args);
+                    });
+                });
+            },
+            emit: function (eventName, data, callback) {
+                socket.emit(eventName, data, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        if (callback) {
+                            callback.apply(socket, args);
+                        }
+                    });
+                })
+            }
+        };
     });

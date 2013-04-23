@@ -1,0 +1,16 @@
+{
+    "mode": "production",
+    "logging": {
+        "syslog": "INFO",
+        "audit": "INFO",
+        "express": "INFO",
+        "socket": "INFO"
+    },
+    "redis": [
+        {"host": "localhost", "port": 6379, "options":{}}
+    ],
+    "mongo": {
+        "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
+        "dbs": ["blog", "users"]
+    }
+}
