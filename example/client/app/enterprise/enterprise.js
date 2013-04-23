@@ -171,8 +171,6 @@ angular.module('enterprise', [
             dismiss();
         }
     }])
-
-
     .controller('TestDialogController',['$scope','dialog',function ($scope,dialog) {
 
         $scope.close = function(result){
@@ -222,7 +220,64 @@ angular.module('enterprise', [
                 });
         };
     }])
+    .controller('ModalDemoCtrl',['$scope',function ($scope) {
+        $scope.open = function () {
+            $scope.shouldBeOpen = true;
+        };
 
+        $scope.close = function () {
+            $scope.closeMsg = 'I was closed at: ' + new Date();
+            $scope.shouldBeOpen = false;
+        };
+
+        $scope.items = ['item1', 'item2'];
+
+        $scope.opts = {
+            backdropFade: true,
+            dialogFade:true
+        };
+    }])
+
+/**
+ * Enterprise edit controller
+ */
+    .controller('DropdownCtrl', ['$scope', function ($scope) {
+        $scope.items = [
+            "The first choice!",
+            "And another choice for you.",
+            "but wait! A third!"
+        ];
+        $scope.action = function(){
+            alert("Klick");
+        }
+        $scope.dropdown = [
+            {
+                "text": "Another action",
+                "href": "#anotherAction"
+            },
+            {
+                "text": "Something else here",
+                "click": "$alert('working ngClick!')"
+            },
+            {
+                "divider": true
+            },
+            {
+                "text": "Separated link",
+                "href": "#",
+                "submenu": [
+                    {
+                        "text": "Second level link",
+                        "href": "#"
+                    },
+                    {
+                        "text": "Second level link 2",
+                        "href": "#"
+                    }
+                ]
+            }
+        ];
+    }])
 
 
 /**
