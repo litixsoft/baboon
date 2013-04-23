@@ -326,7 +326,7 @@
 <div collapse="DialogIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
-            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
                 <h3>UI Bootstrap - Modal Dialogs MsgBoxes</h3>
 
                 <!-- Example Begin-->
@@ -398,7 +398,7 @@
 <!-- ------------- -->
 <!--*  Dropdowns    *-->
 <!-- ------------- -->
-<h1 ng-init="DropdownsIsCollapsed = false" ng-click="DropdownsIsCollapsed = !DropdownsIsCollapsed" style="text-align:center;cursor:pointer;">Dropdowns</h1>
+<h1 ng-init="DropdownsIsCollapsed = true" ng-click="DropdownsIsCollapsed = !DropdownsIsCollapsed" style="text-align:center;cursor:pointer;">Dropdowns</h1>
 <div collapse="DropdownsIsCollapsed">
     <div style="display:table;width:100%;height:250px;">
         <div style="display:table-row;">
@@ -450,6 +450,166 @@
     </div>
 </div>
 
+
+<hr>
+<!-- ------------- -->
+<!--*  Pagination    *-->
+<!-- ------------- -->
+<h1 ng-init="PaginationIsCollapsed = true" ng-click="PaginationIsCollapsed = !PaginationIsCollapsed" style="text-align:center;cursor:pointer;">Pagination</h1>
+<div collapse="PaginationIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Pagination</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PaginationDemoCtrl">
+                    <pagination num-pages="noOfPages" current-page="currentPage"></pagination>
+                    <pagination num-pages="noOfPages" current-page="currentPage" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" num-pages="noOfPages" current-page="currentPage" max-size="maxSize"></pagination>
+                    <pagination num-pages="noOfPages" current-page="currentPage"  max-size="maxSize"></pagination>
+                    <pagination direction-links="false" num-pages="noOfPages" current-page="currentPage"></pagination>
+                    <button class="btn" ng-click="setPage(3)">Set current page to: 3</button>
+                    The selected page no: {{currentPage}}
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Pagination</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Pagination</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Popover    *-->
+<!-- ------------- -->
+<h1 ng-init="PopoverIsCollapsed = true" ng-click="PopoverIsCollapsed = !PopoverIsCollapsed" style="text-align:center;cursor:pointer;">Popover</h1>
+<div collapse="PopoverIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Popover</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PopoverDemoCtrl">
+                    <div class="well">
+                        <div>
+                            <h4>Text dynamisch gesetzt</h4>
+                            <div>BtnText : <input type="text" ng-model="dynamicPopoverText"></div>
+                            <div>Popup Text: <input type="text" ng-model="dynamicPopover"></div>
+                            <div>Popup Title: <input type="text" ng-model="dynamicPopoverTitle"></div>
+                            <div><button popover="{{dynamicPopover}}" popover-title="{{dynamicPopoverTitle}}" class="btn">{{dynamicPopoverText}}</button></div>
+                        </div>
+                        <div>
+                            <h4>Positionierung</h4>
+                            <button popover-placement="top" popover="On the Top!" class="btn">Top</button>
+                            <button popover-placement="left" popover="On the Left!" class="btn">Left</button>
+                            <button popover-placement="right" popover="On the Right!" class="btn">Right</button>
+                            <button popover-placement="bottom" popover="On the Bottom!" class="btn">Bottom</button>
+                        </div>
+                        <div>
+                            <h4>Animiert</h4>
+                            <button Popover-animation="true" popover="I fade in and out!" class="btn">fading</button>
+                        </div>
+                        <div>
+                            <h4>Mit Titel</h4>
+                            <button popover="I have a title!" popover-title="The title." class="btn">title</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Popover</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Popover</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PopoverDemoCtrl">
+                    <h4>Button to trigger popover with an external partial</h4>
+                    <button type="button" class="btn" bs-popover="'enterprise/popup.html'">External Partial</button>
+
+                    <h4>You can also use a simple object {title:'', content:'', etc.} instead of a partial/template</h4>
+                    <button type="button" class="btn" bs-popover="popover">SimpleObject</button>
+
+                    <h4>Force close others with data-unique attribute</h4>
+                    <button type="button" class="btn" data-unique="1" bs-popover="popover">Close other Popovers</button>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Tabs    *-->
+<!-- ------------- -->
+<h1 ng-init="TabsIsCollapsed = false" ng-click="TabsIsCollapsed = !TabsIsCollapsed" style="text-align:center;cursor:pointer;">Tabs</h1>
+<div collapse="TabsIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Tabs</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TabsDemoCtrl" style="background:#f9f9f9;padding:10px;">
+                    <tabs>
+                        <pane heading="Static title">Static content</pane>
+                        <pane ng-repeat="pane in panes" heading="{{pane.title}}" active="pane.active">{{pane.content}}</pane>
+                    </tabs>
+                    <div class="row-fluid" style="border-top:1px solid #ddd;margin-top:10px;padding-top:10px;">
+                        <button class="btn" ng-click="panes[0].active = true">Select second tab</button>
+                        <button class="btn" ng-click="panes[1].active = true">Select third tab</button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Tabs</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Tabs</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TabsDemoCtrl"  style="background:#f9f9f9;padding:10px;">
+                    <div data-fade="1" ngModel="tabs.activeTab" bs-tabs>
+                        <div ng-repeat="tab in tabs" data-title="{{tab.title}}"><p>{{tab.content}}</p></div>
+                    </div>
+                    <div class="row-fluid" style="border-top:1px solid #ddd;margin-top:10px;padding-top:10px;">
+                        <div class="btn-group" ng-model="tabs.activeTab" bs-buttons-radio>
+                            <button type="button" class="btn" value="0">First</button>
+                            <button type="button" class="btn" value="1">Second</button>
+                            <button type="button" class="btn" value="2">Third</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <hr>
 <!-- ------------- -->
