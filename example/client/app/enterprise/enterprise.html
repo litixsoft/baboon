@@ -322,7 +322,7 @@
 <!-- ------------- -->
 <!--*  Modal Dialogs MsgBoxes   *-->
 <!-- ------------- -->
-<h1 ng-init="DialogIsCollapsed = false" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="text-align:center;cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
+<h1 ng-init="DialogIsCollapsed = true" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="text-align:center;cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
 <div collapse="DialogIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -330,22 +330,39 @@
                 <h3>UI Bootstrap - Modal Dialogs MsgBoxes</h3>
 
                 <!-- Example Begin-->
-                <div ng-controller="DialogDemoCtrl">
+                <h4>ModalPopup mit Template (Dialog)</h4>
+               <div ng-controller="DialogDemoCtrl">
                     <div class="row-fluid">
                         <div class="span6">
                             <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
                             <label class="checkbox"><input type=checkbox ng-model="opts.dialogFade">Fade modal dialog </label>
                             <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropFade">Fade Backdrop</label>
-                            <hr>
                             <label class="checkbox"><input type=checkbox ng-model="opts.keyboard">Close on Escape</label>
                             <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropClick">Close on backdrop click</label>
                         </div>
                         <div class="span6">
                             <p>Change options at will and press the open dialog button below!</p>
-                            <p><button class="btn btn-primary" ng-click="openDialog()">Open Dialog</button></p>
+                            <p><button class="btn" ng-click="openDialog()">Open Dialog</button></p>
 
                             <p>Alternatively open a simple message box:</p>
-                            <p><button class="btn btn-primary" ng-click="openMessageBox()">Open Message Box</button></p>
+                            <p><button class="btn" ng-click="openMessageBox()">Open Message Box</button></p>
+                        </div>
+                    </div>
+                </div>
+                <h4>ModalPopup HTML bereits im DOM (Modal)</h4>
+                <div ng-controller="ModalDemoCtrl">
+                    <button class="btn" ng-click="open()">Open Modal</button>
+                    <div modal="shouldBeOpen" close="close()" options="opts">
+                        <div class="modal-header">
+                            <h4>I'm a modal!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li ng-repeat="item in items">{{item}}</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -362,13 +379,77 @@
                 <h3>AngularStrap - Modal Dialogs MsgBoxes</h3>
 
                 <!-- Example Begin-->
+                <!--<div ng-controller="StrapDialogController">-->
+                    <!-- Button to trigger modal -->
+                    <h4>Modal mit Template</h4>
+                    <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
+                    <h4>Modal mit Template aber als Injekteter Service</h4>
+                    <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
 
+                <!--</div>-->
                 <!-- Example End-->
 
             </div>
         </div>
     </div>
 </div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Dropdowns    *-->
+<!-- ------------- -->
+<h1 ng-init="DropdownsIsCollapsed = false" ng-click="DropdownsIsCollapsed = !DropdownsIsCollapsed" style="text-align:center;cursor:pointer;">Dropdowns</h1>
+<div collapse="DropdownsIsCollapsed">
+    <div style="display:table;width:100%;height:250px;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Dropdowns</h3>
+
+                <!-- Example Begin-->
+                <li class="dropdown" ng-controller="DropdownCtrl">
+                    <a class="dropdown-toggle">
+                        Click me for a dropdown, yo!
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="choice in items">
+                            <a>{{choice}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Dropdowns</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Dropdowns</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="DropdownCtrl">
+                    <!-- Button to trigger dropdown -->
+                    <div class="btn-group">
+                        <button type="button" class="btn" bs-dropdown="dropdown">DropMeDown</button>
+                    </div>
+
+                    <!-- Separated button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn" ng-click="action()">ClickMe</button>
+                        <button type="button" class="btn" bs-dropdown="dropdown">
+                        <span class="caret"></span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->
@@ -403,7 +484,6 @@
         </div>
     </div>
 </div>
-
 
 <hr>
 <div style="display:table;width:100%;">
