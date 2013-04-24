@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js','test/e2e/**/*.js'],
             junit: 'test/reports/jshint.xml',
             checkstyle: 'test/reports/jshint_checkstyle.xml',
             options: {
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
                 base: 'client/app'
             },
             main: {
-                src: ['client/app/**/*.html', 'client/components/**/*.html'],
+                src: ['client/app/**/*.html', 'client/common/**/*.html'],
                 dest: 'tmp/app.tpl.js'
             }
         },
@@ -127,9 +127,11 @@ module.exports = function (grunt) {
                 src: [
                     'client/app/module.prefix',
                     'client/app/**/*.js',
+                    '!client/app/**/*.spec.js',
+                    'client/common/**/*.js',
+                    '!client/common/**/*.spec.js',
                     'client/components/**/*.js',
                     'tmp/app.tpl.js',
-                    '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
                 ],
                 dest: 'dist/js/application.js'
@@ -138,6 +140,7 @@ module.exports = function (grunt) {
             appCss: {
                 files: {
                     'dist/css/application.css': [
+                        'client/common/**/*.css',
                         'client/app/**/*.css'
                     ]
                 }
