@@ -23,7 +23,7 @@ angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'en
                             callback.apply(socket, args);
                         }
                     });
-                })
+                });
             }
         };
     });

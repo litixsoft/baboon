@@ -47,12 +47,12 @@ angular.module('enterprise', [
 
         $scope.groups = [
             {
-                title: "Dynamic Group Header - 1",
-                content: "Dynamic Group Body - 1"
+                title: 'Dynamic Group Header - 1',
+                content: 'Dynamic Group Body - 1'
             },
             {
-                title: "Dynamic Group Header - 2",
-                content: "Dynamic Group Body - 2"
+                title: 'Dynamic Group Header - 2',
+                content: 'Dynamic Group Body - 2'
             }
         ];
 
@@ -69,14 +69,14 @@ angular.module('enterprise', [
     .controller('AlertsCtrl',['$scope',function ($scope) {
         $scope.alerts = [
             {
-                "type": "success",
-                "title": "Holy guacamole!",
-                "content": "Best check yo self, you're not looking too good.<br><br><pre>2 + 3 = {{ 2 + 3 }}</pre>"
+                type: 'success',
+                title: 'Holy guacamole!',
+                content: 'Best check yo self, you are not looking too good.<br><br><pre>2 + 3 = {{ 2 + 3 }}</pre>'
             },
             {
-                "type": "info",
-                "title": "Heads up!",
-                "content": "To prevent databinding issues, <em>\"the rule of thumb is, if you﻿ use <code>ng-model</code> there has to be a dot somewhere.\" Miško Hevery</em>"
+                type: 'info',
+                title: 'Heads up!',
+                content: 'Best check yo self, you are not looking too good.<br><br><pre>2 + 3 = {{ 2 + 3 }}</pre>'
             }
         ];
 
@@ -109,12 +109,12 @@ angular.module('enterprise', [
         };
 
         $scope.button =  {
-            "active": true
+            active: true
         };
         $scope.buttonSelect = {
-                "price": "89,99",
-                "currency": "$"
-        }
+            price: '89,99',
+            currency: '$'
+        };
     }])
 /**
  * Carousel Controller
@@ -160,18 +160,19 @@ angular.module('enterprise', [
 
         $scope.viaService = function() {
             // do something
-            var modal = $modal({
+//            var modal = $modal({
+            $modal({
                 template: 'enterprise/popup.html',
                 show: true,
                 scope: $scope, //undokumentiert
                 backdrop: 'static'
             });
-        }
+        };
         $scope.parentController = function(dismiss) {
             console.warn(arguments);
             // do something
             dismiss();
-        }
+        };
     }])
     .controller('TestDialogController',['$scope','dialog',function ($scope,dialog) {
 
@@ -259,14 +260,14 @@ angular.module('enterprise', [
  */
     .controller('PopoverDemoCtrl',['$scope',function ($scope) {
 
-        $scope.dynamicPopover = "Hello, World!";
-        $scope.dynamicPopoverText = "dynamic";
-        $scope.dynamicPopoverTitle = "Title";
+        $scope.dynamicPopover = 'Hello, World!';
+        $scope.dynamicPopoverText = 'dynamic';
+        $scope.dynamicPopoverTitle = 'Title';
 
         $scope.popover = {
             content: 'Nix neues',
             title: 'Titel'
-        }
+        };
     }])
 
 /**
@@ -274,36 +275,36 @@ angular.module('enterprise', [
  */
     .controller('DropdownCtrl', ['$scope', function ($scope) {
         $scope.items = [
-            "The first choice!",
-            "And another choice for you.",
-            "but wait! A third!"
+            'The first choice!',
+            'And another choice for you.',
+            'but wait! A third!'
         ];
         $scope.action = function(){
-            alert("Klick");
-        }
+            alert('Klick');
+        };
         $scope.dropdown = [
             {
-                "text": "Another action",
-                "href": "#anotherAction"
+                text: 'Another action',
+                href: '#anotherAction'
             },
             {
-                "text": "Something else here",
-                "click": "$alert('working ngClick!')"
+                text: 'Something else here',
+                click: '$alert(\'working ngClick!\')'
             },
             {
-                "divider": true
+                divider: true
             },
             {
-                "text": "Separated link",
-                "href": "#",
-                "submenu": [
+                text: 'Separated link',
+                href: '#',
+                submenu: [
                     {
-                        "text": "Second level link",
-                        "href": "#"
+                        text: 'Second level link',
+                        href: '#'
                     },
                     {
-                        "text": "Second level link 2",
-                        "href": "#"
+                        text: 'Second level link 2',
+                        href: '#'
                     }
                 ]
             }
@@ -316,22 +317,22 @@ angular.module('enterprise', [
     .controller('TabsDemoCtrl', ['$scope',function ($scope) {
 
         $scope.panes = [
-            { title:"Dynamic Title 1", content:"Dynamic content 1" },
-            { title:"Dynamic Title 2", content:"Dynamic content 2" }
+            { title:'Dynamic Title 1', content:'Dynamic content 1' },
+            { title:'Dynamic Title 2', content:'Dynamic content 2' }
         ];
 
         $scope.tabs = [
             {
-                "title": "Home",
-                "content": "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica."
+                title: 'Home',
+                content: 'Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.'
             },
             {
-                "title": "Profile",
-                "content": "Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee."
+                title: 'Profile',
+                content: 'Food truck fixie locavore, accusamus mcsweeney\'s marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.'
             },
             {
-                "title": "About",
-                "content": "Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade."
+                title: 'About',
+                content: 'Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney\'s organic lomo retro fanny pack lo-fi farm-to-table readymade.'
             }
         ];
 
@@ -344,15 +345,15 @@ angular.module('enterprise', [
  */
     .controller('TooltipDemoCtrl', ['$scope', function ($scope) {
 
-        $scope.dynamicTooltip = "Hello, World!";
-        $scope.dynamicTooltipText = "dynamic";
+        $scope.dynamicTooltip = 'Hello, World!';
+        $scope.dynamicTooltipText = 'dynamic';
 
 
         $scope.checked = false;
         $scope.tooltip = {
-            "title": "Hello Tooltip<br />Haken ist gesetzt:"
-             //"checked": false
-        }
+            title: 'Hello Tooltip<br />Haken ist gesetzt:'
+             //checked: false
+        };
 
     }])
 
@@ -364,16 +365,17 @@ angular.module('enterprise', [
         $scope.selected = undefined;
         $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
-        $scope.typeaheadFn = function(query) {
+//        $scope.typeaheadFn = function(query) {
+        $scope.typeaheadFn = function() {
             return $.map($scope.typeahead, function(country) {
                 return country + '_1';
             });
-        }
+        };
         $scope.typeaheadFn = function(query, callback) {
            // $http.get('/stations/autocomplete?term='+query).success(function(stations) {
-                callback($scope.states); // This will automatically open the popup with retrieved results
+            callback($scope.states); // This will automatically open the popup with retrieved results
            // });
-        }
+        };
     }])
 
 
