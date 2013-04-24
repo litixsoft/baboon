@@ -4,7 +4,7 @@ angular.module('uiexamples', [])
  */
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'ui_examples/uiexamples.html', controller: 'uiexamplesCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'uiexamplesCtrl'});
     })
 
 /**
@@ -321,7 +321,7 @@ angular.module('uiexamples', [])
             }
         ];
 
-        $scope.tabs.activeTab = 1;
+        $scope.activeTab = 0;
     }])
 
 
