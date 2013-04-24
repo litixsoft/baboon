@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','test/e2e/**/*.js', 'test/unit/**/*.js'],
             junit: 'test/reports/jshint.xml',
             checkstyle: 'test/reports/jshint_checkstyle.xml',
             options: {
@@ -129,7 +129,6 @@ module.exports = function (grunt) {
                     'client/app/**/*.js',
                     'client/components/**/*.js',
                     'tmp/app.tpl.js',
-                    '!client/app/**/*.spec.js',
                     'client/app/module.suffix'
                 ],
                 dest: 'dist/js/application.js'
