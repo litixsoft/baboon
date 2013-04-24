@@ -346,9 +346,11 @@
                         </div>
                         <div class="span6">
                             <p>Change options at will and press the open dialog button below!</p>
+                            <p>dialog closed with result: <strong ng-bind="message"></strong></p>
                             <p><button class="btn" ng-click="openDialog()">Open Dialog</button></p>
 
                             <p>Alternatively open a simple message box:</p>
+                            <p>dialog closed with result: <strong ng-bind="message2"></strong></p>
                             <p><button class="btn" ng-click="openMessageBox()">Open Message Box</button></p>
                         </div>
                     </div>
@@ -452,6 +454,7 @@
                     <!--<a bs-dropdown="dropdown">DropMeDown</a>-->
 
                     <!-- Separated button -->
+                    <p>Message: <span ng-bind="message"></span></p>
                     <div class="btn-group">
                         <button type="button" class="btn" ng-click="action()">ClickMe</button>
                         <button type="button" class="btn" bs-dropdown="dropdown">
