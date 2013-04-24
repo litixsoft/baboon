@@ -6,7 +6,7 @@ angular.module('blog', [])
         $scope.enterpriseCrew = enterpriseCrew;
 
         $scope.send = function () {
-            socket.emit('send:test', {name:'Timo Liebetrau'}, function (data) {
+            socket.emit('blog:test', {name:'Timo Liebetrau'}, function (data) {
                 $scope.serverRequest = data;
             });
         };
