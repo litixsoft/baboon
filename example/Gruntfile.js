@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('config/app.config.json'),
+        conf: grunt.file.readJSON('config/app.conf.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -181,7 +181,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                url: '<%= conf.development.baseUrl %>'
+                url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             }
         },
         replace: {
@@ -189,6 +189,7 @@ module.exports = function (grunt) {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
+                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''}
                 ]
             },
@@ -196,15 +197,17 @@ module.exports = function (grunt) {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
+                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''}
-
                 ]
             },
             livereload: {
                 src: ['dist/index.html'],
                 overwrite: true,
                 replacements: [
-                    {from: '<!--@@livereload-->', to: '<script src="http://localhost:<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
+                    {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
+                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
                 ]
             }
         },

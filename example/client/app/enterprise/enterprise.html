@@ -1,5 +1,5 @@
 <style>
-   .alert h4{
+    .alert h4{
         margin-top:30px;
         margin-bottom:10px;
     }
@@ -147,88 +147,88 @@
 <!-- ------------- -->
 <h1 ng-init="ButtonsIsCollapsed = true" ng-click="ButtonsIsCollapsed = !ButtonsIsCollapsed" style="text-align:center;cursor:pointer;">Buttons, Radios, Checkboxes</h1>
 <div collapse="ButtonsIsCollapsed">
-        <div style="display:table;width:100%;">
-            <div style="display:table-row;">
-                <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                    <h3>UI Bootstrap - Buttons</h3>
-                    <h3>UI Bootstrap - Radios</h3>
-                    <h3>UI Bootstrap - Checkboxes</h3>
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Buttons</h3>
+                <h3>UI Bootstrap - Radios</h3>
+                <h3>UI Bootstrap - Checkboxes</h3>
 
-                    <!-- Example Begin-->
-                    <div ng-controller="ButtonsCtrl">
-                        <h4>Single toggle</h4>
-                        <pre>{{singleModel}}</pre>
-                        <button type="button" class="btn" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
-                            Single Toggle
-                        </button>
-                        <h4>Checkbox</h4>
-                        <pre>{{checkbox}}</pre>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn" ng-model="checkbox.left" btn-checkbox>Left</button>
-                            <button type="button" class="btn" ng-model="checkbox.middle" btn-checkbox>Middle</button>
-                            <button type="button" class="btn" ng-model="checkbox.right" btn-checkbox>Right</button>
-                        </div>
-                        <h4>Radio Single Model</h4>
-                        <pre>{{radioModel}}</pre>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Left'">Left</button>
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Middle'">Middle</button>
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Right'">Right</button>
-                        </div>
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{singleModel}}</pre>
+                    <button type="button" class="btn" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                        Single Toggle
+                    </button>
+                    <h4>Checkbox</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="checkbox.left" btn-checkbox>Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle" btn-checkbox>Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right" btn-checkbox>Right</button>
                     </div>
-                    <!-- Example End-->
-
-                </div>
-                <div style="display:table-cell;width:0.5%"></div>
-                <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                    <h3>AngularUI - Buttons</h3>
-                    <h3>AngularUI - Radios</h3>
-                    <h3>AngularUI - Checkboxes</h3>
-                    <p>Gibts leider noch nicht</p>
-                </div>
-                <div style="display:table-cell;width:0.5%"></div>
-                <div style="display:table-cell;width:33%;" class="alert alert-success">
-                    <h3>AngularStrap - Buttons</h3>
-                    <h3>AngularStrap - Radios</h3>
-                    <h3>AngularStrap - Checkboxes</h3>
-
-                    <!-- Example Begin-->
-                    <div ng-controller="ButtonsCtrl">
-                        <h4>Single toggle</h4>
-                        <pre>{{button.active}}</pre>
-                        <button type="button" class="btn" ng-model="button.active" bs-button>Toogle me!</button>
-                        <h4>Checkboxes</h4>
-                        <pre>{{checkbox}}</pre>
-                        <div class="btn-group" bs-buttons-checkbox>
-                            <button type="button" class="btn" ng-model="checkbox.left">Left</button>
-                            <button type="button" class="btn" ng-model="checkbox.middle">Middle</button>
-                            <button type="button" class="btn" ng-model="checkbox.right">Right</button>
-                        </div>
-                        <h4>Radios Single Model</h4>
-                        <pre>{{radioModel}}</pre>
-                        <div class="btn-group" ng-model="radioModel" bs-buttons-radio>
-                            <button type="button" class="btn" value="Left">Left</button>
-                            <button type="button" class="btn" value="Middle">Middle</button>
-                            <button type="button" class="btn" value="Right">Right</button>
-                        </div>
-                        <h4>Radios</h4>
-                        <pre>{{radio}}</pre>
-                        <div class="btn-group" bs-buttons-radio>
-                            <button type="button" class="btn" ng-model="radio.left">Left</button>
-                            <button type="button" class="btn" ng-model="radio.middle">Middle</button>
-                            <button type="button" class="btn" ng-model="radio.right">Right</button>
-                        </div>
-                        <h4>Button Select</h4>
-                        <div class="input-append">
-                            <input type="text" ng-model="buttonSelect.price">
-                            <button type="button"class="btn" ng-model="buttonSelect.currency" bs-button-select="['$', '€', '¥']"></button>
-                        </div>
+                    <h4>Radio Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Left'">Left</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Middle'">Middle</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Right'">Right</button>
                     </div>
-                    <!-- Example End-->
-
                 </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Buttons</h3>
+                <h3>AngularUI - Radios</h3>
+                <h3>AngularUI - Checkboxes</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Buttons</h3>
+                <h3>AngularStrap - Radios</h3>
+                <h3>AngularStrap - Checkboxes</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{button.active}}</pre>
+                    <button type="button" class="btn" ng-model="button.active" bs-button>Toogle me!</button>
+                    <h4>Checkboxes</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" bs-buttons-checkbox>
+                        <button type="button" class="btn" ng-model="checkbox.left">Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right">Right</button>
+                    </div>
+                    <h4>Radios Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" ng-model="radioModel" bs-buttons-radio>
+                        <button type="button" class="btn" value="Left">Left</button>
+                        <button type="button" class="btn" value="Middle">Middle</button>
+                        <button type="button" class="btn" value="Right">Right</button>
+                    </div>
+                    <h4>Radios</h4>
+                    <pre>{{radio}}</pre>
+                    <div class="btn-group" bs-buttons-radio>
+                        <button type="button" class="btn" ng-model="radio.left">Left</button>
+                        <button type="button" class="btn" ng-model="radio.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="radio.right">Right</button>
+                    </div>
+                    <h4>Button Select</h4>
+                    <div class="input-append">
+                        <input type="text" ng-model="buttonSelect.price">
+                        <button type="button"class="btn" ng-model="buttonSelect.currency" bs-button-select="['$', '€', '¥']"></button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
             </div>
         </div>
+    </div>
 </div>
 
 <hr>
@@ -335,7 +335,7 @@
 
                 <!-- Example Begin-->
                 <h4>ModalPopup mit Template (Dialog)</h4>
-               <div ng-controller="DialogDemoCtrl">
+                <div ng-controller="DialogDemoCtrl">
                     <div class="row-fluid">
                         <div class="span6">
                             <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
@@ -384,11 +384,11 @@
 
                 <!-- Example Begin-->
                 <!--<div ng-controller="StrapDialogController">-->
-                    <!-- Button to trigger modal -->
-                    <h4>Modal mit Template</h4>
-                    <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
-                    <h4>Modal mit Template aber als Injekteter Service</h4>
-                    <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
+                <!-- Button to trigger modal -->
+                <h4>Modal mit Template</h4>
+                <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
+                <h4>Modal mit Template aber als Injekteter Service</h4>
+                <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
 
                 <!--</div>-->
                 <!-- Example End-->
@@ -455,7 +455,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn" ng-click="action()">ClickMe</button>
                         <button type="button" class="btn" bs-dropdown="dropdown">
-                        <span class="caret"></span>
+                            <span class="caret"></span>
                         </button>
                     </div>
                 </div>
