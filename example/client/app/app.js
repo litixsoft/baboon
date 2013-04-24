@@ -4,6 +4,7 @@ angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'en
         $routeProvider.otherwise({redirectTo: '/'});
     })
     .factory('socket', function ($rootScope) {
+
         var socket = io.connect();
 
         return {

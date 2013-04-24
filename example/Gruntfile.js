@@ -44,7 +44,8 @@ module.exports = function (grunt) {
                 browser: true,
                 node: true,
                 globals: {
-                    angular: true
+                    angular: true,
+                    io: true
                 }
             }
         },
