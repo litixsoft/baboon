@@ -201,12 +201,16 @@ angular.module('enterprise', [
             controller: 'TestDialogController'
         };
 
+        $scope.message = '';
+        $scope.message2 = '';
+
         $scope.openDialog = function(){
             var d = $dialog.dialog($scope.opts);
             d.open().then(function(result){
                 if(result)
                 {
-                    alert('dialog closed with result: ' + result);
+                    $scope.message = result ;
+                    //alert('dialog closed with result: ' + result);
                 }
             });
         };
@@ -219,7 +223,8 @@ angular.module('enterprise', [
             $dialog.messageBox(title, msg, btns)
                 .open()
                 .then(function(result){
-                    alert('dialog closed with result: ' + result);
+                    $scope.message2 = result ;
+                    //alert('dialog closed with result: ' + result);
                 });
         };
     }])
@@ -279,8 +284,10 @@ angular.module('enterprise', [
             'And another choice for you.',
             'but wait! A third!'
         ];
+        $scope.message = '';
         $scope.action = function(){
-            alert('Klick');
+            //alert('Klick');
+            $scope.message = 'Klick';
         };
         $scope.dropdown = [
             {
@@ -365,11 +372,6 @@ angular.module('enterprise', [
         $scope.selected = undefined;
         $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
-        $scope.typeaheadFn = function(query) {
-            return $.map($scope.typeahead, function(country) {
-                return country + '_1';
-            });
-        };
         $scope.typeaheadFn = function(query, callback) {
            // $http.get('/stations/autocomplete?term='+query).success(function(stations) {
             callback($scope.states); // This will automatically open the popup with retrieved results
