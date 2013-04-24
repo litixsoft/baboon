@@ -4,10 +4,10 @@ angular.module('blog', [])
     })
     .controller('fooCtrl', ['$scope', 'enterpriseCrew', 'socket', function ($scope, enterpriseCrew, socket) {
         $scope.enterpriseCrew = enterpriseCrew;
-        socket.on('send:name', function (data) {
-            $scope.name = data.name;
-        });
-        socket.on('send:time', function (data) {
-            $scope.time = data.time;
-        });
+
+        $scope.send = function () {
+            socket.emit('send:test', {name:'Timo Liebetrau'}, function (data) {
+                $scope.serverRequest = data;
+            });
+        };
     }]);

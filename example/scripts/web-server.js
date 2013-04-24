@@ -8,7 +8,6 @@ var path = require('path'),
     config = server.config;
 
 io.sockets.on('connection', function (client) {
-    'use strict';
 
     client.on('message', function(message) {
         console.log(message);
@@ -18,15 +17,11 @@ io.sockets.on('connection', function (client) {
         console.log('client: ' + client.id + ' disconnected');
     });
 
-    client.emit('send:name', {
-        name: 'Bob'
+    client.on('send:test', function (data, callback) {
+        var end = new Date().toTimeString();
+        var res = {fromClient: data, fromServer: end};
+        callback(res);
     });
-
-    setInterval(function () {
-        client.emit('send:time', {
-            time: (new Date()).toString()
-        });
-    }, 5000);
 });
 
 server.start();
