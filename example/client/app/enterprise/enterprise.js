@@ -13,11 +13,13 @@ angular.module('enterprise', [
 /**
  * Enterprise controller
  */
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope) {
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
 //        $scope.alerts = [
 //            { type: 'error', msg: 'Oh snap! Change a few things up and try submitting again.' },
 //            { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
 //        ];
+
+        $scope.enterpriseCrew = enterpriseCrew;
 
         $scope.open = function () {
             $scope.shouldBeOpen = true;
@@ -344,6 +346,34 @@ angular.module('enterprise', [
 
         $scope.dynamicTooltip = "Hello, World!";
         $scope.dynamicTooltipText = "dynamic";
+
+
+        $scope.checked = false;
+        $scope.tooltip = {
+            "title": "Hello Tooltip<br />Haken ist gesetzt:"
+             //"checked": false
+        }
+
+    }])
+
+/**
+ * Enterprise edit controller
+ */
+    .controller('TypeaheadCtrl', ['$scope', function ($scope) {
+
+        $scope.selected = undefined;
+        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+        $scope.typeaheadFn = function(query) {
+            return $.map($scope.typeahead, function(country) {
+                return country + '_1';
+            });
+        }
+        $scope.typeaheadFn = function(query, callback) {
+           // $http.get('/stations/autocomplete?term='+query).success(function(stations) {
+                callback($scope.states); // This will automatically open the popup with retrieved results
+           // });
+        }
     }])
 
 
@@ -351,9 +381,9 @@ angular.module('enterprise', [
 /**
  * Enterprise edit controller
  */
-    .controller('editCtrl', ['$scope', '$location', '$routeParams', function ($scope, $location, $routeParams) {
+    .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', function ($scope, $location, $routeParams, enterpriseCrew) {
 
-        $scope.person = $scope.enterpriseCrew[$routeParams.id];
+        $scope.person = enterpriseCrew[$routeParams.id];
         $scope.save = function () {
             $location.path('/');
         };
@@ -361,10 +391,10 @@ angular.module('enterprise', [
 /**
  * Enterprise new controller
  */
-    .controller('newCtrl', ['$scope', '$location', function ($scope, $location) {
+    .controller('newCtrl', ['$scope', '$location','enterpriseCrew', function ($scope, $location, enterpriseCrew) {
         $scope.person = {name: '', description: ''};
         $scope.save = function () {
-            $scope.enterpriseCrew.push($scope.person);
+            enterpriseCrew.push($scope.person);
             $location.path('/');
         };
     }]);

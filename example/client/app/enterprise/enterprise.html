@@ -1,8 +1,12 @@
 <style>
-   .alert h4{
+    .alert h4{
         margin-top:30px;
         margin-bottom:10px;
     }
+    .notCollapsed.collapse{
+        overflow:visible;
+    }
+
 </style>
 <h2>Enterprise</h2>
 <table class="table table-striped">
@@ -143,88 +147,88 @@
 <!-- ------------- -->
 <h1 ng-init="ButtonsIsCollapsed = true" ng-click="ButtonsIsCollapsed = !ButtonsIsCollapsed" style="text-align:center;cursor:pointer;">Buttons, Radios, Checkboxes</h1>
 <div collapse="ButtonsIsCollapsed">
-        <div style="display:table;width:100%;">
-            <div style="display:table-row;">
-                <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                    <h3>UI Bootstrap - Buttons</h3>
-                    <h3>UI Bootstrap - Radios</h3>
-                    <h3>UI Bootstrap - Checkboxes</h3>
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Buttons</h3>
+                <h3>UI Bootstrap - Radios</h3>
+                <h3>UI Bootstrap - Checkboxes</h3>
 
-                    <!-- Example Begin-->
-                    <div ng-controller="ButtonsCtrl">
-                        <h4>Single toggle</h4>
-                        <pre>{{singleModel}}</pre>
-                        <button type="button" class="btn" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
-                            Single Toggle
-                        </button>
-                        <h4>Checkbox</h4>
-                        <pre>{{checkbox}}</pre>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn" ng-model="checkbox.left" btn-checkbox>Left</button>
-                            <button type="button" class="btn" ng-model="checkbox.middle" btn-checkbox>Middle</button>
-                            <button type="button" class="btn" ng-model="checkbox.right" btn-checkbox>Right</button>
-                        </div>
-                        <h4>Radio Single Model</h4>
-                        <pre>{{radioModel}}</pre>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Left'">Left</button>
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Middle'">Middle</button>
-                            <button type="button" class="btn" ng-model="radioModel" btn-radio="'Right'">Right</button>
-                        </div>
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{singleModel}}</pre>
+                    <button type="button" class="btn" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                        Single Toggle
+                    </button>
+                    <h4>Checkbox</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="checkbox.left" btn-checkbox>Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle" btn-checkbox>Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right" btn-checkbox>Right</button>
                     </div>
-                    <!-- Example End-->
-
-                </div>
-                <div style="display:table-cell;width:0.5%"></div>
-                <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                    <h3>AngularUI - Buttons</h3>
-                    <h3>AngularUI - Radios</h3>
-                    <h3>AngularUI - Checkboxes</h3>
-                    <p>Gibts leider noch nicht</p>
-                </div>
-                <div style="display:table-cell;width:0.5%"></div>
-                <div style="display:table-cell;width:33%;" class="alert alert-success">
-                    <h3>AngularStrap - Buttons</h3>
-                    <h3>AngularStrap - Radios</h3>
-                    <h3>AngularStrap - Checkboxes</h3>
-
-                    <!-- Example Begin-->
-                    <div ng-controller="ButtonsCtrl">
-                        <h4>Single toggle</h4>
-                        <pre>{{button.active}}</pre>
-                        <button type="button" class="btn" ng-model="button.active" bs-button>Toogle me!</button>
-                        <h4>Checkboxes</h4>
-                        <pre>{{checkbox}}</pre>
-                        <div class="btn-group" bs-buttons-checkbox>
-                            <button type="button" class="btn" ng-model="checkbox.left">Left</button>
-                            <button type="button" class="btn" ng-model="checkbox.middle">Middle</button>
-                            <button type="button" class="btn" ng-model="checkbox.right">Right</button>
-                        </div>
-                        <h4>Radios Single Model</h4>
-                        <pre>{{radioModel}}</pre>
-                        <div class="btn-group" ng-model="radioModel" bs-buttons-radio>
-                            <button type="button" class="btn" value="Left">Left</button>
-                            <button type="button" class="btn" value="Middle">Middle</button>
-                            <button type="button" class="btn" value="Right">Right</button>
-                        </div>
-                        <h4>Radios</h4>
-                        <pre>{{radio}}</pre>
-                        <div class="btn-group" bs-buttons-radio>
-                            <button type="button" class="btn" ng-model="radio.left">Left</button>
-                            <button type="button" class="btn" ng-model="radio.middle">Middle</button>
-                            <button type="button" class="btn" ng-model="radio.right">Right</button>
-                        </div>
-                        <h4>Button Select</h4>
-                        <div class="input-append">
-                            <input type="text" ng-model="buttonSelect.price">
-                            <button type="button"class="btn" ng-model="buttonSelect.currency" bs-button-select="['$', '€', '¥']"></button>
-                        </div>
+                    <h4>Radio Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Left'">Left</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Middle'">Middle</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Right'">Right</button>
                     </div>
-                    <!-- Example End-->
-
                 </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Buttons</h3>
+                <h3>AngularUI - Radios</h3>
+                <h3>AngularUI - Checkboxes</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Buttons</h3>
+                <h3>AngularStrap - Radios</h3>
+                <h3>AngularStrap - Checkboxes</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{button.active}}</pre>
+                    <button type="button" class="btn" ng-model="button.active" bs-button>Toogle me!</button>
+                    <h4>Checkboxes</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" bs-buttons-checkbox>
+                        <button type="button" class="btn" ng-model="checkbox.left">Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right">Right</button>
+                    </div>
+                    <h4>Radios Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" ng-model="radioModel" bs-buttons-radio>
+                        <button type="button" class="btn" value="Left">Left</button>
+                        <button type="button" class="btn" value="Middle">Middle</button>
+                        <button type="button" class="btn" value="Right">Right</button>
+                    </div>
+                    <h4>Radios</h4>
+                    <pre>{{radio}}</pre>
+                    <div class="btn-group" bs-buttons-radio>
+                        <button type="button" class="btn" ng-model="radio.left">Left</button>
+                        <button type="button" class="btn" ng-model="radio.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="radio.right">Right</button>
+                    </div>
+                    <h4>Button Select</h4>
+                    <div class="input-append">
+                        <input type="text" ng-model="buttonSelect.price">
+                        <button type="button"class="btn" ng-model="buttonSelect.currency" bs-button-select="['$', '€', '¥']"></button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
             </div>
         </div>
+    </div>
 </div>
 
 <hr>
@@ -331,7 +335,7 @@
 
                 <!-- Example Begin-->
                 <h4>ModalPopup mit Template (Dialog)</h4>
-               <div ng-controller="DialogDemoCtrl">
+                <div ng-controller="DialogDemoCtrl">
                     <div class="row-fluid">
                         <div class="span6">
                             <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
@@ -380,11 +384,11 @@
 
                 <!-- Example Begin-->
                 <!--<div ng-controller="StrapDialogController">-->
-                    <!-- Button to trigger modal -->
-                    <h4>Modal mit Template</h4>
-                    <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
-                    <h4>Modal mit Template aber als Injekteter Service</h4>
-                    <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
+                <!-- Button to trigger modal -->
+                <h4>Modal mit Template</h4>
+                <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
+                <h4>Modal mit Template aber als Injekteter Service</h4>
+                <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
 
                 <!--</div>-->
                 <!-- Example End-->
@@ -399,8 +403,8 @@
 <!--*  Dropdowns    *-->
 <!-- ------------- -->
 <h1 ng-init="DropdownsIsCollapsed = true" ng-click="DropdownsIsCollapsed = !DropdownsIsCollapsed" style="text-align:center;cursor:pointer;">Dropdowns</h1>
-<div collapse="DropdownsIsCollapsed">
-    <div style="display:table;width:100%;height:250px;">
+<div collapse="DropdownsIsCollapsed" ng-class="{notCollapsed: !DropdownsIsCollapsed}">
+    <div style="display:table;width:100%;">
         <div style="display:table-row;">
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
                 <h3>UI Bootstrap - Dropdowns</h3>
@@ -451,7 +455,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn" ng-click="action()">ClickMe</button>
                         <button type="button" class="btn" bs-dropdown="dropdown">
-                        <span class="caret"></span>
+                            <span class="caret"></span>
                         </button>
                     </div>
                 </div>
@@ -636,23 +640,17 @@
 
                 <!-- Example Begin-->
                 <div ng-controller="TooltipDemoCtrl">
+                    <h1>Läuft noch nicht!!!!</h1>
                     <div class="well">
                         <div>Dynamic Tooltip Text: <input type="text" ng-model="dynamicTooltipText"></div>
                         <div>Dynamic Tooltip Popup Text: <input type="text" ng-model="dynamicTooltip"></div>
-                        <p>
-                            d<a><span tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</span></a>,
-                            sit amet venenatis urna cursus eget nunc scelerisque viverra mauris, in
-                            aliquam. Tincidunt lobortis feugiat vivamus at
-                            <a><span tooltip-placement="left" tooltip="On the Left!">left</span></a> eget
-                            arcu dictum varius duis at consectetur lorem. Vitae elementum curabitur
-                            <a><span tooltip-placement="right" tooltip="On the Right!">right</span></a>
-                            nunc sed velit dignissim sodales ut eu sem integer vitae. Turpis egestas
-                            <a><span tooltip-placement="bottom" tooltip="On the Bottom!">bottom</span></a>
-                            pharetra convallis posuere morbi leo urna,
-                            <a><span tooltip-animation="true" tooltip="I fade in and out!">fading</span></a>
-                            at elementum eu, facilisis sed odio morbi quis commodo odio. In cursus
-                            turpis massa tincidunt dui ut.
-                        </p>
+                        <ul>
+                            <li>Dynamisch: <a><span tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</span></a></li>
+                            <li>Position (links): <a><span tooltip-placement="left" tooltip="On the Left!">left</span></a></li>
+                            <li>Position (rechts): <a><span tooltip-placement="right" tooltip="On the Right!">right</span></a></li>
+                            <li>Position (unten): <a><span tooltip-placement="bottom" tooltip="On the Bottom!">bottom</span></a></li>
+                            <li>Einblenden: <a><span tooltip-animation="true" tooltip="I fade in and out!">fading</span></a></li>
+                        </ul>
                     </div>
                 </div>
                 <!-- Example End-->
@@ -668,7 +666,16 @@
                 <h3>AngularStrap - Tooltip</h3>
 
                 <!-- Example Begin-->
-
+                <div ng-controller="TooltipDemoCtrl">
+                    <!-- Basic tooltip on hover -->
+                    <p>Ganz normaler <a href="#" bs-tooltip="tooltip.title">Tooltip</a> im text</p>
+                    <!-- Button to trigger tooltip on click -->
+                    <p>Getriggerter und stehenbleibender <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title">Tooltip</button></p>
+                    <!-- Force close others with data-unique attribute -->
+                    <p>Schließt alle anderen Tooltips onFocus <input type="text" data-trigger="focus" data-unique="1" bs-tooltip="tooltip.title"/></p>
+                    <!-- Two-way databinding -->
+                    <p>Mit Two-Way-Databinding <input type="checkbox" ng-model="checked" bs-tooltip="tooltip.title+checked"/></p>
+                </div>
                 <!-- Example End-->
 
             </div>
@@ -678,14 +685,69 @@
 
 <hr>
 <!-- ------------- -->
-<!--*  Test    *-->
+<!--*  Typeahead     *-->
 <!-- ------------- -->
-<h1 ng-init="TestIsCollapsed = false" ng-click="TestIsCollapsed = !TestIsCollapsed" style="text-align:center;cursor:pointer;">Buttons, Radios, Checkboxes</h1>
+<h1 ng-init="TypeaheadIsCollapsed = false" ng-click="TypeaheadIsCollapsed = !TypeaheadIsCollapsed" style="text-align:center;cursor:pointer;">Typeahead</h1>
+<div collapse="TypeaheadIsCollapsed" ng-class="{notCollapsed: !TypeaheadIsCollapsed}">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <div class='container-fluid' ng-controller="TypeaheadCtrl">
+                    <pre>Model: {{selected| json}}</pre>
+                    <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue">
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <h4>Link noch nicht möglich</h4><p>http://ivaynberg.github.com/select2/select2-3.2/select2.js</p>
+                <!--<p>Value is: {{select2}} <a ng-click="select2='two'">(choose second)</a></p>-->
+                <!--<select ui-select2 ng-model="select2">-->
+                    <!--<option value="">Pick a number</option>-->
+                    <!--<option value="one">First</option>-->
+                    <!--<option value="two">Second</option>-->
+                    <!--<option value="three">Third</option>-->
+                <!--</select>-->
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <div class='container-fluid' ng-controller="TypeaheadCtrl">
+                    <p>Mit data-min-length=0 wird Dropdown sofort geöffnet <input type="text" ng-model="typeaheadValue" data-min-length="0" bs-typeahead="states"></p>
+
+                    <!-- You can also use a function -->
+                    <p><ul><li>Mit data-min-length > 0 wird Dropdown nach Eingabe der ersten n Buchstaben geöffnet</li>
+                        <li>Daten Asnychron holen</li></ul>
+                        <input type="text" ng-model="typeaheadValue" bs-typeahead="typeaheadFn"></p>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Example    *-->
+<!-- ------------- -->
+<h1 ng-init="TestIsCollapsed = false" ng-click="TestIsCollapsed = !TestIsCollapsed" style="text-align:center;cursor:pointer;">Example</h1>
 <div collapse="TestIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                <h3>UI Bootstrap - Buttons</h3>
+                <h3>UI Bootstrap - Example</h3>
 
                 <!-- Example Begin-->
 
@@ -694,12 +756,12 @@
             </div>
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                <h3>AngularUI - Buttons</h3>
+                <h3>AngularUI - Example</h3>
                 <p>Gibts leider noch nicht</p>
             </div>
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-success">
-                <h3>AngularStrap - Buttons</h3>
+                <h3>AngularStrap - Example</h3>
 
                 <!-- Example Begin-->
 
@@ -747,6 +809,7 @@
         </div>
     </div>
 </div>
+
 <hr>
 <h3>AngularUI - CodeMirror</h3>
 <textarea ui-codemirror="{theme:'monokai'}" ng-model="codeMirrorModel"></textarea>
