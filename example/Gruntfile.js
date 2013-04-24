@@ -91,8 +91,8 @@ module.exports = function (grunt) {
 
                         'vendor/angular/angular.min.js',
                         'vendor/bootstrap/js/bootstrap.min.js',
-//                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',//Achtung Datei geändert wegen $dialog dopplet belegt ist
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js',
+//                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',//Achtung Datei geändert wegen $dialog dopplet belegt ist
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
 
                         'vendor/angular-ui/js/angular-ui.min.js',
