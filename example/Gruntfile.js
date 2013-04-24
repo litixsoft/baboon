@@ -95,7 +95,7 @@ module.exports = function (grunt) {
                         'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',//Achtung Datei geändert wegen $dialog dopplet belegt ist
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
 
-                        'vendor/angular-ui/build/angular-ui.min.js',
+                        'vendor/angular-ui/js/angular-ui.min.js',
 
                         'vendor/angular-strap/angular-strap.js',
                         'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js'
@@ -112,7 +112,7 @@ module.exports = function (grunt) {
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
                         //AngularUI
-                        'vendor/angular-ui/build/angular-ui.min.css',
+                        'vendor/angular-ui/js/angular-ui.min.css',
                         'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
                         'vendor/jquery-codemirror/codemirror.css',
                         'vendor/jquery-codemirror/theme/monokai.css',
