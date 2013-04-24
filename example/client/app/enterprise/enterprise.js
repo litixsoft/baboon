@@ -13,11 +13,13 @@ angular.module('enterprise', [
 /**
  * Enterprise controller
  */
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope) {
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
 //        $scope.alerts = [
 //            { type: 'error', msg: 'Oh snap! Change a few things up and try submitting again.' },
 //            { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
 //        ];
+
+        $scope.enterpriseCrew = enterpriseCrew;
 
         $scope.open = function () {
             $scope.shouldBeOpen = true;
