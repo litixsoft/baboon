@@ -1,0 +1,785 @@
+<style>
+    .alert h4{
+        margin-top:30px;
+        margin-bottom:10px;
+    }
+    .notCollapsed.collapse{
+        overflow:visible;
+    }
+
+</style>
+<h2>{{title}}</h2>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Accordion  *-->
+<!-- ------------- -->
+<h1 ng-init="AccordionIsCollapsed = true" ng-click="AccordionIsCollapsed = !AccordionIsCollapsed" style="text-align:center;cursor:pointer;">Accordion</h1>
+<div collapse="AccordionIsCollapsed" >
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Accordion</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="AccordionDemoCtrl" style="background:#f9f9f9;padding:10px">
+                    <label class="checkbox">
+                        <input type="checkbox" ng-model="oneAtATime">
+                        Open only one at a time
+                    </label>
+                    <accordion close-others="oneAtATime">
+                        <accordion-group heading="Static Header">
+                            This content is straight in the template.
+                        </accordion-group>
+                        <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+                            {{group.content}}
+                        </accordion-group>
+                        <accordion-group heading="Dynamic Body Content">
+                            <p>The body of the accordion group grows to fit the contents</p>
+                            <button class="btn btn-small" ng-click="addItem()">Add Item</button>
+                            <div ng-repeat="item in items">{{item}}</div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Accordion</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Accordion</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Alerts     *-->
+<!-- ------------- -->
+<h1 ng-init="AlertsIsCollapsed = true" ng-click="AlertsIsCollapsed = !AlertsIsCollapsed" style="text-align:center;cursor:pointer;">Alerts</h1>
+<div collapse="AlertsIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Alerts</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="AlertsCtrl">
+                    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.content}}</alert>
+                    <button class='btn' ng-click="addAlert()">Add Alert</button>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Alerts</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Alerts</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="AlertsCtrl">
+                    <!-- Basic static alert (default bootstrap behavior) -->
+                    <div class="alert fade" bs-alert><strong>Hey!</strong> This is a static alert.</div>
+
+                    <!-- Alert bound to an object (alert.closed is set to true on close) -->
+                    <!--<div class="alert fade" bs-alert="alert"></div>-->
+
+                    <!-- Use an array stack (alert is removed from the stack on close) -->
+                    <div class="alerts">
+                        <div class="alert fade" ng-repeat="alert in alerts" bs-alert="alert"></div>
+                    </div>
+                    <button class='btn' ng-click="addAlert()">Add Alert</button>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Buttons    *-->
+<!-- ------------- -->
+<h1 ng-init="ButtonsIsCollapsed = true" ng-click="ButtonsIsCollapsed = !ButtonsIsCollapsed" style="text-align:center;cursor:pointer;">Buttons, Radios, Checkboxes</h1>
+<div collapse="ButtonsIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Buttons</h3>
+                <h3>UI Bootstrap - Radios</h3>
+                <h3>UI Bootstrap - Checkboxes</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{singleModel}}</pre>
+                    <button type="button" class="btn" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                        Single Toggle
+                    </button>
+                    <h4>Checkbox</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="checkbox.left" btn-checkbox>Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle" btn-checkbox>Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right" btn-checkbox>Right</button>
+                    </div>
+                    <h4>Radio Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Left'">Left</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Middle'">Middle</button>
+                        <button type="button" class="btn" ng-model="radioModel" btn-radio="'Right'">Right</button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Buttons</h3>
+                <h3>AngularUI - Radios</h3>
+                <h3>AngularUI - Checkboxes</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Buttons</h3>
+                <h3>AngularStrap - Radios</h3>
+                <h3>AngularStrap - Checkboxes</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ButtonsCtrl">
+                    <h4>Single toggle</h4>
+                    <pre>{{button.active}}</pre>
+                    <button type="button" class="btn" ng-model="button.active" bs-button>Toogle me!</button>
+                    <h4>Checkboxes</h4>
+                    <pre>{{checkbox}}</pre>
+                    <div class="btn-group" bs-buttons-checkbox>
+                        <button type="button" class="btn" ng-model="checkbox.left">Left</button>
+                        <button type="button" class="btn" ng-model="checkbox.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="checkbox.right">Right</button>
+                    </div>
+                    <h4>Radios Single Model</h4>
+                    <pre>{{radioModel}}</pre>
+                    <div class="btn-group" ng-model="radioModel" bs-buttons-radio>
+                        <button type="button" class="btn" value="Left">Left</button>
+                        <button type="button" class="btn" value="Middle">Middle</button>
+                        <button type="button" class="btn" value="Right">Right</button>
+                    </div>
+                    <h4>Radios</h4>
+                    <pre>{{radio}}</pre>
+                    <div class="btn-group" bs-buttons-radio>
+                        <button type="button" class="btn" ng-model="radio.left">Left</button>
+                        <button type="button" class="btn" ng-model="radio.middle">Middle</button>
+                        <button type="button" class="btn" ng-model="radio.right">Right</button>
+                    </div>
+                    <h4>Button Select</h4>
+                    <div class="input-append">
+                        <input type="text" ng-model="buttonSelect.price">
+                        <button type="button"class="btn" ng-model="buttonSelect.currency" bs-button-select="['$', '€', '¥']"></button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Carousel   *-->
+<!-- ------------- -->
+<h1 ng-init="CarouselIsCollapsed = true" ng-click="CarouselIsCollapsed = !CarouselIsCollapsed" style="text-align:center;cursor:pointer;">Carousel</h1>
+<div collapse="CarouselIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Carousel</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="CarouselDemoCtrl">
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active">
+                            <img ng-src="{{slide.image}}" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h4>Slide {{$index}}</h4>
+                                <p>{{slide.text}}</p>
+                            </div>
+                        </slide>
+                    </carousel>
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <ul>
+                                <li ng-repeat="slide in slides">
+                                    <button class="btn btn-mini" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true">select</button>
+                                    {{$index}}: {{slide.text}}
+                                </li>
+                            </ul>
+                            <a class="btn" ng-click="addSlide()">Add Slide</a>
+                        </div>
+                        <div class="span6">
+                            Interval, in milliseconds: <input type="number" ng-model="myInterval">
+                            <br />Enter a negative number to stop the interval.
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Carousel</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Carousel</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Collapse   *-->
+<!-- ------------- -->
+<h1 ng-init="CollapseIsCollapsed = true" ng-click="CollapseIsCollapsed = !CollapseIsCollapsed" style="text-align:center;cursor:pointer;">Collapse</h1>
+<div collapse="CollapseIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Collapse</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="CollapseDemoCtrl">
+                    <button class="btn" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+                    <hr>
+                    <div collapse="isCollapsed">
+                        <div class="well well-large">Some content</div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Collapse</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Collapse</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Modal Dialogs MsgBoxes   *-->
+<!-- ------------- -->
+<h1 ng-init="DialogIsCollapsed = true" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="text-align:center;cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
+<div collapse="DialogIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Modal Dialogs MsgBoxes</h3>
+
+                <!-- Example Begin-->
+                <h4>ModalPopup mit Template (Dialog)</h4>
+                <div ng-controller="DialogDemoCtrl">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
+                            <label class="checkbox"><input type=checkbox ng-model="opts.dialogFade">Fade modal dialog </label>
+                            <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropFade">Fade Backdrop</label>
+                            <label class="checkbox"><input type=checkbox ng-model="opts.keyboard">Close on Escape</label>
+                            <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropClick">Close on backdrop click</label>
+                        </div>
+                        <div class="span6">
+                            <p>Change options at will and press the open dialog button below!</p>
+                            <p>dialog closed with result: <strong ng-bind="message"></strong></p>
+                            <p><button class="btn" ng-click="openDialog()">Open Dialog</button></p>
+
+                            <p>Alternatively open a simple message box:</p>
+                            <p>dialog closed with result: <strong ng-bind="message2"></strong></p>
+                            <p><button class="btn" ng-click="openMessageBox()">Open Message Box</button></p>
+                        </div>
+                    </div>
+                </div>
+                <h4>ModalPopup HTML bereits im DOM (Modal)</h4>
+                <div ng-controller="ModalDemoCtrl">
+                    <button class="btn" ng-click="open()">Open Modal</button>
+                    <div modal="shouldBeOpen" close="close()" options="opts">
+                        <div class="modal-header">
+                            <h4>I'm a modal!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li ng-repeat="item in items">{{item}}</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Modal Dialogs MsgBoxes</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Modal Dialogs MsgBoxes</h3>
+
+                <!-- Example Begin-->
+                <!--<div ng-controller="StrapDialogController">-->
+                <!-- Button to trigger modal -->
+                <h4>Modal mit Template</h4>
+                <button type="button" class="btn" bs-modal="'enterprise/popup.html'"  ng-controller="StrapDialogController">Modal</button>
+                <h4>Modal mit Template aber als Injekteter Service</h4>
+                <button type="button" class="btn" ng-click="viaService()" ng-controller="StrapDialogController">With $modal service</button>
+
+                <!--</div>-->
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Dropdowns    *-->
+<!-- ------------- -->
+<h1 ng-init="DropdownsIsCollapsed = true" ng-click="DropdownsIsCollapsed = !DropdownsIsCollapsed" style="text-align:center;cursor:pointer;">Dropdowns</h1>
+<div collapse="DropdownsIsCollapsed" ng-class="{notCollapsed: !DropdownsIsCollapsed}">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Dropdowns</h3>
+                <p>geht nur mit A-Links </p>
+                <!-- Example Begin-->
+                <li class="dropdown" ng-controller="DropdownCtrl">
+                    <a class="dropdown-toggle">
+                        Click me for a dropdown, yo!
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="choice in items">
+                            <a>{{choice}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <div class="dropdown" ng-controller="DropdownCtrl">
+                    <a class="dropdown-toggle">
+                        Click me for a dropdown, yo!
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="choice in items">
+                            <a>{{choice}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Dropdowns</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Dropdowns</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="DropdownCtrl">
+                    <!-- Button to trigger dropdown -->
+                    <div class="btn-group">
+                        <button type="button" class="btn" bs-dropdown="dropdown">DropMeDown</button>
+                    </div>
+
+                    <!--<a bs-dropdown="dropdown">DropMeDown</a>-->
+
+                    <!-- Separated button -->
+                    <p>Message: <span ng-bind="message"></span></p>
+                    <div class="btn-group">
+                        <button type="button" class="btn" ng-click="action()">ClickMe</button>
+                        <button type="button" class="btn" bs-dropdown="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Pagination    *-->
+<!-- ------------- -->
+<h1 ng-init="PaginationIsCollapsed = true" ng-click="PaginationIsCollapsed = !PaginationIsCollapsed" style="text-align:center;cursor:pointer;">Pagination</h1>
+<div collapse="PaginationIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>UI Bootstrap - Pagination</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PaginationDemoCtrl">
+                    <pagination num-pages="noOfPages" current-page="currentPage"></pagination>
+                    <pagination num-pages="noOfPages" current-page="currentPage" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" num-pages="noOfPages" current-page="currentPage" max-size="maxSize"></pagination>
+                    <pagination num-pages="noOfPages" current-page="currentPage"  max-size="maxSize"></pagination>
+                    <pagination direction-links="false" num-pages="noOfPages" current-page="currentPage"></pagination>
+                    <button class="btn" ng-click="setPage(3)">Set current page to: 3</button>
+                    The selected page no: {{currentPage}}
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Pagination</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Pagination</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Popover    *-->
+<!-- ------------- -->
+<h1 ng-init="PopoverIsCollapsed = true" ng-click="PopoverIsCollapsed = !PopoverIsCollapsed" style="text-align:center;cursor:pointer;">Popover</h1>
+<div collapse="PopoverIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Popover</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PopoverDemoCtrl">
+                    <div class="well">
+                        <div>
+                            <h4>Text dynamisch gesetzt</h4>
+                            <div>BtnText : <input type="text" ng-model="dynamicPopoverText"></div>
+                            <div>Popup Text: <input type="text" ng-model="dynamicPopover"></div>
+                            <div>Popup Title: <input type="text" ng-model="dynamicPopoverTitle"></div>
+                            <div><button popover="{{dynamicPopover}}" popover-title="{{dynamicPopoverTitle}}" class="btn">{{dynamicPopoverText}}</button></div>
+                        </div>
+                        <div>
+                            <h4>Positionierung</h4>
+                            <button popover-placement="top" popover="On the Top!" class="btn">Top</button>
+                            <button popover-placement="left" popover="On the Left!" class="btn">Left</button>
+                            <button popover-placement="right" popover="On the Right!" class="btn">Right</button>
+                            <button popover-placement="bottom" popover="On the Bottom!" class="btn">Bottom</button>
+                        </div>
+                        <div>
+                            <h4>Animiert</h4>
+                            <button Popover-animation="true" popover="I fade in and out!" class="btn">fading</button>
+                        </div>
+                        <div>
+                            <h4>Mit Titel</h4>
+                            <button popover="I have a title!" popover-title="The title." class="btn">title</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Popover</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Popover</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="PopoverDemoCtrl">
+                    <h4>Button to trigger popover with an external partial</h4>
+                    <button type="button" class="btn" bs-popover="'enterprise/popup.html'">External Partial</button>
+
+                    <h4>You can also use a simple object {title:'', content:'', etc.} instead of a partial/template</h4>
+                    <button type="button" class="btn" bs-popover="popover">SimpleObject</button>
+
+                    <h4>Force close others with data-unique attribute</h4>
+                    <button type="button" class="btn" data-unique="1" bs-popover="popover">Close other Popovers</button>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Tabs    *-->
+<!-- ------------- -->
+<h1 ng-init="TabsIsCollapsed = true" ng-click="TabsIsCollapsed = !TabsIsCollapsed" style="text-align:center;cursor:pointer;">Tabs</h1>
+<div collapse="TabsIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Tabs</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TabsDemoCtrl" style="background:#f9f9f9;padding:10px;">
+                    <tabs>
+                        <pane heading="Static title">Static content</pane>
+                        <pane ng-repeat="pane in panes" heading="{{pane.title}}" active="pane.active">{{pane.content}}</pane>
+                    </tabs>
+                    <div class="row-fluid" style="border-top:1px solid #ddd;margin-top:10px;padding-top:10px;">
+                        <button class="btn" ng-click="panes[0].active = true">Select second tab</button>
+                        <button class="btn" ng-click="panes[1].active = true">Select third tab</button>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Tabs</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Tabs</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TabsDemoCtrl"  style="background:#f9f9f9;padding:10px;">
+                    <div data-fade="1" ngModel="tabs.activeTab" bs-tabs>
+                        <div ng-repeat="tab in tabs" data-title="{{tab.title}}"><p>{{tab.content}}</p></div>
+                    </div>
+                    <div class="row-fluid" style="border-top:1px solid #ddd;margin-top:10px;padding-top:10px;">
+                        <div class="btn-group" ng-model="tabs.activeTab" bs-buttons-radio>
+                            <button type="button" class="btn" value="0">First</button>
+                            <button type="button" class="btn" value="1">Second</button>
+                            <button type="button" class="btn" value="2">Third</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Tooltip    *-->
+<!-- ------------- -->
+<h1 ng-init="TooltipIsCollapsed = false" ng-click="TooltipIsCollapsed = !TooltipIsCollapsed" style="text-align:center;cursor:pointer;">Tooltip</h1>
+<div collapse="TooltipIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Tooltip</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TooltipDemoCtrl">
+                    <h1>Läuft noch nicht!!!!</h1>
+                    <div class="well">
+                        <div>Dynamic Tooltip Text: <input type="text" ng-model="dynamicTooltipText"></div>
+                        <div>Dynamic Tooltip Popup Text: <input type="text" ng-model="dynamicTooltip"></div>
+                        <ul>
+                            <li>Dynamisch: <a><span tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</span></a></li>
+                            <li>Position (links): <a><span tooltip-placement="left" tooltip="On the Left!">left</span></a></li>
+                            <li>Position (rechts): <a><span tooltip-placement="right" tooltip="On the Right!">right</span></a></li>
+                            <li>Position (unten): <a><span tooltip-placement="bottom" tooltip="On the Bottom!">bottom</span></a></li>
+                            <li>Einblenden: <a><span tooltip-animation="true" tooltip="I fade in and out!">fading</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Tooltip</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Tooltip</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TooltipDemoCtrl">
+                    <!-- Basic tooltip on hover -->
+                    <p>Ganz normaler <a href="#" bs-tooltip="tooltip.title">Tooltip</a> im text</p>
+                    <!-- Button to trigger tooltip on click -->
+                    <p>Getriggerter und stehenbleibender <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title">Tooltip</button></p>
+                    <!-- Force close others with data-unique attribute -->
+                    <p>Schließt alle anderen Tooltips onFocus <input type="text" data-trigger="focus" data-unique="1" bs-tooltip="tooltip.title"/></p>
+                    <!-- Two-way databinding -->
+                    <p>Mit Two-Way-Databinding <input type="checkbox" ng-model="checked" bs-tooltip="tooltip.title+checked"/></p>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Typeahead     *-->
+<!-- ------------- -->
+<h1 ng-init="TypeaheadIsCollapsed = false" ng-click="TypeaheadIsCollapsed = !TypeaheadIsCollapsed" style="text-align:center;cursor:pointer;">Typeahead</h1>
+<div collapse="TypeaheadIsCollapsed" ng-class="{notCollapsed: !TypeaheadIsCollapsed}">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <div class='container-fluid' ng-controller="TypeaheadCtrl">
+                    <pre>Model: {{selected| json}}</pre>
+                    <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue">
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <h4>Link noch nicht möglich</h4><p>http://ivaynberg.github.com/select2/select2-3.2/select2.js</p>
+                <!--<p>Value is: {{select2}} <a ng-click="select2='two'">(choose second)</a></p>-->
+                <!--<select ui-select2 ng-model="select2">-->
+                <!--<option value="">Pick a number</option>-->
+                <!--<option value="one">First</option>-->
+                <!--<option value="two">Second</option>-->
+                <!--<option value="three">Third</option>-->
+                <!--</select>-->
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Typeahead</h3>
+
+                <!-- Example Begin-->
+                <div class='container-fluid' ng-controller="TypeaheadCtrl">
+                    <p>Mit data-min-length=0 wird Dropdown sofort geöffnet <input type="text" ng-model="typeaheadValue" data-min-length="0" bs-typeahead="states"></p>
+
+                    <!-- You can also use a function -->
+                    <p><ul><li>Mit data-min-length > 0 wird Dropdown nach Eingabe der ersten n Buchstaben geöffnet</li>
+                    <li>Daten Asnychron holen</li></ul>
+                    <input type="text" ng-model="typeaheadValue" bs-typeahead="typeaheadFn"></p>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Example    *-->
+<!-- ------------- -->
+<h1 ng-init="TestIsCollapsed = false" ng-click="TestIsCollapsed = !TestIsCollapsed" style="text-align:center;cursor:pointer;">Example</h1>
+<div collapse="TestIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Example</h3>
+
+                <!-- Example Begin-->
+
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Example</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Example</h3>
+
+                <!-- Example Begin-->
+
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<div style="display:table;width:100%;">
+    <div style="display:table-row;">
+        <div style="display:table-cell;width:33%;" class="alert alert-danger">
+            <h3>UI Bootstrap - Datepicker</h3>
+            <p>Gibts leider noch nicht</p>
+        </div>
+        <div style="display:table-cell;width:0.5%"></div>
+        <div style="display:table-cell;width:33%;" class="alert alert-danger">
+            <h3>AngularUI - Datepicker</h3>
+            <input placeholder="Datum" ui-date />
+            <p>benötigt:
+            <ul>
+                <li>angular-ui.min.js</li>
+                <li>angular-ui.min.css</li>
+                <li>jquery.min.js</li>
+                <li>jquery-ui-1.10.2.custom.min.js</li>
+            </ul>
+            </p>
+        </div>
+        <div style="display:table-cell;width:0.5%"></div>
+        <div style="display:table-cell;width:33%;" class="alert alert-success">
+            <h3>AngularStrap - Datepicker</h3>
+            <div class="control-group input-append">
+                <input type="text" ng-model="datepicker.date" data-date-format="dd/mm/yyyy" bs-datepicker>
+                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+            </div>
+            <p>benötigt:
+            <ul>
+                <li>angular-strap.min.js</li>
+                <li>bootstrap-datepicker.js</li>
+                <li>bootstrap-datepicker.css</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+<h3>AngularUI - CodeMirror</h3>
+<textarea ui-codemirror="{theme:'monokai'}" ng-model="codeMirrorModel"></textarea>
