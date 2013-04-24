@@ -1,3 +1,9 @@
+<style>
+   .alert h4{
+        margin-top:30px;
+        margin-bottom:10px;
+    }
+</style>
 <h2>Enterprise</h2>
 <table class="table table-striped">
     <thead>
@@ -16,10 +22,6 @@
     </tbody>
 </table>
 <div>
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-    <button class='btn' ng-click="addAlert()">Add Alert</button>
-</div>
-<div>
     <button class="btn" ng-click="open()">Open me!</button>
     <div modal="shouldBeOpen" close="close()" options="opts">
         <div class="modal-header">
@@ -35,3 +37,4 @@
         </div>
     </div>
 </div>
+

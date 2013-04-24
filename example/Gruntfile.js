@@ -85,9 +85,20 @@ module.exports = function (grunt) {
             libs: {
                 files: {
                     'dist/js/libs.js': [
+                        'vendor/jquery/jquery.min.js',
+                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
+                        'vendor/jquery-codemirror/codemirror.js',
+
                         'vendor/angular/angular.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js'
+                        'vendor/bootstrap/js/bootstrap.min.js',
+//                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.js',//Achtung Datei geändert wegen $dialog dopplet belegt ist
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
+
+                        'vendor/angular-ui/build/angular-ui.min.js',
+
+                        'vendor/angular-strap/angular-strap.js',
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js'
                     ]
                 }
             },
@@ -99,7 +110,14 @@ module.exports = function (grunt) {
                 files: {
                     'dist/css/libs.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
+                        //AngularUI
+                        'vendor/angular-ui/build/angular-ui.min.css',
+                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
+                        'vendor/jquery-codemirror/codemirror.css',
+                        'vendor/jquery-codemirror/theme/monokai.css',
+                        //AngularStrap
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css'
                     ]
                 }
             },
