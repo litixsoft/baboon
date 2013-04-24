@@ -340,6 +340,17 @@ angular.module('enterprise', [
 
 
 /**
+ * Tooltip  controller
+ */
+    .controller('TooltipDemoCtrl', ['$scope', function ($scope) {
+
+        $scope.dynamicTooltip = "Hello, World!";
+        $scope.dynamicTooltipText = "dynamic";
+    }])
+
+
+
+/**
  * Enterprise edit controller
  */
     .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', function ($scope, $location, $routeParams, enterpriseCrew) {

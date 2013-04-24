@@ -404,7 +404,7 @@
         <div style="display:table-row;">
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
                 <h3>UI Bootstrap - Dropdowns</h3>
-
+                <p>geht nur mit A-Links </p>
                 <!-- Example Begin-->
                 <li class="dropdown" ng-controller="DropdownCtrl">
                     <a class="dropdown-toggle">
@@ -416,6 +416,16 @@
                         </li>
                     </ul>
                 </li>
+                <div class="dropdown" ng-controller="DropdownCtrl">
+                    <a class="dropdown-toggle">
+                        Click me for a dropdown, yo!
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="choice in items">
+                            <a>{{choice}}</a>
+                        </li>
+                    </ul>
+                </div>
                 <!-- Example End-->
 
             </div>
@@ -434,6 +444,8 @@
                     <div class="btn-group">
                         <button type="button" class="btn" bs-dropdown="dropdown">DropMeDown</button>
                     </div>
+
+                    <!--<a bs-dropdown="dropdown">DropMeDown</a>-->
 
                     <!-- Separated button -->
                     <div class="btn-group">
@@ -561,7 +573,7 @@
 <!-- ------------- -->
 <!--*  Tabs    *-->
 <!-- ------------- -->
-<h1 ng-init="TabsIsCollapsed = false" ng-click="TabsIsCollapsed = !TabsIsCollapsed" style="text-align:center;cursor:pointer;">Tabs</h1>
+<h1 ng-init="TabsIsCollapsed = true" ng-click="TabsIsCollapsed = !TabsIsCollapsed" style="text-align:center;cursor:pointer;">Tabs</h1>
 <div collapse="TabsIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -604,6 +616,59 @@
                         </div>
                     </div>
                 </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Tooltip    *-->
+<!-- ------------- -->
+<h1 ng-init="TooltipIsCollapsed = false" ng-click="TooltipIsCollapsed = !TooltipIsCollapsed" style="text-align:center;cursor:pointer;">Tooltip</h1>
+<div collapse="TooltipIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Tooltip</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="TooltipDemoCtrl">
+                    <div class="well">
+                        <div>Dynamic Tooltip Text: <input type="text" ng-model="dynamicTooltipText"></div>
+                        <div>Dynamic Tooltip Popup Text: <input type="text" ng-model="dynamicTooltip"></div>
+                        <p>
+                            d<a><span tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</span></a>,
+                            sit amet venenatis urna cursus eget nunc scelerisque viverra mauris, in
+                            aliquam. Tincidunt lobortis feugiat vivamus at
+                            <a><span tooltip-placement="left" tooltip="On the Left!">left</span></a> eget
+                            arcu dictum varius duis at consectetur lorem. Vitae elementum curabitur
+                            <a><span tooltip-placement="right" tooltip="On the Right!">right</span></a>
+                            nunc sed velit dignissim sodales ut eu sem integer vitae. Turpis egestas
+                            <a><span tooltip-placement="bottom" tooltip="On the Bottom!">bottom</span></a>
+                            pharetra convallis posuere morbi leo urna,
+                            <a><span tooltip-animation="true" tooltip="I fade in and out!">fading</span></a>
+                            at elementum eu, facilisis sed odio morbi quis commodo odio. In cursus
+                            turpis massa tincidunt dui ut.
+                        </p>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Tooltip</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Tooltip</h3>
+
+                <!-- Example Begin-->
+
                 <!-- Example End-->
 
             </div>
