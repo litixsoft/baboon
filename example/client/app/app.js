@@ -3,6 +3,11 @@ angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'en
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
     })
+    .value('$strap.config', {
+        datepicker: {
+            format: 'M d, yyyy'
+        }
+    })
     .factory('socket', function ($rootScope) {
 
         var socket = io.connect();
