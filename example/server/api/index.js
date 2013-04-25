@@ -1,8 +1,19 @@
 exports.socket = function(io, syslog) {
 
-    //var enterprise = require('enterprise/enterprise'),
-    var blog = require('../app/blog');
+    var acl = {
+        module: [
+            {
+                name: 'blog',
+                resources: [
+                    'test'
+                ]
+            }
+        ]
+    };
 
+    /**
+     * start websocket
+     */
     io.sockets.on('connection', function (socket) {
         syslog.info('client: ' + socket.id + ' connected');
 
@@ -10,6 +21,12 @@ exports.socket = function(io, syslog) {
             syslog.info('socket: ' + socket.id + ' disconnected');
         });
 
-        blog.init({socket:socket, key: 'blog'});
+        /**
+         * include modules and register resources
+         */
+        var i, max, tmp;
+        for(i=0, max= acl.module.length; i < max; i += 1) {
+            tmp = require('./socket/' + acl.module[i].name)(socket, acl.module[i]);
+        }
     });
 };
