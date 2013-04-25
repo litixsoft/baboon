@@ -21,6 +21,11 @@
         height: 400px;
         width: 600px;
     }
+    .ui-reset{
+        background:red;
+        width:16px;
+        height:100%;
+    }
 </style>
 <h2>{{title}}</h2>
 
@@ -918,6 +923,40 @@
     </div>
 </div>
 
+
+<hr>
+<!-- ------------- -->
+<!--*  Reset Input    *-->
+<!-- ------------- -->
+<h1 ng-init="ResetIsCollapsed = false" ng-click="ResetIsCollapsed = !ResetIsCollapsed" style="cursor:pointer;">Reset Input</h1>
+<div collapse="ResetIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Reset Input</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Reset Input</h3>
+                <p>Achtung wird über CSS gesteuert</p>
+                <p>zur Anzeige des Resetknopfes einfach drüber hovern</p>
+                <!-- Example Begin-->
+                <input ng-init="resetModel='Inhalt'" ng-model="resetModel" ui-reset>
+                <input ng-model="resetModel" ui-reset=" 'Empty' ">
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Reset Input</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <hr>
 <!-- ------------- -->
 <!--*  Tabs    *-->
@@ -1099,7 +1138,7 @@
 <!-- ------------- -->
 <!--*  Validate    *-->
 <!-- ------------- -->
-<h1 ng-init="ValidateIsCollapsed = false" ng-click="ValidateIsCollapsed = !ValidateIsCollapsed" style="cursor:pointer;">Validate</h1>
+<h1 ng-init="ValidateIsCollapsed = true" ng-click="ValidateIsCollapsed = !ValidateIsCollapsed" style="cursor:pointer;">Validate</h1>
 <div collapse="ValidateIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
