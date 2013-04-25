@@ -33,14 +33,7 @@ describe( 'enterprise modul', function() {
         var scope, editCtrl;
 
         beforeEach( inject( function($controller  ) {
-            scope = {
-                enterpriseCrew: [
-                    {name: 'Picard', description: 'Captain'},
-                    {name: 'Riker', description: 'Number One'},
-                    {name: 'Worf', description: 'Security'}
-                ]
-            };
-
+            scope = {};
             editCtrl = $controller( 'editCtrl', { $scope: scope});
         }));
 

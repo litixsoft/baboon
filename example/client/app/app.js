@@ -9,6 +9,7 @@ angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'en
         }
     })
     .factory('socket', function ($rootScope) {
+
         var socket = io.connect();
 
         return {
