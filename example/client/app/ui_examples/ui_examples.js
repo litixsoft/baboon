@@ -95,6 +95,49 @@ angular.module('uiexamples', [])
             currency: '$'
         };
     }])
+
+
+/**
+ * Calendar Controller
+ */
+    .controller('CalendarCtrl',['$scope', function ($scope) {
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        $scope.eventSource = {
+            url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+            className: 'gcal-event',           // an option!
+            currentTimezone: 'America/Chicago' // an option!
+        };
+
+        $scope.events = [
+            {title: 'All Day Event',start: new Date(y, m, 1)},
+            {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+            {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+            {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
+            {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
+            {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+        ];
+
+        $scope.eventSources = [$scope.events, $scope.eventSource];
+
+        $scope.addEvent = function() {
+            $scope.events.push({
+                title: 'Open Sesame',
+                start: new Date(y, m, 28),
+                end: new Date(y, m, 29)
+            });
+        };
+
+        $scope.remove = function(index) {
+            $scope.events.splice(index,1);
+        };
+    }])
+
+
 /**
  * Carousel Controller
  */
@@ -136,7 +179,7 @@ angular.module('uiexamples', [])
     }])
 
 /**
- * Collapse Controller
+ * Datepicker Controller
  */
     .controller('DatepickerCtrl',['$scope',function ($scope) {
 
@@ -263,7 +306,55 @@ angular.module('uiexamples', [])
         };
     }])
 
+/**
+ * Google Maps Controller
+ */
+    .controller('MapsCtrl',['$scope', function ($scope) {
 
+        $scope.myMarkers = [];
+
+        $scope.mapOptions = {
+            center: new google.maps.LatLng(35.784, -78.670),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        $scope.addMarker = function($event) {
+            $scope.myMarkers.push(new google.maps.Marker({
+                map: $scope.myMap,
+                position: $event.latLng
+            }));
+        };
+
+        $scope.setZoomMessage = function(zoom) {
+            $scope.zoomMessage = 'You just zoomed to '+zoom+'!';
+            console.log(zoom,'zoomed')
+        };
+
+        $scope.openMarkerInfo = function(marker) {
+            $scope.currentMarker = marker;
+            $scope.currentMarkerLat = marker.getPosition().lat();
+            $scope.currentMarkerLng = marker.getPosition().lng();
+            $scope.myInfoWindow.open($scope.myMap, marker);
+        };
+
+        $scope.setMarkerPosition = function(marker, lat, lng) {
+            marker.setPosition(new google.maps.LatLng(lat, lng));
+        };
+    }])
+
+/**
+ * Keypress Controller
+ */
+    .controller('KeypressCtrl',['$scope', function ($scope) {
+        $scope.first = 'ui-keypress   Hit [Enter]. The $event hersdae is different from keypress, but fires earlier.';
+        $scope.second = 'ui-keydown    Hit [Enter] or [Alt]+[Space] and remember that this normally adds a new line if we don\'t $event.preventDefault()';
+        $scope.third = 'ui-keyup      Hit [Enter]. Remember not to close the alert using [Enter] or it will refire keyup.';
+        $scope.keypressCallback = function($event) {
+            alert('Voila!');
+            $event.preventDefault();
+        };
+    }])
 
 /**
  * Navbar Controller

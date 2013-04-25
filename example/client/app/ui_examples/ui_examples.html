@@ -17,6 +17,10 @@
     .alert{
         text-shadow:none;
     }
+    .map {
+        height: 400px;
+        width: 600px;
+    }
 </style>
 <h2>{{title}}</h2>
 
@@ -207,6 +211,52 @@
         </div>
     </div>
 </div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Calendar    *-->
+<!-- ------------- -->
+<h1 ng-init="CalendarIsCollapsed = true" ng-click="CalendarIsCollapsed = !CalendarIsCollapsed" style="cursor:pointer;">Calendar</h1>
+<div collapse="CalendarIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:5%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Calendar</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:89%;" class="alert alert-success">
+                <h3>AngularUI - Calendar</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="CalendarCtrl" class="row">
+                    <div class="span3">
+                        <button style="margin-bottom: 3px;" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
+                        <ul>
+                            <li ng-repeat="e in events" class="ng-scope">
+                                <p class="alert alert-info ng-binding">
+                                    All Day Event
+                                    <a style="float: right; margin-top: -5px;" class="btn btn-danger" ng-click="remove($index)" href="">x</a>
+                                </p>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div ui-calendar="{width: 400,height: 450,editable: true}" class="span8 calendar" ng-model="eventSources"></div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:5%;" class="alert alert-danger">
+                <h3>AngularStrap - Calendar</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->
@@ -559,7 +609,7 @@
 <!-- ------------- -->
 <!--*  Event Binder    *-->
 <!-- ------------- -->
-<h1 ng-init="EventIsCollapsed = false" ng-click="EventIsCollapsed = !EventIsCollapsed" style="cursor:pointer;">Event Binder</h1>
+<h1 ng-init="EventIsCollapsed = true" ng-click="EventIsCollapsed = !EventIsCollapsed" style="cursor:pointer;">Event Binder</h1>
 <div collapse="EventIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -590,6 +640,135 @@
     </div>
 </div>
 
+
+<hr>
+<!-- ------------- -->
+<!--*  Google Maps    *-->
+<!-- ------------- -->
+<h1 ng-init="MapsIsCollapsed = true" ng-click="MapsIsCollapsed = !MapsIsCollapsed" style="cursor:pointer;">Google Maps</h1>
+<div collapse="MapsIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:25%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Google Maps</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:49%;" class="alert alert-success">
+                <h3>AngularUI - Google Maps</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="MapsCtrl">
+                    <pre>script src="http://maps.googleapis.com/maps/api/js?sensor=false"</pre>
+                    <h4>Click to add a marker!</h4>
+                    <p>{{zoomMessage}}</p>
+                    <ul>
+                        <li ng-repeat="marker in myMarkers">
+                            <a ng-click="myMap.panTo(marker.getPosition())">Pan to Marker {{$index}}</a>
+                        </li>
+                    </ul>
+
+                    <!-- this is the confusing part. we have to point the map marker directive
+                      at an existing google.maps.Marker object, so it can hook up events -->
+                    <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+                         ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+                    </div>
+
+                    <div ui-map-info-window="myInfoWindow">
+                        <h1>Marker</h1>
+                        Lat: <input ng-model="currentMarkerLat">, Lng: <input ng-model="currentMarkerLng">
+                        <a ng-click="setMarkerPosition(currentMarker, currentMarkerLat, currentMarkerLng)">Set Position</a>
+                    </div>
+
+                    <!-- Giving the div an id="map_canvas" fix problems with twitter bootstrap affecting
+                    google maps -->
+                    <div id="map_canvas" ui-map="myMap" class="map"
+                         ui-event="{'map-click': 'addMarker($event)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"
+                         ui-options="mapOptions">
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:25%;" class="alert alert-danger">
+                <h3>AngularStrap - Google Maps</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
+<!--*  IF-Bindung    *-->
+<!-- ------------- -->
+<h1 ng-init="IfIsCollapsed = true" ng-click="IfIsCollapsed = !IfIsCollapsed" style="cursor:pointer;">IF-Bindung</h1>
+<div collapse="IfIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - IF-Bindung</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - IF-Bindung</h3>
+
+                <!-- Example Begin-->
+                <button type="button" class="btn" ng-init="singleModel=false" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                    Single Toggle
+                </button>
+
+                <h3 ui-if="!singleModel">Ich bin eine Überschrift und kann komplett aus dem DOM verschwinden</h3>
+                <pre ui-if="!singleModel">&lt;h3&gt;Ich bin eine Überschrift und kann komplett aus dem DOM verschwinden&lt;h3&gt;</pre>
+                <pre ui-if="singleModel">&lt!-- uiIf: !singleModel --&gt;</pre>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - IF-Bindung</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Keypress    *-->
+<!-- ------------- -->
+<h1 ng-init="KeypressIsCollapsed = true" ng-click="KeypressIsCollapsed = !KeypressIsCollapsed" style="cursor:pointer;">Keypress</h1>
+<div collapse="KeypressIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Keypress</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Keypress</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="KeypressCtrl">
+                    <textarea style="width:100%;min-height:70px;" ui-keypress="{13:'keypressCallback($event)'}" ng-model="first"></textarea>
+                    <textarea style="width:100%;min-height:70px;" ui-keydown="{'enter alt-space':'keypressCallback($event)'}" ng-model="second"></textarea>
+                    <textarea style="width:100%;min-height:70px;" ui-keyup="{'enter':'keypressCallback($event)'}" ng-model="third"></textarea>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Keypress</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <hr>
 <!-- ------------- -->

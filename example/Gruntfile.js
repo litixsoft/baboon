@@ -87,7 +87,7 @@ module.exports = function (grunt) {
                 files: {
                     'dist/js/libs.js': [
                         'vendor/jquery/jquery.min.js',
-//                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
+                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
                         'vendor/jquery-codemirror/codemirror.js',
 
                         'vendor/angular/angular.min.js',
@@ -99,7 +99,11 @@ module.exports = function (grunt) {
                         'vendor/angular-strap/angular-strap.js',
 
                         'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
-                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js'
+                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
+
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js'
+
                     ]
                 }
             },
@@ -118,7 +122,8 @@ module.exports = function (grunt) {
                         'vendor/jquery-codemirror/codemirror.css',
                         'vendor/jquery-codemirror/theme/monokai.css',
                         //AngularStrap
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css'
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css'
                     ]
                 }
             },
