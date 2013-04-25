@@ -102,7 +102,8 @@ module.exports = function (grunt) {
                         'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
 
                         'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js'
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
+                        'vendor/select2/select2.min.js'
 
                     ]
                 }
@@ -123,7 +124,8 @@ module.exports = function (grunt) {
                         'vendor/jquery-codemirror/theme/monokai.css',
                         //AngularStrap
                         'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css'
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
+                        'vendor/select2/select2.css'
                     ]
                 }
             },

@@ -21,11 +21,6 @@
         height: 400px;
         width: 600px;
     }
-    .ui-reset{
-        background:red;
-        width:16px;
-        height:100%;
-    }
 </style>
 <h2>{{title}}</h2>
 
@@ -126,6 +121,60 @@
         </div>
     </div>
 </div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Animate    *-->
+<!-- ------------- -->
+<h1 ng-init="AnimateIsCollapsed = true" ng-click="AnimateIsCollapsed = !AnimateIsCollapsed" style="cursor:pointer;">Animate</h1>
+<div collapse="AnimateIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Animate</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Animate</h3>
+
+                <!-- Example Begin-->
+                <style>
+                    ul.animation-list li {
+                        transition: all 0.5s ease;
+                        -o-transition: all 0.5s ease;
+                        -moz-transition: all 0.5s ease;
+                        -webkit-transition: all 0.5s ease;
+                        background: lightblue;
+                        max-height: 50px; /* 1000px works too */
+                        overflow: hidden;
+                        padding: 5px;
+                    }
+                        /* The 'hidden' state to transition from & to */
+                    ul.animation-list li.ui-animate {
+                        opacity: 0;
+                        max-height: 0;
+                        padding: 0 5px;
+                    }
+                </style>
+                <a ng-click="items.push(true)" ng-init="items=['true']">Add Item</a>
+                <ul class="animation-list">
+                    <li ng-repeat="item in items" ui-animate>{{item}}</li>
+                </ul>
+                <!-- Example End-->
+
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Animate</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->
@@ -577,7 +626,18 @@
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
                 <h3>AngularUI - Dropdowns</h3>
-                <p>Gibts leider noch nicht</p>
+                <h4>(Select2)</h4>
+
+                <!-- Example Begin-->
+                <p>Value is: {{select2}} <a ng-click="select2='two'">(choose second)</a></p>
+                <select ui-select2 ng-model="select2">
+                    <option value="">Pick a number</option>
+                    <option value="one">First</option>
+                    <option value="two">Second</option>
+                    <option value="three">Third</option>
+                </select>
+                <!-- Example End-->
+
             </div>
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-success">
@@ -928,7 +988,7 @@
 <!-- ------------- -->
 <!--*  Reset Input    *-->
 <!-- ------------- -->
-<h1 ng-init="ResetIsCollapsed = false" ng-click="ResetIsCollapsed = !ResetIsCollapsed" style="cursor:pointer;">Reset Input</h1>
+<h1 ng-init="ResetIsCollapsed = true" ng-click="ResetIsCollapsed = !ResetIsCollapsed" style="cursor:pointer;">Reset Input</h1>
 <div collapse="ResetIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -942,6 +1002,13 @@
                 <p>Achtung wird über CSS gesteuert</p>
                 <p>zur Anzeige des Resetknopfes einfach drüber hovern</p>
                 <!-- Example Begin-->
+                <style>
+                    .ui-reset{
+                        background:red;
+                        width:16px;
+                        height:100%;
+                    }
+                </style>
                 <input ng-init="resetModel='Inhalt'" ng-model="resetModel" ui-reset>
                 <input ng-model="resetModel" ui-reset=" 'Empty' ">
                 <!-- Example End-->
@@ -950,6 +1017,156 @@
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-success">
                 <h3>AngularStrap - Reset Input</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Route Checking    *-->
+<!-- ------------- -->
+<h1 ng-init="RouteIsCollapsed = false" ng-click="RouteIsCollapsed = !RouteIsCollapsed" style="cursor:pointer;">Route Checking</h1>
+<div collapse="RouteIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Route Checking</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Route Checking</h3>
+
+                <!-- Example Begin-->
+                <ul>
+                    <li id="route-1">Route 1
+                        <strong ui-if="$uiRoute">IS</strong>
+                        <strong ui-if="!$uiRoute">is NOT</strong> active.
+                        <a ng-click="reload($event, route)" ng-href="#route-1" class="ng-scope">Make Active</a>
+                    </li>
+                    <li id="route-2">Route 2
+                        <strong ui-if="$uiRoute">IS</strong>
+                        <strong ui-if="!$uiRoute">is NOT</strong> active.
+                        <a ng-click="reload($event, route)" ng-href="#route-2" class="ng-scope">Make Active</a>
+                    </li>
+                    <li id="route-3">Route 3
+                        <strong ui-if="$uiRoute">IS</strong>
+                        <strong ui-if="!$uiRoute">is NOT</strong> active.
+                        <a ng-click="reload($event, route)" ng-href="#route-3" class="ng-scope">Make Active</a>
+                    </li>
+                </ul>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Route Checking</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Show, Hide + Toggle    *-->
+<!-- ------------- -->
+<h1 ng-init="ShowHideIsCollapsed = true" ng-click="ShowHideIsCollapsed = !ShowHideIsCollapsed" style="cursor:pointer;">Show, Hide + Toggle</h1>
+<div collapse="ShowHideIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Show, Hide + Toggle</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Show, Hide + Toggle</h3>
+
+                <!-- Example Begin-->
+                <style>
+                    .ui-show {
+                        color: blue;
+                        -webkit-transition: all 0.5s ease;
+                        -o-transition: all 0.5s ease;
+                        -moz-transition: all 0.5s ease;
+                        -ms-transition: all 0.5s ease;
+                        transition: all 0.5s ease;
+                    }
+                    .ui-hide {
+                        opacity: 0;
+                        -webkit-transition: all 0.5s ease;
+                        -o-transition: all 0.5s ease;
+                        -moz-transition: all 0.5s ease;
+                        -ms-transition: all 0.5s ease;
+                        transition: all 0.5s ease;
+                    }
+                </style>
+                <p><a ng-click="showHide=!showHide">Toggle State: {{!!showHide}}</a></p>
+                <div ui-show="showHide">Show</div>
+                <div ui-hide="showHide">Hide</div>
+                <div ui-toggle="showHide">Toggle</div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Show, Hide + Toggle</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Sortable    *-->
+<!-- ------------- -->
+<h1 ng-init="SortableIsCollapsed = true" ng-click="SortableIsCollapsed = !SortableIsCollapsed" style="cursor:pointer;">Sortable</h1>
+<div collapse="SortableIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Sortable</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Sortable</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="SortableCtrl">
+                    <ul ui-sortable ng-model="parents">
+                        <li ng-repeat="parent in parents">
+                            <h3>{{parent.name}}</h3>
+                            <ul class="children"
+                                ui-sortable="{connectWith:'.children'}"
+                                ng-model="parent.children">
+                                <li ng-repeat="child in parent.children">
+                                    {{child}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <hr>
+                    <ul ng-model="items" ui-sortable>
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ul>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Sortable</h3>
                 <p>Gibts leider noch nicht</p>
             </div>
         </div>
@@ -1012,6 +1229,39 @@
         </div>
     </div>
 </div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  TinyMCE (problematisch)    *-->
+<!-- ------------- -->
+<h1 ng-init="TinyMCEIsCollapsed = true" ng-click="TinyMCEIsCollapsed = !TinyMCEIsCollapsed" style="cursor:pointer;">TinyMCE (problematisch)</h1>
+<div collapse="TinyMCEIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - TinyMCE</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - TinyMCE</h3>
+
+                <!-- Example Begin-->
+                <!--<textarea ui-tinymce ng-model="tinymce" ng-init="tinymce='test'"></textarea>-->
+                <!--<p>{{tinymce}}</p>-->
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - TinyMCE</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->

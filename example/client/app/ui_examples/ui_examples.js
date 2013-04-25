@@ -437,6 +437,26 @@ angular.module('uiexamples', [])
         ];
     }])
 
+
+/**
+ * Sortable controller
+ */
+    .controller('SortableCtrl', ['$scope',function ($scope) {
+
+        $scope.parents = [
+            { name: 'Anna',
+                children: ['Alvin', 'Becky' ,'Charlie'] },
+            { name: 'Barney',
+                children: ['Dorothy', 'Eric'] },
+            { name: 'Chris',
+                children: ['Frank', 'Gary', 'Henry'] }
+        ];
+
+        $scope.items = ['One', 'Two', 'Three'];
+
+    }])
+
+
 /**
  * Tabs controller
  */
