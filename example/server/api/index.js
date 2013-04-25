@@ -2,12 +2,8 @@ exports.socket = function(io, syslog) {
 
     var acl = {
         module: [
-            {
-                name: 'blog',
-                resources: [
-                    'test'
-                ]
-            }
+            { name: 'blog', resources: ['test'] },
+            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
         ]
     };
 
