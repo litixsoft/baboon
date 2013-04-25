@@ -116,6 +116,17 @@ angular.module('uiexamples', [])
         };
     }])
 
+
+/**
+ * Collapse Controller
+ */
+    .controller('CodemirrorDemoCtrl',['$scope',function ($scope) {
+
+        $scope.codeMirrorModel = 'var test = 12;';
+    }])
+
+
+
 /**
  * Collapse Controller
  */
@@ -240,6 +251,19 @@ angular.module('uiexamples', [])
             dialogFade:true
         };
     }])
+
+/**
+ * Eventbinder Controller
+ */
+    .controller('EventbinderCtrl',['$scope', function ($scope) {
+        $scope.text = '';
+        $scope.input = '';
+        $scope.blurCallback = function() {
+            $scope.text = $scope.input;
+        };
+    }])
+
+
 
 /**
  * Navbar Controller

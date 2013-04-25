@@ -14,6 +14,9 @@
     .tooltip.in{
         position:fixed; /*wichtig für UI Bootstrap position*/
     }
+    .alert{
+        text-shadow:none;
+    }
 </style>
 <h2>{{title}}</h2>
 
@@ -259,6 +262,40 @@
         </div>
     </div>
 </div>
+
+
+<hr>
+<!-- ------------- -->
+<!--*  CodeMirror    *-->
+<!-- ------------- -->
+<h1 ng-init="CodeMirrorIsCollapsed = true" ng-click="CodeMirrorIsCollapsed = !CodeMirrorIsCollapsed" style="cursor:pointer;">CodeMirror</h1>
+<div collapse="CodeMirrorIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - CodeMirror</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - CodeMirror</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="CodemirrorDemoCtrl">
+                    <textarea ui-codemirror="{theme:'monokai'}" ng-model="codeMirrorModel"></textarea>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - CodeMirror</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->
@@ -511,6 +548,43 @@
                 </div>
                 <!-- Example End-->
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Event Binder    *-->
+<!-- ------------- -->
+<h1 ng-init="EventIsCollapsed = false" ng-click="EventIsCollapsed = !EventIsCollapsed" style="cursor:pointer;">Event Binder</h1>
+<div collapse="EventIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Event Binder</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Event Binder</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="EventbinderCtrl">
+                    <p>macht mehr Events imAngular nutzbar als vorhanden z.B.: Blur</p>
+                    <pre>input ui-event="{ blur : 'blurCallback()' }"</pre>
+                    <p>Text beim verlassen: <span ng-bind="text"></span></p>
+                    <input ng-model="input" ui-event="{ blur : 'blurCallback()' }">
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Event Binder</h3>
+                <p>Gibts leider noch nicht</p>
             </div>
         </div>
     </div>

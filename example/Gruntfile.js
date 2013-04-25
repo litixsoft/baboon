@@ -88,7 +88,7 @@ module.exports = function (grunt) {
                     'dist/js/libs.js': [
                         'vendor/jquery/jquery.min.js',
 //                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
-//                        'vendor/jquery-codemirror/codemirror.js',
+                        'vendor/jquery-codemirror/codemirror.js',
 
                         'vendor/angular/angular.min.js',
                         'vendor/bootstrap/js/bootstrap.min.js',
