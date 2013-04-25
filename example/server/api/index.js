@@ -26,7 +26,7 @@ exports.socket = function(io, syslog) {
          */
         var i, max, tmp;
         for(i=0, max= acl.module.length; i < max; i += 1) {
-            tmp = require('./socket/' + acl.module[i].name)(socket, acl.module[i]);
+            tmp = require('./socket/app/' + acl.module[i].name)(socket, acl.module[i]);
         }
     });
 };
