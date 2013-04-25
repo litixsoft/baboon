@@ -8,8 +8,12 @@
     }
     h1{
         font-size:25px;
+        color: #666;
     }
-
+    .popover.in,
+    .tooltip.in{
+        position:fixed; /*wichtig für UI Bootstrap position*/
+    }
 </style>
 <h2>{{title}}</h2>
 
@@ -294,9 +298,82 @@
 
 <hr>
 <!-- ------------- -->
+<!--*  Datepicker  Timepicker  *-->
+<!-- ------------- -->
+<h1 ng-init="DatepickerIsCollapsed = true" ng-click="DatepickerIsCollapsed = !DatepickerIsCollapsed" style="cursor:pointer;">Datepicker - Timepicker</h1>
+<div collapse="DatepickerIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Datepicker</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Datepicker</h3>
+
+                <!-- Example Begin-->
+                <input placeholder="Datum" ui-date />
+                <p>benötigt:
+                <ul>
+                    <li>angular-ui.min.js</li>
+                    <li>angular-ui.min.css</li>
+                    <li>jquery.min.js</li>
+                    <li>jquery-ui-1.10.2.custom.min.js</li>
+                </ul>
+                </p>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Datepicker</h3>
+
+                <!-- Example Begin-->
+                <p>Datumsformat fest im Input angegeben</p>
+                <pre>input type="text" ng-model="datepicker.date" data-date-format="dd.mm.yyyy" bs-datepicker</pre>
+                <div class="control-group input-append" ng-controller="DatepickerCtrl">
+                    <input class="input-small" type="text" ng-model="datepicker.date" data-date-format="dd.mm.yyyy" bs-datepicker>
+                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                </div>
+                <hr>
+                <p>Datumsformat in globaler Config angegeben</p>
+                <pre>input type="text" ng-model="datepicker.date" bs-datepicker</pre>
+                <pre>angular.module(...)
+       .value('$strap.config', {
+            datepicker: {
+                format: 'M d, yyyy'
+            }
+        })</pre>
+                <div class="control-group input-append" ng-controller="DatepickerCtrl">
+                    <input class="input-small" type="text" ng-model="datepicker.date" bs-datepicker>
+                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                </div>
+                <hr>
+                <h3>AngularStrap - Timepicker</h3>
+                <div class="control-group input-append">
+                    <input class="input-small" type="text" ng-model="timepicker.time" bs-timepicker>
+                    <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
+                </div>
+                <p>benötigt:
+                <ul>
+                    <li>angular-strap.min.js</li>
+                    <li>bootstrap-datepicker.js</li>
+                    <li>bootstrap-datepicker.css</li>
+                </ul>
+                </p>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
 <!--*  Modal Dialogs MsgBoxes   *-->
 <!-- ------------- -->
-<h1 ng-init="DialogIsCollapsed = true" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="cursor:pointer;">Modal Dialogs, MsgBoxes</h1>
+<h1 ng-init="DialogIsCollapsed = true" ng-click="DialogIsCollapsed = !DialogIsCollapsed" style="cursor:pointer;">Dialogs, MsgBoxes (Modal)</h1>
 <div collapse="DialogIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -442,6 +519,48 @@
 
 <hr>
 <!-- ------------- -->
+<!--*  Navbar    *-->
+<!-- ------------- -->
+<h1 ng-init="NavbarIsCollapsed = true" ng-click="NavbarIsCollapsed = !NavbarIsCollapsed" style="cursor:pointer;">Navbar</h1>
+<div collapse="NavbarIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Navbar</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularUI - Navbar</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularStrap - Navbar</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="NavbarCtrl">
+                    <div class="navbar" bs-navbar>
+                        <div class="navbar-inner">
+                            <a class="brand" href="#">Title</a>
+                            <ul class="nav">
+                                <!-- You can use regular expressions -->
+                                <li data-match-route="/(:?navbar)"><a href="#/navbar">Home</a></li>
+                                <li data-match-route="/page-one"><a href="#/page-one">Page One</a></li>
+                                <li data-match-route="/page-two.*"><a href="#/page-two/sub-a">Page Two</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Example End-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<!-- ------------- -->
 <!--*  Pagination    *-->
 <!-- ------------- -->
 <h1 ng-init="PaginationIsCollapsed = true" ng-click="PaginationIsCollapsed = !PaginationIsCollapsed" style="cursor:pointer;">Pagination</h1>
@@ -582,11 +701,13 @@
 
                 <!-- Example Begin-->
                 <div ng-controller="TabsDemoCtrl"  style="background:#f9f9f9;padding:10px;">
-                    <div data-fade="1" ngModel="activeTab" bs-tabs>
+
+                    <div data-fade="1" ng-model="tabs.activeTab" bs-tabs>
                         <div ng-repeat="tab in tabs" data-title="{{tab.title}}"><p>{{tab.content}}</p></div>
                     </div>
                     <div class="row-fluid" style="border-top:1px solid #ddd;margin-top:10px;padding-top:10px;">
-                        <div class="btn-group" ng-model="activeTab" bs-buttons-radio>
+                        <p ng-bind="tabs.activeTab"></p>
+                        <div class="btn-group" ng-model="tabs.activeTab" bs-buttons-radio>
                             <button type="button" class="btn" value="0">First</button>
                             <button type="button" class="btn" value="1">Second</button>
                             <button type="button" class="btn" value="2">Third</button>
@@ -604,7 +725,7 @@
 <!-- ------------- -->
 <!--*  Tooltip    *-->
 <!-- ------------- -->
-<h1 ng-init="TooltipIsCollapsed = false" ng-click="TooltipIsCollapsed = !TooltipIsCollapsed" style="cursor:pointer;">Tooltip</h1>
+<h1 ng-init="TooltipIsCollapsed = true" ng-click="TooltipIsCollapsed = !TooltipIsCollapsed" style="cursor:pointer;">Tooltip</h1>
 <div collapse="TooltipIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -632,7 +753,17 @@
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
                 <h3>AngularUI - Tooltip</h3>
-                <p>Gibts leider noch nicht</p>
+                <p>Als Jquery Passthrough</p>
+
+                <!-- Example Begin-->
+                <div ng-controller="TooltipDemoCtrl">
+                    <a title="Easiest. Binding. Ever!" ui-jq="tooltip">Hover over me for static Tooltip</a>
+                    <br>
+                    <a data-original-title="{{tooltipText}}" ui-jq="tooltip">Fill the input for a dynamic Tooltip:</a>
+                    <input type="text" ng-model="tooltipText" placeholder="Tooltip Content">
+                </div>
+                <!-- Example End-->
+
             </div>
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-success">
@@ -643,7 +774,7 @@
                     <!-- Basic tooltip on hover -->
                     <p>Ganz normaler <a href="#" bs-tooltip="tooltip.title">Tooltip</a> im text</p>
                     <!-- Button to trigger tooltip on click -->
-                    <p>Getriggerter und stehenbleibender <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title">Tooltip</button></p>
+                    <p>Getriggerter und stehenbleibender <button type="submit" class="btn" data-trigger="click"  bs-tooltip="tooltip.title">Tooltip</button></p>
                     <!-- Force close others with data-unique attribute -->
                     <p>Schließt alle anderen Tooltips onFocus <input type="text" data-trigger="focus" data-unique="1" bs-tooltip="tooltip.title"/></p>
                     <!-- Two-way databinding -->
@@ -660,7 +791,7 @@
 <!-- ------------- -->
 <!--*  Typeahead     *-->
 <!-- ------------- -->
-<h1 ng-init="TypeaheadIsCollapsed = false" ng-click="TypeaheadIsCollapsed = !TypeaheadIsCollapsed" style="cursor:pointer;">Typeahead</h1>
+<h1 ng-init="TypeaheadIsCollapsed = true" ng-click="TypeaheadIsCollapsed = !TypeaheadIsCollapsed" style="cursor:pointer;">Typeahead</h1>
 <div collapse="TypeaheadIsCollapsed" ng-class="{notCollapsed: !TypeaheadIsCollapsed}">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -711,11 +842,12 @@
     </div>
 </div>
 
+
 <hr>
 <!-- ------------- -->
 <!--*  Example    *-->
 <!-- ------------- -->
-<h1 ng-init="TestIsCollapsed = false" ng-click="TestIsCollapsed = !TestIsCollapsed" style="cursor:pointer;">Example</h1>
+<h1 ng-init="TestIsCollapsed = true" ng-click="TestIsCollapsed = !TestIsCollapsed" style="cursor:pointer;">Example</h1>
 <div collapse="TestIsCollapsed">
     <div style="display:table;width:100%;">
         <div style="display:table-row;">
@@ -745,44 +877,8 @@
     </div>
 </div>
 
-<hr>
-<div style="display:table;width:100%;">
-    <div style="display:table-row;">
-        <div style="display:table-cell;width:33%;" class="alert alert-danger">
-            <h3>UI Bootstrap - Datepicker</h3>
-            <p>Gibts leider noch nicht</p>
-        </div>
-        <div style="display:table-cell;width:0.5%"></div>
-        <div style="display:table-cell;width:33%;" class="alert alert-danger">
-            <h3>AngularUI - Datepicker</h3>
-            <input placeholder="Datum" ui-date />
-            <p>benötigt:
-            <ul>
-                <li>angular-ui.min.js</li>
-                <li>angular-ui.min.css</li>
-                <li>jquery.min.js</li>
-                <li>jquery-ui-1.10.2.custom.min.js</li>
-            </ul>
-            </p>
-        </div>
-        <div style="display:table-cell;width:0.5%"></div>
-        <div style="display:table-cell;width:33%;" class="alert alert-success">
-            <h3>AngularStrap - Datepicker</h3>
-            <div class="control-group input-append">
-                <input type="text" ng-model="datepicker.date" data-date-format="dd/mm/yyyy" bs-datepicker>
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-            </div>
-            <p>benötigt:
-            <ul>
-                <li>angular-strap.min.js</li>
-                <li>bootstrap-datepicker.js</li>
-                <li>bootstrap-datepicker.css</li>
-            </ul>
-            </p>
-        </div>
-    </div>
-</div>
-
+<!--
 <hr>
 <h3>AngularUI - CodeMirror</h3>
 <textarea ui-codemirror="{theme:'monokai'}" ng-model="codeMirrorModel"></textarea>
+-->
