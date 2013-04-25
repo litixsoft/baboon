@@ -1,10 +1,11 @@
 angular.module('uiexamples', [])
+
 /**
  * Enterprise config area
  */
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'ui_examples/uiexamples.html', controller: 'uiexamplesCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'uiexamplesCtrl'});
     })
 
 /**
@@ -123,12 +124,28 @@ angular.module('uiexamples', [])
         $scope.isCollapsed = false;
     }])
 
+/**
+ * Collapse Controller
+ */
+    .controller('DatepickerCtrl',['$scope',function ($scope) {
+
+        $scope.datepicker = {
+            date: '2012-09-01T00:00:00.000Z'
+        };
+
+        $scope.timepicker = {
+            time: ''
+        };
+    }])
 
 //function TestDialogController($scope, dialog){
 //    $scope.close = function(result){
 //        dialog.close(result);
 //    };
 //}
+
+
+
 /**
  * Modal Dialog MsgBox Controller
  */
@@ -223,6 +240,15 @@ angular.module('uiexamples', [])
             dialogFade:true
         };
     }])
+
+/**
+ * Navbar Controller
+ */
+    .controller('NavbarCtrl',['$scope', '$location', function ($scope, $location) {
+
+        $scope.$location = $location;
+    }])
+
 
 /**
  * Pagination Controller
@@ -321,7 +347,7 @@ angular.module('uiexamples', [])
             }
         ];
 
-        $scope.tabs.activeTab = 1;
+        $scope.tabs.activeTab = 0;
     }])
 
 
