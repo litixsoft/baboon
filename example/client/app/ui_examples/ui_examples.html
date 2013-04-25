@@ -1095,6 +1095,47 @@
     </div>
 </div>
 
+<hr>
+<!-- ------------- -->
+<!--*  Validate    *-->
+<!-- ------------- -->
+<h1 ng-init="ValidateIsCollapsed = false" ng-click="ValidateIsCollapsed = !ValidateIsCollapsed" style="cursor:pointer;">Validate</h1>
+<div collapse="ValidateIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>UI Bootstrap - Validate</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - Validate</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ValidateCtrl">
+                    <form name="form">
+                        <input name="email" ng-model="email" ui-validate="{blacklist : 'notBlackListed($value)' }">
+                        <p>Is e-mail is black-listed? {{!!form.email.$error.blacklist}}</p>
+
+                        <input name="password" required ng-model="password">
+                        <input name="confirm_password" ng-model="confirm"
+                               ui-validate="'confirm==password'">
+                               <!--ui-validate-watch=" 'password' ">-->
+                        <p>Passwords match? {{!!form.confirm_password.$error.validator}}</p>
+                    </form>
+                </div>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Validate</h3>
+                <p>Gibts leider noch nicht</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->

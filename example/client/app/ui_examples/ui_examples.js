@@ -481,5 +481,19 @@ angular.module('uiexamples', [])
             //checked: false
         };
 
+    }])
+
+/**
+ * Validate  controller
+ */
+    .controller('ValidateCtrl', ['$scope', function ($scope) {
+        $scope.email = '';
+        $scope.password = '';
+        $scope.confirm = '';
+
+        $scope.notBlackListed = function(value) {
+            var blacklist = ['bad@domain.com','verybad@domain.com'];
+            return blacklist.indexOf(value) === -1;
+        };
     }]);
 
