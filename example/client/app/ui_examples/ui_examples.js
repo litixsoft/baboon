@@ -504,6 +504,21 @@ angular.module('uiexamples', [])
     }])
 
 /**
+ * Enterprise edit controller
+ */
+    .controller('TypeaheadCtrl', ['$scope', function ($scope) {
+
+        $scope.selected = undefined;
+        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+        $scope.typeaheadFn = function(query, callback) {
+            // $http.get('/stations/autocomplete?term='+query).success(function(stations) {
+            callback($scope.states); // This will automatically open the popup with retrieved results
+            // });
+        };
+    }])
+
+/**
  * Validate  controller
  */
     .controller('ValidateCtrl', ['$scope', function ($scope) {
