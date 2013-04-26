@@ -103,7 +103,11 @@ module.exports = function (grunt) {
 
                         'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
                         'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
-                        'vendor/select2/select2.min.js'
+                        'vendor/select2/select2.min.js',
+
+                        'vendor/angular-ui-ng-grid/ng-grid.js',
+                        'vendor/kendo-ui/kendo.all.min.js',
+                        'vendor/angular-kendo/angular-kendo.js'
 
                     ]
                 }
@@ -125,7 +129,9 @@ module.exports = function (grunt) {
                         //AngularStrap
                         'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
                         'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
-                        'vendor/select2/select2.css'
+                        'vendor/select2/select2.css',
+
+                        'vendor/angular-ui-ng-grid/ng-grid.css'
                     ]
                 }
             },
