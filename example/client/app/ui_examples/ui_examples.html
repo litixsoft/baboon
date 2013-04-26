@@ -3,6 +3,7 @@
         margin-top:30px;
         margin-bottom:10px;
     }
+
     .notCollapsed.collapse{
         overflow:visible;
     }
@@ -21,11 +22,52 @@
         height: 400px;
         width: 600px;
     }
+    .gridStyle {
+        border: 1px solid rgb(212,212,212);
+        width: 600px;
+        height: 300px;
+    }
 </style>
 <h2>{{title}}</h2>
 
 
+
 <hr>
+<!-- ------------- -->
+<!--*  Datagrid    *-->
+<!-- ------------- -->
+<h1 ng-init="DatagridIsCollapsed = false" ng-click="DatagridIsCollapsed = !DatagridIsCollapsed" style="cursor:pointer;">Datagrid</h1>
+<div collapse="DatagridIsCollapsed">
+    <div style="display:table;width:100%;">
+        <div style="display:table-row;">
+             <div style="display:table-cell;width:33%;" class="alert alert-success">
+                <h3>AngularUI - ng-grid</h3>
+
+                <!-- Example Begin-->
+                <div ng-controller="ngGridCtrl">
+                    <h4>Column Pinning</h4>
+                    <div class="gridStyle" ng-grid="gridOptions"></div>
+                    <h4>Grouping (html5)</h4>
+                    <div class="gridStyle" ng-grid="gridOptions2"></div>
+                </div>
+                <br>
+                <a href="http://angular-ui.github.io/ng-grid/" target="_blank">volle ng-grid Referenz</a>
+                <!-- Example End-->
+
+            </div>
+            <div style="display:table-cell;width:0.5%"></div>
+            <div style="display:table-cell;width:33%;" class="alert alert-danger">
+                <h3>AngularStrap - Datagrid</h3>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr style="border-color:red;">
 <!-- ------------- -->
 <!--*  Accordion  *-->
 <!-- ------------- -->
