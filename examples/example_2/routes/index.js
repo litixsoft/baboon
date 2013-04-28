@@ -1,24 +1,26 @@
-(function(exports){
+module.exports = function(middleware) {
+    'use strict';
 
-    var middleware;
+    var pub = {};
 
-    exports.init = function(options){
-        middleware = options.middleware;
+    middleware = null;
+
+    pub.index = function(req, res){
+        throw new Error("Ganz schlimmer Fehler");
+        res.render('index', {title: 'Baboon Demo Application'});
     };
 
-    exports.index = function(req, res){
-        res.render('index', {
-            title: 'Express'
-        });
+    pub.login = function(req, res){
+        res.render('login', { title: 'Baboon Login' });
     };
 
-    exports.login = function(req, res){
-        res.render('login', { title: 'Express Login' });
+    pub.module1 = function(req, res){
+        res.render('module1', { title: 'Baboon Modul1' });
     };
 
-    exports.module1 = function(req, res){
-        res.render('module1', { title: 'Express Modul1' });
+    pub.module2 = function(req, res){
+        res.render('module2', { title: 'Baboon Modul2' });
     };
-})(module.exports);
 
-
+    return pub;
+};

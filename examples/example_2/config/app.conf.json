@@ -1,0 +1,59 @@
+{
+    "base": {
+        "nodeEnv": "development",
+        "appName": "Baboon Example App",
+        "protocol": "http",
+        "host": "localhost",
+        "port": 3000,
+        "version": "v0.0.1",
+        "sessionKey":"baboon.sid",
+        "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
+        "sessionMaxLife":86400,
+        "sessionInactiveTime":1800,
+        "logging": {
+            "maxLogSize": 2048000,
+            "backups": 10,
+            "syslog": "INFO",
+            "audit": "INFO",
+            "socket": "INFO"
+        },
+        "redis": {
+            "server1": {
+                "host": "localhost",
+                "port": 6379,
+                "options":{}
+            }
+        },
+        "mongo": {
+            "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
+            "dbs": ["blog", "users"]
+        }
+    },
+    "params":{
+        "dev": {
+            "nodeEnv": "development",
+            "logging": {
+                "syslog": "DEBUG",
+                "audit": "DEBUG",
+                "socket": "DEBUG"
+            }
+        },
+        "pro": {
+            "nodeEnv": "production",
+            "logging": {
+                "syslog": "INFO",
+                "audit": "INFO",
+                "socket": "INFO"
+            },
+            "server1": {
+                "host": "localhost",
+                "port": 6379,
+                "options":{}
+            },
+            "mongo": {
+                "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
+                "dbs": ["blog", "users"]
+            }
+        }
+    }
+}
