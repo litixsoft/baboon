@@ -58,14 +58,14 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'},
+                    {dest: 'build/dist/public/assets', src : ['**','!README.md'], expand: true, cwd: 'client/assets'},
                     {dest: 'build/dist/views/', src : ['**/views/*.html'], expand: true, cwd: 'client/app/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
-                    { dest: 'build/dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
+                    { dest: 'build/dist/public/assets/core/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
                 ]
             }
         },
