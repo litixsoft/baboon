@@ -1,9 +1,11 @@
 angular.module('enterprise', [
         'enterprise.services'
     ])
+
 /**
  * Enterprise config area
  */
+
     .config(function ($routeProvider) {
         $routeProvider.when('/', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
         $routeProvider.when('/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
@@ -14,7 +16,7 @@ angular.module('enterprise', [
  */
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
 
-        enterpriseCrew.getAll(function(data) {
+        enterpriseCrew.getAll(function (data) {
             $scope.enterpriseCrew = data;
         });
 
@@ -31,7 +33,7 @@ angular.module('enterprise', [
 
         $scope.opts = {
             backdropFade: true,
-            dialogFade:true
+            dialogFade: true
         };
     }])
 /**
@@ -39,12 +41,12 @@ angular.module('enterprise', [
  */
     .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', function ($scope, $location, $routeParams, enterpriseCrew) {
 
-        enterpriseCrew.getById([$routeParams.id], function(data) {
+        enterpriseCrew.getById([$routeParams.id], function (data) {
             $scope.person = data;
         });
 
         $scope.save = function () {
-            enterpriseCrew.updateById($routeParams.id, $scope.person, function() {
+            enterpriseCrew.updateById($routeParams.id, $scope.person, function () {
                 $location.path('/');
             });
         };
@@ -52,10 +54,10 @@ angular.module('enterprise', [
 /**
  * Enterprise new controller
  */
-    .controller('newCtrl', ['$scope', '$location','enterpriseCrew', function ($scope, $location, enterpriseCrew) {
+    .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew', function ($scope, $location, enterpriseCrew) {
         $scope.person = {name: '', description: ''};
         $scope.save = function () {
-            enterpriseCrew.create($scope.person, function() {
+            enterpriseCrew.create($scope.person, function () {
                 $location.path('/');
             });
         };
