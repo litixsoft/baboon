@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/baboon/css/style.css">
     <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="shortcut icon" href="/assets/bootstrap/img/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/bootstrap/img/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/bootstrap/img/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/bootstrap/img/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/assets/bootstrap/img/apple-touch-icon-57-precomposed.png">
+    <script type="text/javascript" src="/assets/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/assets/angular/angular.js"></script>
 </head>
 <body>
 <% include controls/nav.ejs %>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<div id="main">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+</div>
 </body>
 </html>

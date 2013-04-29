@@ -6,7 +6,10 @@ var baboon = require('../../lib/baboon')(__dirname),
     app = baboon.express.app;
 
 app.get('/', routes.index);
-//app.get('/login', routes.login);
+app.get('/login', routes.login);
+app.get('/blub', function(req, res){
+    res.send('favicon.ico');
+});
 //app.post('/login', auth.login);
 //app.get('/logout', auth.logout);
 //app.get('/module1', auth.restricted, routes.module1);

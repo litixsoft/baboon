@@ -1,6 +1,4 @@
 .idea
-/dist
-/tmp
+/build
 /node_modules
-/test/Reports
 /server/logs
