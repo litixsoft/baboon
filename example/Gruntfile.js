@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('config/app.conf.json'),
+        conf: grunt.file.readJSON('config/app.conf.json').base,
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -15,14 +15,14 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            reports: ['test/reports'],
-            dist: ['dist','tmp']
+            reports: ['build/reports'],
+            dist: ['build/dist','build/tmp']
         },
         // lint files
         jshint: {
             files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js','test/e2e/**/*.js'],
-            junit: 'test/reports/jshint.xml',
-            checkstyle: 'test/reports/jshint_checkstyle.xml',
+            junit: 'build/reports/jshint.xml',
+            checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
                 bitwise: true,
                 curly: true,
@@ -57,14 +57,14 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
+                    {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
-                    { dest: 'dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
+                    { dest: 'build/dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
                 ]
             }
         },
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
             },
             main: {
                 src: ['client/app/**/*.html', 'client/common/**/*.html'],
-                dest: 'tmp/app.tpl.js'
+                dest: 'build/tmp/app.tpl.js'
             }
         },
         concat: {
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
              */
             libs: {
                 files: {
-                    'dist/js/libs.js': [
+                    'build/dist/js/libs.js': [
                         'vendor/jquery/jquery.min.js',
                         'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
                         'vendor/jquery-codemirror/codemirror.js',
@@ -118,7 +118,7 @@ module.exports = function (grunt) {
              */
             libsCss: {
                 files: {
-                    'dist/css/libs.css': [
+                    'build/dist/css/libs.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
                         //AngularUI
@@ -144,15 +144,15 @@ module.exports = function (grunt) {
                     'client/common/**/*.js',
                     '!client/common/**/*.spec.js',
                     'client/components/**/*.js',
-                    'tmp/app.tpl.js',
+                    'build/tmp/app.tpl.js',
                     'client/app/module.suffix'
                 ],
-                dest: 'dist/js/application.js'
+                dest: 'build/dist/js/application.js'
             },
             // all app css libraries
             appCss: {
                 files: {
-                    'dist/css/application.css': [
+                    'build/dist/css/application.css': [
                         'client/common/**/*.css',
                         'client/app/**/*.css'
                     ]
@@ -161,26 +161,26 @@ module.exports = function (grunt) {
         },
         ngmin: {
             app: {
-                src: ['dist/js/application.js'],
-                dest: 'dist/js/application.js'
+                src: ['build/dist/js/application.js'],
+                dest: 'build/dist/js/application.js'
             }
         },
         uglify: {
             target: {
                 files: {
-                    'dist/js/application.js': 'dist/js/application.js'
+                    'build/dist/js/application.js': 'build/dist/js/application.js'
                 }
             }
         },
         cssmin: {
             combine: {
                 files: {
-                    'dist/css/application.css': ['dist/css/application.css']
+                    'build/dist/css/application.css': ['build/dist/css/application.css']
                 }
             }
         },
         server: {
-            script: 'scripts/web-server.js'
+            script: 'app.js'
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -203,7 +203,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
@@ -211,7 +211,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
@@ -219,7 +219,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
