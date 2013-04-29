@@ -1,4 +1,4 @@
-angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'enterprise', 'blog', 'uiexamples', 'ui', 'ngGrid','kendo'])
+angular.module('app', ['templates-main','$strap.directives', 'ui.bootstrap', 'enterprise', 'blog', 'uiexamples', 'ui', 'ngGrid','kendo.directives'])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});

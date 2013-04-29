@@ -98,6 +98,11 @@ module.exports = function (grunt) {
                         'vendor/angular-ui/js/angular-ui.min.js',
                         'vendor/angular-strap/angular-strap.js',
 
+
+                        'vendor/kendo-ui/kendo.all.min.js',
+                        'vendor/underscore/underscore-min.js',
+                        'vendor/angular-kendo/angular-kendo.js',
+
                         'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
                         'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
 
@@ -105,9 +110,7 @@ module.exports = function (grunt) {
                         'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
                         'vendor/select2/select2.min.js',
 
-                        'vendor/angular-ui-ng-grid/ng-grid.js',
-                        'vendor/kendo-ui/kendo.all.min.js',
-                        'vendor/angular-kendo/angular-kendo.js'
+                        'vendor/angular-ui-ng-grid/ng-grid.js'
 
                     ]
                 }
