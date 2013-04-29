@@ -1,3 +1,4 @@
+
 <style>
     .alert h4{
         margin-top:30px;
@@ -30,7 +31,7 @@
 </style>
 <h2>{{title}}</h2>
 
-
+<p>Spaß</p>
 
 <hr>
 <!-- ------------- -->
@@ -57,9 +58,19 @@
             </div>
             <div style="display:table-cell;width:0.5%"></div>
             <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                <h3>AngularStrap - Datagrid</h3>
+                <h3>KendoUI - Datagrid</h3>
 
+                <!-- Example Begin-->
+                <div ng-controller="kendoGridCtrl">
 
+                    <div kendo-grid kendo-source="things" data-selectable="row"
+                         data-pageable='{ "refresh": true, "pageSizes": true }'
+                         data-columns='[{ "field": "ProductName", "title": "Name"},
+                 { "field": "Supplier.SupplierName", "title": "Supplier"},
+                 { "field": "Category.CategoryName", "title": "Category" }]'
+                         on-change="rowSelected(kendoEvent)" >
+                </div>
+                <!-- Example End-->
 
             </div>
         </div>
