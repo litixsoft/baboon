@@ -58,7 +58,8 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
+                    {dest: 'build/dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'},
+                    {dest: 'build/dist/views/', src : ['**/views/*.html'], expand: true, cwd: 'client/app/'}
                 ]
             },
             vendor: {
@@ -71,93 +72,138 @@ module.exports = function (grunt) {
         html2js: {
             options: {
                 // custom options, see below
-                base: 'client/app'
+                base: 'client/common'
             },
             main: {
-                src: ['client/app/**/*.html', 'client/common/**/*.html'],
-                dest: 'build/tmp/app.tpl.js'
+                src: ['client/common/**/*.html'],
+                dest: 'build/tmp/common.tpl.js'
             }
         },
         concat: {
             /**
-             * The `libs` target is for all third-party js libraries we need to include
-             * in the final distribution.
+             * The `core` target is for baboon core third-party js libraries.
              */
-            libs: {
+            core: {
                 files: {
-                    'build/dist/js/libs.js': [
+                    'build/dist/public/assets/core/js/core.js': [
+                        'vendor/jquery/jquery.js',
+                        'vendor/angular/angular.js',
+                        'vendor/bootstrap/js/bootstrap.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js',
+                        'vendor/angular-ui/js/angular-ui.js',
+                        'vendor/angular-strap/angular-strap.js'
+                    ],
+                    'build/dist/public/assets/core/js/core.min.js': [
                         'vendor/jquery/jquery.min.js',
-                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
-                        'vendor/jquery-codemirror/codemirror.js',
-
                         'vendor/angular/angular.min.js',
                         'vendor/bootstrap/js/bootstrap.min.js',
-//                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js', //überflüssig
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
-
                         'vendor/angular-ui/js/angular-ui.min.js',
-                        'vendor/angular-strap/angular-strap.js',
-
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
-                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
-
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
-                        'vendor/select2/select2.min.js',
-
-                        'vendor/angular-ui-ng-grid/ng-grid.js',
-                        'vendor/kendo-ui/kendo.all.min.js',
-                        'vendor/angular-kendo/angular-kendo.js'
-
-                    ]
-                }
-            },
-            /**
-             * The `libsCss` target is for all third-party css files we need to include
-             * in the final distribution.
-             */
-            libsCss: {
-                files: {
-                    'build/dist/css/libs.css': [
+                        'vendor/angular-strap/angular-strap.min.js'
+                    ],
+                    'build/dist/public/assets/core/css/core.css': [
+                        'vendor/bootstrap/css/bootstrap.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.css',
+                        'vendor/angular-ui/js/angular-ui.css'
+                    ],
+                    'build/dist/public/assets/core/css/core.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        //AngularUI
-                        'vendor/angular-ui/js/angular-ui.min.css',
-                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
-                        'vendor/jquery-codemirror/codemirror.css',
-                        'vendor/jquery-codemirror/theme/monokai.css',
-                        //AngularStrap
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
-                        'vendor/select2/select2.css',
-
-                        'vendor/angular-ui-ng-grid/ng-grid.css'
+                        'vendor/angular-ui/js/angular-ui.min.css'
                     ]
                 }
             },
-            // setup application js libraries and angular directives
-            app: {
-                src: [
-                    'client/app/module.prefix',
-                    'client/app/**/*.js',
-                    '!client/app/**/*.spec.js',
-                    'client/common/**/*.js',
-                    '!client/common/**/*.spec.js',
-                    'client/components/**/*.js',
-                    'build/tmp/app.tpl.js',
-                    'client/app/module.suffix'
-                ],
-                dest: 'build/dist/js/application.js'
-            },
-            // all app css libraries
-            appCss: {
+            common: {
                 files: {
-                    'build/dist/css/application.css': [
-                        'client/common/**/*.css',
-                        'client/app/**/*.css'
+                    'build/dist/public/assets/core/js/common.js': [
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+                        'build/tmp/common.tpl.js'
+                    ],
+                    'build/dist/public/assets/core/css/common.css': [
+                        'client/common/**/*.css'
                     ]
                 }
             }
+//            libs: {
+//                files: {
+//                    'build/dist/public/js/libs.js': [
+//                        'vendor/jquery/jquery.min.js',
+//                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
+//                        'vendor/jquery-codemirror/codemirror.js',
+//
+//                        'vendor/angular/angular.min.js',
+//                        'vendor/bootstrap/js/bootstrap.min.js',
+////                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js', //überflüssig
+//                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
+//
+//                        'vendor/angular-ui/js/angular-ui.min.js',
+//                        'vendor/angular-strap/angular-strap.js',
+//
+//                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
+//                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
+//
+//                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
+//                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
+//                        'vendor/select2/select2.min.js',
+//
+//                        'vendor/angular-ui-ng-grid/ng-grid.js',
+//                        'vendor/kendo-ui/kendo.all.min.js',
+//                        'vendor/angular-kendo/angular-kendo.js',
+//
+//                        // common
+//                        'client/common/**/*.js',
+//                        'build/tmp/common.tpl.js'
+//
+//                    ]
+//                }
+//            },
+//            /**
+//             * The `libsCss` target is for all third-party css files we need to include
+//             * in the final distribution.
+//             */
+//            libsCss: {
+//                files: {
+//                    'build/dist/public/css/libs.css': [
+//                        'vendor/bootstrap/css/bootstrap.min.css',
+//                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
+//                        //AngularUI
+//                        'vendor/angular-ui/js/angular-ui.min.css',
+//                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
+//                        'vendor/jquery-codemirror/codemirror.css',
+//                        'vendor/jquery-codemirror/theme/monokai.css',
+//                        //AngularStrap
+//                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
+//                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
+//                        'vendor/select2/select2.css',
+//
+//                        'vendor/angular-ui-ng-grid/ng-grid.css',
+//
+//                        // common
+//                        'client/common/**/*.css'
+//                    ]
+//                }
+//            }
+            // setup application js libraries and angular directives
+//            app: {
+//                src: [
+//                    'client/app/module.prefix',
+//                    'client/app/**/*.js',
+//                    '!client/app/**/*.spec.js',
+//                    'build/tmp/app.tpl.js',
+//                    'client/app/module.suffix'
+//                ],
+//                dest: 'build/dist/js/application.js'
+//            },
+//            // all app css libraries
+//            appCss: {
+//                files: {
+//                    'build/dist/css/application.css': [
+//                        'client/common/**/*.css',
+//                        'client/app/**/*.css'
+//                    ]
+//                }
+//            }
         },
         ngmin: {
             app: {
@@ -251,51 +297,57 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ngmin');
 
-    // Tasks
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
-        'html2js',
-        'concat',
-        'replace:debug'
-    ]);
-    grunt.registerTask('build:regarde', [
-        'clean:dist',
-        'copy',
-        'html2js',
-        'concat',
-        'replace:livereload'
-    ]);
-    grunt.registerTask('lint', [
-        'clean:reports',
-        'jshint:files'
-    ]);
-    grunt.registerTask('test', [
-        'clean:reports',
-        'jshint:files',
-        'karma'
-    ]);
-    grunt.registerTask('release', [
-        'clean:dist',
-        'copy',
-        'html2js',
-        'concat',
-        'ngmin',
-        'uglify',
-        'replace:release'
-    ]);
-    grunt.registerTask('server', [
-        'clean:dist',
-        'copy',
-        'html2js',
-        'concat',
-        'livereload-start',
-        'express-server',
-        'replace:livereload',
-        'open:server',
-        'regarde'
+        'concat'
     ]);
 
-    // Default task.
-    grunt.registerTask('default', ['build']);
+    // Tasks
+//    grunt.registerTask('build', [
+//        'clean:dist',
+//        'copy',
+//        'html2js',
+//        'concat',
+//        'replace:debug'
+//    ]);
+//    grunt.registerTask('build:regarde', [
+//        'clean:dist',
+//        'copy',
+//        'html2js',
+//        'concat',
+//        'replace:livereload'
+//    ]);
+//    grunt.registerTask('lint', [
+//        'clean:reports',
+//        'jshint:files'
+//    ]);
+//    grunt.registerTask('test', [
+//        'clean:reports',
+//        'jshint:files',
+//        'karma'
+//    ]);
+//    grunt.registerTask('release', [
+//        'clean:dist',
+//        'copy',
+//        'html2js',
+//        'concat',
+//        'ngmin',
+//        'uglify',
+//        'replace:release'
+//    ]);
+//    grunt.registerTask('server', [
+//        'clean:dist',
+//        'copy',
+//        'html2js',
+//        'concat',
+//        'livereload-start',
+//        'express-server',
+//        'replace:livereload',
+//        'open:server',
+//        'regarde'
+//    ]);
+//
+//    // Default task.
+//    grunt.registerTask('default', ['build']);
 };
