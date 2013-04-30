@@ -234,6 +234,9 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'config/karma.conf.js'
+            },
+            e2e: {
+                configFile: 'config/karma-e2e.conf.js'
             }
         }
     });
@@ -276,7 +279,12 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:reports',
         'jshint:files',
-        'karma'
+        'karma:unit'
+    ]);
+    grunt.registerTask('e2e', [
+        'clean:reports',
+        'jshint:files',
+        'karma:e2e'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
