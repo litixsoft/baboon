@@ -1,7 +1,7 @@
 angular.module('enterprise.services', [])
     .factory('enterpriseCrew', function (socket) {
         var pub = {},
-            enterprise;
+            enterprise = [];
 
         pub.getAll = function(callback) {
             if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
@@ -36,6 +36,10 @@ angular.module('enterprise.services', [])
 
         pub.create = function(person, callback) {
             socket.emit('enterprise:create',{person: person}, function(data) {
+                if (!Array.isArray(enterprise)) {
+                    enterprise = [];
+                }
+
                 enterprise.push(person);
                 callback(data);
             });

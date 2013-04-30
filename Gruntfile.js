@@ -30,7 +30,6 @@ module.exports = function (grunt) {
                 regexp:true,
                 undef:true,
                 unused:true,
-                strict:true,
                 indent:4,
                 quotmark:'single',
                 es5:true,
