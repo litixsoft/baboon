@@ -284,6 +284,8 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e', [
         'clean:reports',
         'jshint:files',
+        'build',
+        'express-server',
         'karma:e2e'
     ]);
     grunt.registerTask('release', [

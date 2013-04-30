@@ -7,7 +7,7 @@
 //    };
 //});
 
-/*global describe, it, expect, beforeEach, browser, element */
+/*global describe, it, expect, beforeEach, browser, repeater, element */
 describe('Enterprise app', function () {
 
 //    beforeEach(function () {
@@ -15,46 +15,29 @@ describe('Enterprise app', function () {
 //        browser().navigateTo('/');
 //    });
 
-    it('should redirect index.html to index.html#/phones', function() {
+    it('should redirect index.html', function () {
         browser().navigateTo('/');
-//        expect(browser().location().url()).toBe('/phones');
-//        console.log(browser().window().href());
 
-        expect(browser().location().url()).toEqual('http://www.google.com');
+        expect(browser().location().url()).toEqual('/');
     });
 
-//    it('contains spec with an expectation', function() {
-//        expect(browser().location().url()).toBe('/');
-////        expect(value(3)).toBe(3);
-//    });
+    it('should redirect index.html when some unknown url is entered', function () {
+        browser().navigateTo('/dasdsasda');
 
-//    it('should automatically redirect to /view1 when location hash/fragment is empty', function () {
-//        expect(browser().location().url()).toBe('/view1');
-//    });
+        expect(browser().location().url()).toEqual('/');
+    });
 
-//    describe('view1', function () {
-//
-//        beforeEach(function () {
-//            browser().navigateTo('#/view1');
-//        });
-//
-//        it('should render view1 when user navigates to /view1', function () {
-//            expect(element('[ng-view] p:first').text()).
-//                toMatch(/partial for view 1/);
-//        });
-//
-//    });
-//
-//    describe('view2', function () {
-//
-//        beforeEach(function () {
-//            browser().navigateTo('#/view2');
-//        });
-//
-//        it('should render view2 when user navigates to /view2', function () {
-//            expect(element('[ng-view] p:first').text()).
-//                toMatch(/partial for view 2/);
-//        });
-//
-//    });
+    it('should redirect to edit.html when Add New Member is clicked', function () {
+        browser().navigateTo('/');
+        element('table thead tr td a', 'Add New').click();
+
+        expect(browser().location().url()).toEqual('/new');
+    });
+
+    it('should redirect to edit.html when Add New Member is clicked', function () {
+        browser().navigateTo('/');
+
+//        expect(repeater('table tbody tr').count()).toBe(3);
+//        expect(element('table tbody tr', 'Crew Members').count()).toBe(3);
+    });
 });

@@ -16,6 +16,8 @@ proxies = {
     '/': 'http://localhost:3000/'
 };
 
+urlRoot = '/_karma_/';
+
 junitReporter = {
     outputFile: 'test/reports/e2e.xml',
     suite: 'e2e'
