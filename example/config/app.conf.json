@@ -1,4 +1,7 @@
 {
+    "module": {
+        "blog": true
+    },
     "base": {
         "nodeEnv": "development",
         "appName": "Baboon Example App",
