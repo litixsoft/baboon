@@ -50,7 +50,6 @@ module.exports = function (grunt) {
             }
         },
 
-
         /**
          * `grunt copy` just copies files from client or vendor to dist.
          */
@@ -66,8 +65,8 @@ module.exports = function (grunt) {
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
-                    // all vendor without angular-locale
-                    {dest: 'build/dist/assets/', src : ['**/*.*','!angular-locale/**'], expand: true, cwd: 'vendor/'}
+                    // images from bootstrap
+                    {dest: 'build/dist/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -93,25 +92,89 @@ module.exports = function (grunt) {
 
         concat: {
             /**
-             * The `locale` target is for angular-locale js libraries.
+             * The `libs` target is for all third-party js libraries we need to include
+             * in the final distribution.
              */
-            locale: {
+            libs: {
                 files: {
-                    'build/dist/js/locale.js': [
-                        'vendor/angular-locale/*_de*',
-                        'vendor/angular-locale/*_en*}'
-                    ]
-                }
-            },
-            /**
-             * The `common` target is for baboon common js libraries.
-             */
-            common: {
-                files: {
-                    'build/dist/js/common.js': [
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
-                        'build/tmp/common.tpl.js'
+                    // angular debug
+                    'build/dist/js/angular.libs.js': [
+                        'vendor/angular/angular.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js',
+                        'vendor/angular-ui/js/angular-ui.js',
+                        'vendor/angular-strap/angular-strap.js',
+                        'vendor/angular-kendo/angular-kendo.js',
+                        'vendor/angular-ui-ng-grid/ng-grid.js'
+                    ],
+                    // angular release
+                    'build/dist/js/angular.libs.min.js': [
+                        'vendor/angular/angular.min.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
+                        'vendor/angular-ui/js/angular-ui.min.js',
+                        'vendor/angular-strap/angular-strap.min.js',
+                        'vendor/angular-kendo/angular-kendo.min.js',
+                        'vendor/angular-ui-ng-grid/ng-grid.min.js'
+                    ],
+                    // angular css debug
+                    'build/dist/css/angular.libs.css': [
+                        'vendor/angular-ui/js/angular-ui.css',
+                        'vendor/angular-ui-ng-grid/ng-grid.css'
+
+                    ],
+                    // angular css release
+                    'build/dist/css/angular.libs.min.css': [
+                        'vendor/angular-ui/js/angular-ui.min.css',
+                        'vendor/angular-ui-ng-grid/ng-grid.css'
+                    ],
+                    // libs debug
+                    'build/dist/js/libs.js': [
+                        'vendor/jquery/jquery.min.js',
+                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
+                        'vendor/jquery-codemirror/codemirror.js',
+                        'vendor/bootstrap/js/bootstrap.min.js',
+                        'vendor/kendo-ui/kendo.all.min.js',
+                        'vendor/underscore/underscore.js',
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
+                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
+                        'vendor/select2/select2.min.js'
+                    ],
+                    // libs release
+                    'build/dist/js/libs.min.js': [
+                        'vendor/jquery/jquery.min.js',
+                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
+                        'vendor/jquery-codemirror/codemirror.js',
+                        'vendor/bootstrap/js/bootstrap.min.js',
+                        'vendor/kendo-ui/kendo.all.min.js',
+                        'vendor/underscore/underscore.min.js',
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
+                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.min.js',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
+                        'vendor/select2/select2.min.js'
+                    ],
+                    // libs debug
+                    'build/dist/css/libs.css': [
+                        'vendor/bootstrap/css/bootstrap.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.css',
+                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css',
+                        'vendor/jquery-codemirror/codemirror.css',
+                        'vendor/jquery-codemirror/theme/monokai.css',
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
+                        'vendor/select2/select2.css'
+                    ],
+                    // libs release
+                    'build/dist/css/libs.min.css': [
+                        'vendor/bootstrap/css/bootstrap.min.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
+                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
+                        'vendor/jquery-codemirror/codemirror.css',
+                        'vendor/jquery-codemirror/theme/monokai.css',
+                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
+                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
+                        'vendor/select2/select2.css'
                     ]
                 }
             },
@@ -122,19 +185,26 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/js/app.js': [
                         'client/app/module.prefix',
+
+                        // app
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
-                        'client/app/module.suffix'
-                    ]
-                }
-            },
 
-            /**
-             * all app css libraries
-             */
-            appCss: {
-                files: {
-                    'build/dist/css/app.css': ['client/app/**/*.css']
+                        // common
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+                        'build/tmp/common.tpl.js',
+
+                        // locale
+                        'vendor/angular/i18n/*_de*',
+                        'vendor/angular/i18n/*_en*}',
+
+                        'client/app/module.suffix'
+                    ],
+                    'build/dist/css/app.css': [
+                        'client/common/**/*.css',
+                        'client/app/**/*.css'
+                    ]
                 }
             }
         },
@@ -144,16 +214,6 @@ module.exports = function (grunt) {
          */
 
         ngmin: {
-            // angular locale
-            locale: {
-                src: ['build/dist/js/locale.js'],
-                dest: 'build/tmp/locale.js'
-            },
-            // application common
-            common: {
-                src: ['build/dist/js/common.js'],
-                dest: 'build/tmp/common.js'
-            },
             app: {
                 src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
@@ -167,8 +227,6 @@ module.exports = function (grunt) {
         uglify: {
             target: {
                 files: {
-                    'build/dist/js/locale.min.js': 'build/tmp/locale.js',
-                    'build/dist/js/common.min.js': 'build/tmp/common.js',
                     'build/dist/js/app.min.js': 'build/tmp/app.js'
                 }
             }
