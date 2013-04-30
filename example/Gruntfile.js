@@ -58,17 +58,33 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist/public/assets', src : ['**','!README.md'], expand: true, cwd: 'client/assets'},
+                    {dest: 'build/dist/assets', src : ['**','!README.md'], expand: true, cwd: 'client/assets'},
                     {dest: 'build/dist/views/', src : ['**/views/*.html'], expand: true, cwd: 'client/app/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
-                    { dest: 'build/dist/public/assets/core/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
+                    // bootstrap images to core
+//                    { dest: 'build/dist/assets/core/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' },
+                    // vendor to assets
+                    { dest: 'build/dist/assets/jquery', src : ['**'], expand: true, cwd: 'vendor/jquery' },
+                    {
+                        dest: 'build/dist/assets/angular',
+                        src : ['angular.js','angular.min.js'],
+                        expand: true,
+                        cwd: 'vendor/angular'
+                    },
+                    { dest: 'build/dist/assets/bootstrap', src : ['**'], expand: true, cwd: 'vendor/bootstrap' },
+                    { dest: 'build/dist/assets/angular-ui-bootstrap', src : ['*-tpls-*'], expand: true, cwd: 'vendor/angular-ui-bootstrap' },
+                    { dest: 'build/dist/assets/jquery-ui', src : ['**'], expand: true, cwd: 'vendor/jquery-ui' },
+                    { dest: 'build/dist/assets/jquery-codemirror', src : ['**'], expand: true, cwd: 'vendor/jquery-codemirror' }
                 ]
             }
         },
+        /**
+         * html2js for common templates
+         */
         html2js: {
             options: {
                 // custom options, see below
@@ -85,7 +101,7 @@ module.exports = function (grunt) {
              */
             core: {
                 files: {
-                    'build/dist/public/assets/core/js/core.js': [
+                    'build/dist/assets/core/js/core.js': [
                         'vendor/jquery/jquery.js',
                         'vendor/angular/angular.js',
                         'vendor/bootstrap/js/bootstrap.js',
@@ -93,7 +109,7 @@ module.exports = function (grunt) {
                         'vendor/angular-ui/js/angular-ui.js',
                         'vendor/angular-strap/angular-strap.js'
                     ],
-                    'build/dist/public/assets/core/js/core.min.js': [
+                    'build/dist/assets/core/js/core.min.js': [
                         'vendor/jquery/jquery.min.js',
                         'vendor/angular/angular.min.js',
                         'vendor/bootstrap/js/bootstrap.min.js',
@@ -101,12 +117,12 @@ module.exports = function (grunt) {
                         'vendor/angular-ui/js/angular-ui.min.js',
                         'vendor/angular-strap/angular-strap.min.js'
                     ],
-                    'build/dist/public/assets/core/css/core.css': [
+                    'build/dist/assets/core/css/core.css': [
                         'vendor/bootstrap/css/bootstrap.css',
                         'vendor/bootstrap/css/bootstrap-responsive.css',
                         'vendor/angular-ui/js/angular-ui.css'
                     ],
-                    'build/dist/public/assets/core/css/core.min.css': [
+                    'build/dist/assets/core/css/core.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
                         'vendor/angular-ui/js/angular-ui.min.css'
@@ -115,13 +131,10 @@ module.exports = function (grunt) {
             },
             common: {
                 files: {
-                    'build/dist/public/assets/core/js/common.js': [
+                    'build/dist/assets/core/js/common.js': [
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
                         'build/tmp/common.tpl.js'
-                    ],
-                    'build/dist/public/assets/core/css/common.css': [
-                        'client/common/**/*.css'
                     ]
                 }
             }
@@ -206,22 +219,27 @@ module.exports = function (grunt) {
 //            }
         },
         ngmin: {
-            app: {
-                src: ['build/dist/js/application.js'],
-                dest: 'build/dist/js/application.js'
+            common: {
+                src: ['build/dist/assets/core/js/common.js'],
+                dest: 'build/tmp/common.js'
             }
+//            app: {
+//                src: ['build/dist/js/application.js'],
+//                dest: 'build/dist/js/application.js'
+//            }
         },
         uglify: {
             target: {
                 files: {
-                    'build/dist/js/application.js': 'build/dist/js/application.js'
+                    'build/dist/assets/core/js/common.min.js': 'build/tmp/common.js'
+                    //'build/dist/js/application.js': 'build/dist/js/application.js'
                 }
             }
         },
         cssmin: {
             combine: {
                 files: {
-                    'build/dist/css/application.css': ['build/dist/css/application.css']
+                    //'build/dist/css/application.css': ['build/dist/css/application.css']
                 }
             }
         },
@@ -299,8 +317,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'copy',
-        'concat'
+        'copy'
     ]);
 
     // Tasks
