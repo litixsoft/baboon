@@ -1,11 +1,11 @@
-angular.module('uiexamples', [])
+angular.module('ui_examples', [])
 
 /**
  * Enterprise config area
  */
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'uiexamples/views/uiexamples.html', controller: 'uiexamplesCtrl'});
+        $routeProvider.when('/ui_ex', {templateUrl: 'ui_examples/ui_examples.html', controller: 'ui_examplesCtrl'});
     })
 
 
@@ -14,7 +14,7 @@ angular.module('uiexamples', [])
 /**
  * Enterprise controller
  */
-    .controller('uiexamplesCtrl', ['$scope', function ($scope) {
+    .controller('ui_examplesCtrl', ['$scope', function ($scope) {
 
         $scope.title = 'UI-Examples';
 

@@ -58,8 +58,7 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'},
-                    {dest: 'build/dist/views/', src : ['**/views/*.html'], expand: true, cwd: 'client/app/'}
+                    {dest: 'build/dist/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'}
                 ]
             },
             vendor: {
@@ -78,11 +77,11 @@ module.exports = function (grunt) {
         html2js: {
             options: {
                 // custom options, see below
-                base: 'client/common'
+                base: 'client/app'
             },
             main: {
-                src: ['client/common/**/*.html'],
-                dest: 'build/tmp/common.tpl.js'
+                src: ['client/app/**/*.html', 'client/common/**/*.html'],
+                dest: 'build/dist/js/templates.tpl.js'
             }
         },
 
@@ -126,25 +125,25 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/js/app.js': [
                         'client/app/module.prefix',
-
                         // app
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
-
                         // common
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
-                        'build/tmp/common.tpl.js',
-
-                        // locale
-                        'vendor/angular/i18n/*_de*',
-                        'vendor/angular/i18n/*_en*}',
-
                         'client/app/module.suffix'
                     ],
                     'build/dist/css/app.css': [
                         'client/common/**/*.css',
                         'client/app/**/*.css'
+                    ]
+                }
+            },
+            locale: {
+                files: {
+                    'build/dist/js/locale.js': [
+                        'vendor/angular/i18n/*_de{-de.js,.js}',
+                        'vendor/angular/i18n/*_en{-us.js,.js}'
                     ]
                 }
             }
@@ -158,6 +157,14 @@ module.exports = function (grunt) {
             app: {
                 src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
+            },
+            templates: {
+                src: ['build/dist/js/templates.tpl.js'],
+                dest: 'build/tmp/templates.tpl.js'
+            },
+            locale: {
+                src: ['build/dist/js/locale.js'],
+                dest: 'build/tmp/locale.js'
             }
         },
 
@@ -168,7 +175,9 @@ module.exports = function (grunt) {
         uglify: {
             target: {
                 files: {
-                    'build/dist/js/app.min.js': 'build/tmp/app.js'
+                    'build/dist/js/app.min.js': 'build/tmp/app.js',
+                    'build/dist/js/templates.tpl.min.js': 'build/tmp/templates.tpl.js',
+                    'build/dist/js/locale.min.js': 'build/tmp/locale.js'
                 }
             }
         },

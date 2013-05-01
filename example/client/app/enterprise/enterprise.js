@@ -5,9 +5,9 @@ angular.module('enterprise', [
  * Enterprise config area
  */
     .config(function ($routeProvider) {
-        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/views/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/views/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/views/edit.html', controller: 'editCtrl'});
+        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
+        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
+        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
     })
 /**
  * Enterprise controller

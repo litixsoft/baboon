@@ -1,6 +1,6 @@
 angular.module('blog', [])
     .config(function ($routeProvider) {
-        $routeProvider.when('/foo', {templateUrl: 'blog/views/blog.html', controller: 'fooCtrl'});
+        $routeProvider.when('/foo', {templateUrl: 'blog/blog.html', controller: 'fooCtrl'});
     })
     .controller('fooCtrl', ['$scope', 'enterpriseCrew', 'socket', function ($scope, enterpriseCrew, socket) {
         enterpriseCrew.getAll(function(data) {
