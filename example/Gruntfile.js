@@ -20,7 +20,8 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js','test/e2e/**/*.js'],
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js',
+                '!client/common/angular-locale/*.*', 'test/e2e/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -75,13 +76,22 @@ module.exports = function (grunt) {
          */
 
         html2js: {
-            options: {
-                // custom options, see below
-                base: 'client/app'
+
+            app: {
+                options: {
+                    // custom options, see below
+                    base: 'client/app'
+                },
+                src: ['client/app/**/*.html'],
+                dest: 'build/dist/js/app.tpl.js'
             },
-            main: {
-                src: ['client/app/**/*.html', 'client/common/**/*.html'],
-                dest: 'build/dist/js/templates.tpl.js'
+            common: {
+                options: {
+                    // custom options, see below
+                    base: 'client/common'
+                },
+                src: ['client/common/**/*.html'],
+                dest: 'build/dist/js/common.tpl.js'
             }
         },
 
@@ -125,25 +135,25 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/js/app.js': [
                         'client/app/module.prefix',
-                        // app
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
-                        // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
                         'client/app/module.suffix'
                     ],
                     'build/dist/css/app.css': [
-                        'client/common/**/*.css',
                         'client/app/**/*.css'
                     ]
                 }
             },
-            locale: {
+            common: {
                 files: {
-                    'build/dist/js/locale.js': [
-                        'vendor/angular/i18n/*_de{-de.js,.js}',
-                        'vendor/angular/i18n/*_en{-us.js,.js}'
+                    'build/dist/js/common.js': [
+                        'client/common/common.prefix',
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+                        'client/common/common.suffix'
+                    ],
+                    'build/dist/css/common.css': [
+                        'client/common/**/*.css'
                     ]
                 }
             }
@@ -158,13 +168,17 @@ module.exports = function (grunt) {
                 src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
             },
-            templates: {
-                src: ['build/dist/js/templates.tpl.js'],
-                dest: 'build/tmp/templates.tpl.js'
+            app_tpl: {
+                src: ['build/dist/js/app.tpl.js'],
+                dest: 'build/tmp/app.tpl.js'
             },
-            locale: {
-                src: ['build/dist/js/locale.js'],
-                dest: 'build/tmp/locale.js'
+            common: {
+                src: ['build/dist/js/common.js'],
+                dest: 'build/tmp/common.js'
+            },
+            common_tpl: {
+                src: ['build/dist/js/common.tpl.js'],
+                dest: 'build/tmp/common.tpl.js'
             }
         },
 
@@ -176,8 +190,9 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/js/templates.tpl.min.js': 'build/tmp/templates.tpl.js',
-                    'build/dist/js/locale.min.js': 'build/tmp/locale.js'
+                    'build/dist/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
+                    'build/dist/js/common.min.js': 'build/tmp/common.js',
+                    'build/dist/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
                 }
             }
         },
@@ -189,7 +204,8 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: {
-                    'build/dist/css/app.min.css': ['build/dist/css/app.css']
+                    'build/dist/css/app.min.css': ['build/dist/css/app.css'],
+                    'build/dist/css/common.min.css': ['build/dist/css/common.css']
                 }
             }
         },
