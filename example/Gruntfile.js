@@ -211,7 +211,7 @@ module.exports = function (grunt) {
             }
         },
         open: {
-            server: {
+            browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             }
         },
@@ -307,10 +307,10 @@ module.exports = function (grunt) {
         'copy',
         'html2js',
         'concat',
+        'replace:livereload',
         'livereload-start',
         'express-server',
-        'replace:livereload',
-        'open:server',
+        'open',
         'regarde'
     ]);
 
