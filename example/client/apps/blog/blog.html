@@ -1,0 +1,21 @@
+<h2>Baboon Blog</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td><a href="/new"><i class="icon-plus-sign"></i></a></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="person in enterpriseCrew">
+        <td>{{person.name}}</td>
+        <td>{{person.description}}</td>
+        <td><a href="/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+    </tr>
+    </tbody>
+</table>
+<h2>Socket Test</h2>
+<button class="btn btn-primary" ng-click="send()">Send to Server</button>
+<h2>Server Request</h2>
+<p>{{serverRequest}}</p>
