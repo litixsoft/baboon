@@ -290,14 +290,20 @@ module.exports = function (grunt) {
         'clean:reports',
         'jshint:files'
     ]);
-    grunt.registerTask('test', [
+    grunt.registerTask('unit', [
         'clean:reports',
-        'jshint:files',
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
         'clean:reports',
+        'build',
+        'express-server',
+        'karma:e2e'
+    ]);
+    grunt.registerTask('test', [
+        'clean:reports',
         'jshint:files',
+        'karma:unit',
         'build',
         'express-server',
         'karma:e2e'

@@ -7,7 +7,7 @@
 //    };
 //});
 
-/*global describe, it, expect, beforeEach, browser, repeater, element */
+/*global describe, it, expect, browser, element */
 describe('Enterprise app', function () {
 
 //    beforeEach(function () {
@@ -28,16 +28,16 @@ describe('Enterprise app', function () {
     });
 
     it('should redirect to edit.html when Add New Member is clicked', function () {
-        browser().navigateTo('/');
+        browser().navigateTo('/enterprise');
         element('table thead tr td a', 'Add New').click();
 
-        expect(browser().location().url()).toEqual('/new');
+        expect(browser().location().url()).toEqual('/enterprise/new');
     });
 
-    it('should redirect to edit.html when Add New Member is clicked', function () {
-        browser().navigateTo('/');
-
-//        expect(repeater('table tbody tr').count()).toBe(3);
-//        expect(element('table tbody tr', 'Crew Members').count()).toBe(3);
-    });
+//    it('should redirect to edit.html when Add New Member is clicked', function () {
+//        browser().navigateTo('/');
+//
+////        expect(repeater('table tbody tr').count()).toBe(3);
+////        expect(element('table tbody tr', 'Crew Members').count()).toBe(3);
+//    });
 });
