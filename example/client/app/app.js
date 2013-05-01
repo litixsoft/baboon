@@ -1,10 +1,5 @@
-angular.module('app', ['app.services', 'templates-main','$strap.directives', 'ui.bootstrap', 'enterprise', 'blog', 'uiexamples', 'ui', 'ngGrid','kendo'])
+angular.module('app', ['templates-main', 'ui.bootstrap', 'app.services', 'blog', 'enterprise', 'home'])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
-    })
-    .value('$strap.config', {
-        datepicker: {
-            format: 'M d, yyyy'
-        }
     });
