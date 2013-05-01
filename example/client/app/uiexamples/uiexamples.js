@@ -5,7 +5,7 @@ angular.module('uiexamples', [])
  */
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'uiexamplesCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'uiexamples/views/uiexamples.html', controller: 'uiexamplesCtrl'});
     })
 
 

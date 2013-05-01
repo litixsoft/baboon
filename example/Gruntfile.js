@@ -92,89 +92,30 @@ module.exports = function (grunt) {
 
         concat: {
             /**
-             * The `libs` target is for all third-party js libraries we need to include
+             * The `lib` target is for all third-party js libraries we need to include
              * in the final distribution.
              */
-            libs: {
+            lib: {
                 files: {
-                    // angular debug
-                    'build/dist/js/angular.libs.js': [
+                    // lib debug
+                    'build/dist/js/lib.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.js',
-                        'vendor/angular-ui/js/angular-ui.js',
-                        'vendor/angular-strap/angular-strap.js',
-                        'vendor/angular-kendo/angular-kendo.js',
-                        'vendor/angular-ui-ng-grid/ng-grid.js'
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js'
                     ],
-                    // angular release
-                    'build/dist/js/angular.libs.min.js': [
+                    // lib release
+                    'build/dist/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
-                        'vendor/angular-ui/js/angular-ui.min.js',
-                        'vendor/angular-strap/angular-strap.min.js',
-                        'vendor/angular-kendo/angular-kendo.min.js',
-                        'vendor/angular-ui-ng-grid/ng-grid.min.js'
-                    ],
-                    // angular css debug
-                    'build/dist/css/angular.libs.css': [
-                        'vendor/angular-ui/js/angular-ui.css',
-                        'vendor/angular-ui-ng-grid/ng-grid.css'
-
-                    ],
-                    // angular css release
-                    'build/dist/css/angular.libs.min.css': [
-                        'vendor/angular-ui/js/angular-ui.min.css',
-                        'vendor/angular-ui-ng-grid/ng-grid.css'
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
                     ],
                     // libs debug
-                    'build/dist/js/libs.js': [
-                        'vendor/jquery/jquery.min.js',
-                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
-                        'vendor/jquery-codemirror/codemirror.js',
-                        'vendor/bootstrap/js/bootstrap.min.js',
-                        'vendor/kendo-ui/kendo.all.min.js',
-                        'vendor/underscore/underscore.js',
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
-                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
-                        'vendor/select2/select2.min.js'
-                    ],
-                    // libs release
-                    'build/dist/js/libs.min.js': [
-                        'vendor/jquery/jquery.min.js',
-                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
-                        'vendor/jquery-codemirror/codemirror.js',
-                        'vendor/bootstrap/js/bootstrap.min.js',
-                        'vendor/kendo-ui/kendo.all.min.js',
-                        'vendor/underscore/underscore.min.js',
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
-                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
-                        'vendor/select2/select2.min.js'
-                    ],
-                    // libs debug
-                    'build/dist/css/libs.css': [
+                    'build/dist/css/lib.css': [
                         'vendor/bootstrap/css/bootstrap.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.css',
-                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css',
-                        'vendor/jquery-codemirror/codemirror.css',
-                        'vendor/jquery-codemirror/theme/monokai.css',
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
-                        'vendor/select2/select2.css'
+                        'vendor/bootstrap/css/bootstrap-responsive.css'
                     ],
                     // libs release
-                    'build/dist/css/libs.min.css': [
+                    'build/dist/css/lib.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
-                        'vendor/jquery-codemirror/codemirror.css',
-                        'vendor/jquery-codemirror/theme/monokai.css',
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
-                        'vendor/select2/select2.css'
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
                     ]
                 }
             },
