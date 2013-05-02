@@ -1,4 +1,3 @@
-
 <style>
     .alert h4{
         margin-top:30px;
@@ -39,36 +38,36 @@
 <!-- ------------- -->
 <h1 ng-init="DatagridIsCollapsed = false" ng-click="DatagridIsCollapsed = !DatagridIsCollapsed" style="cursor:pointer;">Datagrid</h1>
 <div collapse="DatagridIsCollapsed">
-    <div style="display:table;width:100%;">
-        <div style="display:table-row;">
-             <div style="display:table-cell;width:33%;" class="alert alert-success">
-                <h3>AngularUI - ng-grid</h3>
+<div style="display:table;width:100%;">
+    <div style="display:table-row;">
+        <div style="display:table-cell;width:33%;" class="alert alert-success">
+            <h3>AngularUI - ng-grid</h3>
 
-                <!-- Example Begin-->
-                <div ng-controller="ngGridCtrl">
-                    <h4>Column Pinning</h4>
-                    <div class="gridStyle" ng-grid="gridOptions"></div>
-                    <h4>Grouping (html5)</h4>
-                    <div class="gridStyle" ng-grid="gridOptions2"></div>
-                </div>
-                <br>
-                <a href="http://angular-ui.github.io/ng-grid/" target="_blank">volle ng-grid Referenz</a>
-                <!-- Example End-->
-
+            <!-- Example Begin-->
+            <div ng-controller="ngGridCtrl">
+                <h4>Column Pinning</h4>
+                <div class="gridStyle" ng-grid="gridOptions"></div>
+                <h4>Grouping (html5)</h4>
+                <div class="gridStyle" ng-grid="gridOptions2"></div>
             </div>
-            <div style="display:table-cell;width:0.5%"></div>
-            <div style="display:table-cell;width:33%;" class="alert alert-danger">
-                <h3>KendoUI - Datagrid</h3>
+            <br>
+            <a href="http://angular-ui.github.io/ng-grid/" target="_blank">volle ng-grid Referenz</a>
+            <!-- Example End-->
 
-                <!-- Example Begin-->
-                <div ng-controller="kendoGridCtrl">
+        </div>
+        <div style="display:table-cell;width:0.5%"></div>
+        <div style="display:table-cell;width:33%;" class="alert alert-danger">
+            <h3>KendoUI - Datagrid</h3>
 
-                    <div kendo-grid kendo-source="things" data-selectable="row"
-                         data-pageable='{ "refresh": true, "pageSizes": true }'
-                         data-columns='[{ "field": "ProductName", "title": "Name"},
+            <!-- Example Begin-->
+            <div ng-controller="kendoGridCtrl">
+
+                <div kendo-grid kendo-source="things" data-selectable="row"
+                     data-pageable='{ "refresh": true, "pageSizes": true }'
+                     data-columns='[{ "field": "ProductName", "title": "Name"},
                  { "field": "Supplier.SupplierName", "title": "Supplier"},
                  { "field": "Category.CategoryName", "title": "Category" }]'
-                         on-change="rowSelected(kendoEvent)" >
+                     on-change="rowSelected(kendoEvent)" >
                 </div>
                 <!-- Example End-->
 
@@ -1462,7 +1461,7 @@
                         <input name="password" required ng-model="password">
                         <input name="confirm_password" ng-model="confirm"
                                ui-validate="'confirm==password'">
-                               <!--ui-validate-watch=" 'password' ">-->
+                        <!--ui-validate-watch=" 'password' ">-->
                         <p>Passwords match? {{!!form.confirm_password.$error.validator}}</p>
                     </form>
                 </div>
@@ -1518,3 +1517,5 @@
 <h3>AngularUI - CodeMirror</h3>
 <textarea ui-codemirror="{theme:'monokai'}" ng-model="codeMirrorModel"></textarea>
 -->
+
+</div>

@@ -1,9 +1,0 @@
-{
-    "mode": "development",
-    "logging": {
-        "syslog": "DEBUG",
-        "audit": "DEBUG",
-        "express": "dev",
-        "socket": "DEBUG"
-    }
-}

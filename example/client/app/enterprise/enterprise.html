@@ -18,12 +18,12 @@
             <td><a href="/new"><i class="icon-plus-sign"></i></a></td>
         </tr>
     </thead>
-    <tbody class="test">
-        <tr ng-repeat="person in enterpriseCrew">
-            <td>{{person.name}}</td>
-            <td>{{person.description}}</td>
-            <td><a href="/edit/{{$index}}"><i class="icon-edit"></i></a></td>
-        </tr>
+    <tbody>
+    <tr ng-repeat="person in enterpriseCrew">
+        <td>{{person.name}}</td>
+        <td>{{person.description}}</td>
+        <td><a href="/enterprise/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+    </tr>
     </tbody>
 </table>
 <div>

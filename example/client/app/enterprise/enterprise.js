@@ -1,15 +1,13 @@
 angular.module('enterprise', [
         'enterprise.services'
     ])
-
 /**
  * Enterprise config area
  */
-
     .config(function ($routeProvider) {
-        $routeProvider.when('/', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
+        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
+        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
+        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
     })
 /**
  * Enterprise controller
@@ -46,8 +44,8 @@ angular.module('enterprise', [
         });
 
         $scope.save = function () {
-            enterpriseCrew.updateById($routeParams.id, $scope.person, function () {
-                $location.path('/');
+            enterpriseCrew.updateById($routeParams.id, $scope.person, function() {
+                $location.path('/enterprise');
             });
         };
     }])
@@ -57,8 +55,8 @@ angular.module('enterprise', [
     .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew', function ($scope, $location, enterpriseCrew) {
         $scope.person = {name: '', description: ''};
         $scope.save = function () {
-            enterpriseCrew.create($scope.person, function () {
-                $location.path('/');
+            enterpriseCrew.create($scope.person, function() {
+                $location.path('/enterprise');
             });
         };
     }]);

@@ -590,4 +590,3 @@ angular.module('uiexamples', [])
             return blacklist.indexOf(value) === -1;
         };
     }]);
-

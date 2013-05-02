@@ -18,7 +18,7 @@ reporters = ['progress', 'coverage'];
 
 coverageReporter = {
     type : 'html',
-    dir : 'test/reports/coverage'
+    dir : 'build/reports/coverage'
 };
 
 browsers = ['Chrome'];

@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        conf: grunt.file.readJSON('config/app.conf.json'),
+        conf: grunt.file.readJSON('config/app.conf.json').base,
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -15,14 +15,15 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            reports: ['test/reports'],
-            dist: ['dist','tmp']
+            reports: ['build/reports'],
+            dist: ['build/dist','build/tmp']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js','test/e2e/**/*.js'],
-            junit: 'test/reports/jshint.xml',
-            checkstyle: 'test/reports/jshint_checkstyle.xml',
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js',
+                '!client/common/angular-*/*.*', 'test/e2e/**/*.js'],
+            junit: 'build/reports/jshint.xml',
+            checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
                 bitwise: true,
                 curly: true,
@@ -57,133 +58,155 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'dist/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'dist', src : ['**','!README.md'], expand: true, cwd: 'client/assets'}
+                    {dest: 'build/dist/', src : ['*.*'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist/assets/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
-                    { dest: 'dist/img', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/' }
+                    // images from bootstrap
+                    {dest: 'build/dist/assets/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
+
+        /**
+         * html2js for common templates
+         */
+
         html2js: {
-            options: {
-                // custom options, see below
-                base: 'client/app'
+
+            app: {
+                options: {
+                    // custom options, see below
+                    base: 'client/app'
+                },
+                src: ['client/app/**/*.html'],
+                dest: 'build/dist/assets/js/app.tpl.js'
             },
-            main: {
-                src: ['client/app/**/*.html', 'client/common/**/*.html'],
-                dest: 'tmp/app.tpl.js'
+            common: {
+                options: {
+                    // custom options, see below
+                    base: 'client/common'
+                },
+                src: ['client/common/**/*.html'],
+                dest: 'build/dist/assets/js/common.tpl.js'
             }
         },
+
+        /**
+         * concat files
+         */
+
         concat: {
             /**
-             * The `libs` target is for all third-party js libraries we need to include
+             * The `lib` target is for all third-party js libraries we need to include
              * in the final distribution.
              */
-            libs: {
+            lib: {
                 files: {
-                    'dist/js/libs.js': [
-                        'vendor/jquery/jquery.min.js',
-                        'vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', //draggable für calendar
-                        'vendor/jquery-codemirror/codemirror.js',
-
+                    // lib debug
+                    'build/dist/assets/js/lib.js': [
+                        'vendor/angular/angular.js',
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js'
+                    ],
+                    // lib release
+                    'build/dist/assets/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
-                        'vendor/bootstrap/js/bootstrap.min.js',
-//                        'vendor/angular-ui-bootstrap/ui-bootstrap-0.2.0.min.js', //überflüssig
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js',
-
-                        'vendor/angular-ui/js/angular-ui.min.js',
-                        'vendor/angular-strap/angular-strap.js',
-
-
-                        'vendor/kendo-ui/kendo.all.min.js',
-                        'vendor/underscore/underscore-min.js',
-                        'vendor/angular-kendo/angular-kendo.js',
-
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.js',
-                        'vendor/bootstrap/js/timepicker/bootstrap-timepicker.js',
-
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.min.js',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/gcal.js',
-                        'vendor/select2/select2.min.js',
-
-                        'vendor/angular-ui-ng-grid/ng-grid.js'
-
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
+                    ],
+                    // libs debug
+                    'build/dist/assets/css/lib.css': [
+                        'vendor/bootstrap/css/bootstrap.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.css'
+                    ],
+                    // libs release
+                    'build/dist/assets/css/lib.min.css': [
+                        'vendor/bootstrap/css/bootstrap.min.css',
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
                     ]
                 }
             },
             /**
-             * The `libsCss` target is for all third-party css files we need to include
-             * in the final distribution.
+             * The `app` target is for application js libraries.
              */
-            libsCss: {
-                files: {
-                    'dist/css/libs.css': [
-                        'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        //AngularUI
-                        'vendor/angular-ui/js/angular-ui.min.css',
-                        'vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.min.css',
-                        'vendor/jquery-codemirror/codemirror.css',
-                        'vendor/jquery-codemirror/theme/monokai.css',
-                        //AngularStrap
-                        'vendor/bootstrap/js/datepicker/bootstrap-datepicker.css',
-                        'vendor/jquery-ui/jquery-ui-fullcalendar/fullcalendar.css',
-                        'vendor/select2/select2.css',
-
-                        'vendor/angular-ui-ng-grid/ng-grid.css'
-                    ]
-                }
-            },
-            // setup application js libraries and angular directives
             app: {
-                src: [
-                    'client/app/module.prefix',
-                    'client/app/**/*.js',
-                    '!client/app/**/*.spec.js',
-                    'client/common/**/*.js',
-                    '!client/common/**/*.spec.js',
-                    'client/components/**/*.js',
-                    'tmp/app.tpl.js',
-                    'client/app/module.suffix'
-                ],
-                dest: 'dist/js/application.js'
-            },
-            // all app css libraries
-            appCss: {
                 files: {
-                    'dist/css/application.css': [
-                        'client/common/**/*.css',
+                    'build/dist/assets/js/app.js': [
+                        'client/app/module.prefix',
+                        'client/app/**/*.js',
+                        '!client/app/**/*.spec.js',
+                        'client/app/module.suffix'
+                    ],
+                    'build/dist/assets/css/app.css': [
                         'client/app/**/*.css'
                     ]
                 }
-            }
-        },
-        ngmin: {
-            app: {
-                src: ['dist/js/application.js'],
-                dest: 'dist/js/application.js'
-            }
-        },
-        uglify: {
-            target: {
+            },
+            common: {
                 files: {
-                    'dist/js/application.js': 'dist/js/application.js'
+                    'build/dist/assets/js/common.js': [
+                        'client/common/common.prefix',
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+                        'client/common/common.suffix'
+                    ]
                 }
             }
         },
-        cssmin: {
-            combine: {
+
+        /**
+         * prepare uglify with ngmin only for angular stuff
+         */
+
+        ngmin: {
+            app: {
+                src: ['build/dist/assets/js/app.js'],
+                dest: 'build/tmp/app.js'
+            },
+            app_tpl: {
+                src: ['build/dist/assets/js/app.tpl.js'],
+                dest: 'build/tmp/app.tpl.js'
+            },
+            common: {
+                src: ['build/dist/assets/js/common.js'],
+                dest: 'build/tmp/common.js'
+            },
+            common_tpl: {
+                src: ['build/dist/assets/js/common.tpl.js'],
+                dest: 'build/tmp/common.tpl.js'
+            }
+        },
+
+        /**
+         * minification js files
+         */
+
+        uglify: {
+            target: {
                 files: {
-                    'dist/css/application.css': ['dist/css/application.css']
+                    'build/dist/assets/js/app.min.js': 'build/tmp/app.js',
+                    'build/dist/assets/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
+                    'build/dist/assets/js/common.min.js': 'build/tmp/common.js',
+                    'build/dist/assets/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
+                }
+            }
+        },
+
+        /**
+         * minification css files
+         */
+
+        cssmin: {
+            target: {
+                files: {
+                    'build/dist/assets/css/app.min.css': ['build/dist/assets/css/app.css']
                 }
             }
         },
         server: {
-            script: 'scripts/web-server.js'
+            script: 'app.js'
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -200,31 +223,34 @@ module.exports = function (grunt) {
             }
         },
         open: {
-            server: {
+            browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             }
         },
         replace: {
             debug: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
+                    {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             release: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
+                    {from: '<!--@@min-->', to: '.min'},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             livereload: {
-                src: ['dist/index.html'],
+                src: ['build/dist/index.html'],
                 overwrite: true,
                 replacements: [
+                    {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
                         '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
@@ -272,22 +298,6 @@ module.exports = function (grunt) {
         'concat',
         'replace:livereload'
     ]);
-    grunt.registerTask('lint', [
-        'clean:reports',
-        'jshint:files'
-    ]);
-    grunt.registerTask('test', [
-        'clean:reports',
-        'jshint:files',
-        'karma:unit'
-    ]);
-    grunt.registerTask('e2e', [
-        'clean:reports',
-        'jshint:files',
-        'build',
-        'express-server',
-        'karma:e2e'
-    ]);
     grunt.registerTask('release', [
         'clean:dist',
         'copy',
@@ -295,17 +305,54 @@ module.exports = function (grunt) {
         'concat',
         'ngmin',
         'uglify',
+        'cssmin',
         'replace:release'
+    ]);
+    grunt.registerTask('lint', [
+        'clean:reports',
+        'jshint:files'
+    ]);
+    grunt.registerTask('unit', [
+        'clean:reports',
+        'karma:unit'
+    ]);
+    grunt.registerTask('e2e', [
+        'clean:reports',
+        'build',
+        'express-server',
+        'karma:e2e'
+    ]);
+    grunt.registerTask('e2e:release', [
+        'clean:reports',
+        'release',
+        'express-server',
+        'karma:e2e'
+    ]);
+    grunt.registerTask('test', [
+        'clean:reports',
+        'jshint:files',
+        'karma:unit',
+        'build',
+        'express-server',
+        'karma:e2e'
+    ]);
+    grunt.registerTask('test:release', [
+        'clean:reports',
+        'jshint:files',
+        'karma:unit',
+        'release',
+        'express-server',
+        'karma:e2e'
     ]);
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
         'html2js',
         'concat',
+        'replace:livereload',
         'livereload-start',
         'express-server',
-        'replace:livereload',
-        'open:server',
+        'open',
         'regarde'
     ]);
 
