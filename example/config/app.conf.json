@@ -1,6 +1,7 @@
 {
     "base": {
         "nodeEnv": "development",
+        "defaultApp": "blog",
         "appName": "Baboon Example App",
         "protocol": "http",
         "host": "localhost",

@@ -1,15 +1,9 @@
-angular.module('blog', [])
-    .config(function ($routeProvider) {
-        $routeProvider.when('/foo', {templateUrl: 'blog/blog.html', controller: 'fooCtrl'});
+angular.module('blog', ['templates-blog', 'templates-common', 'ui.bootstrap'])
+    .config(function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
+        $routeProvider.when('/', {templateUrl: 'blog.tpl.html', controller: 'mainCtrl'});
+        $routeProvider.when('/blog', {templateUrl: 'blog.tpl.html', controller: 'mainCtrl'});
     })
-    .controller('fooCtrl', ['$scope', 'enterpriseCrew', 'socket', function ($scope, enterpriseCrew, socket) {
-        enterpriseCrew.getAll(function(data) {
-            $scope.enterpriseCrew = data;
-        });
-
-        $scope.send = function () {
-            socket.emit('blog:test', {name:'Timo Liebetrau'}, function (data) {
-                $scope.serverRequest = data;
-            });
-        };
+    .controller('mainCtrl', ['$scope', function ($scope) {
+        $scope.title = 'Litixsoft Blog';
     }]);

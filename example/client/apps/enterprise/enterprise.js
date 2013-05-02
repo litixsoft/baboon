@@ -1,18 +1,23 @@
 angular.module('enterprise', [
+        'templates-enterprise',
+        'templates-common',
+        'ui.bootstrap',
         'enterprise.services'
     ])
 /**
  * Enterprise config area
  */
-    .config(function ($routeProvider) {
-        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
+    .config(function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
+        $routeProvider.when('/enterprise', {templateUrl: 'enterprise.tpl.html', controller: 'mainCtrl'});
+        $routeProvider.when('/enterprise/new', {templateUrl: 'edit.tpl.html', controller: 'newCtrl'});
+        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'edit.tpl.html', controller: 'editCtrl'});
     })
+
 /**
  * Enterprise controller
  */
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
+    .controller('mainCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
 
         enterpriseCrew.getAll(function (data) {
             $scope.enterpriseCrew = data;

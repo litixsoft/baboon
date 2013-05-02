@@ -68,6 +68,14 @@ module.exports = function (grunt) {
                     // images from bootstrap
                     {dest: 'build/dist/assets/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
+            },
+            apps: {
+                files: [
+                    // blog
+                    {dest: 'build/dist/blog.html', src : ['client/apps/blog/index.html']},
+                    // enterprise
+                    {dest: 'build/dist/enterprise.html', src : ['client/apps/enterprise/index.html']}
+                ]
             }
         },
 
@@ -77,13 +85,30 @@ module.exports = function (grunt) {
 
         html2js: {
 
-            app: {
+
+//            app: {
+//                options: {
+//                    // custom options, see below
+//                    base: 'client/app'
+//                },
+//                src: ['client/app/**/*.html'],
+//                dest: 'build/dist/assets/js/app.tpl.js'
+//            },
+            blog: {
                 options: {
                     // custom options, see below
-                    base: 'client/app'
+                    base: 'client/apps/blog'
                 },
-                src: ['client/app/**/*.html'],
-                dest: 'build/dist/assets/js/app.tpl.js'
+                src: ['client/apps/blog/**/*.tpl.html'],
+                dest: 'build/dist/assets/js/blog.tpl.js'
+            },
+            enterprise: {
+                options: {
+                    // custom options, see below
+                    base: 'client/apps/enterprise'
+                },
+                src: ['client/apps/enterprise/**/*.tpl.html'],
+                dest: 'build/dist/assets/js/enterprise.tpl.js'
             },
             common: {
                 options: {
@@ -131,16 +156,42 @@ module.exports = function (grunt) {
             /**
              * The `app` target is for application js libraries.
              */
-            app: {
+//            app: {
+//                files: {
+//                    'build/dist/assets/js/app.js': [
+//                        'client/app/module.prefix',
+//                        'client/app/**/*.js',
+//                        '!client/app/**/*.spec.js',
+//                        'client/app/module.suffix'
+//                    ],
+//                    'build/dist/assets/css/app.css': [
+//                        'client/app/**/*.css'
+//                    ]
+//                }
+//            },
+            blog: {
                 files: {
-                    'build/dist/assets/js/app.js': [
-                        'client/app/module.prefix',
-                        'client/app/**/*.js',
-                        '!client/app/**/*.spec.js',
-                        'client/app/module.suffix'
+                    'build/dist/assets/js/blog.js': [
+                        'client/apps/module.prefix',
+                        'client/apps/blog/**/*.js',
+                        '!client/apps/blog/**/*.spec.js',
+                        'client/apps/module.suffix'
                     ],
-                    'build/dist/assets/css/app.css': [
-                        'client/app/**/*.css'
+                    'build/dist/assets/css/blog.css': [
+                        'client/apps/blog/**/*.css'
+                    ]
+                }
+            },
+            enterprise: {
+                files: {
+                    'build/dist/assets/js/enterprise.js': [
+                        'client/apps/module.prefix',
+                        'client/apps/enterprise/**/*.js',
+                        '!client/apps/enterprise/**/*.spec.js',
+                        'client/apps/module.suffix'
+                    ],
+                    'build/dist/assets/css/enterprise.css': [
+                        'client/apps/enterprise/**/*.css'
                     ]
                 }
             },
@@ -161,14 +212,30 @@ module.exports = function (grunt) {
          */
 
         ngmin: {
-            app: {
-                src: ['build/dist/assets/js/app.js'],
-                dest: 'build/tmp/app.js'
+            blog: {
+                src: ['build/dist/assets/js/blog.js'],
+                dest: 'build/tmp/blog.js'
             },
-            app_tpl: {
-                src: ['build/dist/assets/js/app.tpl.js'],
-                dest: 'build/tmp/app.tpl.js'
+            blog_tpl: {
+                src: ['build/dist/assets/js/blog.tpl.js'],
+                dest: 'build/tmp/blog.tpl.js'
             },
+            enterprise: {
+                src: ['build/dist/assets/js/enterprise.js'],
+                dest: 'build/tmp/enterprise.js'
+            },
+            enterprise_tpl: {
+                src: ['build/dist/assets/js/enterprise.tpl.js'],
+                dest: 'build/tmp/enterprise.tpl.js'
+            },
+//            app: {
+//                src: ['build/dist/assets/js/app.js'],
+//                dest: 'build/tmp/app.js'
+//            },
+//            app_tpl: {
+//                src: ['build/dist/assets/js/app.tpl.js'],
+//                dest: 'build/tmp/app.tpl.js'
+//            },
             common: {
                 src: ['build/dist/assets/js/common.js'],
                 dest: 'build/tmp/common.js'
@@ -186,8 +253,12 @@ module.exports = function (grunt) {
         uglify: {
             target: {
                 files: {
-                    'build/dist/assets/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/assets/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
+                    'build/dist/assets/js/blog.min.js': 'build/tmp/blog.js',
+                    'build/dist/assets/js/blog.tpl.min.js': 'build/tmp/blog.tpl.js',
+                    'build/dist/assets/js/enterprise.min.js': 'build/tmp/enterprise.js',
+                    'build/dist/assets/js/enterprise.tpl.min.js': 'build/tmp/enterprise.tpl.js',
+//                    'build/dist/assets/js/app.min.js': 'build/tmp/app.js',
+//                    'build/dist/assets/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
                     'build/dist/assets/js/common.min.js': 'build/tmp/common.js',
                     'build/dist/assets/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
                 }
@@ -201,7 +272,9 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: {
-                    'build/dist/assets/css/app.min.css': ['build/dist/assets/css/app.css']
+                    'build/dist/assets/css/blog.min.css': ['build/dist/assets/css/blog.css'],
+                    'build/dist/assets/css/enterprise.min.css': ['build/dist/assets/css/enterprise.css']
+//                    'build/dist/assets/css/app.min.css': ['build/dist/assets/css/app.css']
                 }
             }
         },
@@ -229,7 +302,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/index.html'],
+                src: ['build/dist/blog.html', 'build/dist/enterprise.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -238,7 +311,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/index.html'],
+                src: ['build/dist/blog.html', 'build/dist/enterprise.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -247,7 +320,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/index.html'],
+                src: ['build/dist/blog.html', 'build/dist/enterprise.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
