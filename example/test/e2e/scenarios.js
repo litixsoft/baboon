@@ -37,7 +37,8 @@ describe('Enterprise app', function () {
     it('should redirect to edit.html when Add New Member is clicked', function () {
         browser().navigateTo('/');
 
-//        expect(repeater('table tbody tr').count()).toBe(3);
-//        expect(element('table tbody tr', 'Crew Members').count()).toBe(3);
+        sleep(2);
+
+        expect(repeater('table tbody tr').count()).toBe(3);
     });
 });
