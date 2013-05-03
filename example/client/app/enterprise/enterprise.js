@@ -1,6 +1,4 @@
-angular.module('enterprise', [
-        'enterprise.services'
-    ])
+angular.module('enterprise', ['enterprise.services'])
 /**
  * Enterprise config area
  */
@@ -9,6 +7,7 @@ angular.module('enterprise', [
         $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'newCtrl'});
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'editCtrl'});
     })
+
 /**
  * Enterprise controller
  */

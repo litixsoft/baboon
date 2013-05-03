@@ -7,7 +7,7 @@ angular.module('uiexamples', [])
  */
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'uiexamplesCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'ui_examplesCtrl'});
     })
 
 
@@ -16,7 +16,7 @@ angular.module('uiexamples', [])
 /**
  * Enterprise controller
  */
-    .controller('uiexamplesCtrl', ['$scope', function ($scope) {
+    .controller('ui_examplesCtrl', ['$scope', function ($scope) {
 
         $scope.title = 'UI-Examples';
 
