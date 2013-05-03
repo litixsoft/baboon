@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module('enterprise.services', [])
     .factory('enterpriseCrew', function (socket) {
         var pub = {},

@@ -1,3 +1,4 @@
+/*global angular, io*/
 angular.module('app.services', [])
     .factory('socket', function ($rootScope) {
 

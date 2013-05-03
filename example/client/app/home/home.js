@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module('home', ['home.about'])
 
 // config home module

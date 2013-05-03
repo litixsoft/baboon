@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module('enterprise', ['enterprise.services'])
 /**
  * Enterprise config area

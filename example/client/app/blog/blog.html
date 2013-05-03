@@ -1,21 +1,35 @@
-<h2>Baboon Blog</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <td>Name</td>
-        <td>Description</td>
-        <td><a href="/new"><i class="icon-plus-sign"></i></a></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="person in enterpriseCrew">
-        <td>{{person.name}}</td>
-        <td>{{person.description}}</td>
-        <td><a href="/edit/{{$index}}"><i class="icon-edit"></i></a></td>
-    </tr>
-    </tbody>
-</table>
-<h2>Socket Test</h2>
-<button class="btn btn-primary" ng-click="send()">Send to Server</button>
-<h2>Server Request</h2>
-<p>{{serverRequest}}</p>
+<div class="content beige-noise blog-container" fadey="500">
+    <div class="p-wrapper">
+
+        <img src="assets/img/blog-header.png">
+
+        <a href="/blog/new">New Post</a>
+
+        <!--<h1>Latest Articles</h1><span><%=list.length%> available, showing recent 3</span>-->
+        <h1>Latest Articles<span>( {{posts.length}} available, showing recent 3 )</span></h1>
+
+        <article class="posts-article" ng-repeat="entry in posts">
+            <div class="entry-title">
+                <h1>
+                    <a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>
+                </h1>
+
+                <div class="entry-replies">
+                    <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
+                </div>
+            </div>
+            <div class="entry-excerpt">
+                <p>{{entry.content}}</p>
+
+                <a href="/blog/post/{{entry._id}}" class="btn" style="padding:3px 15px;border-radius: 6px;"><span style="font-size:15px;color:white;font-weight:normal;line-height:25px;">mehr...</span></a>
+                <!--&lt;!&ndash;<% if(auth.valid && auth.isAdmin){ %>&ndash;&gt;-->
+                <!--<a ui-if="false" href="{{entry._id}}" class="publishBtn btn" style="padding:3px 15px;border-radius: 6px;">-->
+                    <!--<span style="font-size:15px;color:white;font-weight:normal;line-height:25px;" ui-if="entry.hidden">publish</span>-->
+                    <!--<span style="font-size:15px;color:white;font-weight:normal;line-height:25px;" ui-if="!entry.hidden">unpublish</span>-->
+                <!--</a>-->
+            </div>
+            <footer class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</footer>
+        </article>
+
+    </div>
+</div>

@@ -1,7 +1,8 @@
 basePath = '../';
 
 files = [
-    ANGULAR_SCENARIO,
+//    ANGULAR_SCENARIO,
+    'test/lib/angular/angular-scenario.js',
     ANGULAR_SCENARIO_ADAPTER,
     'test/e2e/**/*.js'
 ];

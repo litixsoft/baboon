@@ -7,7 +7,7 @@
 //    };
 //});
 
-/*global describe, it, expect, beforeEach, browser, repeater, element */
+/*global describe, it, expect, browser, repeater, sleep */
 describe('Enterprise app', function () {
 
 //    beforeEach(function () {
