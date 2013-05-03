@@ -16,6 +16,8 @@ proxies = {
     '/': 'http://localhost:3000/'
 };
 
+logLevel = LOG_DEBUG;
+
 urlRoot = '/_karma_/';
 
 junitReporter = {
