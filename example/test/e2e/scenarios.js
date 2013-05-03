@@ -7,7 +7,8 @@
 //    };
 //});
 
-/*global describe, it, expect, browser, repeater, sleep */
+///*global describe, it, expect, browser, repeater, sleep */
+/*global describe */
 describe('Enterprise app', function () {
 
 //    beforeEach(function () {
@@ -35,11 +36,11 @@ describe('Enterprise app', function () {
 //        expect(browser().location().url()).toEqual('/enterprise/new');
 //    });
 
-    it('should redirect to edit.html when Add New Member is clicked', function () {
-        browser().navigateTo('/enterprise');
-
-        sleep(2);
-
-        expect(repeater('table tbody tr').count()).toBe(3);
-    });
+//    it('should redirect to edit.html when Add New Member is clicked', function () {
+//        browser().navigateTo('/enterprise');
+//
+//        sleep(2);
+//
+//        expect(repeater('table tbody tr').count()).toBe(3);
+//    });
 });
