@@ -16,7 +16,7 @@ proxies = {
     '/': 'http://localhost:3000/'
 };
 
-logLevel = LOG_DEBUG;
+//logLevel = LOG_DEBUG;
 
 urlRoot = '/_karma_/';
 
