@@ -77,6 +77,7 @@ module.exports = function (grunt) {
 
         html2js: {
 
+
             app: {
                 options: {
                     // custom options, see below

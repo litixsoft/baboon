@@ -2,10 +2,12 @@
 //noinspection JSUnresolvedVariable
 var path = require('path'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
-    config = baboon.server.config,
     server = baboon.server,
+    config = server.config,
     api = require(config.path.api);
 
-api.socket(server.sio, server.syslog);
+// socket.io events
+api.socket(server.sio, baboon.server.syslog);
 
+// start express server
 server.start();
