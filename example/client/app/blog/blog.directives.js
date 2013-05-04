@@ -1,4 +1,4 @@
-///*global angular */
+/*global angular */
 angular.module('blog.directives', []);
 //    .directive('markdown', function () {
 //        var converter = new Showdown.converter();
