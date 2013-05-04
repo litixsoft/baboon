@@ -16,11 +16,11 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist','build/tmp']
+            dist: ['build/dist', 'build/tmp']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js','client/common/**/*.js',
+            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
                 '!client/common/angular-*/*.*', 'test/e2e/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
@@ -56,16 +56,16 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'build/dist/public/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'},
-                    {dest: 'build/dist/public/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'}
+                    {dest: 'build/dist/public/', src: ['*.*'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist/views/', src: ['**'], expand: true, cwd: 'client/views/'},
+                    {dest: 'build/dist/public/', src: ['**', '!README.md'], expand: true, cwd: 'client/assets/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
                     // images from bootstrap
-                    {dest: 'build/dist/public/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -223,7 +223,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: 'server/**/*.*',
-                tasks: ['express-server','livereload']
+                tasks: ['express-server', 'livereload']
             }
         },
         open: {
@@ -322,15 +322,17 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('e2e', [
         'clean:reports',
-//        'build',
-//        'express-server',
-        'karma:e2e'
+        'build',
+        'express-server',
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('e2e:release', [
         'clean:reports',
         'release',
         'express-server',
-        'karma:e2e'
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('test', [
         'clean:reports',
@@ -338,7 +340,8 @@ module.exports = function (grunt) {
         'karma:unit',
         'build',
         'express-server',
-        'karma:e2e'
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
