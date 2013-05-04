@@ -349,7 +349,8 @@ module.exports = function (grunt) {
         'karma:unit',
         'release',
         'express-server',
-        'karma:e2e'
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('server', [
         'clean:dist',
