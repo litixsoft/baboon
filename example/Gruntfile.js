@@ -56,16 +56,16 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'build/dist/public/', src: ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist/views/', src: ['**'], expand: true, cwd: 'client/views/'},
-                    {dest: 'build/dist/public/', src: ['**', '!README.md'], expand: true, cwd: 'client/assets/'}
+                    {dest: 'build/dist/public/', src : ['*.*'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'},
+                    {dest: 'build/dist/public/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
                     // images from bootstrap
-                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/public/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -223,7 +223,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: 'server/**/*.*',
-                tasks: ['express-server', 'livereload']
+                tasks: ['express-server','livereload']
             }
         },
         open: {
@@ -322,17 +322,15 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('e2e', [
         'clean:reports',
-        'build',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+//        'build',
+//        'express-server',
+        'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
         'clean:reports',
         'release',
         'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'karma:e2e'
     ]);
     grunt.registerTask('test', [
         'clean:reports',
@@ -340,8 +338,7 @@ module.exports = function (grunt) {
         'karma:unit',
         'build',
         'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
@@ -349,8 +346,7 @@ module.exports = function (grunt) {
         'karma:unit',
         'release',
         'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'karma:e2e'
     ]);
     grunt.registerTask('server', [
         'clean:dist',
