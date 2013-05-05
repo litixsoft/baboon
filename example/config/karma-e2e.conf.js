@@ -1,9 +1,10 @@
 basePath = '../';
 
 files = [
-//    ANGULAR_SCENARIO,
-    'vendor/angular/angular-scenario.js',
+    ANGULAR_SCENARIO,
+    //'test/lib/angular/angular-scenario.js',
     ANGULAR_SCENARIO_ADAPTER,
+//    '../node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js',
     'test/e2e/**/*.js'
 ];
 

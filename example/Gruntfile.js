@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         // lint files
         jshint: {
             files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/e2e/**/*.js'],
+                '!client/common/angular-*/*.*', 'test/e2e/**/*.js', 'client/tests/**/*.*', '!client/tests/lib/**/*.*'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -58,7 +58,8 @@ module.exports = function (grunt) {
                 files: [
                     {dest: 'build/dist/public/', src : ['*.*'], expand: true, cwd: 'client/'},
                     {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'},
-                    {dest: 'build/dist/public/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'}
+                    {dest: 'build/dist/public/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'},
+                    {dest: 'build/dist/public/tests/', src : ['**'], expand: true, cwd: 'client/tests/'}
                 ]
             },
             vendor: {
@@ -205,6 +206,18 @@ module.exports = function (grunt) {
                 }
             }
         },
+        express: {
+            livereload: {
+                script: 'app.js',
+                params: ['--config-true', 'dev'],
+                background: true
+            },
+            karma: {
+                script: 'app.js',
+                params: ['--config-true', 'dev'],
+                background: false
+            }
+        },
         server: {
             script: 'app.js'
         },
@@ -337,20 +350,20 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:reports',
         'jshint:files',
-        'karma:unit',
-        'build',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'karma:unit'
+        //'build',
+        //'express-server',
+        //'karma:e2e',
+        //'express-server-kill'
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
         'jshint:files',
-        'karma:unit',
-        'release',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'karma:unit'
+        //'release',
+        //'express-server',
+        //'karma:e2e',
+        //'express-server-kill'
     ]);
     grunt.registerTask('server', [
         'clean:dist',

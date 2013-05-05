@@ -13,6 +13,10 @@ var path = require('path'),
 // routes
 ///////////////////////////////////////////
 
+app.get('/test/:scenario', function(req, res) {
+    res.render('runner',{test:req.params.scenario});
+});
+
 // login route
 app.get('/login', function(req, res) {
     res.render('login');
