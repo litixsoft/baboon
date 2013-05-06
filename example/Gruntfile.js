@@ -16,7 +16,8 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist', 'build/tmp']
+            dist: ['build/dist', 'build/tmp'],
+            views: ['build/dist/views']
         },
         // lint files
         jshint: {
@@ -57,9 +58,13 @@ module.exports = function (grunt) {
                 // all client files that need to be copy.
                 files: [
                     {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'},
-                    {dest: 'build/dist/public/e2e_tests/', src : ['**'], expand: true, cwd: 'client/e2e_tests/'},
+                    {dest: 'build/dist/public/e2e_tests/', src : ['**'], expand: true, cwd: 'client/e2e_tests/'}
+                ]
+            },
+            server: {
+                // all client files that need to be copy.
+                files: [
                     {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'server/views/'}
-
                 ]
             },
             vendor: {
@@ -219,8 +224,8 @@ module.exports = function (grunt) {
                 tasks: ['build:regarde', 'livereload']
             },
             server: {
-                files: 'server/**/*.*',
-                tasks: ['express-server','livereload']
+                files: ['server/api/**/*.*', 'server/views/**/*.*'],
+                tasks: ['clean:views', 'copy:server', 'replace:livereload', 'express-server','livereload']
             }
         },
         open: {
