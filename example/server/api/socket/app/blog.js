@@ -1,7 +1,10 @@
-module.exports = function(socket, acl) {
+module.exports = function (socket, acl) {
     'use strict';
 
     var res = {},
+        lxDb = require('lx-mongodb'),
+        blogConnection = 'localhost/blog?w=1&journal=True&fsync=True',
+        repo = require('../../../repositories').blog(lxDb, blogConnection),
         base = require('../base');
 
     /**
