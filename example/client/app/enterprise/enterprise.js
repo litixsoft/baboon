@@ -59,4 +59,12 @@ angular.module('enterprise', ['enterprise.services'])
                 $location.path('/enterprise');
             });
         };
+
+        var enterpriseMock = [
+            {name: 'Picard', description: 'Captain'},
+            {name: 'Riker', description: 'Number One'},
+            {name: 'Worf', description: 'Security'}
+        ];
+
+        $scope.test = enterpriseMock;
     }]);
