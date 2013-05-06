@@ -1,6 +1,6 @@
 /*global kendo, google, alert, angular */
 
-angular.module('uiexamples', [])
+angular.module('ui_examples', [])
 
 /**
  * Enterprise config area
