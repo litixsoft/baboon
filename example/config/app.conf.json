@@ -6,10 +6,10 @@
         "host": "localhost",
         "port": 3000,
         "version": "v0.1.0",
-        "sessionKey":"baboon.sid",
-        "sessionSecret":"a7f4eb39-744e-43e3-a30b-3ffea846030f",
-        "sessionMaxLife":86400,
-        "sessionInactiveTime":1800,
+        "sessionKey": "baboon.sid",
+        "sessionSecret": "a7f4eb39-744e-43e3-a30b-3ffea846030f",
+        "sessionMaxLife": 86400,
+        "sessionInactiveTime": 1800,
         "logging": {
             "maxLogSize": 2048000,
             "backups": 10,
@@ -21,15 +21,14 @@
             "server1": {
                 "host": "localhost",
                 "port": 6379,
-                "options":{}
+                "options": {}
             }
         },
         "mongo": {
-            "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
-            "dbs": ["blog", "users"]
+            "blog": "localhost:27017/blog?w=0&journal=True&fsync=True"
         }
     },
-    "params":{
+    "params": {
         "dev": {
             "nodeEnv": "development",
             "logging": {
@@ -48,7 +47,7 @@
             "server1": {
                 "host": "localhost",
                 "port": 6379,
-                "options":{}
+                "options": {}
             },
             "mongo": {
                 "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",

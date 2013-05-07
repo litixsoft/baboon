@@ -1,7 +1,9 @@
 'use strict';
 //noinspection JSUnresolvedVariable
 var path = require('path'),
-    baboon = require('../lib/baboon')(path.join(__dirname)),
+    test = require('../lib/application')(path.join(__dirname)),
+//    baboon = require('../lib/baboon')(path.join(__dirname)),
+    baboon = test,
     middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
@@ -9,16 +11,22 @@ var path = require('path'),
     auth = middleware.auth,
     api = require(config.path.api);
 
+//var test = require('../lib/application')(path.join(__dirname));
+
+test.aaa = true;
+
+console.dir(test);
+
 ///////////////////////////////////////////
 // routes
 ///////////////////////////////////////////
 
-app.get('/test/:scenario', function(req, res) {
-    res.render('runner',{test:req.params.scenario});
+app.get('/test/:scenario', function (req, res) {
+    res.render('runner', {test: req.params.scenario});
 });
 
 // login route
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
     res.render('login');
 });
 
@@ -37,7 +45,12 @@ app.get('/login', function(req, res) {
 ///////////////////////////////////////////
 
 // enable socket.io api
-api.socket(server.sio, baboon.server.syslog);
+api.socket({
+    io: server.sio,
+    syslog: baboon.server.syslog,
+    audit: baboon.server.audit,
+    config: config
+});
 
 ///////////////////////////////////////////
 // server

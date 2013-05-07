@@ -1,20 +1,37 @@
-module.exports = function(socket, acl) {
-    'use strict';
+'use strict';
 
-    var res = {},
+var test = require('../../../../../lib/application')();
+
+console.dir(test);
+
+module.exports = function (socket, acl, config) {
+    var pub = {},
+        repo = require(config.path.repositories).blog(config.mongo.blog),
         base = require('../base');
 
-    /**
-     * resource test
-     * @param data
-     * @param callback
-     */
-    res.test = function (data, callback) {
-        var end = new Date().toTimeString();
-        var res = {fromClient: data, fromServer: end};
-        callback(res);
+    pub.getAllPosts = function (data, callback) {
+        repo.posts.getAll(data, function (err, res) {
+            callback(res);
+        });
+    };
+
+    pub.getPostById = function (data, callback) {
+        repo.posts.getById(data, function (err, res) {
+            callback(res);
+        });
+    };
+
+    pub.createPost = function(data, callback) {
+        data = data || {};
+
+        repo.posts.validate(data, {}, function(err, res) {
+            console.dir(err);
+            console.dir(res);
+            data.created = new Date();
+            console.dir(data);
+        });
     };
 
     // register resources
-    base.register('blog', socket, acl, res);
+    base.register(acl.name, socket, acl, pub);
 };

@@ -2,26 +2,31 @@
 angular.module('blog', ['blog.services', 'blog.directives'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
-        $routeProvider.when('/blog/new', {templateUrl: 'blog/createPost.html', controller: 'createPostCtrl'});
+        $routeProvider.when('/blog/new', {templateUrl: 'blog/editPost.html', controller: 'createPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', 'socket', function ($scope, posts) {
         posts.getAll(function (data) {
             $scope.posts = data;
         });
+
+        posts.getAllSocket(function (data) {
+            console.dir(data);
+        });
     }])
     .controller('createPostCtrl', ['$scope', 'posts', '$location', 'socket', function ($scope, posts, $location) {
-        $scope.post = {
-            _id: 99,
-            author: 'Wayne 99',
-            created: new Date(),
-            title: 'Post 99',
-            content: 'Content99'
-        };
+//        $scope.post = {
+//            _id: 99,
+//            author: 'Wayne 99',
+//            created: new Date(),
+//            title: 'Post 99',
+//            content: 'Content99'
+//        };
 
         $scope.save = function () {
-            posts.create($scope.post, function() {
-                $location.path('/blog');
+            posts.create($scope.post, function (data) {
+                console.dir(data);
+//                $location.path('/blog');
             });
         };
     }])
@@ -33,19 +38,19 @@ angular.module('blog', ['blog.services', 'blog.directives'])
         $scope.text = 'sadadad';
 
         $scope.editmode = false;
-        $scope.edit = function(){
+        $scope.edit = function () {
             // console.log("edit: "+uid);
             $scope.editmode = true;
         };
-        $scope.reset = function(){
+        $scope.reset = function () {
             //  console.log("reset: "+uid);
             $scope.editmode = false;
         };
-        $scope.save = function(){
+        $scope.save = function () {
             // console.log("save: "+uid);
             $scope.editmode = false;
         };
-        $scope.delete = function(){
+        $scope.delete = function () {
             // console.log("delete: "+uid);
         };
     }]);
