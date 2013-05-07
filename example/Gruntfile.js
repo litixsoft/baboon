@@ -115,12 +115,30 @@ module.exports = function (grunt) {
                     // lib debug
                     'build/dist/public/js/lib.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js'
+                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js',
+                        'vendor/angular-ui-utils/utils.js',
+                        'vendor/angular-ui-utils/event/event.js',
+                        'vendor/angular-ui-utils/format/format.js',
+                        'vendor/angular-ui-utils/highlight/highlight.js',
+//                        'vendor/angular-ui-utils/ie-shiv/ie-shiv.js',
+                        'vendor/angular-ui-utils/if/if.js',
+                        'vendor/angular-ui-utils/inflector/inflector.js',
+                        'vendor/angular-ui-utils/jq/jq.js',
+                        'vendor/angular-ui-utils/keypress/keypress.js',
+                        'vendor/angular-ui-utils/mask/mask.js',
+                        'vendor/angular-ui-utils/reset/reset.js',
+                        'vendor/angular-ui-utils/route/route.js',
+                        'vendor/angular-ui-utils/scrollfix/scrollfix.js',
+                        'vendor/angular-ui-utils/showhide/showhide.js',
+                        'vendor/angular-ui-utils/unique/unique.js',
+                        'vendor/angular-ui-utils/validate/validate.js'
+
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
+                        /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [
