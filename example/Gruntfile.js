@@ -16,7 +16,8 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist', 'build/tmp']
+            dist: ['build/dist', 'build/tmp'],
+            views: ['build/dist/views']
         },
         // lint files
         jshint: {
@@ -56,10 +57,14 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'build/dist/public/', src : ['*.*'], expand: true, cwd: 'client/'},
-                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'},
-                    {dest: 'build/dist/public/', src : ['**','!README.md'], expand: true, cwd: 'client/assets/'},
-                    {dest: 'build/dist/public/tests/', src : ['**'], expand: true, cwd: 'client/tests/'}
+                    {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'},
+                    {dest: 'build/dist/public/e2e_tests/', src : ['**'], expand: true, cwd: 'client/e2e_tests/'}
+                ]
+            },
+            server: {
+                // all client files that need to be copy.
+                files: [
+                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'server/views/'}
                 ]
             },
             vendor: {
@@ -206,18 +211,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        express: {
-            livereload: {
-                script: 'app.js',
-                params: ['--config-true', 'dev'],
-                background: true
-            },
-            karma: {
-                script: 'app.js',
-                params: ['--config-true', 'dev'],
-                background: false
-            }
-        },
         server: {
             script: 'app.js'
         },
@@ -227,16 +220,12 @@ module.exports = function (grunt) {
         // Configuration to be run (and then tested)
         regarde: {
             client: {
-                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js', '!client/views/*.html'],
+                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
                 tasks: ['build:regarde', 'livereload']
             },
-            views: {
-                files: ['client/views/*.*'],
-                tasks: ['build:regarde', 'express-server', 'livereload']
-            },
             server: {
-                files: 'server/**/*.*',
-                tasks: ['express-server','livereload']
+                files: ['server/api/**/*.*', 'server/views/**/*.*'],
+                tasks: ['clean:views', 'copy:server', 'replace:livereload', 'express-server','livereload']
             }
         },
         open: {

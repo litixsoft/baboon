@@ -12,7 +12,7 @@ describe('Enterprise app', function () {
 
     it('should display crew members', function () {
         browser().navigateTo('/enterprise');
-        sleep(5);
+        sleep(2);
         expect(repeater('table tbody tr').count()).toBe(3);
     });
 });
