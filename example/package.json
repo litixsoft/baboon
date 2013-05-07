@@ -7,7 +7,10 @@
     "test-client": "grunt test",
     "start": "node app.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lx-mongodb": "~0.2.1",
+    "lx-valid": "~0.2.1"
+  },
   "devDependencies": {
     "grunt": "0.4.1",
     "grunt-contrib-clean": "~0.4.0",

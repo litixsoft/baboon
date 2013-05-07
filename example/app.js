@@ -37,7 +37,8 @@ app.get('/login', function(req, res) {
 ///////////////////////////////////////////
 
 // enable socket.io api
-api.socket(server.sio, baboon.server.syslog);
+//noinspection JSUnresolvedVariable
+api.socket(server.sio, baboon.server.syslog, config);
 
 ///////////////////////////////////////////
 // server

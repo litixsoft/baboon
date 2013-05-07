@@ -25,8 +25,7 @@
             }
         },
         "mongo": {
-            "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
-            "dbs": ["blog", "users"]
+            "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True"
         }
     },
     "params":{
