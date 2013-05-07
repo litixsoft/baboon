@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.CommentRepository = function (collection, lxDb) {
+module.exports = function (collection, lxDb) {
     var schema = function () {
             return {
                 properties: {
@@ -23,7 +23,7 @@ module.exports.CommentRepository = function (collection, lxDb) {
                         type: 'string',
                         required: true,
                         format: 'dateTime',
-                        sort: true
+                        sort: -1
                     },
                     email: {
                         type: 'string',

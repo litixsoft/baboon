@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('blog.services', [])
-    .factory('posts', function () {
+angular.module('blog.services', ['app.services'])
+    .factory('posts', function (socket) {
         var pub = {},
             posts = [
                 {
@@ -52,6 +52,13 @@ angular.module('blog.services', [])
 //            else {
 //                callback(enterprise);
 //            }
+        };
+
+        pub.getAllSocket = function (callback) {
+            socket.emit('blog:getAllPosts', {}, function (data) {
+                posts = data;
+                callback(data);
+            });
         };
 
         pub.getById = function (id, callback) {

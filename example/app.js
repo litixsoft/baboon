@@ -38,7 +38,7 @@ app.get('/login', function(req, res) {
 ///////////////////////////////////////////
 
 // enable socket.io api
-api.socket(server.sio, baboon.server.syslog);
+api.socket(server.sio, baboon.server.syslog, config);
 
 ///////////////////////////////////////////
 // server

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.TagRepository = function (collection, lxDb) {
+module.exports = function (collection, lxDb) {
     var schema = function () {
             return {
                 'properties': {
@@ -13,7 +13,7 @@ module.exports.TagRepository = function (collection, lxDb) {
                     'name': {
                         'type': 'string',
                         'required': true,
-                        'sort': true
+                        'sort': 1
                     }
                 }
             };

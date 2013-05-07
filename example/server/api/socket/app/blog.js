@@ -1,21 +1,21 @@
-module.exports = function (socket, acl) {
-    'use strict';
+'use strict';
 
+module.exports = function (socket, acl, config) {
     var res = {},
         lxDb = require('lx-mongodb'),
-        blogConnection = 'localhost/blog?w=1&journal=True&fsync=True',
-        repo = require('../../../repositories').blog(lxDb, blogConnection),
+        repo = require(config.path.repositories).blog(lxDb, config.mongo.blog),
         base = require('../base');
 
-    /**
-     * resource test
-     * @param data
-     * @param callback
-     */
-    res.test = function (data, callback) {
-        var end = new Date().toTimeString();
-        var res = {fromClient: data, fromServer: end};
-        callback(res);
+    res.getAllPosts = function (data, callback) {
+        repo.posts.getAll(data, function (err, res) {
+            callback(res);
+        });
+    };
+
+    res.getPostById = function (data, callback) {
+        repo.posts.getById(data, function (err, res) {
+            callback(res);
+        });
     };
 
     // register resources

@@ -7,31 +7,31 @@ module.exports = function (lxDb, blogConnection) {
 
     var db = lxDb.GetDb(blogConnection, ['posts', 'tags', 'comments']),
 //        async = require('async'),
-        postRepo = require('./postRepository').PostRepository(db.posts, lxDb),
-        tagRepo = require('./tagRepository').TagRepository(db.tags, lxDb),
-        commentRepo = require('./commentRepository').CommentRepository(db.comments, lxDb);
+        postRepo = require('./postRepository')(db.posts, lxDb),
+        tagRepo = require('./tagRepository')(db.tags, lxDb),
+        commentRepo = require('./commentRepository')(db.comments, lxDb);
 
     // Helper
 
-    /**
-     * checkGetOneByIdParameters
-     * @param id
-     * @param options
-     * @param cb
-     */
-    function checkGetOneByIdParameters (id, options, cb) {
-        if (typeof id !== 'object' && typeof id !== 'string') {
-            throw new Error('id must be of string or object type');
-        }
-
-        if (typeof options !== 'object') {
-            throw new Error('options must be of object type');
-        }
-
-        if (typeof cb !== 'function') {
-            throw new Error('callback must be of function type');
-        }
-    }
+//    /**
+//     * checkGetOneByIdParameters
+//     * @param id
+//     * @param options
+//     * @param cb
+//     */
+//    function checkGetOneByIdParameters (id, options, cb) {
+//        if (typeof id !== 'object' && typeof id !== 'string') {
+//            throw new Error('id must be of string or object type');
+//        }
+//
+//        if (typeof options !== 'object') {
+//            throw new Error('options must be of object type');
+//        }
+//
+//        if (typeof cb !== 'function') {
+//            throw new Error('callback must be of function type');
+//        }
+//    }
 
 //    /**
 //     * getComments
