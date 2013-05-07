@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function (io, syslog, config) {
+module.exports = function (options) {
     var lxHelpers = require('lx-Helpers'),
         acl = {
             modules: [
-                { name: 'blog', resources: ['getAllPosts', 'getPostById'] },
+                { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost'] },
                 { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
             ]
         };
@@ -12,10 +12,10 @@ module.exports = function (io, syslog, config) {
     /**
      * start websocket
      */
-    io.sockets.on('connection', function (socket) {
+    options.io.sockets.on('connection', function (socket) {
         var tmp;
 
-        syslog.info('client: ' + socket.id + ' connected');
+        options.syslog.info('client: ' + socket.id + ' connected');
 
         socket.on('disconnect', function () {
             syslog.info('socket: ' + socket.id + ' disconnected');
@@ -25,7 +25,7 @@ module.exports = function (io, syslog, config) {
          * include modules and register resources
          */
         lxHelpers.arrayForEach(acl.modules, function (mod) {
-            tmp = require('./app/' + mod.name)(socket, mod, config);
+            tmp = require('./app/' + mod.name)(socket, mod, options.config);
         });
     });
 };

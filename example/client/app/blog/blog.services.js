@@ -82,17 +82,17 @@ angular.module('blog.services', ['app.services'])
 //        };
 
         pub.create = function (post, callback) {
-            posts.push(post);
+//            posts.push(post);
 
-            callback(1);
-//            socket.emit('enterprise:create',{person: person}, function(data) {
+//            callback(1);
+            socket.emit('blog:createPost', post, function(data) {
 //                if (!Array.isArray(enterprise)) {
 //                    enterprise = [];
 //                }
 //
 //                enterprise.push(person);
-//                callback(data);
-//            });
+                callback(data);
+            });
         };
 
         return pub;

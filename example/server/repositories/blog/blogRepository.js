@@ -1,15 +1,12 @@
 'use strict';
+var lxDb = require('lx-mongodb');
 
-module.exports = function (lxDb, blogConnection) {
-    if (arguments.length < 2) {
-        throw new Error('missing parameters');
-    }
-
+module.exports = function (blogConnection) {
     var db = lxDb.GetDb(blogConnection, ['posts', 'tags', 'comments']),
 //        async = require('async'),
-        postRepo = require('./postRepository')(db.posts, lxDb),
-        tagRepo = require('./tagRepository')(db.tags, lxDb),
-        commentRepo = require('./commentRepository')(db.comments, lxDb);
+        postRepo = require('./postRepository')(db.posts),
+        tagRepo = require('./tagRepository')(db.tags),
+        commentRepo = require('./commentRepository')(db.comments);
 
     // Helper
 

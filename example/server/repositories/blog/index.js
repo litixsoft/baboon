@@ -1,6 +1,5 @@
-module.exports = function(lxDb, blogConnection) {
-    var blogRepo = require('./blogRepository')(lxDb, blogConnection);
-//    var blogRepo = require('./blogRepository')(lxDb, blogConnection);
+'use strict';
 
-    return blogRepo;
+module.exports = function(blogConnection) {
+    return require('./blogRepository')(blogConnection);
 };

@@ -1,6 +1,7 @@
 'use strict';
+var lxDb = require('lx-mongodb');
 
-module.exports = function (collection, lxDb) {
+module.exports = function (collection) {
     var schema = function () {
             return {
                 'properties': {
