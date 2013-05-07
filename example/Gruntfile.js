@@ -138,6 +138,7 @@ module.exports = function (grunt) {
                     'build/dist/public/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
+                        /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [

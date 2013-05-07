@@ -1,4 +1,4 @@
-/*global kendo, google, alert, angular */
+/*global kendo, alert, angular */
 
 angular.module('ui_examples', [])
 
