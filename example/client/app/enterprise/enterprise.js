@@ -13,7 +13,6 @@ angular.module('enterprise', ['enterprise.services'])
  * Enterprise controller
  */
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
-
         enterpriseCrew.getAll(function (data) {
             $scope.enterpriseCrew = data;
         });
