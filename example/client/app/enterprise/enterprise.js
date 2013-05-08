@@ -13,6 +13,7 @@ angular.module('enterprise', ['enterprise.services'])
  * Enterprise controller
  */
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
+
         enterpriseCrew.getAll(function (data) {
             $scope.enterpriseCrew = data;
         });
@@ -58,12 +59,4 @@ angular.module('enterprise', ['enterprise.services'])
                 $location.path('/enterprise');
             });
         };
-
-        var enterpriseMock = [
-            {name: 'Picard', description: 'Captain'},
-            {name: 'Riker', description: 'Number One'},
-            {name: 'Worf', description: 'Security'}
-        ];
-
-        $scope.test = enterpriseMock;
     }]);

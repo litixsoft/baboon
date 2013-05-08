@@ -1,7 +1,7 @@
 'use strict';
 
 /*global describe, it, expect, browser*/
-describe('Enterprise app', function () {
+describe('Blog Scenarios', function () {
 
     it('should redirect index.html', function () {
         browser().navigateTo('/blog');

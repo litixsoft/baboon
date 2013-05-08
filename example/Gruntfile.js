@@ -57,8 +57,7 @@ module.exports = function (grunt) {
             client: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'},
-                    {dest: 'build/dist/public/e2e_tests/', src : ['**'], expand: true, cwd: 'client/e2e_tests/'}
+                    {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'}
                 ]
             },
             server: {
@@ -339,20 +338,20 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:reports',
         'jshint:files',
-        'karma:unit'
-        //'build',
-        //'express-server',
-        //'karma:e2e',
-        //'express-server-kill'
+        'karma:unit',
+        'build',
+        'express-server',
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
         'jshint:files',
-        'karma:unit'
-        //'release',
-        //'express-server',
-        //'karma:e2e',
-        //'express-server-kill'
+        'karma:unit',
+        'release',
+        'express-server',
+        'karma:e2e',
+        'express-server-kill'
     ]);
     grunt.registerTask('server', [
         'clean:dist',
