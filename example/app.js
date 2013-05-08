@@ -2,11 +2,11 @@
 //noinspection JSUnresolvedVariable
 var path = require('path'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
-    middleware = baboon.middleware,
+//    middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
     config = baboon.config,
-    auth = middleware.auth,
+//    auth = middleware.auth,
     api = require(config.path.api);
 
 ///////////////////////////////////////////
@@ -37,12 +37,7 @@ app.get('/login', function (req, res) {
 ///////////////////////////////////////////
 
 // enable socket.io api
-api.socket({
-    io: server.sio,
-    syslog: baboon.logging.syslog,
-    audit: baboon.logging.audit,
-    config: config
-});
+api.socket(baboon);
 
 ///////////////////////////////////////////
 // server

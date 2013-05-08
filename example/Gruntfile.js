@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
+            files: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
                 '!client/common/angular-*/*.*', 'test/e2e/**/*.js', 'client/tests/**/*.*', '!client/tests/lib/**/*.*'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',

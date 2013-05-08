@@ -1,6 +1,11 @@
 'use strict';
 
-module.exports = function (options) {
+/**
+ * The socket api.
+ *
+ * @param {!object} app The baboon object.
+ */
+module.exports = function (app) {
     var lxHelpers = require('lx-Helpers'),
         acl = {
             modules: [
@@ -12,20 +17,20 @@ module.exports = function (options) {
     /**
      * start websocket
      */
-    options.io.sockets.on('connection', function (socket) {
+    app.server.sio.sockets.on('connection', function (socket) {
         var tmp;
 
-        options.syslog.info('client: ' + socket.id + ' connected');
+        app.logging.syslog.info('client: ' + socket.id + ' connected');
 
         socket.on('disconnect', function () {
-            options.syslog.info('socket: ' + socket.id + ' disconnected');
+            app.logging.syslog.info('socket: ' + socket.id + ' disconnected');
         });
 
         /**
          * include modules and register resources
          */
         lxHelpers.arrayForEach(acl.modules, function (mod) {
-            tmp = require('./app/' + mod.name)(socket, mod, options.config);
+            tmp = require('./app/' + mod.name)(socket, mod, app);
         });
     });
 };
