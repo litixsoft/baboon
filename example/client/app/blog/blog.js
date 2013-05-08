@@ -14,21 +14,44 @@ angular.module('blog', ['blog.services', 'blog.directives'])
             console.dir(data);
         });
     }])
-    .controller('createPostCtrl', ['$scope', 'posts', '$location', 'socket', function ($scope, posts, $location) {
-//        $scope.post = {
-//            _id: 99,
-//            author: 'Wayne 99',
-//            created: new Date(),
-//            title: 'Post 99',
-//            content: 'Content99'
-//        };
+    .controller('createPostCtrl', ['$scope', 'posts', '$location', 'socket', function ($scope, posts) {
+        $scope.master = {};
 
-        $scope.save = function () {
-            posts.create($scope.post, function (data) {
-                console.dir(data);
-//                $location.path('/blog');
+        $scope.save = function (post) {
+            posts.create(post, function (result) {
+                if (result.success) {
+                    // reset model
+                    result.data.created = new Date(result.data.created);
+                    $scope.master = angular.copy(result.data);
+                    $scope.reset();
+
+//                    $location.path('/blog');
+                } else {
+                    if (result.errors) {
+                        console.log('validation errors');
+                        console.dir(result.errors);
+                    }
+
+                    if (result.message) {
+                        console.log(result.message);
+                    }
+                }
             });
         };
+
+        $scope.test = function() {
+            $scope.post.created = new Date();
+        };
+
+        $scope.reset = function () {
+            $scope.post = angular.copy($scope.master);
+        };
+
+        $scope.isUnchanged = function (post) {
+            return angular.equals(post, $scope.master);
+        };
+
+        $scope.reset();
     }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', 'socket', function ($scope, $routeParams, posts) {
         posts.getById($routeParams.id - 1, function (data) {
