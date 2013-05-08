@@ -1,21 +1,13 @@
 'use strict';
 //noinspection JSUnresolvedVariable
 var path = require('path'),
-    test = require('../lib/application')(path.join(__dirname)),
-//    baboon = require('../lib/baboon')(path.join(__dirname)),
-    baboon = test,
+    baboon = require('../lib/baboon')(path.join(__dirname)),
     middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
     config = server.config,
     auth = middleware.auth,
     api = require(config.path.api);
-
-//var test = require('../lib/application')(path.join(__dirname));
-
-test.aaa = true;
-
-console.dir(test);
 
 ///////////////////////////////////////////
 // routes

@@ -1,9 +1,5 @@
 'use strict';
 
-var test = require('../../../../../lib/application')();
-
-console.dir(test);
-
 module.exports = function (socket, acl, config) {
     var pub = {},
         repo = require(config.path.repositories).blog(config.mongo.blog),

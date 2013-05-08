@@ -18,7 +18,7 @@ module.exports = function (options) {
         options.syslog.info('client: ' + socket.id + ' connected');
 
         socket.on('disconnect', function () {
-            syslog.info('socket: ' + socket.id + ' disconnected');
+            options.syslog.info('socket: ' + socket.id + ' disconnected');
         });
 
         /**
