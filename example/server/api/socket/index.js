@@ -1,28 +1,31 @@
-module.exports = function(io, syslog) {
+'use strict';
 
-    var acl = {
-        module: [
-            { name: 'blog', resources: ['test'] },
-            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
-        ]
-    };
+module.exports = function (options) {
+    var lxHelpers = require('lx-Helpers'),
+        acl = {
+            modules: [
+                { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost'] },
+                { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
+            ]
+        };
 
     /**
      * start websocket
      */
-    io.sockets.on('connection', function (socket) {
-        syslog.info('client: ' + socket.id + ' connected');
+    options.io.sockets.on('connection', function (socket) {
+        var tmp;
 
-        socket.on('disconnect', function() {
-            syslog.info('socket: ' + socket.id + ' disconnected');
+        options.syslog.info('client: ' + socket.id + ' connected');
+
+        socket.on('disconnect', function () {
+            options.syslog.info('socket: ' + socket.id + ' disconnected');
         });
 
         /**
          * include modules and register resources
          */
-        var i, max, tmp;
-        for(i=0, max= acl.module.length; i < max; i += 1) {
-            tmp = require('./app/' + acl.module[i].name)(socket, acl.module[i]);
-        }
+        lxHelpers.arrayForEach(acl.modules, function (mod) {
+            tmp = require('./app/' + mod.name)(socket, mod, options.config);
+        });
     });
 };

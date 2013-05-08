@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('blog.services', [])
-    .factory('posts', function () {
+angular.module('blog.services', ['app.services'])
+    .factory('posts', function (socket) {
         var pub = {},
             posts = [
                 {
@@ -54,6 +54,13 @@ angular.module('blog.services', [])
 //            }
         };
 
+        pub.getAllSocket = function (callback) {
+            socket.emit('blog:getAllPosts', {}, function (data) {
+                posts = data;
+                callback(data);
+            });
+        };
+
         pub.getById = function (id, callback) {
             callback(posts[id]);
 //            if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
@@ -75,17 +82,17 @@ angular.module('blog.services', [])
 //        };
 
         pub.create = function (post, callback) {
-            posts.push(post);
+//            posts.push(post);
 
-            callback(1);
-//            socket.emit('enterprise:create',{person: person}, function(data) {
+//            callback(1);
+            socket.emit('blog:createPost', post, function(data) {
 //                if (!Array.isArray(enterprise)) {
 //                    enterprise = [];
 //                }
 //
 //                enterprise.push(person);
-//                callback(data);
-//            });
+                callback(data);
+            });
         };
 
         return pub;

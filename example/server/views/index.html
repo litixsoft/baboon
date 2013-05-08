@@ -9,6 +9,8 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
+
+    <link rel="stylesheet" href="/vendor/jquery-codemirror/codemirror.css" />
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
@@ -32,12 +34,37 @@
     </div>
     <div ng-view></div>
 </div>
+
+<script type="text/javascript" src="/vendor/jquery/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/jquery-ui/jquery-ui-1.10.3.custom.js" charset="utf-8"></script>
+
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/common<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/common.tpl<!--@@min-->.js" charset="utf-8"></script>
+
+
+<!-- UI-Modules -->
+<!-- datepicker -->
+<script type="text/javascript" src="/vendor/ui-date/date.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/jquery-ui-datepicker/jquery.ui.datepicker.js" charset="utf-8"></script>
+<!-- calendar -->
+<script type="text/javascript" src="/vendor/ui-calendar/calendar.js" charset="utf-8"></script>
+<link rel="stylesheet" href="/vendor/jquery-ui-fullcalendar/fullcalendar.css" />
+<script type="text/javascript" src="/vendor/jquery-ui-fullcalendar/fullcalendar.js" charset="utf-8"></script>
+<!-- codemirror -->
+<script type="text/javascript" src="/vendor/ui-codemirror/ui-codemirror.js" charset="utf-8"></script>
+<!--<link rel="stylesheet" href="/vendor/jquery-codemirror/theme/monokai.css" />-->
+<script type="text/javascript" src="/vendor/jquery-codemirror/codemirror.js" charset="utf-8"></script>
+<!-- select2-->
+<script type="text/javascript" src="/vendor/ui-select2/select2.js" charset="utf-8"></script>
+<link rel="stylesheet" href="/vendor/select2/select2.css" />
+<script type="text/javascript" src="/vendor/select2/select2.js" charset="utf-8"></script>
+
+
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/showdown/showdown.js" charset="utf-8"></script>
 </body>
 </html>

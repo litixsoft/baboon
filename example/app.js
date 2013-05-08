@@ -5,7 +5,7 @@ var path = require('path'),
     middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
-    config = server.config,
+    config = baboon.config,
     auth = middleware.auth,
     api = require(config.path.api);
 
@@ -33,8 +33,12 @@ var path = require('path'),
 ///////////////////////////////////////////
 
 // enable socket.io api
-//noinspection JSUnresolvedVariable
-api.socket(server.sio, baboon.server.syslog, config);
+api.socket({
+    io: server.sio,
+    syslog: baboon.logging.syslog,
+    audit: baboon.logging.audit,
+    config: config
+});
 
 ///////////////////////////////////////////
 // server
