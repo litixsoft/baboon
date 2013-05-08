@@ -5,7 +5,7 @@ var path = require('path'),
     middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
-    config = server.config,
+    config = baboon.config,
     auth = middleware.auth,
     api = require(config.path.api);
 
@@ -39,8 +39,8 @@ app.get('/login', function (req, res) {
 // enable socket.io api
 api.socket({
     io: server.sio,
-    syslog: baboon.server.syslog,
-    audit: baboon.server.audit,
+    syslog: baboon.logging.syslog,
+    audit: baboon.logging.audit,
     config: config
 });
 
