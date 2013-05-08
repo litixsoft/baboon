@@ -25,7 +25,7 @@
             }
         },
         "mongo": {
-            "blog": "localhost:27017/blog?w=0&journal=True&fsync=True"
+            "blog": "localhost:27017/blog?w=0&journal=True&fsync=True",
             "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True"
         }
     },
