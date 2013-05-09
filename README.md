@@ -29,6 +29,7 @@ Build the client app and start the server with grunt.
     $ git clone git@gitlab.litixsoft.de:opensource/baboon.git
     $ cd baboon
     $ git checkout develop
+    $ npm install
     $ cd example
     $ npm install
     $ grunt build
