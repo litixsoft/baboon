@@ -6,7 +6,7 @@
  * @param {!object} app The baboon object.
  */
 module.exports = function (app) {
-    var lxHelpers = require('lx-Helpers'),
+    var lxHelpers = require('lx-helpers'),
         acl = {
             modules: [
                 { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost'] },
