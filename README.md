@@ -32,7 +32,6 @@ Build the client app and start the server with grunt.
     $ npm install
     $ cd example
     $ npm install
-    $ grunt build
     $ grunt server
 
 *App run with url: http://localhost:3000*
@@ -46,7 +45,7 @@ Would do you not have livereload after changes, you need build and start manuall
 To do after each change in manually modus.
 
     $ grunt build
-    $ node scripts/web-server.js
+    $ node app.js
 
 ## Grunt nodejs scripts
 Grunt tasks are run on the console. But if you want to start this over nodejs,
@@ -54,13 +53,36 @@ you can use the nodejs scripts under scripts/grunt-taskName. This is particularl
 as you will not able to start the task easily run over.
 
 ## Running tests
-You can run all tests and jshint with:
+You can run all unit tests, e2e tests and jshint with:
 
     $ grunt test
 
-You can run jshint linter only without unit tests:
+You can run jshint linter only without unit and e2e tests:
 
     $ grunt lint
+
+You can run unit tests only without jshint and e2e tests:
+
+    $ grunt unit
+
+You can run e2e tests only without unit and jshint tests:
+
+    $ grunt e2e
+
+Jshint and unit tests run with source files, e2e tests run with debug build.
+You can run e2e in release mode.
+
+    $ grunt e2e:release 
+
+You can run complete test in release mode
+
+    $ grunt test:release
+
+Tests are aborted with error. If the tests are made despite errors on,
+you use the --force option. This is especially useful when Jshint still reports
+errors but you will still execute its e2e tests.
+
+    $ grunt test --force
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
