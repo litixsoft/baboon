@@ -228,8 +228,13 @@ module.exports = function (grunt) {
                 }
             }
         },
-        server: {
-            script: 'app.js'
+        express: {
+            dev: {
+                options: {
+                    port: 3000,
+                    script: 'app.js'
+                }
+            }
         },
         livereload: {
             port: 35729 // Default livereload listening port.
@@ -342,34 +347,30 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e', [
         'clean:reports',
         'build',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'express',
+        'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
         'clean:reports',
         'release',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'express',
+        'karma:e2e'
     ]);
     grunt.registerTask('test', [
         'clean:reports',
         'jshint:files',
         'karma:unit',
         'build',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'express',
+        'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
         'jshint:files',
         'karma:unit',
         'release',
-        'express-server',
-        'karma:e2e',
-        'express-server-kill'
+        'express',
+        'karma:e2e'
     ]);
     grunt.registerTask('server', [
         'clean:dist',
@@ -378,7 +379,7 @@ module.exports = function (grunt) {
         'concat',
         'replace:livereload',
         'livereload-start',
-        'express-server',
+        'express',
         'open',
         'regarde'
     ]);
