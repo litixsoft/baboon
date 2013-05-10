@@ -10,17 +10,17 @@ files = [
     'client/app/**/*.js'
 ];
 
-preprocessors = {
-    'client/app/**/*.js': 'coverage'
-};
+//preprocessors = {
+//    'client/app/**/*.js': 'coverage'
+//};
 
-reporters = ['progress', 'coverage'];
+reporters = ['progress'];
 
-coverageReporter = {
-    type : 'html',
-    dir : 'build/reports/coverage'
-};
+//coverageReporter = {
+//    type : 'html',
+//    dir : 'build/reports/coverage'
+//};
 
 browsers = ['Chrome'];
 
-singleRun = true;
+singleRun = false;

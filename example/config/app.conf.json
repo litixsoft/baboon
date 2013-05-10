@@ -54,6 +54,12 @@
                 "uri": "localhost:27017/{db}?w=0&journal=True&fsync=True",
                 "dbs": ["blog", "users"]
             }
+        },
+        "unitTest": {
+            "mongo": {
+                "blog": "localhost:27017/blogTest?w=0&journal=True&fsync=True",
+                "enterprise": "localhost:27017/enterpriseTest?w=0&journal=True&fsync=True"
+            }
         }
     }
 }

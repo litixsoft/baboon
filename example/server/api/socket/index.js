@@ -1,18 +1,22 @@
 'use strict';
 
+var lxHelpers = require('lx-helpers');
+var base = require('./base.js');
+
 /**
  * The socket api.
  *
  * @param {!object} app The baboon object.
+ * @param {!object} app.server The server object.
+ * @param {!object} app.logging.syslog The syslog object.
  */
 module.exports = function (app) {
-    var lxHelpers = require('lx-helpers'),
-        acl = {
-            modules: [
-                { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost'] },
-                { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
-            ]
-        };
+    var acl = {
+        modules: [
+            { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost', 'updatePost'] },
+            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
+        ]
+    };
 
     /**
      * start websocket
@@ -30,7 +34,11 @@ module.exports = function (app) {
          * include modules and register resources
          */
         lxHelpers.arrayForEach(acl.modules, function (mod) {
-            tmp = require('./app/' + mod.name)(socket, mod, app);
+//            tmp = require('./app/' + mod.name)(socket, mod, app);
+            tmp = require('./app/' + mod.name)(app);
+
+            // register resources
+            base.register(mod.name, socket, mod, tmp);
         });
     });
 };
