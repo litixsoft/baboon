@@ -14,8 +14,9 @@ angular.module('blog', ['blog.services', 'blog.directives'])
             }
         });
     }])
-    .controller('postCtrl', ['$scope', '$routeParams', 'posts', '$location', function ($scope, $routeParams, posts) {
+    .controller('postCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
         $scope.master = {};
+        $scope.post = {};
 
         // load post
         if ($routeParams.id) {
@@ -59,13 +60,21 @@ angular.module('blog', ['blog.services', 'blog.directives'])
 
         $scope.reset = function () {
             $scope.post = angular.copy($scope.master);
+            cache.post = $scope.post;
         };
 
         $scope.isUnchanged = function (post) {
             return angular.equals(post, $scope.master);
         };
 
-        $scope.reset();
+        //$scope.reset();
+
+        if (cache.post && Object.keys(cache.post).length > 0){
+            $scope.post = cache.post;
+            $scope.master = angular.copy($scope.post);
+        } else {
+            cache.post = $scope.post;
+        }
     }]);
 //    .controller('postsssCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
 //        posts.getById($routeParams.id - 1, function (data) {
