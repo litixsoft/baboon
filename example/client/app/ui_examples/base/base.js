@@ -1,29 +1,14 @@
 /*global kendo, alert, angular */
 
-angular.module('ui_examples', [])
-
-/**
- * Enterprise config area
- */
+angular.module('base', [])
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'ui_examples/ui_examples.html', controller: 'ui_examplesCtrl'});
+        $routeProvider.when('/', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
     })
-
-
-
-
-/**
- * Enterprise controller
- */
-    .controller('ui_examplesCtrl', ['$scope', function ($scope) {
-
-        $scope.title = 'UI-Examples';
-
+    .controller('baseCtrl', ['$scope', function ($scope) {
+        $scope.title = 'UI-Examples-Base';
     }])
-
-
-
 /**
  * ng-grid controller
  */
