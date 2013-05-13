@@ -4,7 +4,7 @@ var path = require('path'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
 //    middleware = baboon.middleware,
     server = baboon.server,
-//    app = server.app,
+    app = server.app,
     config = baboon.config,
 //    auth = middleware.auth,
     api = require(config.path.api);
@@ -12,6 +12,11 @@ var path = require('path'),
 ///////////////////////////////////////////
 // routes
 ///////////////////////////////////////////
+
+// ui-example route
+app.get('/ui', function(req, res) {
+    res.render('ui');
+});
 
 // login route
 //app.get('/login', function(req, res) {

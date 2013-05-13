@@ -1,12 +1,9 @@
 /*global angular*/
-angular.module('app', [
-        'templates-app',
+angular.module('ui_app', [
+        'templates-ui',
         'ui.bootstrap',
         'lx.directives',
-        'app.services',
-        'blog',
-        'enterprise',
-        'home'
+        'base'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
