@@ -1,0 +1,35 @@
+<div>
+    <h1>Create Post</h1>
+
+    <form name="form" novalidate class="css-form">
+        Title: <input type="text" ng-model="post.title" name="title" required />
+
+        <div ui-if="form.title.$dirty && form.title.$invalid">
+            Invalid:<span ng-show="form.$error.required">Title is required.</span>
+        </div>
+        <br />
+
+        Content: <input type="text" name="content" ng-model="post.content" required />
+
+        <div ui-if="form.content.$dirty && form.content.$invalid">
+            Invalid:<span ng-show="form.$error.required">Content is required.</span>
+        </div>
+
+        <br />
+
+        Created: <input ng-model="post.created" name="created" />
+
+        <br />
+
+        <!--<button ng-click="save(post)" ng-disabled="form.$invalid || isUnchanged(post)">Save Post</button>-->
+        <button ng-click="save(post)" name="save">Save Post</button>
+        <button ng-click="reset()" name="reset" ng-disabled="isUnchanged(post)">Reset</button>
+    </form>
+
+    <pre>post = {{post | json}}</pre>
+    <pre>master = {{master | json}}</pre>
+    <!--<pre>errors = {{form.$error | json}}</pre>-->
+    <pre>dirty = {{form.$dirty | json}}</pre>
+    <pre>valid = {{form.$valid | json}}</pre>
+</div>
+
