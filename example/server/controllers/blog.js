@@ -9,7 +9,7 @@
  * @param {!object} app.logging.audit The baboon app audit log.
  */
 module.exports = function (app) {
-    var result = {},
+    var pub = {},
         repo = require(app.config.path.repositories).blog(app.config.mongo.blog),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
@@ -20,7 +20,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    result.getAllPosts = function (data, callback) {
+    pub.getAllPosts = function (data, callback) {
         repo.posts.getAll(data, function (error, result) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
@@ -38,7 +38,7 @@ module.exports = function (app) {
      * @param {!string} id The id.
      * @param {!function(result)} callback The callback.
      */
-    result.getPostById = function (id, callback) {
+    pub.getPostById = function (id, callback) {
         repo.posts.getOneById(id, function (error, result) {
             if (error) {
                 syslog.error('%s! getting blog post from db: %s', error, id);
@@ -46,7 +46,25 @@ module.exports = function (app) {
                 return;
             }
 
-            callback({success: true, data: result});
+            if (result) {
+                var post = result;
+
+                if (post.comments && post.comments.length > 0) {
+                    repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
+                        if (error) {
+                            syslog.error('%s! getting blog post from db: %s', error, id);
+                            callback({success: false, message: 'Could not load blog post!'});
+                            return;
+                        }
+
+                        post.comments = result;
+
+                        callback({success: true, data: post});
+                    });
+                } else {
+                    callback({success: true, data: post});
+                }
+            }
         });
     };
 
@@ -56,7 +74,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    result.createPost = function (data, callback) {
+    pub.createPost = function (data, callback) {
         data = data || {};
 
         // validate client data
@@ -96,7 +114,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    result.updatePost = function (data, callback) {
+    pub.updatePost = function (data, callback) {
         data = data || {};
 
         // validate client data
@@ -130,5 +148,47 @@ module.exports = function (app) {
         });
     };
 
-    return result;
+    pub.addComment = function (data, callback) {
+        data = data || {};
+        var postId = data.post_id;
+
+        // validate client data
+        repo.comments.validate(data, {}, function (error, result) {
+            if (error) {
+                syslog.error('%s! validating comment: %j', error, data);
+                callback({success: false, message: 'Could not create comment!'});
+                return;
+            }
+
+            if (result.valid) {
+                // set created date
+                data.created = new Date();
+
+                // save in repo
+                repo.comments.create(data, function (error, result) {
+                    if (error) {
+                        syslog.error('%s! creating comment in db: %j', error, data);
+                        callback({success: false, message: 'Could not create comment!'});
+                        return;
+                    }
+
+                    if (result) {
+                        audit.info('Created comments in db: %j', data);
+                        callback({success: true, data: result[0]});
+
+                        repo.posts.update({_id: postId}, {$push: {comments: result[0]._id}}, function (error) {
+                            if (error) {
+                                syslog.error('%s! creating comment in db: %j', error, data);
+                                callback({success: false, message: 'Could not create comment!'});
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback({success: false, errors: result.errors});
+            }
+        });
+    };
+
+    return pub;
 };

@@ -57,5 +57,12 @@ angular.module('blog.services', ['app.services'])
             });
         };
 
+        pub.addComment = function(id, comment, callback) {
+            comment.post_id = id;
+            socket.emit('blog:addComment', comment, function (result) {
+                callback(result);
+            });
+        };
+
         return pub;
     });

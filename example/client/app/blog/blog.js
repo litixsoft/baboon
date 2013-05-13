@@ -3,6 +3,7 @@ angular.module('blog', ['blog.services', 'blog.directives'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
         $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', function ($scope, posts) {
@@ -77,20 +78,49 @@ angular.module('blog', ['blog.services', 'blog.directives'])
         }
     }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
-        $scope.master = {};
-
         // load post
         if ($routeParams.id) {
             posts.getById($routeParams.id, function (result) {
                 if (result.success) {
                     $scope.post = result.data;
-                    $scope.master = result.data;
-//                    cache.blog_post = result.data;
+                    $scope.post.comments = $scope.post.comments || [];
+//                    $scope.master = result.data;
                 } else {
                     console.log(result.message);
                 }
             });
         }
+
+        $scope.saveComment = function (id, comment) {
+            var callback = function (result) {
+                if (result.success) {
+                    // reset model
+                    result.data = result.data || comment;
+                    $scope.post.comments.push(result.data);
+                    $scope.newComment = {};
+//                    $scope.master = angular.copy(result.data);
+//                    $scope.reset();
+
+//                    $location.path('/blog');
+                } else {
+                    if (result.errors) {
+                        console.log('validation errors');
+                        console.log(result.errors);
+                    }
+
+                    if (result.message) {
+                        console.log(result.message);
+                    }
+                }
+            };
+
+            posts.addComment(id, comment, callback);
+//            if (post._id) {
+//                posts.update(post, callback);
+//            } else {
+//                posts.create(post, callback);
+//            }
+        };
     }]);
 //    .controller('postsssCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
 //        posts.getById($routeParams.id - 1, function (data) {

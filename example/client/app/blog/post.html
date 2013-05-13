@@ -1,1 +1,22 @@
 <h2>{{post.title}}</h2>
+
+created: {{post.created | date:'dd.MM.yyyy, HH:mm'}}
+<br />
+modified: {{post.modified | date:'dd.MM.yyyy, HH:mm'}}
+<br />
+<br />
+<div>{{post.content}}</div>
+<h3>Comments:</h3>
+<div ng-repeat="comment in post.comments">
+    <div>#{{$index + 1}}</div>
+    <div>{{comment.username}}</div>
+    <div>{{comment.content}}</div>
+    <div>{{comment.created}}</div>
+</div>
+<div>
+    <form novalidate class="css-form">
+        <input type="text" ng-model="newComment.content" placeholder="add new comment" />
+
+        <button ng-click="saveComment(post._id, newComment);">Save Comment</button>
+    </form>
+</div>
