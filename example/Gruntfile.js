@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         // lint files
         jshint: {
             files: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/e2e/**/*.js', 'client/tests/**/*.*', '!client/tests/lib/**/*.*'],
+                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
             junit: 'build/reports/jshint.xml',
             checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
@@ -323,6 +323,18 @@ module.exports = function (grunt) {
             e2e: {
                 configFile: 'config/karma-e2e.conf.js'
             }
+        },
+        jasmine_node: {
+            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
+            projectRoot: 'test',
+            requirejs: false,
+            forceExit: true,
+            jUnit: {
+                report: true,
+                savePath: 'build/reports/jasmine/',
+                useDotNotation: true,
+                consolidate: true
+            }
         }
     });
 
@@ -341,6 +353,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-jasmine-node');
 
     // Tasks
     grunt.registerTask('build', [
@@ -373,6 +386,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('unit', [
         'clean:reports',
+        'jasmine_node',
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
@@ -390,6 +404,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:reports',
         'jshint:files',
+        'jasmine_node',
         'karma:unit',
         'build',
         'express',
