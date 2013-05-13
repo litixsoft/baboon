@@ -37,6 +37,7 @@ angular.module('blog', ['blog.services', 'blog.directives'])
                     result.data = result.data || post;
                     $scope.master = angular.copy(result.data);
                     $scope.reset();
+                    cache.post = {};
 
 //                    $location.path('/blog');
                 } else {
@@ -66,6 +67,8 @@ angular.module('blog', ['blog.services', 'blog.directives'])
         $scope.isUnchanged = function (post) {
             return angular.equals(post, $scope.master);
         };
+
+
 
         //$scope.reset();
 
