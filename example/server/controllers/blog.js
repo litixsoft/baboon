@@ -130,7 +130,5 @@ module.exports = function (app) {
         });
     };
 
-//    // register resources
-//    base.register(acl.name, socket, acl, pub);
     return result;
 };

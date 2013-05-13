@@ -2,7 +2,7 @@
 'use strict';
 
 var appMock = require('../../../../fixtures/serverMock.js')(),
-    sut = require('../../../../../server/api/socket/app/blog.js')(appMock),
+    sut = require('../../../../../server/controllers/blog.js')(appMock),
     repo = require(appMock.config.path.repositories).blog(appMock.config.mongo.blog),
     post = null;
 

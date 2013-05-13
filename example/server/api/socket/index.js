@@ -8,6 +8,7 @@ var base = require('./base.js');
  *
  * @param {!object} app The baboon object.
  * @param {!object} app.server The server object.
+ * @param {!object} app.config The config object.
  * @param {!object} app.logging.syslog The syslog object.
  */
 module.exports = function (app) {
@@ -35,7 +36,8 @@ module.exports = function (app) {
          */
         lxHelpers.arrayForEach(acl.modules, function (mod) {
 //            tmp = require('./app/' + mod.name)(socket, mod, app);
-            tmp = require('./app/' + mod.name)(app);
+//            tmp = require('./app/' + mod.name)(app);
+            tmp = require(app.config.path.controllers + '/' + mod.name)(app);
 
             // register resources
             base.register(mod.name, socket, mod, tmp);

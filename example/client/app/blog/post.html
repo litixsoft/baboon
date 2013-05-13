@@ -17,13 +17,13 @@
 
         <br />
 
-        Created: <input ng-model="post.created" />
+        Created: <input ng-model="post.created" name="created" />
 
         <br />
 
         <!--<button ng-click="save(post)" ng-disabled="form.$invalid || isUnchanged(post)">Save Post</button>-->
-        <button ng-click="save(post)">Save Post</button>
-        <button ng-click="reset()" ng-disabled="isUnchanged(post)">Reset</button>
+        <button ng-click="save(post)" name="save">Save Post</button>
+        <button ng-click="reset()" name="reset" ng-disabled="isUnchanged(post)">Reset</button>
     </form>
 
     <pre>post = {{post | json}}</pre>

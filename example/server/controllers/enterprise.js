@@ -1,8 +1,7 @@
-module.exports = function() {
-    'use strict';
+'use strict';
 
+module.exports = function () {
     var result = {},
-//        base = require('../base'),
         enterpriseMock = [
             {name: 'Picard', description: 'Captain'},
             {name: 'Riker', description: 'Number One'},
@@ -26,9 +25,6 @@ module.exports = function() {
         enterpriseMock.push(data.person);
         callback('create successfully..');
     };
-
-    // register resources
-//    base.register('enterprise', socket, acl, res);
 
     return result;
 };
