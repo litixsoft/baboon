@@ -26,7 +26,7 @@ describe('blog modul', function () {
         beforeEach(inject(function ($controller, $routeParams) {
             scope = {};
             $routeParams.id = 22;
-            ctrl = $controller('postCtrl', {$scope: scope});
+            ctrl = $controller('editPostCtrl', {$scope: scope});
         }));
 
         it('should have initialized correctly', function () {

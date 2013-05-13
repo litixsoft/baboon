@@ -2,7 +2,7 @@
 angular.module('blog', ['blog.services', 'blog.directives'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
-        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
+        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', function ($scope, posts) {
@@ -14,7 +14,7 @@ angular.module('blog', ['blog.services', 'blog.directives'])
             }
         });
     }])
-    .controller('postCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
         $scope.master = {};
         $scope.post = {};
 
@@ -24,6 +24,7 @@ angular.module('blog', ['blog.services', 'blog.directives'])
                 if (result.success) {
                     $scope.post = result.data;
                     $scope.master = result.data;
+                    cache.blog_post = result.data;
                 } else {
                     console.log(result.message);
                 }
@@ -37,7 +38,7 @@ angular.module('blog', ['blog.services', 'blog.directives'])
                     result.data = result.data || post;
                     $scope.master = angular.copy(result.data);
                     $scope.reset();
-                    cache.post = {};
+                    cache.blog_post = {};
 
 //                    $location.path('/blog');
                 } else {
@@ -68,15 +69,27 @@ angular.module('blog', ['blog.services', 'blog.directives'])
             return angular.equals(post, $scope.master);
         };
 
-
-
-        //$scope.reset();
-
-        if (cache.post && Object.keys(cache.post).length > 0){
-            $scope.post = cache.post;
+        if (cache.blog_post && Object.keys(cache.blog_post).length > 0) {
+            $scope.post = cache.blog_post;
             $scope.master = angular.copy($scope.post);
         } else {
-            cache.post = $scope.post;
+            cache.blog_post = $scope.post;
+        }
+    }])
+    .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
+        $scope.master = {};
+
+        // load post
+        if ($routeParams.id) {
+            posts.getById($routeParams.id, function (result) {
+                if (result.success) {
+                    $scope.post = result.data;
+                    $scope.master = result.data;
+//                    cache.blog_post = result.data;
+                } else {
+                    console.log(result.message);
+                }
+            });
         }
     }]);
 //    .controller('postsssCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
