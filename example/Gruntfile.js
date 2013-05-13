@@ -16,8 +16,7 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist', 'build/tmp'],
-            views: ['build/dist/views']
+            dist: ['build/dist', 'build/tmp']
         },
         // lint files
         jshint: {
@@ -60,17 +59,17 @@ module.exports = function (grunt) {
                     {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'}
                 ]
             },
-            server: {
+            views: {
                 // all client files that need to be copy.
                 files: [
-                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'server/views/'}
+                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
                     // images from bootstrap
-                    {dest: 'build/dist/public/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/public/img/', src : ['**'], expand: true, cwd: 'client/base/bootstrap/img/'}
                 ]
             }
         },
@@ -121,41 +120,41 @@ module.exports = function (grunt) {
                 files: {
                     // lib debug
                     'build/dist/public/js/lib.js': [
-                        'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js',
-                        'vendor/angular-ui-utils/utils.js',
-                        'vendor/angular-ui-utils/event/event.js',
-                        'vendor/angular-ui-utils/format/format.js',
-                        'vendor/angular-ui-utils/highlight/highlight.js',
-//                        'vendor/angular-ui-utils/ie-shiv/ie-shiv.js',
-                        'vendor/angular-ui-utils/if/if.js',
-                        'vendor/angular-ui-utils/inflector/inflector.js',
-                        'vendor/angular-ui-utils/jq/jq.js',
-                        'vendor/angular-ui-utils/keypress/keypress.js',
-                        'vendor/angular-ui-utils/mask/mask.js',
-                        'vendor/angular-ui-utils/reset/reset.js',
-                        'vendor/angular-ui-utils/route/route.js',
-                        'vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        'vendor/angular-ui-utils/showhide/showhide.js',
-                        'vendor/angular-ui-utils/unique/unique.js',
-                        'vendor/angular-ui-utils/validate/validate.js'
+                        'client/base/angular/angular.js',
+                        'client/base/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js',
+                        'client/base/angular-ui-utils/utils.js',
+                        'client/base/angular-ui-utils/event/event.js',
+                        'client/base/angular-ui-utils/format/format.js',
+                        'client/base/angular-ui-utils/highlight/highlight.js',
+//                        'client/base/angular-ui-utils/ie-shiv/ie-shiv.js',
+                        'client/base/angular-ui-utils/if/if.js',
+                        'client/base/angular-ui-utils/inflector/inflector.js',
+                        'client/base/angular-ui-utils/jq/jq.js',
+                        'client/base/angular-ui-utils/keypress/keypress.js',
+                        'client/base/angular-ui-utils/mask/mask.js',
+                        'client/base/angular-ui-utils/reset/reset.js',
+                        'client/base/angular-ui-utils/route/route.js',
+                        'client/base/angular-ui-utils/scrollfix/scrollfix.js',
+                        'client/base/angular-ui-utils/showhide/showhide.js',
+                        'client/base/angular-ui-utils/unique/unique.js',
+                        'client/base/angular-ui-utils/validate/validate.js'
 
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
-                        'vendor/angular/angular.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
+                        'client/base/angular/angular.min.js',
+                        'client/base/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
                         /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [
-                        'vendor/bootstrap/css/bootstrap.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.css'
+                        'client/base/bootstrap/css/bootstrap.css',
+                        'client/base/bootstrap/css/bootstrap-responsive.css'
                     ],
                     // libs release
                     'build/dist/public/css/lib.min.css': [
-                        'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
+                        'client/base/bootstrap/css/bootstrap.min.css',
+                        'client/base/bootstrap/css/bootstrap-responsive.min.css'
                     ]
                 }
             },
@@ -278,8 +277,8 @@ module.exports = function (grunt) {
                 tasks: ['build:regarde', 'livereload']
             },
             server: {
-                files: ['server/api/**/*.*', 'server/views/**/*.*'],
-                tasks: ['clean:views', 'copy:server', 'replace:livereload', 'express-server','livereload']
+                files: ['server/api/**/*.*'],
+                tasks: ['express-server','livereload']
             }
         },
         open: {
