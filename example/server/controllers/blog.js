@@ -10,6 +10,7 @@
  */
 module.exports = function (app) {
     var pub = {},
+        async = require('async'),
         repo = require(app.config.path.repositories).blog(app.config.mongo.blog),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
@@ -21,7 +22,7 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllPosts = function (data, callback) {
-        repo.posts.getAll(data, function (error, result) {
+        repo.posts.getAll(data.params || {}, data.options || {}, function (error, result) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
                 callback({success: false, message: 'Could not load all blog posts!'});
@@ -30,6 +31,40 @@ module.exports = function (app) {
 
             callback({success: true, data: result});
         });
+    };
+
+    /**
+     * Gets all blog post and the number of blog posts from db.
+     *
+     * @param {object} data The query.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.getAllPostsWithCount = function (data, callback) {
+        async.auto({
+            getAll: function (callback) {
+                repo.posts.getAll(data.params, data.options, callback);
+            },
+            getCount: function (callback) {
+                repo.posts.getCount(data.params, callback);
+            }
+        }, function (error, results) {
+            if (error) {
+                syslog.error('%s! getting all blog posts from db: %j', error, data);
+                callback({success: false, message: 'Could not load all blog posts!'});
+                return;
+            }
+
+            callback({success: true, data: results.getAll, count: results.getCount});
+        });
+//        repo.posts.getAll(data.params, data.options, function (error, result) {
+//            if (error) {
+//                syslog.error('%s! getting all blog posts from db: %j', error, data);
+//                callback({success: false, message: 'Could not load all blog posts!'});
+//                return;
+//            }
+//
+//            callback({success: true, data: result});
+//        });
     };
 
     /**

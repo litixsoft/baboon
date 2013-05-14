@@ -4,8 +4,15 @@ angular.module('blog.services', ['app.services'])
         var pub = {},
             posts = [];
 
-        pub.getAll = function (callback) {
-            socket.emit('blog:getAllPosts', {}, function (result) {
+        pub.getAll = function (query, callback) {
+            socket.emit('blog:getAllPosts', query, function (result) {
+                posts = result;
+                callback(result);
+            });
+        };
+
+        pub.getAllWithCount = function (query, callback) {
+            socket.emit('blog:getAllPostsWithCount', query, function (result) {
                 posts = result;
                 callback(result);
             });
@@ -29,13 +36,6 @@ angular.module('blog.services', ['app.services'])
 //                callback(enterprise[id]);
 //            }
         };
-//
-//        pub.updateById = function (id, person, callback) {
-////            socket.emit('enterprise:updateById',{id: id, person: person}, function(data) {
-////                enterprise[id] = person;
-////                callback(data);
-////            });
-//        };
 
         pub.create = function (post, callback) {
 //            posts.push(post);

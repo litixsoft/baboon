@@ -277,7 +277,7 @@ module.exports = function (grunt) {
                 tasks: ['build:regarde', 'livereload']
             },
             server: {
-                files: ['server/api/**/*.*'],
+                files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
                 tasks: ['express-server','livereload']
             }
         },

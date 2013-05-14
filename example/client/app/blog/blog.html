@@ -6,7 +6,13 @@
         <a class="xxx" href="/blog/post/new">New Post</a>
 
         <!--<h1>Latest Articles</h1><span><%=list.length%> available, showing recent 3</span>-->
-        <h1>Latest Articles<span>( {{posts.length}} available, showing recent 3 )</span></h1>
+        <h1>Latest Articles
+            <span>( {{pager.count}} available, showing recent {{pager.pageSize}} ) Page: {{pager.currentPage + 1}}, sum: {{pager.numberOfPages()}}</span>
+            <button ng-click="pager.firstPage()">firstPage</button>
+            <button ng-click="pager.previousPage()">prevPage</button>
+            <button ng-click="pager.nextPage()">nextPage</button>
+            <button ng-click="pager.lastPage()">lastPage</button>
+        </h1>
 
         <article class="posts-article" ng-repeat="entry in posts">
             <div class="entry-title">

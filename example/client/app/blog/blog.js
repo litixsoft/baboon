@@ -6,14 +6,27 @@ angular.module('blog', ['blog.services', 'blog.directives'])
         $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
-    .controller('blogCtrl', ['$scope', 'posts', function ($scope, posts) {
-        posts.getAll(function (result) {
+    .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
+        var callback = function (result) {
             if (result.success) {
                 $scope.posts = result.data;
             } else {
                 console.log(result);
             }
-        });
+        };
+
+        $scope.filter = {};
+        $scope.pager = lxPager({filter: $scope.filter, callback:callback, service: posts});
+        $scope.pager.getAll();
+
+
+//        posts.getAll(query, function (result) {
+//            if (result.success) {
+//                $scope.posts = result.data;
+//            } else {
+//                console.log(result);
+//            }
+//        });
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
         $scope.master = {};
@@ -122,27 +135,3 @@ angular.module('blog', ['blog.services', 'blog.directives'])
 //            }
         };
     }]);
-//    .controller('postsssCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
-//        posts.getById($routeParams.id - 1, function (data) {
-//            $scope.post = data;
-//        });
-//
-//        $scope.text = 'sadadad';
-//
-//        $scope.editmode = false;
-//        $scope.edit = function () {
-//            // console.log("edit: "+uid);
-//            $scope.editmode = true;
-//        };
-//        $scope.reset = function () {
-//            //  console.log("reset: "+uid);
-//            $scope.editmode = false;
-//        };
-//        $scope.save = function () {
-//            // console.log("save: "+uid);
-//            $scope.editmode = false;
-//        };
-//        $scope.delete = function () {
-//            // console.log("delete: "+uid);
-//        };
-//    }]);

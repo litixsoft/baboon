@@ -29,11 +29,11 @@ describe('blog services', function () {
 
         runs(function () {
             flag = false;
-            service.getAll(function (data) {
+            service.getAll({}, function (data) {
                 expect(typeof data).toBe('object');
                 expect(Object.keys(data).length).toBe(0);
 
-                service.getAll(function (data) {
+                service.getAll({}, function (data) {
                     value = data;
                     flag = true;
                 });

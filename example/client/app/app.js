@@ -4,6 +4,7 @@ angular.module('app', [
         'ui.bootstrap',
         'ui.utils',
         'lx.directives',
+        'lx.services',
         'app.services',
         'blog',
         'enterprise',

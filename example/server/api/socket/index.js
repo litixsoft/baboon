@@ -14,7 +14,7 @@ var base = require('./base.js');
 module.exports = function (app) {
     var acl = {
         modules: [
-            { name: 'blog', resources: ['getAllPosts', 'getPostById', 'createPost', 'updatePost', 'addComment'] },
+            { name: 'blog', resources: ['getAllPosts', 'getAllPostsWithCount', 'getPostById', 'createPost', 'updatePost', 'addComment'] },
             { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
         ]
     };

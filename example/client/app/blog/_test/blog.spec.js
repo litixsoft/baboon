@@ -4,6 +4,7 @@
 describe('blog modul', function () {
     beforeEach(module('blog'));
     beforeEach(module('mocks'));
+    beforeEach(module('lx.services'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {
@@ -14,8 +15,9 @@ describe('blog modul', function () {
             ctrl = $controller('blogCtrl', {$scope: scope});
         }));
 
-        it('should create a empty person', function () {
-            expect(scope.posts).toBeUndefined();
+        it('should be initialized correctly', function () {
+            expect(scope.pager).toBeDefined();
+            expect(scope.filter).toBeDefined();
         });
     });
 
