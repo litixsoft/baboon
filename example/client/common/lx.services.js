@@ -20,15 +20,20 @@ angular.module('lx.services', [])
             };
 
             pub.getOptions = function () {
+                var params = model.params || {};
+
                 return {
                     limit: pub.pageSize,
-                    skip: pub.skip()
+                    skip: pub.skip(),
+                    fields: params.fields,
+                    sortBy: params.sortBy,
+                    sort: params.sort
                 };
             };
 
             pub.getAll = function () {
                 model.service.getAllWithCount({
-                    params: model.filter || {},
+                    params: (model.params || {}).filter || {},
                     options: pub.getOptions()
                 }, function (result) {
                     if (result.count) {

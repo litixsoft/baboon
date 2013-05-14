@@ -1,0 +1,26 @@
+<h2>Blog Posts</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Title <a href="" ng-click="sort('title')"><i class="icon-arrow-down"></i></a></td>
+            <td>Author</td>
+            <td>Created <a href="" ng-click="sort('created')"><i class="icon-arrow-down"></i></a></td>
+            <td><a name="newPost" href="/admin/post/new"><i class="icon-plus-sign"></i></a></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="post in posts">
+            <td>{{post.title}}</td>
+            <td>{{post.author}}</td>
+            <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
+            <td><a href="/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <button ng-click="pager.firstPage()">firstPage</button>
+    <button ng-click="pager.previousPage()">prevPage</button>
+    <button ng-click="pager.nextPage()">nextPage</button>
+    <button ng-click="pager.lastPage()">lastPage</button>
+    <span>( {{pager.count}} available, showing recent {{pager.pageSize}} ) Page: {{pager.currentPage + 1}}, numPages: {{pager.numberOfPages()}}</span>
+</div>

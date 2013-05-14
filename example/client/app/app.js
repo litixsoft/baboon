@@ -7,6 +7,7 @@ angular.module('app', [
         'lx.services',
         'app.services',
         'blog',
+        'admin',
         'enterprise',
         'home'
     ])

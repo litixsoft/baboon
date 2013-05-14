@@ -37,25 +37,25 @@ angular.module('blog.services', ['app.services'])
 //            }
         };
 
-        pub.create = function (post, callback) {
-//            posts.push(post);
-
-//            callback(1);
-            socket.emit('blog:createPost', post, function (result) {
-//                if (!Array.isArray(enterprise)) {
-//                    enterprise = [];
-//                }
+//        pub.create = function (post, callback) {
+////            posts.push(post);
 //
-//                enterprise.push(person);
-                callback(result);
-            });
-        };
-
-        pub.update = function (post, callback) {
-            socket.emit('blog:updatePost', post, function (result) {
-                callback(result);
-            });
-        };
+////            callback(1);
+//            socket.emit('blog:createPost', post, function (result) {
+////                if (!Array.isArray(enterprise)) {
+////                    enterprise = [];
+////                }
+////
+////                enterprise.push(person);
+//                callback(result);
+//            });
+//        };
+//
+//        pub.update = function (post, callback) {
+//            socket.emit('blog:updatePost', post, function (result) {
+//                callback(result);
+//            });
+//        };
 
         pub.addComment = function(id, comment, callback) {
             comment.post_id = id;
