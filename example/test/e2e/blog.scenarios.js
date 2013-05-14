@@ -23,7 +23,7 @@ describe('Blog Scenarios', function () {
 
         sleep(1);
 
-        expect(input('post.created').val()).toContain('2013-05-13');
+        expect(input('post.created').val()).toContain('2013-05-');
     });
 
     it('should reset the form', function () {
