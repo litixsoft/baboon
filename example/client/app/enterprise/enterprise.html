@@ -1,44 +1,50 @@
-<style>
-    .alert h4 {
-        margin-top: 30px;
-        margin-bottom: 10px;
-    }
+<div class="beige-noise">
+    <div class="p-wrapper">
 
-    .notCollapsed.collapse {
-        overflow: visible;
-    }
+        <style>
+            .alert h4 {
+                margin-top: 30px;
+                margin-bottom: 10px;
+            }
 
-</style>
-<h2>Enterprise</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>Description</td>
-            <td><a href="/enterprise/new"><i class="icon-plus-sign"></i></a></td>
-        </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="person in enterpriseCrew">
-        <td>{{person.name}}</td>
-        <td>{{person.description}}</td>
-        <td><a href="/enterprise/edit/{{$index}}"><i class="icon-edit"></i></a></td>
-    </tr>
-    </tbody>
-</table>
-<div>
-    <button class="btn" ng-click="open()">Open me!</button>
-    <div modal="shouldBeOpen" close="close()" options="opts">
-        <div class="modal-header">
-            <h4>I'm a modal!</h4>
+            .notCollapsed.collapse {
+                overflow: visible;
+            }
+
+        </style>
+        <h2>Enterprise</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td><a href="/enterprise/new"><i class="icon-plus-sign"></i></a></td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="person in enterpriseCrew">
+                <td>{{person.name}}</td>
+                <td>{{person.description}}</td>
+                <td><a href="/enterprise/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <button class="btn" ng-click="open()">Open me!</button>
+            <div modal="shouldBeOpen" close="close()" options="opts">
+                <div class="modal-header">
+                    <h4>I'm a modal!</h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="item in items">{{item}}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">{{item}}</li>
-            </ul>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
-        </div>
+
     </div>
 </div>

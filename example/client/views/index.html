@@ -9,7 +9,6 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/theme.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,16 +22,20 @@
     <link rel="shortcut icon" href="/img/favicon.png">
 </head>
 <body>
-<div>
-    <div>
-        <% include controls/topNav.html %>
-        <ul class="nav nav-pills">
-            <li><a href="/home">Home</a></li>
-            <li><a href="/home/about">About</a></li>
-            <li><a href="/enterprise">Enterprise</a></li>
-            <li><a href="/blog">Blog</a></li>
-        </ul>
+<div id="singlepageFrame">
+
+    <div class="beige-noise">
+        <div class="p-wrapper">
+            <% include controls/topNav.html %>
+            <ul class="nav nav-pills">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/about">About</a></li>
+                <li><a href="/enterprise">Enterprise</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+        </div>
     </div>
+
     <div ng-view></div>
 </div>
 <!--@@livereload-->
