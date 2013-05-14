@@ -12,6 +12,7 @@ describe('admin modul', function () {
 
         beforeEach(inject(function ($controller) {
             scope = {};
+            scope.$watch = function(){};
             ctrl = $controller('adminCtrl', {$scope: scope});
         }));
 

@@ -12,6 +12,7 @@
             <button ng-click="pager.previousPage()">prevPage</button>
             <button ng-click="pager.nextPage()">nextPage</button>
             <button ng-click="pager.lastPage()">lastPage</button>
+            <input type="text" ng-model="searchValue" placeholder="Search..."><button ng-click="searchPosts(searchValue)">Search</button>
         </h1>
 
         <article class="posts-article" ng-repeat="entry in posts">

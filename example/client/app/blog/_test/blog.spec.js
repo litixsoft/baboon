@@ -12,6 +12,7 @@ describe('blog modul', function () {
 
         beforeEach(inject(function ($controller) {
             scope = {};
+            scope.$watch = function(){};
             ctrl = $controller('blogCtrl', {$scope: scope});
         }));
 

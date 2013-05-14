@@ -10,15 +10,51 @@ angular.module('blog', ['blog.services', 'blog.directives'])
         var callback = function (result) {
             if (result.success) {
                 $scope.posts = result.data;
+                $scope.pager.count = result.count;
             } else {
                 console.log(result);
             }
         };
 
         $scope.params = {};
-        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
-        $scope.pager.getAll();
+        $scope.pager = lxPager();
+//        $scope.pager = lxPager({params: $scope.params, callback: callback, service: posts});
+//        $scope.pager.getAll();
 
+        $scope.searchPosts = function (value) {
+            $scope.params = value || {};
+
+            var query = {
+                params: $scope.params || {},
+                options: $scope.pager.getOptions()
+            };
+
+            posts.searchPosts(query, callback);
+        };
+
+        $scope.$watch('pager.currentPage', function () {
+            var query = {
+                params: $scope.params || {},
+                options: $scope.pager.getOptions()
+            };
+
+            if ($scope.searchValue) {
+                posts.searchPosts(query, callback);
+            } else {
+                $scope.params = {};
+                posts.getAllWithCount(query, callback);
+            }
+        });
+
+//        $scope.firstPage = function() {
+//            if ($scope.searchValue) {
+//                $scope.params.filter = $scope.searchValue;
+//                $scope.pager.searchPosts();
+//            } else {
+//                $scope.params.filter = {};
+//                $scope.pager.getAll();
+//            }
+//        };
 
 //        posts.getAll(query, function (result) {
 //            if (result.success) {

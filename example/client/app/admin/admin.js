@@ -7,28 +7,42 @@ angular.module('admin', ['blog.services', 'admin.services', 'blog.directives'])
     })
     .controller('adminCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
         var callback = function (result) {
-            if (result.success) {
-                $scope.posts = result.data;
-            } else {
-                console.log(result);
-            }
-        };
+                if (result.success) {
+                    $scope.posts = result.data;
+                    $scope.pager.count = result.count;
+                } else {
+                    console.log(result);
+                }
+            },
+            getQuery = function () {
+                var query = {
+                    params: $scope.params.filter || {},
+                    options: $scope.pager.getOptions()
+                };
+
+                query.options.sortBy = $scope.params.sortBy || 'created';
+                query.options.sort = $scope.params.sort || -1;
+
+                return query;
+            };
 
         $scope.params = {};
-        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
+//        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
+        $scope.pager = lxPager();
         $scope.pager.pageSize = 5;
 
-        $scope.sort = function(field) {
-            var oldDirection = $scope.params.sort || 1;
+        $scope.sort = function (field) {
+            var oldDirection = $scope.params.sort || -1;
 
             $scope.params.sortBy = field;
             $scope.params.sort = oldDirection > 0 ? -1 : 1;
-            $scope.pager.getAll();
+
+            posts.getAllWithCount(getQuery(), callback);
         };
 
-//        $scope.pager.getAll();
-
-        $scope.sort('created');
+        $scope.$watch('pager.currentPage', function () {
+            posts.getAllWithCount(getQuery(), callback);
+        });
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'auhtorPosts', 'cache', '$location', function ($scope, $routeParams, auhtorPosts, cache) {
         $scope.master = {};

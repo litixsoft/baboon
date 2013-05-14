@@ -11,6 +11,13 @@ angular.module('blog.services', ['app.services'])
             });
         };
 
+        pub.searchPosts = function (query, callback) {
+            socket.emit('blog:searchPosts', query, function (result) {
+                posts = result;
+                callback(result);
+            });
+        };
+
         pub.getAllWithCount = function (query, callback) {
             socket.emit('blog:getAllPostsWithCount', query, function (result) {
                 posts = result;

@@ -20,14 +20,14 @@ angular.module('lx.services', [])
             };
 
             pub.getOptions = function () {
-                var params = model.params || {};
+//                var params = model.params || {};
 
                 return {
                     limit: pub.pageSize,
-                    skip: pub.skip(),
-                    fields: params.fields,
-                    sortBy: params.sortBy,
-                    sort: params.sort
+                    skip: pub.skip()
+//                    fields: params.fields,
+//                    sortBy: params.sortBy,
+//                    sort: params.sort
                 };
             };
 
@@ -50,7 +50,7 @@ angular.module('lx.services', [])
 
                 if (count < pub.count) {
                     pub.currentPage = currentPage;
-                    pub.getAll();
+//                    pub.getAll();
                 }
             };
 
@@ -59,18 +59,18 @@ angular.module('lx.services', [])
 
                 if (currentPage !== 0) {
                     pub.currentPage = --currentPage;
-                    pub.getAll();
+//                    pub.getAll();
                 }
             };
 
             pub.firstPage = function () {
                 pub.currentPage = 0;
-                pub.getAll();
+//                pub.getAll();
             };
 
             pub.lastPage = function () {
                 pub.currentPage = pub.numberOfPages() - 1;
-                pub.getAll();
+//                pub.getAll();
             };
 
             return pub;
