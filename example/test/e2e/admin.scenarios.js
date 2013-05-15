@@ -3,19 +3,19 @@
 /*global describe, it, expect, browser, element, input, sleep*/
 describe('Admin Scenarios', function () {
     it('should redirect index.html', function () {
-        browser().navigateTo('/admin');
-        expect(browser().location().url()).toEqual('/admin');
+        browser().navigateTo('/blog/admin');
+        expect(browser().location().url()).toEqual('/blog/admin');
     });
 
     it('should redirect to post.html', function () {
-        browser().navigateTo('/admin');
+        browser().navigateTo('/blog/admin');
         element('a[name=newPost]').click();
 
-        expect(browser().location().url()).toEqual('/admin/post/new');
+        expect(browser().location().url()).toEqual('/blog/admin/post/new');
     });
 
     it('should save', function () {
-        browser().navigateTo('/admin/post/new');
+        browser().navigateTo('/blog/admin/post/new');
 
         input('post.title').enter('e2e');
         input('post.content').enter('e2e Content');
@@ -27,7 +27,7 @@ describe('Admin Scenarios', function () {
     });
 
     it('should reset the form', function () {
-        browser().navigateTo('/admin/post/new');
+        browser().navigateTo('/blog/admin/post/new');
 
         input('post.title').enter('e2e');
         input('post.content').enter('e2e Content');

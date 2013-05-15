@@ -2,7 +2,7 @@
 'use strict';
 
 describe('admin modul', function () {
-    beforeEach(module('admin'));
+    beforeEach(module('blog'));
     beforeEach(module('mocks'));
     beforeEach(module('lx.services'));
 
@@ -11,8 +11,6 @@ describe('admin modul', function () {
         var ctrl, scope;
 
         beforeEach(inject(function ($controller, $rootScope) {
-//            scope = {};
-//            scope.$watch = function(){};
             scope = $rootScope.$new();
             ctrl = $controller('adminCtrl', {$scope: scope});
         }));

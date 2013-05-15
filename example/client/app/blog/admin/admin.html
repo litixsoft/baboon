@@ -5,7 +5,7 @@
             <td>Title <a href="" ng-click="sort('title')"><i class="icon-arrow-down"></i></a></td>
             <td>Author</td>
             <td>Created <a href="" ng-click="sort('created')"><i class="icon-arrow-down"></i></a></td>
-            <td><a name="newPost" href="/admin/post/new"><i class="icon-plus-sign"></i></a></td>
+            <td><a name="newPost" href="/blog/admin/post/new"><i class="icon-plus-sign"></i></a></td>
         </tr>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
             <td>{{post.title}}</td>
             <td>{{post.author}}</td>
             <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
-            <td><a href="/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
+            <td><a href="/blog/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
         </tr>
     </tbody>
 </table>
