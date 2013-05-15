@@ -27,13 +27,25 @@
         width: 600px;
         height: 300px;
     }
+    .nav-tabs > li{
+        line-height:40px;
+    }
+    .nav-tabs > li > a{
+        font-size:30px;
+        padding:10px;
+    }
 </style>
 <h1 style="text-align:center;font-size:30px;">{{title}}</h1>
 
+<tabs>
+    <pane heading="UI-Bootstrap">
 
 <h2>UI-Bootstrap</h2>
 
+
 <hr style="border-color:red;">
+
+
 <!-- ------------- -->
 <!--*  Accordion  *-->
 <!-- ------------- -->
@@ -403,6 +415,7 @@
 </div>
 
 
+
 <hr>
 <!-- ------------- -->
 <!--*  Tabs    *-->
@@ -484,8 +497,10 @@
 </div>
 
 
+    </pane>
+    <pane heading="UI-Utils">
 
-<br><br>
+
 <h2>UI-Utils</h2>
 
 <hr style="border-color:red;">
@@ -493,7 +508,7 @@
 <!-- ------------- -->
 <!--*  Event Binder    *-->
 <!-- ------------- -->
-<h1 ng-init="EventIsCollapsed = true" ng-click="EventIsCollapsed = !EventIsCollapsed" style="cursor:pointer;">Event Binder</h1>
+<h1 ng-init="EventIsCollapsed = true" ng-click="EventIsCollapsed = !EventIsCollapsed" style="cursor:pointer;">Event Binder <span style="color:#aaa;font-size:20px;font-style:italic">(erlaubt Verwendung aller Javasript-Events, da Angular nicht alle unterstützt)</span></h1>
 <div collapse="EventIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <br>
@@ -508,6 +523,22 @@
         </div>
         <!-- Example End-->
 
+    </div>
+</div>
+
+
+
+<hr>
+<!-- ------------- -->
+<!--*  Format    *-->
+<!-- ------------- -->
+<h1 ng-init="FormatIsCollapsed = true" ng-click="FormatIsCollapsed = !FormatIsCollapsed" style="cursor:pointer;">Format <span style="color:#aaa;font-size:20px;font-style:italic">(Replace tokens in a string in a variety of ways)</span></h1>
+<div collapse="FormatIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
+    <div style="margin:10px;">
+        <br>
+        <p>Dokumentation bei <a href="http://angular-ui.github.io/ui-utils/#format">UI-Bootstrap</a></p>
+        <p>Code auf <a href="https://github.com/angular-ui/ui-utils">Github</a></p>
+        <br>
     </div>
 </div>
 
@@ -539,7 +570,7 @@
 <!-- ------------- -->
 <!--*  Keypress    *-->
 <!-- ------------- -->
-<h1 ng-init="KeypressIsCollapsed = true" ng-click="KeypressIsCollapsed = !KeypressIsCollapsed" style="cursor:pointer;">Keypress</h1>
+<h1 ng-init="KeypressIsCollapsed = true" ng-click="KeypressIsCollapsed = !KeypressIsCollapsed" style="cursor:pointer;">Keypress  <span style="color:#aaa;font-size:20px;font-style:italic">(bindet Tasten und -kombinationen an ein DOM-Object)</span></h1>
 <div collapse="KeypressIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <br>
@@ -561,7 +592,7 @@
 <!-- ------------- -->
 <!--*  Reset Input    *-->
 <!-- ------------- -->
-<h1 ng-init="ResetIsCollapsed = true" ng-click="ResetIsCollapsed = !ResetIsCollapsed" style="cursor:pointer;">Reset Input</h1>
+<h1 ng-init="ResetIsCollapsed = true" ng-click="ResetIsCollapsed = !ResetIsCollapsed" style="cursor:pointer;">Reset Input <span style="color:#aaa;font-size:20px;font-style:italic">(durch klick auf Icon kann Text in einem Input gelöscht werden)</span></h1>
 <div collapse="ResetIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <br>
@@ -597,7 +628,7 @@
 <!-- ------------- -->
 <!--*  Route Checking    *-->
 <!-- ------------- -->
-<h1 ng-init="RouteIsCollapsed = true" ng-click="RouteIsCollapsed = !RouteIsCollapsed" style="cursor:pointer;">Route Checking</h1>
+<h1 ng-init="RouteIsCollapsed = true" ng-click="RouteIsCollapsed = !RouteIsCollapsed" style="cursor:pointer;">Route Checking  <span style="color:#aaa;font-size:20px;font-style:italic">(prüft beim Öffnen der Seite ob eine ID übergeben wurde die dann auf der Seite angesprungen wird -> automatischer Scroll an Stelle)</span></h1>
 <div collapse="RouteIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <br>
@@ -631,7 +662,7 @@
 <!-- ------------- -->
 <!--*  Show, Hide + Toggle    *-->
 <!-- ------------- -->
-<h1 ng-init="ShowHideIsCollapsed = true" ng-click="ShowHideIsCollapsed = !ShowHideIsCollapsed" style="cursor:pointer;">Show, Hide + Toggle</h1>
+<h1 ng-init="ShowHideIsCollapsed = true" ng-click="ShowHideIsCollapsed = !ShowHideIsCollapsed" style="cursor:pointer;">Show, Hide + Toggle  <span style="color:#aaa;font-size:20px;font-style:italic">(Elemente anzeigen und verstecken, Animation wie Blenden über CSS möglich)</span></h1>
 <div collapse="ShowHideIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <br>
@@ -699,6 +730,9 @@
     </div>
 </div>
 <hr>
+
+    </pane>
+</tabs>
 
 </div>
 </div>
