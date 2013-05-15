@@ -2,6 +2,7 @@
 angular.module('ui_app', [
         'templates-ui',
         'ui.bootstrap',
+        'ui.utils',
         'lx.directives',
         'base',
         'extend',
