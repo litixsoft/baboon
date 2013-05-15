@@ -7,13 +7,15 @@
 
         <!--<h1>Latest Articles</h1><span><%=list.length%> available, showing recent 3</span>-->
         <h1>Latest Articles
-            <span>( {{pager.count}} available, showing recent {{pager.pageSize}} ) Page: {{pager.currentPage + 1}}, sum: {{pager.numberOfPages()}}</span>
-            <button ng-click="pager.firstPage()">firstPage</button>
-            <button ng-click="pager.previousPage()">prevPage</button>
-            <button ng-click="pager.nextPage()">nextPage</button>
-            <button ng-click="pager.lastPage()">lastPage</button>
-            <input type="text" ng-model="searchValue" placeholder="Search..."><button ng-click="searchPosts(searchValue)">Search</button>
+            <span>( {{pager.count}} available, showing recent {{pager.pageSize}} ) Page: {{pager.currentPage}}, sum: {{pager.numberOfPages()}}</span>
         </h1>
+            <!--<button ng-click="pager.firstPage()">firstPage</button>-->
+            <!--<button ng-click="pager.previousPage()">prevPage</button>-->
+            <!--<button ng-click="pager.nextPage()">nextPage</button>-->
+            <!--<button ng-click="pager.lastPage()">lastPage</button>-->
+            <pagination style="display: inline" boundary-links="true" num-pages="pager.numberOfPages()" current-page="pager.currentPage" max-size="3">
+            </pagination>
+            <input type="text" ng-model="searchValue" placeholder="Search..."><button ng-click="searchPosts(searchValue)">Search</button>
 
         <article class="posts-article" ng-repeat="entry in posts">
             <div class="entry-title">

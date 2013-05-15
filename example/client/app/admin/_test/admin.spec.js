@@ -10,9 +10,10 @@ describe('admin modul', function () {
     describe('adminCtrl', function () {
         var ctrl, scope;
 
-        beforeEach(inject(function ($controller) {
-            scope = {};
-            scope.$watch = function(){};
+        beforeEach(inject(function ($controller, $rootScope) {
+//            scope = {};
+//            scope.$watch = function(){};
+            scope = $rootScope.$new();
             ctrl = $controller('adminCtrl', {$scope: scope});
         }));
 

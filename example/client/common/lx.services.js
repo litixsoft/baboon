@@ -4,11 +4,11 @@ angular.module('lx.services', [])
         return function (model) {
             var pub = {};
 
-            pub.currentPage = 0;
+            pub.currentPage = 1;
             pub.pageSize = 2;
             pub.count = 0;
             pub.skip = function () {
-                return pub.currentPage * pub.pageSize;
+                return (pub.currentPage - 1) * pub.pageSize;
             };
 
             pub.numberOfPages = function () {
@@ -46,10 +46,10 @@ angular.module('lx.services', [])
 
             pub.nextPage = function () {
                 var currentPage = pub.currentPage;
-                var count = ++currentPage * pub.pageSize;
+                var count = currentPage * pub.pageSize;
 
                 if (count < pub.count) {
-                    pub.currentPage = currentPage;
+                    pub.currentPage = ++currentPage;
 //                    pub.getAll();
                 }
             };
@@ -57,14 +57,14 @@ angular.module('lx.services', [])
             pub.previousPage = function () {
                 var currentPage = pub.currentPage;
 
-                if (currentPage !== 0) {
+                if (currentPage !== 1) {
                     pub.currentPage = --currentPage;
 //                    pub.getAll();
                 }
             };
 
             pub.firstPage = function () {
-                pub.currentPage = 0;
+                pub.currentPage = 1;
 //                pub.getAll();
             };
 

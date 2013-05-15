@@ -10,9 +10,10 @@ describe('blog modul', function () {
     describe('blogCtrl', function () {
         var ctrl, scope;
 
-        beforeEach(inject(function ($controller) {
-            scope = {};
-            scope.$watch = function(){};
+        beforeEach(inject(function ($controller, $rootScope) {
+//            scope = {};
+//            scope.$watch = function(){};
+            scope = $rootScope.$new();
             ctrl = $controller('blogCtrl', {$scope: scope});
         }));
 
