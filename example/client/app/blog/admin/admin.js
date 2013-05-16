@@ -5,7 +5,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
+    .controller('adminCtrl', ['$scope', 'posts', 'lxPager', 'tags', function ($scope, posts, lxPager, tags) {
         var callback = function (result) {
                 if (result.success) {
                     $scope.posts = result.data;
@@ -40,20 +40,90 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             posts.getAllWithCount(getQuery(), callback);
         };
 
+        $scope.$watch('pager.pageSize', function () {
+            posts.getAllWithCount(getQuery(), callback);
+        });
+
         $scope.$watch('pager.currentPage', function () {
             posts.getAllWithCount(getQuery(), callback);
         });
+
+        $scope.modal = {};
+        $scope.modal.validationErrors = [];
+        $scope.modal.closeAlert = function (index) {
+            $scope.modal.validationErrors.splice(index, 1);
+        };
+        $scope.modal.open = function () {
+            $scope.modal.shouldBeOpen = true;
+            $scope.modal.validationErrors = [];
+
+            tags.getAll({}, function (result) {
+                if (result.success) {
+                    $scope.modal.items = result.data;
+                }
+            });
+        };
+
+        $scope.modal.save = function (name) {
+            tags.createTag({name: name}, function (result) {
+                if (result.success) {
+                    $scope.modal.items.push(result.data);
+                    $scope.modal.name = '';
+                    $scope.modal.validationErrors = [];
+                }
+
+                if (result.errors) {
+                    for (var i = 0; i < result.errors.length; i++) {
+                        $scope.modal.validationErrors.push({
+                            type: 'error',
+                            msg: result.errors[i].property + ' ' + result.errors[i].message
+                        });
+                    }
+                }
+
+                if (result.message) {
+                    $scope.modal.validationErrors.push({type: 'error', msg: result.message});
+                }
+            });
+        };
+
+        $scope.modal.delete = function (tag) {
+            tags.deleteTag(tag._id, function (result) {
+                if (result.success) {
+                    var index = $scope.modal.items.indexOf(tag);
+                    $scope.modal.items.splice(index, 1);
+                }
+
+                if (result.message) {
+                    $scope.modal.validationErrors.push({type: 'error', msg: result.message});
+                }
+            });
+        };
+
+        $scope.modal.close = function () {
+            $scope.modal.shouldBeOpen = false;
+        };
+
+        $scope.modal.opts = {
+            backdropFade: true,
+            dialogFade: true
+        };
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'auhtorPosts', 'cache', '$location', function ($scope, $routeParams, auhtorPosts, cache) {
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', '$location', function ($scope, $routeParams, authorPosts, cache) {
         $scope.master = {};
         $scope.post = {};
+        $scope.validationErrors = [];
+
+        $scope.closeAlert = function (index) {
+            $scope.validationErrors.splice(index, 1);
+        };
 
         // load post
         if ($routeParams.id) {
-            auhtorPosts.getById($routeParams.id, function (result) {
+            authorPosts.getById($routeParams.id, function (result) {
                 if (result.success) {
                     $scope.post = result.data;
-                    $scope.master = result.data;
+                    $scope.master = angular.copy(result.data);
                     cache.blog_post = result.data;
                 } else {
                     console.log(result.message);
@@ -62,6 +132,8 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         }
 
         $scope.save = function (post) {
+            $scope.validationErrors = [];
+
             var callback = function (result) {
                 if (result.success) {
                     // reset model
@@ -73,20 +145,24 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 //                    $location.path('/blog');
                 } else {
                     if (result.errors) {
-                        console.log('validation errors');
-                        console.log(result.errors);
+                        for (var i = 0; i < result.errors.length; i++) {
+                            $scope.validationErrors.push({
+                                type: 'error',
+                                msg: result.errors[i].property + ' ' + result.errors[i].message
+                            });
+                        }
                     }
 
                     if (result.message) {
-                        console.log(result.message);
+                        $scope.validationErrors.push({type: 'error', msg: result.message});
                     }
                 }
             };
 
             if (post._id) {
-                auhtorPosts.update(post, callback);
+                authorPosts.update(post, callback);
             } else {
-                auhtorPosts.create(post, callback);
+                authorPosts.create(post, callback);
             }
         };
 

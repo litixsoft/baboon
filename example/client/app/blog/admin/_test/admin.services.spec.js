@@ -8,7 +8,7 @@ describe('admin services', function () {
         module('admin.services');
         module('mocks');
         inject(function ($injector) {
-            service = $injector.get('auhtorPosts');
+            service = $injector.get('authorPosts');
         });
     });
 

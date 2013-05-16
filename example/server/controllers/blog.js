@@ -273,5 +273,75 @@ module.exports = function (app) {
         });
     };
 
+    /**
+     * Gets all tags from db.
+     *
+     * @param {object} data The query.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.getAllTags = function (data, callback) {
+        repo.tags.getAll(data.params || {}, data.options || {}, function (error, result) {
+            if (error) {
+                syslog.error('%s! getting all blog posts from db: %j', error, data);
+                callback({success: false, message: 'Could not load all blog posts!'});
+                return;
+            }
+
+            callback({success: true, data: result});
+        });
+    };
+
+    /**
+     * Creates a new tag in the db.
+     *
+     * @param {object} data The tag data.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.createTag = function (data, callback) {
+        data = data || {};
+
+        // validate client data
+        repo.tags.validate(data, {}, function (error, result) {
+            if (error) {
+                syslog.error('%s! validating tag: %j', error, data);
+                callback({success: false, message: 'Could not create tag!'});
+                return;
+            }
+
+            if (result.valid) {
+                // save in repo
+                repo.tags.create(data, function (error, result) {
+                    if (error) {
+                        syslog.error('%s! creating tag in db: %j', error, data);
+                        callback({success: false, message: 'Could not create tag!'});
+                        return;
+                    }
+
+                    if (result) {
+                        audit.info('Created blog tag db: %j', data);
+                        callback({success: true, data: result[0]});
+                    }
+                });
+            } else {
+                callback({success: false, errors: result.errors});
+            }
+        });
+    };
+
+    pub.deleteTag = function (data, callback) {
+        repo.tags.delete({_id: data.id}, function (error, result) {
+            if (error) {
+                syslog.error('%s! deleting tag in db: %j', error, data);
+                callback({success: false, message: 'Could not delete tag!'});
+                return;
+            }
+
+            if (result) {
+                audit.info('Created blog tag db: %j', data);
+                callback({success: true});
+            }
+        });
+    };
+
     return pub;
 };

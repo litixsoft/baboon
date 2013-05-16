@@ -265,6 +265,18 @@ module.exports = function (grunt) {
                     port: 3000,
                     script: 'app.js'
                 }
+            },
+            aa: {
+                options: {
+                    args: ['e2e'],
+                    script: 'test/fixtures/aa.js'
+                }
+            },
+            e2e: {
+                options: {
+                    args: ['e2e'],
+                    script: 'app.js'
+                }
             }
         },
         livereload: {
@@ -278,7 +290,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
-                tasks: ['express-server','livereload']
+                tasks: ['express:dev','livereload']
             }
         },
         open: {
@@ -390,9 +402,10 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
+        'express:aa',
         'clean:reports',
         'build',
-        'express',
+        'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
@@ -402,12 +415,13 @@ module.exports = function (grunt) {
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
+        'express:aa',
         'clean:reports',
         'jshint:files',
         'jasmine_node',
         'karma:unit',
         'build',
-        'express',
+        'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
@@ -415,7 +429,7 @@ module.exports = function (grunt) {
         'jshint:files',
         'karma:unit',
         'release',
-        'express',
+        'express:dev',
         'karma:e2e'
     ]);
     grunt.registerTask('server', [
@@ -425,7 +439,7 @@ module.exports = function (grunt) {
         'concat',
         'replace:livereload',
         'livereload-start',
-        'express',
+        'express:dev',
         'open',
         'regarde'
     ]);

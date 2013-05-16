@@ -22,25 +22,30 @@
     <link rel="shortcut icon" href="/img/favicon.png">
 </head>
 <body>
-<div>
     <div>
-        <% include controls/topNav.html %>
-        <ul class="nav nav-pills">
-            <li><a href="/home">Home</a></li>
-            <li><a href="/home/about">About</a></li>
-            <li><a href="/enterprise">Enterprise</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/blog/admin">Admin</a></li>
-        </ul>
+        <div>
+            <% include controls/topNav.html %>
+            <ul class="nav nav-pills">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/about">About</a></li>
+                <li><a href="/enterprise">Enterprise</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Blog<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/blog/admin">Admin</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div ng-view></div>
     </div>
-    <div ng-view></div>
-</div>
-<!--@@livereload-->
-<script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/common<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/common.tpl<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
+    <!--@@livereload-->
+    <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/common<!--@@min-->.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/common.tpl<!--@@min-->.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
 </body>
 </html>

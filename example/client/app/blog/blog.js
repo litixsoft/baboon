@@ -7,7 +7,20 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
-        var callback = function (result) {
+        var getData = function() {
+                var query = {
+                    params: $scope.params || {},
+                    options: $scope.pager.getOptions()
+                };
+
+                if ($scope.searchValue) {
+                    posts.searchPosts(query, callback);
+                } else {
+                    $scope.params = {};
+                    posts.getAllWithCount(query, callback);
+                }
+            },
+            callback = function (result) {
             if (result.success) {
                 $scope.posts = result.data;
                 $scope.pager.count = result.count;
@@ -18,9 +31,6 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
 
         $scope.params = {};
         $scope.pager = lxPager();
-//        $scope.pager = lxPager({params: $scope.params, callback: callback, service: posts});
-//        $scope.pager.getAll();
-
         $scope.searchPosts = function (value) {
             $scope.params = value || {};
 
@@ -33,36 +43,12 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
         };
 
         $scope.$watch('pager.currentPage', function () {
-            var query = {
-                params: $scope.params || {},
-                options: $scope.pager.getOptions()
-            };
-
-            if ($scope.searchValue) {
-                posts.searchPosts(query, callback);
-            } else {
-                $scope.params = {};
-                posts.getAllWithCount(query, callback);
-            }
+            getData();
         });
 
-//        $scope.firstPage = function() {
-//            if ($scope.searchValue) {
-//                $scope.params.filter = $scope.searchValue;
-//                $scope.pager.searchPosts();
-//            } else {
-//                $scope.params.filter = {};
-//                $scope.pager.getAll();
-//            }
-//        };
-
-//        posts.getAll(query, function (result) {
-//            if (result.success) {
-//                $scope.posts = result.data;
-//            } else {
-//                console.log(result);
-//            }
-//        });
+        $scope.$watch('pager.pageSize', function () {
+            getData();
+        });
     }])
 //    .controller('editPostCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
 //        $scope.master = {};

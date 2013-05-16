@@ -5,7 +5,7 @@ var path = require('path'),
     rootPath = path.resolve('..', '..', 'baboon/example'),
     config = require('../../../lib/config.js')(rootPath);
 
-//console.dir(config);
+process.env.NODE_ENV = undefined;
 
 module.exports = function () {
     var logging = function (msg) {
