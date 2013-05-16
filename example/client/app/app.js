@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('app', [
         'templates-app',
-        'ui.bootstrap',
+//        'ui.bootstrap',
         'ui.utils',
         'lx.directives',
         'lx.services',
