@@ -14,13 +14,13 @@
                 font-size:25px;
                 color: #666;
                 text-align: left;
-
             }
 
             h1.headline{
                 padding:30px 0;
                 text-align:center;
                 font-size:30px;
+                margin:0;
             }
 
             h4{
@@ -37,7 +37,12 @@
                 border: 1px solid rgb(212,212,212);
                 width: 600px;
                 height: 300px;
-            }/*
+            }
+            ul.ui-sortable li{
+                text-align: left;
+                cursor: pointer;
+            }
+            /*
     .nav-tabs > li{
         line-height:40px;
     }
@@ -47,7 +52,7 @@
     }*/
         </style>
 
-        <h1 class="headline">extend</h1>
+        <h1 class="headline">UI-Examples-Extend</h1>
 
         <h2>UI-Modules</h2>
         <hr style="border-color:red;">
@@ -75,12 +80,36 @@
                 </ul>
 
             </div>
-            <!--<div ui-calendar="{width: 400,height: 450,editable: true}" class="span8 calendar" ng-model="eventSources"></div>-->
+            <div ui-calendar="{width: 400,height: 450,editable: true}" class="span8 calendar" ng-model="eventSources"></div>
         </div>
         <!-- Example End-->
 
     </div>
 </div>
+
+<hr>
+<!-- ------------- -->
+<!--*  Select2 (problematisch)    *-->
+<!-- ------------- -->
+<h1 ng-init="Select2Collapsed = true" ng-click="Select2Collapsed = !Select2Collapsed" style="cursor:pointer;">Select2</h1>
+<div collapse="Select2Collapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
+    <div style="margin:10px;">
+        <h3>AngularUI - TinyMCE</h3>
+
+        <!-- Example Begin-->
+        <h4>Link noch nicht möglich</h4><p>http://ivaynberg.github.com/select2/select2-3.2/select2.js</p>
+        <p>Value is: {{select2}} <a ng-click="select2='two'">(choose second)</a></p>
+        <select ui-select2 ng-model="select2">
+            <option value="">Pick a number</option>
+            <option value="one">First</option>
+            <option value="two">Second</option>
+            <option value="three">Third</option>
+        </select>
+        <!-- Example End-->
+
+    </div>
+</div>
+
 
 <hr>
 <!-- ------------- -->
@@ -92,7 +121,7 @@
         <h3>AngularUI - CodeMirror</h3>
 
         <!-- Example Begin-->
-        <div ng-controller="CodemirrorDemoCtrl">
+        <div ng-controller="CodemirrorDemoCtrl" style="text-align:left;">
             <textarea ui-codemirror="editorOptions" ng-model="codeMirrorModel"></textarea>
             <pre ng-bind="codeMirrorModel"></pre>
         </div>
@@ -114,14 +143,6 @@
 
         <!-- Example Begin-->
         <input placeholder="Datum" ui-date />
-        <p>benötigt:
-        <ul>
-            <li>angular-ui.min.js</li>
-            <li>angular-ui.min.css</li>
-            <li>jquery.min.js</li>
-            <li>jquery-ui-1.10.2.custom.min.js</li>
-        </ul>
-        </p>
         <!-- Example End-->
 
     </div>
@@ -132,7 +153,7 @@
 <!-- ------------- -->
 <!--*  Sortable    *-->
 <!-- ------------- -->
-<h1 ng-init="SortableIsCollapsed = true" ng-click="SortableIsCollapsed = !SortableIsCollapsed" style="cursor:pointer;color:red;">Sortable (external dependencies)</h1>
+<h1 ng-init="SortableIsCollapsed = true" ng-click="SortableIsCollapsed = !SortableIsCollapsed" style="cursor:pointer;">Sortable</h1>
 <div collapse="SortableIsCollapsed" style="box-shadow:0 0 6px rgba(0,0,0,0.1);border-radius: 7px;background:#eee;">
     <div style="margin:10px;">
         <h3>AngularUI - Sortable</h3>
@@ -182,21 +203,6 @@
     </div>
 </div>
 
-<div style="display:table-cell;width:49%;" class="alert alert-danger">
-    <h3>AngularUI - Select2</h3>
-
-    <!-- Example Begin-->
-    <h4>Link noch nicht möglich</h4><p>http://ivaynberg.github.com/select2/select2-3.2/select2.js</p>
-    <!--<p>Value is: {{select2}} <a ng-click="select2='two'">(choose second)</a></p>-->
-    <!--<select ui-select2 ng-model="select2">-->
-    <!--<option value="">Pick a number</option>-->
-    <!--<option value="one">First</option>-->
-    <!--<option value="two">Second</option>-->
-    <!--<option value="three">Third</option>-->
-    <!--</select>-->
-    <!-- Example End-->
-
-</div>
 
         </div>
 </div>
