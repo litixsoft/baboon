@@ -22,19 +22,25 @@
     <link rel="shortcut icon" href="/img/favicon.png">
 </head>
 <body>
-<div>
-    <div>
-        <% include controls/topNav.html %>
-        <ul class="nav nav-pills">
-            <li><a href="/home">Home</a></li>
-            <li><a href="/home/about">About</a></li>
-            <li><a href="/enterprise">Enterprise</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/blog/admin">Admin</a></li>
-        </ul>
+<div id="singlepageFrame">
+
+    <div class="beige-noise">
+        <div class="p-wrapper">
+            <% include controls/topNav.html %>
+            <ul class="nav nav-pills">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/about">About</a></li>
+                <li><a href="/enterprise">Enterprise</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/blog/admin">Admin</a></li>
+            </ul>
+        </div>
     </div>
     <div ng-view></div>
 </div>
+
+<!--@@jqueryIncludes-->
+
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
@@ -42,5 +48,13 @@
 <script type="text/javascript" src="/js/common.tpl<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
+
+<!-- UI-Modules -->
+<!--@@extendCSSincludes-->
+<!--@@extendJSincludes-->
+
+<!--@@vendorCSSincludes-->
+<!--@@vendorJSincludes-->
+
 </body>
 </html>

@@ -6,6 +6,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
+        libincludes: grunt.file.readJSON('config/lib.conf.json'),
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -121,24 +122,8 @@ module.exports = function (grunt) {
                     // lib debug
                     'build/dist/public/js/lib.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js',
                         'vendor/angular-ui-utils/utils.js',
-                        'vendor/angular-ui-utils/event/event.js',
-                        'vendor/angular-ui-utils/format/format.js',
-                        'vendor/angular-ui-utils/highlight/highlight.js',
-//                        'vendor/angular-ui-utils/ie-shiv/ie-shiv.js',
-                        'vendor/angular-ui-utils/if/if.js',
-                        'vendor/angular-ui-utils/inflector/inflector.js',
-                        'vendor/angular-ui-utils/jq/jq.js',
-                        'vendor/angular-ui-utils/keypress/keypress.js',
-                        'vendor/angular-ui-utils/mask/mask.js',
-                        'vendor/angular-ui-utils/reset/reset.js',
-                        'vendor/angular-ui-utils/route/route.js',
-                        'vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        'vendor/angular-ui-utils/showhide/showhide.js',
-                        'vendor/angular-ui-utils/unique/unique.js',
-                        'vendor/angular-ui-utils/validate/validate.js'
-
+                        '<%= libincludes.base.js %>'
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
@@ -149,12 +134,14 @@ module.exports = function (grunt) {
                     // libs debug
                     'build/dist/public/css/lib.css': [
                         'vendor/bootstrap/css/bootstrap.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.css'
+                        'vendor/bootstrap/css/bootstrap-responsive.css',
+                        'vendor/litixsoft/default.css'
                     ],
                     // libs release
                     'build/dist/public/css/lib.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css'
+                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
+                        'vendor/litixsoft/default.css'
                     ]
                 }
             },
@@ -293,7 +280,34 @@ module.exports = function (grunt) {
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
-                    {from: '<!--@@livereload-->', to: ''}
+                    {from: '<!--@@livereload-->', to: ''},
+                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                        '"<%= libincludes.base.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
+                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
+                        '"<%= libincludes.extend.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
+                        '"<%= libincludes.vendor.injects[i] %>",' +
+                        '<% } %>'}
+
+
+
                 ]
             },
             release: {
@@ -302,17 +316,66 @@ module.exports = function (grunt) {
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
-                    {from: '<!--@@livereload-->', to: ''}
+                    {from: '<!--@@livereload-->', to: ''},
+                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                        '"<%= libincludes.base.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
+                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
+                        '"<%= libincludes.extend.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
+                        '"<%= libincludes.vendor.injects[i] %>",' +
+                        '<% } %>'}
                 ]
             },
             livereload: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/*.html','build/dist/public/js/lib.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'},
+                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                        '"<%= libincludes.base.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
+                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
+                        '"<%= libincludes.extend.injects[i] %>",' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
+                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
+                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
+                        '<% } %>'},
+                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
+                        '"<%= libincludes.vendor.injects[i] %>",' +
+                        '<% } %>'}
+
                 ]
             }
         },
