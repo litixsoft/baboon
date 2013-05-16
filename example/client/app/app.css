@@ -1,3 +1,6 @@
 body {
-    padding: 50px;
+}
+
+.help-inline.error {
+    color: #b94a48;
 }

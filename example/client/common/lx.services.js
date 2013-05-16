@@ -5,8 +5,10 @@ angular.module('lx.services', [])
             var pub = {};
 
             pub.currentPage = 1;
-            pub.pageSize = 2;
             pub.count = 0;
+            pub.pageSize = 5;
+            pub.pageSizes = [1, 2, 3, 4, 5, 10];
+
             pub.skip = function () {
                 return (pub.currentPage - 1) * pub.pageSize;
             };

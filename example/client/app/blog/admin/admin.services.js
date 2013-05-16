@@ -1,6 +1,6 @@
 /*global angular*/
 angular.module('admin.services', ['app.services'])
-    .factory('auhtorPosts', function (socket) {
+    .factory('authorPosts', function (socket) {
         var pub = {};
 
         pub.getById = function (id, callback) {
@@ -45,6 +45,35 @@ angular.module('admin.services', ['app.services'])
         pub.addComment = function(id, comment, callback) {
             comment.post_id = id;
             socket.emit('blog:addComment', comment, function (result) {
+                callback(result);
+            });
+        };
+
+        return pub;
+    })
+    .factory('tags', function (socket) {
+        var pub = {};
+
+        pub.getAll = function (query, callback) {
+            socket.emit('blog:getAllTags', query, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.createTag = function (tag, callback) {
+            socket.emit('blog:createTag', tag, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.updateTag = function (tag, callback) {
+            socket.emit('blog:updateTag', tag, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.deleteTag = function(id,  callback) {
+            socket.emit('blog:deleteTag', {id: id}, function (result) {
                 callback(result);
             });
         };

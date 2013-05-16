@@ -4,10 +4,16 @@ angular.module('base', [])
 
     .config(function ($routeProvider) {
         $routeProvider.when('/', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
-        $routeProvider.when('/ui', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/base', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
     })
     .controller('baseCtrl', ['$scope', function ($scope) {
         $scope.title = 'UI-Examples-Base';
+    }])
+//    .controller('extendCtrl', ['$scope', function ($scope) {
+//        $scope.title = 'UI-Examples-Extend';
+//    }])
+    .controller('vendorCtrl', ['$scope', function ($scope) {
+        $scope.title = 'UI-Examples-Vendor';
     }])
 /**
  * ng-grid controller

@@ -1,25 +1,27 @@
 'use strict';
-var lxDb = require('lx-mongodb');
+var lxDb = require('lx-mongodb'),
+    val = require('lx-valid'),
+    lxHelpers = require('lx-helpers');
 
 module.exports = function (collection) {
     var schema = function () {
             return {
-                'properties': {
-                    '_id': {
-                        'type': 'string',
-                        'required': false,
-                        'format': 'mongo-id',
-                        'key': true
+                properties: {
+                    _id: {
+                        type: 'string',
+                        required: false,
+                        format: 'mongo-id',
+                        key: true
                     },
-                    'name': {
-                        'type': 'string',
-                        'required': true,
-                        'sort': 1
+                    name: {
+                        type: 'string',
+                        required: true,
+                        sort: 1,
+                        minLength: 2
                     }
                 }
             };
         },
-        val = require('lx-valid'),
         baseRepo = lxDb.BaseRepo(collection, schema);
 
 //    collection.ensureIndex({'tagName': 1}, {unique: true}, function (error) {
@@ -30,7 +32,7 @@ module.exports = function (collection) {
 
     // validators
     baseRepo.checkTagName = function (tagName, cb) {
-        collection.findOne({tagName: tagName}, function (err, res) {
+        baseRepo.getOne({name: tagName}, function (err, res) {
             if (err) {
                 cb(err);
             } else if (res) {
@@ -50,18 +52,20 @@ module.exports = function (collection) {
         });
     };
 
-    baseRepo.validate = function (doc, isUpdate, schema, cb) {
+    baseRepo.validate = function (doc, options, cb) {
         var checkTagName = true;
+        doc = doc || {};
+        options = options || {};
+        options.schema = options.schema || schema();
+        options.isUpdate = options.isUpdate || false;
 
         // check is update
-        if (isUpdate) {
-            for (var schemaProp in schema.properties) {
-                if (schema.properties.hasOwnProperty(schemaProp)) {
-                    if (!doc.hasOwnProperty(schemaProp)) {
-                        schema.properties[schemaProp].required = false;
-                    }
+        if (options.isUpdate) {
+            lxHelpers.objectForEach(options.schema.properties, function (key) {
+                if (!doc.hasOwnProperty(key)) {
+                    options.schema.properties[key].required = false;
                 }
-            }
+            });
 
             if (!doc.hasOwnProperty('name')) {
                 checkTagName = false;
@@ -69,7 +73,7 @@ module.exports = function (collection) {
         }
 
         // json schema validate
-        var valResult = val.validate(doc, schema, baseRepo.getValidationOptions());
+        var valResult = val.validate(doc, options.schema, baseRepo.getValidationOptions());
 
         // register async validator
         if (checkTagName) {
