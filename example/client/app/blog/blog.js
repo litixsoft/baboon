@@ -1,24 +1,60 @@
 /*global angular*/
-angular.module('blog', ['blog.services', 'blog.directives'])
+angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
-        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
-        $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
+//        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
+//        $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
         var callback = function (result) {
             if (result.success) {
                 $scope.posts = result.data;
+                $scope.pager.count = result.count;
             } else {
                 console.log(result);
             }
         };
 
-        $scope.filter = {};
-        $scope.pager = lxPager({filter: $scope.filter, callback:callback, service: posts});
-        $scope.pager.getAll();
+        $scope.params = {};
+        $scope.pager = lxPager();
+//        $scope.pager = lxPager({params: $scope.params, callback: callback, service: posts});
+//        $scope.pager.getAll();
 
+        $scope.searchPosts = function (value) {
+            $scope.params = value || {};
+
+            var query = {
+                params: $scope.params || {},
+                options: $scope.pager.getOptions()
+            };
+
+            posts.searchPosts(query, callback);
+        };
+
+        $scope.$watch('pager.currentPage', function () {
+            var query = {
+                params: $scope.params || {},
+                options: $scope.pager.getOptions()
+            };
+
+            if ($scope.searchValue) {
+                posts.searchPosts(query, callback);
+            } else {
+                $scope.params = {};
+                posts.getAllWithCount(query, callback);
+            }
+        });
+
+//        $scope.firstPage = function() {
+//            if ($scope.searchValue) {
+//                $scope.params.filter = $scope.searchValue;
+//                $scope.pager.searchPosts();
+//            } else {
+//                $scope.params.filter = {};
+//                $scope.pager.getAll();
+//            }
+//        };
 
 //        posts.getAll(query, function (result) {
 //            if (result.success) {
@@ -28,68 +64,68 @@ angular.module('blog', ['blog.services', 'blog.directives'])
 //            }
 //        });
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
-        $scope.master = {};
-        $scope.post = {};
-
-        // load post
-        if ($routeParams.id) {
-            posts.getById($routeParams.id, function (result) {
-                if (result.success) {
-                    $scope.post = result.data;
-                    $scope.master = result.data;
-                    cache.blog_post = result.data;
-                } else {
-                    console.log(result.message);
-                }
-            });
-        }
-
-        $scope.save = function (post) {
-            var callback = function (result) {
-                if (result.success) {
-                    // reset model
-                    result.data = result.data || post;
-                    $scope.master = angular.copy(result.data);
-                    $scope.reset();
-                    cache.blog_post = {};
-
-//                    $location.path('/blog');
-                } else {
-                    if (result.errors) {
-                        console.log('validation errors');
-                        console.log(result.errors);
-                    }
-
-                    if (result.message) {
-                        console.log(result.message);
-                    }
-                }
-            };
-
-            if (post._id) {
-                posts.update(post, callback);
-            } else {
-                posts.create(post, callback);
-            }
-        };
-
-        $scope.reset = function () {
-            $scope.post = angular.copy($scope.master);
-            cache.post = $scope.post;
-        };
-
-        $scope.isUnchanged = function (post) {
-            return angular.equals(post, $scope.master);
-        };
-
-        if (cache.blog_post && Object.keys(cache.blog_post).length > 0) {
-            $scope.post = cache.blog_post;
-            $scope.master = angular.copy($scope.post);
-        } else {
-            cache.blog_post = $scope.post;
-        }
-    }])
+//    .controller('editPostCtrl', ['$scope', '$routeParams', 'posts', 'cache', '$location', function ($scope, $routeParams, posts, cache) {
+//        $scope.master = {};
+//        $scope.post = {};
+//
+//        // load post
+//        if ($routeParams.id) {
+//            posts.getById($routeParams.id, function (result) {
+//                if (result.success) {
+//                    $scope.post = result.data;
+//                    $scope.master = result.data;
+//                    cache.blog_post = result.data;
+//                } else {
+//                    console.log(result.message);
+//                }
+//            });
+//        }
+//
+//        $scope.save = function (post) {
+//            var callback = function (result) {
+//                if (result.success) {
+//                    // reset model
+//                    result.data = result.data || post;
+//                    $scope.master = angular.copy(result.data);
+//                    $scope.reset();
+//                    cache.blog_post = {};
+//
+////                    $location.path('/blog');
+//                } else {
+//                    if (result.errors) {
+//                        console.log('validation errors');
+//                        console.log(result.errors);
+//                    }
+//
+//                    if (result.message) {
+//                        console.log(result.message);
+//                    }
+//                }
+//            };
+//
+//            if (post._id) {
+//                posts.update(post, callback);
+//            } else {
+//                posts.create(post, callback);
+//            }
+//        };
+//
+//        $scope.reset = function () {
+//            $scope.post = angular.copy($scope.master);
+//            cache.post = $scope.post;
+//        };
+//
+//        $scope.isUnchanged = function (post) {
+//            return angular.equals(post, $scope.master);
+//        };
+//
+//        if (cache.blog_post && Object.keys(cache.blog_post).length > 0) {
+//            $scope.post = cache.blog_post;
+//            $scope.master = angular.copy($scope.post);
+//        } else {
+//            cache.blog_post = $scope.post;
+//        }
+//    }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
         // load post
         if ($routeParams.id) {

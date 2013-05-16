@@ -68,6 +68,54 @@ module.exports = function (app) {
     };
 
     /**
+     * Gets all blog post and the number of blog posts from db.
+     *
+     * @param {object} data The query.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.searchPosts = function (data, callback) {
+        var filter = {};
+        data.params = data.params || {};
+
+        if (data.params && typeof data.params === 'string') {
+            var searchValue = new RegExp(data.params, 'gi');
+
+            filter = {
+                $or: [
+                    { title: searchValue },
+                    { content: searchValue }
+                ]
+            };
+        }
+
+        async.auto({
+            getAll: function (callback) {
+                repo.posts.getAll(filter, data.options, callback);
+            },
+            getCount: function (callback) {
+                repo.posts.getCount(filter, callback);
+            }
+        }, function (error, results) {
+            if (error) {
+                syslog.error('%s! getting all blog posts from db: %j', error, data);
+                callback({success: false, message: 'Could not load all blog posts!'});
+                return;
+            }
+
+            callback({success: true, data: results.getAll, count: results.getCount});
+        });
+//        repo.posts.getAll(data.params, data.options, function (error, result) {
+//            if (error) {
+//                syslog.error('%s! getting all blog posts from db: %j', error, data);
+//                callback({success: false, message: 'Could not load all blog posts!'});
+//                return;
+//            }
+//
+//            callback({success: true, data: result});
+//        });
+    };
+
+    /**
      * Gets a single blog post by id.
      *
      * @param {!string} id The id.
