@@ -112,11 +112,6 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
     .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', '$location', function ($scope, $routeParams, authorPosts, cache) {
         $scope.master = {};
         $scope.post = {};
-        $scope.validationErrors = [];
-
-        $scope.closeAlert = function (index) {
-            $scope.validationErrors.splice(index, 1);
-        };
 
         // load post
         if ($routeParams.id) {
@@ -132,8 +127,6 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         }
 
         $scope.save = function (post) {
-            $scope.validationErrors = [];
-
             var callback = function (result) {
                 if (result.success) {
                     // reset model
@@ -146,15 +139,13 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                 } else {
                     if (result.errors) {
                         for (var i = 0; i < result.errors.length; i++) {
-                            $scope.validationErrors.push({
-                                type: 'error',
-                                msg: result.errors[i].property + ' ' + result.errors[i].message
-                            });
+                            $scope.form[result.errors[i].property].$invalid = true;
+                            $scope.form[result.errors[i].property].$dirty = true;
                         }
                     }
 
                     if (result.message) {
-                        $scope.validationErrors.push({type: 'error', msg: result.message});
+                        console.log(result.message);
                     }
                 }
             };

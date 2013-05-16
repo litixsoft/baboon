@@ -61,11 +61,14 @@
                 <alert ng-repeat="alert in modal.validationErrors" type="alert.type" close="modal.closeAlert($index)">{{alert.msg}}</alert>
             </form>
 
-            <ul>
-                <li ng-repeat="tag in modal.items">
-                    <button class="btn btn-mini" ng-click="modal.delete(tag)"><i class="icon-remove"></i></button> {{tag.name}}
-                </li>
-            </ul>
+            <table class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="tag in modal.items">
+                        <td style="width: 30px;"><button class="close" ng-click="modal.delete(tag)">&times;</button></td>
+                        <td>{{tag.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="modal-footer">

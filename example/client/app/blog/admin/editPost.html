@@ -7,8 +7,8 @@
             <div class="controls">
                 <input type="text" ng-model="post.title" name="title" required />
 
-                <span class="help-inline error" ui-if="form.title.$dirty && form.title.$invalid">
-                    Invalid:<span ng-show="form.$error.required"> Title is required.</span>
+                <span class="label label-important" ui-if="form.title.$dirty && form.title.$invalid">
+                    Error:<span ng-show="form.title.$error.required"> Title is required.</span>
                 </span>
             </div>
         </div>
@@ -18,8 +18,8 @@
             <div class="controls">
                 <input type="text" name="content" ng-model="post.content" required />
 
-                <span class="help-inline error" ui-if="form.content.$dirty && form.content.$invalid">
-                    Invalid:<span ng-show="form.$error.required"> Content is required.</span>
+                <span class="label label-important" ui-if="form.content.$dirty && form.content.$invalid">
+                    Error:<span ng-show="form.content.$error.required"> Content is required.</span>
                 </span>
             </div>
         </div>
@@ -45,4 +45,3 @@
 <pre>master = {{master | json}}</pre>
 <pre>dirty = {{form.$dirty | json}}</pre>
 <pre>valid = {{form.$valid | json}}</pre>
-
