@@ -281,18 +281,23 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/*.html'],
+                src: ['build/dist/*.html', 'build/dist/js/lib.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''},
-                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
-                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
-                        '<% } %>'},
+                    {
+                        from: '<!--@@baseInjects-->',
+                        to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                            '"<%= libincludes.base.injects[i] %>",' + '\n' +
+                            '<% } %>'
+                    },
+                    {
+                        from: '<!--@@jqueryIncludes-->',
+                        to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
+                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' + '\n' +
+                        '<% } %>'
+                    },
                     {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
                         '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
                         '<% } %>'},
@@ -317,7 +322,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/*.html'],
+                src: ['build/dist/*.html', 'build/dist/js/lib.min.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
