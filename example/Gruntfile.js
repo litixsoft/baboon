@@ -474,7 +474,7 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e:release', [
         'clean:reports',
         'release',
-        'express',
+        'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
