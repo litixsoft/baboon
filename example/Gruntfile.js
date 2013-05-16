@@ -54,22 +54,16 @@ module.exports = function (grunt) {
          */
         copy: {
             client: {
-                // all client files that need to be copy.
+                // all client public files that need to be copy.
                 files: [
-                    {dest: 'build/dist/public/', src : ['**'], expand: true, cwd: 'client/assets/'}
-                ]
-            },
-            views: {
-                // all client files that need to be copy.
-                files: [
-                    {dest: 'build/dist/views/', src : ['**'], expand: true, cwd: 'client/views/'}
+                    {dest: 'build/dist/', src : ['**'], expand: true, cwd: 'client/public/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
                     // images from bootstrap
-                    {dest: 'build/dist/public/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -87,7 +81,7 @@ module.exports = function (grunt) {
                     base: 'client/app'
                 },
                 src: ['client/app/**/*.html'],
-                dest: 'build/dist/public/js/app.tpl.js'
+                dest: 'build/dist/js/app.tpl.js'
             },
             ui: {
                 options: {
@@ -95,7 +89,7 @@ module.exports = function (grunt) {
                     base: 'client/app/ui_examples'
                 },
                 src: ['client/app/ui_examples/**/*.html'],
-                dest: 'build/dist/public/js/ui_app.tpl.js'
+                dest: 'build/dist/js/ui_app.tpl.js'
             },
             common: {
                 options: {
@@ -103,7 +97,7 @@ module.exports = function (grunt) {
                     base: 'client/common'
                 },
                 src: ['client/common/**/*.html'],
-                dest: 'build/dist/public/js/common.tpl.js'
+                dest: 'build/dist/js/common.tpl.js'
             }
         },
 
@@ -119,7 +113,7 @@ module.exports = function (grunt) {
             lib: {
                 files: {
                     // lib debug
-                    'build/dist/public/js/lib.js': [
+                    'build/dist/js/lib.js': [
                         'vendor/angular/angular.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js',
                         'vendor/angular-ui-utils/utils.js',
@@ -141,18 +135,18 @@ module.exports = function (grunt) {
 
                     ],
                     // lib release
-                    'build/dist/public/js/lib.min.js': [
+                    'build/dist/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
                         /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
                     ],
                     // libs debug
-                    'build/dist/public/css/lib.css': [
+                    'build/dist/css/lib.css': [
                         'vendor/bootstrap/css/bootstrap.css',
                         'vendor/bootstrap/css/bootstrap-responsive.css'
                     ],
                     // libs release
-                    'build/dist/public/css/lib.min.css': [
+                    'build/dist/css/lib.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css'
                     ]
@@ -163,33 +157,33 @@ module.exports = function (grunt) {
              */
             app: {
                 files: {
-                    'build/dist/public/js/app.js': [
+                    'build/dist/js/app.js': [
                         'client/app/module.prefix',
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
                         'client/app/module.suffix'
                     ],
-                    'build/dist/public/css/app.css': [
+                    'build/dist/css/app.css': [
                         'client/app/**/*.css'
                     ]
                 }
             },
             ui: {
                 files: {
-                    'build/dist/public/js/ui_app.js': [
+                    'build/dist/js/ui_app.js': [
                         'client/app/module.prefix',
                         'client/app/ui_examples/**/*.js',
                         '!client/app/ui_examples/**/*.spec.js',
                         'client/app/module.suffix'
                     ],
-                    'build/dist/public/css/ui_app.css': [
+                    'build/dist/css/ui_app.css': [
                         'client/app/ui_examples/**/*.css'
                     ]
                 }
             },
             common: {
                 files: {
-                    'build/dist/public/js/common.js': [
+                    'build/dist/js/common.js': [
                         'client/common/common.prefix',
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
@@ -205,27 +199,27 @@ module.exports = function (grunt) {
 
         ngmin: {
             app: {
-                src: ['build/dist/public/js/app.js'],
+                src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
             },
             app_tpl: {
-                src: ['build/dist/public/js/app.tpl.js'],
+                src: ['build/dist/js/app.tpl.js'],
                 dest: 'build/tmp/app.tpl.js'
             },
             ui: {
-                src: ['build/dist/public/js/ui_app.js'],
+                src: ['build/dist/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
             },
             ui_tpl: {
-                src: ['build/dist/public/js/ui_app.tpl.js'],
+                src: ['build/dist/js/ui_app.tpl.js'],
                 dest: 'build/tmp/ui_app.tpl.js'
             },
             common: {
-                src: ['build/dist/public/js/common.js'],
+                src: ['build/dist/js/common.js'],
                 dest: 'build/tmp/common.js'
             },
             common_tpl: {
-                src: ['build/dist/public/js/common.tpl.js'],
+                src: ['build/dist/js/common.tpl.js'],
                 dest: 'build/tmp/common.tpl.js'
             }
         },
@@ -237,12 +231,12 @@ module.exports = function (grunt) {
         uglify: {
             target: {
                 files: {
-                    'build/dist/public/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/public/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
-                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js',
-                    'build/dist/public/js/ui_app.tpl.min.js': 'build/tmp/ui_app.tpl.js',
-                    'build/dist/public/js/common.min.js': 'build/tmp/common.js',
-                    'build/dist/public/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
+                    'build/dist/js/app.min.js': 'build/tmp/app.js',
+                    'build/dist/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
+                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js',
+                    'build/dist/js/ui_app.tpl.min.js': 'build/tmp/ui_app.tpl.js',
+                    'build/dist/js/common.min.js': 'build/tmp/common.js',
+                    'build/dist/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
                 }
             }
         },
@@ -254,8 +248,8 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: {
-                    'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
-                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css']
+                    'build/dist/css/app.min.css': ['build/dist/css/app.css'],
+                    'build/dist/css/ui_app.min.css': ['build/dist/css/ui_app.css']
                 }
             }
         },
@@ -288,7 +282,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -297,7 +291,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -306,7 +300,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},

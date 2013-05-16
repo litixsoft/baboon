@@ -13,18 +13,23 @@ var path = require('path'),
 // routes
 ///////////////////////////////////////////
 
-// ui-example route
-app.get('/ui', function(req, res) {
-    res.render('ui');
+app.get('/', function(req, res) {
+    server.sendFile('/index.html', res);
 });
+
+app.get('/ui', function(req, res) {
+    server.sendFile('/ui.html', res);
+    //res.render('ui');
+});
+
+//app.get('*', function(req, res) {
+//    server.sendFile(req.url, res);
+//    //res.render('ui');
+//});
 
 // login route
 //app.get('/login', function(req, res) {
 //    res.render('login');
-//});
-
-//app.get('*', function(req, res) {
-//    res.render('index');
 //});
 
 // login middleware
