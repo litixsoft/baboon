@@ -1,4 +1,8 @@
 {
+    "jQueryNeeded":[
+        "/vendor/jquery/jquery.js",
+        "/vendor/jquery-ui/jquery-ui-1.10.3.custom.js"
+    ],
     "base": {
         "js" :[
             "vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js",
