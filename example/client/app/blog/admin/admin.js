@@ -29,7 +29,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $scope.params = {};
 //        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
         $scope.pager = lxPager();
-        $scope.pager.pageSize = 5;
+        //$scope.pager.pageSize = 5;
 
         $scope.sort = function (field) {
             var oldDirection = $scope.params.sort || -1;
@@ -40,8 +40,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             posts.getAllWithCount(getQuery(), callback);
         };
 
-        $scope.$watch('pager.pageSize', function () {
-            posts.getAllWithCount(getQuery(), callback);
+        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                posts.getAllWithCount(getQuery(), callback);
+            }
         });
 
         $scope.$watch('pager.currentPage', function () {
@@ -173,10 +175,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             cache.blog_post = $scope.post;
         }
 
-        if (cache.tags && Object.keys(cache.tags).length > 0){
+        if (cache.tags && Object.keys(cache.tags).length > 0) {
             $scope.tags = cache.tags;
         } else {
-            tags.getAll({}, function(result){
+            tags.getAll({}, function (result) {
                 if (result.success) {
                     $scope.tags = result.data;
                     cache.tags = result.data;

@@ -46,8 +46,10 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
             getData();
         });
 
-        $scope.$watch('pager.pageSize', function () {
-            getData();
+        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                getData();
+            }
         });
     }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {

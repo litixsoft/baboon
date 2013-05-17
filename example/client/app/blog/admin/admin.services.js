@@ -42,7 +42,7 @@ angular.module('admin.services', ['app.services'])
             });
         };
 
-        pub.addComment = function(id, comment, callback) {
+        pub.addComment = function (id, comment, callback) {
             comment.post_id = id;
             socket.emit('blog:addComment', comment, function (result) {
                 callback(result);
@@ -52,12 +52,23 @@ angular.module('admin.services', ['app.services'])
         return pub;
     })
     .factory('tags', function (socket) {
-        var pub = {};
+        var pub = {},
+            tags = [],
+            refresh = true;
 
         pub.getAll = function (query, callback) {
-            socket.emit('blog:getAllTags', query, function (result) {
-                callback(result);
-            });
+            if (refresh) {
+                socket.emit('blog:getAllTags', query, function (result) {
+                    if (result.data) {
+                        tags = result.data;
+                        refresh = false;
+                    }
+
+                    callback(result);
+                });
+            } else {
+                callback({success: true, data: tags});
+            }
         };
 
         pub.createTag = function (tag, callback) {
@@ -72,7 +83,7 @@ angular.module('admin.services', ['app.services'])
             });
         };
 
-        pub.deleteTag = function(id,  callback) {
+        pub.deleteTag = function (id, callback) {
             socket.emit('blog:deleteTag', {id: id}, function (result) {
                 callback(result);
             });
