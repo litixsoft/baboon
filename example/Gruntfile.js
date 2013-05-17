@@ -57,14 +57,14 @@ module.exports = function (grunt) {
             client: {
                 // all client public files that need to be copy.
                 files: [
-                    {dest: 'build/dist/', src : ['**'], expand: true, cwd: 'client/public/'}
+                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'}
                 ]
             },
             vendor: {
                 // all vendor files that need to be copy.
                 files: [
                     // images from bootstrap
-                    {dest: 'build/dist/img/', src : ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -240,17 +240,19 @@ module.exports = function (grunt) {
                 }
             }
         },
+
+        nodejs: {
+            e2e: {
+                script: 'test/fixtures/resetDB.js',
+                args: ['e2e']
+            }
+        },
+
         express: {
             dev: {
                 options: {
                     port: 3000,
                     script: 'app.js'
-                }
-            },
-            aa: {
-                options: {
-                    args: ['e2e'],
-                    script: 'test/fixtures/aa.js'
                 }
             },
             e2e: {
@@ -271,7 +273,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
-                tasks: ['express:dev','livereload']
+                tasks: ['express:dev', 'livereload']
             }
         },
         open: {
@@ -295,8 +297,8 @@ module.exports = function (grunt) {
                     {
                         from: '<!--@@jqueryIncludes-->',
                         to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
-                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' + '\n' +
-                        '<% } %>'
+                            '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' + '\n' +
+                            '<% } %>'
                     },
                     {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
                         '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
@@ -316,8 +318,6 @@ module.exports = function (grunt) {
                     {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
                         '"<%= libincludes.vendor.injects[i] %>",' +
                         '<% } %>'}
-
-
 
                 ]
             },
@@ -355,7 +355,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/*.html','build/dist/js/lib.js'],
+                src: ['build/dist/*.html', 'build/dist/js/lib.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -429,6 +429,43 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
 
+    grunt.registerMultiTask('nodejs', 'Run node script.', function () {
+        var path = require('path');
+        var done = this.async();
+
+        if (!this.data.script) {
+            grunt.fail.warn('Undefined script parameter');
+            done();
+        }
+
+        var script = path.resolve(this.data.script);
+        var args = this.data.args || [];
+
+        if (!grunt.file.exists(script)) {
+            grunt.fail.warn('File does not exist ' + script);
+            done();
+        }
+
+        args.unshift(script);
+
+        grunt.log.writeln('run '.white + args.join(' ').cyan);
+
+        grunt.util.spawn({
+            cmd: 'node',
+            args: args
+        }, function (error, result, code) {
+            grunt.log.writeln(result);
+
+            if (error) {
+                grunt.fail.warn('Error: '.red + ' ' + ('' + code).red);
+            } else {
+                grunt.log.writeln('Node script run successfully '.white + (code !== 0 ? ('' + code).cyan : ''));
+            }
+
+            done();
+        });
+    });
+
     // Tasks
     grunt.registerTask('build', [
         'clean:dist',
@@ -464,20 +501,21 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
-        'express:aa',
+        'nodejs:e2e',
         'clean:reports',
         'build',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
+        'nodejs:e2e',
         'clean:reports',
         'release',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
-        'express:aa',
+        'nodejs:e2e',
         'clean:reports',
         'jshint:files',
         'jasmine_node',
