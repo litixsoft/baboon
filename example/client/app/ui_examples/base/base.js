@@ -4,7 +4,7 @@ angular.module('base', [])
 
     .config(function ($routeProvider) {
         $routeProvider.when('/', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
-        $routeProvider.when('/base', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/base', {templateUrl: 'views/base/base.html', controller: 'baseCtrl'});
     })
     .controller('baseCtrl', ['$scope', function ($scope) {
         $scope.title = 'UI-Examples-Base';

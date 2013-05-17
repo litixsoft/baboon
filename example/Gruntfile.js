@@ -55,15 +55,17 @@ module.exports = function (grunt) {
          */
         copy: {
             client: {
-                // all client public files that need to be copy.
                 files: [
-                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'}
-                ]
-            },
-            vendor: {
-                // all vendor files that need to be copy.
-                files: [
-                    // images from bootstrap
+                    // all public files that need to be copy.
+                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'},
+                    // all html views that need to be copy.
+                    {
+                        dest: 'build/dist/views/',
+                        src: ['**/*.html'],
+                        expand: true,
+                        cwd: 'client/app/'
+                    },
+                    // all vendor files that need to be copy.
                     {dest: 'build/dist/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
@@ -116,7 +118,7 @@ module.exports = function (grunt) {
                     // lib debug
                     'build/dist/js/lib.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-utils/utils.js',
+                        'vendor/baboon/utils.js',
                         '<%= libincludes.base.js %>'
                     ],
                     // lib release
@@ -288,12 +290,12 @@ module.exports = function (grunt) {
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: ''},
-                    {
-                        from: '<!--@@baseInjects-->',
-                        to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                            '"<%= libincludes.base.injects[i] %>",' + '\n' +
-                            '<% } %>'
-                    }
+                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                            '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
+                        '<% } %>'}
                 ]
             },
             release: {
@@ -301,10 +303,12 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
-                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>",' +
+                        '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
                         '<% } %>'}
                 ]
             },
@@ -313,11 +317,13 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
                         '<%=livereload.port%>/livereload.js?snipver=1"></script>'},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>",' +
+                        '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
                         '<% } %>'}
                 ]
             }

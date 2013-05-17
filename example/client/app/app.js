@@ -1,6 +1,6 @@
 /*global angular*/
 angular.module('app', [
-        'templates-app',
+//        'templates-app',
 //        'ui.bootstrap',
         'ui.utils',
         'lx.directives',
