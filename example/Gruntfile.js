@@ -293,32 +293,7 @@ module.exports = function (grunt) {
                         to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
                             '"<%= libincludes.base.injects[i] %>",' + '\n' +
                             '<% } %>'
-                    },
-                    {
-                        from: '<!--@@jqueryIncludes-->',
-                        to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
-                            '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' + '\n' +
-                            '<% } %>'
-                    },
-                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
-                        '"<%= libincludes.extend.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
-                        '"<%= libincludes.vendor.injects[i] %>",' +
-                        '<% } %>'}
-
+                    }
                 ]
             },
             release: {
@@ -330,27 +305,6 @@ module.exports = function (grunt) {
                     {from: '<!--@@livereload-->', to: ''},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
                         '"<%= libincludes.base.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
-                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
-                        '"<%= libincludes.extend.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
-                        '"<%= libincludes.vendor.injects[i] %>",' +
                         '<% } %>'}
                 ]
             },
@@ -364,29 +318,7 @@ module.exports = function (grunt) {
                         '<%=livereload.port%>/livereload.js?snipver=1"></script>'},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
                         '"<%= libincludes.base.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@jqueryIncludes-->', to: '<% for(var i=0;i<libincludes.jQueryNeeded.length;i++){ %>' +
-                        '<script src="<%= libincludes.jQueryNeeded[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendCSSincludes-->', to: '<% for(var i=0;i<libincludes.extend.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.extend.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendJSincludes-->', to: '<% for(var i=0;i<libincludes.extend.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.extend.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@extendInjects-->', to: '<% for(var i=0;i<libincludes.extend.injects.length;i++){ %>' +
-                        '"<%= libincludes.extend.injects[i] %>",' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorCSSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.css.length;i++){ %>' +
-                        '<link rel="stylesheet" href="<%= libincludes.vendor.css[i] %>"/>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorJSincludes-->', to: '<% for(var i=0;i<libincludes.vendor.js.length;i++){ %>' +
-                        '<script src="<%= libincludes.vendor.js[i] %>"></script>' +
-                        '<% } %>'},
-                    {from: '<!--@@vendorInjects-->', to: '<% for(var i=0;i<libincludes.vendor.injects.length;i++){ %>' +
-                        '"<%= libincludes.vendor.injects[i] %>",' +
                         '<% } %>'}
-
                 ]
             }
         },

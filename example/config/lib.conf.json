@@ -1,8 +1,4 @@
 {
-    "jQueryNeeded":[
-        "/vendor/jquery/jquery.js",
-        "/vendor/jquery-ui/jquery-ui-1.10.3.custom.js"
-    ],
     "base": {
         "js" :[
             "vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js",
@@ -38,44 +34,5 @@
             "ui.unique",
             "ui.validate"
         ]
-    },
-
-    "extend": {
-        "js" :[
-            "/vendor/ui-date/date.js",
-            "/vendor/jquery-ui-datepicker/jquery.ui.datepicker.js",
-            "/vendor/ui-calendar/calendar.js",
-            "/vendor/jquery-ui-fullcalendar/fullcalendar.js",
-            "/vendor/ui-codemirror/ui-codemirror.js",
-            "/vendor/jquery-codemirror/codemirror.js",
-            "/vendor/ui-select2/select2.js",
-            "/vendor/select2/select2.js",
-            "/vendor/ui-sortable/sortable.js"
-        ],
-        "css" :[
-            "/vendor/jquery-ui-fullcalendar/fullcalendar.css",
-            "/vendor/jquery-codemirror/theme/monokai.css",
-            "/vendor/select2/select2.css",
-            "vendor/jquery-ui/theme/jquery-ui-1.10.3.custom.css"
-        ],
-        "injects" :[
-            "ui.calendar",
-            "ui.date",
-            "ui.codemirror",
-            "ui.select2",
-            "ui.sortable"
-        ]
-    },
-    "vendor": {
-        "js" :[
-        ],
-        "css" :[
-        ],
-        "injects" :[
-        ]
-    },
-    "exclude":[
-        "vendor/angular-ui-utils/utils.js",
-        "vendor/angular-ui-utils/ie-shiv/ie-shiv.js"
-    ]
+    }
 }
