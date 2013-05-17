@@ -72,39 +72,6 @@ module.exports = function (grunt) {
         },
 
         /**
-         * html2js for common templates
-         */
-
-        html2js: {
-
-
-            app: {
-                options: {
-                    // custom options, see below
-                    base: 'client/app'
-                },
-                src: ['client/app/**/*.html'],
-                dest: 'build/dist/js/app.tpl.js'
-            },
-            ui: {
-                options: {
-                    // custom options, see below
-                    base: 'client/app/ui_examples'
-                },
-                src: ['client/app/ui_examples/**/*.html'],
-                dest: 'build/dist/js/ui_app.tpl.js'
-            },
-            common: {
-                options: {
-                    // custom options, see below
-                    base: 'client/common'
-                },
-                src: ['client/common/**/*.html'],
-                dest: 'build/dist/js/common.tpl.js'
-            }
-        },
-
-        /**
          * concat files
          */
 
@@ -191,25 +158,13 @@ module.exports = function (grunt) {
                 src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
             },
-            app_tpl: {
-                src: ['build/dist/js/app.tpl.js'],
-                dest: 'build/tmp/app.tpl.js'
-            },
             ui: {
                 src: ['build/dist/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
             },
-            ui_tpl: {
-                src: ['build/dist/js/ui_app.tpl.js'],
-                dest: 'build/tmp/ui_app.tpl.js'
-            },
             common: {
                 src: ['build/dist/js/common.js'],
                 dest: 'build/tmp/common.js'
-            },
-            common_tpl: {
-                src: ['build/dist/js/common.tpl.js'],
-                dest: 'build/tmp/common.tpl.js'
             }
         },
 
@@ -221,11 +176,8 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
                     'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js',
-                    'build/dist/js/ui_app.tpl.min.js': 'build/tmp/ui_app.tpl.js',
-                    'build/dist/js/common.min.js': 'build/tmp/common.js',
-                    'build/dist/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
+                    'build/dist/js/common.min.js': 'build/tmp/common.js'
                 }
             }
         },
@@ -363,7 +315,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
 
@@ -408,21 +359,18 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:debug'
     ]);
     grunt.registerTask('build:regarde', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'ngmin',
         'uglify',
@@ -473,7 +421,6 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:livereload',
         'livereload-start',
