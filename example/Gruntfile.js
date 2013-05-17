@@ -241,10 +241,9 @@ module.exports = function (grunt) {
             }
         },
 
-        nodejs: {
+        bgShell:{
             e2e: {
-                script: 'test/fixtures/resetDB.js',
-                args: ['e2e']
+                cmd: 'node test/fixtures/resetDB.js e2e'
             }
         },
 
@@ -360,43 +359,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
-
-    grunt.registerMultiTask('nodejs', 'Run node script.', function () {
-        var path = require('path');
-        var done = this.async();
-
-        if (!this.data.script) {
-            grunt.fail.warn('Undefined script parameter');
-            done();
-        }
-
-        var script = path.resolve(this.data.script);
-        var args = this.data.args || [];
-
-        if (!grunt.file.exists(script)) {
-            grunt.fail.warn('File does not exist ' + script);
-            done();
-        }
-
-        args.unshift(script);
-
-        grunt.log.writeln('run '.white + args.join(' ').cyan);
-
-        grunt.util.spawn({
-            cmd: 'node',
-            args: args
-        }, function (error, result, code) {
-            grunt.log.writeln(result);
-
-            if (error) {
-                grunt.fail.warn('Error: '.red + ' ' + ('' + code).red);
-            } else {
-                grunt.log.writeln('Node script run successfully '.white + (code !== 0 ? ('' + code).cyan : ''));
-            }
-
-            done();
-        });
-    });
+    grunt.loadNpmTasks('grunt-bg-shell');
 
     // Tasks
     grunt.registerTask('build', [
@@ -433,21 +396,21 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'build',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'release',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'jshint:files',
         'jasmine_node',
