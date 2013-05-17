@@ -68,6 +68,7 @@
     },
     "vendor": {
         "js" :[
+            "/vendor/showdown/showdown.js"
         ],
         "css" :[
         ],

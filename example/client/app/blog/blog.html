@@ -1,56 +1,59 @@
-<h2>Latest Articles</h2>
+<div>
+    <div class="p-wrapper">
+        <h2>Latest Articles</h2>
 
-<div class="btn-group">
-    <div class="input-prepend input-append">
-        <button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">
-            <i class="icon-step-backward"></i></button>
-        <button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">
-            <i class="icon-backward"></i></button>
-        <input type="text" ng-model="pager.currentPage" style="width: 30px;">
-        <button class="btn">of {{pager.numberOfPages()}}</button>
-        <button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-            <i class="icon-forward"></i></button>
-        <button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-            <i class="icon-step-forward"></i></button>
-        <select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>
-        <button class="btn">{{pager.count}} items</button>
-    </div>
-</div>
+        <div class="btn-group">
+            <div class="input-prepend input-append">
+                <button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">
+                    <i class="icon-step-backward"></i></button>
+                <button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">
+                    <i class="icon-backward"></i></button>
+                <input type="text" ng-model="pager.currentPage" style="width: 30px;">
+                <button class="btn">of {{pager.numberOfPages()}}</button>
+                <button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
+                    <i class="icon-forward"></i></button>
+                <button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
+                    <i class="icon-step-forward"></i></button>
+                <select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>
+                <button class="btn">{{pager.count}} items</button>
+            </div>
+        </div>
 
-<div class="btn-group">
-    <div class="input-prepend input-append">
-        <input type="text" ng-model="searchValue" placeholder="Search...">
-        <button class="btn" ng-click="searchPosts(searchValue)">Search</button>
-    </div>
-</div>
+        <div class="btn-group">
+            <div class="input-prepend input-append">
+                <input type="text" ng-model="searchValue" placeholder="Search...">
+                <button class="btn" ng-click="searchPosts(searchValue)">Search</button>
+            </div>
+        </div>
 
-<article class="posts-article" ng-repeat="entry in posts">
-    <!--<div class="page-header entry-title">-->
-        <!--<h1>-->
+        <article class="posts-article" ng-repeat="entry in posts">
+            <!--<div class="page-header entry-title">-->
+            <!--<h1>-->
             <!--<a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>-->
             <!--<small><a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a></small>-->
-        <!--</h1>-->
-    <!--</div>-->
+            <!--</h1>-->
+            <!--</div>-->
 
-    <div class="entry-title">
-        <h1>
-            <a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>
-        </h1>
+            <div class="entry-title">
+                <h1>
+                    <a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>
+                </h1>
 
-        <div class="entry-replies">
-            <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
-        </div>
+                <div class="entry-replies">
+                    <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
+                </div>
+            </div>
+
+            <div class="entry-excerpt">
+                <p>{{entry.content}}</p>
+                <!--<a href="/blog/post/{{entry._id}}" class="btn" style="padding:3px 15px;border-radius: 6px;"><span style="font-size:15px;color:white;font-weight:normal;line-height:25px;">mehr...</span></a>-->
+                <br />
+                <a href="/blog/post/{{entry._id}}" class="btn btn-mini">mehr...</a>
+            </div>
+            <footer class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</footer>
+        </article>
     </div>
-
-    <div class="entry-excerpt">
-        <p>{{entry.content}}</p>
-        <!--<a href="/blog/post/{{entry._id}}" class="btn" style="padding:3px 15px;border-radius: 6px;"><span style="font-size:15px;color:white;font-weight:normal;line-height:25px;">mehr...</span></a>-->
-        <br />
-        <a href="/blog/post/{{entry._id}}" class="btn btn-mini">mehr...</a>
-    </div>
-    <footer class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</footer>
-</article>
-
+</div>
 <!--<div class="content beige-noise blog-container" fadey="500">-->
 <!--<div class="p-wrapper">-->
 

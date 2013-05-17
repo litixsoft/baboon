@@ -109,7 +109,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             dialogFade: true
         };
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', '$location', function ($scope, $routeParams, authorPosts, cache) {
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', '$location', function ($scope, $routeParams, authorPosts, cache, tags) {
         $scope.master = {};
         $scope.post = {};
 
@@ -171,5 +171,16 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             $scope.master = angular.copy($scope.post);
         } else {
             cache.blog_post = $scope.post;
+        }
+
+        if (cache.tags && Object.keys(cache.tags).length > 0){
+            $scope.tags = cache.tags;
+        } else {
+            tags.getAll({}, function(result){
+                if (result.success) {
+                    $scope.tags = result.data;
+                    cache.tags = result.data;
+                }
+            });
         }
     }]);

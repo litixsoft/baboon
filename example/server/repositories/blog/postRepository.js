@@ -41,15 +41,8 @@ module.exports = function (collection) {
                         type: 'array',
                         required: false,
                         items: {
-                            type: 'object',
-                            required: true,
-                            properties: {
-                                _id: {
-                                    type: 'string',
-                                    required: true,
-                                    format: 'mongo-id'
-                                }
-                            }
+                            type: 'string',
+                            format: 'mongo-id'
                         }
                     }
                 }

@@ -1,34 +1,41 @@
-<blockquote>
-    <h2>{{post.title}}</h2>
-    <small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>
-</blockquote>
-
-<!--<h2>{{post.title}}</h2>-->
-
-<!--created: {{post.created | date:'dd.MM.yyyy, HH:mm'}}-->
-<!--<br />-->
-<!--modified: {{post.modified | date:'dd.MM.yyyy, HH:mm'}}-->
-<!--<br />-->
-<br />
-<div>{{post.content}}</div>
-<h3>Comments:</h3>
-<div ng-repeat="comment in post.comments" class="well well-small">
-    <div>#{{$index + 1}} - {{comment.created | date:'dd.MM.yyyy, HH:mm'}} - {{comment.username}}</div>
-    <div>{{comment.content}}</div>
-</div>
-<br />
 <div>
-    <form name="form" novalidate class="css-form">
-        <fieldset>
-            <div class="control-group">
-                <!--<label class="control-label">Comment</label>-->
+    <div class="p-wrapper">
+        <blockquote>
+            <h2>{{post.title}}</h2>
+            <small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>
+        </blockquote>
 
-                <div class="controls input-append">
-                    <input type="text" ng-mousedown="enterComment(true)" ng-model="newComment.content" name="content" placeholder="my comment" required />
-                    <input type="text" ng-model="newComment.username" name="username" placeholder="my name" ng-show="enter" required/>
-                    <button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid">Save Comment</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+        <!--<h2>{{post.title}}</h2>-->
+
+        <!--created: {{post.created | date:'dd.MM.yyyy, HH:mm'}}-->
+        <!--<br />-->
+        <!--modified: {{post.modified | date:'dd.MM.yyyy, HH:mm'}}-->
+        <!--<br />-->
+        <br />
+
+        <div>{{post.content}}</div>
+        <h3>Comments:</h3>
+
+        <div ng-repeat="comment in post.comments" class="well well-small">
+            <div>#{{$index + 1}} - {{comment.created | date:'dd.MM.yyyy, HH:mm'}} - {{comment.username}}</div>
+            <div>{{comment.content}}</div>
+        </div>
+        <br />
+
+        <div>
+            <form name="form" novalidate class="css-form">
+                <fieldset>
+                    <div class="control-group">
+                        <!--<label class="control-label">Comment</label>-->
+
+                        <div class="controls input-append">
+                            <input type="text" ng-mousedown="enterComment(true)" ng-model="newComment.content" name="content" placeholder="my comment" required />
+                            <input type="text" ng-model="newComment.username" name="username" placeholder="my name" ng-show="enter" required />
+                            <button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid">Save Comment</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
