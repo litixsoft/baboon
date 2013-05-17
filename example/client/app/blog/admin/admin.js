@@ -1,9 +1,9 @@
 /*global angular*/
 angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directives'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog/admin', {templateUrl: 'blog/admin/admin.html', controller: 'adminCtrl'});
-        $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
-        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/admin', {templateUrl: '/blog/admin/admin.html', controller: 'adminCtrl'});
+        $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
     .controller('adminCtrl', ['$scope', 'posts', 'lxPager', 'tags', function ($scope, posts, lxPager, tags) {
         var callback = function (result) {

@@ -1,6 +1,5 @@
 /*global angular*/
 angular.module('ui_app', [
-        'templates-ui',
         'ui.utils',
         'lx.directives',
         'base',
