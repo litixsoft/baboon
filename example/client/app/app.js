@@ -1,9 +1,8 @@
 /*global angular*/
 angular.module('app', [
         'ui.utils',
-        'lx.directives',
-        'lx.services',
-        'app.services',
+        'baboon.directives',
+        'baboon.services',
         'blog',
         'enterprise',
         'home'

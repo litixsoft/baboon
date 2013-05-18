@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('ui_app', [
         'ui.utils',
-        'lx.directives',
+        'baboon.directives',
         'base',
         'extend',
         'vendor',

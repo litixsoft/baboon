@@ -109,41 +109,64 @@ module.exports = function (grunt) {
                 }
             },
             /**
-             * The `app` target is for application js libraries.
+             * The `app` target is for application js and css libraries.
              */
             app: {
                 files: {
                     'build/dist/js/app.js': [
-                        'client/app/module.prefix',
+
+                        // prefix
+                        'client/module.prefix',
+
+                        // common
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+
+                        // app
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
-                        'client/app/module.suffix'
+
+                        // ! toplevel apps
+                        '!client/app/ui_examples/**/*.js',
+
+                        // suffix
+                        'client/module.suffix'
                     ],
                     'build/dist/css/app.css': [
-                        'client/app/**/*.css'
+
+                        // app css files
+                        'client/app/**/*.css',
+
+                        // ! toplevel css
+                        '!client/app/ui_examples/**/*.css'
                     ]
                 }
             },
+            /**
+             * The `ui` target is for toplevel application js and css libraries.
+             */
             ui: {
                 files: {
                     'build/dist/js/ui_app.js': [
-                        'client/app/module.prefix',
-                        'client/app/ui_examples/**/*.js',
-                        '!client/app/ui_examples/**/*.spec.js',
-                        'client/app/module.suffix'
-                    ],
-                    'build/dist/css/ui_app.css': [
-                        'client/app/ui_examples/**/*.css'
-                    ]
-                }
-            },
-            common: {
-                files: {
-                    'build/dist/js/common.js': [
-                        'client/common/common.prefix',
+
+                        // prefix
+                        'client/module.prefix',
+
+                        // common
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
-                        'client/common/common.suffix'
+
+                        // toplevel app
+                        'client/app/ui_examples/**/*.js',
+                        '!client/app/ui_examples/**/*.spec.js',
+
+                        // suffix
+                        'client/module.suffix'
+                    ],
+                    'build/dist/css/ui_app.css': [
+
+                        // toplevel css
+                        'client/app/ui_examples/**/*.css'
                     ]
                 }
             }
@@ -161,10 +184,6 @@ module.exports = function (grunt) {
             ui: {
                 src: ['build/dist/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
-            },
-            common: {
-                src: ['build/dist/js/common.js'],
-                dest: 'build/tmp/common.js'
             }
         },
 
@@ -176,8 +195,7 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js',
-                    'build/dist/js/common.min.js': 'build/tmp/common.js'
+                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js'
                 }
             }
         },

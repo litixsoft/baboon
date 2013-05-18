@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('admin.services', ['app.services'])
+angular.module('admin.services', [])
     .factory('authorPosts', function (socket) {
         var pub = {};
 
