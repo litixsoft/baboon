@@ -1,47 +1,76 @@
-<form name="form" novalidate class="css-form form-horizontal">
-    <fieldset>
-        <legend>Create Post</legend>
+<div>
+    <div class="p-wrapper">
+        <form name="form" novalidate class="css-form form-horizontal">
+            <fieldset>
+                <legend>Create Post</legend>
 
-        <div class="control-group">
-            <label class="control-label">Title</label>
-            <div class="controls">
-                <input type="text" ng-model="post.title" name="title" required />
+                <div class="control-group">
+                    <label class="control-label">Title</label>
 
-                <span class="label label-important" ui-if="form.title.$dirty && form.title.$invalid">
-                    Error:<span ng-show="form.title.$error.required"> Title is required.</span>
-                </span>
+                    <div class="controls">
+                        <input type="text" ng-model="post.title" name="title" required />
+
+                        <span class="label label-important" ui-if="form.title.$dirty && form.title.$invalid">
+                            Error:<span ng-show="form.title.$error.required"> Title is required.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Content</label>
+
+                    <div class="controls">
+                        <textarea rows="10" type="text" name="content" ng-model="post.content" required></textarea>
+
+                        <span class="label label-important" ui-if="form.content.$dirty && form.content.$invalid">
+                            Error:<span ng-show="form.content.$error.required"> Content is required.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Tag(s)</label>
+
+                    <div class="controls">
+                        <select size="5" name="tags" ng-model="post.tags" ng-options="tag._id as tag.name for tag in tags" multiple="multiple">
+                            <option value="">-- select tag(s) --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Created</label>
+
+                    <div class="controls">
+                        <span class="uneditable-input">{{post.created}}</span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <alert ng-repeat="alert in validationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+
+            <div class="form-actions">
+                <button type="button" class="btn" ng-click="reset()" name="reset" ng-disabled="isUnchanged(post)">Reset</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save" ng-disabled="form.$invalid || isUnchanged(post)">Save</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save">Simple Save</button>
             </div>
+        </form>
+
+        <legend>Preview</legend>
+        <div class="well well-small">
+            <blockquote>
+                <h2>{{post.title}}</h2>
+                <small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>
+            </blockquote>
+            <br />
+
+            <markdown ng-model="post.content"></markdown>
         </div>
 
-        <div class="control-group">
-            <label class="control-label">Content</label>
-            <div class="controls">
-                <input type="text" name="content" ng-model="post.content" required />
-
-                <span class="label label-important" ui-if="form.content.$dirty && form.content.$invalid">
-                    Error:<span ng-show="form.content.$error.required"> Content is required.</span>
-                </span>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Created</label>
-            <div class="controls">
-                <span class="uneditable-input">{{post.created}}</span>
-            </div>
-        </div>
-    </fieldset>
-
-    <alert ng-repeat="alert in validationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-
-    <div class="form-actions">
-        <button type="button" class="btn" ng-click="reset()" name="reset" ng-disabled="isUnchanged(post)">Reset</button>
-        <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save" ng-disabled="form.$invalid || isUnchanged(post)">Save</button>
-        <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save">Simple Save</button>
+        <pre>post = {{post | json}}</pre>
+        <pre>master = {{master | json}}</pre>
+        <pre>dirty = {{form.$dirty | json}}</pre>
+        <pre>valid = {{form.$valid | json}}</pre>
+        <pre>tags = {{tags | json}}</pre>
     </div>
-</form>
-
-<pre>post = {{post | json}}</pre>
-<pre>master = {{master | json}}</pre>
-<pre>dirty = {{form.$dirty | json}}</pre>
-<pre>valid = {{form.$valid | json}}</pre>
+</div>

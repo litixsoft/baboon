@@ -55,50 +55,19 @@ module.exports = function (grunt) {
          */
         copy: {
             client: {
-                // all client public files that need to be copy.
                 files: [
-                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'}
-                ]
-            },
-            vendor: {
-                // all vendor files that need to be copy.
-                files: [
-                    // images from bootstrap
+                    // all public files that need to be copy.
+                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'},
+                    // all html views that need to be copy.
+                    {
+                        dest: 'build/dist/views/',
+                        src: ['**/*.html'],
+                        expand: true,
+                        cwd: 'client/app/'
+                    },
+                    // all vendor files that need to be copy.
                     {dest: 'build/dist/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
-            }
-        },
-
-        /**
-         * html2js for common templates
-         */
-
-        html2js: {
-
-
-            app: {
-                options: {
-                    // custom options, see below
-                    base: 'client/app'
-                },
-                src: ['client/app/**/*.html'],
-                dest: 'build/dist/js/app.tpl.js'
-            },
-            ui: {
-                options: {
-                    // custom options, see below
-                    base: 'client/app/ui_examples'
-                },
-                src: ['client/app/ui_examples/**/*.html'],
-                dest: 'build/dist/js/ui_app.tpl.js'
-            },
-            common: {
-                options: {
-                    // custom options, see below
-                    base: 'client/common'
-                },
-                src: ['client/common/**/*.html'],
-                dest: 'build/dist/js/common.tpl.js'
             }
         },
 
@@ -116,7 +85,7 @@ module.exports = function (grunt) {
                     // lib debug
                     'build/dist/js/lib.js': [
                         'vendor/angular/angular.js',
-                        'vendor/angular-ui-utils/utils.js',
+                        'vendor/baboon/utils.js',
                         '<%= libincludes.base.js %>'
                     ],
                     // lib release
@@ -140,41 +109,64 @@ module.exports = function (grunt) {
                 }
             },
             /**
-             * The `app` target is for application js libraries.
+             * The `app` target is for application js and css libraries.
              */
             app: {
                 files: {
                     'build/dist/js/app.js': [
-                        'client/app/module.prefix',
+
+                        // prefix
+                        'client/module.prefix',
+
+                        // common
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+
+                        // app
                         'client/app/**/*.js',
                         '!client/app/**/*.spec.js',
-                        'client/app/module.suffix'
+
+                        // ! toplevel apps
+                        '!client/app/ui_examples/**/*.js',
+
+                        // suffix
+                        'client/module.suffix'
                     ],
                     'build/dist/css/app.css': [
-                        'client/app/**/*.css'
+
+                        // app css files
+                        'client/app/**/*.css',
+
+                        // ! toplevel css
+                        '!client/app/ui_examples/**/*.css'
                     ]
                 }
             },
+            /**
+             * The `ui` target is for toplevel application js and css libraries.
+             */
             ui: {
                 files: {
                     'build/dist/js/ui_app.js': [
-                        'client/app/module.prefix',
-                        'client/app/ui_examples/**/*.js',
-                        '!client/app/ui_examples/**/*.spec.js',
-                        'client/app/module.suffix'
-                    ],
-                    'build/dist/css/ui_app.css': [
-                        'client/app/ui_examples/**/*.css'
-                    ]
-                }
-            },
-            common: {
-                files: {
-                    'build/dist/js/common.js': [
-                        'client/common/common.prefix',
+
+                        // prefix
+                        'client/module.prefix',
+
+                        // common
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
-                        'client/common/common.suffix'
+
+                        // toplevel app
+                        'client/app/ui_examples/**/*.js',
+                        '!client/app/ui_examples/**/*.spec.js',
+
+                        // suffix
+                        'client/module.suffix'
+                    ],
+                    'build/dist/css/ui_app.css': [
+
+                        // toplevel css
+                        'client/app/ui_examples/**/*.css'
                     ]
                 }
             }
@@ -189,25 +181,9 @@ module.exports = function (grunt) {
                 src: ['build/dist/js/app.js'],
                 dest: 'build/tmp/app.js'
             },
-            app_tpl: {
-                src: ['build/dist/js/app.tpl.js'],
-                dest: 'build/tmp/app.tpl.js'
-            },
             ui: {
                 src: ['build/dist/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
-            },
-            ui_tpl: {
-                src: ['build/dist/js/ui_app.tpl.js'],
-                dest: 'build/tmp/ui_app.tpl.js'
-            },
-            common: {
-                src: ['build/dist/js/common.js'],
-                dest: 'build/tmp/common.js'
-            },
-            common_tpl: {
-                src: ['build/dist/js/common.tpl.js'],
-                dest: 'build/tmp/common.tpl.js'
             }
         },
 
@@ -219,11 +195,7 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/js/app.tpl.min.js': 'build/tmp/app.tpl.js',
-                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js',
-                    'build/dist/js/ui_app.tpl.min.js': 'build/tmp/ui_app.tpl.js',
-                    'build/dist/js/common.min.js': 'build/tmp/common.js',
-                    'build/dist/js/common.tpl.min.js': 'build/tmp/common.tpl.js'
+                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js'
                 }
             }
         },
@@ -241,10 +213,9 @@ module.exports = function (grunt) {
             }
         },
 
-        nodejs: {
+        bgShell:{
             e2e: {
-                script: 'test/fixtures/resetDB.js',
-                args: ['e2e']
+                cmd: 'node test/fixtures/resetDB.js e2e'
             }
         },
 
@@ -288,12 +259,12 @@ module.exports = function (grunt) {
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: ''},
-                    {
-                        from: '<!--@@baseInjects-->',
-                        to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                            '"<%= libincludes.base.injects[i] %>",' + '\n' +
-                            '<% } %>'
-                    }
+                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
+                            '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
+                        '<% } %>'}
                 ]
             },
             release: {
@@ -301,10 +272,12 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
-                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: ''},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>",' +
+                        '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
                         '<% } %>'}
                 ]
             },
@@ -313,11 +286,13 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@title-->', to: '<%= conf.appName %>'},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
                         '<%=livereload.port%>/livereload.js?snipver=1"></script>'},
                     {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>",' +
+                        '"<%= libincludes.base.injects[i] %>"' +
+                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
+                        ',' +
+                        '<% } %>' +
                         '<% } %>'}
                 ]
             }
@@ -357,66 +332,26 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
-
-    grunt.registerMultiTask('nodejs', 'Run node script.', function () {
-        var path = require('path');
-        var done = this.async();
-
-        if (!this.data.script) {
-            grunt.fail.warn('Undefined script parameter');
-            done();
-        }
-
-        var script = path.resolve(this.data.script);
-        var args = this.data.args || [];
-
-        if (!grunt.file.exists(script)) {
-            grunt.fail.warn('File does not exist ' + script);
-            done();
-        }
-
-        args.unshift(script);
-
-        grunt.log.writeln('run '.white + args.join(' ').cyan);
-
-        grunt.util.spawn({
-            cmd: 'node',
-            args: args
-        }, function (error, result, code) {
-            grunt.log.writeln(result);
-
-            if (error) {
-                grunt.fail.warn('Error: '.red + ' ' + ('' + code).red);
-            } else {
-                grunt.log.writeln('Node script run successfully '.white + (code !== 0 ? ('' + code).cyan : ''));
-            }
-
-            done();
-        });
-    });
+    grunt.loadNpmTasks('grunt-bg-shell');
 
     // Tasks
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:debug'
     ]);
     grunt.registerTask('build:regarde', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'ngmin',
         'uglify',
@@ -433,21 +368,21 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
     grunt.registerTask('e2e', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'build',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'release',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
-        'nodejs:e2e',
+        'bgShell:e2e',
         'clean:reports',
         'jshint:files',
         'jasmine_node',
@@ -467,7 +402,6 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
-        'html2js',
         'concat',
         'replace:livereload',
         'livereload-start',

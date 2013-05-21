@@ -7,8 +7,7 @@ files = [
     'vendor/angular/angular-mocks.js',
     'test/fixtures/mocks.js',
     '../node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js',
-    'client/common/lx.directives.js',
-    'client/common/lx.services.js',
+    'client/common/baboon/**/*.js',
     'client/app/**/*.js'
 ];
 

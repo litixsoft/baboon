@@ -13,13 +13,31 @@ var path = require('path'),
 // routes
 ///////////////////////////////////////////
 
+// default route for application
 app.get('/', function(req, res) {
     server.sendFile('/index.html', res);
 });
 
+// toplevel ui_examples route
 app.get('/ui', function(req, res) {
     server.sendFile('/ui.html', res);
     //res.render('ui');
+});
+
+// catch all html files
+app.get('*.html', function(req, res) {
+    console.log('los gehts');
+    server.sendFile('/views' + req.url, res);
+});
+
+// catch all files
+app.get('*.*', function(req, res) {
+    server.sendFile(req.url, res);
+});
+
+// catch all routes
+app.get('*', function(req, res) {
+    server.sendFile('/index.html', res);
 });
 
 //app.get('*', function(req, res) {

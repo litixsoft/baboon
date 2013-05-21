@@ -1,4 +1,6 @@
 body {
+    padding: 50px;
+    text-align: left;
 }
 
 .help-inline.error {

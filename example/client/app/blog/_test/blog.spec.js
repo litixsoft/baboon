@@ -4,7 +4,7 @@
 describe('blog modul', function () {
     beforeEach(module('blog'));
     beforeEach(module('mocks'));
-    beforeEach(module('lx.services'));
+    beforeEach(module('baboon.services'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {

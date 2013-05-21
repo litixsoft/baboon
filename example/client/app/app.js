@@ -1,11 +1,8 @@
 /*global angular*/
 angular.module('app', [
-        'templates-app',
-//        'ui.bootstrap',
         'ui.utils',
-        'lx.directives',
-        'lx.services',
-        'app.services',
+        'baboon.directives',
+        'baboon.services',
         'blog',
         'enterprise',
         'home'

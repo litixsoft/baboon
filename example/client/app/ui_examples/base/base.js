@@ -3,8 +3,8 @@
 angular.module('base', [])
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
-        $routeProvider.when('/base', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/', {templateUrl: '/ui_examples/base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/base', {templateUrl: '/ui_examples/base/base.html', controller: 'baseCtrl'});
     })
     .controller('baseCtrl', ['$scope', function ($scope) {
         $scope.title = 'UI-Examples-Base';

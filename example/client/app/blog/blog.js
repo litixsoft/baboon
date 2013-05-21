@@ -1,10 +1,10 @@
 /*global angular*/
 angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
+        $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
 //        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
 //        $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
-        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'postCtrl'});
+        $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
         var getData = function () {
@@ -46,8 +46,10 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
             getData();
         });
 
-        $scope.$watch('pager.pageSize', function () {
-            getData();
+        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                getData();
+            }
         });
     }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {

@@ -1,0 +1,150 @@
+/*global angular, io*/
+angular.module('baboon.services', [])
+    .factory('socket', function ($rootScope, $window) {
+
+        var protocol = $window.location.protocol;
+        var hostname = $window.location.hostname;
+        var port = $window.location.port;
+        var transports = ['websocket', 'xhr-polling', 'jsonp-polling'];
+
+        if (protocol === 'https') {
+            protocol = 'wss';
+        }
+        else {
+            protocol = 'ws';
+        }
+
+        // karma fix
+        if (port > 9870 && port < 9900 && hostname === 'localhost') {
+            transports = ['xhr-polling', 'jsonp-polling'];
+        }
+
+        var host = protocol + '://' + hostname + ':' + port;
+        var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
+
+        socket.on('connect', function () {
+            console.log('connect: ' + socket.socket.transport.name);
+        });
+
+        socket.on('connect_error', function (err) {
+            console.log('connect_error: ' + err);
+        });
+
+        socket.on('connect_timeout', function () {
+            console.log('connect_timeout...');
+        });
+
+        socket.on('reconnect', function (num) {
+            console.log('reconnect: ' + num);
+        });
+
+        socket.on('reconnect_error', function (err) {
+            console.log('reconnect_error: ' + err);
+        });
+
+        socket.on('reconnect_failed', function () {
+            console.log('reconnect_failed');
+        });
+
+        return {
+            on: function (eventName, callback) {
+                socket.on(eventName, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        callback.apply(socket, args);
+                    });
+                });
+            },
+            emit: function (eventName, data, callback) {
+                socket.emit(eventName, data, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        if (callback) {
+                            callback.apply(socket, args);
+                        }
+                    });
+                });
+            }
+        };
+    })
+    .factory('cache', function () {
+        return {};
+    })
+    .factory('lxPager', function () {
+        return function (model) {
+            var pub = {};
+
+            pub.currentPage = 1;
+            pub.count = 0;
+            pub.pageSize = 5;
+            pub.pageSizes = [1, 2, 3, 4, 5, 10];
+
+            pub.skip = function () {
+                return (pub.currentPage - 1) * pub.pageSize;
+            };
+
+            pub.numberOfPages = function () {
+                if (pub.pageSize < 1) {
+                    pub.pageSize = 1;
+                }
+
+                return Math.ceil(pub.count / pub.pageSize);
+            };
+
+            pub.getOptions = function () {
+//                var params = model.params || {};
+
+                return {
+                    limit: pub.pageSize,
+                    skip: pub.skip()
+//                    fields: params.fields,
+//                    sortBy: params.sortBy,
+//                    sort: params.sort
+                };
+            };
+
+            pub.getAll = function () {
+                model.service.getAllWithCount({
+                    params: (model.params || {}).filter || {},
+                    options: pub.getOptions()
+                }, function (result) {
+                    if (result.count) {
+                        pub.count = result.count;
+                    }
+
+                    model.callback(result);
+                });
+            };
+
+            pub.nextPage = function () {
+                var currentPage = pub.currentPage;
+                var count = currentPage * pub.pageSize;
+
+                if (count < pub.count) {
+                    pub.currentPage = ++currentPage;
+//                    pub.getAll();
+                }
+            };
+
+            pub.previousPage = function () {
+                var currentPage = pub.currentPage;
+
+                if (currentPage !== 1) {
+                    pub.currentPage = --currentPage;
+//                    pub.getAll();
+                }
+            };
+
+            pub.firstPage = function () {
+                pub.currentPage = 1;
+//                pub.getAll();
+            };
+
+            pub.lastPage = function () {
+                pub.currentPage = pub.numberOfPages() - 1;
+//                pub.getAll();
+            };
+
+            return pub;
+        };
+    });

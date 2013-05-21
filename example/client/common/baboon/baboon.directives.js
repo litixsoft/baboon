@@ -4,7 +4,7 @@
  * https://github.com/tigbro/jquery-mobile-angular-adapter
  */
 /*global angular */
-angular.module('lx.directives', []).directive('lxIf', [function () {
+angular.module('baboon.directives', []).directive('lxIf', [function () {
     return {
         transclude: 'element',
         priority: 1000,

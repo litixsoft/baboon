@@ -1,9 +1,9 @@
 /*global angular*/
 angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directives'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog/admin', {templateUrl: 'blog/admin/admin.html', controller: 'adminCtrl'});
-        $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
-        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/admin', {templateUrl: '/blog/admin/admin.html', controller: 'adminCtrl'});
+        $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
     .controller('adminCtrl', ['$scope', 'posts', 'lxPager', 'tags', function ($scope, posts, lxPager, tags) {
         var callback = function (result) {
@@ -29,7 +29,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $scope.params = {};
 //        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
         $scope.pager = lxPager();
-        $scope.pager.pageSize = 5;
+        //$scope.pager.pageSize = 5;
 
         $scope.sort = function (field) {
             var oldDirection = $scope.params.sort || -1;
@@ -40,8 +40,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             posts.getAllWithCount(getQuery(), callback);
         };
 
-        $scope.$watch('pager.pageSize', function () {
-            posts.getAllWithCount(getQuery(), callback);
+        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                posts.getAllWithCount(getQuery(), callback);
+            }
         });
 
         $scope.$watch('pager.currentPage', function () {
@@ -109,7 +111,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             dialogFade: true
         };
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', '$location', function ($scope, $routeParams, authorPosts, cache) {
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', '$location', function ($scope, $routeParams, authorPosts, cache, tags) {
         $scope.master = {};
         $scope.post = {};
 
@@ -171,5 +173,16 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             $scope.master = angular.copy($scope.post);
         } else {
             cache.blog_post = $scope.post;
+        }
+
+        if (cache.tags && Object.keys(cache.tags).length > 0) {
+            $scope.tags = cache.tags;
+        } else {
+            tags.getAll({}, function (result) {
+                if (result.success) {
+                    $scope.tags = result.data;
+                    cache.tags = result.data;
+                }
+            });
         }
     }]);

@@ -7,11 +7,7 @@ angular.module('blog.directives', [])
             restrict: 'E',
             link: function (scope, element, attrs) {
                 scope.$watch(attrs.ngModel, function (value) {
-//                    var markdown = value;
-//                    var html = md.toHtml(markdown);
-//                    element.html(html);
-
-                    var htmlText = converter.makeHtml(value);
+                    var htmlText = converter.makeHtml(value || '');
                     element.html(htmlText);
                 });
             }
