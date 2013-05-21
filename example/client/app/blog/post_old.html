@@ -31,17 +31,17 @@
             }
         </style>
 
-        <div style="border-radius:7px;box-shadow:0 0 6px rgba(0,0,0,0.4);border:4px solid rgba(255,255,255,1);text-shadow:0 1px 4px rgba(0,0,0,0.4);font-family:'Open Sans B';color:white;font-size:20px;margin:20px 0;padding:10px 20px;background:-webkit-linear-gradient(top,rgba(255,0,0,0.5),rgba(255,0,0,0.8));" lx-if="post.hidden">
+        <div style="border-radius:7px;box-shadow:0 0 6px rgba(0,0,0,0.4);border:4px solid rgba(255,255,255,1);text-shadow:0 1px 4px rgba(0,0,0,0.4);font-family:'Open Sans B';color:white;font-size:20px;margin:20px 0;padding:10px 20px;background:-webkit-linear-gradient(top,rgba(255,0,0,0.5),rgba(255,0,0,0.8));" ui-if="post.hidden">
             <span>This article is not published!</span>
         </div>
 
         <div ui-if="auth.valid && auth.isAdmin" style="width: 100%;margin: 5px 0 5px 0;border: 5px solid rgba(245,245,245,0.7);box-shadow: 0 0 4px rgba(0,0,0,0.1);border-radius: 7px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;-ms-box-sizing: border-box;">
             <div id="articleEditBtnGroup" style="display:block;background:rgba(255,255,255,0.4);border: 1px solid rgba(0,0,0,0.08);padding:5px;border-radius: 5px;">
-                <button lx-if="!editmode" ng-click="edit(post._id)">edit</button>
-                <button lx-if="editmode" ng-click="save(post._id)">save</button>
-                <button lx-if="!editmode"><span lx-if="!post.hidden">un</span>publish</button>
-                <button lx-if="editmode" ng-click="reset(post._id)">cancel</button>
-                <button lx-if="!editmode" ng-click="delete(post._id)">delete</button>
+                <button ui-if="!editmode" ng-click="edit(post._id)">edit</button>
+                <button ui-if="editmode" ng-click="save(post._id)">save</button>
+                <button ui-if="!editmode"><span ui-if="!post.hidden">un</span>publish</button>
+                <button ui-if="editmode" ng-click="reset(post._id)">cancel</button>
+                <button ui-if="!editmode" ng-click="delete(post._id)">delete</button>
             </div>
         </div>
 
@@ -84,7 +84,7 @@
 
         </style>
 
-        <div id="editorArea" ui-if="auth.valid && auth.isAdmin" lx-if="editmode" >
+        <div id="editorArea" ui-if="auth.valid && auth.isAdmin" ui-if="editmode" >
             <ul style="list-style-type: none;margin:0;padding:0;">
                 <li style="margin:0;padding:0;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;-ms-box-sizing: border-box;">
                     <div style="display:table;width: 100%;margin: 5px 0 5px 0;border: 5px solid #F5F5F5;box-shadow: 0 0 6px rgba(0,0,0,0.3);border-radius: 7px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;-ms-box-sizing: border-box;">

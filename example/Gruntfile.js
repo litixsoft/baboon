@@ -98,13 +98,13 @@ module.exports = function (grunt) {
                     'build/dist/css/lib.css': [
                         'vendor/bootstrap/css/bootstrap.css',
                         'vendor/bootstrap/css/bootstrap-responsive.css',
-                        'vendor/litixsoft/default.css'
+                        'vendor/baboon/default.css'
                     ],
                     // libs release
                     'build/dist/css/lib.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        'vendor/litixsoft/default.css'
+                        'vendor/baboon/default.css'
                     ]
                 }
             },
