@@ -141,10 +141,75 @@ angular.module('baboon.services', [])
             };
 
             pub.lastPage = function () {
-                pub.currentPage = pub.numberOfPages() - 1;
-//                pub.getAll();
+                pub.currentPage = pub.numberOfPages();
             };
 
             return pub;
         };
-    });
+    })
+    .factory('lxForm', ['cache', function (cache) {
+        return function (modelName) {
+            var pub = {},
+                master = {};
+
+            pub.model = {};
+
+            pub.reset = function () {
+                pub.model = angular.copy(master);
+
+                if (pub.model._id) {
+                    cache[pub.model._id] = pub.model;
+                } else {
+                    cache[modelName] = pub.model;
+                }
+            };
+
+            pub.isUnchanged = function () {
+                return angular.equals(pub.model, master);
+            };
+
+            pub.loadFromCache = function (id) {
+                if (id && cache[id]) {
+                    pub.model = cache[id];
+
+                    if (cache[id + '_Master']) {
+                        master = cache[id + '_Master'];
+                    }
+
+                    return true;
+                } else if (!id && cache[modelName]) {
+                    pub.model = cache[modelName];
+
+                    return true;
+                }
+
+                cache[id || modelName] = pub.model;
+
+                return (!id) ? true : false;
+            };
+
+            pub.setModel = function (model, resetCache) {
+                pub.model = model;
+                master = angular.copy(model);
+
+                if (resetCache) {
+                    delete cache[model._id];
+                    delete cache[model._id + '_Master'];
+                } else {
+                    cache[model._id] = pub.model;
+                    cache[model._id + '_Master'] = master;
+                }
+            };
+
+            pub.populateValidation = function(form, errors) {
+                if (errors) {
+                    for (var i = 0; i < errors.length; i++) {
+                        form[errors[i].property].$invalid = true;
+                        form[errors[i].property].$dirty = true;
+                    }
+                }
+            };
+
+            return pub;
+        };
+    }]);

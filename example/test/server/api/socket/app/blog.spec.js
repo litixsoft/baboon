@@ -86,7 +86,7 @@ describe('blog', function () {
                     expect(appMock.logging.audit.info.calls.length).toBe(2);
                     expect(appMock.logging.syslog.error).wasNotCalled();
 
-                    sut.getPostById(id, function (res3) {
+                    sut.getPostById({params: {id: id}}, function (res3) {
                         expect(res3).toBeDefined();
                         expect(res3.success).toBeTruthy();
                         expect(res3.data.title).toBe('p2');
@@ -120,7 +120,7 @@ describe('blog', function () {
     describe('has a function getPostById() which', function () {
         it('should return a single blog posts', function (done) {
             sut.createPost(post, function (res) {
-                sut.getPostById(res.data._id, function (res2) {
+                sut.getPostById({params: {id: res.data._id}}, function (res2) {
                     expect(res2).toBeDefined();
                     expect(res2.success).toBeTruthy();
                     expect(res2.data.title).toBe('p1');
