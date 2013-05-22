@@ -88,25 +88,25 @@ describe('admin services', function () {
         });
     });
 
-    it('should have a getById function', function () {
-        var value, flag;
-
-        runs(function () {
-            flag = false;
-
-            service.getById(0, function (data) {
-                expect(data).toBe(0);
-
-                service.getById(99, function (data) {
-                    value = data;
-                    flag = true;
-                });
-
-            });
-        });
-
-        runs(function () {
-            expect(value).toBe(99);
-        });
-    });
+//    it('should have a getById function', function () {
+//        var value, flag;
+//
+//        runs(function () {
+//            flag = false;
+//
+//            service.getById(0, function (data) {
+//                expect(data).toBe(0);
+//
+//                service.getById(99, function (data) {
+//                    value = data;
+//                    flag = true;
+//                });
+//
+//            });
+//        });
+//
+//        runs(function () {
+//            expect(value).toBe(99);
+//        });
+//    });
 });
