@@ -1,0 +1,28 @@
+#topnav {
+    background:#666666;
+    padding:5px 10px;
+    color:white;
+}
+#topnav a:hover{
+    text-decoration: none;
+    background:#888888;
+}
+.top-level-nav {
+    position:relative;
+    display:inline-block;
+    margin-left:50px;
+}
+.top-level-nav a{
+    color:white;
+    margin:0 5px;
+}
+.top-user-area{
+    float:right;
+    position:relative;
+}
+.top-user-area a.dropdown-toggle{
+    cursor:pointer;
+}
+.dev-hints{
+    color:#ccc;font-size:10px;
+}
