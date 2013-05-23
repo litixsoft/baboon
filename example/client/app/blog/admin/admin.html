@@ -1,48 +1,50 @@
 <div>
     <div class="p-wrapper">
-        <h2>Blog Posts</h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td style="width: 20px;">
-                        <a name="newPost" href="/blog/admin/post/new"><i class="icon-plus-sign"></i></a>
-                    </td>
-                    <td>Title <a href="" ng-click="sort('title')"><i class="icon-arrow-down"></i></a></td>
-                    <td>Author</td>
-                    <td>Created <a href="" ng-click="sort('created')"><i class="icon-arrow-down"></i></a></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="post in posts">
-                    <td><a href="/blog/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
-                    <td>{{post.title}}</td>
-                    <td>{{post.author}}</td>
-                    <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="btn-group">
-            <div class="input-prepend input-append">
-                <button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">
-                    <i class="icon-step-backward"></i></button>
-                <button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">
-                    <i class="icon-backward"></i></button>
-                <input type="text" ng-model="pager.currentPage" style="width: 30px;">
-                <button class="btn">of {{pager.numberOfPages()}}</button>
-                <button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-                    <i class="icon-forward"></i></button>
-                <button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-                    <i class="icon-step-forward"></i></button>
-                <select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>
-                <button class="btn">{{pager.count}} items</button>
+        <div ng-controller="adminCtrl">
+            <h2>Blog Posts</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td style="width: 20px;">
+                            <a name="newPost" href="/blog/admin/post/new"><i class="icon-plus-sign"></i></a>
+                        </td>
+                        <td>Title <a href="" ng-click="sort('title')"><i class="icon-arrow-down"></i></a></td>
+                        <td>Author</td>
+                        <td>Created <a href="" ng-click="sort('created')"><i class="icon-arrow-down"></i></a></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="post in posts">
+                        <td><a href="/blog/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
+                        <td>{{post.title}}</td>
+                        <td>{{post.author}}</td>
+                        <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="btn-group">
+                <div class="input-prepend input-append">
+                    <button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">
+                        <i class="icon-step-backward"></i></button>
+                    <button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">
+                        <i class="icon-backward"></i></button>
+                    <input type="text" ng-model="pager.currentPage" style="width: 30px;">
+                    <button class="btn">of {{pager.numberOfPages()}}</button>
+                    <button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
+                        <i class="icon-forward"></i></button>
+                    <button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
+                        <i class="icon-step-forward"></i></button>
+                    <select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>
+                    <button class="btn">{{pager.count}} items</button>
+                </div>
             </div>
         </div>
-
         <br />
         <br />
 
-        <div>
+        <div ng-controller="tagsCtrl">
             <button class="btn btn-info" ng-click="modal.open()">Tags</button>
+
             <div modal="modal.shouldBeOpen" close="modal.close()" options="opts">
                 <div class="modal-header">
                     <h4>Tags</h4>

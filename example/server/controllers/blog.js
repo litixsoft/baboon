@@ -121,10 +121,12 @@ module.exports = function (app) {
      * @param {!string} id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.getPostById = function (id, callback) {
-        repo.posts.getOneById(id, function (error, result) {
+    pub.getPostById = function (data, callback) {
+        data.params = data.params || {};
+
+        repo.posts.getOneById(data.params.id, data.options || {}, function (error, result) {
             if (error) {
-                syslog.error('%s! getting blog post from db: %s', error, id);
+                syslog.error('%s! getting blog post from db: %s', error, data.params.id);
                 callback({success: false, message: 'Could not load blog post!'});
                 return;
             }
@@ -135,7 +137,7 @@ module.exports = function (app) {
                 if (post.comments && post.comments.length > 0) {
                     repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
                         if (error) {
-                            syslog.error('%s! getting blog post from db: %s', error, id);
+                            syslog.error('%s! getting blog post from db: %s', error, data.params.id);
                             callback({success: false, message: 'Could not load blog post!'});
                             return;
                         }

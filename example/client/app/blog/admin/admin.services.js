@@ -6,7 +6,7 @@ angular.module('admin.services', [])
         pub.getById = function (id, callback) {
 //            callback(posts[id]);
 
-            socket.emit('blog:getPostById', id, function (result) {
+            socket.emit('blog:getPostById', {params: {id: id}}, function (result) {
 //                    enterprise = data;
                 callback(result);
             });

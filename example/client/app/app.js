@@ -6,6 +6,7 @@ angular.module('app', [
         'blog',
         'enterprise',
         'home',
+        'cache',
         'login'
     ])
     .config(function ($routeProvider, $locationProvider) {
