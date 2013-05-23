@@ -1,4 +1,4 @@
-/*global describe, it, expect, beforeEach */
+/*global describe, it, expect */
 describe('Logging', function () {
     'use strict';
 
@@ -9,10 +9,6 @@ describe('Logging', function () {
         tmpPath = path.resolve(rootPath, 'build', 'tmp'),
         log = require(path.resolve(rootPath, 'lib', 'logging.js'));
 
-    beforeEach(function(){
-        // fs.rmdirSync(tmpPath);
-    });
-
     it('returns console logger if nodeEnv is not "production"', function () {
         var sut = log(tmpPath, 'dev', 20480, 10);
 
@@ -20,7 +16,6 @@ describe('Logging', function () {
         expect(sut.audit).toBeDefined();
         expect(sut.socket).toBeDefined();
         expect(sut.express).toBeDefined();
-        // expect(fs.existsSync(tmpPath)).toBeFalsy();
 
         // check log4js
         expect(log4js.appenders.console).toBeDefined();
