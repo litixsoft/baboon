@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('home', ['home.about'])
+angular.module('home', ['login', 'home.about'])
 
 // config home module
 .config(function ($routeProvider) {

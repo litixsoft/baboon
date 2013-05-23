@@ -9,6 +9,7 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
+    <link rel="stylesheet" href="/css/theme2.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -24,12 +25,41 @@
 <body>
 <div id="singlepageFrame">
 
+    <div id="topnav" style="">
+        <div class="p-wrapper">
+            <span>Our company logo</span>
+
+            <div class="top-level-nav">
+                <a href="/" target="_self">App Example</a>
+                <a href="/ui" target="_self">UI Example</a>
+            </div>
+
+            <div class="top-user-area" ng-controller="loginCtrl">
+
+                <!-- nicht angemeldet, login-->
+                <a href="/login" class="btn" ui-if="!isAuthenticated">Login</a>
+
+                <div class="btn-group" ui-if="isAuthenticated">
+                    <button class="btn btn-success">{{username}}</button>
+                    <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">Nachrichten</a>
+                            <a href="#">Kontoeinstellungen</a>
+                            <a href="/logout" target="_self">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="beige-noise">
         <div class="p-wrapper">
-            <ul class="nav nav-pills">
-                <li><a href="/" target="_self">App Example</a></li>
-                <li><a href="/ui" target="_self">UI Example</a></li>
-            </ul>
+
             <ul class="nav nav-pills">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/home/about">About</a></li>
@@ -41,11 +71,14 @@
                         <li><a href="/blog/admin">Admin</a></li>
                     </ul>
                 </li>
+
                 <li><a href="/cache">Cache</a></li>
             </ul>
         </div>
     </div>
+
     <div ng-view></div>
+
 </div>
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>

@@ -6,7 +6,8 @@ angular.module('app', [
         'blog',
         'enterprise',
         'home',
-        'cache'
+        'cache',
+        'login'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

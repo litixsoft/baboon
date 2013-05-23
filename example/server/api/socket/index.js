@@ -15,7 +15,8 @@ module.exports = function (app) {
     var acl = {
         modules: [
             { name: 'blog', resources: ['getAllPosts', 'getAllPostsWithCount', 'getPostById', 'createPost', 'updatePost', 'addComment', 'searchPosts', 'getAllTags', 'createTag', 'deleteTag'] },
-            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
+            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] },
+            { name: 'session', resources:['getUsername', 'setActivity', 'isAuthenticated'] }
         ]
     };
 
@@ -25,7 +26,15 @@ module.exports = function (app) {
     app.server.sio.sockets.on('connection', function (socket) {
         var tmp;
 
-        app.logging.syslog.info('client: ' + socket.id + ' connected');
+        // session
+        var session = socket.handshake.session;
+        //noinspection JSUndefinedPropertyAssignment
+        app.session = session;
+
+        //noinspection JSUnresolvedVariable
+        app.logging.syslog.info('client connected');
+        app.logging.syslog.debug('{socketId: ' + socket.id + ', username: ' + session.user.name + ', ' +
+            'sessionID: ' + session.sessionID + '}');
 
         socket.on('disconnect', function () {
             app.logging.syslog.info('socket: ' + socket.id + ' disconnected');
