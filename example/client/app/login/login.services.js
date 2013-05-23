@@ -13,5 +13,19 @@ angular.module('login.services', [])
 
         };
 
+        pub.isAuthenticated = function (callback) {
+
+            socket.emit('session:isAuthenticated', {}, function (data) {
+                callback(data);
+            });
+        };
+
+        pub.setActivity = function (callback) {
+
+            socket.emit('session:setActivity', {}, function (data) {
+                callback(data);
+            });
+        };
+
         return pub;
     });
