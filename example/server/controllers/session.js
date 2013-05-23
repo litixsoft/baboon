@@ -5,7 +5,6 @@ module.exports = function (app) {
         session = app.session,
         config = app.config;
 
-
     pub.getAll = function (data, callback) {
 
         delete session.user.salt;
@@ -24,7 +23,7 @@ module.exports = function (app) {
     };
 
     pub.getUsername = function (data, callback) {
-            callback(session.user.name);
+        callback(session.user.name);
     };
 
     pub.setActivity = function (data, callback) {
