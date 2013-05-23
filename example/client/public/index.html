@@ -34,19 +34,13 @@
                 <a href="/ui" target="_self">UI Example</a>
             </div>
 
-            <div class="top-user-area">
+            <div class="top-user-area" ng-controller="loginCtrl">
 
                 <!-- nicht angemeldet, login-->
-                <span class="dev-hints">unangemeldet -&gt;</span>
-                <a href="/login" class="btn">Login</a>
+                <a href="/login" class="btn" ui-if="!isAuthenticated">Login</a>
 
-
-                <!-- angemeldet, username-->
-                <span class="dev-hints">angemeldet -&gt;</span>
-
-
-                <div class="btn-group">
-                    <button class="btn btn-success">Horst Schlemmer</button>
+                <div class="btn-group" ui-if="isAuthenticated">
+                    <button class="btn btn-success">{{username}}</button>
                     <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </button>

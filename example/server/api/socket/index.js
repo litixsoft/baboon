@@ -16,7 +16,7 @@ module.exports = function (app) {
         modules: [
             { name: 'blog', resources: ['getAllPosts', 'getAllPostsWithCount', 'getPostById', 'createPost', 'updatePost', 'addComment', 'searchPosts', 'getAllTags', 'createTag', 'deleteTag'] },
             { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] },
-            { name: 'session', resources:['getAll'] }
+            { name: 'session', resources:['getUsername', 'setActivity', 'isAuthenticated'] }
         ]
     };
 

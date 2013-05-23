@@ -23,6 +23,10 @@ module.exports = function (app) {
         }
     };
 
+    pub.getUsername = function (data, callback) {
+            callback(session.user.name);
+    };
+
     pub.setActivity = function (data, callback) {
         // is an active session
         if (session.user && session.activity) {

@@ -4,7 +4,15 @@ angular.module('login', ['login.services'])
         $routeProvider.when('/login', {templateUrl: '/login/login.html', controller: 'loginCtrl'});
     })
     .controller('loginCtrl', ['$scope', 'session', function ($scope, session) {
-        session.getAll(function (data) {
-            $scope.session = data;
+
+        $scope.username = 'guest';
+        $scope.isAuthenticated = false;
+
+        session.getUsername(function(data){
+            $scope.username = data;
+        });
+
+        session.isAuthenticated(function(data){
+            $scope.isAuthenticated = data;
         });
     }]);
