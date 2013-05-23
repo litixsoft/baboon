@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     'use strict';
 
     // Project configuration.
-    //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*!\n' +
@@ -12,35 +11,52 @@ module.exports = function (grunt) {
             ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
             ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
             ' */\n\n',
-        jshint: {
-            files: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
-            junit: 'build/reports/jshint.xml',
-            checkstyle: 'build/reports/jshint_checkstyle.xml',
-            options: {
-                bitwise:true,
-                curly:true,
-                eqeqeq:true,
-                forin:true,
-                immed:true,
-                latedef: true,
-                newcap:true,
-                noarg:true,
-                noempty:true,
-                nonew:true,
-                regexp:true,
-                undef:true,
-                unused:true,
-                indent:4,
-                quotmark:'single',
-                es5:true,
-                loopfunc:true,
-                browser:true,
-                node:true
-            }
+        // Before generating any new files, remove any previously-created files.
+        clean: {
+            build: ['build']
         },
-        watch: {
-            files: '<%= jshint.files %>',
-            tasks: ['jshint:files']
+        jshint: {
+            options: {
+                bitwise: true,
+                curly: true,
+                eqeqeq: true,
+                forin: true,
+                immed: true,
+                latedef: true,
+                newcap: true,
+                noarg: true,
+                noempty: true,
+                nonew: true,
+                regexp: true,
+                undef: true,
+                unused: true,
+                indent: 4,
+                quotmark: 'single',
+                loopfunc: true,
+                browser: true,
+                node: true,
+                globals: {
+                }
+            },
+            test: ['Gruntfile.js', 'lib/**/.js', 'test/**/*.js'],
+            jslint: {
+                options: {
+                    reporter: 'jslint',
+                    reporterOutput: 'build/reports/jshint.xml'
+                },
+                files: {
+                    src: ['Gruntfile.js', 'lib/**/.js', 'test/**/*.js']
+                }
+            },
+            checkstyle: {
+                options: {
+                    reporter: 'checkstyle',
+                    reporterOutput: 'build/reports/jshint_checkstyle.xml'
+                },
+                files: {
+                    src: ['Gruntfile.js', 'lib/**/.js', 'test/**/*.js']
+                }
+            }
         },
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
@@ -57,15 +73,12 @@ module.exports = function (grunt) {
     });
 
     // Load tasks.
-    //noinspection JSUnresolvedFunction
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    //noinspection JSUnresolvedFunction
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    //noinspection JSUnresolvedFunction
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-jasmine-node');
 
     // Default task.
-    //noinspection JSUnresolvedFunction
-    grunt.registerTask('default', ['jshint:files', 'jasmine_node']);
-    grunt.registerTask('test', ['jshint:files', 'jasmine_node']);
+    grunt.registerTask('test', ['clean:build', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('ci', ['clean:build', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node']);
+    grunt.registerTask('default', ['test']);
 };
