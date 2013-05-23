@@ -2,10 +2,10 @@
     background:#666666;
     padding:5px 10px;
     color:white;
+    min-height: 30px;
 }
 #topnav a:hover{
     text-decoration: none;
-    background:#888888;
 }
 .top-level-nav {
     position:relative;
