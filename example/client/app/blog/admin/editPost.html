@@ -8,7 +8,7 @@
                     <label class="control-label">Title</label>
 
                     <div class="controls">
-                        <input type="text" ng-model="post.title" name="title" required />
+                        <input type="text" ng-model="lxForm.model.title" name="title" required />
 
                         <span class="label label-important" ui-if="form.title.$dirty && form.title.$invalid">
                             Error:<span ng-show="form.title.$error.required"> Title is required.</span>
@@ -20,7 +20,7 @@
                     <label class="control-label">Content</label>
 
                     <div class="controls">
-                        <textarea rows="10" type="text" name="content" ng-model="post.content" required></textarea>
+                        <textarea rows="10" type="text" name="content" ng-model="lxForm.model.content" required></textarea>
 
                         <span class="label label-important" ui-if="form.content.$dirty && form.content.$invalid">
                             Error:<span ng-show="form.content.$error.required"> Content is required.</span>
@@ -32,7 +32,7 @@
                     <label class="control-label">Tag(s)</label>
 
                     <div class="controls">
-                        <select size="5" name="tags" ng-model="post.tags" ng-options="tag._id as tag.name for tag in tags" multiple="multiple">
+                        <select size="5" name="tags" ng-model="lxForm.model.tags" ng-options="tag._id as tag.name for tag in tags" multiple="multiple">
                             <option value="">-- select tag(s) --</option>
                         </select>
                     </div>
@@ -42,7 +42,7 @@
                     <label class="control-label">Created</label>
 
                     <div class="controls">
-                        <span class="uneditable-input">{{post.created}}</span>
+                        <span class="uneditable-input">{{lxForm.model.created}}</span>
                     </div>
                 </div>
             </fieldset>
@@ -50,11 +50,28 @@
             <alert ng-repeat="alert in validationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
 
             <div class="form-actions">
-                <button type="button" class="btn" ng-click="reset()" name="reset" ng-disabled="isUnchanged(post)">Reset</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save" ng-disabled="form.$invalid || isUnchanged(post)">Save</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(post)" name="save">Simple Save</button>
+                <button type="button" class="btn" ng-click="lxForm.reset()" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save">Simple Save</button>
             </div>
         </form>
+
+        <!--<legend>Preview</legend>-->
+        <!--<div class="well well-small">-->
+            <!--<blockquote>-->
+                <!--<h2>{{post.title}}</h2>-->
+                <!--<small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>-->
+            <!--</blockquote>-->
+            <!--<br />-->
+
+            <!--<markdown ng-model="post.content"></markdown>-->
+        <!--</div>-->
+
+        <pre>post = {{lxForm.model | json}}</pre>
+        <!--<pre>master = {{lxForm.master | json}}</pre>-->
+        <pre>dirty = {{form.$dirty | json}}</pre>
+        <pre>valid = {{form.$valid | json}}</pre>
+        <!--<pre>tags = {{tags | json}}</pre>-->
 
         <legend>Preview</legend>
         <div class="well well-small">
@@ -66,11 +83,5 @@
 
             <markdown ng-model="post.content"></markdown>
         </div>
-
-        <pre>post = {{post | json}}</pre>
-        <pre>master = {{master | json}}</pre>
-        <pre>dirty = {{form.$dirty | json}}</pre>
-        <pre>valid = {{form.$valid | json}}</pre>
-        <pre>tags = {{tags | json}}</pre>
     </div>
 </div>

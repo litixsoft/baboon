@@ -2,11 +2,11 @@
 //noinspection JSUnresolvedVariable
 var path = require('path'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
-//    middleware = baboon.middleware,
+    middleware = baboon.middleware,
     server = baboon.server,
     app = server.app,
     config = baboon.config,
-//    auth = middleware.auth,
+    auth = middleware.auth,
     api = require(config.path.api);
 
 ///////////////////////////////////////////
@@ -21,12 +21,16 @@ app.get('/', function(req, res) {
 // toplevel ui_examples route
 app.get('/ui', function(req, res) {
     server.sendFile('/ui.html', res);
-    //res.render('ui');
 });
+
+// login middleware
+app.post('/login', auth.login);
+
+// logout middleware
+app.get('/logout', auth.logout);
 
 // catch all html files
 app.get('*.html', function(req, res) {
-    console.log('los gehts');
     server.sendFile('/views' + req.url, res);
 });
 
@@ -39,22 +43,6 @@ app.get('*.*', function(req, res) {
 app.get('*', function(req, res) {
     server.sendFile('/index.html', res);
 });
-
-//app.get('*', function(req, res) {
-//    server.sendFile(req.url, res);
-//    //res.render('ui');
-//});
-
-// login route
-//app.get('/login', function(req, res) {
-//    res.render('login');
-//});
-
-// login middleware
-//app.post('/login', auth.login);
-//
-//// logout middleware
-//app.get('/logout', auth.logout);
 
 ///////////////////////////////////////////
 // api
