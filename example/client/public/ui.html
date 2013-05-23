@@ -31,21 +31,28 @@
 <body>
 <div id="singlepageFrame">
 
-    <div class="beige-noise">
-        <div class="p-wrapper">
-            <ul class="nav nav-pills">
-                <li><a href="/" target="_self">App Example</a></li>
-                <li><a href="/ui" target="_self">UI Example</a></li>
-            </ul>
-            <ul class="nav nav-pills">
-                <li><a href="/base">Base</a></li>
-                <li><a href="/extend">Extend</a></li>
-                <li><a href="/vendor">Vendor</a></li>
-            </ul>
+    <div class="row-fluid">
+        <div class="span2" style="background:black;">Test</div>
+        <div class="span10">
+
+        <div class="beige-noise">
+            <div class="p-wrapper">
+                <ul class="nav nav-pills">
+                    <li><a href="/" target="_self">App Example</a></li>
+                    <li><a href="/ui" target="_self">UI Example</a></li>
+                </ul>
+                <ul class="nav nav-pills">
+                    <li><a href="/base">Base</a></li>
+                    <li><a href="/extend">Extend</a></li>
+                    <li><a href="/vendor">Vendor</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-view></div>
+
         </div>
     </div>
-
-    <div ng-view></div>
 </div>
 
 

@@ -9,6 +9,7 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
+    <link rel="stylesheet" href="/css/theme2.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,6 +24,39 @@
 </head>
 <body>
 <div id="singlepageFrame">
+
+    <div id="topnav" style="">
+        <div class="p-wrapper">
+            <span>Our company logo</span>
+
+            <div class="top-level-nav">
+                <a href="/" target="_self">App Example</a>
+                <a href="/ui" target="_self">UI Example</a>
+            </div>
+
+            <div class="top-user-area">
+
+                <!-- nicht angemeldet, login-->
+                <span class="dev-hints">unangemeldet -&gt;</span>
+                <a href="/login" style="color:white;">Login</a>
+
+
+                <!-- angemeldet, username-->
+                <span class="dev-hints">angemeldet -&gt;</span>
+                <a class="dropdown-toggle" style="color:white;">
+                    Horst Schlemmer
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">Nachrichten</a>
+                        <a href="#">Kontoeinstellungen</a>
+                        <a href="/logout" target="_self">Logout</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
 
     <div class="beige-noise">
         <div class="p-wrapper">
@@ -41,8 +75,7 @@
                         <li><a href="/blog/admin">Admin</a></li>
                     </ul>
                 </li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/logout" target="_self">Logout</a></li>
+
                 <li><a href="/cache">Cache</a></li>
             </ul>
         </div>
