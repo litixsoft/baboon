@@ -38,21 +38,26 @@
 
                 <!-- nicht angemeldet, login-->
                 <span class="dev-hints">unangemeldet -&gt;</span>
-                <a href="/login" style="color:white;">Login</a>
+                <a href="/login" class="btn">Login</a>
 
 
                 <!-- angemeldet, username-->
                 <span class="dev-hints">angemeldet -&gt;</span>
-                <a class="dropdown-toggle" style="color:white;">
-                    Horst Schlemmer
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="#">Nachrichten</a>
-                        <a href="#">Kontoeinstellungen</a>
-                        <a href="/logout" target="_self">Logout</a>
-                    </li>
-                </ul>
+
+
+                <div class="btn-group">
+                    <button class="btn btn-success">Horst Schlemmer</button>
+                    <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">Nachrichten</a>
+                            <a href="#">Kontoeinstellungen</a>
+                            <a href="/logout" target="_self">Logout</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
         </div>
