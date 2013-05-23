@@ -5,7 +5,8 @@ angular.module('app', [
         'baboon.services',
         'blog',
         'enterprise',
-        'home'
+        'home',
+        'login'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
