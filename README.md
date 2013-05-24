@@ -53,6 +53,20 @@ you can use the nodejs scripts under scripts/grunt-taskName. This is particularl
 as you will not able to start the task easily run over.
 
 ## Running tests
+### baboon lib
+You can run baboon unit tests and jshint with:
+
+    $ grunt test
+
+You can run baboon unit tests, jshint and code coverage with:
+
+    $ grunt cover
+
+You can run baboon unit tests, jshint and code coverage for ci systems (generates xml reports in build folder) with:
+
+    $ grunt ci
+
+### baboon example
 You can run all unit tests, e2e tests and jshint with:
 
     $ grunt test
