@@ -60,10 +60,12 @@ module.exports = function (grunt) {
         },
         bgShell:{
             coverage: {
-                cmd: 'istanbul cover --dir build/coverage jasmine-node test'
+//                cmd: 'node_modules/istanbul/lib/cli.js cover --dir build/coverage jasmine-node test'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/coverage node_modules/grunt-jasmine-node/node_modules/.bin/jasmine-node test'
             },
             cobertura: {
-                cmd: 'istanbul report --root build/coverage --dir build/coverage/cobertura cobertura'
+//                cmd: 'node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
             }
         },
         jasmine_node: {
