@@ -58,13 +58,11 @@ module.exports = function (grunt) {
                 }
             }
         },
-        bgShell:{
+        bgShell: {
             coverage: {
-//                cmd: 'node_modules/istanbul/lib/cli.js cover --dir build/coverage jasmine-node test'
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/coverage node_modules/grunt-jasmine-node/node_modules/.bin/jasmine-node test'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node test'
             },
             cobertura: {
-//                cmd: 'node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
             }
         },
@@ -89,7 +87,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bg-shell');
 
     // Default task.
-    grunt.registerTask('test', ['clean:build', 'jshint:test', 'jasmine_node', 'bgShell:coverage']);
-    grunt.registerTask('ci', ['clean:build', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('test', ['clean:build', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('cover', ['clean:build', 'jshint:test', 'bgShell:coverage']);
+    grunt.registerTask('ci', ['clean:build', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('default', ['test']);
 };
