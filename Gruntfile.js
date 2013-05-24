@@ -13,7 +13,8 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            build: ['build']
+            jasmine: ['build/reports/jasmine'],
+            coverage: ['build/reports/coverage']
         },
         jshint: {
             options: {
@@ -93,8 +94,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-open');
 
     // Default task.
-    grunt.registerTask('test', ['clean:build', 'jshint:test', 'jasmine_node']);
-    grunt.registerTask('cover', ['clean:build', 'jshint:test', 'bgShell:coverage', 'open']);
-    grunt.registerTask('ci', ['clean:build', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open']);
+    grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('default', ['test']);
 };
