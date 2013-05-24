@@ -66,6 +66,11 @@ module.exports = function (grunt) {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
             }
         },
+        open: {
+            file: {
+                path: 'build/coverage/lcov-report/index.html'
+            }
+        },
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
             projectRoot: 'test',
@@ -85,10 +90,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
+    grunt.loadNpmTasks('grunt-open');
 
     // Default task.
     grunt.registerTask('test', ['clean:build', 'jshint:test', 'jasmine_node']);
-    grunt.registerTask('cover', ['clean:build', 'jshint:test', 'bgShell:coverage']);
+    grunt.registerTask('cover', ['clean:build', 'jshint:test', 'bgShell:coverage', 'open']);
     grunt.registerTask('ci', ['clean:build', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('default', ['test']);
 };

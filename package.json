@@ -61,21 +61,22 @@
     },
     "devDependencies": {
         "grunt": "0.4.1",
+        "grunt-bg-shell": "~2.0.1",
         "grunt-contrib-clean": "~0.4.0",
         "grunt-contrib-jshint": "~0.5.3",
         "grunt-jasmine-node": "~0.1.0",
-        "grunt-bg-shell": "~2.0.1",
+        "grunt-open": "~0.2.0",
         "istanbul": "~0.1.35"
     },
     "dependencies": {
-        "express": "~3.1.0",
-        "pwd": "0.0.2",
-        "socket.io": "~0.9.13",
-        "redis": "~0.8.2",
-        "connect-redis": "~1.4.5",
-        "log4js": "~0.6.0",
         "cli-color": "~0.2.2",
+        "connect-redis": "~1.4.5",
         "ejs": "~0.8.3",
-        "lx-helpers": "~0.1.0"
+        "express": "~3.1.0",
+        "log4js": "~0.6.0",
+        "lx-helpers": "~0.1.0",
+        "pwd": "0.0.2",
+        "redis": "~0.8.2",
+        "socket.io": "~0.9.13"
     }
 }
