@@ -37,10 +37,10 @@
             <div class="top-user-area" ng-controller="loginCtrl">
 
                 <!-- nicht angemeldet, login-->
-                <a href="/login" class="btn" ui-if="!isAuthenticated">Login</a>
+                <a href="/login" class="btn" ui-if="!isAuthenticated" ng-cloak>Login</a>
 
-                <div class="btn-group" ui-if="isAuthenticated">
-                    <button class="btn btn-success">{{username}}</button>
+                <div class="btn-group" ui-if="isAuthenticated" ng-cloak>
+                    <button class="btn btn-success" ng-cloak>{{username}}</button>
                     <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </button>
