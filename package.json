@@ -57,13 +57,15 @@
     "readmeFilename": "README.md",
     "main": "lib/baboon.js",
     "scripts": {
-        "test": "grunt test --force"
+        "test": "grunt test"
     },
     "devDependencies": {
         "grunt": "0.4.1",
-        "grunt-contrib-jshint": "git://github.com/litixsoft/grunt-contrib-jshint.git",
-        "grunt-contrib-watch": "0.3.1",
-        "grunt-jasmine-node": "0.0.6"
+        "grunt-contrib-clean": "~0.4.0",
+        "grunt-contrib-jshint": "~0.5.3",
+        "grunt-jasmine-node": "~0.1.0",
+        "grunt-bg-shell": "~2.0.1",
+        "istanbul": "~0.1.35"
     },
     "dependencies": {
         "express": "~3.1.0",
