@@ -34,12 +34,15 @@
                 <a href="/ui" target="_self">UI Example</a>
             </div>
 
-            <div class="top-user-area" ng-controller="loginCtrl" ng-cloak>
-                <div ui-if="!isAuthenticated">
+            <div class="top-user-area">
+                <% if(!isAuth) { %>
+                <div>
                     <a href="/login" class="btn">Login</a>
                 </div>
-                <div class="btn-group" ui-if="isAuthenticated">
-                    <button class="btn btn-success">{{username}}</button>
+                <% } %>
+                <% if(isAuth) { %>
+                <div class="btn-group">
+                    <button class="btn btn-success"><%= username %></button>
                     <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </button>
@@ -51,6 +54,7 @@
                         </li>
                     </ul>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
