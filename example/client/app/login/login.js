@@ -5,7 +5,6 @@ angular.module('login', ['login.services'])
     })
     .controller('loginCtrl', ['$scope', 'session', function ($scope, session) {
 
-        $scope.username = 'guest';
         $scope.isAuthenticated = false;
 
         session.getUsername(function(data){
