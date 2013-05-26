@@ -12,5 +12,13 @@
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
         </form>
+        <% if(showMsg) { %>
+            <div class="<%= sessionMsgClass %>"><%= sessionMsg %></div>
+        <% } %>
     </div>
+    <input ng-model="data.value" placeholder="set session data">
+    <button class="btn" ng-click="setData()">Set To Session</button>
+    <button class="btn btn-info" ng-click="getAll()">Get All Session</button>
+    <button class="btn btn-info" ng-click="setAct()">Set Act</button>
+    <p>{{session}}</p>
 </div>

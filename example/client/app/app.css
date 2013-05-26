@@ -6,3 +6,9 @@ body {
 .help-inline.error {
     color: #b94a48;
 }
+.loginError {
+    color: #ff0000;
+}
+.loginSuccess {
+    color: green;
+}
