@@ -16,7 +16,7 @@ module.exports = function (app) {
         modules: [
             { name: 'blog', resources: ['getAllPosts', 'getAllPostsWithCount', 'getPostById', 'createPost', 'updatePost', 'addComment', 'searchPosts', 'getAllTags', 'createTag', 'deleteTag'] },
             { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] },
-            { name: 'session', resources:['getUsername', 'setActivity', 'isAuthenticated'] }
+            { name: 'session', resources:['getAll', 'setActivity', 'setData', 'getData'] }
         ]
     };
 
@@ -24,12 +24,11 @@ module.exports = function (app) {
      * start websocket
      */
     app.server.sio.sockets.on('connection', function (socket) {
-        var tmp;
+        var tmp,
+            session = socket.handshake.session;
 
-        // session
-        var session = socket.handshake.session;
-        //noinspection JSUndefinedPropertyAssignment
-        app.session = session;
+        // save socketId in session
+        session.socketID = socket.id;
 
         //noinspection JSUnresolvedVariable
         app.logging.syslog.info('client connected');
@@ -44,9 +43,7 @@ module.exports = function (app) {
          * include modules and register resources
          */
         lxHelpers.arrayForEach(acl.modules, function (mod) {
-//            tmp = require('./app/' + mod.name)(socket, mod, app);
-//            tmp = require('./app/' + mod.name)(app);
-            tmp = require(app.config.path.controllers + '/' + mod.name)(app);
+            tmp = require(app.config.path.controllers + '/' + mod.name)(app, session);
 
             // register resources
             base.register(mod.name, socket, mod, tmp);
