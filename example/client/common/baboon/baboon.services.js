@@ -212,4 +212,29 @@ angular.module('baboon.services', [])
 
             return pub;
         };
+    }])
+    .factory('session', ['socket', function (socket) {
+        var pub = {};
+
+        pub.getAll = function(callback) {
+            socket.emit('session:getAll', {}, callback);
+        };
+
+        pub.setData = function(data, callback) {
+            socket.emit('session:setData', data, callback);
+        };
+
+        pub.getData = function(key, callback) {
+            socket.emit('session:getData', key, callback);
+        };
+
+        pub.setActivity = function() {
+            socket.emit('session:setActivity', {}, function(err) {
+                if(err) {
+                    window.location.reload();
+                }
+            });
+        };
+
+        return pub;
     }]);

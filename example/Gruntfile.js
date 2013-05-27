@@ -57,16 +57,13 @@ module.exports = function (grunt) {
             client: {
                 files: [
                     // all public files that need to be copy.
-                    {dest: 'build/dist/', src: ['**'], expand: true, cwd: 'client/public/'},
+                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/public/'},
+                    // all toplevel app html files
+                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/public/'},
                     // all html views that need to be copy.
-                    {
-                        dest: 'build/dist/views/',
-                        src: ['**/*.html'],
-                        expand: true,
-                        cwd: 'client/app/'
-                    },
+                    {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
                     // all vendor files that need to be copy.
-                    {dest: 'build/dist/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -83,25 +80,25 @@ module.exports = function (grunt) {
             lib: {
                 files: {
                     // lib debug
-                    'build/dist/js/lib.js': [
+                    'build/dist/public/js/lib.js': [
                         'vendor/angular/angular.js',
                         'vendor/baboon/utils.js',
                         '<%= libincludes.base.js %>'
                     ],
                     // lib release
-                    'build/dist/js/lib.min.js': [
+                    'build/dist/public/js/lib.min.js': [
                         'vendor/angular/angular.min.js',
                         'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.min.js'
                         /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
                     ],
                     // libs debug
-                    'build/dist/css/lib.css': [
+                    'build/dist/public/css/lib.css': [
                         'vendor/bootstrap/css/bootstrap.css',
                         'vendor/bootstrap/css/bootstrap-responsive.css',
                         'vendor/baboon/default.css'
                     ],
                     // libs release
-                    'build/dist/css/lib.min.css': [
+                    'build/dist/public/css/lib.min.css': [
                         'vendor/bootstrap/css/bootstrap.min.css',
                         'vendor/bootstrap/css/bootstrap-responsive.min.css',
                         'vendor/baboon/default.css'
@@ -113,7 +110,7 @@ module.exports = function (grunt) {
              */
             app: {
                 files: {
-                    'build/dist/js/app.js': [
+                    'build/dist/public/js/app.js': [
 
                         // prefix
                         'client/module.prefix',
@@ -132,7 +129,7 @@ module.exports = function (grunt) {
                         // suffix
                         'client/module.suffix'
                     ],
-                    'build/dist/css/app.css': [
+                    'build/dist/public/css/app.css': [
 
                         // app css files
                         'client/app/**/*.css',
@@ -147,7 +144,7 @@ module.exports = function (grunt) {
              */
             ui: {
                 files: {
-                    'build/dist/js/ui_app.js': [
+                    'build/dist/public/js/ui_app.js': [
 
                         // prefix
                         'client/module.prefix',
@@ -163,7 +160,7 @@ module.exports = function (grunt) {
                         // suffix
                         'client/module.suffix'
                     ],
-                    'build/dist/css/ui_app.css': [
+                    'build/dist/public/css/ui_app.css': [
 
                         // toplevel css
                         'client/app/ui_examples/**/*.css'
@@ -178,11 +175,11 @@ module.exports = function (grunt) {
 
         ngmin: {
             app: {
-                src: ['build/dist/js/app.js'],
+                src: ['build/dist/public/js/app.js'],
                 dest: 'build/tmp/app.js'
             },
             ui: {
-                src: ['build/dist/js/ui_app.js'],
+                src: ['build/dist/public/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
             }
         },
@@ -194,8 +191,8 @@ module.exports = function (grunt) {
         uglify: {
             target: {
                 files: {
-                    'build/dist/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/js/ui_app.min.js': 'build/tmp/ui_app.js'
+                    'build/dist/public/js/app.min.js': 'build/tmp/app.js',
+                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js'
                 }
             }
         },
@@ -207,8 +204,8 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: {
-                    'build/dist/css/app.min.css': ['build/dist/css/app.css'],
-                    'build/dist/css/ui_app.min.css': ['build/dist/css/ui_app.css']
+                    'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
+                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css']
                 }
             }
         },
@@ -254,7 +251,7 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/*.html', 'build/dist/js/lib.js'],
+                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -268,7 +265,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/*.html', 'build/dist/js/lib.min.js'],
+                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.min.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -282,7 +279,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/*.html', 'build/dist/js/lib.js'],
+                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.js'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
