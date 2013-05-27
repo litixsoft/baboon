@@ -25,6 +25,7 @@ module.exports = function (app) {
      */
     app.server.sio.sockets.on('connection', function (socket) {
         var tmp,
+            config = app.config,
             session = socket.handshake.session;
 
         // save socketId in session
@@ -37,6 +38,28 @@ module.exports = function (app) {
 
         socket.on('disconnect', function () {
             app.logging.syslog.info('socket: ' + socket.id + ' disconnected');
+        });
+
+        socket.on('session_activity', function(callback) {
+            // is an active session
+            if (session.user && session.activity) {
+                // check inactive time
+                var start = new Date(session.activity);
+                var end = new Date();
+                var difference = (end - start) / 1000;
+                //noinspection JSUnresolvedVariable
+                if (config.sessionInactiveTime < difference) {
+                    // to long inactive reload site
+                    socket.emit('site_reload');
+
+                } else {
+                    // session ok set new activity
+                    session.activity = new Date();
+                }
+            } else {
+                // session not exists
+                callback('session not exists');
+            }
         });
 
         /**

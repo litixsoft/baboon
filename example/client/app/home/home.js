@@ -7,4 +7,4 @@ angular.module('home', ['home.about'])
     $routeProvider.when('/home', {templateUrl: '/home/home.html', controller: 'homeCtrl'});
 })
 // home controller
-.controller('homeCtrl', ['$scope', 'session', function () {}]);
+.controller('homeCtrl', [function () {}]);

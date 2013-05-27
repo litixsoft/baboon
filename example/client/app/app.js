@@ -12,4 +12,7 @@ angular.module('app', [
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
-    });
+    })
+    .run(['$rootScope','session', function () {
+        // init services
+    }]);
