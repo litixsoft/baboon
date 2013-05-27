@@ -2,7 +2,6 @@
 
 module.exports = function (app, session) {
     var pub = {},
-        config = app.config,
         sessionProtectedKeys = ['user', 'cookie', 'activity', 'sessionID', 'socketID'];
 
     delete session.user.hash;
