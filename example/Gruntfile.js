@@ -21,8 +21,8 @@ module.exports = function (grunt) {
             reports: ['build/reports'],
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
-            coverageServer: ['build/reports/server'],
-            coverageClient: ['build/reports/client']
+            coverageServer: ['build/reports/coverage/server'],
+            coverageClient: ['build/reports/coverage/client']
         },
         // lint files
         jshint: {
@@ -329,6 +329,9 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'config/karma.conf.js'
             },
+            unitAll: {
+                configFile: 'config/karma.all.conf.js'
+            },
             e2e: {
                 configFile: 'config/karma.e2e.conf.js'
             },
@@ -402,16 +405,34 @@ module.exports = function (grunt) {
         'jasmine_node',
         'karma:unit'
     ]);
+    grunt.registerTask('unitAll', [
+        'clean:reports',
+        'jshint:test',
+        'jasmine_node',
+        'karma:unitAll'
+    ]);
+    grunt.registerTask('coverUnit', [
+        'clean:coverageClient',
+        'jshint:test',
+        'karma:coverage',
+    ]);
     grunt.registerTask('unitServer', [
         'clean:jasmine',
         'jshint:test',
         'jasmine_node'
     ]);
-    grunt.registerTask('cover', [
+    grunt.registerTask('coverServer', [
         'clean:coverageServer',
         'jshint:test',
         'bgShell:coverage',
         'open:coverageReport'
+    ]);
+    grunt.registerTask('cover', [
+        'clean:coverageServer',
+        'clean:coverageClient',
+        'jshint:test',
+        'bgShell:coverage',
+        'karma:coverage'
     ]);
     grunt.registerTask('e2e', [
         'bgShell:e2e',
