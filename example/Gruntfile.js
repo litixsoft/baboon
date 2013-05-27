@@ -473,7 +473,7 @@ module.exports = function (grunt) {
         'replace:livereload',
         'livereload-start',
         'express:dev',
-        'open',
+        'open:browser',
         'regarde'
     ]);
     grunt.registerTask('ci', [
