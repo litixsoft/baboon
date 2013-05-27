@@ -23,7 +23,7 @@ angular.module('baboon.services', [])
         var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
         socket.on('connect', function () {
-            console.log('connect: ' + socket.socket.transport.name);
+            console.log('websocket connected with protocol: ' + socket.socket.transport.name);
         });
 
         socket.on('connect_error', function (err) {
@@ -44,6 +44,10 @@ angular.module('baboon.services', [])
 
         socket.on('reconnect_failed', function () {
             console.log('reconnect_failed');
+        });
+
+        socket.on('site_reload', function () {
+            window.location.reload();
         });
 
         return {
@@ -216,6 +220,8 @@ angular.module('baboon.services', [])
     .factory('session', ['socket', function (socket) {
         var pub = {};
 
+        console.log('session started');
+
         pub.getAll = function(callback) {
             socket.emit('session:getAll', {}, callback);
         };
@@ -229,10 +235,8 @@ angular.module('baboon.services', [])
         };
 
         pub.setActivity = function() {
-            socket.emit('session:setActivity', {}, function(err) {
-                if(err) {
-                    window.location.reload();
-                }
+            socket.emit('session_activity', function(err) {
+                console.log(err);
             });
         };
 
