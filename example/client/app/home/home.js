@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('home', ['login', 'home.about'])
+angular.module('home', ['home.about'])
 
 // config home module
 .config(function ($routeProvider) {
@@ -7,4 +7,4 @@ angular.module('home', ['login', 'home.about'])
     $routeProvider.when('/home', {templateUrl: '/home/home.html', controller: 'homeCtrl'});
 })
 // home controller
-.controller('homeCtrl', ['$scope', 'socket', function () {}]);
+.controller('homeCtrl', ['$scope', 'session', function () {}]);

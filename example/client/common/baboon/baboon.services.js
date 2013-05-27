@@ -215,10 +215,8 @@ angular.module('baboon.services', [])
     }])
     .factory('session', ['socket', function (socket) {
         var pub = {};
-        console.log('service session gestartet');
 
         pub.getAll = function(callback) {
-            console.log('bin in getAll');
             socket.emit('session:getAll', {}, callback);
         };
 
