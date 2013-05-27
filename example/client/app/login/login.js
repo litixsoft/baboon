@@ -3,8 +3,7 @@ angular.module('login',[])
     .config(function ($routeProvider) {
         $routeProvider.when('/login', {templateUrl: '/login/login.html', controller: 'loginCtrl'});
     })
-    .controller('loginCtrl', ['$scope', 'session', 'socket', function ($scope, session) {
-
+    .controller('loginCtrl', ['$scope', 'session', function ($scope, session) {
 
         $scope.data = {key: 'test', value: 'blub'};
 

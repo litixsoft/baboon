@@ -44,7 +44,7 @@ module.exports = function (app, session) {
             var difference = (end - start) / 1000;
             //noinspection JSUnresolvedVariable
             if (config.sessionInactiveTime < difference) {
-                // to long inactive, regenerate session
+                // to long inactive
                 callback('to long inactive');
 
             } else {
