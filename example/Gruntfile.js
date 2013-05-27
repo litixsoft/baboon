@@ -1,6 +1,8 @@
 'use strict';
 module.exports = function (grunt) {
 
+    var path = require('path');
+
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
@@ -17,14 +19,12 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             reports: ['build/reports'],
-            dist: ['build/dist', 'build/tmp']
+            dist: ['build/dist', 'build/tmp'],
+            jasmine: ['build/reports/jasmine'],
+            coverage: ['build/coverage']
         },
         // lint files
         jshint: {
-            files: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
-            junit: 'build/reports/jshint.xml',
-            checkstyle: 'build/reports/jshint_checkstyle.xml',
             options: {
                 bitwise: true,
                 curly: true,
@@ -41,11 +41,32 @@ module.exports = function (grunt) {
                 unused: true,
                 indent: 4,
                 quotmark: 'single',
-                es5: true,
                 loopfunc: true,
                 browser: true,
                 node: true,
                 globals: {
+                }
+            },
+            test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
+                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
+            jslint: {
+                options: {
+                    reporter: 'jslint',
+                    reporterOutput: 'build/reports/jshint.xml'
+                },
+                files: {
+                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
+                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                }
+            },
+            checkstyle: {
+                options: {
+                    reporter: 'checkstyle',
+                    reporterOutput: 'build/reports/jshint_checkstyle.xml'
+                },
+                files: {
+                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
+                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
                 }
             }
         },
@@ -213,6 +234,12 @@ module.exports = function (grunt) {
         bgShell:{
             e2e: {
                 cmd: 'node test/fixtures/resetDB.js e2e'
+            },
+            coverage: {
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
+            },
+            cobertura: {
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
             }
         },
 
@@ -247,6 +274,9 @@ module.exports = function (grunt) {
         open: {
             browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
+            },
+            coverageReport: {
+                path: path.join(__dirname, 'build/coverage/lcov-report/index.html')
             }
         },
         replace: {
@@ -357,12 +387,24 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('lint', [
         'clean:reports',
-        'jshint:files'
+        'jshint:test'
     ]);
     grunt.registerTask('unit', [
         'clean:reports',
+        'jshint:test',
         'jasmine_node',
         'karma:unit'
+    ]);
+    grunt.registerTask('unitServer', [
+        'clean:jasmine',
+        'jshint:test',
+        'jasmine_node'
+    ]);
+    grunt.registerTask('cover', [
+        'clean:coverage',
+        'jshint:test',
+        'bgShell:coverage',
+        'open:coverageReport'
     ]);
     grunt.registerTask('e2e', [
         'bgShell:e2e',
@@ -381,7 +423,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'bgShell:e2e',
         'clean:reports',
-        'jshint:files',
+        'jshint:test',
         'jasmine_node',
         'karma:unit',
         'build',
@@ -390,7 +432,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('test:release', [
         'clean:reports',
-        'jshint:files',
+        'jshint:test',
         'karma:unit',
         'release',
         'express:dev',
@@ -405,6 +447,16 @@ module.exports = function (grunt) {
         'express:dev',
         'open',
         'regarde'
+    ]);
+    grunt.registerTask('ci', [
+        'clean',
+        'build',
+        'jshint:jslint',
+        'jshint:checkstyle',
+        'bgShell:coverage',
+        'bgShell:cobertura',
+        'jasmine_node',
+        'karma:unit'
     ]);
 
     // Default task.

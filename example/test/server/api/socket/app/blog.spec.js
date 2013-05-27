@@ -2,7 +2,7 @@
 'use strict';
 
 var appMock = require('../../../../fixtures/serverMock.js')(),
-    sut = require('../../../../../server/controllers/blog.js')(appMock),
+    sut = require(appMock.config.path.controllers).blog(appMock),
     repo = require(appMock.config.path.repositories).blog(appMock.config.mongo.blog),
     post = null;
 
@@ -19,7 +19,7 @@ beforeEach(function () {
     };
 });
 
-describe('blog', function () {
+describe('blog controller', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.getAllPosts).toBe('function');
         expect(typeof sut.getPostById).toBe('function');

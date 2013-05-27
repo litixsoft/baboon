@@ -70,7 +70,7 @@ module.exports = function (grunt) {
             }
         },
         open: {
-            file: {
+            coverageReport: {
                 path: path.join(__dirname, 'build/coverage/lcov-report/index.html')
             }
         },
