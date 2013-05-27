@@ -1,6 +1,8 @@
 module.exports = function (grunt) {
     'use strict';
 
+    var path = require('path');
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -14,7 +16,7 @@ module.exports = function (grunt) {
         // Before generating any new files, remove any previously-created files.
         clean: {
             jasmine: ['build/reports/jasmine', 'build/tmp'],
-            coverage: ['build/reports/coverage', 'build/tmp']
+            coverage: ['build/coverage', 'build/tmp']
         },
         jshint: {
             options: {
@@ -69,7 +71,7 @@ module.exports = function (grunt) {
         },
         open: {
             file: {
-                path: 'build/coverage/lcov-report/index.html'
+                path: path.join(__dirname, 'build/coverage/lcov-report/index.html')
             }
         },
         jasmine_node: {
@@ -96,7 +98,7 @@ module.exports = function (grunt) {
     // Register tasks.
     grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open']);
-    grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'bgShell:coverage', 'bgShell:cobertura', 'jasmine_node']);
 
     // Default task.
     grunt.registerTask('default', ['test']);
