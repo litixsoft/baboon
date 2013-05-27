@@ -2,7 +2,6 @@
 
 module.exports = function (app, session) {
     var pub = {},
-        config = app.config,
         sessionProtectedKeys = ['user', 'cookie', 'activity', 'sessionID', 'socketID'];
 
     delete session.user.hash;
@@ -33,29 +32,6 @@ module.exports = function (app, session) {
 
         session[data.key] = data.value;
         return callback(null, true);
-    };
-
-    pub.setActivity = function (data, callback) {
-        // is an active session
-        if (session.user && session.activity) {
-            // check inactive time
-            var start = new Date(session.activity);
-            var end = new Date();
-            var difference = (end - start) / 1000;
-            //noinspection JSUnresolvedVariable
-            if (config.sessionInactiveTime < difference) {
-                // to long inactive
-                callback('to long inactive');
-
-            } else {
-                // session ok set new activity
-                session.activity = new Date();
-                callback(null, true);
-            }
-        } else {
-            // session not exists
-            callback('session not exists');
-        }
     };
 
     return pub;
