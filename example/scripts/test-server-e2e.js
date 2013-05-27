@@ -6,7 +6,7 @@ if(process.platform === 'win32') {
     cmd = 'karma.cmd';
 }
 
-var config = path.join(__dirname, '../', 'config', 'karma-e2e.conf.js');
+var config = path.join(__dirname, '../', 'config', 'karma.e2e.conf.js');
 
 
 var spawn = require('child_process').spawn,

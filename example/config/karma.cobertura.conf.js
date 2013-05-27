@@ -11,7 +11,16 @@ files = [
     'client/app/**/*.js'
 ];
 
-reporters = ['progress'];
+preprocessors = {
+    'client/app/**/*.js': 'coverage'
+};
+
+reporters = ['progress', 'coverage'];
+
+coverageReporter = {
+    type : 'cobertura',
+    dir : 'build/reports/coverage/client'
+};
 
 browsers = ['Chrome'];
 

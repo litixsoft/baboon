@@ -21,7 +21,8 @@ module.exports = function (grunt) {
             reports: ['build/reports'],
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
-            coverage: ['build/coverage']
+            coverageServer: ['build/reports/server'],
+            coverageClient: ['build/reports/client']
         },
         // lint files
         jshint: {
@@ -236,10 +237,10 @@ module.exports = function (grunt) {
                 cmd: 'node test/fixtures/resetDB.js e2e'
             },
             coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/coverage/cobertura cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/reports/coverage/server cobertura'
             }
         },
 
@@ -276,7 +277,7 @@ module.exports = function (grunt) {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             },
             coverageReport: {
-                path: path.join(__dirname, 'build/coverage/lcov-report/index.html')
+                path: path.join(__dirname, 'build/reports/coverage/server/lcov-report/index.html')
             }
         },
         replace: {
@@ -329,7 +330,13 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.conf.js'
             },
             e2e: {
-                configFile: 'config/karma-e2e.conf.js'
+                configFile: 'config/karma.e2e.conf.js'
+            },
+            coverage: {
+                configFile: 'config/karma.coverage.conf.js'
+            },
+            cobertura: {
+                configFile: 'config/karma.cobertura.conf.js'
             }
         },
         jasmine_node: {
@@ -401,7 +408,7 @@ module.exports = function (grunt) {
         'jasmine_node'
     ]);
     grunt.registerTask('cover', [
-        'clean:coverage',
+        'clean:coverageServer',
         'jshint:test',
         'bgShell:coverage',
         'open:coverageReport'
@@ -456,7 +463,8 @@ module.exports = function (grunt) {
         'bgShell:coverage',
         'bgShell:cobertura',
         'jasmine_node',
-        'karma:unit'
+        'karma:coverage',
+        'karma:cobertura'
     ]);
 
     // Default task.
