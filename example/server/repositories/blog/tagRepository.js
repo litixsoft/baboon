@@ -24,12 +24,6 @@ module.exports = function (collection) {
         },
         baseRepo = lxDb.BaseRepo(collection, schema);
 
-//    collection.ensureIndex({'tagName': 1}, {unique: true}, function (error) {
-//        if (error) {
-//            console.error(error);
-//        }
-//    });
-
     // validators
     baseRepo.checkTagName = function (tagName, cb) {
         baseRepo.getOne({name: tagName}, function (err, res) {

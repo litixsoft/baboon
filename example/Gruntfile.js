@@ -18,7 +18,7 @@ module.exports = function (grunt) {
             ' */\n\n',
         // Before generating any new files, remove any previously-created files.
         clean: {
-            reports: ['build/reports'],
+            jshint: ['build/reports/jshint'],
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
             coverageServer: ['build/reports/coverage/server'],
@@ -53,7 +53,7 @@ module.exports = function (grunt) {
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: 'build/reports/jshint.xml'
+                    reporterOutput: 'build/reports/jshint/jshint.xml'
                 },
                 files: {
                     src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: 'build/reports/jshint_checkstyle.xml'
+                    reporterOutput: 'build/reports/jshint/jshint_checkstyle.xml'
                 },
                 files: {
                     src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
@@ -240,7 +240,7 @@ module.exports = function (grunt) {
                 cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/coverage --dir build/reports/coverage/server cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/reports/coverage/server --dir build/reports/coverage/server cobertura'
             }
         },
 
@@ -396,17 +396,16 @@ module.exports = function (grunt) {
         'replace:release'
     ]);
     grunt.registerTask('lint', [
-        'clean:reports',
         'jshint:test'
     ]);
     grunt.registerTask('unit', [
-        'clean:reports',
+        'clean:jasmine',
         'jshint:test',
         'jasmine_node',
         'karma:unit'
     ]);
     grunt.registerTask('unitAll', [
-        'clean:reports',
+        'clean:jasmine',
         'jshint:test',
         'jasmine_node',
         'karma:unitAll'
@@ -414,7 +413,7 @@ module.exports = function (grunt) {
     grunt.registerTask('coverUnit', [
         'clean:coverageClient',
         'jshint:test',
-        'karma:coverage',
+        'karma:coverage'
     ]);
     grunt.registerTask('unitServer', [
         'clean:jasmine',
@@ -436,21 +435,19 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('e2e', [
         'bgShell:e2e',
-        'clean:reports',
         'build',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
         'bgShell:e2e',
-        'clean:reports',
         'release',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
         'bgShell:e2e',
-        'clean:reports',
+        'clean:jasmine',
         'jshint:test',
         'jasmine_node',
         'karma:unit',
@@ -459,11 +456,13 @@ module.exports = function (grunt) {
         'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
-        'clean:reports',
+        'bgShell:e2e',
+        'clean:jasmine',
         'jshint:test',
+        'jasmine_node',
         'karma:unit',
         'release',
-        'express:dev',
+        'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('server', [

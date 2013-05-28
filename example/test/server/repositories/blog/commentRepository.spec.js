@@ -3,7 +3,7 @@
 
 var appMock = require('../../../fixtures/serverMock.js')(),
     repo = require(appMock.config.path.repositories).blog(appMock.config.mongo.blog),
-    sut = repo.posts,
+    sut = repo.comments,
     data = null;
 
 beforeEach(function () {
@@ -12,15 +12,12 @@ beforeEach(function () {
 
     // test data
     data = {
-        title: 'p1',
         content: 'text',
-        tags: [
-            '5196120cbed6e71007000001', '5196120cbed6e71007000002'
-        ]
+        email: 'chuck@norris.de'
     };
 });
 
-describe('postRepository', function () {
+describe('commentRepository', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.validate).toBe('function');
     });
@@ -30,20 +27,41 @@ describe('postRepository', function () {
             sut.validate(data, {}, function (err, res) {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
-                expect(data.title).toBe('p1');
                 expect(data.content).toBe('text');
-                expect(Array.isArray(data.tags)).toBeTruthy();
-                expect(data.tags.length).toBe(2);
-                expect(typeof data.tags[0]).toBe('object');
+                expect(data.email).toBe('chuck@norris.de');
 
                 done();
+            });
+        });
+
+        it('should valid to false when the email is in wrong format', function (done) {
+            sut.validate({email: 'go', content: 'ee'}, function (err, res) {
+                expect(res.valid).toBeFalsy();
+                expect(res.errors.length).toBe(1);
+                expect(res.errors[0].attribute).toBe('format');
+
+                done();
+            });
+        });
+
+        it('should not valid to false when updating a comment', function (done) {
+            sut.create(data, function (err, res) {
+                expect(res[0].content).toBe('text');
+                expect(typeof res[0]._id).toBe('object');
+
+                sut.validate({username: 'wayne'}, {isUpdate: true}, function(err, res) {
+                    expect(res.valid).toBeTruthy();
+                    expect(res.errors.length).toBe(0);
+
+                    done();
+                });
             });
         });
 
         it('should valid to false when no data is given', function (done) {
             sut.validate(null, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
-                expect(res.errors.length).toBe(2);
+                expect(res.errors.length).toBe(1);
 
                 done();
             });

@@ -9,13 +9,11 @@ module.exports = function (collection) {
                 properties: {
                     _id: {
                         type: 'string',
-                        required: false,
                         format: 'mongo-id',
                         key: true
                     },
                     author: {
                         type: 'string',
-                        required: false,
                         format: 'mongo-id'
                     },
                     content: {
@@ -24,12 +22,10 @@ module.exports = function (collection) {
                     },
                     email: {
                         type: 'string',
-                        required: false,
                         format: 'email'
                     },
                     username: {
-                        type: 'string',
-                        required: false
+                        type: 'string'
                     }
                 }
             };
@@ -38,9 +34,17 @@ module.exports = function (collection) {
 
     baseRepo.validate = function (doc, options, callback) {
         doc = doc || {};
-        options = options || {};
-        options.schema = options.schema || schema();
-        options.isUpdate = options.isUpdate || false;
+
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+            options.schema = schema();
+            options.isUpdate = false;
+        } else {
+            options = options || {};
+            options.schema = options.schema || schema();
+            options.isUpdate = options.isUpdate || false;
+        }
 
         // check is update
         if (options.isUpdate) {

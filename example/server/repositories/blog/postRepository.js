@@ -1,4 +1,9 @@
 'use strict';
+
+var lxDb = require('lx-mongodb'),
+    val = require('lx-valid'),
+    lxHelpers = require('lx-helpers');
+
 module.exports = function (collection) {
     var schema = function () {
             return {
@@ -48,9 +53,6 @@ module.exports = function (collection) {
                 }
             };
         },
-        lxDb = require('lx-mongodb'),
-        val = require('lx-valid'),
-        lxHelpers = require('lx-helpers'),
         baseRepo = lxDb.BaseRepo(collection, schema);
 
     baseRepo.validate = function (doc, options, callback) {
@@ -73,36 +75,6 @@ module.exports = function (collection) {
 
         callback(null, valResult);
     };
-
-//    collection.ensureIndex({'created': 1}, null, function (error) {
-//        if (error) {
-//            console.error(error);
-//        }
-//    });
-
-//    baseRepo.getTitles = function (options, cb) {
-//
-//        if (arguments.length === 1) {
-//            cb = options;
-//            options = {};
-//        }
-//
-//        if (typeof options !== 'object') {
-//            throw new Error('options must be of function type');
-//        }
-//
-//        if (typeof cb !== 'function') {
-//            throw new Error('callback must be of function type');
-//        }
-//
-//        if (!options.hasOwnProperty('sort')) {
-//            options.sort = -1;
-//        }
-//
-//        options.projection = {title: 1};
-//
-//        baseRepo.getAll(options, cb);
-//    };
 
     return baseRepo;
 };
