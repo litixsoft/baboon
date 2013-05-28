@@ -95,7 +95,7 @@ describe('blog services', function () {
             flag = false;
 
             service.getById(0, function (data) {
-                expect(data).toBe(0);
+                expect(data.id).toBe(0);
 
                 service.getById(99, function (data) {
                     value = data;
@@ -106,7 +106,7 @@ describe('blog services', function () {
         });
 
         runs(function () {
-            expect(value).toBe(99);
+            expect(value.id).toBe(99);
         });
     });
 });

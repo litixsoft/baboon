@@ -21,7 +21,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
                 }
             },
             callback = function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.posts = result.data;
                     $scope.pager.count = result.count;
                 } else {
@@ -56,7 +56,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
         // load post
         if ($routeParams.id) {
             posts.getById($routeParams.id, function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.post = result.data;
                     $scope.post.comments = $scope.post.comments || [];
 //                    $scope.master = result.data;
@@ -72,7 +72,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
 
         $scope.saveComment = function (id, comment) {
             var callback = function (result) {
-                if (result.success) {
+                if (result.data) {
                     // reset model
                     result.data = result.data || comment;
                     $scope.post.comments.push(result.data);

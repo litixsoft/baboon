@@ -7,7 +7,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
     })
     .controller('adminCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
         var callback = function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.posts = result.data;
                     $scope.pager.count = result.count;
                 } else {
@@ -55,7 +55,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         if (!$scope.lxForm.loadFromCache($routeParams.id)) {
             authorPosts.getById($routeParams.id, function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.lxForm.setModel(result.data);
                 } else {
                     console.log(result.message);
@@ -103,7 +103,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.save = function (model) {
             var callback = function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.lxForm.setModel(result.data || model, true);
 
 //                    $location.path('/blog');
@@ -149,7 +149,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 //        }
 
         tags.getAll({}, function (result) {
-            if (result.success) {
+            if (result.data) {
                 $scope.tags = result.data;
 //                cache.tags = result.data;
             }
@@ -167,7 +167,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             $scope.modal.validationErrors = [];
 
             tags.getAll({}, function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.modal.items = result.data;
                 }
             });
@@ -175,7 +175,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.modal.save = function (name) {
             tags.createTag({name: name}, function (result) {
-                if (result.success) {
+                if (result.data) {
                     $scope.modal.items.push(result.data);
                     $scope.modal.name = '';
                     $scope.modal.validationErrors = [];
@@ -198,7 +198,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.modal.delete = function (tag) {
             tags.deleteTag(tag._id, function (result) {
-                if (result.success) {
+                if (result.data) {
                     var index = $scope.modal.items.indexOf(tag);
                     $scope.modal.items.splice(index, 1);
                 }

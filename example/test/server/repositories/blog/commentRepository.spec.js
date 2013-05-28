@@ -1,4 +1,4 @@
-/*global describe, it, expect, beforeEach */
+/*global describe, it, expect, beforeEach, xdescribe */
 'use strict';
 
 var appMock = require('../../../fixtures/serverMock.js')(),
@@ -17,7 +17,7 @@ beforeEach(function () {
     };
 });
 
-describe('commentRepository', function () {
+xdescribe('commentRepository', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.validate).toBe('function');
     });

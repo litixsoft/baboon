@@ -1,5 +1,7 @@
 'use strict';
 
+var async = require('async');
+
 /**
  * The blog api.
  *
@@ -10,7 +12,6 @@
  */
 module.exports = function (app) {
     var pub = {},
-        async = require('async'),
         repo = require(app.config.path.repositories).blog(app.config.mongo.blog),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
@@ -25,11 +26,11 @@ module.exports = function (app) {
         repo.posts.getAll(data.params || {}, data.options || {}, function (error, result) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
-                callback({success: false, message: 'Could not load all blog posts!'});
+                callback({message: 'Could not load all blog posts!'});
                 return;
             }
 
-            callback({success: true, data: result});
+            callback({data: result});
         });
     };
 
@@ -42,7 +43,7 @@ module.exports = function (app) {
     pub.getAllPostsWithCount = function (data, callback) {
         async.auto({
             getAll: function (callback) {
-                repo.posts.getAll(data.params, data.options, callback);
+                repo.posts.getAll(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
                 repo.posts.getCount(data.params, callback);
@@ -50,21 +51,12 @@ module.exports = function (app) {
         }, function (error, results) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
-                callback({success: false, message: 'Could not load all blog posts!'});
+                callback({message: 'Could not load all blog posts!'});
                 return;
             }
 
-            callback({success: true, data: results.getAll, count: results.getCount});
+            callback({data: results.getAll, count: results.getCount});
         });
-//        repo.posts.getAll(data.params, data.options, function (error, result) {
-//            if (error) {
-//                syslog.error('%s! getting all blog posts from db: %j', error, data);
-//                callback({success: false, message: 'Could not load all blog posts!'});
-//                return;
-//            }
-//
-//            callback({success: true, data: result});
-//        });
     };
 
     /**
@@ -90,7 +82,7 @@ module.exports = function (app) {
 
         async.auto({
             getAll: function (callback) {
-                repo.posts.getAll(filter, data.options, callback);
+                repo.posts.getAll(filter, data.options || {}, callback);
             },
             getCount: function (callback) {
                 repo.posts.getCount(filter, callback);
@@ -98,36 +90,31 @@ module.exports = function (app) {
         }, function (error, results) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
-                callback({success: false, message: 'Could not load all blog posts!'});
+                callback({message: 'Could not load all blog posts!'});
                 return;
             }
 
-            callback({success: true, data: results.getAll, count: results.getCount});
+            callback({data: results.getAll, count: results.getCount});
         });
-//        repo.posts.getAll(data.params, data.options, function (error, result) {
-//            if (error) {
-//                syslog.error('%s! getting all blog posts from db: %j', error, data);
-//                callback({success: false, message: 'Could not load all blog posts!'});
-//                return;
-//            }
-//
-//            callback({success: true, data: result});
-//        });
     };
 
     /**
      * Gets a single blog post by id.
      *
-     * @param {!string} id The id.
+     * @param {!object} data The data from client.
+     * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
      */
     pub.getPostById = function (data, callback) {
-        data.params = data.params || {};
+        if (!data || !data.id) {
+            callback({});
+            return;
+        }
 
-        repo.posts.getOneById(data.params.id, data.options || {}, function (error, result) {
+        repo.posts.getOneById(data.id, data.options || {}, function (error, result) {
             if (error) {
                 syslog.error('%s! getting blog post from db: %s', error, data.params.id);
-                callback({success: false, message: 'Could not load blog post!'});
+                callback({message: 'Could not load blog post!'});
                 return;
             }
 
@@ -138,16 +125,16 @@ module.exports = function (app) {
                     repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
                         if (error) {
                             syslog.error('%s! getting blog post from db: %s', error, data.params.id);
-                            callback({success: false, message: 'Could not load blog post!'});
+                            callback({message: 'Could not load blog post!'});
                             return;
                         }
 
                         post.comments = result;
 
-                        callback({success: true, data: post});
+                        callback({data: post});
                     });
                 } else {
-                    callback({success: true, data: post});
+                    callback({data: post});
                 }
             }
         });
@@ -166,7 +153,7 @@ module.exports = function (app) {
         repo.posts.validate(data, {}, function (error, result) {
             if (error) {
                 syslog.error('%s! validating blog post: %j', error, data);
-                callback({success: false, message: 'Could not create blog post!'});
+                callback({message: 'Could not create blog post!'});
                 return;
             }
 
@@ -178,17 +165,17 @@ module.exports = function (app) {
                 repo.posts.create(data, function (error, result) {
                     if (error) {
                         syslog.error('%s! creating blog post in db: %j', error, data);
-                        callback({success: false, message: 'Could not create blog post!'});
+                        callback({message: 'Could not create blog post!'});
                         return;
                     }
 
                     if (result) {
                         audit.info('Created blog post in db: %j', data);
-                        callback({success: true, data: result[0]});
+                        callback({data: result[0]});
                     }
                 });
             } else {
-                callback({success: false, errors: result.errors});
+                callback({errors: result.errors});
             }
         });
     };
@@ -200,13 +187,16 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.updatePost = function (data, callback) {
-        data = data || {};
+        if (!data) {
+            callback({});
+            return;
+        }
 
         // validate client data
         repo.posts.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
                 syslog.error('%s! validating blog post: %j', error, data);
-                callback({success: false, message: 'Could not update blog post!'});
+                callback({message: 'Could not update blog post!'});
                 return;
             }
 
@@ -218,7 +208,7 @@ module.exports = function (app) {
                 repo.posts.update({_id: data._id}, {$set: data}, function (error, result) {
                     if (error) {
                         syslog.error('%s! updating blog post in db: %j', error, data);
-                        callback({success: false, message: 'Could not update blog post!'});
+                        callback({message: 'Could not update blog post!'});
                         return;
                     }
 
@@ -228,7 +218,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({success: false, errors: result.errors});
+                callback({errors: result.errors});
             }
         });
     };
@@ -241,7 +231,7 @@ module.exports = function (app) {
         repo.comments.validate(data, {}, function (error, result) {
             if (error) {
                 syslog.error('%s! validating comment: %j', error, data);
-                callback({success: false, message: 'Could not create comment!'});
+                callback({message: 'Could not create comment!'});
                 return;
             }
 
@@ -253,24 +243,24 @@ module.exports = function (app) {
                 repo.comments.create(data, function (error, result) {
                     if (error) {
                         syslog.error('%s! creating comment in db: %j', error, data);
-                        callback({success: false, message: 'Could not create comment!'});
+                        callback({message: 'Could not create comment!'});
                         return;
                     }
 
                     if (result) {
                         audit.info('Created comments in db: %j', data);
-                        callback({success: true, data: result[0]});
+                        callback({data: result[0]});
 
                         repo.posts.update({_id: postId}, {$push: {comments: result[0]._id}}, function (error) {
                             if (error) {
                                 syslog.error('%s! creating comment in db: %j', error, data);
-                                callback({success: false, message: 'Could not create comment!'});
+                                callback({message: 'Could not create comment!'});
                             }
                         });
                     }
                 });
             } else {
-                callback({success: false, errors: result.errors});
+                callback({errors: result.errors});
             }
         });
     };
@@ -285,11 +275,11 @@ module.exports = function (app) {
         repo.tags.getAll(data.params || {}, data.options || {}, function (error, result) {
             if (error) {
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
-                callback({success: false, message: 'Could not load all blog posts!'});
+                callback({message: 'Could not load all blog posts!'});
                 return;
             }
 
-            callback({success: true, data: result});
+            callback({data: result});
         });
     };
 
@@ -300,13 +290,11 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.createTag = function (data, callback) {
-        data = data || {};
-
         // validate client data
-        repo.tags.validate(data, {}, function (error, result) {
+        repo.tags.validate(data || {}, {}, function (error, result) {
             if (error) {
                 syslog.error('%s! validating tag: %j', error, data);
-                callback({success: false, message: 'Could not create tag!'});
+                callback({message: 'Could not create tag!'});
                 return;
             }
 
@@ -315,17 +303,17 @@ module.exports = function (app) {
                 repo.tags.create(data, function (error, result) {
                     if (error) {
                         syslog.error('%s! creating tag in db: %j', error, data);
-                        callback({success: false, message: 'Could not create tag!'});
+                        callback({message: 'Could not create tag!'});
                         return;
                     }
 
                     if (result) {
                         audit.info('Created blog tag db: %j', data);
-                        callback({success: true, data: result[0]});
+                        callback({data: result[0]});
                     }
                 });
             } else {
-                callback({success: false, errors: result.errors});
+                callback({errors: result.errors});
             }
         });
     };
@@ -334,7 +322,7 @@ module.exports = function (app) {
         repo.tags.delete({_id: data.id}, function (error, result) {
             if (error) {
                 syslog.error('%s! deleting tag in db: %j', error, data);
-                callback({success: false, message: 'Could not delete tag!'});
+                callback({message: 'Could not delete tag!'});
                 return;
             }
 

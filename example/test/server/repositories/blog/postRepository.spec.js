@@ -45,7 +45,12 @@ describe('postRepository', function () {
                 expect(res.valid).toBeFalsy();
                 expect(res.errors.length).toBe(2);
 
-                done();
+                sut.validate({}, null, function (err, res) {
+                    expect(res.valid).toBeFalsy();
+                    expect(res.errors.length).toBe(2);
+
+                    done();
+                });
             });
         });
     });

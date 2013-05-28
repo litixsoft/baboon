@@ -28,7 +28,7 @@ angular.module('blog.services', [])
         pub.getById = function (id, callback) {
 //            callback(posts[id]);
 
-            socket.emit('blog:getPostById', id, function (result) {
+            socket.emit('blog:getPostById', {id: id}, function (result) {
 //                    enterprise = data;
                 callback(result);
             });
