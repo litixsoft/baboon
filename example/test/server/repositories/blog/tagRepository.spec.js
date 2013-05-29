@@ -28,7 +28,13 @@ describe('tagRepository', function () {
                 expect(res.errors.length).toBe(0);
                 expect(data.name).toBe('go');
 
-                done();
+                sut.validate(data, function (err, res) {
+                    expect(res.valid).toBeTruthy();
+                    expect(res.errors.length).toBe(0);
+                    expect(data.name).toBe('go');
+
+                    done();
+                });
             });
         });
 

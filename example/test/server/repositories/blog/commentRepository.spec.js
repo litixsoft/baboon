@@ -1,4 +1,4 @@
-/*global describe, it, expect, beforeEach, xdescribe */
+/*global describe, it, expect, beforeEach */
 'use strict';
 
 var appMock = require('../../../fixtures/serverMock.js')(),
@@ -17,7 +17,7 @@ beforeEach(function () {
     };
 });
 
-xdescribe('commentRepository', function () {
+describe('commentRepository', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.validate).toBe('function');
     });
@@ -30,7 +30,14 @@ xdescribe('commentRepository', function () {
                 expect(data.content).toBe('text');
                 expect(data.email).toBe('chuck@norris.de');
 
-                done();
+                sut.validate(data, function (err, res) {
+                    expect(res.valid).toBeTruthy();
+                    expect(res.errors.length).toBe(0);
+                    expect(data.content).toBe('text');
+                    expect(data.email).toBe('chuck@norris.de');
+
+                    done();
+                });
             });
         });
 
