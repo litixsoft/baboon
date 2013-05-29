@@ -1,8 +1,7 @@
 'use strict';
 
 var lxDb = require('lx-mongodb'),
-    val = require('lx-valid'),
-    lxHelpers = require('lx-helpers');
+    val = require('lx-valid');
 
 module.exports = function (collection) {
     var schema = function () {
@@ -53,25 +52,19 @@ module.exports = function (collection) {
                 }
             };
         },
-        baseRepo = lxDb.BaseRepo(collection, schema);
+        baseRepo = lxDb.BaseRepo(collection, schema),
+        validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
 
     baseRepo.validate = function (doc, options, callback) {
-        doc = doc || {};
-        options = options || {};
-        options.schema = options.schema || schema();
-        options.isUpdate = options.isUpdate || false;
-
-        // check is update
-        if (options.isUpdate) {
-            lxHelpers.objectForEach(options.schema.properties, function (key) {
-                if (!doc.hasOwnProperty(key)) {
-                    options.schema.properties[key].required = false;
-                }
-            });
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
         }
 
+        options = options || {};
+
         // json schema validate
-        var valResult = val.validate(doc, options.schema, baseRepo.getValidationOptions());
+        var valResult = validationFunction(doc, options.schema || schema(), options);
 
         callback(null, valResult);
     };

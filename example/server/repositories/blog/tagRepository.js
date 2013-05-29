@@ -1,7 +1,6 @@
 'use strict';
 var lxDb = require('lx-mongodb'),
-    val = require('lx-valid'),
-    lxHelpers = require('lx-helpers');
+    val = require('lx-valid');
 
 module.exports = function (collection) {
     var schema = function () {
@@ -22,15 +21,16 @@ module.exports = function (collection) {
                 }
             };
         },
-        baseRepo = lxDb.BaseRepo(collection, schema);
+        baseRepo = lxDb.BaseRepo(collection, schema),
+        validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
 
     // validators
-    baseRepo.checkTagName = function (tagName, cb) {
+    baseRepo.checkTagName = function (tagName, callback) {
         baseRepo.getOne({name: tagName}, function (err, res) {
             if (err) {
-                cb(err);
+                callback(err);
             } else if (res) {
-                cb(null, {valid: false, errors: [
+                callback(null, {valid: false, errors: [
                     {
                         attribute: 'checkTagName',
                         property: 'name',
@@ -41,33 +41,28 @@ module.exports = function (collection) {
                 ]});
             }
             else {
-                cb(null, {valid: true});
+                callback(null, {valid: true});
             }
         });
     };
 
-    baseRepo.validate = function (doc, options, cb) {
-        var checkTagName = true;
+    baseRepo.validate = function (doc, options, callback) {
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
+
         doc = doc || {};
         options = options || {};
-        options.schema = options.schema || schema();
-        options.isUpdate = options.isUpdate || false;
 
-        // check is update
+        var valResult = validationFunction(doc, options.schema || schema(), options);
+        var checkTagName = true;
+
         if (options.isUpdate) {
-            lxHelpers.objectForEach(options.schema.properties, function (key) {
-                if (!doc.hasOwnProperty(key)) {
-                    options.schema.properties[key].required = false;
-                }
-            });
-
             if (!doc.hasOwnProperty('name')) {
                 checkTagName = false;
             }
         }
-
-        // json schema validate
-        var valResult = val.validate(doc, options.schema, baseRepo.getValidationOptions());
 
         // register async validator
         if (checkTagName) {
@@ -75,7 +70,7 @@ module.exports = function (collection) {
         }
 
         // async validate
-        val.asyncValidate.exec(valResult, cb);
+        val.asyncValidate.exec(valResult, callback);
     };
 
     return baseRepo;
