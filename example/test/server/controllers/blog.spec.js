@@ -36,7 +36,12 @@ beforeEach(function () {
 
 describe('Blog Controller', function () {
     it('should be initialized correctly', function () {
+        expect(typeof sut.createPost).toBe('function');
+        expect(typeof sut.updatePost).toBe('function');
         expect(typeof sut.getAllPosts).toBe('function');
+        expect(typeof sut.getAllPostsWithCount).toBe('function');
+        expect(typeof sut.getPostById).toBe('function');
+        expect(typeof sut.addComment).toBe('function');
     });
 
     describe('has a function createPost() which', function () {
@@ -149,6 +154,46 @@ describe('Blog Controller', function () {
         });
     });
 
+    describe('has a function searchPosts() which', function () {
+        it('should return all blog posts if the filter is empty', function (done) {
+            sut.createPost(post, function () {
+                sut.createPost({title: 'p2', content: 'text'}, function () {
+                    sut.searchPosts({}, function (res) {
+                        expect(res).toBeDefined();
+                        expect(res.data.length).toBe(2);
+                        expect(res.count).toBe(2);
+
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should return all blog posts if the filtered items', function (done) {
+            sut.createPost(post, function () {
+                sut.createPost({title: 'p2', content: 'text2'}, function () {
+                    sut.searchPosts({params: 'p2'}, function (res) {
+                        expect(res).toBeDefined();
+                        expect(res.data.length).toBe(1);
+                        expect(res.count).toBe(1);
+                        expect(res.data[0].title).toBe('p2');
+                        expect(res.data[0].content).toBe('text2');
+
+                        sut.searchPosts({params: '2'}, function (res) {
+                            expect(res).toBeDefined();
+                            expect(res.data.length).toBe(1);
+                            expect(res.count).toBe(1);
+                            expect(res.data[0].title).toBe('p2');
+                            expect(res.data[0].content).toBe('text2');
+
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+    });
+
     describe('has a function getPostById() which', function () {
         it('should return a single blog post', function (done) {
             sut.createPost(post, function (res) {
@@ -164,8 +209,8 @@ describe('Blog Controller', function () {
 
         it('should return a single blog post with comments', function (done) {
             sut.createPost(post, function (res) {
-                sut.addComment({post_id: res.data._id, content: 'aaa'}, function() {
-                    setTimeout(function() {
+                sut.addComment({post_id: res.data._id, content: 'aaa'}, function () {
+                    setTimeout(function () {
                         sut.getPostById({id: res.data._id}, function (res2) {
                             expect(res2).toBeDefined();
                             expect(res2.data.title).toBe('p1');
