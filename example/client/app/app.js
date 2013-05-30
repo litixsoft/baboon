@@ -13,6 +13,8 @@ angular.module('app', [
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
     })
-    .run(['$rootScope','session', function () {
-        // init services
+    .run(['$rootScope','session', function ($rootScope, session) {
+        $rootScope.$on('$routeChangeStart', function(){
+            session.setActivity();
+        });
     }]);
