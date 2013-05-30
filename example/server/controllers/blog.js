@@ -106,14 +106,11 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getPostById = function (data, callback) {
-        if (!data || !data.id) {
-            callback({});
-            return;
-        }
+        data = data || {};
 
         repo.posts.getOneById(data.id, data.options || {}, function (error, result) {
             if (error) {
-                syslog.error('%s! getting blog post from db: %s', error, data.params.id);
+                syslog.error('%s! getting blog post from db: %s', error, data.id);
                 callback({message: 'Could not load blog post!'});
                 return;
             }
@@ -124,7 +121,7 @@ module.exports = function (app) {
                 if (post.comments && post.comments.length > 0) {
                     repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
                         if (error) {
-                            syslog.error('%s! getting blog post from db: %s', error, data.params.id);
+                            syslog.error('%s! getting blog post from db: %s', error, data.id);
                             callback({message: 'Could not load blog post!'});
                             return;
                         }
@@ -206,7 +203,7 @@ module.exports = function (app) {
 
                 // save in repo
                 repo.posts.update({_id: data._id}, {$set: data}, function (error, result) {
-                    if (error) {
+                    if (error || result === 0) {
                         syslog.error('%s! updating blog post in db: %j', error, data);
                         callback({message: 'Could not update blog post!'});
                         return;
@@ -214,7 +211,7 @@ module.exports = function (app) {
 
                     if (result) {
                         audit.info('Updated blog post in db: %j', data);
-                        callback({success: true});
+                        callback({data: result});
                     }
                 });
             } else {
@@ -223,6 +220,12 @@ module.exports = function (app) {
         });
     };
 
+    /**
+     * Adds a comment to a blog post.
+     *
+     * @param {object} data The comment data.
+     * @param {!function(result)} callback The callback.
+     */
     pub.addComment = function (data, callback) {
         data = data || {};
         var postId = data.post_id;
@@ -318,17 +321,26 @@ module.exports = function (app) {
         });
     };
 
+    /**
+     * Deletes a tag.
+     *
+     * @param {object} data The data.
+     * @param {string|object} data.id The id.
+     * @param {!function(result)} callback The callback.
+     */
     pub.deleteTag = function (data, callback) {
+        data = data || {};
+
         repo.tags.delete({_id: data.id}, function (error, result) {
-            if (error) {
+            if (error || result === 0) {
                 syslog.error('%s! deleting tag in db: %j', error, data);
                 callback({message: 'Could not delete tag!'});
                 return;
             }
 
             if (result) {
-                audit.info('Created blog tag db: %j', data);
-                callback({success: true});
+                audit.info('Deleted tag in db: %j', data);
+                callback({data: result});
             }
         });
     };

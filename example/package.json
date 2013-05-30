@@ -3,6 +3,10 @@
     "description": "Example App for baboon web application framework",
     "version": "0.1.0",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/baboon.git"
+    },
     "scripts": {
         "test-client": "grunt test",
         "start": "node app.js"
