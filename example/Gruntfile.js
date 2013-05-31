@@ -404,13 +404,17 @@ module.exports = function (grunt) {
         'jasmine_node',
         'karma:unit'
     ]);
+    grunt.registerTask('unitClient', [
+        'jshint:test',
+        'karma:unit'
+    ]);
     grunt.registerTask('unitAll', [
         'clean:jasmine',
         'jshint:test',
         'jasmine_node',
         'karma:unitAll'
     ]);
-    grunt.registerTask('coverUnit', [
+    grunt.registerTask('coverClient', [
         'clean:coverageClient',
         'jshint:test',
         'karma:coverage'

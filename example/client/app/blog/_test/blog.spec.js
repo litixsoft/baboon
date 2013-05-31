@@ -1,7 +1,7 @@
-/*global describe, it, expect, beforeEach, inject */
+/*global describe, it, expect, beforeEach, inject, runs */
 'use strict';
 
-describe('blog modul', function () {
+describe('blog', function () {
     beforeEach(module('blog'));
     beforeEach(module('mocks'));
     beforeEach(module('baboon.services'));
@@ -11,8 +11,6 @@ describe('blog modul', function () {
         var ctrl, scope;
 
         beforeEach(inject(function ($controller, $rootScope) {
-//            scope = {};
-//            scope.$watch = function(){};
             scope = $rootScope.$new();
             ctrl = $controller('blogCtrl', {$scope: scope});
         }));
@@ -20,8 +18,33 @@ describe('blog modul', function () {
         it('should be initialized correctly', function () {
             expect(scope.pager).toBeDefined();
             expect(scope.params).toBeDefined();
+            expect(scope.searchPosts).toBeDefined();
         });
-    });
+
+        describe('has a function searchPosts() which', function () {
+            it('should find blog post by search value', function () {
+                var flag;
+
+                runs(function () {
+                    scope.searchPosts('test');
+
+                    setTimeout(function () {
+                        flag = true;
+                    }, 500);
+                });
+
+                runs(function () {
+                    expect(scope.params).toBe('test');
+                });
+            });
+
+            it('should find all blog posts', function () {
+                scope.searchPosts();
+
+                expect(typeof scope.params).toBe('object');
+                expect(Object.keys(scope.params).length).toBe(0);
+            });
+        });
 
 //    // postCtrl tests
 //    describe('postCtrl', function () {
@@ -187,4 +210,5 @@ describe('blog modul', function () {
 //            });
 //        });
 //    });
+    });
 });

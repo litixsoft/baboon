@@ -2,8 +2,6 @@
 angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
-//        $routeProvider.when('/blog/post/new', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
-//        $routeProvider.when('/blog/post/edit/:id', {templateUrl: 'blog/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
     })
     .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
