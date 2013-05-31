@@ -8,7 +8,7 @@
         "version": "v0.1.0",
         "sessionKey": "baboon.sid",
         "sessionSecret": "a7f4eb39-744e-43e3-a30b-3ffea846030f",
-        "sessionMaxLife": 86400,
+        "sessionMaxLife": 57600,
         "sessionInactiveTime": 1800,
         "logging": {
             "maxLogSize": 2048000,

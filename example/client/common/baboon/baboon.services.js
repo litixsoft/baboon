@@ -235,9 +235,8 @@ angular.module('baboon.services', [])
         };
 
         pub.setActivity = function() {
-            socket.emit('session_activity', function(err) {
-                console.log(err);
-            });
+            console.log('session_activity');
+            socket.emit('session_activity');
         };
 
         return pub;

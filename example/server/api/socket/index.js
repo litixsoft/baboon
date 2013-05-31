@@ -40,25 +40,31 @@ module.exports = function (app) {
             app.logging.syslog.info('socket: ' + socket.id + ' disconnected');
         });
 
-        socket.on('session_activity', function(callback) {
+        socket.on('session_activity', function() {
             // is an active session
             if (session.user && session.activity) {
-                // check inactive time
-                var start = new Date(session.activity);
-                var end = new Date();
-                var difference = (end - start) / 1000;
-                //noinspection JSUnresolvedVariable
-                if (config.sessionInactiveTime < difference) {
-                    // to long inactive reload site
-                    socket.emit('site_reload');
+                // check max time
+                var actual = new Date();
+                var sessionStart = new Date(session.start);
+                var sessionActivity = new Date(session.activity);
+                var maxDifference = (actual - sessionStart) / 1000;
+                var activityDifference = (actual - sessionActivity) / 1000;
 
-                } else {
-                    // session ok set new activity
-                    session.activity = new Date();
+                //noinspection JSUnresolvedVariable
+                if(config.sessionMaxLife < maxDifference) {
+                    return socket.emit('site_reload');
                 }
+
+                //noinspection JSUnresolvedVariable
+                if(config.sessionInactiveTime < activityDifference) {
+                    return socket.emit('site_reload');
+                }
+
+                return true;
+
             } else {
                 // session not exists
-                callback('session not exists');
+                return socket.emit('site_reload');
             }
         });
 
