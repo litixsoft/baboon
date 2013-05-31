@@ -6,9 +6,9 @@ var appMock = require('../../../fixtures/serverMock.js')(),
     sut = repo.comments,
     data = null;
 
-beforeEach(function () {
+beforeEach(function (done) {
     // clear db
-    sut.delete({}, function () {});
+    sut.delete({}, function () {done();});
 
     // test data
     data = {

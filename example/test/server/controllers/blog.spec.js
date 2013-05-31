@@ -8,11 +8,13 @@ var appMock = require('../../fixtures/serverMock.js')(),
     comment = null,
     tag = null;
 
-beforeEach(function () {
+beforeEach(function (done) {
     // clear db
-    repo.posts.delete({}, function () {});
-    repo.tags.delete({}, function () {});
-    repo.comments.delete({}, function () {});
+    repo.posts.delete({}, function () {
+        repo.tags.delete({}, function () {
+            repo.comments.delete({}, function () {done();});
+        });
+    });
 
     spyOn(appMock.logging.audit, 'info');
     spyOn(appMock.logging.syslog, 'error');
