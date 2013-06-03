@@ -23,7 +23,7 @@ describe('Admin Scenarios', function () {
 
         sleep(1);
 
-        expect(element('.uneditable-input').text()).toContain('2013-05-');
+        expect(element('.uneditable-input').text()).toContain('2013-');
     });
 
     it('should reset the form', function () {
