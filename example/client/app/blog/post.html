@@ -13,10 +13,10 @@
         <!--<br />-->
         <br />
 
-        <div>{{post.content}}</div>
+        <div name="content">{{post.content}}</div>
         <h3>Comments:</h3>
 
-        <div ng-repeat="comment in post.comments" class="well well-small">
+        <div ng-repeat="comment in post.comments" class="well well-small" name="comments">
             <div>#{{$index + 1}} - {{comment.created | date:'dd.MM.yyyy, HH:mm'}} - {{comment.username}}</div>
             <div>{{comment.content}}</div>
         </div>
@@ -31,7 +31,7 @@
                         <div class="controls input-append">
                             <input type="text" ng-mousedown="enterComment(true)" ng-model="newComment.content" name="content" placeholder="my comment" required />
                             <input type="text" ng-model="newComment.username" name="username" placeholder="my name" ng-show="enter" required />
-                            <button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid">Save Comment</button>
+                            <button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid" name="saveComment">Save Comment</button>
                         </div>
                     </div>
                 </fieldset>

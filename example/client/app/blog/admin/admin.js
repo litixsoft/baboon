@@ -66,6 +66,9 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                 if (result.data) {
                     $scope.lxForm.setModel(result.data || model, true);
 
+                    console.log('Blog post saved!');
+                    console.dir(result.data || model);
+
 //                    $location.path('/blog');
                 } else {
                     if (result.errors) {

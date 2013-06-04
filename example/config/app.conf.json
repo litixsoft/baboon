@@ -62,6 +62,7 @@
             }
         },
         "e2e": {
+            "port": 3003,
             "mongo": {
                 "blog": "localhost:27017/e2e_blog?w=0&journal=True&fsync=True",
                 "enterprise": "localhost:27017/e2e_enterprise?w=0&journal=True&fsync=True"
