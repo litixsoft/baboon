@@ -1,4 +1,4 @@
-/*global angular */
+/*global angular, io:true */
 angular.module('mocks', [])
     .factory('socket', function () {
         return {
@@ -10,3 +10,13 @@ angular.module('mocks', [])
             }
         };
     });
+
+// socket io mock
+io = {
+    connect: function () {
+        return {
+            on: function () {},
+            emit: function () {}
+        };
+    }
+};

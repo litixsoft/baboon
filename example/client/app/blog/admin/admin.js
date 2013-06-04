@@ -27,9 +27,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             };
 
         $scope.params = {};
-//        $scope.pager = lxPager({params: $scope.params, callback:callback, service: posts});
         $scope.pager = lxPager();
-        //$scope.pager.pageSize = 5;
 
         $scope.sort = function (field) {
             var oldDirection = $scope.params.sort || -1;
@@ -63,44 +61,6 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             });
         }
 
-//        // load post
-//        if ($routeParams.id) {
-//            if (cache.blog_post && cache.blog_post._id === $routeParams.id) {
-//                console.log('from cache');
-//                $scope.post = cache.blog_post;
-//
-//                if (cache.blog_post_master && cache.blog_post_master._id === $routeParams.id) {
-//                    $scope.master = cache.blog_post_master;
-//                }
-//
-////                if (Object.keys($scope.master).length === 0) {
-////                    $scope.master = angular.copy($scope.post);
-////                }
-//            } else {
-//                authorPosts.getById($routeParams.id, function (result) {
-//                    if (result.success) {
-//                        $scope.post = result.data;
-//                        $scope.master = angular.copy(result.data);
-//                        cache.blog_post = result.data;
-//                        cache.blog_post_master = $scope.master;
-//                    } else {
-//                        console.log(result.message);
-//                    }
-//                });
-//            }
-//        } else {
-//            if (cache.blog_post && Object.keys(cache.blog_post).length > 0 && !cache.blog_post._id) {
-//                console.log('from cache');
-//                $scope.post = cache.blog_post;
-//
-////                if ($routeParams.id) {
-////                    $scope.master = angular.copy($scope.post);
-////                }
-//            } else {
-//                cache.blog_post = $scope.post;
-//            }
-//        }
-
         $scope.save = function (model) {
             var callback = function (result) {
                 if (result.data) {
@@ -129,35 +89,21 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             }
         };
 
-//        $scope.reset = function () {
-//            $scope.post = angular.copy($scope.master);
-//            cache.post = $scope.post;
-//        };
-//
-//        $scope.isUnchanged = function (post) {
-//            return angular.equals(post, $scope.master);
-//        };
-//
-//        if (cache.blog_post && Object.keys(cache.blog_post).length > 0) {
-//            $scope.post = cache.blog_post;
-//
-//            if ($routeParams.id) {
-//                $scope.master = angular.copy($scope.post);
-//            }
-//        } else {
-//            cache.blog_post = $scope.post;
-//        }
-
         tags.getAll({}, function (result) {
             if (result.data) {
                 $scope.tags = result.data;
-//                cache.tags = result.data;
             }
         });
     }])
     .controller('tagsCtrl', ['$scope', 'tags', function ($scope, tags) {
-        $scope.modal = {};
-        $scope.modal.validationErrors = [];
+        $scope.modal = {
+            opts: {
+                backdropFade: true,
+                dialogFade: true
+            },
+            validationErrors: []
+        };
+
         $scope.modal.closeAlert = function (index) {
             $scope.modal.validationErrors.splice(index, 1);
         };
@@ -211,10 +157,5 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.modal.close = function () {
             $scope.modal.shouldBeOpen = false;
-        };
-
-        $scope.modal.opts = {
-            backdropFade: true,
-            dialogFade: true
         };
     }]);

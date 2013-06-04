@@ -1,16 +1,29 @@
-/*global describe, it, expect, beforeEach, inject, runs */
+/*global describe, it, expect, beforeEach, inject, runs, waitsFor */
 'use strict';
+
+var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
     beforeEach(module('blog'));
-    beforeEach(module('mocks'));
     beforeEach(module('baboon.services'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {
-        var ctrl, scope;
+        beforeEach(inject(function ($controller, $rootScope, $injector) {
+            service = $injector.get('socket');
+            service.emit = function (eventName, data, callback) {
+                value = {
+                    data: [
+                        {title: 'p1', content: 'text', created: (new Date()).toUTCString()},
+                        {title: 'p2', content: 'text', created: (new Date()).toUTCString()},
+                        {title: 'p3', content: 'text', created: (new Date()).toUTCString()}
+                    ],
+                    count: 3
+                };
+                callback(value);
+                flag = true;
+            };
 
-        beforeEach(inject(function ($controller, $rootScope) {
             scope = $rootScope.$new();
             ctrl = $controller('blogCtrl', {$scope: scope});
         }));
@@ -23,192 +36,164 @@ describe('blog', function () {
 
         describe('has a function searchPosts() which', function () {
             it('should find blog post by search value', function () {
-                var flag;
-
                 runs(function () {
                     scope.searchPosts('test');
-
-                    setTimeout(function () {
-                        flag = true;
-                    }, 500);
                 });
 
                 runs(function () {
                     expect(scope.params).toBe('test');
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.pager.count).toBe(3);
                 });
             });
 
             it('should find all blog posts', function () {
-                scope.searchPosts();
+                runs(function () {
+                    scope.searchPosts();
+                });
 
-                expect(typeof scope.params).toBe('object');
-                expect(Object.keys(scope.params).length).toBe(0);
+                runs(function () {
+                    expect(typeof scope.params).toBe('object');
+                    expect(Object.keys(scope.params).length).toBe(0);
+                });
             });
         });
 
-//    // postCtrl tests
-//    describe('postCtrl', function () {
-//        var scope, ctrl;
-//
-//        beforeEach(inject(function ($controller, $routeParams) {
-//            scope = {};
-//            $routeParams.id = 22;
-//            ctrl = $controller('editPostCtrl', {$scope: scope});
-//        }));
-//
-//        it('should have initialized correctly', function () {
-//            expect(typeof scope.save).toBe('function');
-//            expect(typeof scope.reset).toBe('function');
-//            expect(typeof scope.isUnchanged).toBe('function');
-//            expect(Object.keys(scope.master).length).toBe(0);
-//            expect(Object.keys(scope.post).length).toBe(0);
-//        });
-//
-//        it('should track changes of the post', function () {
-//            expect(scope.isUnchanged({})).toBeTruthy();
-//            expect(scope.isUnchanged({title: '1'})).toBeFalsy();
-//        });
-//
-//        it('should have a reset() function', function () {
-//            scope.master = {
-//                title: 'p1',
-//                content: 'text'
-//            };
-//
-//            scope.reset();
-//
-//            expect(scope.post.title).toBe('p1');
-//            expect(scope.post.content).toBe('text');
-//        });
-//
-//        it('should create a new blog post', function () {
-//            var value, flag, service;
-//            var post = {
-//                title: 'p1',
-//                content: 'text'
-//            };
-//
-//            expect(Object.keys(scope.master).length).toBe(0);
-//
-//            runs(function () {
-//                flag = false;
-//                inject(function ($injector) {
-//                    service = $injector.get('socket');
-//                    service.emit = function (eventName, data, callback) {
-//                        value = {success: true, data: data};
-//                        callback(value);
-//                        flag = true;
-//                    };
-//
-//                    scope.save(post);
-//                });
-//            });
-//
-//            runs(function () {
-//                expect(typeof value).toBe('object');
-//                expect(value.success).toBeTruthy();
-//                expect(value.data.title).toBe('p1');
-//                expect(scope.master.title).toBe('p1');
-//                expect(scope.master.content).toBe('text');
-//            });
-//        });
-//
-//        it('should show validation errors', function () {
-//            var value, flag, service;
-//            var post = {
-//                title: 'p1',
-//                content: 'text'
-//            };
-//
-//            expect(Object.keys(scope.master).length).toBe(0);
-//
-//            runs(function () {
-//                flag = false;
-//                inject(function ($injector) {
-//                    service = $injector.get('socket');
-//                    service.emit = function (eventName, data, callback) {
-//                        value = {success: false, errors: []};
-//                        callback(value);
-//                        flag = true;
-//                    };
-//
-//                    scope.save(post);
-//                });
-//            });
-//
-//            runs(function () {
-//                expect(typeof value).toBe('object');
-//                expect(value.success).toBeFalsy();
-//                expect(value.errors.length).toBe(0);
-//                expect(Object.keys(scope.master).length).toBe(0);
-//            });
-//        });
-//
-//        it('should show server errors', function () {
-//            var value, flag, service;
-//            var post = {
-//                title: 'p1',
-//                content: 'text'
-//            };
-//
-//            expect(Object.keys(scope.master).length).toBe(0);
-//
-//            runs(function () {
-//                flag = false;
-//                inject(function ($injector) {
-//                    service = $injector.get('socket');
-//                    service.emit = function (eventName, data, callback) {
-//                        value = {success: false, message: 'server error'};
-//                        callback(value);
-//                        flag = true;
-//                    };
-//
-//                    scope.save(post);
-//                });
-//            });
-//
-//            runs(function () {
-//                expect(typeof value).toBe('object');
-//                expect(value.success).toBeFalsy();
-//                expect(value.message).toBe('server error');
-//                expect(Object.keys(scope.master).length).toBe(0);
-//            });
-//        });
-//
-//        it('should load post by id ', function () {
-//            var value, flag, service;
-//            var post = {
-//                title: 'p1',
-//                content: 'text'
-//            };
-//
-//            expect(Object.keys(scope.master).length).toBe(0);
-//
-//            runs(function () {
-//                flag = false;
-//                inject(function ($injector) {
-//                    service = $injector.get('socket');
-//                    service.emit = function (eventName, data, callback) {
-//                        value = {success: true, data: post};
-//                        callback(value);
-//                        flag = true;
-//                    };
-//                });
-//
-//                inject(function ($controller, $routeParams) {
-//                    scope = {};
-//                    $routeParams.id = 22;
-//                    ctrl = $controller('editPostCtrl', {$scope: scope});
-//                });
-//            });
-//
-//            runs(function () {
-//                expect(typeof value).toBe('object');
-//                expect(value.success).toBeTruthy();
-//                expect(scope.master.title).toBe('p1');
-//                expect(scope.post.title).toBe('p1');
-//            });
-//        });
-//    });
+        describe('has a pager which', function () {
+            it('should load the blog posts when the pageSize changes', function () {
+                runs(function () {
+                    scope.$digest();
+                    scope.searchValue = 'test';
+                    scope.pager.pageSize = 4;
+                    scope.$digest();
+                });
+
+                runs(function () {
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.pager.count).toBe(3);
+                });
+            });
+
+            it('should load the blog posts when the currentPage changes', function () {
+                runs(function () {
+                    scope.params = null;
+                    scope.pager.currentPage = 2;
+                    scope.$digest();
+                });
+
+                runs(function () {
+                    expect(Object.keys(scope.params).length).toBe(0);
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.pager.count).toBe(3);
+                });
+            });
+        });
+    });
+
+    // postCtrl tests
+    describe('postCtrl', function () {
+        beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
+            service = $injector.get('socket');
+            service.emit = function (eventName, data, callback) {
+                if (eventName === 'blog:addComment') {
+                    value = {
+                        data: {content: 'text', userName: 'wayne'}
+                    };
+                }
+
+                if (eventName === 'blog:getPostById') {
+                    value = {
+                        data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
+                    };
+                }
+                callback(value);
+                flag = true;
+            };
+
+            scope = $rootScope.$new();
+            $routeParams.id = 22;
+            ctrl = $controller('postCtrl', {$scope: scope});
+        }));
+
+        it('should be initialized correctly', function () {
+            expect(typeof scope.enterComment).toBe('function');
+            expect(typeof scope.saveComment).toBe('function');
+        });
+
+        it('should load the blog post if the routeParam id is set', function () {
+            waitsFor(function () {
+                return scope.post.title.length > 0;
+            }, 'Length should be greater than 0', 1000);
+
+            runs(function () {
+                expect(scope.post.title).toBe('p1');
+                expect(scope.post.content).toBe('text');
+                expect(scope.post.comments.length).toBe(0);
+            });
+        });
+
+        it('should track if the comment input is entered', function () {
+            expect(scope.enter).toBeUndefined();
+
+            scope.enterComment(true);
+
+            expect(scope.enter).toBeTruthy();
+        });
+
+        it('should save a comment', function () {
+            expect(scope.post).toBeDefined();
+            expect(scope.post.comments.length).toBe(0);
+
+            runs(function () {
+                scope.saveComment(1, {content: 'test', userName: 'wayne'});
+            });
+
+            runs(function () {
+                expect(scope.post.comments.length).toBe(1);
+                expect(Object.keys(scope.newComment).length).toBe(0);
+            });
+        });
+
+        it('should show server errors', function () {
+            runs(function () {
+                flag = false;
+                inject(function ($injector) {
+                    service = $injector.get('socket');
+                    service.emit = function (eventName, data, callback) {
+                        value = {message: 'server error'};
+                        callback(value);
+                        flag = true;
+                    };
+
+                    scope.saveComment(1, {content: 'test', userName: 'wayne'});
+                });
+            });
+
+            runs(function () {
+                expect(scope.post.comments.length).toBe(0);
+                expect(scope.newComment).toBeUndefined();
+            });
+        });
+
+        it('should show validation errors', function () {
+            runs(function () {
+                flag = false;
+                inject(function ($injector) {
+                    service = $injector.get('socket');
+                    service.emit = function (eventName, data, callback) {
+                        value = {errors: []};
+                        callback(value);
+                        flag = true;
+                    };
+
+                    scope.saveComment(1, {content: 'test', userName: 'wayne'});
+                });
+            });
+
+            runs(function () {
+                expect(scope.post.comments.length).toBe(0);
+                expect(scope.newComment).toBeUndefined();
+            });
+        });
     });
 });
