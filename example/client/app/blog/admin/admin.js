@@ -63,20 +63,11 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.save = function (model) {
             var callback = function (result) {
-                if (result.data) {
+                if (result.data || result.success) {
                     $scope.lxForm.setModel(result.data || model, true);
-
-                    console.log('Blog post saved!');
-                    console.dir(result.data || model);
-
-//                    $location.path('/blog');
                 } else {
                     if (result.errors) {
                         $scope.lxForm.populateValidation($scope.form, result.errors);
-//                        for (var i = 0; i < result.errors.length; i++) {
-//                            $scope.form[result.errors[i].property].$invalid = true;
-//                            $scope.form[result.errors[i].property].$dirty = true;
-//                        }
                     }
 
                     if (result.message) {

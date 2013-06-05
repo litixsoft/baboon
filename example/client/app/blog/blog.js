@@ -1,10 +1,10 @@
 /*global angular*/
-angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
+angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.filters'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
     })
-    .controller('blogCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
+    .controller('blogCtrl', ['$scope', 'posts', 'tags', 'lxPager', function ($scope, posts, tags, lxPager) {
         var getData = function () {
                 var query = {
                     params: $scope.params || {},
@@ -47,6 +47,12 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin'])
         $scope.$watch('pager.pageSize', function (newValue, oldValue) {
             if (newValue !== oldValue) {
                 getData();
+            }
+        });
+
+        tags.getAll({}, function (result) {
+            if (result.data) {
+                $scope.tags = result.data;
             }
         });
     }])

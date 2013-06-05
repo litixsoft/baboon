@@ -1,6 +1,8 @@
 'use strict';
 
-var async = require('async');
+var async = require('async'),
+    lxHelpers = require('lx-helpers'),
+    val = require('lx-valid');
 
 /**
  * The blog api.
@@ -15,6 +17,54 @@ module.exports = function (app) {
         repo = require(app.config.path.repositories).blog(app.config.mongo.blog),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
+
+    function updateTagCount () {
+        async.auto({
+            getAllTags: function (callback) {
+                repo.tags.getAll({}, {fields: ['_id']}, callback);
+            },
+            getAllPostsWithTags: function (callback) {
+                repo.posts.getAll({ tags: { $exists: true}}, {fields: ['tags']}, callback);
+            },
+            calculateTagCount: ['getAllTags', 'getAllPostsWithTags', function (callback, results) {
+                var tags = {};
+
+                if (results.getAllTags.length === 0 || results.getAllPostsWithTags.length === 0) {
+                    callback();
+                }
+
+                // normalize tags array to tags object with count
+                lxHelpers.arrayForEach(results.getAllTags, function (item) {
+                    tags[item._id.toHexString()] = {
+                        count: 0
+                    };
+                });
+
+                // get number of tag usages
+                lxHelpers.arrayForEach(results.getAllPostsWithTags, function (post) {
+                    lxHelpers.arrayForEach(post.tags, function (tagId) {
+                        var id = tagId.toHexString();
+
+                        if (tags[id]) {
+                            tags[id].count++;
+                        } else {
+                            tags[id] = {
+                                count: 1
+                            };
+                        }
+                    });
+                });
+
+                async.each(Object.keys(tags), function (item, innerCallback) {
+                    repo.tags.update({_id: item}, {$set: {count: tags[item].count}}, innerCallback);
+                }, callback);
+            }]
+        }, function (error) {
+            if (error) {
+                syslog.error('%s! setting count of tags: updateTagCount()', error);
+            }
+        });
+    }
 
     /**
      * Gets all blog post from db.
@@ -63,6 +113,8 @@ module.exports = function (app) {
      * Gets all blog post and the number of blog posts from db.
      *
      * @param {object} data The query.
+     * @param {string=} data.params The values for searching.
+     * @param {object=} data.options The mongo filter options.
      * @param {!function(result)} callback The callback.
      */
     pub.searchPosts = function (data, callback) {
@@ -70,14 +122,20 @@ module.exports = function (app) {
         data.params = data.params || {};
 
         if (data.params && typeof data.params === 'string') {
-            var searchValue = new RegExp(data.params, 'gi');
+            if (val.types.mongoId(data.params).valid) {
+                filter = {
+                    tags: repo.posts.convertId(data.params)
+                };
+            } else {
+                var searchValue = new RegExp(data.params, 'gi');
 
-            filter = {
-                $or: [
-                    { title: searchValue },
-                    { content: searchValue }
-                ]
-            };
+                filter = {
+                    $or: [
+                        { title: searchValue },
+                        { content: searchValue }
+                    ]
+                };
+            }
         }
 
         async.auto({
@@ -169,6 +227,8 @@ module.exports = function (app) {
                     if (result) {
                         audit.info('Created blog post in db: %j', data);
                         callback({data: result[0]});
+
+                        updateTagCount();
                     }
                 });
             } else {
@@ -211,7 +271,9 @@ module.exports = function (app) {
 
                     if (result) {
                         audit.info('Updated blog post in db: %j', data);
-                        callback({data: result});
+                        callback({success: result});
+
+                        updateTagCount();
                     }
                 });
             } else {

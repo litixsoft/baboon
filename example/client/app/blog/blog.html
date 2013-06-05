@@ -26,6 +26,12 @@
             </div>
         </div>
 
+        <ul class="inline">
+            <li ng-repeat="tag in tags | notZero">
+                <button class="btn btn-info" ng-click="searchPosts(tag._id)">{{tag.name}}({{tag.count}})</button>
+            </li>
+        </ul>
+
         <article class="posts-article" ng-repeat="entry in posts">
             <div class="entry-title">
                 <h1>
