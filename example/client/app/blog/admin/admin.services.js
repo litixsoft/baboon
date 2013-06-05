@@ -32,15 +32,16 @@ angular.module('admin.services', [])
     })
     .factory('tags', function (socket) {
         var pub = {},
-            tags = [],
-            refresh = true;
+            tags = [];
+
+        pub.refresh = true;
 
         pub.getAll = function (query, callback) {
-            if (refresh) {
+            if (pub.refresh) {
                 socket.emit('blog:getAllTags', query, function (result) {
                     if (result.data) {
                         tags = result.data;
-                        refresh = false;
+                        pub.refresh = false;
                     }
 
                     callback(result);

@@ -10,6 +10,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                 if (result.data) {
                     $scope.posts = result.data;
                     $scope.pager.count = result.count;
+
+                    if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
+                        $scope.pager.currentPage = $scope.pager.numberOfPages();
+                    }
                 } else {
                     console.log(result);
                 }
@@ -65,6 +69,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             var callback = function (result) {
                 if (result.data || result.success) {
                     $scope.lxForm.setModel(result.data || model, true);
+                    tags.refresh = true;
                 } else {
                     if (result.errors) {
                         $scope.lxForm.populateValidation($scope.form, result.errors);
@@ -138,7 +143,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
         $scope.modal.delete = function (tag) {
             tags.deleteTag(tag._id, function (result) {
-                if (result.data) {
+                if (result.success) {
                     var index = $scope.modal.items.indexOf(tag);
                     $scope.modal.items.splice(index, 1);
                 }

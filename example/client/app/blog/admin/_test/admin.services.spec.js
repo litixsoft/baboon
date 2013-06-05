@@ -160,7 +160,7 @@ describe('admin services', function () {
             });
         });
 
-        it('should create a tag', function () {
+        it('should update a tag', function () {
             var value, flag;
 
             runs(function () {
@@ -176,7 +176,7 @@ describe('admin services', function () {
             });
         });
 
-        it('should create a tag', function () {
+        it('should delete a tag', function () {
             var value, flag;
 
             runs(function () {

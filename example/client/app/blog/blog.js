@@ -11,7 +11,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
                     options: $scope.pager.getOptions()
                 };
 
-                if ($scope.searchValue) {
+                if (typeof $scope.params === 'string') {
                     posts.searchPosts(query, callback);
                 } else {
                     $scope.params = {};
@@ -22,6 +22,10 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
                 if (result.data) {
                     $scope.posts = result.data;
                     $scope.pager.count = result.count;
+
+                    if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
+                        $scope.pager.currentPage = $scope.pager.numberOfPages();
+                    }
                 } else {
                     console.log(result);
                 }

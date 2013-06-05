@@ -74,6 +74,31 @@ describe('Blog Controller', function () {
                 done();
             });
         });
+
+        it('should update the tag count if the blog post contains some tags', function (done) {
+            repo.tags.create({name: 'angular'}, function (err, res) {
+                sut.createPost({title: 'pp', content: 'text', tags: [res[0]._id.toHexString()]}, function (res) {
+                    expect(res).toBeDefined();
+                    expect(res.data.title).toBe('pp');
+                    expect(res.data.content).toBe('text');
+                    expect(typeof res.data.created).toBe('object');
+
+                    expect(appMock.logging.audit.info).toHaveBeenCalled();
+                    expect(appMock.logging.audit.info.calls.length).toBe(1);
+                    expect(appMock.logging.syslog.error).wasNotCalled();
+
+                    setTimeout(function () {
+                        repo.tags.getAll(function (err, res) {
+                            expect(res).toBeDefined();
+                            expect(res.length).toBe(1);
+                            expect(res[0].name).toBe('angular');
+                            expect(res[0].count).toBe(1);
+                            done();
+                        });
+                    }, 1000);
+                });
+            });
+        });
     });
 
     describe('has a function updatePost() which', function () {
@@ -104,7 +129,7 @@ describe('Blog Controller', function () {
 
                 sut.updatePost(res.data, function (res2) {
                     expect(res2).toBeDefined();
-                    expect(res2.data).toBe(1);
+                    expect(res2.success).toBe(1);
 
                     expect(appMock.logging.audit.info).toHaveBeenCalled();
                     expect(appMock.logging.audit.info.calls.length).toBe(2);
@@ -170,7 +195,7 @@ describe('Blog Controller', function () {
             });
         });
 
-        it('should return all blog posts if the filtered items', function (done) {
+        it('should return all blog posts if the filtered items are set', function (done) {
             sut.createPost(post, function () {
                 sut.createPost({title: 'p2', content: 'text2'}, function () {
                     sut.searchPosts({params: 'p2'}, function (res) {
@@ -189,6 +214,26 @@ describe('Blog Controller', function () {
 
                             done();
                         });
+                    });
+                });
+            });
+        });
+
+        it('should return all blog posts when filtering by tagId', function (done) {
+            var tagId = '507f191e810c19729de860ea';
+
+            sut.createPost(post, function () {
+                sut.createPost({title: 'p2', content: 'text2', tags: [tagId]}, function () {
+                    sut.searchPosts({params: tagId}, function (res) {
+                        expect(res).toBeDefined();
+                        expect(res.data.length).toBe(1);
+                        expect(res.count).toBe(1);
+                        expect(res.data[0].title).toBe('p2');
+                        expect(res.data[0].content).toBe('text2');
+                        expect(res.data[0].tags.length).toBe(1);
+                        expect(res.data[0].tags[0].toHexString()).toBe(tagId);
+
+                        done();
                     });
                 });
             });
@@ -357,7 +402,7 @@ describe('Blog Controller', function () {
         it('should delete a tag', function (done) {
             sut.createTag(tag, function (res) {
                 sut.deleteTag({id: res.data._id}, function (res) {
-                    expect(res.data).toBe(1);
+                    expect(res.success).toBe(1);
 
                     sut.getAllTags({}, function (res) {
                         expect(res.data.length).toBe(0);

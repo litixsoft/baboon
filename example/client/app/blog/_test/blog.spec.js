@@ -55,6 +55,8 @@ describe('blog', function () {
                 runs(function () {
                     expect(typeof scope.params).toBe('object');
                     expect(Object.keys(scope.params).length).toBe(0);
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.pager.count).toBe(3);
                 });
             });
         });

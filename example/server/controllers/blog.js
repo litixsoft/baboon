@@ -402,7 +402,7 @@ module.exports = function (app) {
 
             if (result) {
                 audit.info('Deleted tag in db: %j', data);
-                callback({data: result});
+                callback({success: result});
             }
         });
     };

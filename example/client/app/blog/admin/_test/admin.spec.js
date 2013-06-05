@@ -271,7 +271,7 @@ describe('admin modul', function () {
 
                 if (eventName === 'blog:deleteTag') {
                     value = {
-                        data: 1
+                        success: 1
                     };
                 }
 

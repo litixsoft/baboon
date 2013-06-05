@@ -19,9 +19,24 @@
             </div>
         </div>
 
+        <style>
+            .ui-resetwrap{
+                position:relative;
+            }
+            a.ui-reset{
+                background:red;
+                width:16px;
+                height:16px;;
+                display:inline-block;
+                position:absolute;
+                right:5px;
+                top:1px;
+            }
+        </style>
+
         <div class="btn-group">
             <div class="input-prepend input-append">
-                <input type="text" ng-model="searchValue" placeholder="Search...">
+                <input type="text" ng-model="searchValue" placeholder="Search..." ui-reset>
                 <button class="btn" ng-click="searchPosts(searchValue)">Search</button>
             </div>
         </div>
