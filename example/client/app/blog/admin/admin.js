@@ -12,7 +12,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                     $scope.pager.count = result.count;
 
                     if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
-                        $scope.pager.currentPage = $scope.pager.numberOfPages();
+                        $scope.pager.currentPage = $scope.pager.numberOfPages() || 1;
                     }
                 } else {
                     console.log(result);

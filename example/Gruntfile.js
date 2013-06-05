@@ -438,12 +438,14 @@ module.exports = function (grunt) {
         'karma:coverage'
     ]);
     grunt.registerTask('e2e', [
+        'jshint:test',
         'bgShell:e2e',
         'build',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('e2e:release', [
+        'jshint:test',
         'bgShell:e2e',
         'release',
         'express:e2e',

@@ -24,7 +24,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
                     $scope.pager.count = result.count;
 
                     if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
-                        $scope.pager.currentPage = $scope.pager.numberOfPages();
+                        $scope.pager.currentPage = $scope.pager.numberOfPages() || 1;
                     }
                 } else {
                     console.log(result);
