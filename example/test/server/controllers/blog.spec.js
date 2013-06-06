@@ -162,6 +162,21 @@ describe('Blog Controller', function () {
                 });
             });
         });
+
+//        it('should return an error if the param "query" is no object', function (done) {
+//            sut.createPost(post, function () {
+//                sut.createPost({title: 'p2', content: 'text'}, function () {
+//                    sut.getAllPosts(123, function (res) {
+//                        expect(res).toBeDefined();
+//                        expect(res.message).toBe('Could not load all blog posts!');
+//                        expect(appMock.logging.syslog.error).toHaveBeenCalled();
+//                        expect(appMock.logging.syslog.error.calls.length).toBe(1);
+//
+//                        done();
+//                    });
+//                });
+//            });
+//        });
     });
 
     describe('has a function getAllPostsWithCount() which', function () {
