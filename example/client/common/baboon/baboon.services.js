@@ -205,7 +205,7 @@ angular.module('baboon.services', [])
                 }
             };
 
-            pub.populateValidation = function(form, errors) {
+            pub.populateValidation = function (form, errors) {
                 if (errors) {
                     for (var i = 0; i < errors.length; i++) {
                         form[errors[i].property].$invalid = true;
@@ -222,19 +222,19 @@ angular.module('baboon.services', [])
 
         console.log('session started');
 
-        pub.getAll = function(callback) {
+        pub.getAll = function (callback) {
             socket.emit('session:getAll', {}, callback);
         };
 
-        pub.setData = function(data, callback) {
+        pub.setData = function (data, callback) {
             socket.emit('session:setData', data, callback);
         };
 
-        pub.getData = function(key, callback) {
+        pub.getData = function (key, callback) {
             socket.emit('session:getData', key, callback);
         };
 
-        pub.setActivity = function() {
+        pub.setActivity = function () {
             console.log('session_activity');
             socket.emit('session_activity');
         };

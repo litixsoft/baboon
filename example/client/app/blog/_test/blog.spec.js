@@ -29,9 +29,8 @@ describe('blog', function () {
         }));
 
         it('should be initialized correctly', function () {
-            expect(scope.pager).toBeDefined();
-            expect(scope.params).toBeDefined();
-            expect(scope.searchPosts).toBeDefined();
+            expect(typeof scope.searchPosts).toBe('function');
+            expect(typeof scope.getData).toBe('function');
         });
 
         describe('has a function searchPosts() which', function () {
@@ -41,9 +40,7 @@ describe('blog', function () {
                 });
 
                 runs(function () {
-                    expect(scope.params).toBe('test');
-                    expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
+                    expect(scope.count).toBe(3);
                 });
             });
 
@@ -53,40 +50,32 @@ describe('blog', function () {
                 });
 
                 runs(function () {
-                    expect(typeof scope.params).toBe('object');
-                    expect(Object.keys(scope.params).length).toBe(0);
                     expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
+                    expect(scope.count).toBe(3);
                 });
             });
         });
 
-        describe('has a pager which', function () {
-            it('should load the blog posts when the pageSize changes', function () {
+        describe('has a function getData() which', function () {
+            it('should find all blog posts', function () {
                 runs(function () {
-                    scope.$digest();
-                    scope.searchValue = 'test';
-                    scope.pager.pageSize = 4;
-                    scope.$digest();
+                    scope.getData();
                 });
 
                 runs(function () {
                     expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
+                    expect(scope.count).toBe(3);
                 });
             });
 
-            it('should load the blog posts when the currentPage changes', function () {
+            it('should find all blog posts with paging options', function () {
                 runs(function () {
-                    scope.params = null;
-                    scope.pager.currentPage = 2;
-                    scope.$digest();
+                    scope.getData({skip: 1, limit:1});
                 });
 
                 runs(function () {
-                    expect(Object.keys(scope.params).length).toBe(0);
                     expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
+                    expect(scope.count).toBe(3);
                 });
             });
         });

@@ -4,55 +4,40 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
         $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
     })
-    .controller('blogCtrl', ['$scope', 'posts', 'tags', 'lxPager', function ($scope, posts, tags, lxPager) {
-        var getData = function () {
+    .controller('blogCtrl', ['$scope', 'posts', 'tags', function ($scope, posts, tags) {
+        var options = {},
+            params = {},
+            getData = function () {
                 var query = {
-                    params: $scope.params || {},
-                    options: $scope.pager.getOptions()
+                    params: params || {},
+                    options: options || {}
                 };
 
-                if (typeof $scope.params === 'string') {
+                if (typeof params === 'string') {
                     posts.searchPosts(query, callback);
                 } else {
-                    $scope.params = {};
+                    params = {};
                     posts.getAllWithCount(query, callback);
                 }
             },
             callback = function (result) {
                 if (result.data) {
                     $scope.posts = result.data;
-                    $scope.pager.count = result.count;
-
-                    if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
-                        $scope.pager.currentPage = $scope.pager.numberOfPages() || 1;
-                    }
+                    $scope.count = result.count;
                 } else {
                     console.log(result);
                 }
             };
 
-        $scope.params = {};
-        $scope.pager = lxPager();
         $scope.searchPosts = function (value) {
-            $scope.params = value || {};
-
-            var query = {
-                params: $scope.params || {},
-                options: $scope.pager.getOptions()
-            };
-
-            posts.searchPosts(query, callback);
+            params = value || {};
+            getData();
         };
 
-        $scope.$watch('pager.currentPage', function () {
+        $scope.getData = function (pagingOptions) {
+            options = pagingOptions || {};
             getData();
-        });
-
-        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
-            if (newValue !== oldValue) {
-                getData();
-            }
-        });
+        };
 
         tags.getAll({}, function (result) {
             if (result.data) {

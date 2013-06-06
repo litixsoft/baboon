@@ -2,22 +2,26 @@
     <div class="p-wrapper">
         <h2>Latest Articles</h2>
 
-        <div class="btn-group">
-            <div class="input-prepend input-append">
-                <button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">
-                    <i class="icon-step-backward"></i></button>
-                <button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">
-                    <i class="icon-backward"></i></button>
-                <input type="text" ng-model="pager.currentPage" style="width: 30px;">
-                <button class="btn">of {{pager.numberOfPages()}}</button>
-                <button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-                    <i class="icon-forward"></i></button>
-                <button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">
-                    <i class="icon-step-forward"></i></button>
-                <select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>
-                <button class="btn">{{pager.count}} items</button>
-            </div>
-        </div>
+        <!--<div class="btn-group">-->
+            <!--<div class="input-prepend input-append">-->
+                <!--<button class="btn" ng-click="pager.firstPage()" ng-disabled="pager.currentPage == 1">-->
+                    <!--<i class="icon-step-backward"></i></button>-->
+                <!--<button class="btn" ng-click="pager.previousPage()" ng-disabled="pager.currentPage == 1">-->
+                    <!--<i class="icon-backward"></i></button>-->
+                <!--<input type="text" ng-model="pager.currentPage" style="width: 30px;">-->
+                <!--<button class="btn">of {{pager.numberOfPages()}}</button>-->
+                <!--<button class="btn" ng-click="pager.nextPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">-->
+                    <!--<i class="icon-forward"></i></button>-->
+                <!--<button class="btn" ng-click="pager.lastPage()" ng-disabled="pager.currentPage == pager.numberOfPages()">-->
+                    <!--<i class="icon-step-forward"></i></button>-->
+                <!--<select ng-model="pager.pageSize" ng-options="p for p in pager.pageSizes" style="width: 70px;"></select>-->
+                <!--<button class="btn">{{pager.count}} items</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<h5>pager</h5>-->
+
+        <lx-Pager count="count" page-sizes="[1, 5, 10]" on-paging="getData(pagingOptions)"></lx-Pager>
 
         <style>
             .ui-resetwrap{
