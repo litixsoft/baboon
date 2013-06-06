@@ -88,7 +88,7 @@ angular.module('baboon.directives', [])
                 };
 
                 scope.lastPage = function () {
-                    scope.currentPage = scope.numberOfPages();
+                    scope.currentPage = scope.numberOfPages() || 1;
                     scope.refresh();
                 };
 
@@ -105,6 +105,7 @@ angular.module('baboon.directives', [])
                     if (scope.currentPage > scope.numberOfPages()) {
                         scope.currentPage = scope.numberOfPages() || 1;
                     }
+
                     scope.refresh();
                 });
             }

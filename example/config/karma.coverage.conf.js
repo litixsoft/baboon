@@ -12,7 +12,8 @@ files = [
 ];
 
 preprocessors = {
-    'client/app/**/*.js': 'coverage'
+    'client/app/**/*.js': 'coverage',
+    'client/common/baboon/**/*.js': 'coverage'
 };
 
 reporters = ['progress', 'coverage'];
