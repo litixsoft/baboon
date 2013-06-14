@@ -96,10 +96,11 @@ module.exports = function (app) {
                 repo.posts.getAll(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.posts.getCount(data.params, callback);
+                repo.posts.getCount(data.params || {}, callback);
             }
         }, function (error, results) {
             if (error) {
+                console.log(error);
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
                 callback({message: 'Could not load all blog posts!'});
                 return;
