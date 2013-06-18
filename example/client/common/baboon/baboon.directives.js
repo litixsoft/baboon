@@ -22,6 +22,7 @@ angular.module('baboon.directives', [])
             replace: true,
             scope: {
                 count: '=',
+                currentPage: '=',
                 pageSizes: '@',
                 onPaging: '&'
             },
@@ -69,7 +70,6 @@ angular.module('baboon.directives', [])
 
                     if (count < scope.count) {
                         scope.currentPage = ++currentPage;
-                        scope.refresh();
                     }
                 };
 
@@ -78,25 +78,25 @@ angular.module('baboon.directives', [])
 
                     if (currentPage !== 1) {
                         scope.currentPage = --currentPage;
-                        scope.refresh();
                     }
                 };
 
                 scope.firstPage = function () {
                     scope.currentPage = 1;
-                    scope.refresh();
                 };
 
                 scope.lastPage = function () {
                     scope.currentPage = scope.numberOfPages() || 1;
-                    scope.refresh();
                 };
+
+                scope.$watch('currentPage', function() {
+                    scope.refresh();
+                });
 
                 scope.$watch('count', function () {
                     // refesh data when current page is greater than number of pages
                     if (scope.currentPage > scope.numberOfPages() && scope.numberOfPages() > 0) {
                         scope.currentPage = scope.numberOfPages() || 1;
-                        scope.refresh();
                     }
                 });
 
@@ -104,9 +104,9 @@ angular.module('baboon.directives', [])
                     // set current page to number of pages when current page is greater than number of pages
                     if (scope.currentPage > scope.numberOfPages()) {
                         scope.currentPage = scope.numberOfPages() || 1;
+                    } else {
+                        scope.refresh();
                     }
-
-                    scope.refresh();
                 });
             }
         };

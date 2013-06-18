@@ -5,52 +5,50 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
-        var callback = function (result) {
+    .controller('adminCtrl', ['$scope', 'posts', function ($scope, posts) {
+        var options = {},
+            callback = function (result) {
                 if (result.data) {
                     $scope.posts = result.data;
-                    $scope.pager.count = result.count;
-
-                    if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
-                        $scope.pager.currentPage = $scope.pager.numberOfPages() || 1;
-                    }
+                    $scope.count = result.count;
                 } else {
                     console.log(result);
                 }
             },
-            getQuery = function () {
+            getData = function () {
                 var query = {
-                    params: $scope.params.filter || {},
-                    options: $scope.pager.getOptions()
+                    params: {},
+                    options: options || {}
                 };
 
-                query.options.sortBy = $scope.params.sortBy || 'created';
-                query.options.sort = $scope.params.sort || -1;
-
-                return query;
+                posts.getAllWithCount(query, callback);
             };
 
-        $scope.params = {};
-        $scope.pager = lxPager();
-
         $scope.sort = function (field) {
-            var oldDirection = $scope.params.sort || -1;
+            options.sort = options.sort || {};
+            var oldDirection = options.sort[field] || -1;
 
-            $scope.params.sortBy = field;
-            $scope.params.sort = oldDirection > 0 ? -1 : 1;
+            // set sort
+            options.sort = {};
+            options.sort[field] = oldDirection > 0 ? -1 : 1;
 
-            posts.getAllWithCount(getQuery(), callback);
+            // go to first page
+            if ($scope.currentPage > 1) {
+                options.skip = 0;
+                $scope.currentPage = 1;
+            } else {
+                $scope.getData();
+            }
         };
 
-        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
-            if (newValue !== oldValue) {
-                $scope.pager.currentPage = 1;
+        $scope.getData = function (pagingOptions) {
+            if (pagingOptions) {
+                options.skip = pagingOptions.skip;
+                options.limit = pagingOptions.limit;
             }
-        });
 
-        $scope.$watch('pager.currentPage', function () {
-            posts.getAllWithCount(getQuery(), callback);
-        });
+            getData();
+        };
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, cache, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post');
