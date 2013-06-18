@@ -30,9 +30,32 @@ describe('admin modul', function () {
         }));
 
         it('should be initialized correctly', function () {
-            expect(scope.pager).toBeDefined();
-            expect(scope.params).toBeDefined();
-            expect(scope.posts).toBeUndefined();
+            expect(typeof scope.getData).toBe('function');
+            expect(typeof scope.sort).toBe('function');
+        });
+
+        describe('has a function getData() which', function () {
+            it('should find all blog posts', function () {
+                runs(function () {
+                    scope.getData();
+                });
+
+                runs(function () {
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.count).toBe(3);
+                });
+            });
+
+            it('should find all blog posts with paging options', function () {
+                runs(function () {
+                    scope.getData({skip: 1, limit: 1});
+                });
+
+                runs(function () {
+                    expect(scope.posts.length).toBe(3);
+                    expect(scope.count).toBe(3);
+                });
+            });
         });
 
         describe('has a function sort which', function () {
@@ -42,55 +65,7 @@ describe('admin modul', function () {
                 });
 
                 runs(function () {
-                    expect(scope.params.sortBy).toBe('title');
-                    expect(scope.params.sort).toBe(1);
                     expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
-                });
-            });
-
-            it('should sort the blog posts by created desc by default', function () {
-                runs(function () {
-                    scope.params.sort = 1;
-                    scope.sort();
-                });
-            });
-
-            runs(function () {
-                expect(scope.params.sortBy).toBeUndefined();
-                expect(scope.params.sort).toBe(-1);
-                expect(scope.posts.length).toBe(3);
-                expect(scope.pager.count).toBe(3);
-            });
-        });
-
-        describe('has a pager which', function () {
-            it('should load the blog posts when the pageSize changes', function () {
-                runs(function () {
-                    scope.$digest();
-                    scope.pager.pageSize = 4;
-                    scope.$digest();
-                });
-
-                runs(function () {
-                    expect(scope.params.sortBy).toBeUndefined();
-                    expect(scope.params.sort).toBeUndefined();
-                    expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
-                });
-            });
-
-            it('should load the blog posts when the currentPage changes', function () {
-                runs(function () {
-                    scope.pager.currentPage = 2;
-                    scope.$digest();
-                });
-
-                runs(function () {
-                    expect(scope.params.sortBy).toBeUndefined();
-                    expect(scope.params.sort).toBeUndefined();
-                    expect(scope.posts.length).toBe(3);
-                    expect(scope.pager.count).toBe(3);
                 });
             });
         });

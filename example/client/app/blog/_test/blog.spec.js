@@ -70,7 +70,7 @@ describe('blog', function () {
 
             it('should find all blog posts with paging options', function () {
                 runs(function () {
-                    scope.getData({skip: 1, limit:1});
+                    scope.getData({skip: 1, limit: 1});
                 });
 
                 runs(function () {

@@ -23,7 +23,6 @@ angular.module('baboon.directives', [])
             scope: {
                 count: '=',
                 currentPage: '=',
-                pageSizes: '@',
                 onPaging: '&'
             },
             link: function (scope, element, attrs) {
@@ -33,13 +32,13 @@ angular.module('baboon.directives', [])
                 scope.pageSizeOptions = [1, 5, 10, 25, 100];
 
                 // get page size options from attrs
-                if (attrs.pageSizes) {
-                    var options = scope.$eval(attrs.pageSizes);
+                attrs.$observe('pageSizes', function (value) {
+                    var options = scope.$eval(value);
 
                     if (Array.isArray(options) && options.length > 0 && typeof options[0] === 'number') {
-                        scope.pageSizeOptions = scope.$eval(attrs.pageSizes);
+                        scope.pageSizeOptions = options;
                     }
-                }
+                });
 
                 scope.refresh = function () {
                     scope.onPaging({pagingOptions: scope.getOptions()});
@@ -89,7 +88,7 @@ angular.module('baboon.directives', [])
                     scope.currentPage = scope.numberOfPages() || 1;
                 };
 
-                scope.$watch('currentPage', function() {
+                scope.$watch('currentPage', function () {
                     scope.refresh();
                 });
 
