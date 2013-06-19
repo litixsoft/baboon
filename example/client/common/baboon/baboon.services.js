@@ -235,7 +235,11 @@ angular.module('baboon.services', [])
                 return angular.equals(pub.model, master);
             };
 
-            pub.reset = function(model) {
+            pub.reset = function(form, model) {
+                if (form) {
+                    form.errors = {};
+                }
+
                 angular.copy(master, model);
                 pub.model = angular.copy(master);
             };
@@ -243,6 +247,16 @@ angular.module('baboon.services', [])
             pub.setModel = function (model) {
                 pub.model = model;
                 master = angular.copy(model);
+            };
+
+            pub.populateValidation = function (form, errors) {
+                if (errors) {
+                    form.errors = {};
+
+                    for (var i = 0; i < errors.length; i++) {
+                        form.errors[errors[i].property] = errors[i].attribute + ' ' + errors[i].message;
+                    }
+                }
             };
 
             return pub;

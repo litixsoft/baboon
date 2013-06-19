@@ -16,14 +16,12 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                 }
             },
             saveCallback = function (result) {
-                console.dir(result);
-
                 if (result.data || result.success) {
                     $scope.inlineEdit.model = null;
                 } else {
                     if (result.errors) {
 //                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                        console.dir(result.errors);
+                        $scope.inlineEdit.populateValidation($scope.myForm, result.errors);
                     }
 
                     if (result.message) {
@@ -70,7 +68,8 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $scope.inlineEdit = inlineEdit();
 
         $scope.save = function (post, aa) {
-            console.dir(aa);
+            $scope.myForm = aa;
+            aa.errors = {};
 
 
 

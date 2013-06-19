@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="post in posts" ng-form="aa">
+                    <tr ng-repeat="post in posts" ng-form="form">
                         <td><a href="/blog/admin/post/edit/{{post._id}}"><i class="icon-edit"></i></a></td>
                         <td>
                             <button ng-click="inlineEdit.setModel(post)"><i class="icon-edit"></i></button>
@@ -24,10 +24,12 @@
                         <td ui-if="inlineEdit.model != post">{{post.title}}</td>
 
                         <td ui-if="inlineEdit.model == post">
-                            <ng-form name="tt">
+                            <ng-form name="formTitle">
                                 <input type="text" ng-model="inlineEdit.model.title" name="title" required>
-                                <span class="label label-important" ui-if="tt.title.$dirty && tt.title.$invalid">
-                                    Error:<span ng-show="tt.title.$error.required"> Title is required.</span>
+                                <span class="label label-important" ui-if="(formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title">
+                                    Error:
+                                    <span ng-show="formTitle.title.$error.required"> Title is required.</span>
+                                    <span ng-show="form.errors.title"> {{form.errors.title}}.</span>
                                 </span>
                             </ng-form>
                         </td>
@@ -35,23 +37,21 @@
                         <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
 
                         <td ui-if="inlineEdit.model == post">
-                            <ng-form name="cc">
+                            <ng-form name="formContent">
                                 <input ng-model="inlineEdit.model.content" name="content" required>
-                                <span class="label label-important" ui-if="cc.content.$dirty && cc.content.$invalid">
-                                    Error:<span ng-show="cc.content.$error.required"> Content is required.</span>
+                                <span class="label label-important" ui-if="formContent.content.$dirty && formContent.content.$invalid">
+                                    Error:<span ng-show="formContent.content.$error.required"> Content is required.</span>
                                 </span>
                             </ng-form>
                         </td>
 
                         <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
                         <td>
-                            <button ng-show="inlineEdit.model == post" ng-click="save(post, aa)" ng-disabled="aa.$invalid || inlineEdit.isUnchanged()">Save</button>
+                            <button ng-show="inlineEdit.model == post" ng-click="save(post, form)" ng-disabled="form.$invalid || inlineEdit.isUnchanged()">Save</button>
                         </td>
                         <td>
-                            <button ng-show="inlineEdit.model == post" ng-click="inlineEdit.reset(post)" name="reset">Cancel</button>
+                            <button ng-show="inlineEdit.model == post" ng-click="inlineEdit.reset(form, post)" name="reset">Cancel</button>
                         </td>
-                        <td>{{aa.$valid}}</td>
-                        <td>{{$index}} -- {{post.content}} -- {{inlineEdit.model.content}}</td>
                     </tr>
                 </tbody>
             </table>
