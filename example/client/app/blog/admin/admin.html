@@ -50,7 +50,7 @@
                             <button ng-show="inlineEdit.model == post" ng-click="save(post, form)" ng-disabled="form.$invalid || inlineEdit.isUnchanged()">Save</button>
                         </td>
                         <td>
-                            <button ng-show="inlineEdit.model == post" ng-click="inlineEdit.reset(form, post)" name="reset">Cancel</button>
+                            <button ng-show="inlineEdit.model == post" ng-click="inlineEdit.reset(post, form)" name="reset">Cancel</button>
                         </td>
                     </tr>
                 </tbody>

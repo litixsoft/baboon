@@ -235,7 +235,7 @@ angular.module('baboon.services', [])
                 return angular.equals(pub.model, master);
             };
 
-            pub.reset = function(form, model) {
+            pub.reset = function(model, form) {
                 if (form) {
                     form.errors = {};
                 }
