@@ -5,7 +5,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', function ($scope, posts) {
+    .controller('adminCtrl', ['$scope', 'posts', 'authorPosts', 'inlineEdit', function ($scope, posts, authorPosts, inlineEdit) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -13,6 +13,22 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                     $scope.count = result.count;
                 } else {
                     console.log(result);
+                }
+            },
+            saveCallback = function (result) {
+                console.dir(result);
+
+                if (result.data || result.success) {
+                    $scope.inlineEdit.model = null;
+                } else {
+                    if (result.errors) {
+//                        $scope.lxForm.populateValidation($scope.form, result.errors);
+                        console.dir(result.errors);
+                    }
+
+                    if (result.message) {
+                        console.log(result.message);
+                    }
                 }
             },
             getData = function () {
@@ -49,6 +65,19 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
 
             getData();
         };
+
+        ///////////////////////////////////////
+        $scope.inlineEdit = inlineEdit();
+
+        $scope.save = function (post, aa) {
+            console.dir(aa);
+
+
+
+            if (post._id) {
+                authorPosts.update(post, saveCallback);
+            }
+        };
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, cache, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post');
@@ -64,6 +93,8 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         }
 
         $scope.save = function (model) {
+            $scope.form.errors = {};
+
             var callback = function (result) {
                 if (result.data || result.success) {
                     $scope.lxForm.setModel(result.data || model, true);

@@ -35,7 +35,7 @@ angular.module('baboon.directives', [])
                 attrs.$observe('pageSizes', function (value) {
                     var options = scope.$eval(value);
 
-                    if (Array.isArray(options) && options.length > 0 && typeof options[0] === 'number') {
+                    if (angular.isArray(options) && options.length > 0 && typeof options[0] === 'number') {
                         scope.pageSizeOptions = options;
                     }
                 });

@@ -8,10 +8,12 @@
                     <label class="control-label">Title</label>
 
                     <div class="controls">
-                        <input type="text" ng-model="lxForm.model.title" name="title" required />
+                        <input type="text" ng-model="lxForm.model.title" name="title" required/>
 
-                        <span class="label label-important" ui-if="form.title.$dirty && form.title.$invalid">
-                            Error:<span ng-show="form.title.$error.required"> Title is required.</span>
+                        <span class="label label-important" ui-if="(form.title.$dirty && form.title.$invalid) || form.errors.title">
+                            Error:
+                            <span ng-show="form.title.$error.required"> Title is required.</span>
+                            <span ng-show="form.errors.title"> {{form.errors.title}}</span>
                         </span>
                     </div>
                 </div>
@@ -50,7 +52,7 @@
             <alert ng-repeat="alert in validationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
 
             <div class="form-actions">
-                <button type="button" class="btn" ng-click="lxForm.reset()" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)">Simple Save</button>
             </div>

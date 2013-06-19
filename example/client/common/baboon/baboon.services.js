@@ -158,7 +158,11 @@ angular.module('baboon.services', [])
 
             pub.model = {};
 
-            pub.reset = function () {
+            pub.reset = function (form) {
+                if (form) {
+                    form.errors = {};
+                }
+
                 pub.model = angular.copy(master);
 
                 if (pub.model._id) {
@@ -207,9 +211,12 @@ angular.module('baboon.services', [])
 
             pub.populateValidation = function (form, errors) {
                 if (errors) {
+                    form.errors = {};
+
                     for (var i = 0; i < errors.length; i++) {
-                        form[errors[i].property].$invalid = true;
-                        form[errors[i].property].$dirty = true;
+//                        form[errors[i].property].$invalid = true;
+//                        form[errors[i].property].$dirty = true;
+                        form.errors[errors[i].property] = errors[i].attribute + ' ' + errors[i].message;
                     }
                 }
             };
@@ -217,6 +224,30 @@ angular.module('baboon.services', [])
             return pub;
         };
     }])
+    .factory('inlineEdit', function () {
+        return function () {
+            var pub = {},
+                master = {};
+
+            pub.model = {};
+
+            pub.isUnchanged = function () {
+                return angular.equals(pub.model, master);
+            };
+
+            pub.reset = function(model) {
+                angular.copy(master, model);
+                pub.model = angular.copy(master);
+            };
+
+            pub.setModel = function (model) {
+                pub.model = model;
+                master = angular.copy(model);
+            };
+
+            return pub;
+        };
+    })
     .factory('session', ['socket', function (socket) {
         var pub = {};
 
