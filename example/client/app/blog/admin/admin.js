@@ -67,14 +67,25 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         ///////////////////////////////////////
         $scope.inlineEdit = inlineEdit();
 
-        $scope.save = function (post, aa) {
-            $scope.myForm = aa;
-            aa.errors = {};
-
-
+        $scope.save = function (post, form) {
+            $scope.myForm = form;
+            form.errors = {};
 
             if (post._id) {
                 authorPosts.update(post, saveCallback);
+            }
+        };
+
+        $scope.addPosts = function() {
+            var data = {};
+
+            for (var i = 0; i < 1000; i++) {
+                data = {
+                    title: 'Post ' + i,
+                    content: 'Content ' + i
+                };
+
+                authorPosts.create(data, function() {});
             }
         };
     }])
