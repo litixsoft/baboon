@@ -46,50 +46,6 @@
                         </td>
 
                         <td>{{post.created | date:'dd.MM.yyyy HH:mm'}}</td>
-
-                        <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
-
-                        <td ui-if="inlineEdit.model == post">
-                            <ng-form name="formContent">
-                                <input ng-model="inlineEdit.model.content" name="content" required>
-                                <span class="label label-important" ui-if="formContent.content.$dirty && formContent.content.$invalid">
-                                    Error:<span ng-show="formContent.content.$error.required"> Content is required.</span>
-                                </span>
-                            </ng-form>
-                        </td>
-
-                        <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
-
-                        <td ui-if="inlineEdit.model == post">
-                            <ng-form name="formContent">
-                                <input ng-model="inlineEdit.model.content" name="content" required>
-                                <span class="label label-important" ui-if="formContent.content.$dirty && formContent.content.$invalid">
-                                    Error:<span ng-show="formContent.content.$error.required"> Content is required.</span>
-                                </span>
-                            </ng-form>
-                        </td>
-
-                        <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
-
-                        <td ui-if="inlineEdit.model == post">
-                            <ng-form name="formContent">
-                                <input ng-model="inlineEdit.model.content" name="content" required>
-                                <span class="label label-important" ui-if="formContent.content.$dirty && formContent.content.$invalid">
-                                    Error:<span ng-show="formContent.content.$error.required"> Content is required.</span>
-                                </span>
-                            </ng-form>
-                        </td>
-
-                        <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
-
-                        <td ui-if="inlineEdit.model == post">
-                            <ng-form name="formContent">
-                                <input ng-model="inlineEdit.model.content" name="content" required>
-                                <span class="label label-important" ui-if="formContent.content.$dirty && formContent.content.$invalid">
-                                    Error:<span ng-show="formContent.content.$error.required"> Content is required.</span>
-                                </span>
-                            </ng-form>
-                        </td>
                         <td>
                             <button ng-show="inlineEdit.model == post" ng-click="save(post, form)" ng-disabled="form.$invalid || inlineEdit.isUnchanged()">Save</button>
                         </td>
