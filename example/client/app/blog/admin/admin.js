@@ -103,7 +103,9 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         }
 
         $scope.save = function (model) {
-            $scope.form.errors = {};
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
 
             var callback = function (result) {
                 if (result.data || result.success) {

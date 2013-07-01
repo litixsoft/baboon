@@ -108,7 +108,7 @@ describe('Blog Controller', function () {
 
                 sut.updatePost(res.data, function (res2) {
                     expect(res2).toBeDefined();
-                    expect(res2.errors.length).toBe(1);
+                    expect(res2.errors.length).toBe(2);
 
                     sut.updatePost(null, function (res3) {
                         expect(res3).toBeDefined();
