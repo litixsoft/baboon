@@ -1,7 +1,7 @@
 {
     "base": {
         "js" :[
-            "vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.3.0.js",
+            "vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js",
             "vendor/angular-ui-utils/event/event.js",
             "vendor/angular-ui-utils/format/format.js",
             "vendor/angular-ui-utils/highlight/highlight.js",
