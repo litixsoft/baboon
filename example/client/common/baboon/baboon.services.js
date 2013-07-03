@@ -152,70 +152,118 @@ angular.module('baboon.services', [])
         };
     })
     .factory('lxForm', ['cache', function (cache) {
-        return function (modelName) {
+        return function (modelName, key) {
             var pub = {},
                 master = {};
 
             pub.model = {};
 
+            /**
+             * Resets the model to the master.
+             *
+             * @param {object} form The angularjs formcontroller.
+             */
             pub.reset = function (form) {
                 if (form) {
+                    // clear form errors
                     form.errors = {};
                 }
 
+                // reset model
                 pub.model = angular.copy(master);
 
-                if (pub.model._id) {
-                    cache[pub.model._id] = pub.model;
-                } else {
-                    cache[modelName] = pub.model;
+                if (key) {
+                    // reset model in cache
+                    if (pub.model[key]) {
+                        cache[pub.model[key]] = pub.model;
+                    } else {
+                        cache[modelName] = pub.model;
+                    }
                 }
             };
 
+            /**
+             * Checks if the model has changes.
+             *
+             * @returns {boolean}
+             */
             pub.isUnchanged = function () {
                 return angular.equals(pub.model, master);
             };
 
-            pub.loadFromCache = function (id) {
-                if (id && cache[id]) {
-                    pub.model = cache[id];
+            /**
+             * Tries to load the model from cache.
+             *
+             * @param {string=} key The key of the model.
+             * @returns {boolean}
+             */
+            pub.hasLoadedModelFromCache = function (key) {
+                if (key && cache[key]) {
+                    // load from cache
+                    pub.model = cache[key];
 
-                    if (cache[id + '_Master']) {
-                        master = cache[id + '_Master'];
+                    if (cache[key + '_Master']) {
+                        master = cache[key + '_Master'];
                     }
 
                     return true;
-                } else if (!id && cache[modelName]) {
-                    pub.model = cache[modelName];
+                } else if (!key) {
+                    if (cache[modelName]) {
+                        // load from cache
+                        pub.model = cache[modelName];
+                    } else {
+                        // set cache
+                        cache[modelName] = pub.model;
+                    }
 
                     return true;
                 }
 
-                cache[id || modelName] = pub.model;
-
-                return (!id) ? true : false;
+                return false;
             };
 
+            /**
+             * Sets the model.
+             *
+             * @param {object} model The model.
+             * @param {boolean} resetCache Specifies if the cache should be resettet.
+             */
             pub.setModel = function (model, resetCache) {
+                if (!pub.model[key] && resetCache) {
+                    // no key -> create, delete model from cache
+                    delete cache[modelName];
+                }
+
+                // set model
                 pub.model = model;
                 master = angular.copy(model);
 
                 if (resetCache) {
-                    delete cache[model._id];
-                    delete cache[model._id + '_Master'];
+                    // reset cache
+                    delete cache[model[key]];
+                    delete cache[model[key] + '_Master'];
                 } else {
-                    cache[model._id] = pub.model;
-                    cache[model._id + '_Master'] = master;
+                    // set cache
+                    cache[model[key]] = pub.model;
+                    cache[model[key] + '_Master'] = master;
                 }
             };
 
+            /**
+             * Add server validation to form.
+             *
+             * @param {object} form The angularjs form controller.
+             * @param errors
+             */
             pub.populateValidation = function (form, errors) {
                 if (errors) {
+                    // reset form errors
                     form.errors = {};
 
                     for (var i = 0; i < errors.length; i++) {
 //                        form[errors[i].property].$invalid = true;
 //                        form[errors[i].property].$dirty = true;
+                        // set form errors
                         form.errors[errors[i].property] = errors[i].attribute + ' ' + errors[i].message;
                     }
                 }
@@ -235,7 +283,7 @@ angular.module('baboon.services', [])
                 return angular.equals(pub.model, master);
             };
 
-            pub.reset = function(model, form) {
+            pub.reset = function (model, form) {
                 if (form) {
                     form.errors = {};
                 }

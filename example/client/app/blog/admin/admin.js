@@ -89,10 +89,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             }
         };
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, cache, tags, lxForm) {
-        $scope.lxForm = lxForm('blog_post');
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, tags, lxForm) {
+        $scope.lxForm = lxForm('blog_post', '_id');
 
-        if (!$scope.lxForm.loadFromCache($routeParams.id)) {
+        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             authorPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.lxForm.setModel(result.data);
