@@ -5,57 +5,94 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', 'lxPager', function ($scope, posts, lxPager) {
-        var callback = function (result) {
+    .controller('adminCtrl', ['$scope', 'posts', 'authorPosts', 'inlineEdit', function ($scope, posts, authorPosts, inlineEdit) {
+        var options = {},
+            callback = function (result) {
                 if (result.data) {
                     $scope.posts = result.data;
-                    $scope.pager.count = result.count;
-
-                    if ($scope.pager.currentPage > $scope.pager.numberOfPages()) {
-                        $scope.pager.currentPage = $scope.pager.numberOfPages() || 1;
-                    }
+                    $scope.count = result.count;
                 } else {
                     console.log(result);
                 }
             },
-            getQuery = function () {
+            saveCallback = function (result) {
+                if (result.data || result.success) {
+                    $scope.inlineEdit.model = null;
+                } else {
+                    if (result.errors) {
+//                        $scope.lxForm.populateValidation($scope.form, result.errors);
+                        $scope.inlineEdit.populateValidation($scope.myForm, result.errors);
+                    }
+
+                    if (result.message) {
+                        console.log(result.message);
+                    }
+                }
+            },
+            getData = function () {
                 var query = {
-                    params: $scope.params.filter || {},
-                    options: $scope.pager.getOptions()
+                    params: {},
+                    options: options || {}
                 };
 
-                query.options.sortBy = $scope.params.sortBy || 'created';
-                query.options.sort = $scope.params.sort || -1;
-
-                return query;
+                posts.getAllWithCount(query, callback);
             };
 
-        $scope.params = {};
-        $scope.pager = lxPager();
-
         $scope.sort = function (field) {
-            var oldDirection = $scope.params.sort || -1;
+            options.sort = options.sort || {};
+            var oldDirection = options.sort[field] || -1;
 
-            $scope.params.sortBy = field;
-            $scope.params.sort = oldDirection > 0 ? -1 : 1;
+            // set sort
+            options.sort = {};
+            options.sort[field] = oldDirection > 0 ? -1 : 1;
 
-            posts.getAllWithCount(getQuery(), callback);
+            // go to first page
+            if ($scope.currentPage > 1) {
+                options.skip = 0;
+                $scope.currentPage = 1;
+            } else {
+                $scope.getData();
+            }
         };
 
-        $scope.$watch('pager.pageSize', function (newValue, oldValue) {
-            if (newValue !== oldValue) {
-                $scope.pager.currentPage = 1;
+        $scope.getData = function (pagingOptions) {
+            if (pagingOptions) {
+                options.skip = pagingOptions.skip;
+                options.limit = pagingOptions.limit;
             }
-        });
 
-        $scope.$watch('pager.currentPage', function () {
-            posts.getAllWithCount(getQuery(), callback);
-        });
+            getData();
+        };
+
+        ///////////////////////////////////////
+        $scope.inlineEdit = inlineEdit();
+
+        $scope.save = function (post, form) {
+            $scope.myForm = form;
+            form.errors = {};
+
+            if (post._id) {
+                authorPosts.update(post, saveCallback);
+            }
+        };
+
+        $scope.addPosts = function() {
+            var data = {};
+
+            for (var i = 0; i < 1000; i++) {
+                data = {
+                    title: 'Post ' + i,
+                    content: 'Content ' + i
+                };
+
+                authorPosts.create(data, function() {});
+            }
+        };
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'cache', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, cache, tags, lxForm) {
-        $scope.lxForm = lxForm('blog_post');
+    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, tags, lxForm) {
+        $scope.lxForm = lxForm('blog_post', '_id');
 
-        if (!$scope.lxForm.loadFromCache($routeParams.id)) {
+        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             authorPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.lxForm.setModel(result.data);
@@ -66,6 +103,10 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         }
 
         $scope.save = function (model) {
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
             var callback = function (result) {
                 if (result.data || result.success) {
                     $scope.lxForm.setModel(result.data || model, true);

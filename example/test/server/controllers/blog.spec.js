@@ -108,7 +108,7 @@ describe('Blog Controller', function () {
 
                 sut.updatePost(res.data, function (res2) {
                     expect(res2).toBeDefined();
-                    expect(res2.errors.length).toBe(1);
+                    expect(res2.errors.length).toBe(2);
 
                     sut.updatePost(null, function (res3) {
                         expect(res3).toBeDefined();
@@ -163,20 +163,20 @@ describe('Blog Controller', function () {
             });
         });
 
-//        it('should return an error if the param "query" is no object', function (done) {
-//            sut.createPost(post, function () {
-//                sut.createPost({title: 'p2', content: 'text'}, function () {
-//                    sut.getAllPosts(123, function (res) {
-//                        expect(res).toBeDefined();
-//                        expect(res.message).toBe('Could not load all blog posts!');
-//                        expect(appMock.logging.syslog.error).toHaveBeenCalled();
-//                        expect(appMock.logging.syslog.error.calls.length).toBe(1);
-//
-//                        done();
-//                    });
-//                });
-//            });
-//        });
+        it('should return an error if the param "query" is no object', function (done) {
+            sut.createPost(post, function () {
+                sut.createPost({title: 'p2', content: 'text'}, function () {
+                    sut.getAllPosts({params: 123}, function (res) {
+                        expect(res).toBeDefined();
+                        expect(res.message).toBe('Could not load all blog posts!');
+                        expect(appMock.logging.syslog.error).toHaveBeenCalled();
+                        expect(appMock.logging.syslog.error.calls.length).toBe(1);
+
+                        done();
+                    });
+                });
+            });
+        });
     });
 
     describe('has a function getAllPostsWithCount() which', function () {

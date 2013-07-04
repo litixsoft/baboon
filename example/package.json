@@ -13,8 +13,8 @@
     },
     "dependencies": {
         "async": "~0.2.8",
-        "lx-helpers": "~0.1.0",
-        "lx-mongodb": "~0.2.0",
+        "lx-helpers": "~0.2.0",
+        "lx-mongodb": "~0.3.0",
         "lx-valid": "~0.2.2"
     },
     "devDependencies": {

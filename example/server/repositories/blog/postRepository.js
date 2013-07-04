@@ -15,6 +15,7 @@ module.exports = function (collection) {
                     },
                     title: {
                         type: 'string',
+                        minLength: 2,
                         required: true
                     },
                     author: {

@@ -8,7 +8,6 @@ _(Coming soon)_
 For quickstart and overview baboon, read the "Example and contributing" section.
 
 ### Install
-
 _(Coming soon)_
 
 ## Example and contributing
@@ -26,9 +25,8 @@ On linux use sudo for global modules:
 Clone the baboon repo, then install the dev dependencies to install the example and test suite deps.
 Build the client app and start the server with grunt.
 
-    $ git clone git@gitlab.litixsoft.de:opensource/baboon.git
+    $ git clone https://github.com/litixsoft/baboon.git
     $ cd baboon
-    $ git checkout develop
     $ npm install
     $ cd example
     $ npm install
@@ -102,17 +100,36 @@ errors but you will still execute its e2e tests.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
 
 ## Roadmap
-### v0.1.0 first beta version
-* rewrite express server functionality from other project
-* integrate test frameworks karma, jasmin
-* create server api
+### 0.2 beta
+* commandline management tool
+* user and rights with roles and groups
+* optimize API
+* extend with new features
+
+### 0.3 - 0.9 release canditates
+*
+
+### 1.0 stable
+*
 
 ## Release History
-### v0.0.11 technical preview
+### 0.1 alpha
 * create project structure
 * grunt tasks for management
-* integrate angularjs
-* integrate transport layer with socket.io
+* angularjs
+* socket.io
+* websocket transport with socket.io and angular
+* test frameworks karma, jasmin
+* logging and audit
+* configuration management
+* express.js for server
+* server routing
+* services for client
+* sessions with redis.io
+* mongoDb
+* redisIo
+* example application enterprise
+* example application blog
 
 ## License
 Copyright (C) 2013 Litixsoft GmbH <info@litixsoft.de>

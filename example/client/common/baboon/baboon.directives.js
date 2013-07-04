@@ -22,7 +22,7 @@ angular.module('baboon.directives', [])
             replace: true,
             scope: {
                 count: '=',
-                pageSizes: '@',
+                currentPage: '=',
                 onPaging: '&'
             },
             link: function (scope, element, attrs) {
@@ -32,13 +32,13 @@ angular.module('baboon.directives', [])
                 scope.pageSizeOptions = [1, 5, 10, 25, 100];
 
                 // get page size options from attrs
-                if (attrs.pageSizes) {
-                    var options = scope.$eval(attrs.pageSizes);
+                attrs.$observe('pageSizes', function (value) {
+                    var options = scope.$eval(value);
 
-                    if (Array.isArray(options) && options.length > 0 && typeof options[0] === 'number') {
-                        scope.pageSizeOptions = scope.$eval(attrs.pageSizes);
+                    if (angular.isArray(options) && options.length > 0 && typeof options[0] === 'number') {
+                        scope.pageSizeOptions = options;
                     }
-                }
+                });
 
                 scope.refresh = function () {
                     scope.onPaging({pagingOptions: scope.getOptions()});
@@ -69,7 +69,6 @@ angular.module('baboon.directives', [])
 
                     if (count < scope.count) {
                         scope.currentPage = ++currentPage;
-                        scope.refresh();
                     }
                 };
 
@@ -78,25 +77,25 @@ angular.module('baboon.directives', [])
 
                     if (currentPage !== 1) {
                         scope.currentPage = --currentPage;
-                        scope.refresh();
                     }
                 };
 
                 scope.firstPage = function () {
                     scope.currentPage = 1;
-                    scope.refresh();
                 };
 
                 scope.lastPage = function () {
                     scope.currentPage = scope.numberOfPages() || 1;
-                    scope.refresh();
                 };
+
+                scope.$watch('currentPage', function () {
+                    scope.refresh();
+                });
 
                 scope.$watch('count', function () {
                     // refesh data when current page is greater than number of pages
                     if (scope.currentPage > scope.numberOfPages() && scope.numberOfPages() > 0) {
                         scope.currentPage = scope.numberOfPages() || 1;
-                        scope.refresh();
                     }
                 });
 
@@ -104,9 +103,61 @@ angular.module('baboon.directives', [])
                     // set current page to number of pages when current page is greater than number of pages
                     if (scope.currentPage > scope.numberOfPages()) {
                         scope.currentPage = scope.numberOfPages() || 1;
+                    } else {
+                        scope.refresh();
+                    }
+                });
+            }
+        };
+    })
+    .directive('integer', function () {
+        var INTEGER_REGEXP = /^\-?\d*$/;
+
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
+                    if (INTEGER_REGEXP.test(viewValue)) {
+                        // it is valid
+                        ctrl.$setValidity('integer', true);
+
+                        return parseInt(viewValue, 10);
+                    } else {
+                        // it is invalid, return undefined (no model update)
+                        ctrl.$setValidity('integer', false);
+
+                        return undefined;
+                    }
+                });
+            }
+        };
+    })
+    .directive('smartFloat', function () {
+        var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
+
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
+                    if (FLOAT_REGEXP.test(viewValue)) {
+                        // it is valid
+                        ctrl.$setValidity('float', true);
+
+                        return typeof viewValue === 'number' ? viewValue : parseFloat(viewValue.replace(',', '.'));
+                    } else {
+                        // it is invalid, return undefined (no model update)
+                        ctrl.$setValidity('float', false);
+
+                        return undefined;
+                    }
+                });
+
+                ctrl.$formatters.unshift(function (modelValue) {
+                    if (modelValue) {
+                        modelValue = modelValue.toFixed(2).replace('.', ',');
                     }
 
-                    scope.refresh();
+                    return modelValue;
                 });
             }
         };

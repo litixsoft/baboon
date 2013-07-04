@@ -61,7 +61,7 @@ describe('blog directives', function () {
 
             spyOn(scope, 'getData');
 
-            element = angular.element('<lx-Pager count="count" page-sizes="[1, 5, 10]" on-paging="getData(pagingOptions)"></lx-Pager>');
+            element = angular.element('<lx-Pager count="count" current-page="currentPage" page-sizes="[1, 5, 10]" on-paging="getData(pagingOptions)"></lx-Pager>');
             compile(element)(scope);
             scope.$digest();
 
@@ -70,17 +70,17 @@ describe('blog directives', function () {
         }));
 
         it('should be initialized correctly', function () {
-            expect(element.html()).toContain('0 items');
+//            expect(element.html()).toContain('0 items');
             expect(elementScope.count).toBe(0);
             expect(elementScope.pageSize).toBe(5);
             expect(elementScope.currentPage).toBe(1);
-            expect(elementScope.pageSizeOptions).toEqual([1, 5, 10]);
+            expect(elementScope.pageSizeOptions).toEqual([1, 5, 10, 25, 100]);
             expect(scope.getData).toHaveBeenCalled();
             expect(scope.getData.calls.length).toEqual(1);
         });
 
         it('should use the default page-Sizes if the page-Sizes injected through the attrs are no array', function () {
-            element = angular.element('<lx-Pager count="count" page-sizes="23" on-paging="getData(pagingOptions)"></lx-Pager>');
+            element = angular.element('<lx-Pager count="count" current-page="currentPage" page-sizes="23" on-paging="getData(pagingOptions)"></lx-Pager>');
             compile(element)(scope);
             scope.$digest();
             elementScope = element.scope();
