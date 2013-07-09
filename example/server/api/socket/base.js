@@ -11,3 +11,20 @@ exports.register = function (key, socket, acl, res) {
         });
     });
 };
+
+exports.register2 = function (socket, path, controller, resources) {
+    // register resources
+    lxHelpers.arrayForEach(resources, function (resource) {
+        if (controller[resource]) {
+            console.log('registered event: ' + path + '.' + resource);
+            socket.on(path + '.' + resource, controller[resource]);
+        }
+
+//        lxHelpers.objectForEach(controller, function (key, value) {
+//            if (resource === key) {
+//                console.log('registered event: ' + path + '.' + key);
+//                socket.on(path + '.' + key, value);
+//            }
+//        });
+    });
+};

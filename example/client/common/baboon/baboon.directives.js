@@ -131,9 +131,9 @@ angular.module('baboon.directives', [])
                 };
 
                 scope.getOptions = function () {
-                    if(scope.sortOpts[scope.field_name]){
+                    if (scope.sortOpts[scope.field_name]) {
                         scope.internalSortDir = scope.internalSortDir === 1 ? -1 : 1;
-                    }else{
+                    } else {
                         scope.internalSortDir = 1;
                     }
 
@@ -167,7 +167,7 @@ angular.module('baboon.directives', [])
             }
         };
     })
-    .directive('smartFloat', function () {
+    .directive('float', function () {
         var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
 
         return {
