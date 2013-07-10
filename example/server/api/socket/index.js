@@ -126,7 +126,7 @@ module.exports = function (app) {
             });
 
             if (moduleRights.modules) {
-                registerACL(moduleRights, socket, session, modulePath);
+                registerACL(moduleRights, socket, session, tmpModulePath);
             }
         });
     }
@@ -207,4 +207,4 @@ module.exports = function (app) {
 //        });
     });
 }
-;
+
