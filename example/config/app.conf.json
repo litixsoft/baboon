@@ -13,9 +13,9 @@
         "logging": {
             "maxLogSize": 2048000,
             "backups": 10,
-            "syslog": "INFO",
-            "audit": "INFO",
-            "socket": "INFO"
+            "syslog": "DEBUG",
+            "audit": "DEBUG",
+            "socket": "DEBUG"
         },
         "redis": {
             "server1": {
