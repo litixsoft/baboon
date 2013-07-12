@@ -1,7 +1,6 @@
 /*global angular, io*/
 angular.module('baboon.services', [])
     .factory('socket', function ($rootScope, $window) {
-
         var protocol = $window.location.protocol;
         var hostname = $window.location.hostname;
         var port = $window.location.port;
@@ -20,11 +19,19 @@ angular.module('baboon.services', [])
         }
 
         var host = protocol + '://' + hostname + ':' + port;
-        //noinspection JSCheckFunctionSignatures
         var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
-        socket.on('error', function (err){
+        socket.on('error', function (err) {
             console.error('Unable to connect Socket.IO', err);
+        });
+
+        socket.on('disconnect', function () {
+            console.error('DISCO');
+//            $rootScope.err.msg = 'DISCO';
+//
+            $rootScope.$apply(function () {
+                $rootScope.err.msg = 'DISCO';
+            });
         });
 
         socket.on('connect', function () {
@@ -52,7 +59,11 @@ angular.module('baboon.services', [])
         });
 
         socket.on('site_reload', function () {
+            console.warn('Site Reload triggered by Server');
+
             window.location.reload();
+
+//            $location.path('/login');
         });
 
         return {
