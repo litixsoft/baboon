@@ -81,6 +81,13 @@
 
     <div ng-view></div>
 
+    <div ng-controller="rootCtrl">
+        <div ui-if="err.msg">
+            Error: <br>
+            <pre>{{ err | json }}</pre>
+        </div>
+
+    </div>
 </div>
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
