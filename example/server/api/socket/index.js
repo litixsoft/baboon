@@ -28,6 +28,7 @@ module.exports = function (app) {
             config = app.config,
             session = socket.handshake.session;
 
+        console.log("socket connection");
         // save socketId in session
         session.socketID = socket.id;
 
@@ -54,15 +55,14 @@ module.exports = function (app) {
                 if (config.sessionMaxLife < maxDifference) {
                     return socket.emit('site_reload');
                 }
-
                 //noinspection JSUnresolvedVariable
                 if (config.sessionInactiveTime < activityDifference) {
                     return socket.emit('site_reload');
                 }
 
                 return true;
-
-            } else {
+            }
+            else {
                 // session not exists
                 return socket.emit('site_reload');
             }

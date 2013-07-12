@@ -20,30 +20,35 @@ angular.module('baboon.services', [])
         }
 
         var host = protocol + '://' + hostname + ':' + port;
+        //noinspection JSCheckFunctionSignatures
         var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
+        socket.on('error', function (err){
+            console.error('Unable to connect Socket.IO', err);
+        });
+
         socket.on('connect', function () {
-            console.log('websocket connected with protocol: ' + socket.socket.transport.name);
+            console.log('socket.io connected with: ' + socket.socket.transport.name);
         });
 
         socket.on('connect_error', function (err) {
-            console.log('connect_error: ' + err);
+            console.error('connect_error: ', err);
         });
 
         socket.on('connect_timeout', function () {
-            console.log('connect_timeout...');
+            console.error('connect_timeout...');
         });
 
         socket.on('reconnect', function (num) {
-            console.log('reconnect: ' + num);
+            console.log('socket.io reconnect: ' + num);
         });
 
         socket.on('reconnect_error', function (err) {
-            console.log('reconnect_error: ' + err);
+            console.error('socket.io reconnect_error: ', err);
         });
 
         socket.on('reconnect_failed', function () {
-            console.log('reconnect_failed');
+            console.error('socket.io reconnect_failed');
         });
 
         socket.on('site_reload', function () {
