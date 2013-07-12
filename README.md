@@ -131,6 +131,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * example application blog
 
 ## License
+
 Copyright (C) 2013 Litixsoft GmbH <info@litixsoft.de>
 Licensed under the MIT license.
 
