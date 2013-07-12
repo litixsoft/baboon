@@ -28,13 +28,13 @@ module.exports = function (app) {
             config = app.config,
             session = socket.handshake.session;
 
-        console.log("socket connection");
+        console.log('socket connection');
         // save socketId in session
         session.socketID = socket.id;
 
         //noinspection JSUnresolvedVariable
         app.logging.syslog.info('client connected');
-        app.logging.syslog.debug('{socketId: ' + socket.id + ', username: ' + session.user.name + ', ' +
+        app.logging.syslog.debug('{socketId: ' + socket.id + ', username: ' + ((session.user || {}).name || 'no user') + ', ' +
             'sessionID: ' + session.sessionID + '}');
 
         socket.on('disconnect', function () {

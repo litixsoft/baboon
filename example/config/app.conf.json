@@ -15,7 +15,8 @@
             "backups": 10,
             "syslog": "DEBUG",
             "audit": "DEBUG",
-            "socket": "DEBUG"
+            "socket": "DEBUG",
+            "express": "DEBUG"
         },
         "redis": {
             "server1": {
@@ -43,7 +44,8 @@
             "logging": {
                 "syslog": "INFO",
                 "audit": "INFO",
-                "socket": "INFO"
+                "socket": "INFO",
+                "express": "INFO"
             },
             "server1": {
                 "host": "localhost",

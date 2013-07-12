@@ -112,6 +112,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *
 
 ## Release History
+## v0.1.1
+
+* Fix bug which causes endless loop on client when session was not regenerated when session's sessionMaxLife was reached.
+
 ### 0.1 alpha
 * create project structure
 * grunt tasks for management
