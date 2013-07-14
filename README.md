@@ -131,6 +131,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * example application enterprise
 * example application blog
 
+## Author
+[Litixsoft GmbH](http://www.litixsoft.de)
+
 ## License
 Copyright (C) 2013 Litixsoft GmbH <info@litixsoft.de>
 Licensed under the MIT license.
