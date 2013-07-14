@@ -8,14 +8,15 @@
         "version": "v0.1.0",
         "sessionKey": "baboon.sid",
         "sessionSecret": "a7f4eb39-744e-43e3-a30b-3ffea846030f",
-        "sessionMaxLife": 57600,
+        "sessionMaxLife": 20,
         "sessionInactiveTime": 1800,
         "logging": {
             "maxLogSize": 2048000,
             "backups": 10,
-            "syslog": "INFO",
-            "audit": "INFO",
-            "socket": "INFO"
+            "syslog": "DEBUG",
+            "audit": "DEBUG",
+            "socket": "DEBUG",
+            "express": "DEBUG"
         },
         "redis": {
             "server1": {
@@ -43,7 +44,8 @@
             "logging": {
                 "syslog": "INFO",
                 "audit": "INFO",
-                "socket": "INFO"
+                "socket": "INFO",
+                "express": "INFO"
             },
             "server1": {
                 "host": "localhost",

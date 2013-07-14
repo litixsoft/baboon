@@ -1,7 +1,6 @@
 /*global angular, io*/
 angular.module('baboon.services', [])
     .factory('socket', function ($rootScope, $window) {
-
         var protocol = $window.location.protocol;
         var hostname = $window.location.hostname;
         var port = $window.location.port;
@@ -22,32 +21,49 @@ angular.module('baboon.services', [])
         var host = protocol + '://' + hostname + ':' + port;
         var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
+        socket.on('error', function (err) {
+            console.error('Unable to connect Socket.IO', err);
+        });
+
+        socket.on('disconnect', function () {
+            console.error('DISCO');
+//            $rootScope.err.msg = 'DISCO';
+//
+            $rootScope.$apply(function () {
+                $rootScope.err.msg = 'DISCO';
+            });
+        });
+
         socket.on('connect', function () {
-            console.log('websocket connected with protocol: ' + socket.socket.transport.name);
+            console.log('socket.io connected with: ' + socket.socket.transport.name);
         });
 
         socket.on('connect_error', function (err) {
-            console.log('connect_error: ' + err);
+            console.error('connect_error: ', err);
         });
 
         socket.on('connect_timeout', function () {
-            console.log('connect_timeout...');
+            console.error('connect_timeout...');
         });
 
         socket.on('reconnect', function (num) {
-            console.log('reconnect: ' + num);
+            console.log('socket.io reconnect: ' + num);
         });
 
         socket.on('reconnect_error', function (err) {
-            console.log('reconnect_error: ' + err);
+            console.error('socket.io reconnect_error: ', err);
         });
 
         socket.on('reconnect_failed', function () {
-            console.log('reconnect_failed');
+            console.error('socket.io reconnect_failed');
         });
 
         socket.on('site_reload', function () {
+            console.warn('Site Reload triggered by Server');
+
             window.location.reload();
+
+//            $location.path('/login');
         });
 
         return {
