@@ -20,4 +20,13 @@ angular.module('app', [
     }])
     .controller('rootCtrl', ['$rootScope', function ($scope) {
         $scope.err = {};
+
+        $scope.modal = {
+            opts: {
+                backdropFade: true,
+                dialogFade: true
+            }
+        };
+
+
     }]);
