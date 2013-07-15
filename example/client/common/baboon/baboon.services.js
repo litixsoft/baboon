@@ -1,6 +1,55 @@
 /*global angular, io*/
 angular.module('baboon.services', [])
-    .factory('socket', function ($rootScope, $window) {
+    .factory('msgBox', function () {
+        var pub = {},
+            modal = {
+                opts: {
+                    backdropClick: false,
+                    backdropFade: true,
+                    dialogFade: true
+                }
+            };
+
+        /**
+         * Closes the modal window and clears the error message/action.
+         */
+        modal.close = function () {
+            modal.shouldBeOpen = false;
+            modal.message = '';
+            modal.type = '';
+            modal.action = null;
+        };
+
+        /**
+         * Opens the modal window.
+         *
+         * @param {string} message The message to show.
+         * @param {string=} type The message type.
+         * @param {function=} callback The callback action when click the ok button in the modal window.
+         */
+        modal.show = function (message, type, callback) {
+            modal.shouldBeOpen = true;
+            modal.message = message;
+            modal.type = type || 'Error';
+            modal.action = callback;
+        };
+
+        /**
+         * Executes the action and closes the modal window
+         */
+        modal.ok = function () {
+            if (typeof modal.action === 'function') {
+                modal.action.call();
+            }
+
+            modal.close();
+        };
+
+        pub.modal = modal;
+
+        return pub;
+    })
+    .factory('socket', ['$rootScope', '$window', '$location', 'msgBox', function ($rootScope, $window, $location, msgBox) {
         var protocol = $window.location.protocol;
         var hostname = $window.location.hostname;
         var port = $window.location.port;
@@ -23,14 +72,17 @@ angular.module('baboon.services', [])
 
         socket.on('error', function (err) {
             console.error('Unable to connect Socket.IO', err);
+
+            $rootScope.$apply(function () {
+                msgBox.modal.show('Server error!', 'Error');
+            });
         });
 
         socket.on('disconnect', function () {
-            console.error('DISCO');
-//            $rootScope.err.msg = 'DISCO';
-//
+            console.error('Lost connection to Socket.IO');
+
             $rootScope.$apply(function () {
-                $rootScope.err.msg = 'DISCO';
+                msgBox.modal.show('Lost connection to server!', 'Warning');
             });
         });
 
@@ -46,8 +98,25 @@ angular.module('baboon.services', [])
             console.error('connect_timeout...');
         });
 
-        socket.on('reconnect', function (num) {
-            console.log('socket.io reconnect: ' + num);
+        socket.on('reconnect', function (transport) {
+            console.log('socket.io reconnect with: ' + transport);
+
+            $rootScope.$apply(function () {
+                msgBox.modal.close();
+            });
+        });
+
+        socket.on('reconnecting', function () {
+            var reconnectionAttempts = arguments[1] || 0;
+            console.log('Try to reconnect with: ' + socket.socket.transport.name + ', attempt: ' + reconnectionAttempts);
+
+            $rootScope.$apply(function () {
+                if (reconnectionAttempts === 1) {
+                    msgBox.modal.message += ' Trying to reconnect. Attempt: ' + reconnectionAttempts;
+                } else {
+                    msgBox.modal.message = msgBox.modal.message.replace((reconnectionAttempts - 1).toString(), reconnectionAttempts);
+                }
+            });
         });
 
         socket.on('reconnect_error', function (err) {
@@ -61,9 +130,19 @@ angular.module('baboon.services', [])
         socket.on('site_reload', function () {
             console.warn('Site Reload triggered by Server');
 
-            window.location.reload();
+//            window.location.reload();
 
 //            $location.path('/login');
+
+            $rootScope.$apply(function () {
+                msgBox.modal.show('Session is expired! Please log in.', 'Warning', function () {
+//                    $location.path('/login');
+
+                    window.location.reload();
+
+//                    $location.path('/login');
+                });
+            });
         });
 
         return {
@@ -86,7 +165,7 @@ angular.module('baboon.services', [])
                 });
             }
         };
-    })
+    }])
     .factory('cache', function () {
         return {};
     })

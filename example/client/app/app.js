@@ -18,15 +18,6 @@ angular.module('app', [
             session.setActivity();
         });
     }])
-    .controller('rootCtrl', ['$rootScope', function ($scope) {
-        $scope.err = {};
-
-        $scope.modal = {
-            opts: {
-                backdropFade: true,
-                dialogFade: true
-            }
-        };
-
-
+    .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
+        $scope.modal = msgBox.modal;
     }]);
