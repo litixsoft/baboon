@@ -130,17 +130,9 @@ angular.module('baboon.services', [])
         socket.on('site_reload', function () {
             console.warn('Site Reload triggered by Server');
 
-//            window.location.reload();
-
-//            $location.path('/login');
-
             $rootScope.$apply(function () {
                 msgBox.modal.show('Session is expired! Please log in.', 'Warning', function () {
-//                    $location.path('/login');
-
-                    window.location.reload();
-
-//                    $location.path('/login');
+                    window.location.assign('/login');
                 });
             });
         });

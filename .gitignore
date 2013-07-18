@@ -1,5 +1,5 @@
-atlassian-ide-plugin.xml
 .idea
+atlassian-ide-plugin.xml
 build
 node_modules
 

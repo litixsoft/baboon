@@ -81,7 +81,7 @@
 
     <div ng-view></div>
 
-    <div ng-controller="rootCtrl">
+    <div ng-controller="rootCtrl" ng-cloak>
         <div modal="modal.shouldBeOpen" close="modal.close()" options="opts">
             <div class="modal-header">
                 <h4>{{ modal.type }}</h4>
@@ -93,7 +93,7 @@
 
             <div class="modal-footer">
                 <button class="btn" ng-click="modal.close()">Close</button>
-                <button class="btn btn-primary" ng-click="modal.ok()">Ok</button>
+                <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
             </div>
         </div>
     </div>
