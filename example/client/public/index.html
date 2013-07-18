@@ -81,8 +81,8 @@
 
     <div ng-view></div>
 
-    <div ng-controller="rootCtrl" ng-cloak>
-        <div modal="modal.shouldBeOpen" close="modal.close()" options="opts">
+    <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
+        <div modal="modal.shouldBeOpen" close="modal.close()" options="opts" ng-cloak class="ng-cloak">
             <div class="modal-header">
                 <h4>{{ modal.type }}</h4>
             </div>
