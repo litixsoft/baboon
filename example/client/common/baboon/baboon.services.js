@@ -71,11 +71,19 @@ angular.module('baboon.services', [])
         var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
         socket.on('error', function (err) {
-            console.error('Unable to connect Socket.IO', err);
+            console.error('Unable to connect Socket.IO: ', err);
 
-            $rootScope.$apply(function () {
-                msgBox.modal.show('Server error!', 'Error');
-            });
+            if (err === 'handshake unauthorized') {
+                $rootScope.$apply(function () {
+                    msgBox.modal.show('Session is expired! Please log in.', 'Warning', function () {
+                        window.location.assign('/login');
+                    });
+                });
+            } else {
+                $rootScope.$apply(function () {
+                    msgBox.modal.show('Server error! ' + err, 'Error');
+                });
+            }
         });
 
         socket.on('disconnect', function () {
