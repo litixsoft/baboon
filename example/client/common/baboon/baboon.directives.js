@@ -3,7 +3,7 @@ angular.module('baboon.directives', [])
     .directive('lxPager', function () {
         return {
             restrict: 'E',
-            template: '<div class="btn-group">' +
+            template: '<div class="btn-group" data-id="lxPager">' +
                 '<div class="input-prepend input-append">' +
                 '<button class="btn" ng-click="firstPage()" ng-disabled="currentPage == 1">' +
                 '<i class="icon-step-backward"></i></button>' +
@@ -88,8 +88,10 @@ angular.module('baboon.directives', [])
                     scope.currentPage = scope.numberOfPages() || 1;
                 };
 
-                scope.$watch('currentPage', function () {
-                    scope.refresh();
+                scope.$watch('currentPage', function (oldValue, newValue) {
+                    if (oldValue !== newValue) {
+                        scope.refresh();
+                    }
                 });
 
                 scope.$watch('count', function () {
@@ -99,11 +101,11 @@ angular.module('baboon.directives', [])
                     }
                 });
 
-                scope.$watch('pageSize', function () {
+                scope.$watch('pageSize', function (oldValue, newValue) {
                     // set current page to number of pages when current page is greater than number of pages
                     if (scope.currentPage > scope.numberOfPages()) {
                         scope.currentPage = scope.numberOfPages() || 1;
-                    } else {
+                    } else if (oldValue !== newValue) {
                         scope.refresh();
                     }
                 });

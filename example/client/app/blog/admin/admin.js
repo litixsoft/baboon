@@ -76,7 +76,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             }
         };
 
-        $scope.addPosts = function() {
+        $scope.addPosts = function () {
             var data = {};
 
             for (var i = 0; i < 1000; i++) {
@@ -85,9 +85,11 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                     content: 'Content ' + i
                 };
 
-                authorPosts.create(data, function() {});
+                authorPosts.create(data, function () {});
             }
         };
+
+        $scope.getData({skip: 0, limit: 5});
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');
