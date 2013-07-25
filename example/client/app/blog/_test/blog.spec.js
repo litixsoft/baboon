@@ -5,7 +5,7 @@ var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
     beforeEach(module('blog'));
-    beforeEach(module('baboon.services'));
+    beforeEach(module('baboon.core'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {

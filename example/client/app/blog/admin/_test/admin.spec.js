@@ -5,7 +5,9 @@ var ctrl, scope, flag, value, service;
 
 describe('admin modul', function () {
     beforeEach(module('blog'));
-    beforeEach(module('baboon.services'));
+    beforeEach(module('baboon.core'));
+    beforeEach(module('lx.InlineEdit'));
+    beforeEach(module('lx.form'));
 
     // adminCtrl tests
     describe('adminCtrl', function () {
