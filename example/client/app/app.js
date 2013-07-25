@@ -1,8 +1,15 @@
 /*global angular*/
 angular.module('app', [
         'ui.utils',
-        'baboon.directives',
-        'baboon.services',
+        'ui.bootstrap',
+        'lx.fileUpload',
+        'lx.float',
+        'lx.integer',
+        'lx.pager',
+        'lx.sort',
+        'baboon.core',
+        'lx.form',
+        'lx.InlineEdit',
         'blog',
         'enterprise',
         'home',

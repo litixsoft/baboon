@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
-        libincludes: grunt.file.readJSON('config/lib.conf.json'),
+        bbc: 'node_modules/baboon-client',
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                     // all html views that need to be copy.
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
                     // all vendor files that need to be copy.
-                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: 'vendor/bootstrap/img/'}
+                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
                 ]
             }
         },
@@ -103,27 +103,27 @@ module.exports = function (grunt) {
                 files: {
                     // lib debug
                     'build/dist/public/js/lib.js': [
-                        'vendor/angular/angular.js',
-                        'vendor/baboon/utils.js',
-                        '<%= libincludes.base.js %>'
+                        '<%= bbc %>/vendor/angular/angular.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js'
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
-                        'vendor/angular/angular.min.js',
-                        'vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.min.js'
-                        /*angular-ui-utils sind noch nicht als minimierte verfügbar*/
+                        '<%= bbc %>/vendor/angular/angular.min.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.min.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.min.js'
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [
-                        'vendor/bootstrap/css/bootstrap.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.css',
-                        'vendor/baboon/default.css'
+                        '<%= bbc %>/vendor/bootstrap/css/bootstrap.css',
+                        '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.css',
+                        '<%= bbc %>/lib/css/default.css'
                     ],
                     // libs release
                     'build/dist/public/css/lib.min.css': [
-                        'vendor/bootstrap/css/bootstrap.min.css',
-                        'vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        'vendor/baboon/default.css'
+                        '<%= bbc %>/vendor/bootstrap/css/bootstrap.min.css',
+                        '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.min.css',
+                        '<%= bbc %>/lib/css/default.min.css'
                     ]
                 }
             },
@@ -136,6 +136,18 @@ module.exports = function (grunt) {
 
                         // prefix
                         'client/module.prefix',
+
+                        // lib services
+                        '<%= bbc %>/lib/services/baboon-core.js',
+                        '<%= bbc %>/lib/services/lx-form.js',
+                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+
+                        // lib directives
+                        '<%= bbc %>/lib/directives/lx-file-upload.js',
+                        '<%= bbc %>/lib/directives/lx-float.js',
+                        '<%= bbc %>/lib/directives/lx-integer.js',
+                        '<%= bbc %>/lib/directives/lx-pager.js',
+                        '<%= bbc %>/lib/directives/lx-sort.js',
 
                         // common
                         'client/common/**/*.js',
@@ -170,6 +182,18 @@ module.exports = function (grunt) {
 
                         // prefix
                         'client/module.prefix',
+
+                        // lib services
+                        '<%= bbc %>/lib/services/baboon-core.js',
+                        '<%= bbc %>/lib/services/lx-form.js',
+                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+
+                        // lib directives
+                        '<%= bbc %>/lib/directives/lx-file-upload.js',
+                        '<%= bbc %>/lib/directives/lx-float.js',
+                        '<%= bbc %>/lib/directives/lx-integer.js',
+                        '<%= bbc %>/lib/directives/lx-pager.js',
+                        '<%= bbc %>/lib/directives/lx-sort.js',
 
                         // common
                         'client/common/**/*.js',
@@ -282,46 +306,28 @@ module.exports = function (grunt) {
         },
         replace: {
             debug: {
-                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.js'],
+                src: ['build/dist/views/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@livereload-->', to: ''},
-                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                            '"<%= libincludes.base.injects[i] %>"' +
-                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
-                        ',' +
-                        '<% } %>' +
-                        '<% } %>'}
+                    {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             release: {
-                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.min.js'],
+                src: ['build/dist/views/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
-                    {from: '<!--@@livereload-->', to: ''},
-                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>"' +
-                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
-                        ',' +
-                        '<% } %>' +
-                        '<% } %>'}
+                    {from: '<!--@@livereload-->', to: ''}
                 ]
             },
             livereload: {
-                src: ['build/dist/views/*.html', 'build/dist/public/js/lib.js'],
+                src: ['build/dist/views/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'},
-                    {from: '<!--@@baseInjects-->', to: '<% for(var i=0;i<libincludes.base.injects.length;i++){ %>' +
-                        '"<%= libincludes.base.injects[i] %>"' +
-                        '<% if((i+1) < libincludes.base.injects.length) { %>' +
-                        ',' +
-                        '<% } %>' +
-                        '<% } %>'}
+                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
                 ]
             }
         },
