@@ -103,15 +103,11 @@ module.exports = function (grunt) {
                 files: {
                     // lib debug
                     'build/dist/public/js/lib.js': [
-                        '<%= bbc %>/vendor/angular/angular.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js'
+                        '<%= bbc %>/vendor/angular/angular.js'
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
-                        '<%= bbc %>/vendor/angular/angular.min.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.min.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.min.js'
+                        '<%= bbc %>/vendor/angular/angular.min.js'
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [
@@ -137,12 +133,16 @@ module.exports = function (grunt) {
                         // prefix
                         'client/module.prefix',
 
-                        // lib services
+                        // baboon-client angular extras
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js',
+
+                        // baboon-client lib services
                         '<%= bbc %>/lib/services/baboon-core.js',
                         '<%= bbc %>/lib/services/lx-form.js',
                         '<%= bbc %>/lib/services/lx-inline-edit.js',
 
-                        // lib directives
+                        // baboon-client lib directives
                         '<%= bbc %>/lib/directives/lx-file-upload.js',
                         '<%= bbc %>/lib/directives/lx-float.js',
                         '<%= bbc %>/lib/directives/lx-integer.js',
@@ -182,6 +182,10 @@ module.exports = function (grunt) {
 
                         // prefix
                         'client/module.prefix',
+
+                        // baboon-client angular extras
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js',
 
                         // lib services
                         '<%= bbc %>/lib/services/baboon-core.js',
@@ -256,7 +260,7 @@ module.exports = function (grunt) {
             }
         },
 
-        bgShell:{
+        bgShell: {
             e2e: {
                 cmd: 'node test/fixtures/resetDB.js e2e'
             },
