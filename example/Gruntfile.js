@@ -1,7 +1,106 @@
 'use strict';
+
 module.exports = function (grunt) {
 
-    var path = require('path');
+    var path = require('path'),
+        browsers = [
+            {
+                name: 'Chrome',
+                DEFAULT_CMD: {
+                    linux: ['google-chrome-canary'],
+                    darwin: ['/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'],
+                    win32: [
+                        process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
+                        process.env.ProgramW6432 + '\\Google\\Chrome\\Application\\chrome.exe',
+                        process.env.ProgramFiles + '\\Google\\Chrome\\Application\\chrome.exe'
+                    ]
+                },
+                ENV_CMD: 'CHROME_BIN'
+            },
+            {
+                name: 'ChromeCanary',
+                DEFAULT_CMD: {
+                    linux: ['google-chrome'],
+                    darwin: ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'],
+                    win32: [
+                        process.env.LOCALAPPDATA + '\\Google\\Chrome SxS\\Application\\chrome.exe',
+                        process.env.ProgramW6432 + '\\Google\\Chrome SxS\\Application\\chrome.exe',
+                        process.env.ProgramFiles + '\\Google\\Chrome SxS\\Application\\chrome.exe'
+                    ]
+                },
+                ENV_CMD: 'CHROME_CANARY_BIN'
+            },
+            {
+                name: 'Firefox',
+                DEFAULT_CMD: {
+                    linux: ['firefox'],
+                    darwin: ['/Applications/Firefox.app/Contents/MacOS/firefox-bin'],
+                    win32: [
+                        process.env.LOCALAPPDATA + '\\Mozilla Firefox\\firefox.exe',
+                        process.env.ProgramW6432 + '\\Mozilla Firefox\\firefox.exe',
+                        process.env.ProgramFiles + '\\Mozilla Firefox\\firefox.exe'
+                    ]
+                },
+                ENV_CMD: 'FIREFOX_BIN'
+            },
+            {
+                name: 'Safari',
+                DEFAULT_CMD: {
+                    darwin: ['/Applications/Safari.app/Contents/MacOS/Safari'],
+                    win32: [
+                        process.env.LOCALAPPDATA + '\\Safari\\Safari.exe',
+                        process.env.ProgramW6432 + '\\Safari\\Safari.exe',
+                        process.env.ProgramFiles + '\\Safari\\Safari.exe'
+                    ]
+                },
+                ENV_CMD: 'SAFARI_BIN'
+            },
+            {
+                name: 'IE',
+                DEFAULT_CMD: {
+                    win32: [
+                        process.env.ProgramFiles + '\\Internet Explorer\\iexplore.exe',
+                        process.env.ProgramW6432 + '\\Internet Explorer\\iexplore.exe'
+                    ]
+                },
+                ENV_CMD: 'IE_BIN'
+            }
+        ];
+
+    function getCoverageReport (folder) {
+        var reports = grunt.file.expand(folder + '*/index.html');
+
+        if (reports && reports.length > 0) {
+            return reports[0];
+        }
+
+        return '';
+    }
+
+    function getInstalledBrowsers (browsers) {
+        var result = [];
+
+        browsers.forEach(function (browser) {
+            var browserPaths = browser.DEFAULT_CMD[process.platform] || [],
+                i, length = browserPaths.length;
+
+            for (i = 0; i < length; i++) {
+                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD]) {
+                    result.push(browser.name);
+
+                    if (process.platform === 'win32' && !process.env[browser.ENV_CMD]) {
+                        process.env[browser.ENV_CMD] = browserPaths[i];
+                    }
+
+                    return;
+                }
+            }
+        });
+
+        return result;
+    }
+
+    var availableBrowser = getInstalledBrowsers(browsers);
 
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
@@ -286,9 +385,11 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         livereload: {
             port: 35729 // Default livereload listening port.
         },
+
         // Configuration to be run (and then tested)
         regarde: {
             client: {
@@ -300,14 +401,19 @@ module.exports = function (grunt) {
                 tasks: ['express:dev', 'livereload']
             }
         },
+
         open: {
             browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             },
-            coverageReport: {
-                path: path.join(__dirname, 'build/reports/coverage/server/lcov-report/index.html')
+            coverageServer: {
+                path: path.join(__dirname, getCoverageReport('build/reports/coverage/server/lcov-report/'))
+            },
+            coverageClient: {
+                path: path.join(__dirname, getCoverageReport('build/reports/coverage/client/'))
             }
         },
+
         replace: {
             debug: {
                 src: ['build/dist/views/*.html'],
@@ -335,23 +441,40 @@ module.exports = function (grunt) {
                 ]
             }
         },
+
         karma: {
             unit: {
-                configFile: 'config/karma.conf.js'
+                configFile: 'config/karma.conf.js',
+                browsers: availableBrowser
             },
-            unitAll: {
-                configFile: 'config/karma.all.conf.js'
+            ci: {
+                configFile: 'config/karma.conf.js',
+                browsers: availableBrowser,
+                reporters: ['progress', 'junit'],
+                junitReporter: {
+                    outputFile: 'build/reports/tests/karma.xml',
+                    suite: 'karma'
+                }
             },
-            e2e: {
-                configFile: 'config/karma.e2e.conf.js'
+            debug: {
+                configFile: 'config/karma.conf.js',
+                singleRun: false
             },
             coverage: {
                 configFile: 'config/karma.coverage.conf.js'
             },
             cobertura: {
-                configFile: 'config/karma.cobertura.conf.js'
+                configFile: 'config/karma.coverage.conf.js',
+                coverageReporter: {
+                    type: 'cobertura',
+                    dir: 'build/reports/coverage/client'
+                }
+            },
+            e2e: {
+                configFile: 'config/karma.e2e.conf.js'
             }
         },
+
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
             projectRoot: 'test',
@@ -414,20 +537,18 @@ module.exports = function (grunt) {
         'jasmine_node',
         'karma:unit'
     ]);
+    grunt.registerTask('debug', [
+        'karma:debug'
+    ]);
     grunt.registerTask('unitClient', [
         'jshint:test',
         'karma:unit'
     ]);
-    grunt.registerTask('unitAll', [
-        'clean:jasmine',
-        'jshint:test',
-        'jasmine_node',
-        'karma:unitAll'
-    ]);
     grunt.registerTask('coverClient', [
         'clean:coverageClient',
         'jshint:test',
-        'karma:coverage'
+        'karma:coverage',
+        'open:coverageClient'
     ]);
     grunt.registerTask('unitServer', [
         'clean:jasmine',
@@ -438,7 +559,7 @@ module.exports = function (grunt) {
         'clean:coverageServer',
         'jshint:test',
         'bgShell:coverage',
-        'open:coverageReport'
+        'open:coverageServer'
     ]);
     grunt.registerTask('cover', [
         'clean:coverageServer',
@@ -499,6 +620,7 @@ module.exports = function (grunt) {
         'bgShell:coverage',
         'bgShell:cobertura',
         'jasmine_node',
+        'karma:unit',
         'karma:coverage',
         'karma:cobertura'
     ]);
