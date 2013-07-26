@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                 i, length = browserPaths.length;
 
             for (i = 0; i < length; i++) {
-                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD] || process.env[browser.DEFAULT_CMD[process.platform]]) {
+                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD] || grunt.file.exists(path.join('/', 'usr', 'bin', browserPaths[i]))) {
                     result.push(browser.name);
 
                     if (process.platform === 'win32' && !process.env[browser.ENV_CMD]) {
