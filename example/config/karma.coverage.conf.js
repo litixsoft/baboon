@@ -3,17 +3,16 @@ basePath = '../';
 files = [
     JASMINE,
     JASMINE_ADAPTER,
-    'vendor/angular/angular.js',
-    'vendor/angular/angular-mocks.js',
+    'node_modules/baboon-client/vendor/angular/angular.js',
+    'node_modules/baboon-client/vendor/angular/angular-mocks.js',
+    'node_modules/baboon-client/lib/**/*.js',
     'test/fixtures/mocks.js',
     'client/public/vendor/showdown/showdown.js',
-    'client/common/baboon/**/*.js',
     'client/app/**/*.js'
 ];
 
 preprocessors = {
-    'client/app/**/*.js': 'coverage',
-    'client/common/baboon/**/*.js': 'coverage'
+    'client/app/**/*.js': 'coverage'
 };
 
 reporters = ['progress', 'coverage'];

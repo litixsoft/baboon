@@ -1,8 +1,9 @@
 /*global angular*/
 angular.module('app', [
         'ui.utils',
-        'baboon.directives',
+        'ui.bootstrap',
         'baboon.services',
+        'baboon.directives',
         'blog',
         'enterprise',
         'home',
@@ -18,6 +19,6 @@ angular.module('app', [
             session.setActivity();
         });
     }])
-    .controller('rootCtrl', ['$rootScope', function ($scope) {
-        $scope.err = {};
+    .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
+        $scope.modal = msgBox.modal;
     }]);

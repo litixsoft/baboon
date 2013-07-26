@@ -6,9 +6,15 @@ body {
 .help-inline.error {
     color: #b94a48;
 }
+
 .loginError {
     color: #ff0000;
 }
+
 .loginSuccess {
     color: green;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none;
 }
