@@ -12,7 +12,8 @@ module.exports = function (grunt) {
                     win32: [
                         process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
                         process.env.ProgramW6432 + '\\Google\\Chrome\\Application\\chrome.exe',
-                        process.env.ProgramFiles + '\\Google\\Chrome\\Application\\chrome.exe'
+                        process.env.ProgramFiles + '\\Google\\Chrome\\Application\\chrome.exe',
+                        process.env['ProgramFiles(x86)'] + '\\Google\\Chrome\\Application\\chrome.exe'
                     ]
                 },
                 ENV_CMD: 'CHROME_BIN'
@@ -25,7 +26,8 @@ module.exports = function (grunt) {
                     win32: [
                         process.env.LOCALAPPDATA + '\\Google\\Chrome SxS\\Application\\chrome.exe',
                         process.env.ProgramW6432 + '\\Google\\Chrome SxS\\Application\\chrome.exe',
-                        process.env.ProgramFiles + '\\Google\\Chrome SxS\\Application\\chrome.exe'
+                        process.env.ProgramFiles + '\\Google\\Chrome SxS\\Application\\chrome.exe',
+                        process.env['ProgramFiles(x86)'] + '\\Google\\Chrome SxS\\Application\\chrome.exe'
                     ]
                 },
                 ENV_CMD: 'CHROME_CANARY_BIN'
@@ -38,7 +40,8 @@ module.exports = function (grunt) {
                     win32: [
                         process.env.LOCALAPPDATA + '\\Mozilla Firefox\\firefox.exe',
                         process.env.ProgramW6432 + '\\Mozilla Firefox\\firefox.exe',
-                        process.env.ProgramFiles + '\\Mozilla Firefox\\firefox.exe'
+                        process.env.ProgramFiles + '\\Mozilla Firefox\\firefox.exe',
+                        process.env['ProgramFiles(x86)'] + '\\Mozilla Firefox\\firefox.exe'
                     ]
                 },
                 ENV_CMD: 'FIREFOX_BIN'
@@ -50,7 +53,8 @@ module.exports = function (grunt) {
                     win32: [
                         process.env.LOCALAPPDATA + '\\Safari\\Safari.exe',
                         process.env.ProgramW6432 + '\\Safari\\Safari.exe',
-                        process.env.ProgramFiles + '\\Safari\\Safari.exe'
+                        process.env.ProgramFiles + '\\Safari\\Safari.exe',
+                        process.env['ProgramFiles(x86)'] + '\\Safari\\Safari.exe'
                     ]
                 },
                 ENV_CMD: 'SAFARI_BIN'
@@ -60,7 +64,8 @@ module.exports = function (grunt) {
                 DEFAULT_CMD: {
                     win32: [
                         process.env.ProgramW6432 + '\\Internet Explorer\\iexplore.exe',
-                        process.env.ProgramFiles + '\\Internet Explorer\\iexplore.exe'
+                        process.env.ProgramFiles + '\\Internet Explorer\\iexplore.exe',
+                        process.env['ProgramFiles(x86)'] + '\\Internet Explorer\\iexplore.exe'
                     ]
                 },
                 ENV_CMD: 'IE_BIN'
