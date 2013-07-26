@@ -100,7 +100,6 @@ module.exports = function (app) {
             }
         }, function (error, results) {
             if (error) {
-                console.log(error);
                 syslog.error('%s! getting all blog posts from db: %j', error, data);
                 callback({message: 'Could not load all blog posts!'});
                 return;

@@ -44,6 +44,8 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
                 $scope.tags = result.data;
             }
         });
+
+        $scope.getData({skip: 0, limit: 5});
     }])
     .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
         // load post

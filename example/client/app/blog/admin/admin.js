@@ -5,7 +5,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', 'authorPosts', 'inlineEdit', function ($scope, posts, authorPosts, inlineEdit) {
+    .controller('adminCtrl', ['$scope', 'posts', 'authorPosts', 'lxInlineEdit', function ($scope, posts, authorPosts, lxInlineEdit) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -65,7 +65,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
         };
 
         ///////////////////////////////////////
-        $scope.inlineEdit = inlineEdit();
+        $scope.inlineEdit = lxInlineEdit();
 
         $scope.save = function (post, form) {
             $scope.myForm = form;
@@ -76,7 +76,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
             }
         };
 
-        $scope.addPosts = function() {
+        $scope.addPosts = function () {
             var data = {};
 
             for (var i = 0; i < 1000; i++) {
@@ -85,9 +85,11 @@ angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directive
                     content: 'Content ' + i
                 };
 
-                authorPosts.create(data, function() {});
+                authorPosts.create(data, function () {});
             }
         };
+
+        $scope.getData({skip: 0, limit: 5});
     }])
     .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');

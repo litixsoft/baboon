@@ -46,5 +46,10 @@
             </div>
         </div>
 
+
+        <h4>File Input Demo</h4>
+        <input type="file" lx-file-upload multiple on-files-selected="onFilesSelected(files)" />
+
+        <pre>{{ files | json }}</pre>
     </div>
 </div>

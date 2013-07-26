@@ -1,8 +1,9 @@
 /*global angular*/
 angular.module('app', [
         'ui.utils',
-        'baboon.directives',
+        'ui.bootstrap',
         'baboon.services',
+        'baboon.directives',
         'blog',
         'enterprise',
         'home',
@@ -13,8 +14,11 @@ angular.module('app', [
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
     })
-    .run(['$rootScope','session', function ($rootScope, session) {
-        $rootScope.$on('$routeChangeStart', function(){
+    .run(['$rootScope', 'session', function ($rootScope, session) {
+        $rootScope.$on('$routeChangeStart', function () {
             session.setActivity();
         });
+    }])
+    .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
+        $scope.modal = msgBox.modal;
     }]);

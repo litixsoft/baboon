@@ -33,6 +33,10 @@ angular.module('enterprise', ['enterprise.services'])
             backdropFade: true,
             dialogFade: true
         };
+
+        $scope.onFilesSelected = function(files) {
+            $scope.files = files;
+        };
     }])
 /**
  * Enterprise edit controller
