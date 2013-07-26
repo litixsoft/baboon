@@ -7,8 +7,8 @@ module.exports = function (grunt) {
             {
                 name: 'Chrome',
                 DEFAULT_CMD: {
-                    linux: ['google-chrome-canary'],
-                    darwin: ['/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'],
+                    linux: ['google-chrome'],
+                    darwin: ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'],
                     win32: [
                         process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
                         process.env.ProgramW6432 + '\\Google\\Chrome\\Application\\chrome.exe',
@@ -20,8 +20,8 @@ module.exports = function (grunt) {
             {
                 name: 'ChromeCanary',
                 DEFAULT_CMD: {
-                    linux: ['google-chrome'],
-                    darwin: ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'],
+                    linux: ['google-chrome-canary'],
+                    darwin: ['/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'],
                     win32: [
                         process.env.LOCALAPPDATA + '\\Google\\Chrome SxS\\Application\\chrome.exe',
                         process.env.ProgramW6432 + '\\Google\\Chrome SxS\\Application\\chrome.exe',
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                 i, length = browserPaths.length;
 
             for (i = 0; i < length; i++) {
-                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD]) {
+                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD] || grunt.file.exists(path.join('/', 'usr', 'bin', browserPaths[i]))) {
                     result.push(browser.name);
 
                     if (process.platform === 'win32' && !process.env[browser.ENV_CMD]) {
