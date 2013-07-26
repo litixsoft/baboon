@@ -105,13 +105,13 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * optimize API
 * extend with new features
 
-### 0.3 - 0.9 release canditates
-*
-
-### 1.0 stable
-*
-
 ## Release History
+### v0.1.2
+
+* Fix bugs
+* optimize angular-ui-utils import
+* integrate tests for all installed browsers
+
 ### v0.1.1
 
 * Fix bug which causes endless loop on client when session was not regenerated when session's sessionMaxLife was reached.
