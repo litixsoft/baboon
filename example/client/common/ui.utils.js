@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module('ui.utils',  [
     'ui.event',
     'ui.format',

@@ -232,16 +232,32 @@ module.exports = function (grunt) {
                         // prefix
                         'client/module.prefix',
 
-                        // baboon-client angular extras
+                        // ui-bootstrap
                         '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js',
 
-                        // baboon-client lib services
+                        // ui-utils
+                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
+
+                        // baboon.services
                         '<%= bbc %>/lib/services/baboon-core.js',
                         '<%= bbc %>/lib/services/lx-form.js',
                         '<%= bbc %>/lib/services/lx-inline-edit.js',
 
-                        // baboon-client lib directives
+                        // baboon.directives
                         '<%= bbc %>/lib/directives/lx-file-upload.js',
                         '<%= bbc %>/lib/directives/lx-float.js',
                         '<%= bbc %>/lib/directives/lx-integer.js',
@@ -282,16 +298,32 @@ module.exports = function (grunt) {
                         // prefix
                         'client/module.prefix',
 
-                        // baboon-client angular extras
+                        // ui-bootstrap
                         '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/angular-ui-utils.js',
 
-                        // lib services
+                        // ui-utils
+                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
+
+                        // baboon.services
                         '<%= bbc %>/lib/services/baboon-core.js',
                         '<%= bbc %>/lib/services/lx-form.js',
                         '<%= bbc %>/lib/services/lx-inline-edit.js',
 
-                        // lib directives
+                        // baboon.directives
                         '<%= bbc %>/lib/directives/lx-file-upload.js',
                         '<%= bbc %>/lib/directives/lx-float.js',
                         '<%= bbc %>/lib/directives/lx-integer.js',
