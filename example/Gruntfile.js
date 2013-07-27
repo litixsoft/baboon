@@ -186,6 +186,8 @@ module.exports = function (grunt) {
                     {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/public/'},
                     // all toplevel app html files
                     {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/public/'},
+                    // all common html files
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
                     // all html views that need to be copy.
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
                     // all vendor files that need to be copy.

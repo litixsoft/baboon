@@ -4,7 +4,8 @@ angular.module('ui_app', [
         'ui.bootstrap',
         'baboon.services',
         'baboon.directives',
-        'ui_app.base'
+        'ui_app.base',
+        'login'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
