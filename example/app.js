@@ -13,10 +13,17 @@ var path = require('path'),
 ///////////////////////////////////////////
 
 // toplevel ui_examples route
-app.get('/ui', function(req, res) {
-    middleware.auth.checkSession(req, res);
-    middleware.context.index(req, res);
-    res.render('ui');
+app.get('/ui', function (req, res) {
+    middleware.auth.checkSession(req, res, function () {
+        middleware.context.index(req, res);
+        res.render('ui');
+    });
+});
+app.get('/ui/*', function (req, res) {
+    middleware.auth.checkSession(req, res, function () {
+        middleware.context.index(req, res);
+        res.render('ui');
+    });
 });
 
 ///////////////////////////////////////////
