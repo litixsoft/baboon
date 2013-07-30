@@ -1,9 +1,19 @@
 /*global angular*/
+var success = function(res){
+    console.log('success');
+    console.log(res);
+};
+
+var error = function(err){
+    console.log('error:');
+    console.log(err);
+};
+
 angular.module('login',[])
     .config(function ($routeProvider) {
         $routeProvider.when('/login', {templateUrl: '/login/login.html', controller: 'loginCtrl'});
     })
-    .controller('loginCtrl', ['$scope', 'session', function ($scope, session) {
+    .controller('loginCtrl', ['$rootScope', '$scope', 'session', '$http', 'msgBox', function ($rootScope, $scope, session, $http, msgBox) {
 
         $scope.data = {key: 'test', value: 'blub'};
 
@@ -33,5 +43,29 @@ angular.module('login',[])
                 }
 
             });
+        };
+        $scope.activity = function(){
+            console.log('starte activity');
+            $http.post('/test/test').
+                success(function(data, status) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    console.log('data',data);
+                    $rootScope.$apply(function () {
+                        msgBox.modal.show('Session is expired! Please log in.', 'Warning', function () {
+                            window.location.assign('/login');
+                        });
+                    });
+                }).
+                error(function(data, status, headers, config) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    console.log(data);
+                    $rootScope.$apply(function () {
+                        msgBox.modal.show('Session is expired! Please log in.', 'Warning', function () {
+                            window.location.assign('/login');
+                        });
+                    });
+                });
         };
     }]);
