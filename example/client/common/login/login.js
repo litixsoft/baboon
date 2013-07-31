@@ -1,4 +1,5 @@
 /*global angular*/
+
 angular.module('login',[])
     .config(function ($routeProvider) {
         $routeProvider.when('/login', {templateUrl: '/login/login.html', controller: 'loginCtrl'});
@@ -7,31 +8,22 @@ angular.module('login',[])
 
         $scope.data = {key: 'test', value: 'blub'};
 
-        $scope.setAct = function() {
+        $scope.setActivity = function() {
             console.log('set Act');
             session.setActivity();
         };
 
         $scope.setData = function() {
             console.log('starte setData');
-            session.setData($scope.data, function(err, res) {
-                if(err) {
-                    console.log(err);
-                }
-                console.log(res);
-            });
+            session.setData($scope.data);
         };
-        $scope.getAll = function(){
-            console.log('starte getAll');
-            console.log(session);
-            session.getAll(function(err, res) {
-                if(err) {
-                    $scope.session = 'error: ' + err;
-                }
-                else {
+
+        $scope.getData = function() {
+            console.log('starte getData');
+            session.getData($scope.data, function(err, res) {
+                if(! err) {
                     $scope.session = res;
                 }
-
             });
         };
     }]);

@@ -15,8 +15,7 @@ module.exports = function (app) {
     var acl = {
         modules: [
             { name: 'blog', resources: ['getAllPosts', 'getAllPostsWithCount', 'getPostById', 'createPost', 'updatePost', 'addComment', 'searchPosts', 'getAllTags', 'createTag', 'deleteTag'] },
-            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] },
-            { name: 'session', resources: ['getAll', 'setActivity', 'setData', 'getData'] }
+            { name: 'enterprise', resources: ['getAll', 'getById', 'updateById', 'create'] }
         ]
     };
 
@@ -25,7 +24,6 @@ module.exports = function (app) {
      */
     app.server.sio.sockets.on('connection', function (socket) {
         var tmp,
-            config = app.config,
             session = socket.handshake.session;
 
         console.log('socket connection');
@@ -39,33 +37,6 @@ module.exports = function (app) {
 
         socket.on('disconnect', function () {
             app.logging.syslog.info('socket: ' + socket.id + ' disconnected');
-        });
-
-        socket.on('session_activity', function () {
-            // is an active session
-            if (session.user && session.activity) {
-                // check max time
-                var actual = new Date();
-                var sessionStart = new Date(session.start);
-                var sessionActivity = new Date(session.activity);
-                var maxDifference = (actual - sessionStart) / 1000;
-                var activityDifference = (actual - sessionActivity) / 1000;
-
-                //noinspection JSUnresolvedVariable
-                if (config.sessionMaxLife < maxDifference) {
-                    return socket.emit('site_reload');
-                }
-                //noinspection JSUnresolvedVariable
-                if (config.sessionInactiveTime < activityDifference) {
-                    return socket.emit('site_reload');
-                }
-
-                return true;
-            }
-            else {
-                // session not exists
-                return socket.emit('site_reload');
-            }
         });
 
         /**

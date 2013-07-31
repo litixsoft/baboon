@@ -41,7 +41,7 @@ module.exports = function (grunt) {
                 globals: {
                 }
             },
-            test: ['Gruntfile.js', 'lib/**/.js', 'test/**/*.js'],
+            test: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
             jslint: {
                 options: {
                     reporter: 'jslint',
