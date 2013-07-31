@@ -24,7 +24,6 @@ module.exports = function (app) {
      */
     app.server.sio.sockets.on('connection', function (socket) {
         var tmp,
-            config = app.config,
             session = socket.handshake.session;
 
         console.log('socket connection');

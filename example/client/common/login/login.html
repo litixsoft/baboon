@@ -16,11 +16,10 @@
             <div class="<%= sessionMsgClass %>"><%= sessionMsg %></div>
         <% } %>
     </div>
-    <input ng-model="data.value" placeholder="set session data">
+    <input ng-model="data.key" placeholder="session key">
+    <input ng-model="data.value" placeholder="session value">
     <button class="btn" ng-click="setData()">Set To Session</button>
-    <button class="btn btn-info" ng-click="getAll()">Get All Session</button>
-    <button class="btn btn-info" ng-click="setAct()">Set Act</button>
+    <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
+    <button class="btn btn-info" ng-click="setActivity()">Set Act</button>
     <p>{{session}}</p>
-    <h2>Session over Http Test</h2>
-    <button class="btn btn-info" ng-click="activity()">Test Activity</button>
 </div>
