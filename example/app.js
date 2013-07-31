@@ -31,7 +31,7 @@ app.get('/ui/*', function (req, res) {
 ///////////////////////////////////////////
 
 // enable socket.io api
-api.socket(baboon);
+//api.socket(baboon);
 
 ///////////////////////////////////////////
 // server
