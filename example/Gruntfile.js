@@ -611,6 +611,21 @@ module.exports = function (grunt) {
             }
         },
 
+        // Configuration to be run (and then tested)
+        watch: {
+            options: {
+                livereload: true
+            },
+            client: {
+                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
+                tasks: ['build:regarde', 'livereload']
+            },
+            server: {
+                files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
+                tasks: ['express:dev', 'livereload']
+            }
+        },
+
         open: {
             browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
@@ -714,6 +729,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Tasks
     grunt.registerTask('build', [
@@ -816,10 +832,11 @@ module.exports = function (grunt) {
         'copy',
         'concat',
         'replace:livereload',
-        'livereload-start',
+//        'livereload-start',
         'express:dev',
         'open:browser',
-        'regarde'
+//        'regarde'
+        'watch'
     ]);
     grunt.registerTask('ci', [
         'clean',
