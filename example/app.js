@@ -4,9 +4,9 @@ var path = require('path'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
     middleware = baboon.middleware,
     server = baboon.server,
-    app = server.app,
-    config = baboon.config,
-    api = require(config.path.api);
+    app = server.app;
+//    config = baboon.config;
+//    api = require(config.path.api);
 
 ///////////////////////////////////////////
 // extra routes

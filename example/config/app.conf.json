@@ -55,20 +55,23 @@
             },
             "mongo": {
                 "blog": "localhost:11111/blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:11111/enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:11111/enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:11111/baboon_rights?w=0&journal=True&fsync=True"
             }
         },
         "unitTest": {
             "mongo": {
                 "blog": "localhost:27017/test_blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:27017/test_enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:27017/test_enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
             }
         },
         "e2e": {
             "port": 3003,
             "mongo": {
                 "blog": "localhost:27017/e2e_blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:27017/e2e_enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:27017/e2e_enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
             }
         }
     }

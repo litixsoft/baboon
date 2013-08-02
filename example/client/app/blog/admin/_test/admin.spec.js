@@ -79,7 +79,7 @@ describe('admin modul', function () {
             flag = false;
             service = $injector.get('socket');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'blog:getAllTags') {
+                if (eventName === 'example/blog/blog/getAllTags') {
                     value = {data: [
                         {name: 'tag1'},
                         {name: 'tag2'},
@@ -87,7 +87,7 @@ describe('admin modul', function () {
                     ]};
                 }
 
-                if (eventName === 'blog:getPostById') {
+                if (eventName === 'example/blog/blog/getPostById') {
                     value = {
                         data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
                     };
@@ -232,7 +232,7 @@ describe('admin modul', function () {
             flag = false;
             service = $injector.get('socket');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'blog:getAllTags') {
+                if (eventName === 'example/blog/blog/getAllTags') {
                     value = {data: [
                         {name: 'tag1'},
                         {name: 'tag2'},
@@ -240,13 +240,13 @@ describe('admin modul', function () {
                     ]};
                 }
 
-                if (eventName === 'blog:getPostById') {
+                if (eventName === 'example/blog/blog/getPostById') {
                     value = {
                         data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
                     };
                 }
 
-                if (eventName === 'blog:deleteTag') {
+                if (eventName === 'example/blog/blog/deleteTag') {
                     value = {
                         success: 1
                     };

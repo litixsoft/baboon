@@ -18,6 +18,18 @@ describe('Admin Scenarios', function () {
     });
 
     it('should save a new blog post', function () {
+//        browser().navigateTo('/login');
+//        sleep(1);
+//
+////        input('username').enter('admin');
+////        input('password').enter('a');
+//
+//        element('input[name=username]').text('admin');
+//        element('input[name=password]').text('admin');
+//
+//        element('input[name=login]').click();
+//        sleep(1);
+
         browser().navigateTo('/blog/admin');
         sleep(1);
         expect(repeater('table[name=posts] tbody tr').count()).toBe(0);

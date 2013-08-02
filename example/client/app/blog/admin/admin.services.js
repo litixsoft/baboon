@@ -4,26 +4,26 @@ angular.module('admin.services', [])
         var pub = {};
 
         pub.getById = function (id, callback) {
-            socket.emit('blog:getPostById', {id: id}, function (result) {
+            socket.emit('example/blog/blog/getPostById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (post, callback) {
-            socket.emit('blog:createPost', post, function (result) {
+            socket.emit('example/blog/blog/createPost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (post, callback) {
-            socket.emit('blog:updatePost', post, function (result) {
+            socket.emit('example/blog/blog/updatePost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.addComment = function (id, comment, callback) {
             comment.post_id = id;
-            socket.emit('blog:addComment', comment, function (result) {
+            socket.emit('example/blog/blog/addComment', comment, function (result) {
                 callback(result);
             });
         };
@@ -38,7 +38,7 @@ angular.module('admin.services', [])
 
         pub.getAll = function (query, callback) {
             if (pub.refresh) {
-                socket.emit('blog:getAllTags', query, function (result) {
+                socket.emit('example/blog/blog/getAllTags', query, function (result) {
                     if (result.data) {
                         tags = result.data;
                         pub.refresh = false;
@@ -52,19 +52,19 @@ angular.module('admin.services', [])
         };
 
         pub.createTag = function (tag, callback) {
-            socket.emit('blog:createTag', tag, function (result) {
+            socket.emit('example/blog/blog/createTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.updateTag = function (tag, callback) {
-            socket.emit('blog:updateTag', tag, function (result) {
+            socket.emit('example/blog/blog/updateTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.deleteTag = function (id, callback) {
-            socket.emit('blog:deleteTag', {id: id}, function (result) {
+            socket.emit('example/blog/blog/deleteTag', {id: id}, function (result) {
                 callback(result);
             });
         };
