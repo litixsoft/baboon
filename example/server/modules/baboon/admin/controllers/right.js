@@ -1,8 +1,6 @@
 'use strict';
 
-var async = require('async'),
-    lxHelpers = require('lx-helpers'),
-    val = require('lx-valid');
+var async = require('async');
 
 /**
  * The blog api.

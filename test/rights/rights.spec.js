@@ -9,7 +9,8 @@ describe('Rights', function () {
 
     beforeEach(function () {
         users = [
-            {id: 1, name: 'admin'},
+            {id: 0, name: 'admin'},
+            {id: 1, name: 'sysadmin'},
             {id: -1, name: 'guest'},
             {id: 2, name: 'wayne'}
         ];
@@ -148,7 +149,7 @@ describe('Rights', function () {
 
         it('should return an empty object when the param "allRights" is empty', function () {
             var user = {
-                    id: 1,
+                    id: 0,
                     name: 'admin',
                     rights: [
                         {_id: 1, hasAccess: true}
@@ -161,7 +162,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights', function () {
-            var user = {id: 1, name: 'admin'},
+            var user = {id: 0, name: 'admin'},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -169,16 +170,24 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights and his groups have no rights', function () {
-            var user = {id: 1, name: 'admin', groups: [1]},
+            var user = {id: 0, name: 'admin', groups: [1]},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
             expect(Object.keys(res).length).toBe(0);
         });
 
+        it('should return all rights when the user id is 1', function () {
+            var user = {id: 1, name: 'sysadmin'},
+                res = sut.getUserAcl(user, rights);
+
+            expect(typeof res).toBe('object');
+            expect(Object.keys(res).length).toBe(8);
+        });
+
         it('should return an array with the right names strings', function () {
             var user = {
-                    id: 1,
+                    id: 0,
                     name: 'admin',
                     rights: [
                         {_id: 1, hasAccess: true},
@@ -256,7 +265,7 @@ describe('Rights', function () {
                     blog: ['getAllPosts', 'getAllPostsWithCount', 'searchPosts'],
                     admin: ['deletePosts']
                 },
-                'example/blog/calendar':{
+                'example/blog/calendar': {
                     month: ['getMonthName']
                 },
                 'example/enterprise': {
