@@ -6,7 +6,7 @@ angular.module('enterprise.services', [])
 
         pub.getAll = function(callback) {
             if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
-                socket.emit('enterprise:getAll',{}, function(data) {
+                socket.emit('example/enterprise/enterprise/getAll',{}, function(data) {
                     enterprise = data;
                     callback(data);
                 });
@@ -18,7 +18,7 @@ angular.module('enterprise.services', [])
 
         pub.getById = function(id, callback) {
             if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
-                socket.emit('enterprise:getAll',{}, function(data) {
+                socket.emit('example/enterprise/enterprise/getAll',{}, function(data) {
                     enterprise = data;
                     callback(enterprise[id]);
                 });
@@ -29,14 +29,14 @@ angular.module('enterprise.services', [])
         };
 
         pub.updateById = function(id, person, callback) {
-            socket.emit('enterprise:updateById',{id: id, person: person}, function(data) {
+            socket.emit('example/enterprise/enterprise/updateById',{id: id, person: person}, function(data) {
                 enterprise[id] = person;
                 callback(data);
             });
         };
 
         pub.create = function(person, callback) {
-            socket.emit('enterprise:create',{person: person}, function(data) {
+            socket.emit('example/enterprise/enterprise/create',{person: person}, function(data) {
                 if (!Array.isArray(enterprise)) {
                     enterprise = [];
                 }

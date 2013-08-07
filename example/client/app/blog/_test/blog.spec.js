@@ -86,13 +86,13 @@ describe('blog', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
             service = $injector.get('socket');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'blog:addComment') {
+                if (eventName === 'example/blog/blog/addComment') {
                     value = {
                         data: {content: 'text', userName: 'wayne'}
                     };
                 }
 
-                if (eventName === 'blog:getPostById') {
+                if (eventName === 'example/blog/blog/getPostById') {
                     value = {
                         data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
                     };

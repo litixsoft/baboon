@@ -14,7 +14,7 @@ var async = require('async'),
  */
 module.exports = function (app) {
     var pub = {},
-        repo = require(app.config.path.repositories).blog(app.config.mongo.blog),
+        repo = require('../repositories')(app.config.mongo.blog),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
 

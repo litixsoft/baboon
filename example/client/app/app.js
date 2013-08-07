@@ -8,6 +8,7 @@ angular.module('app', [
         'enterprise',
         'home',
         'cache',
+        'admin',
         'login'
     ])
     .config(function ($routeProvider, $locationProvider) {

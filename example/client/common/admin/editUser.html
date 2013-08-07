@@ -1,0 +1,87 @@
+<div>
+    <div class="p-wrapper">
+        <form name="form" novalidate class="css-form form-horizontal">
+            <fieldset>
+                <legend>Right</legend>
+
+                <div class="control-group">
+                    <label class="control-label">Name</label>
+
+                    <div class="controls">
+                        <input type="text" ng-model="lxForm.model.name" name="name" required />
+
+                        <span class="label label-important" ui-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">
+                            Error:
+                            <span ng-show="form.name.$error.required"> Name is required.</span>
+                            <span ng-show="form.errors.name"> {{form.errors.name}}.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+
+                    <div class="controls">
+                        <input type="password" ng-model="lxForm.model.password" name="password" />
+
+                        <span class="label label-important" ui-if="(form.password.$dirty && form.password.$invalid) || form.errors.password">
+                            Error:
+                            <span ng-show="form.password.$error.required"> Password is required.</span>
+                            <span ng-show="form.errors.password"> {{form.errors.password}}.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Group(s)</label>
+
+                    <div class="controls">
+                        <select size="5" name="groups" ng-model="lxForm.model.groups" ng-options="group._id as group.name for group in groups" multiple="multiple">
+                            <option value="">-- select group(s) --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">
+                        <button type="button" class="btn" ng-click="addingRight = true" ng-disabled="addingRight">
+                            <i class="icon-plus-sign"></i> Add Right
+                        </button>
+                    </label>
+
+                    <div class="controls" ng-show="addingRight">
+                        <select name="right" ng-model="addedRight._id" ng-options="right._id as right.name for right in rights">
+                            <option value="">-- select right --</option>
+                        </select>
+
+                        <span style="margin-left: 20px;">hasAccess?</span>
+                        <input type="checkbox" ng-model="addedRight.hasAccess" />
+
+                        <button class="btn" ng-click="addRight(addedRight)" ng-disabled="!addedRight._id">Save Right</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Rights</label>
+
+                    <div class="controls">
+                        <ul>
+                            <li ng-repeat="right in lxForm.model.rights">
+                                <button type="button" class="btn" ng-click="removeRight(right)">
+                                    <i class="icon-remove"></i>
+                                </button>
+                                <input type="checkbox" ng-model="right.hasAccess" ng-disabled="true">
+                                <span>{{right._id}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

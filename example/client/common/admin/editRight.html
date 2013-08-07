@@ -1,0 +1,28 @@
+<div>
+    <div class="p-wrapper">
+        <form name="form" novalidate class="css-form form-horizontal">
+            <fieldset>
+                <legend>Right</legend>
+
+                <div class="control-group">
+                    <label class="control-label">Name</label>
+
+                    <div class="controls">
+                        <input type="text" ng-model="lxForm.model.name" name="name" required />
+
+                        <span class="label label-important" ui-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">
+                            Error:
+                            <span ng-show="form.name.$error.required"> Name is required.</span>
+                            <span ng-show="form.errors.name"> {{form.errors.name}}.</span>
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
