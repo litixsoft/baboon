@@ -595,34 +595,18 @@ module.exports = function (grunt) {
             }
         },
 
-        livereload: {
-            port: 35729 // Default livereload listening port.
-        },
-
-        // Configuration to be run (and then tested)
-        regarde: {
-            client: {
-                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
-                tasks: ['build:regarde', 'livereload']
-            },
-            server: {
-                files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
-                tasks: ['express:dev', 'livereload']
-            }
-        },
-
         // Configuration to be run (and then tested)
         watch: {
             options: {
-                livereload: true
+                livereload: 35729
             },
             client: {
                 files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
-                tasks: ['build:regarde', 'livereload']
+                tasks: ['build:watch']
             },
             server: {
                 files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
-                tasks: ['express:dev', 'livereload']
+                tasks: ['express:dev']
             }
         },
 
@@ -661,7 +645,7 @@ module.exports = function (grunt) {
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                        '<%=watch.options.livereload%>/livereload.js?snipver=1"></script>'}
                 ]
             }
         },
@@ -719,8 +703,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-express-server');
-    grunt.loadNpmTasks('grunt-contrib-livereload');
-    grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -738,7 +720,7 @@ module.exports = function (grunt) {
         'concat',
         'replace:debug'
     ]);
-    grunt.registerTask('build:regarde', [
+    grunt.registerTask('build:watch', [
         'clean:dist',
         'copy',
         'concat',
@@ -832,10 +814,8 @@ module.exports = function (grunt) {
         'copy',
         'concat',
         'replace:livereload',
-//        'livereload-start',
         'express:dev',
         'open:browser',
-//        'regarde'
         'watch'
     ]);
     grunt.registerTask('ci', [
