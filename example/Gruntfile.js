@@ -605,7 +605,7 @@ module.exports = function (grunt) {
                 tasks: ['build:watch']
             },
             server: {
-                files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
+                files: ['server/modules/**/*.*'],
                 tasks: ['express:dev']
             }
         },
