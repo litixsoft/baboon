@@ -1,12 +1,12 @@
 /*global angular*/
 angular.module('enterprise.services', [])
-    .factory('enterpriseCrew', function (socket) {
+    .factory('enterpriseCrew', ['socket', 'enterprise.modulePath', function (socket, modulePath) {
         var pub = {},
             enterprise = [];
 
         pub.getAll = function(callback) {
             if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
-                socket.emit('example/enterprise/enterprise/getAll',{}, function(data) {
+                socket.emit(modulePath + 'enterprise/getAll',{}, function(data) {
                     enterprise = data;
                     callback(data);
                 });
@@ -18,7 +18,7 @@ angular.module('enterprise.services', [])
 
         pub.getById = function(id, callback) {
             if(typeof enterprise === 'undefined' || enterprise.length === 0 ) {
-                socket.emit('example/enterprise/enterprise/getAll',{}, function(data) {
+                socket.emit(modulePath + 'enterprise/getAll',{}, function(data) {
                     enterprise = data;
                     callback(enterprise[id]);
                 });
@@ -29,14 +29,14 @@ angular.module('enterprise.services', [])
         };
 
         pub.updateById = function(id, person, callback) {
-            socket.emit('example/enterprise/enterprise/updateById',{id: id, person: person}, function(data) {
+            socket.emit(modulePath + 'enterprise/updateById',{id: id, person: person}, function(data) {
                 enterprise[id] = person;
                 callback(data);
             });
         };
 
         pub.create = function(person, callback) {
-            socket.emit('example/enterprise/enterprise/create',{person: person}, function(data) {
+            socket.emit(modulePath + 'enterprise/create',{person: person}, function(data) {
                 if (!Array.isArray(enterprise)) {
                     enterprise = [];
                 }
@@ -47,4 +47,4 @@ angular.module('enterprise.services', [])
         };
 
         return pub;
-    });
+    }]);

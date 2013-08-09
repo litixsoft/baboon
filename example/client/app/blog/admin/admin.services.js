@@ -1,36 +1,36 @@
 /*global angular*/
 angular.module('admin.services', [])
-    .factory('authorPosts', function (socket) {
+    .factory('authorPosts', ['socket', 'blog.modulePath', function (socket, modulePath) {
         var pub = {};
 
         pub.getById = function (id, callback) {
-            socket.emit('example/blog/blog/getPostById', {id: id}, function (result) {
+            socket.emit(modulePath + 'blog/getPostById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (post, callback) {
-            socket.emit('example/blog/blog/createPost', post, function (result) {
+            socket.emit(modulePath + 'blog/createPost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (post, callback) {
-            socket.emit('example/blog/blog/updatePost', post, function (result) {
+            socket.emit(modulePath + 'blog/updatePost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.addComment = function (id, comment, callback) {
             comment.post_id = id;
-            socket.emit('example/blog/blog/addComment', comment, function (result) {
+            socket.emit(modulePath + 'blog/addComment', comment, function (result) {
                 callback(result);
             });
         };
 
         return pub;
-    })
-    .factory('tags', function (socket) {
+    }])
+    .factory('tags', ['socket', 'blog.modulePath', function (socket, modulePath) {
         var pub = {},
             tags = [];
 
@@ -38,7 +38,7 @@ angular.module('admin.services', [])
 
         pub.getAll = function (query, callback) {
             if (pub.refresh) {
-                socket.emit('example/blog/blog/getAllTags', query, function (result) {
+                socket.emit(modulePath + 'blog/getAllTags', query, function (result) {
                     if (result.data) {
                         tags = result.data;
                         pub.refresh = false;
@@ -52,22 +52,22 @@ angular.module('admin.services', [])
         };
 
         pub.createTag = function (tag, callback) {
-            socket.emit('example/blog/blog/createTag', tag, function (result) {
+            socket.emit(modulePath + 'blog/createTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.updateTag = function (tag, callback) {
-            socket.emit('example/blog/blog/updateTag', tag, function (result) {
+            socket.emit(modulePath + 'blog/updateTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.deleteTag = function (id, callback) {
-            socket.emit('example/blog/blog/deleteTag', {id: id}, function (result) {
+            socket.emit(modulePath + 'blog/deleteTag', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         return pub;
-    });
+    }]);

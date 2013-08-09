@@ -4,6 +4,7 @@ angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.
         $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
     })
+    .constant('blog.modulePath', 'example/blog/')
     .controller('blogCtrl', ['$scope', 'posts', 'tags', function ($scope, posts, tags) {
         var options = {},
             params = {},
