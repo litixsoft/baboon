@@ -106,13 +106,67 @@
         </div>
     </div>
 
-    <% if(nav) { %>
-    <pre><%= aa %></pre>
-    <% } %>
+    <div class="beige-noise">
+        <div class="p-wrapper">
+
+            <h3>lxNavigation</h3>
+            <p>Es gibt drei mögliche Wege der Erstellung:
+                <ul>
+                    <li>Komplett auf dem Server mit EJS (macht Veränderungen auf dem Client komplizierter, gerade bei Treeviews)</li>
+                    <li>Clientseitige Directive die mit EJS lediglich die Navigationsdaten bekommt (Beispiele unten)</li>
+                    <li>Clientseitige Directive die ihre Daten über Socket etc. bekommt</li>
+                </ul>
+            </p>
+            <p>Daten vom Server per EJS:
+                <% if(nav) { %>
+                    <pre><%= aa %></pre>
+                <% } %>
+            </p>
+
+            <p>Die Navigation kann in sämtliche Erscheinungsformen gebracht werden und das mit einer unendlichen Verschachtelung.
+                Mit selbst zu erzeugenden Templates kann dies bewerkstelligt werden.
+                Hier folgen nun zwei Fälle:
+            <ul>
+                <li>Twitter Bootstrap Elemente (Tabs, Pills, Navbar  etc.) mit Submenus, hier: Navbar
+                    <% if(nav) { %>
+
+
+                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+
+                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-tabs" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+
+                    <div class="navbar">
+                        <div class="container navbar-inner">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="nav-collapse collapse  nav-collapse-scrollable">
+                                <lxbootnav class="navlist" type-attr="navbar-nav" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </li>
+                <li>Eigene Treeview Spalte <small>(Icons möglich)</small>
+                    <% if(nav) { %>
+                    <div class="navCol">
+                        <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxtreeview>
+                    </div>
+                    <% } %>
+                </li>
+            </ul>
+            </p>
+            <br><br>
+        </div>
+    </div>
+
 </div>
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/lxNavigation/lxNavigation.js" charset="utf-8"></script>
 </body>
 </html>
