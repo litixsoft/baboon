@@ -79,7 +79,7 @@
     -moz-border-radius: 5px 5px 5px 0;
     border-radius: 5px 5px 5px 0;
 }
-
+/*
 .dropdown-submenu > a:after {
     display: block;
     float: right;
@@ -93,7 +93,7 @@
     border-width: 5px 0 5px 5px;
     content: " ";
 }
-
+*/
 .dropdown-submenu:hover > a:after {
     border-left-color: #ffffff;
 }

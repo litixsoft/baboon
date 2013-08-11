@@ -117,20 +117,20 @@
                     <li>Clientseitige Directive die ihre Daten über Socket etc. bekommt</li>
                 </ul>
             </p>
-            <p>Daten vom Server per EJS:
+            <p>Daten vom Server nach der Rechteprüfung per EJS in index.html eingebaut:
                 <% if(nav) { %>
                     <pre><%= aa %></pre>
                 <% } %>
             </p>
-
-            <p>Die Navigation kann in sämtliche Erscheinungsformen gebracht werden und das mit einer unendlichen Verschachtelung.
-                Mit selbst zu erzeugenden Templates kann dies bewerkstelligt werden.
-                Hier folgen nun zwei Fälle:
+            <br><br>
+            <h4 style="color:green;">Die Navigation kann in sämtliche Erscheinungsformen gebracht werden und das mit einer unendlichen Verschachtelung.
+                Dies kann mit selbst erzeugten Templates bewerkstelligt werden. Über CSS lassen sich dann alle Äußerlichkeiten Designen.
+                Hier folgen nun zwei Fälle:</h4>
+            <p>
             <ul>
-                <li>Twitter Bootstrap Elemente (Tabs, Pills, Navbar  etc.) mit Submenus, hier: Navbar
+                <li>Twitter Bootstrap Elemente (1.Zeile: Pills, 2.Zeile: Tabs, 3.Zeile: Navbar  etc.) mit Submenus
+                    <br><br>
                     <% if(nav) { %>
-
-
                     <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
 
                     <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-tabs" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
@@ -150,6 +150,7 @@
                     <% } %>
                 </li>
                 <li>Eigene Treeview Spalte <small>(Icons möglich)</small>
+                    <br><br>
                     <% if(nav) { %>
                     <div class="navCol">
                         <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxtreeview>
