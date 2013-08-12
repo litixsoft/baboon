@@ -156,8 +156,8 @@
                 </ul>
             </p>
             <p>Daten vom Server nach der Rechteprüfung per EJS in index.html eingebaut:
-                <% if(nav) { %>
-                    <pre><%= aa %></pre>
+                <% if(navigation) { %>
+                    <pre><%= navigation %></pre>
                 <% } %>
             </p>
             <br><br>
@@ -168,10 +168,10 @@
             <ul>
                 <li>Twitter Bootstrap Elemente (1.Zeile: Pills, 2.Zeile: Tabs, 3.Zeile: Navbar  etc.) mit Submenus
                     <br><br>
-                    <% if(nav) { %>
-                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+                    <% if(navigation) { %>
+                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
 
-                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-tabs" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-tabs" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
 
                     <div class="navbar">
                         <div class="container navbar-inner">
@@ -181,7 +181,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <div class="nav-collapse collapse  nav-collapse-scrollable">
-                                <lxbootnav class="navlist" type-attr="navbar-nav" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxbootnav>
+                                <lxbootnav class="navlist" type-attr="navbar-nav" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
                             </div>
                         </div>
                     </div>
@@ -189,9 +189,9 @@
                 </li>
                 <li>Eigene Treeview Spalte <small>(Icons möglich)</small>
                     <br><br>
-                    <% if(nav) { %>
+                    <% if(navigation) { %>
                     <div class="navCol">
-                        <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= aa %>"></lxtreeview>
+                        <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
                     </div>
                     <% } %>
                 </li>
