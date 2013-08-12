@@ -109,7 +109,7 @@ angular.module("template/lxtreeview/outer.html", []).run(["$templateCache", func
 
 angular.module("template/lxtreeview/inner.html", []).run(["$templateCache", function ($templateCache) {
 	$templateCache.put("template/lxtreeview/inner.html", 
-		'<div class="list-item">\n' +			
+		'<div class="list-item"  ng-class="{active: $uiRoute}" ui-route="{{data[linkAttr]}}">\n' +
 			'<div class="opensub {{data.hide}}" ng-show="data.children" ng-click="toggleShow(data)"></div>\n'+
 			'<div class="nav-icon {{data[iconAttr]}}"></div>\n'+
 			'<a ng-href="{{data[linkAttr]}}"><span>{{data[labelAttr]}}</span></a>\n'+
