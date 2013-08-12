@@ -6,6 +6,7 @@ describe('enterprise services', function () {
 
     beforeEach(function () {
         module('mocks');
+        module('enterprise');
         module('enterprise.services');
         inject(function ($injector) {
             service = $injector.get('enterpriseCrew');

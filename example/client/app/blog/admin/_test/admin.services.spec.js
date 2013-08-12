@@ -5,6 +5,7 @@ describe('admin services', function () {
     var service;
 
     beforeEach(function () {
+        module('blog');
         module('admin.services');
         module('mocks');
     });
