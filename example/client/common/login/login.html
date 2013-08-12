@@ -1,25 +1,33 @@
 <div class="beige-noise">
     <div class="p-wrapper">
         <h2>Baboon Login</h2>
-        <form class="form" method="post" action="/login">
-            <div>
-                <input type="text" name="username" placeholder="Enter username">
+        <div class="row-fluid">
+            <div class="span4">
+                <form class="form" method="post" action="/login">
+                    <div>
+                        <input type="text" name="username" placeholder="Enter username">
+                    </div>
+                    <div>
+                        <input type="password" name="password" placeholder="Enter password">
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="Login" name="login">
+                    </div>
+                </form>
+                <% if(showMsg) { %>
+                <div class="<%= sessionMsgClass %>"><%= sessionMsg %></div>
+                <% } %>
             </div>
-            <div>
-                <input type="password" name="password" placeholder="Enter password">
+            <div class="span8">
+                <input ng-model="data.key" placeholder="session key">
+                <input ng-model="data.value" placeholder="session value">
+                <button class="btn" ng-click="setData()">Set To Session</button>
+                <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
+                <button class="btn btn-info" ng-click="setActivity()">Set Act</button>
+                <p>{{session}}</p>
             </div>
-            <div>
-                <input type="submit" class="btn btn-primary" value="Login" name="login">
-            </div>
-        </form>
-        <% if(showMsg) { %>
-            <div class="<%= sessionMsgClass %>"><%= sessionMsg %></div>
-        <% } %>
-    </div>
-    <input ng-model="data.key" placeholder="session key">
-    <input ng-model="data.value" placeholder="session value">
-    <button class="btn" ng-click="setData()">Set To Session</button>
-    <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
-    <button class="btn btn-info" ng-click="setActivity()">Set Act</button>
-    <p>{{session}}</p>
+        </div>
+
+
+
 </div>

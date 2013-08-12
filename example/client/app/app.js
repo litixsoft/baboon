@@ -9,7 +9,8 @@ angular.module('app', [
         'home',
         'cache',
         'admin',
-        'login'
+        'login',
+        'ui.lxnavigation'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
