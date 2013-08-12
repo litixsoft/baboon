@@ -27,7 +27,284 @@
 .dev-hints{
     color:#ccc;font-size:10px;
 }
+/*-------------------------------------------*/
+/*---------login (overwrite twitter)---------*/
+/*-------------------------------------------*/
 
+.btn-group.open.v4 .dropdown-menu.login h1{
+    font-family:'Raleway';
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    text-align:center;
+
+}
+.btn-group.open.v4 .dropdown-menu.login h1:after{
+    content: 'login';
+    position:absolute;
+    left:50px;
+    top:20px;
+    font-family:'Raleway';
+    font-weight:700;
+    font-size:85px;
+    color:rgba(255,255,255,0.1);
+    text-align:center;
+}
+.btn-group.open.v4 .dropdown-menu.login form{
+    margin:10px 20px;
+}
+.btn-group.open.v4 .dropdown-menu.login{
+    position:fixed;
+    left:50%;
+    top:50%;
+    width:262px;
+    margin-top: -122px;
+    margin-left:-111px;
+    background:#1e90ff url('../img/blue-triangles.png') no-repeat center right;
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow:1px 1px 12px rgba(0,0,0,0.6);
+}
+.btn-group.open.v4 .dropdown-menu.login + .darkback{
+    content :'';
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:rgba(0,0,0,0.8);
+    z-index:1;
+}
+.btn-group.open.v4 .dropdown-menu.login .close{
+    text-shadow:0 1px 3px rgba(255,255,255,0.1);
+    color:white;
+    position:absolute;
+    right:5px;
+    top:5px;
+    z-index:20;
+}
+.btn-group.open.v4 .dropdown-menu.login .form-inner{
+    padding:30px 0 0 0;
+}
+.btn-group.open.v4 .dropdown-menu.login .form-submit{
+     padding:20px 0 0 0;
+
+}
+
+.btn-group.open.v4 .dropdown-menu.login .btn.btn-block{
+    background: url(../img/lock3black.png), -webkit-linear-gradient(top,#ffffff,#e6e6e6);
+    opacity:0.4;
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+    color:white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border:0;
+    padding:6px;
+}
+.btn-group.open.v4 .dropdown-menu.login .btn.btn-block:hover{
+    background: url(../img/lock3black.png), -webkit-linear-gradient(top,#ffffff,#e6e6e6);
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+}
+/*-------------------------------------------*/
+/*---------login (overwrite twitter)---------*/
+/*-------------------------------------------*/
+
+.btn-group.open.v3 .dropdown-menu.login h1{
+    font-family:'Raleway';
+    font-weight:700;
+    color:white;
+    text-align:center;
+    text-shadow:0 1px 3px rgba(0,0,0,0.9);
+}
+.btn-group.open.v3 .dropdown-menu.login{
+
+    position:fixed;
+    left:50%;
+    top:50%;
+    width:242px;
+    margin-top: -113px;
+    margin-left:-121px;
+    background: -webkit-linear-gradient(top left,#3c4148,#33373d);
+    border-top:1px solid rgba(255,255,255,0.2);
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    box-shadow:1px 1px 12px rgba(0,0,0,0.6);
+    z-index:10;
+}
+.btn-group.open.v3 .dropdown-menu.login + .darkback{
+    content :'';
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:rgba(0,0,0,0.85);
+    z-index:1;
+}
+.btn-group.open.v3 .dropdown-menu.login .close{
+    text-shadow:0 1px 3px rgba(255,255,255,0.1);
+    color:white;
+    position:absolute;
+    right:5px;
+    top:5px;
+    z-index:20;
+}
+.btn-group.open.v3 .dropdown-menu.login input{
+
+}
+.btn-group.open.v3 .dropdown-menu.login .form-inner{
+    background-color:#25272a;
+    padding:10px 10px 0 10px;
+    box-shadow:0 0 20px rgba(0,0,0,1) inset;
+    border-top:1px solid rgba(255,255,255,0.2);
+    border-bottom:1px solid rgba(255,255,255,0.3);
+}
+.btn-group.open.v3 .dropdown-menu.login .form-submit{
+    padding:10px 10px 0 10px;
+}
+
+.btn-group.open.v3 .dropdown-menu.login .btn.btn-block{
+    background: url(../img/lock3.png), -webkit-linear-gradient(top,#07a4eb,#0684be);
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+    color:white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border:0;
+    padding:6px;
+}
+.btn-group.open.v3 .dropdown-menu.login .btn.btn-block:hover{
+    background: url(../img/lock3.png), -webkit-linear-gradient(top,#0ccdf5,#0ab5df);
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+}
+/*-------------------------------------------*/
+/*---------login (overwrite twitter)---------*/
+/*-------------------------------------------*/
+.btn-group.open.v1 .dropdown-menu.login h1{
+    font-family:'Raleway';
+    font-weight:700;
+    color:white;
+    text-align:center;
+    text-shadow:0 1px 3px rgba(0,0,0,0.9);
+}
+.btn-group.open.v1 .dropdown-menu.login{
+    background:#3c4148;
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow:1px 1px 12px rgba(0,0,0,0.6);
+    margin-top: 10px;
+}
+.btn-group.open.v1 .dropdown-menu.login:after{
+    content :'';
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-bottom: 8px solid #3c4148;
+    position:absolute;
+    top:-7px;
+    right:30px;
+}
+.btn-group.open.v1 .dropdown-menu.login .close{
+    display:none;
+}
+.btn-group.open.v1 .dropdown-menu.login .form-inner{
+    background-color:#25272a;
+    padding:10px 10px 0 10px;
+    box-shadow:0 0 20px rgba(0,0,0,1) inset;
+    border-top:1px solid rgba(255,255,255,0.2);
+    border-bottom:1px solid rgba(255,255,255,0.3);
+}
+.btn-group.open.v1 .dropdown-menu.login .form-submit{
+    padding:10px 10px 0 10px;
+}
+
+.btn-group.open.v1 .dropdown-menu.login .btn.btn-block{
+    background: url(../img/lock3.png), -webkit-linear-gradient(top,#07a4eb,#0684be);
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+    color:white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border:0;
+    padding:6px;
+}
+.btn-group.open.v1 .dropdown-menu.login .btn.btn-block:hover{
+    background: url(../img/lock3.png), -webkit-linear-gradient(top,#0ccdf5,#0ab5df);
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+}
+
+/*-------------------------------------------*/
+/*---------login (overwrite twitter)---------*/
+/*-------------------------------------------*/
+
+.btn-group.open.v2 .dropdown-menu.login h1{
+    font-family:'Raleway';
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    text-align:center;
+
+}
+.btn-group.open.v2 .dropdown-menu.login h1:after{
+    content: 'login';
+    position:absolute;
+    left:50px;
+    top:20px;
+    font-family:'Raleway';
+    font-weight:700;
+    font-size:85px;
+    color:rgba(255,255,255,0.1);
+    text-align:center;
+}
+.btn-group.open.v2 .dropdown-menu.login form{
+    margin:10px 20px;
+}
+.btn-group.open.v2 .dropdown-menu.login{
+    background:#1e90ff url('../img/blue-triangles.png') no-repeat center right;
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow:1px 1px 12px rgba(0,0,0,0.6);
+    margin-top: 10px;
+}
+.btn-group.open.v2 .dropdown-menu.login:after{
+    content :'';
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-bottom: 8px solid #0264ac;
+    position:absolute;
+    top:-7px;
+    right:30px;
+}
+.btn-group.open.v2 .dropdown-menu.login .close{
+    display:none;
+}
+.btn-group.open.v2 .dropdown-menu.login .form-inner{
+    padding:30px 0 0 0;
+}
+.btn-group.open.v2 .dropdown-menu.login .form-submit{
+     padding:20px 0 0 0;
+
+}
+
+.btn-group.open.v2 .dropdown-menu.login .btn.btn-block{
+    background: url(../img/lock3black.png), -webkit-linear-gradient(top,#ffffff,#e6e6e6);
+    opacity:0.4;
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+    color:white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border:0;
+    padding:6px;
+}
+.btn-group.open.v2 .dropdown-menu.login .btn.btn-block:hover{
+    background: url(../img/lock3black.png), -webkit-linear-gradient(top,#ffffff,#e6e6e6);
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: 17px 25px, auto auto;
+}
 /*-------------------------------------------*/
 /*-----lxNavBar Styles (overwrite twitter)---*/
 /*-------------------------------------------*/
