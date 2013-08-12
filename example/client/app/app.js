@@ -2,6 +2,7 @@
 angular.module('app', [
         'ui.utils',
         'ui.bootstrap',
+        'pascalprecht.translate',
         'baboon.services',
         'baboon.directives',
         'blog',
@@ -12,10 +13,17 @@ angular.module('app', [
         'login',
         'ui.lxnavigation'
     ])
-    .config(function ($routeProvider, $locationProvider) {
+    .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
-    })
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'locale/locale-',
+            suffix: '.json'
+        });
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.fallbackLanguage('en');
+    }])
     .run(['$rootScope', 'session', 'socket', function ($rootScope, session) {
         $rootScope.$on('$routeChangeStart', function () {
             session.setActivity();

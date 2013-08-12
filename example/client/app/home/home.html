@@ -4,5 +4,19 @@
         <h2>Ich bin ein Home View</h2>
         <p>Und hier kommt das allgemeine Blubber Bla Bla</p>
 
+
+        <h3>{{ 'HEADLINE' | translate }}</h3>
+        <p>{{ 'PARAGRAPH' | translate }}</p>
+        <p>Currency Symbol: {{ 'CURRENCY_SYM' | translate }}</p>
+
+        <p translate>PASSED_AS_TEXT</p>
+        <p translate="PASSED_AS_ATTRIBUTE"></p>
+        <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+        <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+        <p translate="VARIABLE_REPLACEMENT" translate-values="{{ translationData }}"></p>
+        <p>{{ 'VARIABLE_REPLACEMENT' | translate:translationData }}</p>
+
+        <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+        <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
     </div>
 </div>
