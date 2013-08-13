@@ -4,7 +4,7 @@
 describe('Rights', function () {
     var path = require('path'),
         rootPath = path.resolve('..', 'baboon'),
-        sut = require(path.resolve(rootPath, 'lib', 'rights')),
+        sut = require(path.resolve(rootPath, 'lib', 'rights'))({}),
         users, groups, rights;
 
     beforeEach(function () {
