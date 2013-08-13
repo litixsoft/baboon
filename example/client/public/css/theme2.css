@@ -425,6 +425,24 @@
     display:none;
 }
 /*-------------------------------------------*/
+/*-------------------------------------------*/
+.nav-tabs .open .dropdown-menu .dropdown-submenu .dropdown-toggle,
+.nav-pills .open .dropdown-menu .dropdown-submenu .dropdown-toggle{
+    background:transparent;
+    color:#333;
+}
+.nav-tabs .open .dropdown-menu .dropdown-submenu .dropdown-toggle .caret,
+.nav-pills .open .dropdown-menu .dropdown-submenu .dropdown-toggle .caret{
+    display: none;
+}
+.nav-tabs .open .dropdown-menu .dropdown-submenu .dropdown-toggle:hover,
+.nav-pills .open .dropdown-menu .dropdown-submenu .dropdown-toggle:hover{
+    background: -webkit-linear-gradient(top, #0088cc, #0077b3);
+    background: linear-gradient(top, #0088cc, #0077b3);
+    color:white;
+}
+
+/*-------------------------------------------*/
 /*-----------lxTreeNav Styles----------------*/
 /*-------------------------------------------*/
 .navCol ul.navlist{
@@ -494,14 +512,17 @@
     text-shadow:0 1px 3px rgba(0,0,0,0.8);
 }
 .navCol div.list-item.active{
-    background: -webkit-linear-gradient(top,#ff0000,#ba0001);
-}
-.navCol div.list-item:hover{
     background: -webkit-linear-gradient(top,#07a4eb,#0684be);
     background: -ms-linear-gradient(top,#07a4eb,#0684be);
     background: -o-linear-gradient(top,#07a4eb,#0684be);
     background: -moz-linear-gradient(top,#07a4eb,#0684be);
     background: linear-gradient(top,#07a4eb,#0684be);
+}
+.navCol div.list-item.active a span{
+    color:white;
+}
+.navCol div.list-item:hover{
+    background:#525860;
     color:white;
     text-shadow:0 1px 3px rgba(0,0,0,0.4);
 }
