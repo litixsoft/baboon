@@ -11,7 +11,7 @@ angular.module('home', ['home.about'])
             $translate.uses(langKey);
 
             // save selected language in session
-            session.setData({key: 'language', value: langKey});
+            session.setData('language', langKey);
         };
 
         $scope.translationData = {
