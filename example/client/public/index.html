@@ -21,6 +21,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="/img/favicon.png">
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <div id="singlepageFrame">
@@ -36,9 +38,44 @@
 
             <div class="top-user-area">
                 <% if(!isAuth) { %>
-                <div>
-                    <a href="/login" class="btn">Login</a>
+                <!--<div>-->
+                    <!--<a href="/login" class="btn">Login</a>-->
+                <!--</div>-->
+                <div class="btn-group {{type}}" ng-class="{open: openMenu}" ng-init="openMenu = false;type='v1'">
+                    <!--<select>-->
+                        <!--<option>login v1</option>-->
+                        <!--<option>login v2</option>-->
+                        <!--<option>login v3</option>-->
+                        <!--<option>login v4</option>-->
+                    <!--</select>-->
+                    <button class="btn" ng-click="openMenu = !openMenu;type='v1'">Login v1</button>
+                    <button class="btn" ng-click="openMenu = !openMenu;type='v2'">Login v2</button>
+                    <button class="btn" ng-click="openMenu = !openMenu;type='v3'">Login v3</button> <!--<span class="caret"></span> -->
+                    <button class="btn" ng-click="openMenu = !openMenu;type='v4'" style="border-radius: 0 4px 4px 0">Login v4</button>
+                    <ul class="dropdown-menu login pull-right">
+                        <li>
+                            <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                            <div>
+                                <h1>Login</h1>
+                                <form class="form" method="post" action="/login">
+                                    <div class="form-inner">
+                                        <div>
+                                            <input type="text" name="username" placeholder="Enter username">
+                                        </div>
+                                        <div>
+                                            <input type="password" name="password" placeholder="Enter password">
+                                        </div>
+                                    </div>
+                                    <div class="form-submit">
+                                        <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="darkback"></div>
                 </div>
+
                 <% } %>
                 <% if(isAuth) { %>
                 <div class="btn-group">
