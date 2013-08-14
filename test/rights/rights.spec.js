@@ -4,7 +4,7 @@
 describe('Rights', function () {
     var path = require('path'),
         rootPath = path.resolve('..', 'baboon'),
-        sut = require(path.resolve(rootPath, 'lib', 'rights')),
+        sut = require(path.resolve(rootPath, 'lib', 'rights'))({}),
         users, groups, rights;
 
     beforeEach(function () {
@@ -235,7 +235,7 @@ describe('Rights', function () {
         });
     });
 
-    describe('getAclObj()', function () {
+    describe('.getAclObj()', function () {
         it('should return an empty object if acl is empty or no object', function () {
             expect(Object.keys(sut.getAclObj()).length).toBe(0);
             expect(Object.keys(sut.getAclObj(null)).length).toBe(0);

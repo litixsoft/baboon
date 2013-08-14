@@ -196,10 +196,26 @@ module.exports = function (grunt) {
             }
         },
 
+        html2js: {
+            dist: {
+                options: {
+                    module: null, // no bundle module for all the html2js templates
+                    base: '<%= bbc %>/vendor/angular-ui-bootstrap/'
+                },
+                files: [
+                    {
+                        expand: true,
+                        src: ['<%= bbc %>/vendor/angular-ui-bootstrap/template/**/*.html'],
+                        ext: '.html.js'
+//                    dest: 'templates/**/*.html.js'
+                    }
+                ]
+            }
+        },
+
         /**
          * concat files
          */
-
         concat: {
             /**
              * The `lib` target is for all third-party js libraries we need to include
@@ -363,6 +379,10 @@ module.exports = function (grunt) {
                         '<%= bbc %>/lib/directives/lx-integer.js',
                         '<%= bbc %>/lib/directives/lx-pager.js',
                         '<%= bbc %>/lib/directives/lx-sort.js',
+
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
                         'client/common/**/*.js',
@@ -699,6 +719,7 @@ module.exports = function (grunt) {
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -717,18 +738,21 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'replace:debug'
     ]);
     grunt.registerTask('build:watch', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'ngmin',
         'uglify',
@@ -812,6 +836,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
+        'html2js',
         'concat',
         'replace:livereload',
         'express:dev',
