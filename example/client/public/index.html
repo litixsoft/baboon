@@ -128,17 +128,25 @@
 
     <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
         <div modal="modal.shouldBeOpen" close="modal.close()" options="opts" ng-cloak class="ng-cloak">
-            <div class="modal-header">
-                <h4>{{ modal.type }}</h4>
-            </div>
-
-            <div class="modal-body">
-                <h4>{{ modal.message }}</h4>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn" ng-click="modal.close()">Close</button>
-                <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
+            <div class="lx-modal-msg">
+                <div class="modal-header">
+                    <h4>{{ modal.type }}</h4>
+                    <p>{{ modal.headline}}</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <div class="icon"></div>
+                        </div>
+                        <div class="span9">
+                            <h4>{{ modal.message }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" ng-click="modal.close()">Close</button>
+                    <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
+                </div>
             </div>
         </div>
     </div>
