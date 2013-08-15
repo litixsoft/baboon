@@ -44,6 +44,10 @@ angular.module('admin', ['baboon.admin.services'])
     .controller('editUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'baboon.admin.users', '$log', 'baboon.admin.rights', 'baboon.admin.groups', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
+        $scope.isPasswordConfirmed = function() {
+            return $scope.lxForm.model.password === $scope.lxForm.model.confirmedPassword;
+        };
+
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             users.getById($routeParams.id, function (result) {
                 if (result.data) {

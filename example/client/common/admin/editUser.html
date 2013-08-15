@@ -26,8 +26,34 @@
 
                         <span class="label label-important" ui-if="(form.password.$dirty && form.password.$invalid) || form.errors.password">
                             Error:
-                            <span ng-show="form.password.$error.required"> Password is required.</span>
                             <span ng-show="form.errors.password"> {{form.errors.password}}.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Confirm Password</label>
+
+                    <div class="controls">
+                        <input type="password" ng-model="lxForm.model.confirmedPassword" name="confirmedPassword" />
+
+                        <span class="label label-important" ng-show="!isPasswordConfirmed()">Please conform password</span>
+                        <span class="label label-important" ui-if="(form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword">
+                            Error:
+                            <span ng-show="form.errors.confirmedPassword"> {{form.errors.confirmedPassword}}.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Language</label>
+
+                    <div class="controls">
+                        <input type="text" ng-model="lxForm.model.language" name="language" />
+
+                        <span class="label label-important" ui-if="(form.language.$dirty && form.language.$invalid) || form.errors.language">
+                            Error:
+                            <span ng-show="form.errors.language"> {{form.errors.language}}.</span>
                         </span>
                     </div>
                 </div>
@@ -80,7 +106,7 @@
 
             <div class="form-actions">
                 <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
+                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged() || !isPasswordConfirmed()">Save</button>
             </div>
         </form>
     </div>

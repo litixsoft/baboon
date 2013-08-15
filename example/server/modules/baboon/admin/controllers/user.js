@@ -5,9 +5,9 @@ var async = require('async'),
     lxHelpers = require('lx-helpers'),
     protectedFields = ['hash', 'salt'];
 
-function createHash (user, password, callback) {
-    if (password) {
-        pwd.hash(password, function (error, salt, hash) {
+function createHash (user, callback) {
+    if (user.password) {
+        pwd.hash(user.password, function (error, salt, hash) {
             if (error) {
                 callback(error);
             }
@@ -125,7 +125,6 @@ module.exports = function (app) {
      */
     pub.create = function (data, callback) {
         data = data || {};
-        var password = data.password;
 
         // validate client data
         repo.users.validate(data, {}, function (error, result) {
@@ -138,9 +137,13 @@ module.exports = function (app) {
             if (result.valid) {
                 async.auto({
                     createPasswordHash: function (next) {
-                        createHash(data, password, next);
+                        createHash(data, next);
                     },
                     createUser: ['createPasswordHash', function (next) {
+                        // do not save password and confirmedPassword
+                        delete data.password;
+                        delete data.confirmedPassword;
+
                         repo.users.create(data, next);
                     }]
                 }, function (error, results) {
@@ -178,10 +181,8 @@ module.exports = function (app) {
             return;
         }
 
-        var password = data.password;
-
         // validate client data
-        repo.users.validate(data, {}, function (error, result) {
+        repo.users.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
                 syslog.error('%s! validating user: %j', error, data);
                 callback({message: 'Could not create user!'});
@@ -191,9 +192,13 @@ module.exports = function (app) {
             if (result.valid) {
                 async.auto({
                     createPasswordHash: function (next) {
-                        createHash(data, password, next);
+                        createHash(data, next);
                     },
                     updateUser: ['createPasswordHash', function (next) {
+                        // do not save password and confirmedPassword
+                        delete data.password;
+                        delete data.confirmedPassword;
+
                         repo.users.update({_id: data._id}, {$set: data}, next);
                     }]
                 }, function (error, results) {
