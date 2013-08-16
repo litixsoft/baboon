@@ -1,3 +1,8 @@
+<%
+    var version1 = false;
+    var version2 = true;
+%>
+<% if(version1) { %>
 <!DOCTYPE html>
 <html lang="en" ng-app="ui_app">
 <head>
@@ -9,7 +14,7 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/ui_app<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/theme2.css" />
+    <link rel="stylesheet" href="/css/uitheme.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -21,23 +26,54 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="/img/favicon.png">
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
+
 <div id="singlepageFrame">
 
-    <div id="topnav" style="">
-        <div class="p-wrapper">
-            <span>Our company logo</span>
+    <div class="layout-content">
+        <div class="col-left navCol">
+            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
+        </div>
+        <div class="col-right">
+            <div ng-view></div>
+        </div>
+    </div>
 
-            <div class="top-level-nav">
-                <a href="/" target="_self">App Example</a>
-                <a href="/ui" target="_self">UI Example</a>
-            </div>
-
-            <div class="top-user-area">
+    <div class="header">
+        <div class="col-left">
+            <span class="pull-left" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>
+            <!--<span class="pull-left" style="text-shadow:1px 1px 1px black;color:white;line-height:50px;padding:0 10px;margin:0 10px;">litixsoft</span>-->
+        </div>
+        <div class="col-right">
+            <div class="pull-right login-area">
                 <% if(!isAuth) { %>
-                <div>
-                    <a href="/login" class="btn">Login</a>
+                <div class="btn-group" ng-class="{open: openMenu}" ng-init="openMenu = false;">
+                    <!--<a href="/login" class="btn">Login</a>-->
+                    <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
+                    <ul class="dropdown-menu login pull-right">
+                        <li>
+                            <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                            <div>
+                                <h1>Login</h1>
+                                <form class="form" method="post" action="/login">
+                                    <div class="form-inner">
+                                        <div>
+                                            <input type="text" name="username" placeholder="Enter username">
+                                        </div>
+                                        <div>
+                                            <input type="password" name="password" placeholder="Enter password">
+                                        </div>
+                                    </div>
+                                    <div class="form-submit">
+                                        <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <% } %>
                 <% if(isAuth) { %>
@@ -46,7 +82,7 @@
                     <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="#">Nachrichten</a>
                             <a href="#">Kontoeinstellungen</a>
@@ -56,40 +92,129 @@
                 </div>
                 <% } %>
             </div>
-        </div>
-    </div>
-
-    <div class="beige-noise">
-        <div class="p-wrapper">
-
-            <ul class="nav nav-pills">
-                <li><a href="/ui/base">Base</a></li>
+            <ul class="nav nav-pills pull-right" style="display:inline-block;">
+                <li><a href="/" target="_self">App Example</a></li>
+                <li><a href="/ui" target="_self">UI Example</a></li>
             </ul>
         </div>
     </div>
 
-    <div ng-view></div>
-
-    <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
-        <div modal="modal.shouldBeOpen" close="modal.close()" options="opts" ng-cloak class="ng-cloak">
-            <div class="modal-header">
-                <h4>{{ modal.type }}</h4>
-            </div>
-
-            <div class="modal-body">
-                <h4>{{ modal.message }}</h4>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn" ng-click="modal.close()">Close</button>
-                <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
-            </div>
-        </div>
-    </div>
 </div>
+
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/ui_app<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/lxNavigation/lxNavigation.js" charset="utf-8"></script>
 </body>
 </html>
+<% } %>
+
+
+
+<% if(version2) { %>
+<!DOCTYPE html>
+<html lang="en" ng-app="ui_app">
+<head>
+    <meta charset="utf-8">
+    <title>Baboon Example App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
+    <link rel="stylesheet" href="/css/ui_app<!--@@min-->.css" />
+    <link rel="stylesheet" href="/css/uitheme2.css" />
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+    <!-- fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/img/favicon.png">
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<div id="singlepageFrame">
+
+    <div class="layout-content">
+        <div class="col-left navCol">
+            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
+        </div>
+        <div class="col-right">
+
+            <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
+                <div class="pull-right login-area">
+                    <% if(!isAuth) { %>
+                    <div class="btn-group" ng-class="{open: openMenu}" ng-init="openMenu = false;">
+                        <!--<a href="/login" class="btn">Login</a>-->
+                        <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
+                        <ul class="dropdown-menu login pull-right">
+                            <li>
+                                <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                                <div>
+                                    <h1>Login</h1>
+                                    <form class="form" method="post" action="/login">
+                                        <div class="form-inner">
+                                            <div>
+                                                <input type="text" name="username" placeholder="Enter username">
+                                            </div>
+                                            <div>
+                                                <input type="password" name="password" placeholder="Enter password">
+                                            </div>
+                                        </div>
+                                        <div class="form-submit">
+                                            <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } %>
+                    <% if(isAuth) { %>
+                    <div class="btn-group">
+                        <button class="btn btn-success"><%= username %></button>
+                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#">Nachrichten</a>
+                                <a href="#">Kontoeinstellungen</a>
+                                <a href="/logout" target="_self">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } %>
+                </div>
+
+                <ul class="nav nav-pills pull-right" style="display:inline-block;">
+                    <li><a href="/" target="_self">App Example</a></li>
+                    <li><a href="/ui" target="_self">UI Example</a></li>
+                </ul>
+                <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>
+            </div>
+
+            <div class="view-container">
+                <div ng-view></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--@@livereload-->
+<script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/ui_app<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/lxNavigation/lxNavigation.js" charset="utf-8"></script>
+</body>
+</html>
+<% } %>
