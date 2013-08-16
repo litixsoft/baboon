@@ -35,6 +35,7 @@
     width:100%;
     display:block;
     height:100%;
+    /*background:#444444;*/
     background:#3c4148;
     /*padding-top:50px;*/
     min-height:100%;
@@ -240,6 +241,7 @@ ul.nav.nav-pills li a:hover{
 .navCol .list-item {
     display:block;
     min-width:350px;
+    /*background:#444444;*/
     background:#3c4148;
     color:#c2cad6;
     border-bottom:1px solid #24282c;
@@ -308,9 +310,11 @@ ul.nav.nav-pills li a:hover{
 }
 .navCol .opensub.lxclose{
     background:#3c4148 url('../img/rightarrow.png') no-repeat center center;
+    /*background:#444444 url('../img/rightarrow.png') no-repeat center center;*/
 }
 .navCol .opensub.lxopen{
     background:#3c4148 url('../img/downarrow.png') no-repeat center center;
+    /*background:#444444 url('../img/downarrow.png') no-repeat center center;*/
 }
 /*-------- show n hide + animation -----------*/
 .navCol .display {
