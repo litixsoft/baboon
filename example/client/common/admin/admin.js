@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('admin', ['baboon.admin.services'])
+angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
     .config(function ($routeProvider) {
         $routeProvider.when('/admin/users', {templateUrl: '/admin/users.html', controller: 'userListCtrl'});
         $routeProvider.when('/admin/users/edit/:id', {templateUrl: '/admin/editUser.html', controller: 'editUserCtrl'});
@@ -44,7 +44,7 @@ angular.module('admin', ['baboon.admin.services'])
     .controller('editUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'baboon.admin.users', '$log', 'baboon.admin.rights', 'baboon.admin.groups', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
-        $scope.isPasswordConfirmed = function() {
+        $scope.isPasswordConfirmed = function () {
             return $scope.lxForm.model.password === $scope.lxForm.model.confirmedPassword;
         };
 
@@ -271,6 +271,29 @@ angular.module('admin', ['baboon.admin.services'])
         rights.getAll({}, function (result) {
             if (result.data) {
                 $scope.rights = result.data;
+                $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
             }
         });
+
+        $scope.setRight = function (right) {
+            if (!$scope.lxForm.model.rights) {
+                $scope.lxForm.model.rights = [];
+            }
+
+            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
+                $scope.lxForm.model.rights.push(right._id);
+            } else if (!right.isSelected) {
+                var index = $scope.lxForm.model.rights.indexOf(right._id);
+
+                if (index > 0) {
+                    $scope.lxForm.model.rights.splice(index, 1);
+                }
+            }
+        };
+
+        $scope.reset = function (form) {
+            $scope.lxForm.reset(form);
+
+            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+        };
     }]);

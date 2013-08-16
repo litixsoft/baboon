@@ -27,10 +27,17 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="control-group">
+                    <label class="control-label">Rights</label>
+
+                    <lx-rights class="navlist" rights="rightsObj" on-set-right="setRight(right)"></lx-rights>
+                </div>
+
             </fieldset>
 
             <div class="form-actions">
-                <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                <button type="button" class="btn" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
             </div>
         </form>

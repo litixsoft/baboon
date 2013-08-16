@@ -38,6 +38,39 @@ angular.module('baboon.admin.services', [])
     .factory('baboon.admin.rights', ['socket', function (socket) {
         var pub = {};
 
+        function convertRightStringToObject (selectedRights, rightObj, right, path) {
+            var s = right.name.split('/');
+            var mod = s.shift();
+            path = path || '';
+
+            if (s.length === 1) {
+                rightObj[mod] = rightObj[mod] || [];
+                right.displayName = s.shift();
+                right.isSelected = selectedRights.indexOf(right._id) > -1 ? true : false;
+                right.name = path + right.name;
+                rightObj[mod].push(right);
+            } else {
+                path += mod + '/';
+                rightObj[mod] = rightObj[mod] || {children: {}};
+                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/')}, path);
+            }
+        }
+
+        pub.convertToRightsObject = function (rights, selectedRights) {
+            var res = {};
+            selectedRights = selectedRights || [];
+
+            var i;
+            var length = rights.length;
+
+            for (i = 0; i < length; i++) {
+                convertRightStringToObject(selectedRights, res, rights[i]);
+            }
+
+//            console.log(res);
+            return res;
+        };
+
         pub.getAll = function (query, callback) {
             socket.emit('baboon/admin/right/getAll', query, function (result) {
                 callback(result);
