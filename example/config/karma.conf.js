@@ -3,7 +3,7 @@ module.exports = function (config) {
         // base path, that will be used to resolve files and exclude
         basePath: '../',
 
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'detectBrowsers'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -66,7 +66,8 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-ie-launcher',
             'karma-safari-launcher',
-            'karma-junit-reporter'
+            'karma-junit-reporter',
+            'karma-detect-browsers'
         ]
     });
 };
