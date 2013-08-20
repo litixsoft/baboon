@@ -9,7 +9,7 @@
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/theme2.css" />
+    <link rel="stylesheet" href="/css/uitheme2.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -25,191 +25,100 @@
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
+
 <div id="singlepageFrame">
 
-    <div id="topnav" style="">
-        <div class="p-wrapper">
-            <span>Our company logo</span>
+    <div class="layout-content">
+        <div class="col-left navCol">
+            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
+        </div>
+        <div class="col-right">
 
-            <div class="top-level-nav">
-                <a href="/" target="_self">App Example</a>
-                <a href="/ui" target="_self">UI Example</a>
-            </div>
-
-            <div class="top-user-area">
-                <% if(!isAuth) { %>
-                <!--<div>-->
-                    <!--<a href="/login" class="btn">Login</a>-->
-                <!--</div>-->
-                <div class="btn-group {{type}}" ng-class="{open: openMenu}" ng-init="openMenu = false;type='v1'">
-                    <!--<select>-->
-                        <!--<option>login v1</option>-->
-                        <!--<option>login v2</option>-->
-                        <!--<option>login v3</option>-->
-                        <!--<option>login v4</option>-->
-                    <!--</select>-->
-                    <button class="btn" ng-click="openMenu = !openMenu;type='v1'">Login v1</button>
-                    <button class="btn" ng-click="openMenu = !openMenu;type='v2'">Login v2</button>
-                    <button class="btn" ng-click="openMenu = !openMenu;type='v3'">Login v3</button> <!--<span class="caret"></span> -->
-                    <button class="btn" ng-click="openMenu = !openMenu;type='v4'" style="border-radius: 0 4px 4px 0">Login v4</button>
-                    <ul class="dropdown-menu login pull-right">
-                        <li>
-                            <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
-                            <div>
-                                <h1>Login</h1>
-                                <form class="form" method="post" action="/login">
-                                    <div class="form-inner">
-                                        <div>
-                                            <input type="text" name="username" placeholder="Enter username">
+            <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
+                <div class="pull-right login-area">
+                    <% if(!isAuth) { %>
+                    <div class="btn-group" ng-class="{open: openMenu}" ng-init="openMenu = false;">
+                        <!--<a href="/login" class="btn">Login</a>-->
+                        <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
+                        <ul class="dropdown-menu login pull-right">
+                            <li>
+                                <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                                <div>
+                                    <h1>Login</h1>
+                                    <form class="form" method="post" action="/login">
+                                        <div class="form-inner">
+                                            <div>
+                                                <input type="text" name="username" placeholder="Enter username">
+                                            </div>
+                                            <div>
+                                                <input type="password" name="password" placeholder="Enter password">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <input type="password" name="password" placeholder="Enter password">
+                                        <div class="form-submit">
+                                            <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
                                         </div>
-                                    </div>
-                                    <div class="form-submit">
-                                        <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="darkback"></div>
-                </div>
-
-                <% } %>
-                <% if(isAuth) { %>
-                <div class="btn-group">
-                    <button class="btn btn-success"><%= username %></button>
-                    <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Nachrichten</a>
-                            <a href="#">Kontoeinstellungen</a>
-                            <a href="/logout" target="_self">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-                <% } %>
-            </div>
-        </div>
-    </div>
-
-    <div class="beige-noise">
-        <div class="p-wrapper">
-
-            <ul class="nav nav-pills">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/home/about">About</a></li>
-                <li><a href="/enterprise">Enterprise</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Blog<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/blog">Blog</a></li>
-                        <li><a href="/blog/admin">Admin</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="/cache">Cache</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/admin/users">Users</a></li>
-                        <li><a href="/admin/groups">Groups</a></li>
-                        <li><a href="/admin/rights">Rights</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div ng-view></div>
-
-    <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
-        <div modal="modal.shouldBeOpen" close="modal.close()" options="opts" ng-cloak class="ng-cloak">
-            <div class="lx-modal-msg">
-                <div class="modal-header">
-                    <h4>{{ modal.type }}</h4>
-                    <p>{{ modal.headline}}</p>
-                </div>
-                <div class="modal-body">
-                    <div class="row-fluid">
-                        <div class="span3">
-                            <div class="icon"></div>
-                        </div>
-                        <div class="span9">
-                            <h4>{{ modal.message }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" ng-click="modal.close()">Close</button>
-                    <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="beige-noise">
-        <div class="p-wrapper">
-
-            <h3>lxNavigation</h3>
-            <p>Bitte logge dich ein und aus um den Unterschied in der Navigation zu sehen.</p>
-            <p>Es gibt drei mögliche Wege der Erstellung:
-                <ul>
-                    <li>Komplett auf dem Server mit EJS (macht Veränderungen auf dem Client komplizierter, gerade bei Treeviews)</li>
-                    <li>Clientseitige Directive die mit EJS lediglich die Navigationsdaten bekommt (Beispiele unten)</li>
-                    <li>Clientseitige Directive die ihre Daten über Socket etc. bekommt</li>
-                </ul>
-            </p>
-            <p>Daten vom Server nach der Rechteprüfung per EJS in index.html eingebaut:
-                <% if(navigation) { %>
-                    <pre><%= navigation %></pre>
-                <% } %>
-            </p>
-            <br><br>
-            <h4 style="color:green;">Die Navigation kann in sämtliche Erscheinungsformen gebracht werden und das mit einer unendlichen tiefen Verschachtelung.
-                Dies kann mit selbst erzeugten Templates bewerkstelligt werden. Über CSS lassen sich dann alle Äußerlichkeiten Designen.
-                Hier folgen nun zwei Fälle:</h4>
-            <p>
-            <ul>
-                <li>Twitter Bootstrap Elemente (1.Zeile: Pills, 2.Zeile: Tabs, 3.Zeile: Navbar  etc.) mit Submenus
-                    <br><br>
-                    <% if(navigation) { %>
-                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
-
-                    <lxbootnav class="navlist" itemlist-attr="navData" type-attr="nav-tabs" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
-
-                    <div class="navbar">
-                        <div class="container navbar-inner">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <div class="nav-collapse collapse  nav-collapse-scrollable">
-                                <lxbootnav class="navlist" type-attr="navbar-nav" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxbootnav>
-                            </div>
-                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <% } %>
-                </li>
-                <li>Eigene Treeview Spalte <small>(Icons möglich)</small>
-                    <br><br>
-                    <% if(navigation) { %>
-                    <div class="navCol">
-                        <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
+                    <% if(isAuth) { %>
+                    <div class="btn-group">
+                        <button class="btn btn-success"><%= username %></button>
+                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#">Nachrichten</a>
+                                <a href="#">Kontoeinstellungen</a>
+                                <a href="/logout" target="_self">Logout</a>
+                            </li>
+                        </ul>
                     </div>
                     <% } %>
-                </li>
-            </ul>
-            </p>
-            <br><br>
+                </div>
+
+                <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = [{'title':'App Example','route':'/'},{'title':'UI Example','route':'/ui'}]"></lxbootnav>
+
+                <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>
+            </div>
+
+            <div class="view-container">
+                <div ng-view></div>
+            </div>
+
+            <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
+                <div modal="modal.shouldBeOpen" close="modal.close()" options="opts" ng-cloak class="ng-cloak">
+                    <div class="lx-modal-msg">
+                        <div class="modal-header">
+                            <h4>{{ modal.type }}</h4>
+                            <p>{{ modal.headline}}</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row-fluid">
+                                <div class="span3">
+                                    <div class="icon"></div>
+                                </div>
+                                <div class="span9">
+                                    <h4>{{ modal.message }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" ng-click="modal.close()">Close</button>
+                            <button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
 </div>
+
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>

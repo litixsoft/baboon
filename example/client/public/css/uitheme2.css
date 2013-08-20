@@ -47,7 +47,7 @@
 .col-left{
     height:100%;
     width:25%;
-    max-width:350px;
+    max-width:300px;
     min-width:200px;
     float:left;
     z-index:3;
@@ -97,13 +97,19 @@ ul.nav.nav-pills li{
     height:100%;
     border-left:1px solid rgba(255,255,255,0.1);
     border-right:1px solid rgba(0,0,0,0.2);
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
+    /*-webkit-transition: all 0.3s ease-in-out;*/
+    /*-moz-transition: all 0.3s ease-in-out;*/
+    /*-o-transition: all 0.3s ease-in-out;*/
+    /*-ms-transition: all 0.3s ease-in-out;*/
+}
+ul.nav.nav-pills li.active a{
+    background:none;
+}
+ul.nav.nav-pills li.active{
+    background:rgba(0,0,0,0.25);
 }
 ul.nav.nav-pills li:hover{
-    background:rgba(0,0,0,0.25);
+    background:rgba(255,255,255,0.1);
 }
 ul.nav.nav-pills li a{
     display:block;
@@ -240,7 +246,7 @@ ul.nav.nav-pills li a:hover{
 /*--- list item = arrow + link*/
 .navCol .list-item {
     display:block;
-    min-width:350px;
+    min-width:300px;
     /*background:#444444;*/
     background:#3c4148;
     color:#c2cad6;
@@ -319,7 +325,7 @@ ul.nav.nav-pills li a:hover{
 /*-------- show n hide + animation -----------*/
 .navCol .display {
     display:block;
-    -webkit-transition: all 0.3s ease-in-out;
+    /*-webkit-transition: all 0.3s ease-in-out;*/
     overflow: hidden;
     opacity: 0;
     height:0;
@@ -332,7 +338,7 @@ ul.nav.nav-pills li a:hover{
     -webkit-transform-origin: top;
 }
 .navCol .display.lxclose {
-    -webkit-transition: all 0.3s ease-in-out;
+    /*-webkit-transition: all 0.3s ease-in-out;*/
     opacity: 0;
     height:0;
     width:0;
@@ -342,7 +348,7 @@ ul.nav.nav-pills li a:hover{
     transform: scaleY(0);
 }
 .navCol .display.lxopen {
-    -webkit-transition: all 0.3s ease-in-out;
+    /*-webkit-transition: all 0.3s ease-in-out;*/
     opacity: 1;
     height:auto;
     width:auto;
