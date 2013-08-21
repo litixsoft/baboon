@@ -12,14 +12,14 @@ module.exports = [
                 {title: 'Demo3', route: '/demo3', icon: 'home'}
             ]}
         ]},
-        {title: 'Cache', route: '/cache'},
-        {title: 'Admin', route: '/admin', children: [
-            {title: 'Users', route: '/admin/users', resource: 'baboon/admin/user/getAll'},
-            {title: 'Groups', route: '/admin/groups', resource: 'baboon/admin/group/getAll'},
-            {title: 'Rights', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
-        ]}
+        {title: 'Cache', route: '/cache'}
     ]},
     {'title': 'UI Example', 'route': '/ui', children: [
         {title: 'Demo', route: '/demo'}
+    ]},
+    {'title': 'Administration', 'route': '/admin', children: [
+        {title: 'Users', route: '/admin/users', resource: 'baboon/admin/user/getAll'},
+        {title: 'Groups', route: '/admin/groups', resource: 'baboon/admin/group/getAll'},
+        {title: 'Rights', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
     ]}
 ];

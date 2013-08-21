@@ -9,7 +9,7 @@ var path = require('path'),
 //    api = require(config.path.api);
 
 ///////////////////////////////////////////
-// extra routes
+// extra routess
 ///////////////////////////////////////////
 
 // toplevel ui_examples route
@@ -19,10 +19,26 @@ app.get('/ui', function (req, res) {
         res.render('ui');
     });
 });
+
 app.get('/ui/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
         res.render('ui');
+    });
+});
+
+// toplevel admin routes
+app.get('/admin', function (req, res) {
+    middleware.session.checkSession(req, res, function () {
+        middleware.context.index(req, res);
+        res.render('admin');
+    });
+});
+
+app.get('/admin/*', function (req, res) {
+    middleware.session.checkSession(req, res, function () {
+        middleware.context.index(req, res);
+        res.render('admin');
     });
 });
 
