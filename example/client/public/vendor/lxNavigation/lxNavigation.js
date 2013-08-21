@@ -74,7 +74,7 @@ angular.module("template/lxnavbar/outer.html", []).run(["$templateCache", functi
 
 angular.module("template/lxnavbar/inner.html", []).run(["$templateCache", function ($templateCache) { //
     $templateCache.put("template/lxnavbar/inner.html",
-            '<a ng-href="{{data[linkAttr]}}" ui-if="!data.children.length">{{data[labelAttr]}} <b class="caret" ui-if="data.children.length"></b></a>\n'+
+            '<a ng-href="{{data[linkAttr]}}" ui-if="!data.children.length"  target="_self">{{data[labelAttr]}} <b class="caret" ui-if="data.children.length"></b></a>\n'+
             '<a ng-href="{{data[linkAttr]}}" ui-if="data.children.length" class="dropdown-toggle">{{data[labelAttr]}} <b class="caret" ui-if="data.children.length"></b></a>\n'+
             '<ul class="dropdown-menu" ui-if="data.children.length">\n'+
                 '<li ng-class="{ \'dropdown-submenu\' : data.children.length}" ng-repeat="data in data.children" ng-include="\'template/lxnavbar/inner.html\'">\n'+
