@@ -10,7 +10,7 @@ angular.module('baboon.documentation', [
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/doc', {templateUrl: '/documentation/index.html'});
+        $routeProvider.when('/doc', {templateUrl: '/doc/index.html'});
         $routeProvider.otherwise({redirectTo: '/doc'});
 
         $translateProvider.useStaticFilesLoader({
@@ -41,5 +41,9 @@ angular.module('baboon.documentation', [
     .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
 
         $scope.modal = msgBox.modal;
+
+        $scope.openMdLink = function(){
+            console.log("click");
+        };
 
     }]);

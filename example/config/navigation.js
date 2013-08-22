@@ -32,6 +32,6 @@ module.exports = [
                 {title:'Doll 3',route:'/doc/md/seven',icon:'home'}]
             }]
         },
-        {title:'Baboon Toll',route:'/ui/doc/eight'}
+        {title:'Baboon Toll',route:'/doc/md/eight'}
     ]}
 ];

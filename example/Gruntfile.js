@@ -125,11 +125,24 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        src: 'client/app/ui_examples/base/docs/*.md',
+                        src: 'client/app/documentation/md/*.md',
 //                        dest: '*/docs',
                         ext: '.html'
                     }
-                ]
+                ],
+                options: {
+//                    preCompile: function(src, context) {},
+//                    postCompile: function(src, context) {},
+//                    templateContext: {},
+                    markdownOptions: {
+                        gfm: false,
+//                        highlight: manual,
+                        codeLines: {
+                            before: '<span>',
+                            after: '</span>'
+                        }
+                    }
+                }
             }
         },
         /**
@@ -314,7 +327,7 @@ module.exports = function (grunt) {
                         // ! toplevel apps
                         '!client/app/ui_examples/**/*.js',
                         '!client/app/admin/**/*.js',
-                        '!client/app/documentation/**/*.js',
+                        '!client/app/doc/**/*.js',
 
                         // suffix
                         'client/module.suffix'
@@ -327,7 +340,7 @@ module.exports = function (grunt) {
                         // ! toplevel css
                         '!client/app/ui_examples/**/*.css',
                         '!client/app/admin/**/*.css',
-                        '!client/app/documentation/**/*.css'
+                        '!client/app/doc/**/*.css'
                     ]
                 }
             },
@@ -739,8 +752,8 @@ module.exports = function (grunt) {
                         '!client/common/**/*.spec.js',
 
                         // toplevel app
-                        'client/app/documentation/**/*.js',
-                        '!client/app/documentation/**/*.spec.js',
+                        'client/app/doc/**/*.js',
+                        '!client/app/doc/**/*.spec.js',
 
                         // suffix
                         'client/module.suffix'
@@ -748,7 +761,7 @@ module.exports = function (grunt) {
                     'build/dist/public/css/doc_app.css': [
 
                         // toplevel css
-                        'client/app/documentation/**/*.css'
+                        'client/app/doc/**/*.css'
                     ]
                 }
             }

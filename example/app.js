@@ -46,14 +46,14 @@ app.get('/admin/*', function (req, res) {
 app.get('/doc', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('documentation');
+        res.render('doc');
     });
 });
 
 app.get('/doc/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('documentation');
+        res.render('doc');
     });
 });
 
