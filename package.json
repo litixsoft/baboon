@@ -78,6 +78,8 @@
         "lx-helpers": "~0.2.0",
         "lx-mongodb": "~0.4.0",
         "lx-valid": "~0.2.5",
+        "passport": "*",
+        "passport-local": "*",
         "pwd": "0.0.2",
         "redis": "~0.8.4",
         "socket.io": "~0.9.13"

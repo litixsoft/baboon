@@ -30,7 +30,7 @@
 
     <div class="layout-content">
         <div class="col-left navCol">
-            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= navigation %>"></lxtreeview>
+            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
         </div>
         <div class="col-right">
 
@@ -80,7 +80,7 @@
                     <% } %>
                 </div>
 
-                <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = [{'title':'App Example','route':'/'},{'title':'UI Example','route':'/ui'}]"></lxbootnav>
+                <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
 
                 <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>
             </div>
