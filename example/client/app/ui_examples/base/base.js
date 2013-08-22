@@ -20,8 +20,9 @@ angular.module('ui_app.base', [])
                 {title:'Super Doll',route:'/ui/md/quad',children:[
                     {title:'Doll 1',route:'/ui/md/five',icon:'home'},
                     {title:'Doll 2',route:'/ui/md/six',icon:'gear'},
-                    {title:'Doll 3',route:'/ui/md/seven',icon:'home'}]
-                }]
-            },
-            {title:'Baboon Toll',route:'/ui/md/eight'}];
+                    {title:'Doll 3',route:'/ui/md/seven',icon:'home'}
+                ]}
+            ]},
+            {title:'Baboon Toll',route:'/ui/md/eight'}
+        ];
     }]);

@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('blog', ['blog.services', 'blog.directives', 'blog.admin', 'blog.filters'])
+angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
         $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
