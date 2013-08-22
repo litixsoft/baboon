@@ -23,6 +23,7 @@ module.exports = [
         {title: 'Rights', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
     ]},
     {'title': 'Dokumentation', 'route': '/doc', children: [
+        {title:'Startseite',route:'/doc'},
         {title:'Baboon Installation',route:'/doc/md/first'},
         {title:'Baboon Dingens',route:'/doc/md/second'},
         {title:'Baboon Super',route:'/doc/md/third',children:[
