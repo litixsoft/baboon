@@ -66,6 +66,7 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-ie-launcher',
             'karma-safari-launcher',
+            'karma-phantomjs-launcher',
             'karma-junit-reporter',
             'karma-detect-browsers'
         ]
