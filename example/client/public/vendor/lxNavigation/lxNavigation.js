@@ -5,20 +5,19 @@
  * Licensed MIT
  */ 
  
-angular.module("ui.lxnavigation", ["template/lxlinktree/outer.html", "template/lxlinktree/inner.html","template/lxnavbar/outer.html", "template/lxnavbar/inner.html","template/lxtreeview/outer.html", "template/lxtreeview/inner.html"])
-.controller("LxTreeViewCtrl", ["$scope", "$element", "$attrs", "$window","$interpolate",
-    function ($scope, $element, $attrs, $window,$interpolate) {
+angular.module("ui.lxnavigation", ["template/lxngclicktree/outer.html", "template/lxngclicktree/inner.html","template/lxnavbar/outer.html", "template/lxnavbar/inner.html","template/lxtreeview/outer.html", "template/lxtreeview/inner.html"])
+.controller("LxTreeViewCtrl", ["$scope", "$element", "$attrs",
+    function ($scope, $element, $attrs) {
 
 
-        //$scope.treeData = angular.copy($scope.$parent[$attrs.itemlistAttr]);
-        $scope.treeData = angular.copy($scope[$attrs.itemlistAttr]);
-//        console.log($scope.treeData);
+        if(typeof($scope[$attrs.itemlistAttr])==='undefined'){
+            $scope.treeData = $scope.itemlistAttr;
+
+        } else {
+            $scope.treeData = $scope[$attrs.itemlistAttr];
+        }
+
         $scope.type = $attrs.typeAttr;
-
-//        $attrs.$observe( 'itemlistAttr', function ( val ) {
-            //$scope.testAttr = $interpolate(val)($scope);
-//            $scope.treeData = $scope.testAttr;
-//        });
 
         $scope.toggleShow = function (data) {
             if (data.hide == "lxclose" || data.hide == undefined) {
@@ -26,7 +25,10 @@ angular.module("ui.lxnavigation", ["template/lxlinktree/outer.html", "template/l
             } else {
                 data.hide = "lxclose";
             }			
-        }
+        };
+        $scope.openDings = function (data) {
+          console.log(data);
+        };
 		$scope.toggleNav = function (data) {
 			console.log("toggle");
             if (data.hide == "" || data.hide == undefined) {
@@ -34,40 +36,28 @@ angular.module("ui.lxnavigation", ["template/lxlinktree/outer.html", "template/l
 			} else {
                 data.hide = "";
             }			
-        }
+        };
     }
-]).directive("lxlinktree", function () {
-        return {
-            restrict: "E",
-//            controller: "LxTreeViewCtrl",
-            transclude: false,
-            replace: true,
-            scope: {
-                iconAttr: "@",
-                itemlistAttr: "=",
-                labelAttr: "@",
-                linkAttr: "@",
-                ngModel: "@"
-            },
-            templateUrl: "template/lxlinktree/outer.html"
-        }
-    })
-    .directive("lxtreeview", function () {
+])
+.directive("lxtreeview", function () {
     return {
         restrict: "E",
         controller: "LxTreeViewCtrl",
         transclude: false,
         replace: true,
         scope: {
-			iconAttr: "@",
-            itemlistAttr: "@",
+            iconAttr: "@",
+            itemlistAttr: "=",
             labelAttr: "@",
-			linkAttr: "@",
-            ngModel: "@"
+            linkAttr: "@",
+            ngModel: "@",
+            templateAttr: "@"
         },
         templateUrl: "template/lxtreeview/outer.html"
+//        templateUrl: "template/#{attr.templateAttr}/outer.html"
     }
-}).directive("lxbootnav",function () {
+})
+.directive("lxbootnav",function () {
     return {
         restrict: "E",
         controller: "LxTreeViewCtrl",
@@ -75,7 +65,7 @@ angular.module("ui.lxnavigation", ["template/lxlinktree/outer.html", "template/l
         replace: true,
         scope: {
 			iconAttr: "@",
-            itemlistAttr: "@",
+            itemlistAttr: "=",
             labelAttr: "@",			
 			linkAttr: "@",
             typeAttr: "@",
@@ -83,7 +73,29 @@ angular.module("ui.lxnavigation", ["template/lxlinktree/outer.html", "template/l
         },
 		templateUrl: "template/lxnavbar/outer.html"
     }
+})
+.directive("lxngclicktree", function () {
+    return {
+        restrict: "E",
+        controller: "LxTreeViewCtrl",
+        transclude: false,
+        replace: true,
+        scope: {
+            iconAttr: "@",
+            itemlistAttr: "=",
+            labelAttr: "@",
+            linkAttr: "@",
+            ngModel: "@",
+            templateAttr: "@",
+            methodAttr: "&"
+        },
+        templateUrl: "template/lxngclicktree/outer.html"
+//        templateUrl: "template/#{attr.templateAttr}/outer.html"
+    }
 });
+
+
+
 
 /*---------------------------bar---------------------------*/
 angular.module("template/lxnavbar/outer.html", []).run(["$templateCache", function ($templateCache) {
@@ -123,24 +135,26 @@ angular.module("template/lxtreeview/inner.html", []).run(["$templateCache", func
 		'</li>\n'+
 		'</ul> ');
 }]);
-/*---------------------------linklisttree---------------------------*/
+/*---------------------------ngClickTree---------------------------*/
 
-angular.module("template/lxlinktree/outer.html", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("template/lxlinktree/outer.html",
+angular.module("template/lxngclicktree/outer.html", []).run(["$templateCache", function ($templateCache) {
+    $templateCache.put("template/lxngclicktree/outer.html",
         '<ul>\n' +
-            '<li ng-repeat="data in itemlistAttr"  ng-include="\'template/lxlinktree/inner.html\'"></li>\n' +
+            '<li ng-repeat="data in treeData"  ng-include="\'template/lxngclicktree/inner.html\'"></li>\n' +
             '</ul>');
 }]);
 
-angular.module("template/lxlinktree/inner.html", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("template/lxlinktree/inner.html",
+angular.module("template/lxngclicktree/inner.html", []).run(["$templateCache", function ($templateCache) {
+    $templateCache.put("template/lxngclicktree/inner.html",
         '<div class="list-item"  ng-class="{active: $uiRoute}" ui-route="{{data[linkAttr]}}">\n' +
             '<div class="opensub {{data.hide}}" ng-show="data.children" ng-click="toggleShow(data)"></div>\n'+
             '<div class="nav-icon {{data[iconAttr]}}"></div>\n'+
-            '<a ng-href="{{data[linkAttr]}}"><span>{{data[labelAttr]}}</span></a>\n'+
+//            '<a ng-click="openMdLink(\'{{data[linkAttr]}}\')"><span>{{data[labelAttr]}}</span></a>\n'+
+            '<a ng-click="methodAttr({name: data[linkAttr]})"><span>{{data[labelAttr]}}</span></a>\n'+
+
             '</div>\n'+
             '<ul class="display {{data.hide}}" ui-if="data.children.length">\n'+
-            '<li ng-repeat="data in data.children" ng-include="\'template/lxlinktree/inner.html\'">\n'+
+            '<li ng-repeat="data in data.children" ng-include="\'template/lxngclicktree/inner.html\'">\n'+
             '</li>\n'+
             '</ul> ');
 }]);

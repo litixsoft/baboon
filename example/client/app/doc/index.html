@@ -2,11 +2,11 @@
 
 <div class="row-fluid">
     <div class="span3">
-        <ul>
-        <li><a ng-click="openMdLink('/doc/md/first')">Link zur Seite</a></li> <!-- href="/doc/md/first" -->
-        </ul>
+        <!--<ul>-->
+        <!--<li><a ng-click="openMdLink('/doc/md/first')">Link zur Seite</a></li> &lt;!&ndash; href="/doc/md/first" &ndash;&gt;-->
+        <!--</ul>-->
 
-        <lxlinktree class="navlist" itemlist-attr="linkList" label-attr="title" icon-attr="icon" link-attr="route"></lxlinktree>
+        <lxngclicktree class="navlist" method-attr="openMdLink(name)" template-attr="test" itemlist-attr="linkList" label-attr="title" icon-attr="icon" link-attr="route"></lxngclicktree>
 
     </div>
     <div class="span9">
