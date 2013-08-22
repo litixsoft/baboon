@@ -804,6 +804,7 @@ module.exports = function (grunt) {
         'copy',
         'html2js',
         'concat',
+        'setup',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [

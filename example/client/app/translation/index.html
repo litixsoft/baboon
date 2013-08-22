@@ -1,0 +1,85 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+        <h3>{{ 'TRANSLATION_HEADER' | translate }}</h3>
+
+        <p>{{ 'TRANSLATION_INTRO' | translate }}</p>
+        <a href="http://pascalprecht.github.io/angular-translate/#/guide">{{ 'TRANSLATION_LINK' | translate }}</a>
+
+        <br />
+        <h4>Wie wird die Übersetzung konfiguriert?</h4>
+        <p>Im config Bereich der Angular app wird die Übersetzung konfiguriert. Wir verwenden für die Übersetzung statische Dateien. Diese befinden sich im Ordner public/locale.
+        Die einzelnen Dateinen sind nach dem Schema locale-langKey.json gespeichert. Z.B. locale-de.json === deutsch, locale-en.json === englisch. Angular-translate lädt dann bei Bedarf die Sprachdatei vom Server.
+        Als Standard- und Fallbacksprache ist Englisch ausgewählt.</p>
+
+        <pre class="prettyprint">angular.module('app', [
+    'pascalprecht.translate',
+])
+.config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
+    $locationProvider.html5Mode(true);
+    $routeProvider.otherwise({redirectTo: '/'});
+
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'locale/locale-',
+        suffix: '.json'
+    });
+
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.fallbackLanguage('en');
+}]);</pre>
+
+        <h4>Wie kann der Benutzer seine Sprache ändern?</h4>
+        <p>Der User kann zur Laufzeit die Sprache ändern (siehe Buttons unten als Beispiel). Dabei wird die ausgewählte Sprache in der Session gespeichert.
+           Außderdem kann im Administrations-Bereich die Standard Sprache des Benutzers gespeichert werden.</p>
+
+        <pre class="prettyprint">$scope.changeLanguage = function (langKey) {
+    // tell angular-translate to use the new language
+    $translate.uses(langKey);
+
+    // save selected language in session
+    session.setData('language', langKey);
+};</pre>
+        <br />
+        <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+        <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+
+        <br />
+        <h4>Wie wird die Sprache dauerhaft geändert?</h4>
+        <p>Im Administrations-Bereich kann die Standard Sprache des Benutzers gespeichert werden. Beim Start der Anwendung wird die gespeichert Sprache des Benutzers serverseitig in die Session geschrieben.
+            Auf dem Client wird dann die Sprache aus der Session geladen.</p>
+
+        <pre class="prettyprint">angular.module('app', [
+        'pascalprecht.translate',
+    ])
+     .run(['$rootScope', 'session', '$log', '$translate', function ($rootScope, session, $log, $translate) {
+        // get users preferred language from session
+        session.getData('language', function (error, result) {
+            if (error) {
+                $log.error(error);
+            }
+
+            // use language
+            if (result && result.language) {
+                $translate.uses(result.language);
+                $log.info('Language key loaded from session: ' + result.language);
+            }
+        });
+    }])</pre>
+
+
+        <!--<span>{{ 'TRANSLATED_BY_FILTER' | translate }}</span>-->
+
+        <!--<p>Currency Symbol: {{ 'CURRENCY_SYM' | translate }}</p>-->
+
+        <!--<p translate>PASSED_AS_TEXT</p>-->
+
+        <!--<p translate="PASSED_AS_ATTRIBUTE"></p>-->
+
+        <!--<p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>-->
+
+        <!--<p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>-->
+
+        <!--<p translate="VARIABLE_REPLACEMENT" translate-values="{{ translationData }}"></p>-->
+
+        <!--<p>{{ 'VARIABLE_REPLACEMENT' | translate:translationData }}</p>-->
+    </div>
+</div>

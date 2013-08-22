@@ -1,6 +1,8 @@
 {
-    "HEADLINE": "Was für ein großartiges Modul!",
-    "PARAGRAPH": "Ernsthaft!",
+    "TRANSLATION_HEADER": "Beispiel für die Übersetzung in baboon!",
+    "TRANSLATION_INTRO": "Für die Übersetzung in baboon verwenden wir angular-translate. Es folgen ein paar einfache Beispiele. Eine ausführliche Dokumentation findet man hier:",
+    "TRANSLATION_LINK": "Angular-Translate Dokumentation",
+    "TRANSLATED_BY_FILTER": "Ich wurde mit Hilfe eines Filters übersetzt",
     "PASSED_AS_TEXT": "Hey! Ich wurde als text übergeben!",
     "PASSED_AS_ATTRIBUTE": "Ich wurde als Attribut übergeben, cool oder?",
     "PASSED_AS_INTERPOLATION": "Anfänger! Ich bin interpoliert!",
