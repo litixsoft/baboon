@@ -2,12 +2,12 @@
 
 <div class="row-fluid">
     <div class="span3">
-        <!--<lxlinktree class="navlist" itemlist-attr="mdData" label-attr="title" icon-attr="icon" link-attr="route"></lxlinktree>-->
-        <ul>
-            <li><a ng-click="openMdLink()">Link zur Seite</a></li> <!-- href="/doc/md/first" -->
-        </ul>
+        <lxlinktree class="navlist" itemlist-attr="linkList" label-attr="title" icon-attr="icon" link-attr="route"></lxlinktree>
+        <!--<ul>-->
+            <!--<li><a ng-click="openMdLink('/doc/md/first')">Link zur Seite</a></li> &lt;!&ndash; href="/doc/md/first" &ndash;&gt;-->
+        <!--</ul>-->
     </div>
     <div class="span9">
-        <markdown ng-model="mdcontent"></markdown>
+        <markdown ng-model="markCode.content"></markdown>
     </div>
 </div>
