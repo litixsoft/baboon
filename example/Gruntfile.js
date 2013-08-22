@@ -120,6 +120,18 @@ module.exports = function (grunt) {
             }
         },
 
+        markdown: {
+            all: {
+                files: [
+                    {
+                        expand: true,
+                        src: 'client/app/ui_examples/base/docs/*.md',
+//                        dest: '*/docs',
+                        ext: '.html'
+                    }
+                ]
+            }
+        },
         /**
          * concat files
          */
@@ -639,6 +651,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-markdown');
 
     // Tasks
     grunt.registerTask('build', [
@@ -742,6 +755,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
+        'markdown',
         'html2js',
         'concat',
         'replace:livereload',
