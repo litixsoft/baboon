@@ -21,5 +21,17 @@ module.exports = [
         {title: 'Users', route: '/admin/users', resource: 'baboon/admin/user/getAll'},
         {title: 'Groups', route: '/admin/groups', resource: 'baboon/admin/group/getAll'},
         {title: 'Rights', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
+    ]},
+    {'title': 'Dokumentation', 'route': '/doc', children: [
+        {title:'Baboon Installation',route:'/doc/md/first'},
+        {title:'Baboon Dingens',route:'/doc/md/second'},
+        {title:'Baboon Super',route:'/doc/md/third',children:[
+            {title:'Super Doll',route:'/doc/md/quad',children:[
+                {title:'Doll 1',route:'/doc/md/five',icon:'home'},
+                {title:'Doll 2',route:'/doc/md/six',icon:'gear'},
+                {title:'Doll 3',route:'/doc/md/seven',icon:'home'}]
+            }]
+        },
+        {title:'Baboon Toll',route:'/ui/doc/eight'}
     ]}
 ];
