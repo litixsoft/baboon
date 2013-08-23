@@ -38,7 +38,11 @@
             <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[1].children) %>"></lxtreeview>
         </div>
         <div class="col-right">
-            <div ng-view></div>
+            <div class="beige-noise">
+                <div class="p-wrapper">
+                    <div ng-view></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -201,7 +205,11 @@
             </div>
 
             <div class="view-container">
-                <div ng-view></div>
+                <div class="beige-noise">
+                    <div class="p-wrapper">
+                        <div ng-view></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

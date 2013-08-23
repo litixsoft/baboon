@@ -22,5 +22,18 @@ module.exports = [
         {title: 'Users', route: '/admin/users', resource: 'baboon/admin/user/getAll'},
         {title: 'Groups', route: '/admin/groups', resource: 'baboon/admin/group/getAll'},
         {title: 'Rights', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
+    ]},
+    {'title': 'Dokumentation', 'route': '/doc', children: [
+        {title:'Startseite',route:'/doc'},
+        {title:'Baboon First',route:'/doc/md/first'},
+        {title:'Baboon Second',route:'/doc/md/second'},
+        {title:'Baboon Third',route:'/doc/md/third',children:[
+            {title:'Fourth',route:'/doc/md/fourth',children:[
+                {title:'Five',route:'/doc/md/five',icon:'home'},
+                {title:'Six',route:'/doc/md/six',icon:'gear'},
+                {title:'Seven',route:'/doc/md/seven',icon:'home'}]
+            }]
+        },
+        {title:'Baboon Eight',route:'/doc/md/eight'}
     ]}
 ];
