@@ -922,6 +922,49 @@ module.exports = function (grunt) {
             },
             e2e: {
                 configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome: {
+                configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome_canary: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['ChromeCanary'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/chrome_canary.xml',
+                    suite: 'ChromeCanary'
+                }
+            },
+            e2e_firefox: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Firefox'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/firefox.xml',
+                    suite: 'Firefox'
+                }
+            },
+            e2e_safari: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Safari'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/safari.xml',
+                    suite: 'Safari'
+                }
+            },
+            e2e_ie: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['IE'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/ie.xml',
+                    suite: 'IE'
+                }
+            },
+            e2e_phantom: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['PhantomJS'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/phantomJS.xml',
+                    suite: 'PhantomJS'
+                }
             }
         },
 
@@ -1032,6 +1075,23 @@ module.exports = function (grunt) {
         'build',
         'express:e2e',
         'karma:e2e'
+    ]);
+    grunt.registerTask('e2e:all', [
+        'jshint:test',
+        'bgShell:e2e',
+        'build',
+        'express:e2e',
+        'karma:e2e_chrome',
+        'bgShell:e2e',
+        'karma:e2e_firefox',
+        'bgShell:e2e',
+        'karma:e2e_chrome_canary',
+        'bgShell:e2e',
+        'karma:e2e_phantom',
+        'bgShell:e2e',
+        'karma:e2e_safari',
+        'bgShell:e2e',
+        'karma:e2e_ie'
     ]);
     grunt.registerTask('e2e:release', [
         'jshint:test',

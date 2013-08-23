@@ -16,8 +16,8 @@ module.exports = function (config) {
         reporters: ['progress', 'junit'],
 
         junitReporter: {
-            outputFile: 'build/reports/e2e.xml',
-            suite: 'e2e'
+            outputFile: 'build/reports/jasmine/chrome.xml',
+            suite: 'Chrome'
         },
 
         // web server port
@@ -64,6 +64,10 @@ module.exports = function (config) {
 
         plugins: [
             'karma-chrome-launcher',
+            'karma-firefox-launcher',
+            'karma-ie-launcher',
+            'karma-safari-launcher',
+            'karma-phantomjs-launcher',
             'karma-junit-reporter',
             'karma-ng-scenario'
         ]

@@ -1,0 +1,40 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+        <h1 class="headline">Sessions in Baboon</h1>
+        <p>Sessions werden in Baboon ausschließlich vom Server mit folgenden Optionen erzeugt und verwaltet.</p>
+
+<pre class="prettyprint">
+config/app.conf.json
+
+"sessionKey": "baboon.sid" ,
+"sessionSecret": "a7f4eb39-744e-43e3-a30b-3ffea846030f",
+"sessionMaxLife": 804600,
+"sessionInactiveTime": 3600
+</pre>
+        <p>
+            In der Option <strong>sessionKey</strong> beschreibt den Namen des Cookies.</br>
+            In der Option <strong>sessionSecret</strong> wird der Wert zum Verschlüsseln der Session angegeben.</br>
+            Die Option <strong>sessionMaxLife</strong> beschreibt die Maximale Laufzeit einer Session.
+            Dabei ist diese Zeit absolut, nach der angegebenen Zeit wird die Session definitiv gelöscht unabhängig von der Aktivität.</br>
+            Die Option <strong>sessionInactiveTime</strong> gibt die Zeit an in welcher der Benutzer inaktiv sein kann.
+            Die Session wird beim Überschreiten dieser Zeitspanne zerstört.
+        </p>
+        <p>
+            Da dies vom Server gemacht wird, muss es eine Möglichkeit für den Client geben seine Aktivität an den Server zu melden.
+            Dies macht Baboon über das $routeChangeStart Event von Angular in der app.js.
+        </p>
+<pre class="prettyprint">
+app.js
+
+$rootScope.$on('$routeChangeStart', function () {
+            session.setActivity();
+        });
+</pre>
+    <p>
+        Das bedeutet, bei jeder Änderung der Route meldet der Client eine Aktivität an den Server.
+        Bei dieser Meldung wird die Session auch auf die Optionen: <strong>sessionMaxLife</strong> und
+        <strong>sessionInactiveTime</strong> geprüft. Ist die Session abgelaufen wird die Session zerstört
+        und der Benutzer Automatisch abgemeldet.
+    </p>
+    </div>
+</div>
