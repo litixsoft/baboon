@@ -12,7 +12,8 @@ angular.module('app', [
         'cache',
         'admin',
         'login',
-        'ui.lxnavigation'
+        'ui.lxnavigation',
+        'sessionDoc'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
