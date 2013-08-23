@@ -121,6 +121,31 @@ module.exports = function (grunt) {
             }
         },
 
+        markdown: {
+            all: {
+                files: [
+                    {
+                        expand: true,
+                        src: 'client/app/doc/md/*.md',
+//                        dest: '*/docs',
+                        ext: '.html'
+                    }
+                ],
+                options: {
+//                    preCompile: function(src, context) {},
+//                    postCompile: function(src, context) {},
+//                    templateContext: {},
+                    markdownOptions: {
+                        gfm: false,
+//                        highlight: manual,
+                        codeLines: {
+                            before: '<span>',
+                            after: '</span>'
+                        }
+                    }
+                }
+            }
+        },
         /**
          * concat files
          */
@@ -303,6 +328,7 @@ module.exports = function (grunt) {
                         // ! toplevel apps
                         '!client/app/ui_examples/**/*.js',
                         '!client/app/admin/**/*.js',
+                        '!client/app/doc/**/*.js',
 
                         // suffix
                         'client/module.suffix'
@@ -314,7 +340,8 @@ module.exports = function (grunt) {
 
                         // ! toplevel css
                         '!client/app/ui_examples/**/*.css',
-                        '!client/app/admin/**/*.css'
+                        '!client/app/admin/**/*.css',
+                        '!client/app/doc/**/*.css'
                     ]
                 }
             },
@@ -597,6 +624,147 @@ module.exports = function (grunt) {
                         'client/app/admin/**/*.css'
                     ]
                 }
+            },
+            /**
+             * The `documentation` target is for toplevel application js and css libraries.
+             */
+            doc: {
+                files: {
+                    'build/dist/public/js/doc_app.js': [
+
+                        // prefix
+                        'client/module.prefix',
+
+                        // ui-bootstrap
+
+                        /* required */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
+
+                        /* optional */
+
+                        /* accordion */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion-group.html.js',
+
+                        /* alert */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/alert/alert.html.js',
+
+                        /* buttons */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
+
+                        /* carousel */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/carousel.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/slide.html.js',
+
+                        /* collapse */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
+
+                        /* datepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/datepicker/datepicker.html.js',
+
+                        /* dialog */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/dialog/message.html.js',
+
+                        /* dropdownToggle */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
+
+                        /* modal */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
+
+                        /* pagination */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pager.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pagination.html.js',
+
+                        /* popover */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/popover/popover.html.js',
+
+                        /* progressbar */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/bar.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/progress.html.js',
+
+                        /* rating */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/rating/rating.html.js',
+
+                        /* tabs */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tab.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tabset.html.js',
+
+                        /* timepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/timepicker/timepicker.html.js',
+
+                        /* tooltip */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-html-unsafe-popup.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-popup.html.js',
+
+                        /* typeahead */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-match.html.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-popup.html.js',
+
+                        // ui-utils
+
+                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
+
+                        // baboon.services
+                        '<%= bbc %>/lib/services/baboon-core.js',
+                        '<%= bbc %>/lib/services/lx-form.js',
+                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+
+                        // baboon.directives
+                        '<%= bbc %>/lib/directives/lx-file-upload.js',
+                        '<%= bbc %>/lib/directives/lx-float.js',
+                        '<%= bbc %>/lib/directives/lx-integer.js',
+                        '<%= bbc %>/lib/directives/lx-pager.js',
+                        '<%= bbc %>/lib/directives/lx-sort.js',
+
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
+
+                        // common
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+
+                        // toplevel app
+                        'client/app/doc/**/*.js',
+                        '!client/app/doc/**/*.spec.js',
+
+                        // suffix
+                        'client/module.suffix'
+                    ],
+                    'build/dist/public/css/doc_app.css': [
+
+                        // toplevel css
+                        'client/app/doc/**/*.css'
+                    ]
+                }
             }
         },
 
@@ -831,6 +999,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-markdown');
 
     // Tasks
     grunt.registerTask('setup', [
@@ -955,6 +1124,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
+        'markdown',
         'html2js',
         'concat',
         'replace:livereload',

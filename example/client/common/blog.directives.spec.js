@@ -3,8 +3,8 @@
 
 var compile, scope;
 
-describe('blog directives', function () {
-    beforeEach(module('blog.directives'));
+describe('baboon directives', function () {
+    beforeEach(module('baboon.directives'));
 
     describe('markdown', function () {
         beforeEach(inject(function ($compile, $rootScope) {

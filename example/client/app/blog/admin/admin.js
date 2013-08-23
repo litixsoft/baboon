@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('blog.admin', ['blog.services', 'admin.services', 'blog.directives'])
+angular.module('blog.admin', ['blog.services', 'admin.services'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog/admin', {templateUrl: '/blog/admin/admin.html'});
         $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
