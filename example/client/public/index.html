@@ -35,9 +35,9 @@
         <div class="col-right">
 
             <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
-                <div class="pull-right login-area">
+                <div class="pull-right login-area" ng-controller="navLoginCtrl">
                     <% if(!isAuth) { %>
-                    <div class="btn-group" ng-class="{open: openMenu}" ng-init="openMenu = false;">
+                    <div class="btn-group" ng-class="{open: openMenu}">
                         <!--<a href="/login" class="btn">Login</a>-->
                         <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
                         <ul class="dropdown-menu login pull-right">
