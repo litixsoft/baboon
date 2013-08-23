@@ -24,10 +24,10 @@ angular.module('ui_app', [
 
         var window = angular.element($window);
 
-        $scope.$watch('openMenu',function(newval, oldval){
+        $scope.$watch('openMenu',function(newval){
             if(newval){
                 window.bind('keydown',function(ev){
-                    if ( ev.which == 27 ) { //ESC Key
+                    if ( ev.which === 27 ) { //ESC Key
                         $scope.$apply( function () {
                             $scope.openMenu = false;
                         });
