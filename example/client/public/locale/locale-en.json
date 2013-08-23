@@ -1,11 +1,12 @@
 {
     "TRANSLATION_HEADER": "Example for translation in baboon!",
-    "PARAGRAPH": "Srsly!",
-    "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
-    "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
-    "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
-    "VARIABLE_REPLACEMENT": "Hi {{name}}",
-    "BUTTON_LANG_DE": "german",
-    "BUTTON_LANG_EN": "english",
+    "TRANSLATION_INTRO": "In baboon we use the module angular-translate for the tranaltion. We will show you some examples. A detailed documentation can be found here:",
+    "TRANSLATION_LINK": "Angular-Translate documentation",
+    "Q1": "How to configure the translation?",
+    "Q1_TEXT": "The translation is configured in the config area of the angular app. We use static files. They are located in the folder public/locale. The files are stored with a name-schema locale-langKey.json. For example, locale-de.json === german locale file, locale-en.json === english locale file. Angular-translate loads the language files from the server on demand. The default and fallback language is english.",
+    "Q2": "How can the user change his language?",
+    "Q2_TEXT": "The user can change the language at runtime (see buttons above). Then the language is stored in the session.",
+    "Q3": "How to store the users language?",
+    "Q3_TEXT": "In the baboon admin area you can store the default language of the user. When the app starts, this default language is saved in the session on the server. The client app then loads the language from the session.",
     "CURRENCY_SYM": "$"
 }
