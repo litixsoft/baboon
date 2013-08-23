@@ -77,5 +77,6 @@ angular.module('baboon.documentation', [
 //                    deferred.reject(options.key);
                 });
         };
+        $scope.openMdLink('/doc/md/first');
 
     }]);
