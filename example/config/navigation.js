@@ -24,15 +24,15 @@ module.exports = [
     ]},
     {'title': 'Dokumentation', 'route': '/doc', children: [
         {title:'Startseite',route:'/doc'},
-        {title:'Baboon Installation',route:'/doc/md/first'},
-        {title:'Baboon Dingens',route:'/doc/md/second'},
-        {title:'Baboon Super',route:'/doc/md/third',children:[
-            {title:'Super Doll',route:'/doc/md/quad',children:[
-                {title:'Doll 1',route:'/doc/md/five',icon:'home'},
-                {title:'Doll 2',route:'/doc/md/six',icon:'gear'},
-                {title:'Doll 3',route:'/doc/md/seven',icon:'home'}]
+        {title:'Baboon First',route:'/doc/md/first'},
+        {title:'Baboon Second',route:'/doc/md/second'},
+        {title:'Baboon Third',route:'/doc/md/third',children:[
+            {title:'Fourth',route:'/doc/md/fourth',children:[
+                {title:'Five',route:'/doc/md/five',icon:'home'},
+                {title:'Six',route:'/doc/md/six',icon:'gear'},
+                {title:'Seven',route:'/doc/md/seven',icon:'home'}]
             }]
         },
-        {title:'Baboon Toll',route:'/doc/md/eight'}
+        {title:'Baboon Eight',route:'/doc/md/eight'}
     ]}
 ];

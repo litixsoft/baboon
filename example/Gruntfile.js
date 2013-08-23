@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        src: 'client/app/documentation/md/*.md',
+                        src: 'client/app/doc/md/*.md',
 //                        dest: '*/docs',
                         ext: '.html'
                     }
