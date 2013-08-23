@@ -35,9 +35,9 @@
             <div class="col-right">
 
                 <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
-                    <div class="pull-right login-area">
+                    <div class="pull-right login-area" ng-controller="navLoginCtrl">
                         <% if(!isAuth) { %>
-                        <div class="btn-group" ng-class="{open: openMenu}" ng-init="openMenu = false;">
+                        <div class="btn-group" ng-class="{open: openMenu}">
                             <!--<a href="/login" class="btn">Login</a>-->
                             <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
                             <ul class="dropdown-menu login pull-right">
@@ -79,7 +79,6 @@
                         </div>
                         <% } %>
                     </div>
-
                     <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
 
                     <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>

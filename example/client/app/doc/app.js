@@ -43,6 +43,27 @@ angular.module('baboon.documentation', [
         $scope.modal = msgBox.modal;
 
     }])
+    .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
+
+        var window = angular.element($window);
+
+        $scope.$watch('openMenu',function(newval, oldval){
+            if(newval){
+                window.bind('keydown',function(ev){
+                    if ( ev.which == 27 ) { //ESC Key
+                        $scope.$apply( function () {
+                            $scope.openMenu = false;
+                        });
+                    }
+                });
+            } else {
+                window.unbind('keydown');
+            }
+        });
+
+        $scope.openMenu = false;
+
+    }])
     .controller('docCtrl', ['$rootScope', '$http', function ($scope,$http) {
 
         $scope.linkList = [

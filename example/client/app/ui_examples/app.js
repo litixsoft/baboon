@@ -19,4 +19,25 @@ angular.module('ui_app', [
     }])
     .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
         $scope.modal = msgBox.modal;
+    }])
+    .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
+
+        var window = angular.element($window);
+
+        $scope.$watch('openMenu',function(newval, oldval){
+            if(newval){
+                window.bind('keydown',function(ev){
+                    if ( ev.which == 27 ) { //ESC Key
+                        $scope.$apply( function () {
+                            $scope.openMenu = false;
+                        });
+                    }
+                });
+            } else {
+                window.unbind('keydown');
+            }
+        });
+
+        $scope.openMenu = false;
+
     }]);
