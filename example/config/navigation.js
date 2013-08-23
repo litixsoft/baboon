@@ -4,6 +4,7 @@ module.exports = [
     {title: 'App Example', route: '/', children: [
         {title: 'Home', route: '/home'},
         {title: 'About', route: '/home/about'},
+        {title: 'Translation', route: '/translation'},
         {title: 'Enterprise', route: '/enterprise', resource: 'example/enterprise/enterprise/getAll'},
         {title: 'Blog', route: '/blog', resource: 'example/blog/blog/getAllPosts', children: [
             {title: 'Admin', route: '/blog/admin', resource: 'example/blog/blog/createPost', children: [

@@ -8,6 +8,7 @@ angular.module('app', [
         'blog',
         'enterprise',
         'home',
+        'translation',
         'cache',
         'admin',
         'login',

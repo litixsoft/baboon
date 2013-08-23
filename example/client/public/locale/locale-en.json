@@ -1,5 +1,5 @@
 {
-    "HEADLINE": "What an awesome module!",
+    "TRANSLATION_HEADER": "Example for translation in baboon!",
     "PARAGRAPH": "Srsly!",
     "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
     "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",

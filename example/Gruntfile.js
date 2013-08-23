@@ -812,6 +812,9 @@ module.exports = function (grunt) {
             e2e: {
                 cmd: 'node test/fixtures/resetDB.js e2e'
             },
+            setup: {
+                cmd: 'node scripts/setup.js'
+            },
             coverage: {
                 cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
@@ -955,6 +958,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-markdown');
 
     // Tasks
+    grunt.registerTask('setup', [
+        'bgShell:setup'
+    ]);
     grunt.registerTask('build', [
         'clean:dist',
         'copy',
@@ -967,6 +973,7 @@ module.exports = function (grunt) {
         'copy',
         'html2js',
         'concat',
+        'setup',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
@@ -1060,6 +1067,7 @@ module.exports = function (grunt) {
         'html2js',
         'concat',
         'replace:livereload',
+        'setup',
         'express:dev',
         'open:browser',
         'watch'
