@@ -50,11 +50,12 @@ angular.module('baboon.documentation', [
             {title:'Baboon Dingens',route:'/doc/md/second'},
             {title:'Baboon Super',route:'/doc/md/third',children:[
                 {title:'Super Doll',route:'/doc/md/fourth',children:[
-                    {title:'Doll 1',route:'/doc/md/five',icon:'home'},
-                    {title:'Doll 2',route:'/doc/md/six',icon:'gear'},
-                    {title:'Doll 3',route:'/doc/md/seven',icon:'home'}
+                    {title:'Doll 1',route:'/doc/md/five'},
+                    {title:'Doll 2',route:'/doc/md/six'},
+                    {title:'Doll 3',route:'/doc/md/seven'}
                 ]}
-            ]}
+            ]},
+            {title:'Baboon Eight',route:'/doc/md/eight'}
         ];
 
         $scope.markCode = {content: 'loading...'};
