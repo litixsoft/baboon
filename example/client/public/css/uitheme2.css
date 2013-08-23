@@ -595,3 +595,19 @@ ul.nav.nav-pills li a:hover{
     color:white;
     text-shadow:0 1px 1px rgba(0,0,0,0.5);
 }
+/*-----------------------------------------------*/
+markdown img{
+    max-height:200px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    border-radius: 7px;
+    text-align: center;
+    position:relative;
+    background:rgba(255,255,255,0.8);
+}
+markdown img:hover{
+    -webkit-transform: scale(2,2);
+    -o-transform: scale(2,2);
+    -ms-transform: scale(2,2);
+    transform: scale(2,2);
+    box-shadow: 10px 10px 35px rgba(0,0,0,0.3);
+}
