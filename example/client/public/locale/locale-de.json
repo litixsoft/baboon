@@ -2,12 +2,11 @@
     "TRANSLATION_HEADER": "Beispiel für die Übersetzung in baboon!",
     "TRANSLATION_INTRO": "Für die Übersetzung in baboon verwenden wir angular-translate. Es folgen ein paar einfache Beispiele. Eine ausführliche Dokumentation findet man hier:",
     "TRANSLATION_LINK": "Angular-Translate Dokumentation",
-    "TRANSLATED_BY_FILTER": "Ich wurde mit Hilfe eines Filters übersetzt",
-    "PASSED_AS_TEXT": "Hey! Ich wurde als text übergeben!",
-    "PASSED_AS_ATTRIBUTE": "Ich wurde als Attribut übergeben, cool oder?",
-    "PASSED_AS_INTERPOLATION": "Anfänger! Ich bin interpoliert!",
-    "VARIABLE_REPLACEMENT": "Hi {{name}}",
-    "BUTTON_LANG_DE": "deutsch",
-    "BUTTON_LANG_EN": "englisch",
+    "Q1": "Wie wird die Übersetzung konfiguriert?",
+    "Q1_TEXT": "Im config Bereich der Angular app wird die Übersetzung konfiguriert. Wir verwenden für die Übersetzung statische Dateien. Diese befinden sich im Ordner public/locale. Die einzelnen Dateinen sind nach dem Namens-Schema locale-langKey.json gespeichert. Z.B. locale-de.json === deutsche Sprachdatei, locale-en.json === englische Sprachdatei. Angular-translate lädt dann bei Bedarf die Sprachdatei vom Server. Als Standard- und Fallbacksprache ist Englisch ausgewählt.",
+    "Q2": "Wie kann der Benutzer seine Sprache ändern?",
+    "Q2_TEXT": "Der User kann zur Laufzeit die Sprache ändern (siehe Buttons oben als Beispiel). Dabei wird die ausgewählte Sprache in der Session gespeichert.",
+    "Q3": "Wie wird die Sprache dauerhaft geändert?",
+    "Q3_TEXT": "Im Administrations-Bereich kann die Standard Sprache des Benutzers gespeichert werden. Beim Start der Anwendung wird die gespeicherte Sprache des Benutzers serverseitig in die Session geschrieben. Auf dem Client wird dann die Sprache aus der Session geladen.",
     "CURRENCY_SYM": "\u20ac"
 }
