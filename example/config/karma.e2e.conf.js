@@ -16,7 +16,7 @@ module.exports = function (config) {
         reporters: ['progress', 'junit'],
 
         junitReporter: {
-            outputFile: 'build/reports/e2e/chrome.xml',
+            outputFile: 'build/reports/jasmine/chrome.xml',
             suite: 'Chrome'
         },
 

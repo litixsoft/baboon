@@ -33,8 +33,7 @@ module.exports = function (grunt) {
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
             coverageServer: ['build/reports/coverage/server'],
-            coverageClient: ['build/reports/coverage/client'],
-            e2e: ['build/reports/e2e']
+            coverageClient: ['build/reports/coverage/client']
         },
         // lint files
         jshint: {
@@ -931,7 +930,7 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.e2e.conf.js',
                 browsers: ['ChromeCanary'],
                 junitReporter: {
-                    outputFile: 'build/reports/e2e/chrome_canary.xml',
+                    outputFile: 'build/reports/jasmine/chrome_canary.xml',
                     suite: 'ChromeCanary'
                 }
             },
@@ -939,7 +938,7 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.e2e.conf.js',
                 browsers: ['Firefox'],
                 junitReporter: {
-                    outputFile: 'build/reports/e2e/firefox.xml',
+                    outputFile: 'build/reports/jasmine/firefox.xml',
                     suite: 'Firefox'
                 }
             },
@@ -947,7 +946,7 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.e2e.conf.js',
                 browsers: ['Safari'],
                 junitReporter: {
-                    outputFile: 'build/reports/e2e/safari.xml',
+                    outputFile: 'build/reports/jasmine/safari.xml',
                     suite: 'Safari'
                 }
             },
@@ -955,7 +954,7 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.e2e.conf.js',
                 browsers: ['IE'],
                 junitReporter: {
-                    outputFile: 'build/reports/e2e/ie.xml',
+                    outputFile: 'build/reports/jasmine/ie.xml',
                     suite: 'IE'
                 }
             },
@@ -963,7 +962,7 @@ module.exports = function (grunt) {
                 configFile: 'config/karma.e2e.conf.js',
                 browsers: ['PhantomJS'],
                 junitReporter: {
-                    outputFile: 'build/reports/e2e/phantomJS.xml',
+                    outputFile: 'build/reports/jasmine/phantomJS.xml',
                     suite: 'PhantomJS'
                 }
             }
