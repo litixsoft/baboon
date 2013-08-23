@@ -33,7 +33,8 @@ module.exports = function (grunt) {
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
             coverageServer: ['build/reports/coverage/server'],
-            coverageClient: ['build/reports/coverage/client']
+            coverageClient: ['build/reports/coverage/client'],
+            e2e: ['build/reports/e2e']
         },
         // lint files
         jshint: {
@@ -754,6 +755,49 @@ module.exports = function (grunt) {
             },
             e2e: {
                 configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome: {
+                configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome_canary: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['ChromeCanary'],
+                junitReporter: {
+                    outputFile: 'build/reports/e2e/chrome_canary.xml',
+                    suite: 'ChromeCanary'
+                }
+            },
+            e2e_firefox: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Firefox'],
+                junitReporter: {
+                    outputFile: 'build/reports/e2e/firefox.xml',
+                    suite: 'Firefox'
+                }
+            },
+            e2e_safari: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Safari'],
+                junitReporter: {
+                    outputFile: 'build/reports/e2e/safari.xml',
+                    suite: 'Safari'
+                }
+            },
+            e2e_ie: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['IE'],
+                junitReporter: {
+                    outputFile: 'build/reports/e2e/ie.xml',
+                    suite: 'IE'
+                }
+            },
+            e2e_phantom: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['PhantomJS'],
+                junitReporter: {
+                    outputFile: 'build/reports/e2e/phantomJS.xml',
+                    suite: 'PhantomJS'
+                }
             }
         },
 
@@ -863,6 +907,23 @@ module.exports = function (grunt) {
         'build',
         'express:e2e',
         'karma:e2e'
+    ]);
+    grunt.registerTask('e2e:all', [
+        'jshint:test',
+        'bgShell:e2e',
+        'build',
+        'express:e2e',
+        'karma:e2e_chrome',
+        'bgShell:e2e',
+        'karma:e2e_firefox',
+        'bgShell:e2e',
+        'karma:e2e_chrome_canary',
+        'bgShell:e2e',
+        'karma:e2e_phantom',
+        'bgShell:e2e',
+        'karma:e2e_safari',
+        'bgShell:e2e',
+        'karma:e2e_ie'
     ]);
     grunt.registerTask('e2e:release', [
         'jshint:test',
