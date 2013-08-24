@@ -1,8 +1,8 @@
 /*global angular*/
 angular.module('app', [
+        'pascalprecht.translate',
         'ui.utils',
         'ui.bootstrap',
-        'pascalprecht.translate',
         'baboon.services',
         'baboon.directives',
         'blog',
@@ -44,8 +44,16 @@ angular.module('app', [
             }
         });
     }])
-    .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
+    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', function ($scope, msgBox, $translate, session) {
         $scope.modal = msgBox.modal;
+
+        $scope.changeLanguage = function (langKey) {
+            // tell angular-translate to use the new language
+            $translate.uses(langKey);
+
+            // save selected language in session
+            session.setData('language', langKey);
+        };
     }])
     .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
 
