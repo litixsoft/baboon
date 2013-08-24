@@ -10,7 +10,7 @@ angular.module('baboon.documentation', [
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/doc', {templateUrl: '/doc/index.html',controller: 'docCtrl'});
+        $routeProvider.when('/doc', {templateUrl: '/doc/doc.html',controller: 'docCtrl'});
         $routeProvider.otherwise({redirectTo: '/doc'});
 
         $translateProvider.useStaticFilesLoader({

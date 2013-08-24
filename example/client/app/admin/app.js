@@ -10,7 +10,7 @@ angular.module('baboon.admin', [
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/admin', {templateUrl: '/admin/index.html'});
+        $routeProvider.when('/admin', {templateUrl: '/admin/administration.html'});
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $translateProvider.useStaticFilesLoader({
