@@ -9,9 +9,17 @@ angular.module('ui_app', [
         'login',
         'ui.lxnavigation'
     ])
-    .config(function ($routeProvider, $locationProvider) {
+    .config(function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/ui'});
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'locale/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.fallbackLanguage('en');
     })
     .run(['$rootScope', 'session', function ($rootScope, session) {
         $rootScope.$on('$routeChangeStart', function () {

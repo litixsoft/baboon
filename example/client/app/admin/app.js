@@ -17,6 +17,7 @@ angular.module('baboon.admin', [
             prefix: 'locale/locale-',
             suffix: '.json'
         });
+
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
