@@ -1,5 +1,6 @@
 /*global angular*/
 angular.module('ui_app', [
+        'pascalprecht.translate',
         'ui.utils',
         'ui.bootstrap',
         'baboon.services',
@@ -17,18 +18,26 @@ angular.module('ui_app', [
             session.setActivity();
         });
     }])
-    .controller('rootCtrl', ['$rootScope', 'msgBox', function ($scope, msgBox) {
+    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', function ($scope, msgBox, $translate, session) {
         $scope.modal = msgBox.modal;
+
+        $scope.changeLanguage = function (langKey) {
+            // tell angular-translate to use the new language
+            $translate.uses(langKey);
+
+            // save selected language in session
+            session.setData('language', langKey);
+        };
     }])
-    .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
+    .controller('navLoginCtrl', ['$scope', '$window', function ($scope, $window) {
 
         var window = angular.element($window);
 
-        $scope.$watch('openMenu',function(newval){
-            if(newval){
-                window.bind('keydown',function(ev){
-                    if ( ev.which === 27 ) { //ESC Key
-                        $scope.$apply( function () {
+        $scope.$watch('openMenu', function (newval) {
+            if (newval) {
+                window.bind('keydown', function (ev) {
+                    if (ev.which === 27) { //ESC Key
+                        $scope.$apply(function () {
                             $scope.openMenu = false;
                         });
                     }

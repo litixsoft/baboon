@@ -464,6 +464,10 @@ module.exports = function (grunt) {
                         '<%= bbc %>/lib/directives/lx-pager.js',
                         '<%= bbc %>/lib/directives/lx-sort.js',
 
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
+
                         // common
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',

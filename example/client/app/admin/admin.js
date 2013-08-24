@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('aadmin', ['baboon.admin.services', 'baboon.admin.directives'])
+angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
     .config(function ($routeProvider) {
         $routeProvider.when('/admin/users', {templateUrl: '/admin/users.html', controller: 'userListCtrl'});
         $routeProvider.when('/admin/users/edit/:id', {templateUrl: '/admin/editUser.html', controller: 'editUserCtrl'});

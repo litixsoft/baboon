@@ -1,8 +1,8 @@
 /*global angular*/
 angular.module('baboon.documentation', [
+        'pascalprecht.translate',
         'ui.utils',
         'ui.bootstrap',
-        'pascalprecht.translate',
         'baboon.services',
         'baboon.directives',
         'ui.lxnavigation',
@@ -38,10 +38,16 @@ angular.module('baboon.documentation', [
             }
         });
     }])
-    .controller('rootCtrl', ['$rootScope', '$http', 'msgBox', function ($scope,$http, msgBox) {
-
+    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', function ($scope, msgBox, $translate, session) {
         $scope.modal = msgBox.modal;
 
+        $scope.changeLanguage = function (langKey) {
+            // tell angular-translate to use the new language
+            $translate.uses(langKey);
+
+            // save selected language in session
+            session.setData('language', langKey);
+        };
     }])
     .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
 

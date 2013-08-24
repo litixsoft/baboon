@@ -10,7 +10,6 @@ angular.module('app', [
         'home',
         'translation',
         'cache',
-        'admin',
         'login',
         'ui.lxnavigation',
         'sessionDoc'
