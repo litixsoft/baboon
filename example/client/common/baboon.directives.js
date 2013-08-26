@@ -1,4 +1,4 @@
-/*global angular, Showdown*/
+/*global angular, Showdown, hljs*/
 angular.module('baboon.directives',  [
     'lx.fileUpload',
     'lx.float',
@@ -19,11 +19,11 @@ angular.module('baboon.directives',  [
 
                 var pres = element.find('pre');
                 if(pres.length){
-                    angular.forEach(pres, function(value, key){
+                    angular.forEach(pres, function(value){
                         try{
                             hljs.highlightBlock(value);
                         } catch(e) {
-                            console.log("Error highlight.js\n"+e);
+                            console.log('Error highlight.js\n'+e);
                         }
                     });
                 }
