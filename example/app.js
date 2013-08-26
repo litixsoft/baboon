@@ -42,21 +42,6 @@ app.get('/admin/*', function (req, res) {
     });
 });
 
-// toplevel documentation routes
-app.get('/doc', function (req, res) {
-    middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
-        res.render('doc');
-    });
-});
-
-app.get('/doc/*', function (req, res) {
-    middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
-        res.render('doc');
-    });
-});
-
 ///////////////////////////////////////////
 // api
 ///////////////////////////////////////////
