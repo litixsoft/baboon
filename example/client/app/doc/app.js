@@ -96,7 +96,6 @@ angular.module('baboon.documentation', [
                 method: 'GET',
                 params: ''
             }).success(function (data) {
-                    console.log(data.markdown);
                     $scope.markCode.content = data.markdown;
                     // deferred.resolve(data);
                 }).error(function (data) {
