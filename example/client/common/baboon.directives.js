@@ -1,4 +1,4 @@
-/*global angular, Showdown*/
+/*global angular, Showdown, hljs*/
 angular.module('baboon.directives',  [
     'lx.fileUpload',
     'lx.float',
@@ -14,7 +14,19 @@ angular.module('baboon.directives',  [
         link: function (scope, element, attrs) {
             scope.$watch(attrs.ngModel, function (value) {
                 var htmlText = converter.makeHtml(value || '');
+
                 element.html(htmlText);
+
+                var pres = element.find('pre');
+                if(pres.length){
+                    angular.forEach(pres, function(value){
+                        try{
+                            hljs.highlightBlock(value);
+                        } catch(e) {
+                            console.log('Error highlight.js\n'+e);
+                        }
+                    });
+                }
             });
         }
     };
