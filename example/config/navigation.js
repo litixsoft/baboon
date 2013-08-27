@@ -19,7 +19,7 @@ module.exports = [
     {'title': 'UI_EXAMPLE', 'route': '/ui', children: [
         {title: 'DEMO', route: '/demo'}
     ]},
-    {'title': 'ADMINISTRATION', 'route': '/admin', children: [
+    {'title': 'ADMINISTRATION', 'route': '/admin', resource: 'baboon/admin/user/create', children: [
         {title: 'USERS', route: '/admin/users', resource: 'baboon/admin/user/getAll'},
         {title: 'GROUPS', route: '/admin/groups', resource: 'baboon/admin/group/getAll'},
         {title: 'RIGHTS', route: '/admin/rights', resource: 'baboon/admin/right/getAll'}
