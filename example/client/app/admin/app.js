@@ -14,7 +14,7 @@ angular.module('baboon.admin', [
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $translateProvider.useStaticFilesLoader({
-            prefix: 'locale/locale-',
+            prefix: '/locale/locale-',
             suffix: '.json'
         });
 

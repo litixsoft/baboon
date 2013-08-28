@@ -19,7 +19,7 @@ angular.module('app', [
         $routeProvider.otherwise({redirectTo: '/'});
 
         $translateProvider.useStaticFilesLoader({
-            prefix: 'locale/locale-',
+            prefix: '/locale/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en');

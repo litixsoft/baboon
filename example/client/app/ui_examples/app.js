@@ -14,7 +14,7 @@ angular.module('ui_app', [
         $routeProvider.otherwise({redirectTo: '/ui'});
 
         $translateProvider.useStaticFilesLoader({
-            prefix: 'locale/locale-',
+            prefix: '/locale/locale-',
             suffix: '.json'
         });
 
