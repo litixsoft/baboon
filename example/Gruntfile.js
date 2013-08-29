@@ -22,6 +22,8 @@ module.exports = function (grunt) {
         bbc: 'node_modules/baboon-client',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
+        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
+            '!client/_common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -63,16 +65,14 @@ module.exports = function (grunt) {
                 globals: {
                 }
             },
-            test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
+            test: '<%= jshint_files_to_test %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
                     reporterOutput: 'build/reports/jshint/jshint.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             },
             checkstyle: {
@@ -81,8 +81,7 @@ module.exports = function (grunt) {
                     reporterOutput: 'build/reports/jshint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             }
         },
