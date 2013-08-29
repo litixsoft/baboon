@@ -20,6 +20,10 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
         bbc: 'node_modules/baboon-client',
+        module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
+        module_suffix: '\n})(window, window.angular);',
+        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
+            '!client/_common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -33,8 +37,10 @@ module.exports = function (grunt) {
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
             coverageServer: ['build/reports/coverage/server'],
-            coverageClient: ['build/reports/coverage/client']
+            coverageClient: ['build/reports/coverage/client'],
+            tmp: ['build/tmp']
         },
+
         // lint files
         jshint: {
             options: {
@@ -59,16 +65,14 @@ module.exports = function (grunt) {
                 globals: {
                 }
             },
-            test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
+            test: '<%= jshint_files_to_test %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
                     reporterOutput: 'build/reports/jshint/jshint.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             },
             checkstyle: {
@@ -77,8 +81,7 @@ module.exports = function (grunt) {
                     reporterOutput: 'build/reports/jshint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             }
         },
@@ -90,14 +93,21 @@ module.exports = function (grunt) {
             client: {
                 files: [
                     // all public files that need to be copy.
-                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/public/'},
+                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/_public/'},
+
                     // all toplevel app html files
-                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/public/'},
+                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/_public/'},
+
                     // all common html files
-                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
-                    // all html views that need to be copy.
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/_common/'},
+
+                    // all app html views that need to be copy.
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
-                    // all vendor files that need to be copy.
+
+                    // all top level apps html views that need to be copy.
+                    {dest: 'build/dist/views/', src: ['**/*.html', '!_common/**/*.html', '!_public/**/*.html', '!app/**/*.html'], expand: true, cwd: 'client/'},
+
+                    // all bootstrap image files that need to be copy.
                     {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
                 ]
             }
@@ -120,31 +130,6 @@ module.exports = function (grunt) {
             }
         },
 
-        markdown: {
-            all: {
-                files: [
-                    {
-                        expand: true,
-                        src: 'client/app/doc/md/*.md',
-//                        dest: '*/docs',
-                        ext: '.html'
-                    }
-                ],
-                options: {
-//                    preCompile: function(src, context) {},
-//                    postCompile: function(src, context) {},
-//                    templateContext: {},
-                    markdownOptions: {
-                        gfm: false,
-//                        highlight: manual,
-                        codeLines: {
-                            before: '<span>',
-                            after: '</span>'
-                        }
-                    }
-                }
-            }
-        },
         /**
          * concat files
          */
@@ -193,16 +178,18 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+
             /**
              * The `app` target is for application js and css libraries.
              */
-            app: {
+            app_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
+
                 files: {
                     'build/dist/public/js/app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
                         // ui-bootstrap
 
                         /* required */
@@ -317,21 +304,17 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // app
                         'client/app/**/*.js',
-                        '!client/app/**/*.spec.js',
-
-                        // ! toplevel apps
-                        '!client/app/ui_examples/**/*.js',
-                        '!client/app/admin/**/*.js',
-                        '!client/app/doc/**/*.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
+                        '!client/app/**/*.spec.js'
+                    ]
+                }
+            },
+            app_css: {
+                files: {
                     'build/dist/public/css/app.css': [
 
                         // app css files
@@ -339,8 +322,7 @@ module.exports = function (grunt) {
 
                         // ! toplevel css
                         '!client/app/ui_examples/**/*.css',
-                        '!client/app/admin/**/*.css',
-                        '!client/app/doc/**/*.css'
+                        '!client/app/admin/**/*.css'
                     ]
                 }
             },
@@ -348,13 +330,14 @@ module.exports = function (grunt) {
             /**
              * The `ui` target is for toplevel application js and css libraries.
              */
-            ui: {
+            ui_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
+
                 files: {
                     'build/dist/public/js/ui_app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
                         // ui-bootstrap
 
                         /* required */
@@ -464,21 +447,25 @@ module.exports = function (grunt) {
                         '<%= bbc %>/lib/directives/lx-pager.js',
                         '<%= bbc %>/lib/directives/lx-sort.js',
 
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
+
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // toplevel app
-                        'client/app/ui_examples/**/*.js',
-                        '!client/app/ui_examples/**/*.spec.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
+                        'client/ui_examples/**/*.js',
+                        '!client/ui_examples/**/*.spec.js'
+                    ]
+                }
+            },
+            ui_css: {
+                files: {
                     'build/dist/public/css/ui_app.css': [
-
                         // toplevel css
-                        'client/app/ui_examples/**/*.css'
+                        'client/ui_examples/**/*.css'
                     ]
                 }
             },
@@ -486,13 +473,13 @@ module.exports = function (grunt) {
             /**
              * The `admin` target is for toplevel application js and css libraries.
              */
-            admin: {
+            admin_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
                 files: {
                     'build/dist/public/js/admin_app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
                         // ui-bootstrap
 
                         /* required */
@@ -607,161 +594,20 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // toplevel app
-                        'client/app/admin/**/*.js',
-                        '!client/app/admin/**/*.spec.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
-                    'build/dist/public/css/admin_app.css': [
-
-                        // toplevel css
-                        'client/app/admin/**/*.css'
+                        'client/admin/**/*.js',
+                        '!client/admin/**/*.spec.js'
                     ]
                 }
             },
-            /**
-             * The `documentation` target is for toplevel application js and css libraries.
-             */
-            doc: {
+            admin_css: {
                 files: {
-                    'build/dist/public/js/doc_app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
-                        // ui-bootstrap
-
-                        /* required */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
-
-                        /* optional */
-
-                        /* accordion */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion-group.html.js',
-
-                        /* alert */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/alert/alert.html.js',
-
-                        /* buttons */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
-
-                        /* carousel */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/carousel.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/slide.html.js',
-
-                        /* collapse */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
-
-                        /* datepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/datepicker/datepicker.html.js',
-
-                        /* dialog */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/dialog/message.html.js',
-
-                        /* dropdownToggle */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
-
-                        /* modal */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
-
-                        /* pagination */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pager.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pagination.html.js',
-
-                        /* popover */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/popover/popover.html.js',
-
-                        /* progressbar */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/bar.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/progress.html.js',
-
-                        /* rating */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/rating/rating.html.js',
-
-                        /* tabs */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tab.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tabset.html.js',
-
-                        /* timepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/timepicker/timepicker.html.js',
-
-                        /* tooltip */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-html-unsafe-popup.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-popup.html.js',
-
-                        /* typeahead */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-match.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-popup.html.js',
-
-                        // ui-utils
-
-                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
-
-                        // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
-
-                        // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
-
-                        // translate
-                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
-                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
-
-                        // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
-
-                        // toplevel app
-                        'client/app/doc/**/*.js',
-                        '!client/app/doc/**/*.spec.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
-                    'build/dist/public/css/doc_app.css': [
-
+                    'build/dist/public/css/admin_app.css': [
                         // toplevel css
-                        'client/app/doc/**/*.css'
+                        'client/admin/**/*.css'
                     ]
                 }
             }
@@ -779,6 +625,10 @@ module.exports = function (grunt) {
             ui: {
                 src: ['build/dist/public/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
+            },
+            admin: {
+                src: ['build/dist/public/js/admin_app.js'],
+                dest: 'build/tmp/admin_app.js'
             }
         },
 
@@ -790,7 +640,8 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/public/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js'
+                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js',
+                    'build/dist/public/js/admin_app.min.js': 'build/tmp/admin_app.js'
                 }
             }
         },
@@ -803,7 +654,8 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
-                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css']
+                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css'],
+                    'build/dist/public/css/admin_app.min.css': ['build/dist/public/css/admin_app.css']
                 }
             }
         },
@@ -867,7 +719,7 @@ module.exports = function (grunt) {
 
         replace: {
             debug: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -875,7 +727,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -883,7 +735,7 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -998,7 +850,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-markdown');
 
     // Tasks
     grunt.registerTask('setup', [
@@ -1027,7 +878,8 @@ module.exports = function (grunt) {
         'ngmin',
         'uglify',
         'cssmin',
-        'replace:release'
+        'replace:release',
+        'clean:tmp'
     ]);
     grunt.registerTask('lint', [
         'jshint:test'
@@ -1123,7 +975,6 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:dist',
         'copy',
-        'markdown',
         'html2js',
         'concat',
         'replace:livereload',

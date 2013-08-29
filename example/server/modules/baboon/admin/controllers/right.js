@@ -12,7 +12,7 @@ var async = require('async');
  */
 module.exports = function (app) {
     var pub = {},
-        repo = app.rights.getRepositories(app),
+        repo = app.rights.getRepositories(),
         syslog = app.logging.syslog,
         audit = app.logging.audit;
 

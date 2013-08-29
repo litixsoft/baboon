@@ -1,22 +1,23 @@
 /*global angular*/
-angular.module('baboon.documentation', [
+angular.module('baboon.admin', [
+        'pascalprecht.translate',
         'ui.utils',
         'ui.bootstrap',
-        'pascalprecht.translate',
         'baboon.services',
         'baboon.directives',
         'ui.lxnavigation',
-        'bbdoc'
+        'admin'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/doc', {templateUrl: '/doc/index.html',controller: 'docCtrl'});
-        $routeProvider.otherwise({redirectTo: '/doc'});
+        $routeProvider.when('/admin', {templateUrl: '/admin/administration.html'});
+        $routeProvider.otherwise({redirectTo: '/admin'});
 
         $translateProvider.useStaticFilesLoader({
-            prefix: 'locale/locale-',
+            prefix: '/locale/locale-',
             suffix: '.json'
         });
+
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
@@ -38,10 +39,16 @@ angular.module('baboon.documentation', [
             }
         });
     }])
-    .controller('rootCtrl', ['$rootScope', '$http', 'msgBox', function ($scope,$http, msgBox) {
-
+    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', function ($scope, msgBox, $translate, session) {
         $scope.modal = msgBox.modal;
 
+        $scope.changeLanguage = function (langKey) {
+            // tell angular-translate to use the new language
+            $translate.uses(langKey);
+
+            // save selected language in session
+            session.setData('language', langKey);
+        };
     }])
     .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
 
@@ -62,42 +69,5 @@ angular.module('baboon.documentation', [
         });
 
         $scope.openMenu = false;
-
-    }])
-    .controller('docCtrl', ['$rootScope', '$http', function ($scope,$http) {
-
-        $scope.linkList = [
-            {title:'Baboon Installation',route:'/doc/md/first'},
-            {title:'Baboon Dingens',route:'/doc/md/second'},
-            {title:'Baboon Super',route:'/doc/md/third',children:[
-                {title:'Super Doll',route:'/doc/md/fourth',children:[
-                    {title:'Doll 1',route:'/doc/md/five'},
-                    {title:'Doll 2',route:'/doc/md/six'},
-                    {title:'Doll 3',route:'/doc/md/seven'}
-                ]}
-            ]},
-            {title:'Baboon Eight',route:'/doc/md/eight'}
-        ];
-
-        $scope.markCode = {content: 'loading...'};
-
-        $scope.openMdLink = function(path){
-            $http({
-                url: [
-                    path,
-                    '.md'
-                ].join(''),
-                method: 'GET',
-                params: ''
-            }).success(function (data) {
-                    console.log(data.markdown);
-                    $scope.markCode.content = data.markdown;
-                    // deferred.resolve(data);
-                }).error(function (data) {
-                    console.log('Fehler: ' + data);
-//                    deferred.reject(options.key);
-                });
-        };
-        $scope.openMdLink('/doc/md/first');
 
     }]);

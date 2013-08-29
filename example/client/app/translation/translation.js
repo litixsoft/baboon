@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('translation', [])
     .config(function ($routeProvider) {
-        $routeProvider.when('/translation', {templateUrl: '/translation/index.html', controller: 'translationCtrl'});
+        $routeProvider.when('/translation', {templateUrl: '/translation/translation.html', controller: 'translationCtrl'});
     })
     .controller('translationCtrl', ['$scope', '$translate', 'session', function ($scope, $translate, session) {
         $scope.changeLanguage = function (langKey) {
@@ -10,9 +10,5 @@ angular.module('translation', [])
 
             // save selected language in session
             session.setData('language', langKey);
-        };
-
-        $scope.translationData = {
-            name: 'Litixsoft'
         };
     }]);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="baboon.documentation">
+<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="baboon.admin">
 <head>
     <meta charset="utf-8">
     <title>Baboon Example App</title>
@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/doc_app<!--@@min-->.css" />
+    <link rel="stylesheet" href="/css/admin_app<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/uitheme2.css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -30,7 +30,9 @@
 
         <div class="layout-content">
             <div class="col-left navCol">
-                <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[3].children) %>"></lxtreeview>
+                <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
+                <img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
+                <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[2].children) %>"></lxtreeview>
             </div>
             <div class="col-right">
 
@@ -81,15 +83,11 @@
                     </div>
                     <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
 
-                    <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">litixsoft</span>
+                    <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">baboon</span>
                 </div>
 
                 <div class="view-container">
-                    <div class="beige-noise">
-                        <div class="p-wrapper">
-                            <div ng-view></div>
-                        </div>
-                    </div>
+                    <div ng-view></div>
                 </div>
 
                 <div ng-controller="rootCtrl" ng-cloak class="ng-cloak">
@@ -125,7 +123,7 @@
     <!--@@livereload-->
     <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/js/doc_app<!--@@min-->.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/admin_app<!--@@min-->.js" charset="utf-8"></script>
     <script type="text/javascript" src="/vendor/lxNavigation/lxNavigation.js" charset="utf-8"></script>
 </body>
 </html>

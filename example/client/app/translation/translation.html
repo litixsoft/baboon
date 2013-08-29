@@ -1,8 +1,8 @@
 <div class="beige-noise">
     <div class="p-wrapper">
         <h3 style="vertical-align: middle;">{{ 'TRANSLATION_HEADER' | translate }}
-            <img src="img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
-            <img src="img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
+            <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
+            <img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
         </h3>
 
         <p>{{ 'TRANSLATION_INTRO' | translate }}</p>
@@ -19,7 +19,7 @@
         $routeProvider.otherwise({redirectTo: '/'});
 
         $translateProvider.useStaticFilesLoader({
-            prefix: 'locale/locale-',
+            prefix: '/locale/locale-',
             suffix: '.json'
         });
 
