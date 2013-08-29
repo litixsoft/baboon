@@ -38,64 +38,45 @@ app.get('/admin', function (req, res) {
 // test
 app.get('/admin/startAdministration', function (req, res) {
     middleware.session.checkSession(req, res, function () {
-        var async = require('async'),
-            lxHelpers = require('lx-helpers'),
-            repos = baboon.rights.getRepositories();
+        var lxHelpers = require('lx-helpers');
 
-        async.auto({
-            getGroup: function(next) {
-                repos.groups.getOne({name: 'Admin'}, next);
-            },
-            getAllRights: function (next) {
-                repos.rights.getAll(next);
-            },
-            getUserGroups: function (next, results) {
-                if (lxHelpers.isEmpty(req.session.user.groups)) {
-                    next(null, []);
-                } else {
-                    repos.groups.getAll({_id: {$in: results.getUser.groups}}, next);
-                }
-            },
-            getAcl: ['getGroup', 'getAllRights', 'getUserGroups', function(next, results) {
-                if (results.getGroup) {
-                    console.log('before:');
-                    console.log(req.session.user.acl);
-
-                    req.session.user.acl = baboon.rights.getUserAcl(req.session.user, results.getAllRights, results.getUserGroups, [results.getGroup]);
-
-                    console.log('after:');
-                    console.log(req.session.user.acl);
-
-                    var navigation = baboon.config.path.navigation ? require(baboon.config.path.navigation) : null,
-                        userNavigation = baboon.rights.secureNavigation(req.session.user, navigation),
-                        topLevelNavigation = [];
-
-                    // extract top level navigation links
-                    lxHelpers.forEach(userNavigation, function(navItem) {
-                        var topLevelLink = lxHelpers.clone(navItem);
-                        delete topLevelLink.children;
-
-                        topLevelNavigation.push(topLevelLink);
-                    });
-
-                    // save navigation in session
-                    req.session.navigation = userNavigation;
-
-                    res.locals.isAuth = true;
-                    res.locals.username = req.session.user.name;
-                    res.locals.navigation = userNavigation;
-                    res.locals.topLevelNavigation = topLevelNavigation;
-
-                    res.render('admin/admin');
-                }
-            }]
-        }, function (err, res) {
-            if (err) {
-                baboon.logging.syslog.error(err);
+        baboon.rights.data().getExtendedAcl(req.session.user, ['Admin'], function (error, result) {
+            if (error) {
+                baboon.logging.syslog.error(error);
+                res.render('404');
+                return;
             }
-        });
 
-//        res.json(200, {data: req.body.project_id});
+            if (result) {
+                req.session.user.acl = result;
+
+                var navigation = baboon.config.path.navigation ? require(baboon.config.path.navigation) : null,
+                    userNavigation = baboon.rights.secureNavigation(req.session.user, navigation),
+                    topLevelNavigation = [];
+
+                // extract top level navigation links
+                lxHelpers.forEach(userNavigation, function (navItem) {
+                    var topLevelLink = lxHelpers.clone(navItem);
+                    delete topLevelLink.children;
+
+                    topLevelNavigation.push(topLevelLink);
+                });
+
+                // save navigation in session
+                req.session.navigation = userNavigation;
+
+                res.locals.isAuth = true;
+                res.locals.username = req.session.user.name;
+                res.locals.navigation = userNavigation;
+                res.locals.topLevelNavigation = topLevelNavigation;
+
+                res.render('admin/admin');
+                return;
+            }
+
+            middleware.context.index(req, res);
+            res.render('index');
+        });
     });
 
 });
