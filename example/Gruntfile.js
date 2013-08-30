@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
-        bbc: 'node_modules/baboon-client',
+        bbc: '../lib_client',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
         jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
@@ -288,16 +288,16 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/baboon-core.js',
+                        '<%= bbc %>/services/lx-form.js',
+                        '<%= bbc %>/services/lx-inline-edit.js',
 
                         // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx-file-upload.js',
+                        '<%= bbc %>/directives/lx-float.js',
+                        '<%= bbc %>/directives/lx-integer.js',
+                        '<%= bbc %>/directives/lx-pager.js',
+                        '<%= bbc %>/directives/lx-sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -436,16 +436,16 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/baboon-core.js',
+                        '<%= bbc %>/services/lx-form.js',
+                        '<%= bbc %>/services/lx-inline-edit.js',
 
                         // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx-file-upload.js',
+                        '<%= bbc %>/directives/lx-float.js',
+                        '<%= bbc %>/directives/lx-integer.js',
+                        '<%= bbc %>/directives/lx-pager.js',
+                        '<%= bbc %>/directives/lx-sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -578,16 +578,16 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/baboon-core.js',
+                        '<%= bbc %>/services/lx-form.js',
+                        '<%= bbc %>/services/lx-inline-edit.js',
 
                         // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx-file-upload.js',
+                        '<%= bbc %>/directives/lx-float.js',
+                        '<%= bbc %>/directives/lx-integer.js',
+                        '<%= bbc %>/directives/lx-pager.js',
+                        '<%= bbc %>/directives/lx-sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',

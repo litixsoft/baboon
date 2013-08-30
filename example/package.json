@@ -15,8 +15,7 @@
         "async": "~0.2.8",
         "lx-helpers": "~0.2.0",
         "lx-mongodb": "~0.4.0",
-        "lx-valid": "~0.2.2",
-        "baboon-client": "0.x"
+        "lx-valid": "~0.2.2"
     },
     "devDependencies": {
         "grunt": "0.4.1",
