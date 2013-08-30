@@ -11,13 +11,14 @@ module.exports = function (config) {
             'node_modules/baboon-client/vendor/angular/angular-mocks.js',
             'node_modules/baboon-client/lib/**/*.js',
             'test/fixtures/mocks.js',
-            'client/public/vendor/showdown/showdown.js',
-            'client/app/**/*.js'
+            'client/**/*.js',
+            'client/public/vendor/showdown/showdown.js'
         ],
 
-        preprocessors: {
-            'client/app/**/*.js': ['coverage']
-        },
+        exclude: [
+            'client/public/**/*.js',
+            'client/common/**/*.js'
+        ],
 
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'

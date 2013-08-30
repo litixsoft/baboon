@@ -25,7 +25,7 @@ angular.module('app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'session', '$log', '$translate', function ($rootScope, session, $log, $translate) {
+    .run(['$rootScope', 'session', '$log', '$translate', '$window', function ($rootScope, session, $log, $translate, $window) {
         $rootScope.$on('$routeChangeStart', function () {
             session.setActivity();
         });
@@ -39,7 +39,10 @@ angular.module('app', [
             // use language
             if (result && result.language) {
                 $translate.uses(result.language);
-                $log.info('Language key loaded from session: ' + result.language);
+            } else {
+                // detect language of browser
+                var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
+                $translate.uses(browserLanguage.substring(0, 2));
             }
         });
     }])

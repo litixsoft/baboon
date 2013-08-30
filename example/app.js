@@ -78,7 +78,6 @@ app.get('/admin/startAdministration', function (req, res) {
             res.render('index');
         });
     });
-
 });
 
 app.get('/admin/*', function (req, res) {
