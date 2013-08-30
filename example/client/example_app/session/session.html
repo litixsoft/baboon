@@ -70,12 +70,16 @@ $rootScope.$on('$routeChangeStart', function () {
             <button class="btn btn-info" ng-click="clearActivityMsg()">Clear Messages</button>
         </p>
 
-        <h4>Daten in der Session speichern und abfragen</h4>
+        <h4>Daten in der Session speichern</h4>
         <p>
-            Sie können über den Session-Service vom Client aus Daten in der Session speichern und wieder abrufen.
-            Dabei gibt es aber die Einschränkung, dass nur Daten abgefragt werden können welche auch vom Client aus
-            gespeichert wurden. Baboon verwendet dafür den Container data. Alle Daten vom Client werden innerhalb des
-            Containers data abgelegt. Alle anderen keys wie zum Beispiel user, sind vom Client aus nicht erlaubt.
+            Sie können über den Session-Service vom Client aus Daten in der Session speichern.
+            Baboon verwendet zum speichern in der Session den Container data. Alle Daten vom Client werden innerhalb des
+            Containers session.data abgelegt.
+        </p>
+
+        <h4>Daten aus der Session lesen </h4>
+        <p>
+            ss
         </p>
     </div>
 </div>

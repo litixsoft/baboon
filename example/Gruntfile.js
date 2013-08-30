@@ -20,6 +20,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
         bbc: '../lib_client',
+        aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
         jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
@@ -117,14 +118,14 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     module: null, // no bundle module for all the html2js templates
-                    base: '<%= bbc %>/vendor/angular-ui-bootstrap/'
+                    base: '<%= bbc %>/vendor/angular-ui-bootstrap'
                 },
                 files: [
                     {
                         expand: true,
                         src: ['<%= bbc %>/vendor/angular-ui-bootstrap/template/**/*.html'],
-                        ext: '.html.js'
-//                    dest: 'templates/**/*.html.js'
+                        ext: '.tpl.js',
+                        dest: 'build/tmp/templates/'
                     }
                 ]
             }
@@ -162,13 +163,13 @@ module.exports = function (grunt) {
                     'build/dist/public/css/lib.css': [
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap.css',
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.css',
-                        '<%= bbc %>/lib/css/default.css'
+                        '<%= bbc %>/css/default.css'
                     ],
                     // libs release
                     'build/dist/public/css/lib.min.css': [
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap.min.css',
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        '<%= bbc %>/lib/css/default.min.css'
+                        'build/tmp/default.min.css'
                     ]
                 }
             },
@@ -194,31 +195,31 @@ module.exports = function (grunt) {
 
                         /* accordion */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion-group.html.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
 
                         /* alert */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/alert/alert.html.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
 
                         /* buttons */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
 
                         /* carousel */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/carousel.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/slide.html.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
 
                         /* collapse */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
 
                         /* datepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/datepicker/datepicker.html.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
 
                         /* dialog */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/dialog/message.html.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
 
                         /* dropdownToggle */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
@@ -228,40 +229,40 @@ module.exports = function (grunt) {
 
                         /* pagination */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pager.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pagination.html.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
 
                         /* popover */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/popover/popover.html.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
 
                         /* progressbar */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/bar.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/progress.html.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
 
                         /* rating */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/rating/rating.html.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
 
                         /* tabs */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tab.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tabset.html.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
 
                         /* timepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/timepicker/timepicker.html.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
 
                         /* tooltip */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-html-unsafe-popup.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-popup.html.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
 
                         /* typeahead */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-match.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-popup.html.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
 
@@ -337,31 +338,31 @@ module.exports = function (grunt) {
 
                         /* accordion */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion-group.html.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
 
                         /* alert */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/alert/alert.html.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
 
                         /* buttons */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
 
                         /* carousel */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/carousel.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/slide.html.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
 
                         /* collapse */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
 
                         /* datepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/datepicker/datepicker.html.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
 
                         /* dialog */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/dialog/message.html.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
 
                         /* dropdownToggle */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
@@ -371,40 +372,40 @@ module.exports = function (grunt) {
 
                         /* pagination */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pager.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pagination.html.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
 
                         /* popover */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/popover/popover.html.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
 
                         /* progressbar */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/bar.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/progress.html.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
 
                         /* rating */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/rating/rating.html.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
 
                         /* tabs */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tab.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tabset.html.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
 
                         /* timepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/timepicker/timepicker.html.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
 
                         /* tooltip */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-html-unsafe-popup.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-popup.html.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
 
                         /* typeahead */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-match.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-popup.html.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
 
@@ -479,31 +480,31 @@ module.exports = function (grunt) {
 
                         /* accordion */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/accordion/accordion-group.html.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
 
                         /* alert */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/alert/alert.html.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
 
                         /* buttons */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
 
                         /* carousel */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/carousel.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/carousel/slide.html.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
 
                         /* collapse */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
 
                         /* datepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/datepicker/datepicker.html.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
 
                         /* dialog */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/dialog/message.html.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
 
                         /* dropdownToggle */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
@@ -513,40 +514,40 @@ module.exports = function (grunt) {
 
                         /* pagination */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pager.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/pagination/pagination.html.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
 
                         /* popover */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/popover/popover.html.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
 
                         /* progressbar */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/bar.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/progressbar/progress.html.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
 
                         /* rating */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/rating/rating.html.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
 
                         /* tabs */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tab.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tabs/tabset.html.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
 
                         /* timepicker */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/timepicker/timepicker.html.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
 
                         /* tooltip */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-html-unsafe-popup.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/tooltip/tooltip-popup.html.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
 
                         /* typeahead */
                         '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-match.html.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/template/typeahead/typeahead-popup.html.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
 
@@ -640,7 +641,12 @@ module.exports = function (grunt) {
          */
 
         cssmin: {
-            target: {
+            pre_build: {
+                files: {
+                    'build/tmp/default.min.css': ['<%= bbc %>/css/default.css']
+                }
+            },
+            build: {
                 files: {
                     'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
                     'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css'],
@@ -846,29 +852,36 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build', [
         'clean:dist',
+        'clean:tmp',
         'copy',
         'html2js',
+        'cssmin:pre_build',
         'concat',
+        'setup',
         'replace:debug'
     ]);
     grunt.registerTask('build:watch', [
         'clean:dist',
+        'clean:tmp',
         'copy',
         'html2js',
+        'cssmin:pre_build',
         'concat',
         'setup',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
+        'clean:tmp',
         'copy',
         'html2js',
+        'cssmin:pre_build',
         'concat',
+        'setup',
         'ngmin',
         'uglify',
-        'cssmin',
-        'replace:release',
-        'clean:tmp'
+        'cssmin:build',
+        'replace:release'
     ]);
     grunt.registerTask('lint', [
         'jshint:test'
@@ -962,12 +975,7 @@ module.exports = function (grunt) {
         'karma:e2e'
     ]);
     grunt.registerTask('server', [
-        'clean:dist',
-        'copy',
-        'html2js',
-        'concat',
-        'replace:livereload',
-        'setup',
+        'build:watch',
         'express:dev',
         'open:browser',
         'watch'
