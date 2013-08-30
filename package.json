@@ -65,8 +65,12 @@
         "grunt-contrib-clean": "~0.4.0",
         "grunt-contrib-jshint": "~0.6.0",
         "grunt-jasmine-node": "~0.1.0",
+        "grunt-karma": "~0.6.0",
         "grunt-open": "~0.2.0",
-        "istanbul": "~0.1.40"
+        "istanbul": "~0.1.40",
+        "karma-detect-browsers": "*",
+        "karma-coverage": "*",
+        "karma-junit-reporter": "*"
     },
     "dependencies": {
         "async": "~0.2.9",

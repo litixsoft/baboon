@@ -317,7 +317,7 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/public/css/app.css': [
                         // app css files
-                        'client/<%= pkg.name %>/**/*.css',
+                        'client/<%= pkg.name %>/**/*.css'
                     ]
                 }
             },

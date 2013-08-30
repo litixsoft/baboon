@@ -1,4 +1,4 @@
-/*global angular*/
+/*global angular, Showdown*/
 angular.module('lx.markdown', [])
     .directive('lxMarkdown', function () {
         var converter = new Showdown.converter();
