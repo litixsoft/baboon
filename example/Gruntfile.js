@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
         jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
-            '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
+            '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -142,27 +142,21 @@ module.exports = function (grunt) {
                 files: {
                     // lib debug
                     'build/dist/public/js/lib.js': [
-                        //'<%= bbc %>/vendor/jquery/jquery-1.10.2.js',
-                        //'<%= bbc %>/vendor/jquery/jquery-2.0.3.js',
-                        '<%= bbc %>/vendor/showdown/src/showdown.js',
+                        '<%= bbc %>/vendor/angular/angular.js',
+                        '<%= bbc %>/vendor/showdown/src/showdown.js'
                         //'<%= bbc %>/vendor/showdown/src/extensions/github.js',
                         //'<%= bbc %>/vendor/showdown/src/extensions/prettify.js',
                         //'<%= bbc %>/vendor/showdown/src/extensions/table.js',
                         //'<%= bbc %>/vendor/showdown/src/extensions/twitter.js',
-                        //'<%= bbc %>/vendor/underscore/underscore-1.5.1.js',
-                        '<%= bbc %>/vendor/angular/angular.js'
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
-                        //'<%= bbc %>/vendor/jquery/jquery-1.10.2.min.js',
-                        //'<%= bbc %>/vendor/jquery/jquery-2.0.3.min.js',
-                        '<%= bbc %>/vendor/showdown/compressed/showdown.js',
+                        '<%= bbc %>/vendor/angular/angular.min.js',
+                        '<%= bbc %>/vendor/showdown/compressed/showdown.js'
                         //'<%= bbc %>/vendor/showdown/compressed/extensions/github.js',
                         //'<%= bbc %>/vendor/showdown/compressed/extensions/prettify.js',
                         //'<%= bbc %>/vendor/showdown/compressed/extensions/table.js',
                         //'<%= bbc %>/vendor/showdown/compressed/extensions/twitter.js',
-                        //'<%= bbc %>/vendor/underscore/underscore-1.5.1.min.js',
-                        '<%= bbc %>/vendor/angular/angular.min.js'
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [

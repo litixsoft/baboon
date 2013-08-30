@@ -7,9 +7,10 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'node_modules/baboon-client/vendor/angular/angular.js',
-            'node_modules/baboon-client/vendor/angular/angular-mocks.js',
-            'node_modules/baboon-client/lib/**/*.js',
+            '../lib_client/vendor/angular/angular.js',
+            '../lib_client/vendor/angular/angular-mocks.js',
+            '../lib_client/services/**/*.js',
+            '../lib_client/directives/**/*.js',
             'test/fixtures/mocks.js',
             'client/**/*.js',
             'client/public/vendor/showdown/showdown.js'
