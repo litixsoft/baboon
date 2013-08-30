@@ -13,7 +13,7 @@ module.exports = function (config) {
             '../lib_client/directives/**/*.js',
             'test/fixtures/mocks.js',
             'client/**/*.js',
-            'client/public/vendor/showdown/showdown.js'
+            '../lib_client/vendor/showdown/src/showdown.js'
         ],
 
         exclude: [
