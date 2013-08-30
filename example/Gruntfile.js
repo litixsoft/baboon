@@ -23,8 +23,8 @@ module.exports = function (grunt) {
         aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
-        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
-            '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
+        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
+            '!client/_common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -94,19 +94,19 @@ module.exports = function (grunt) {
             client: {
                 files: [
                     // all public files that need to be copy.
-                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/public/'},
+                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/_public/'},
 
                     // all public html files
-                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/public/'},
+                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/_public/'},
 
                     // all common html files
-                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/_common/'},
 
                     // all app html views that need to be copy.
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/<%= pkg.name %>/'},
 
                     // all top level apps html views that need to be copy.
-                    {dest: 'build/dist/views/', src: ['**/*.html', '!common/**/*.html', '!public/**/*.html', '!<%= pkg.name %>/**/*.html'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist/views/', src: ['**/*.html', '!_common/**/*.html', '!_public/**/*.html', '!<%= pkg.name %>/**/*.html'], expand: true, cwd: 'client/'},
 
                     // all bootstrap image files that need to be copy.
                     {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
@@ -299,8 +299,8 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // app
                         'client/<%= pkg.name %>/**/*.js',
@@ -442,8 +442,8 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // toplevel app
                         'client/ui_examples/**/*.js',
@@ -584,8 +584,8 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
+                        'client/_common/**/*.js',
+                        '!client/_common/**/*.spec.js',
 
                         // toplevel app
                         'client/admin/**/*.js',
