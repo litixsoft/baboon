@@ -17,8 +17,8 @@ module.exports = function (config) {
         ],
 
         exclude: [
-            'client/public/**/*.js',
-            'client/common/**/*.js'
+            'client/_public/**/*.js',
+            'client/_common/**/*.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences

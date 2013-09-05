@@ -6,7 +6,7 @@ angular.module('lx.float', [])
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function (viewValue) {
+                ctrl.$parsers.push(function (viewValue) {
                     if (FLOAT_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('float', true);
@@ -21,7 +21,7 @@ angular.module('lx.float', [])
                 });
 
                 ctrl.$formatters.unshift(function (modelValue) {
-                    if (modelValue) {
+                    if (typeof modelValue === 'number') {
                         modelValue = modelValue.toFixed(2).replace('.', ',');
                     }
 

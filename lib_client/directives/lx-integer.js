@@ -6,7 +6,7 @@ angular.module('lx.integer', [])
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function (viewValue) {
+                ctrl.$parsers.push(function (viewValue) {
                     if (INTEGER_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('integer', true);
