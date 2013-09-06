@@ -18,14 +18,6 @@
                 <div class="<%= sessionMsgClass %>"><%= sessionMsg %></div>
                 <% } %>
             </div>
-            <div class="span8">
-                <input ng-model="data.key" placeholder="session key">
-                <input ng-model="data.value" placeholder="session value">
-                <button class="btn" ng-click="setData()">Set To Session</button>
-                <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
-                <button class="btn btn-info" ng-click="setActivity()">Set Act</button>
-                <p>{{session}}</p>
-            </div>
         </div>
     </div>
 </div>

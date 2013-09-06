@@ -3,83 +3,188 @@
         <h3 style="vertical-align: middle;">
             Beispiele für Sessions in Baboon
         </h3>
+
         <p>
             Sessions werden in Baboon vom Server mit den Parametern aus der config/app.conf.json erzeugt und verwaltet.
-            Baboon beinhaltet Clientseitig einen Session-Service. Über diesen Service kann der Client mit der Session interagieren.
-            Hier finden Sie Beispiele wie dies funktioniert. Eine vollständige Dokumentation der Sessions in Baboon finden Sie
-            unter: <a href="http://litixsoft.de/documentation/baboon/sessions">Baboon Session Dokumentation</a>.
+            Baboon beinhaltet Clientseitig einen Session-Service. Über diesen Service kann der Client mit der Session
+            interagieren. Hier finden Sie Beispiele wie dies funktioniert. Eine vollständige Dokumentation der Sessions
+            in Baboon finden Sie unter: <a href="http://litixsoft.de/documentation/baboon/sessions">Baboon Session Dokumentation</a>.
         </p>
 
-    <h4>Aktivität der Session melden</h4>
-    <p>
-        Eine Singlepage Anwendung wird einmal an den Client ausgeliefert und erzeugt keinen neuen Request.
-        Das ist für die Session ein Problem, da zwangsläufig die Inaktivitätszeit überschritten wird. Um das zu vermeiden
-        meldet die Clientseite von baboon bei jeder Änderung der Route eine Aktivität an den Server.
-    </p>
+        <h3>Aktivität der Session melden</h3>
+
+        <p>
+            Eine Singlepage Anwendung wird einmal an den Client ausgeliefert und erzeugt keinen neuen Request.
+            Das ist für die Session ein Problem, da zwangsläufig die Inaktivitätszeit überschritten wird. Um das zu
+            vermeiden meldet die Clientseite von baboon bei jeder Änderung der Route eine Aktivität an den Server.
+        </p>
 <pre class="prettyprint">
 // app.js
 
 $rootScope.$on('$routeChangeStart', function () {
-            session.setActivity();
-        });
+    session.setActivity();
+});
 </pre>
-    <p>
-        Es kann auch vorkommen, dass in einem Anwendungsfall der Benutzer lange Zeit das '$routeChangeStart' Event
-        nicht auslöst. In diesem Fall können Sie die Meldung an den Server auch manuell auslösen.
-    </p>
-
+        <h4>GetLastActivity</h4>
+        <p>Zeit der letzten Aktivität</p>
 <pre class="prettyprint">
-    controller('sessionDocCtrl', ['$scope', 'session', '$log', function ($scope, session, $log) {
-
-        $scope.activityMsg = [];
-
-        $scope.getLastActivity = function() {
-            session.getLastActivity(function(err, data) {
-                if(err) {
-                    $log.error(err);
-                    $scope.activityMsg.push(err);
-                }
-                else {
-                    var now = new Date(data.activity);
-                    $scope.activityMsg.push('last activity is ' + now);
-                }
-            });
-        };
-        $scope.setActivity = function(){
-            var now = new Date();
-            $scope.activityMsg.push('set activity to ' + now);
-            session.setActivity();
-        };
-        $scope.clearActivityMsg = function() {
-            $scope.activityMsg = [];
-        };
-    }]);
+session.getLastActivity(callback);
 </pre>
+<pre class="prettyprint">
+$scope.getLastActivity = function() {
+    session.getLastActivity(function(err, data) {
+        if(err) {
+            $log.error(err);
+        }
+        else {
+            var now = new Date(data.activity);
+            $log.info('last activity is ' + now);
+        }
+    });
+};
+</pre>
+    <h4>SetLastActivity</h4>
+    <p>Aktuelle Zeit als letzte Aktivität in der Session speichern.</p>
+<pre class="prettyprint">
+session.setActivity();
+</pre>
+<pre class="prettyprint">
+$scope.setActivity = function(){
+    var now = new Date();
+    $log.info('set activity to ' + now);
+    session.setActivity();
+};
+</pre>
+        <p>
+            Öffnen Sie für die Beispiele Ihre Konsole (F12)
+        </p>
 
         <p>
             <button class="btn btn-info" ng-click="setActivity()">Set activity</button>
             <button class="btn btn-info" ng-click="getLastActivity()">Get last activity</button>
         </p>
-
-        <ul>
-            <li ng-repeat="item in activityMsg">
-                {{item}}
-            </li>
-        </ul>
+        <h3>Daten in der Session speichern, auslesen und löschen</h3>
         <p>
-            <button class="btn btn-info" ng-click="clearActivityMsg()">Clear Messages</button>
-        </p>
-
-        <h4>Daten in der Session speichern</h4>
-        <p>
-            Sie können über den Session-Service vom Client aus Daten in der Session speichern.
+            Sie können über den Session-Service vom Client aus Daten in der Session speichern, abrufen und löschen.
             Baboon verwendet zum speichern in der Session den Container data. Alle Daten vom Client werden innerhalb des
-            Containers session.data abgelegt.
+            Containers session.data abgelegt und können auch nur aus diesem gelesen werden.
+        </p>
+        <h4>SetData</h4>
+        <p>Key -> Value in der Session speichern.</p>
+<pre class="prettyprint">
+session.setData(key, value, callback);
+</pre>
+<pre class="prettyprint">
+$scope.setData = function () {
+    if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
+        $scope.data.key.length === 0 || typeof $scope.data.value === 'undefined' ||
+        $scope.data.value.length === 0) {
+
+        $log.error('for save in session is key and value required');
+    }
+    else {
+        session.setData($scope.data.key, $scope.data.value, function (err, res) {
+            if (err) {
+                $log.error(err);
+            }
+            else {
+                $log.info(res);
+            }
+        });
+    }
+};
+</pre>
+        <h4>GetData</h4>
+        <p>
+            Daten des angegeben Keys aus der Session lesen. Wird kein Key angegeben liefert die Funktion den gesamten
+            data Container aus der Session.
+        </p>
+<pre class="prettyprint">
+session.getData([key], callback);
+</pre>
+<pre class="prettyprint">
+$scope.getData = function () {
+    if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
+        $scope.data.key.length === 0) {
+
+        $log.info('get all session data');
+
+        session.getData(function (err, res) {
+            if (err) {
+                $log.error(err);
+            }
+            else {
+                $log.info(res);
+            }
+        });
+    }
+    else {
+        $log.info('get key: ' + $scope.data.key);
+
+            session.getData($scope.data.key, function (err, res) {
+                if (err) {
+                    $log.error(err);
+                }
+                else {
+                    $log.info(res);
+                }
+            });
+    }
+};
+</pre>
+        <h4>DeleteData</h4>
+        <p>
+            Key und die zugehörigen Daten aus der Session entfernen. Wird kein Key angegeben, löscht die Funktion den
+            gesamten data Container aus der Session.
         </p>
 
-        <h4>Daten aus der Session lesen </h4>
+<pre class="prettyprint">
+session.deleteData([key], callback);
+</pre>
+<pre class="prettyprint">
+$scope.deleteData = function () {
+    if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
+        $scope.data.key.length === 0) {
+
+        $log.info('set no key, delete all objects in session.data');
+
+        session.deleteData(function (err, res) {
+            if (err) {
+                $log.error(err);
+            }
+            else {
+                $log.info(res);
+            }
+        });
+    }
+    else {
+        $log.info('delete ' + $scope.data.key + ' in session.data');
+
+        session.deleteData($scope.data.key, function (err, res) {
+            if (err) {
+                $log.error(err);
+            }
+            else {
+                $log.info(res);
+            }
+        });
+    }
+};
+</pre>
         <p>
-            ss
+            Öffnen Sie für die Beispiele Ihre Konsole (F12)
+        </p>
+
+        <p>
+
+            <input ng-model="data.key" placeholder="session key">
+            <input ng-model="data.value" placeholder="session value">
+        </p>
+
+        <p>
+            <button class="btn" ng-click="setData()">Set To Session</button>
+            <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
+            <button class="btn btn-info" ng-click="deleteData()">Delete SessionData</button>
         </p>
     </div>
 </div>

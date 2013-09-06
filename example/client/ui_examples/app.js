@@ -26,7 +26,7 @@ angular.module('ui_app', [
             session.setActivity();
         });
     }])
-    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', function ($scope, msgBox, $translate, session) {
+    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', '$log', function ($scope, msgBox, $translate, session, $log) {
         $scope.modal = msgBox.modal;
 
         $scope.changeLanguage = function (langKey) {
@@ -34,7 +34,11 @@ angular.module('ui_app', [
             $translate.uses(langKey);
 
             // save selected language in session
-            session.setData('language', langKey);
+            session.setData('language', langKey, function(err) {
+                if (err) {
+                    $log.error(err);
+                }
+            });
         };
     }])
     .controller('navLoginCtrl', ['$scope', '$window', function ($scope, $window) {
