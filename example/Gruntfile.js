@@ -24,7 +24,7 @@ module.exports = function (grunt) {
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
         jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
-            '!client/_common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
+            'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +

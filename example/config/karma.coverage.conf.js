@@ -17,14 +17,20 @@ module.exports = function (config) {
         ],
 
         exclude: [
-            'client/public/**/*.js',
-            'client/common/**/*.js'
+            'client/_public/**/*.js',
+            'client/_common/**/*.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
         reporters: ['progress', 'coverage'],
+
+        preprocessors: {
+            'client/example_app/**/*.js': 'coverage',
+            'client/admin/**/*.js': 'coverage',
+            'client/ui_examples/**/*.js': 'coverage'
+        },
 
         coverageReporter: {
             type: 'html',
