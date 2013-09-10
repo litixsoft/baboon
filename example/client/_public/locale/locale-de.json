@@ -23,5 +23,10 @@
     "SESSION": "Session",
     "BLOG": "Blog",
     "ADMINISTRATION": "Administration",
-    "CURRENCY_SYM": "\u20ac"
+    "CURRENCY_SYM": "\u20ac",
+    "AUTH_FAILED": "Anmeldung fehlgeschlagen, überprüfen Sie bitte Ihren Benutzernamen und Ihr Passwort.",
+    "SERVER_ERROR": "500: Internal Server Error",
+    "LOGIN": "Anmelden",
+    "ENTER_USERNAME": "Benutzernamen eingeben",
+    "ENTER_PASSWORD": "Passwort eingeben"
 }

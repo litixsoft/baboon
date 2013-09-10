@@ -37,7 +37,7 @@
         <div class="col-right">
 
             <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
-                <div class="pull-right login-area" ng-controller="navLoginCtrl">
+                <div class="pull-right login-area" ng-controller="baboon.auth.loginCtrl">
                     <% if(!isAuth) { %>
                     <div class="btn-group" ng-class="{open: openMenu}">
                         <!--<a href="/login" class="btn">Login</a>-->
@@ -46,18 +46,24 @@
                             <li>
                                 <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
                                 <div>
-                                    <h1>Login</h1>
-                                    <form class="form" method="post" action="/login">
+                                    <h1>{{ 'LOGIN' | translate }}</h1>
+                                    <form class="form" ng-submit="login()" name="loginForm" >
                                         <div class="form-inner">
                                             <div>
-                                                <input type="text" name="username" placeholder="Enter username">
+                                                <input type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required>
                                             </div>
                                             <div>
-                                                <input type="password" name="password" placeholder="Enter password">
+                                                <input type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required>
+                                            </div>
+                                            <div ui-if="authFailed">
+                                                <span style="color: red">{{ 'AUTH_FAILED' | translate }}</span>
+                                            </div>
+                                            <div ui-if="serverError">
+                                                <span style="color: red">{{ 'SERVER_ERROR' | translate }}</span>
                                             </div>
                                         </div>
                                         <div class="form-submit">
-                                            <input type="submit" class="btn btn-block" value="&nbsp;" name="login"> <!-- btn-login -->
+                                            <input type="submit" class="btn btn-block" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
                                         </div>
                                     </form>
                                 </div>
@@ -75,7 +81,7 @@
                             <li>
                                 <a href="#">Nachrichten</a>
                                 <a href="#">Kontoeinstellungen</a>
-                                <a href="/logout" target="_self">Logout</a>
+                                <a href="/api/auth/logout" target="_self">Logout</a>
                             </li>
                         </ul>
                     </div>

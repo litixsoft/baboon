@@ -23,5 +23,10 @@
     "SESSION": "Session",
     "BLOG": "Blog",
     "ADMINISTRATION": "Administration",
-    "CURRENCY_SYM": "$"
+    "CURRENCY_SYM": "$",
+    "AUTH_FAILED": "Login failed, please check your username and password.",
+    "SERVER_ERROR": "500: Internal Server Error",
+    "LOGIN": "Login",
+    "ENTER_USERNAME": "Enter username",
+    "ENTER_PASSWORD": "Enter password"
 }

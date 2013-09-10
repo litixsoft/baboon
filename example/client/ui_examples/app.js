@@ -6,7 +6,6 @@ angular.module('ui_app', [
         'baboon.services',
         'baboon.directives',
         'ui_app.base',
-        'login',
         'ui.lxnavigation'
     ])
     .config(function ($routeProvider, $locationProvider, $translateProvider) {
