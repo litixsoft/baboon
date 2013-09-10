@@ -4,6 +4,7 @@ angular.module('lx.integer', [])
         var INTEGER_REGEXP = /^\-?\d*$/;
 
         return {
+            restrict: 'A',
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$parsers.push(function (viewValue) {
