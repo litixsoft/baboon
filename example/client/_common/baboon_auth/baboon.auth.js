@@ -56,11 +56,4 @@ angular.module('baboon.auth',  ['baboon.auth.services'])
         $scope.register = function() {
             console.log('register');
         };
-    }]).directive('triggerChange', function() {
-        return function(scope, elem, attrs) {
-            elem.bind('click', function(){
-                console.log(attrs.triggerChange);
-//                $(attrs.triggerChange).change();
-            });
-        }
-    });
+    }]);
