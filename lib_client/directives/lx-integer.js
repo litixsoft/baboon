@@ -8,6 +8,12 @@ angular.module('lx.integer', [])
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$parsers.push(function (viewValue) {
+                    if (!viewValue) {
+                        // reset validation
+                        ctrl.$setValidity('integer', true);
+                        return null;
+                    }
+
                     if (INTEGER_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('integer', true);
