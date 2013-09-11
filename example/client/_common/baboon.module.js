@@ -1,4 +1,27 @@
 /*global angular*/
+angular.module('baboon.module',  [
+    'ui.utils',
+    'ui.bootstrap',
+    'baboon.auth',
+    'baboon.msgBox'
+]);
+angular.module('ui.utils',  [
+    'ui.event',
+    'ui.format',
+    'ui.highlight',
+    'ui.if',
+    'ui.indeterminate',
+    'ui.inflector',
+    'ui.jq',
+    'ui.keypress',
+    'ui.mask',
+    'ui.reset',
+    'ui.route',
+    'ui.scrollfix',
+    'ui.showhide',
+    'ui.unique',
+    'ui.validate'
+]);
 angular.module('ui.bootstrap', [
 
     /* start required directives */
@@ -83,4 +106,3 @@ angular.module('ui.bootstrap', [
 
     /* end optional directives */
 ]);
-

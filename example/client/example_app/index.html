@@ -27,7 +27,6 @@
 <body>
 
 <div id="singlepageFrame">
-
     <div class="layout-content">
         <div class="col-left navCol">
             <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
@@ -36,8 +35,8 @@
         </div>
         <div class="col-right">
             <!-- _partials -->
-            <%- include _partials/login.html %>
-            <%- include _partials/msgBox.html %>
+            <%- include baboon_auth/login.html %>
+            <%- include baboon_msgBox/msgBox.html %>
             <div class="view-container">
                 <div ng-view></div>
             </div>

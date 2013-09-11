@@ -265,7 +265,6 @@ module.exports = function (grunt) {
                         '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
-
                         '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
                         '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
                         '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
@@ -283,16 +282,18 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/baboon-core.js',
-                        '<%= bbc %>/services/lx-form.js',
-                        '<%= bbc %>/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx-file-upload.js',
-                        '<%= bbc %>/directives/lx-float.js',
-                        '<%= bbc %>/directives/lx-integer.js',
-                        '<%= bbc %>/directives/lx-pager.js',
-                        '<%= bbc %>/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -408,7 +409,6 @@ module.exports = function (grunt) {
                         '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
-
                         '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
                         '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
                         '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
@@ -426,16 +426,18 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/baboon-core.js',
-                        '<%= bbc %>/services/lx-form.js',
-                        '<%= bbc %>/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx-file-upload.js',
-                        '<%= bbc %>/directives/lx-float.js',
-                        '<%= bbc %>/directives/lx-integer.js',
-                        '<%= bbc %>/directives/lx-pager.js',
-                        '<%= bbc %>/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -550,7 +552,6 @@ module.exports = function (grunt) {
                         '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
-
                         '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
                         '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
                         '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
@@ -568,16 +569,18 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/baboon-core.js',
-                        '<%= bbc %>/services/lx-form.js',
-                        '<%= bbc %>/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx-file-upload.js',
-                        '<%= bbc %>/directives/lx-float.js',
-                        '<%= bbc %>/directives/lx-integer.js',
-                        '<%= bbc %>/directives/lx-pager.js',
-                        '<%= bbc %>/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',

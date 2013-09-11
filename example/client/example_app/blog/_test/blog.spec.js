@@ -5,12 +5,12 @@ var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
     beforeEach(module('blog'));
-    beforeEach(module('baboon.core'));
+    beforeEach(module('lx.socket'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 value = {
                     data: [
@@ -84,7 +84,7 @@ describe('blog', function () {
     // postCtrl tests
     describe('postCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 if (eventName === 'example/blog/blog/addComment') {
                     value = {
@@ -149,7 +149,7 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {message: 'server error'};
                         callback(value);
@@ -170,7 +170,7 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {errors: []};
                         callback(value);

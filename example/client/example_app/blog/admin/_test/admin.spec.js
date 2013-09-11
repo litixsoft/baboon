@@ -5,7 +5,7 @@ var ctrl, scope, flag, value, service;
 
 describe('admin modul', function () {
     beforeEach(module('blog'));
-    beforeEach(module('baboon.core'));
+    beforeEach(module('lx.socket'));
     beforeEach(module('lx.InlineEdit'));
     beforeEach(module('lx.form'));
 
@@ -13,7 +13,7 @@ describe('admin modul', function () {
     describe('adminCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 value = {
                     data: [
@@ -77,7 +77,7 @@ describe('admin modul', function () {
     describe('editPostCtrl', function () {
         beforeEach(inject(function ($controller, $routeParams, $injector) {
             flag = false;
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 if (eventName === 'example/blog/blog/getAllTags') {
                     value = {data: [
@@ -125,7 +125,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {data: data};
                         callback(value);
@@ -152,7 +152,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {data: data};
                         callback(value);
@@ -182,7 +182,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {errors: [
                             {property: 'title'}
@@ -209,7 +209,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {message: 'server error'};
                         callback(value);
@@ -230,7 +230,7 @@ describe('admin modul', function () {
     describe('tagsCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 if (eventName === 'example/blog/blog/getAllTags') {
                     value = {data: [
@@ -344,7 +344,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {message: 'server error'};
                         callback(value);
@@ -373,7 +373,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {data: {name: data.name, _id: 99}};
                         callback(value);
@@ -401,7 +401,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {errors: [
                             {property: 'name', message: 'already exists'}
@@ -432,7 +432,7 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {message: 'some random error'};
                         callback(value);
