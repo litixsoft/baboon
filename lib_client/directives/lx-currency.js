@@ -34,12 +34,12 @@ angular.module('lx.currency', [])
                 ctrl.$parsers.push(function (viewValue) {
                     if (FLOAT_REGEXP.test(viewValue)) {
                         // it is valid
-                        ctrl.$setValidity('float', true);
+                        ctrl.$setValidity('currency', true);
 
                         return typeof viewValue === 'number' ? roundToDecimal(viewValue, numberOfDigits) : roundToDecimal(parseFloat(viewValue.replace(',', '.')), numberOfDigits);
                     } else {
                         // it is invalid, return undefined (no model update)
-                        ctrl.$setValidity('float', false);
+                        ctrl.$setValidity('currency', false);
 
                         return undefined;
                     }
