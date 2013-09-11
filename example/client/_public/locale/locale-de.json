@@ -28,5 +28,7 @@
     "SERVER_ERROR": "500: Internal Server Error",
     "LOGIN": "Anmelden",
     "ENTER_USERNAME": "Benutzernamen eingeben",
-    "ENTER_PASSWORD": "Passwort eingeben"
+    "ENTER_PASSWORD": "Passwort eingeben",
+    "REGISTER": "Registrieren",
+    "FORGET_PASSWORD": "Benutzernamen / Passwort vergessen"
 }
