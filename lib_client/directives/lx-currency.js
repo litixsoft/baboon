@@ -32,6 +32,12 @@ angular.module('lx.currency', [])
                 });
 
                 ctrl.$parsers.push(function (viewValue) {
+                    if (!viewValue) {
+                        // reset validation
+                        ctrl.$setValidity('currency', true);
+                        return null;
+                    }
+
                     if (FLOAT_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('currency', true);

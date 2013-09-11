@@ -23,6 +23,12 @@ angular.module('lx.float', [])
                 });
 
                 ctrl.$parsers.push(function (viewValue) {
+                    if (!viewValue) {
+                        // reset validation
+                        ctrl.$setValidity('float', true);
+                        return null;
+                    }
+
                     if (FLOAT_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('float', true);
