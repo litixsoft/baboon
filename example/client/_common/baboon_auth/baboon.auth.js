@@ -24,6 +24,18 @@ angular.module('baboon.auth',  ['baboon.auth.services'])
 
         $scope.login = function() {
 
+            /* -----------Begin:  workaround for autofill ------ */
+            if($scope.username === undefined){
+                var user = document.getElementsByName('username');
+                $scope.username = user[0].value;
+            }
+
+            if($scope.password === undefined){
+                var pass = document.getElementsByName('password');
+                $scope.password = pass[0].value;
+            }
+            /* -----------End:  workaround for autofill ------ */
+
             auth.login($scope.username, $scope.password, function(err, res) {
                 if(res && ! err) {
                     $window.location.reload();
@@ -44,4 +56,11 @@ angular.module('baboon.auth',  ['baboon.auth.services'])
         $scope.register = function() {
             console.log('register');
         };
-    }]);
+    }]).directive('triggerChange', function() {
+        return function(scope, elem, attrs) {
+            elem.bind('click', function(){
+                console.log(attrs.triggerChange);
+//                $(attrs.triggerChange).change();
+            });
+        }
+    });

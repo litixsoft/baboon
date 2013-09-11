@@ -168,6 +168,7 @@ ul.nav.nav-pills li a:hover{
     border:1px solid rgba(255,255,255,0.3);
     box-shadow:1px 1px 12px rgba(0,0,0,0.6);
     margin-top: 10px;
+    padding-bottom:0px;
 }
 .btn-group.open .dropdown-menu.login:after{
     content :'';
@@ -181,32 +182,91 @@ ul.nav.nav-pills li a:hover{
 .btn-group.open .dropdown-menu.login .close{
     display:none;
 }
+.btn-group.open .dropdown-menu.login form{
+    margin:0;
+}
 .btn-group.open .dropdown-menu.login .form-inner{
     background-color:#25272a;
     padding:10px 10px 0 10px;
     box-shadow:0 0 20px rgba(0,0,0,1) inset;
     border-top:1px solid rgba(255,255,255,0.2);
     border-bottom:1px solid rgba(255,255,255,0.3);
+    min-width:350px;
+    max-width:350px;
 }
 .btn-group.open .dropdown-menu.login .form-submit{
     padding:10px 10px 0 10px;
 }
 
 .btn-group.open .dropdown-menu.login .btn.btn-block{
-    background: url(../img/lock3.png), -webkit-linear-gradient(top,#07a4eb,#0684be);
-    background-repeat: no-repeat;
+    /*background: url(../img/lock3.png), -webkit-linear-gradient(top,#07a4eb,#0684be);*/
+    background: -webkit-linear-gradient(top,#07a4eb,#0684be);
+    background: -moz-linear-gradient(top,#07a4eb,#0684be);
+    background: -o-linear-gradient(top,#07a4eb,#0684be);
+    background: -ms-linear-gradient(top,#07a4eb,#0684be);
+    background: linear-gradient(top,#07a4eb,#0684be);
+    background-repeat:repeat-x;
     background-position:center center;
-    background-size: 17px 25px, auto auto;
+    /*background-size: 17px 25px, auto auto;*/
     color:white;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     border:0;
     padding:6px;
+    display: block;
+    width:100%;
 }
 .btn-group.open .dropdown-menu.login .btn.btn-block:hover{
-    background: url(../img/lock3.png), -webkit-linear-gradient(top,#0ccdf5,#0ab5df);
-    background-repeat: no-repeat;
+    /*background: url(../img/lock3.png), -webkit-linear-gradient(top,#0ccdf5,#0ab5df);*/
+    background: -webkit-linear-gradient(top,#0ccdf5,#0ab5df);
+    background: -moz-linear-gradient(top,#0ccdf5,#0ab5df);
+    background: -o-linear-gradient(top,#0ccdf5,#0ab5df);
+    background: -ms-linear-gradient(top,#0ccdf5,#0ab5df);
+    background: linear-gradient(top,#0ccdf5,#0ab5df);
+    background-repeat:repeat-x;
     background-position:center center;
-    background-size: 17px 25px, auto auto;
+    /*background-size: 17px 25px, auto auto;*/
+}
+.btn-group.open .dropdown-menu.login i{
+    margin: 5px;
+}
+.btn-group.open .dropdown-menu.login .ui-resetwrap{
+    position:relative;
+    display:block;
+}
+.btn-group.open .dropdown-menu.login a.ui-reset{
+    position:absolute;
+    top:5px;
+    right:5px;
+    display:inline-block;
+    background:transparent url(../img/reset-input.png) no-repeat center center;
+    width:20px;
+    height:20px;
+    cursor: pointer;
+}
+.btn-group.open .dropdown-menu.login .form-submit{
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    padding:20px 10px;
+}
+.btn-group.open .dropdown-menu.login .sublinks{
+    background:rgba(0,0,0,0.1);
+    text-align: center;
+    margin:0;
+    padding:6px 0 3px 0;
+    font-size:12px;
+    line-height: 18px;
+    border-top:1px solid rgba(0,0,0,0.3);
+}
+.btn-group.open .dropdown-menu.login .sublinks .span5,
+.btn-group.open .dropdown-menu.login .sublinks .span6,
+.btn-group.open .dropdown-menu.login .sublinks .span7{
+    min-height:20px;
+}
+.btn-group.open .dropdown-menu.login .sublinks a{
+    color:rgba(255,255,255,0.5);
+    text-decoration: none;
+}
+.btn-group.open .dropdown-menu.login .sublinks a:hover{
+    color:white;
 }
 
 /*-------------------------------------------*/

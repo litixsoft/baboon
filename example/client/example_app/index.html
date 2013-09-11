@@ -49,21 +49,36 @@
                                     <h1>{{ 'LOGIN' | translate }}</h1>
                                     <form class="form" ng-submit="login()" name="loginForm" >
                                         <div class="form-inner">
-                                            <div>
-                                                <input type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required>
+                                            <div class="row-fluid">
+                                                <div class="span1"><i class="icon-user icon-white"></i></div>
+                                                <div class="span11">
+                                                    <input class="span12" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <input type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required>
+                                            <div class="row-fluid">
+                                                <div class="span1"><i class="icon-lock icon-white"></i></div>
+                                                <div class="span11">
+                                                    <input class="span12" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset>
+                                                </div>
                                             </div>
-                                            <div ui-if="authFailed">
-                                                <span style="color: red">{{ 'AUTH_FAILED' | translate }}</span>
+                                            <div class="row-fluid" ui-if="authFailed">
+                                                <div class="span11 offset1 alert alert-error">
+                                                    <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
+                                                </div>
                                             </div>
-                                            <div ui-if="serverError">
-                                                <span style="color: red">{{ 'SERVER_ERROR' | translate }}</span>
+                                            <div class="row-fluid" ui-if="serverError">-->
+                                                <div class="span11 offset1 alert alert-error">
+                                                    <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-submit">
-                                            <input type="submit" class="btn btn-block" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
+                                            <input trigger-change="password,username" type="submit" class="btn btn-block" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
+                                        </div>
+
+                                        <div class="row-fluid sublinks">
+                                            <div class="span6"><a href="#">Registrieren</a></div>
+                                            <div class="span6"><a href="#">Passwort vergessen</a></div>
                                         </div>
                                     </form>
                                 </div>
