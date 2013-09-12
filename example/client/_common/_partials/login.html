@@ -69,5 +69,18 @@
 
     <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
 
+    <div class="pull-right" style="margin:0 40px 0 0;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(0,0,0,0.1);">
+        <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
+            <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" style="height: 25px; cursor: pointer;"/>
+            <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" style="height: 25px; cursor: pointer;"/>
+            <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
+        </div>
+
+        <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
+            <img src="/img/flag-german.png" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;" title="Sprachauswahl: deutsche Sprache auswählen!"/>
+            <img src="/img/flag-english.png" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;" title="Language selection: select english language!"/>
+        </div>
+    </div>
+
     <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">baboon</span>
 </div>

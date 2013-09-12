@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="app">
-<head>
-    <meta charset="utf-8">
-    <title><% if(locals.title){ %><%= locals.title %><% } %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <% if(locals.description){ %><meta name="description" content="<%= locals.description %>"><% } %>
-    <% if(locals.keywords){ %><meta name="keywords" content="<%= locals.keywords %>"><% } %>
-    <% if(locals.author){ %><meta name="author" content="<%= locals.author %>"><% } %>
+<%- include _partials/layoutHeader.html %>
+
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
@@ -31,8 +24,6 @@
 
     <div class="layout-content">
         <div class="col-left navCol">
-            <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
-            <img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
             <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
         </div>
         <div class="col-right">
@@ -50,6 +41,6 @@
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/lxNavigation/lxNavigation.js" charset="utf-8"></script>
+
 </body>
 </html>
