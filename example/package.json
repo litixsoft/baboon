@@ -1,5 +1,5 @@
 {
-    "name": "example_app",
+    "name": "app",
     "description": "Example App for baboon web application framework",
     "version": "0.1.0",
     "private": true,

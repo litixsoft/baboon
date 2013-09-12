@@ -35,9 +35,9 @@
                 <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[2].children) %>"></lxtreeview>
             </div>
             <div class="col-right">
-                <!-- _partials -->
-                <%- include ../baboon_auth/login.html %>
-                <%- include ../baboon_msgBox/msgBox.html %>
+                <!-- partials -->
+                <%- include ../../baboon_auth/login.html %>
+                <%- include ../../baboon_msgBox/msgBox.html %>
                 <div class="view-container">
                     <div ng-view></div>
                 </div>

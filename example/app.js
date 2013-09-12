@@ -16,14 +16,14 @@ var path = require('path'),
 app.get('/ui', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('ui_examples/ui');
+        res.render('toplevel/ui_examples/ui');
     });
 });
 
 app.get('/ui/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('ui_examples/ui');
+        res.render('toplevel/ui_examples/ui');
     });
 });
 
@@ -31,7 +31,7 @@ app.get('/ui/*', function (req, res) {
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/admin');
+        res.render('toplevel/admin/admin');
     });
 });
 
@@ -70,7 +70,7 @@ app.get('/admin/startAdministration', function (req, res) {
                 res.locals.navigation = userNavigation;
                 res.locals.topLevelNavigation = topLevelNavigation;
 
-                res.render('admin/admin');
+                res.render('toplevel/admin/admin');
                 return;
             }
 
@@ -83,7 +83,7 @@ app.get('/admin/startAdministration', function (req, res) {
 app.get('/admin/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/admin');
+        res.render('toplevel/admin/admin');
     });
 });
 
