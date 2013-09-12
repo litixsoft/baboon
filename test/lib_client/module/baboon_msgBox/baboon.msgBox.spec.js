@@ -1,11 +1,11 @@
 /*global describe, it, expect, beforeEach, inject, module */
 'use strict';
 
-describe('baboon core services', function () {
+describe('baboon message box', function () {
     var service;
 
     beforeEach(function () {
-        module('baboon.core');
+        module('baboon.msgBox');
     });
 
     describe('msgBox', function () {
@@ -92,41 +92,6 @@ describe('baboon core services', function () {
             expect(service.modal.type).toBe('');
             expect(service.modal.action).toBeNull();
             expect(test).toBe(2);
-        });
-    });
-
-    describe('cache', function () {
-        beforeEach(function () {
-            inject(function ($injector) {
-                service = $injector.get('cache');
-            });
-        });
-
-        it('should be initialized correctly ', function () {
-            expect(typeof service).toBe('object');
-            expect(Object.keys(service).length).toBe(0);
-        });
-
-        it('should cache data', function () {
-            var data = {
-                name: 'wayne',
-                age: 90
-            };
-
-            service.test = 1;
-            service.obj = data;
-
-            data.age = 10;
-
-            expect(service.test).toBe(1);
-            expect(service.obj).toEqual({name: 'wayne', age: 10});
-
-            inject(function ($injector) {
-                var serviceRef = $injector.get('cache');
-
-                expect(serviceRef.test).toBe(1);
-                expect(serviceRef.obj).toEqual({name: 'wayne', age: 10});
-            });
         });
     });
 });

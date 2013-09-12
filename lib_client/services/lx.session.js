@@ -1,4 +1,4 @@
-/*global angular, io*/
+/*global angular*/
 angular.module('lx.session', [])
     // Service for session handling
     .factory('lxSession', ['$rootScope', '$http', '$log', 'msgBox', function ($rootScope, $http, $log, msgBox) {

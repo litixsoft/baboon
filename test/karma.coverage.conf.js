@@ -12,6 +12,7 @@ module.exports = function (config) {
             'lib_client/vendor/showdown/src/showdown.js',
             'lib_client/services/**/*.js',
             'lib_client/directives/**/*.js',
+            'lib_client/module/**/*.js',
             'test/lib_client/**/*.js'
         ],
 
