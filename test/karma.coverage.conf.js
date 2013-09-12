@@ -18,7 +18,8 @@ module.exports = function (config) {
 
         preprocessors: {
             'lib_client/services/**/*.js': 'coverage',
-            'lib_client/directives/**/*.js': 'coverage'
+            'lib_client/directives/**/*.js': 'coverage',
+            'lib_client/module/**/*.js': 'coverage'
         },
 
         // use dots reporter, as travis terminal does not support escaping sequences

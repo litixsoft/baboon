@@ -29,9 +29,10 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            'client/example_app/**/*.js': 'coverage',
-            'client/admin/**/*.js': 'coverage',
-            'client/ui_examples/**/*.js': 'coverage'
+            'client/app/**/*.js': 'coverage',
+            'client/common/**/*.js': 'coverage',
+            'client/toplevel/admin/**/*.js': 'coverage',
+            'client/toplevel/ui_examples/**/*.js': 'coverage'
         },
 
         coverageReporter: {
