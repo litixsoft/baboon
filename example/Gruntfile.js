@@ -99,6 +99,9 @@ module.exports = function (grunt) {
                     // all public html files
                     {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/_public/'},
 
+                    // all lib_client/module html files
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: '<%= bbc %>/module/'},
+
                     // all common html files
                     {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/_common/'},
 
@@ -295,6 +298,11 @@ module.exports = function (grunt) {
                         '<%= bbc %>/directives/lx.pager.js',
                         '<%= bbc %>/directives/lx.sort.js',
 
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
@@ -439,6 +447,11 @@ module.exports = function (grunt) {
                         '<%= bbc %>/directives/lx.pager.js',
                         '<%= bbc %>/directives/lx.sort.js',
 
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
@@ -581,6 +594,11 @@ module.exports = function (grunt) {
                         '<%= bbc %>/directives/lx.integer.js',
                         '<%= bbc %>/directives/lx.pager.js',
                         '<%= bbc %>/directives/lx.sort.js',
+
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',

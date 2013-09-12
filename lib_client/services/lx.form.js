@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('lx.form', [])
     // form service with cache
-    .factory('lxForm', ['cache', function (cache) {
+    .factory('lxForm', ['lxCache', function (lxCache) {
         return function (modelName, key) {
             var pub = {},
                 master = {};
@@ -24,11 +24,11 @@ angular.module('lx.form', [])
                 pub.model = angular.copy(master);
 
                 if (key) {
-                    // reset model in cache
+                    // reset model in lxCache
                     if (pub.model[key]) {
-                        cache[pub.model[key]] = pub.model;
+                        lxCache[pub.model[key]] = pub.model;
                     } else {
-                        cache[modelName] = pub.model;
+                        lxCache[modelName] = pub.model;
                     }
                 }
             };
@@ -43,29 +43,29 @@ angular.module('lx.form', [])
             };
 
             /**
-             * Tries to load the model from cache.
+             * Tries to load the model from lxCache.
              *
              * @param {string=} key The key of the model.
              * @returns {boolean}
              */
             pub.hasLoadedModelFromCache = function (key) {
-                if (key && cache[key]) {
-                    // load from cache
-                    pub.model = cache[key];
+                if (key && lxCache[key]) {
+                    // load from lxCache
+                    pub.model = lxCache[key];
 
-                    if (cache[key + '_Master']) {
-                        // load master from cache
-                        master = cache[key + '_Master'];
+                    if (lxCache[key + '_Master']) {
+                        // load master from lxCache
+                        master = lxCache[key + '_Master'];
                     }
 
                     return true;
                 } else if (!key) {
-                    if (cache[modelName]) {
-                        // load from cache
-                        pub.model = cache[modelName];
+                    if (lxCache[modelName]) {
+                        // load from lxCache
+                        pub.model = lxCache[modelName];
                     } else {
-                        // set cache
-                        cache[modelName] = pub.model;
+                        // set lxCache
+                        lxCache[modelName] = pub.model;
                     }
 
                     return true;
@@ -78,12 +78,12 @@ angular.module('lx.form', [])
              * Sets the model.
              *
              * @param {object} model The model.
-             * @param {boolean} resetCache Specifies if the cache should be resettet.
+             * @param {boolean} resetCache Specifies if the lxCache should be resettet.
              */
             pub.setModel = function (model, resetCache) {
                 if (!pub.model[key] && resetCache) {
-                    // no key -> create, delete model from cache
-                    delete cache[modelName];
+                    // no key -> create, delete model from lxCache
+                    delete lxCache[modelName];
                 }
 
                 // set model
@@ -91,13 +91,13 @@ angular.module('lx.form', [])
                 master = angular.copy(model);
 
                 if (resetCache) {
-                    // reset cache
-                    delete cache[model[key]];
-                    delete cache[model[key] + '_Master'];
+                    // reset lxCache
+                    delete lxCache[model[key]];
+                    delete lxCache[model[key] + '_Master'];
                 } else {
-                    // set cache
-                    cache[model[key]] = pub.model;
-                    cache[model[key] + '_Master'] = master;
+                    // set lxCache
+                    lxCache[model[key]] = pub.model;
+                    lxCache[model[key] + '_Master'] = master;
                 }
             };
 

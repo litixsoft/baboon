@@ -9,8 +9,10 @@ module.exports = function (config) {
         files: [
             '../lib_client/vendor/angular/angular.js',
             '../lib_client/vendor/angular/angular-mocks.js',
+            'client/_common/**/*.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',
+            '../lib_client/module/**/*.js',
             'test/fixtures/mocks.js',
             'client/**/*.js',
             '../lib_client/vendor/showdown/src/showdown.js'
@@ -18,7 +20,7 @@ module.exports = function (config) {
 
         exclude: [
             'client/_public/**/*.js',
-            'client/_common/**/*.js'
+            'client/_common/*.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences

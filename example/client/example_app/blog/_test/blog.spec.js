@@ -5,7 +5,7 @@ var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
     beforeEach(module('blog'));
-    beforeEach(module('lx.socket'));
+    beforeEach(module('mocks'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {
