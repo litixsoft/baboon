@@ -2,10 +2,11 @@
 <html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
-    <title>Baboon Example App</title>
+    <title><% if(locals.title){ %><%= locals.title %><% } %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <% if(locals.description){ %><meta name="description" content="<%= locals.description %>"><% } %>
+    <% if(locals.keywords){ %><meta name="keywords" content="<%= locals.keywords %>"><% } %>
+    <% if(locals.author){ %><meta name="author" content="<%= locals.author %>"><% } %>
     <!-- styles -->
     <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
     <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
