@@ -194,6 +194,16 @@ ul.nav.nav-pills li a:hover{
     min-width:350px;
     max-width:350px;
 }
+
+.btn-group.open .dropdown-menu.login .form-inner input[type="password"].error,
+.btn-group.open .dropdown-menu.login .form-inner input[type="text"].error{
+    border-color: #e9322d;
+    -webkit-box-shadow: 0 0 6px #f8b9b7;
+    -moz-box-shadow: 0 0 6px #f8b9b7;
+    box-shadow: 0 0 6px #f8b9b7;
+    background:#ffeeee url(../img/error-input.png) no-repeat 270px center;
+}
+
 .btn-group.open .dropdown-menu.login .form-submit{
     padding:10px;
 }
