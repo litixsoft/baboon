@@ -70,16 +70,15 @@
     <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
 
     <div class="pull-right" style="margin:0 40px 0 0;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(0,0,0,0.1);">
-        <div class="pull-right" style="padding:4px 20px 20px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);position:relative;">
+        <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
             <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" style="height: 25px; cursor: pointer;"/>
-            <img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>
-            <span style="position:absolute;bottom:0;left:0;width:100%;text-align:center;font-size:9px;color:rgba(255,255,255,0.2);line-height:14px;background:rgba(255,255,255,0.075);">Socketverbindung</span>
+            <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" style="height: 25px; cursor: pointer;"/>
+            <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
         </div>
 
-        <div class="pull-right" style="padding:4px 20px 20px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);position:relative;">
-            <img src="/img/flag-german.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
-            <img src="/img/flag-english.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
-            <span style="position:absolute;bottom:0;left:0;width:100%;text-align:center;font-size:9px;color:rgba(255,255,255,0.2);line-height:14px;background:rgba(255,255,255,0.075);">Sprachauswahl</span>
+        <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
+            <img src="/img/flag-german.png" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;" title="Sprachauswahl: deutsche Sprache auswählen!"/>
+            <img src="/img/flag-english.png" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;" title="Language selection: select english language!"/>
         </div>
     </div>
 

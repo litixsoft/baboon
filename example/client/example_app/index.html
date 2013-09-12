@@ -24,8 +24,6 @@
 
     <div class="layout-content">
         <div class="col-left navCol">
-            <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
-            <img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
             <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
         </div>
         <div class="col-right">
