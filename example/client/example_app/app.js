@@ -25,7 +25,8 @@ angular.module('app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'session', '$log', '$translate', '$window', function ($rootScope, session, $log, $translate, $window) {
+    .run(['$rootScope', 'session', '$log', '$translate', '$window', 'msgBox',
+        function ($rootScope, session, $log, $translate, $window, msgBox) {
         $rootScope.$on('$routeChangeStart', function () {
             session.setActivity();
         });
@@ -45,11 +46,10 @@ angular.module('app', [
                 $translate.uses(browserLanguage.substring(0, 2));
             }
         });
-    }])
-    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', '$log', function ($scope, msgBox, $translate, session, $log) {
-        $scope.modal = msgBox.modal;
 
-        $scope.changeLanguage = function (langKey) {
+        $rootScope.modal = msgBox.modal;
+
+        $rootScope.changeLanguage = function (langKey) {
             // tell angular-translate to use the new language
             $translate.uses(langKey);
 
@@ -61,5 +61,20 @@ angular.module('app', [
             });
         };
     }]);
+//    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', '$log', function ($scope, msgBox, $translate, session, $log) {
+//        $scope.modal = msgBox.modal;
+//
+//        $scope.changeLanguage = function (langKey) {
+//            // tell angular-translate to use the new language
+//            $translate.uses(langKey);
+//
+//            // save selected language in session
+//            session.setData('language', langKey, function(err) {
+//                if (err) {
+//                    $log.error(err);
+//                }
+//            });
+//        };
+//    }]);
 
 
