@@ -93,11 +93,8 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    // all public files that need to be copy.
-                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/_public/'},
-
-                    // all public html files
-                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/_public/'},
+                    // all public files
+                    {dest: 'build/dist/public', src: ['**'], expand: true, cwd: 'client/_public/'},
 
                     // all lib_client/module html files
                     {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: '<%= bbc %>/module/'},
@@ -109,7 +106,7 @@ module.exports = function (grunt) {
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/<%= pkg.name %>/'},
 
                     // all top level apps html views that need to be copy.
-                    {dest: 'build/dist/views/', src: ['**/*.html', '!_common/**/*.html', '!_public/**/*.html', '!<%= pkg.name %>/**/*.html'], expand: true, cwd: 'client/'},
+                    {dest: 'build/dist/views/', src: ['**/*.html', '!_common/**/*.html', '!<%= pkg.name %>/**/*.html'], expand: true, cwd: 'client/'},
 
                     // all bootstrap image files that need to be copy.
                     {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
