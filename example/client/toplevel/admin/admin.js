@@ -1,15 +1,15 @@
 /*global angular*/
 angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/admin/users', {templateUrl: '/admin/users.html', controller: 'userListCtrl'});
-        $routeProvider.when('/admin/users/edit/:id', {templateUrl: '/admin/editUser.html', controller: 'editUserCtrl'});
-        $routeProvider.when('/admin/users/new', {templateUrl: '/admin/editUser.html', controller: 'editUserCtrl'});
-        $routeProvider.when('/admin/rights', {templateUrl: '/admin/rights.html', controller: 'rightListCtrl'});
-        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: '/admin/editRight.html', controller: 'editRightCtrl'});
-        $routeProvider.when('/admin/rights/new', {templateUrl: '/admin/editRight.html', controller: 'editRightCtrl'});
-        $routeProvider.when('/admin/groups', {templateUrl: '/admin/groups.html', controller: 'groupListCtrl'});
-        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: '/admin/editGroup.html', controller: 'editGroupCtrl'});
-        $routeProvider.when('/admin/groups/new', {templateUrl: '/admin/editGroup.html', controller: 'editGroupCtrl'});
+        $routeProvider.when('/admin/users', {templateUrl: '/toplevel/admin/users.html', controller: 'userListCtrl'});
+        $routeProvider.when('/admin/users/edit/:id', {templateUrl: '/toplevel/admin/editUser.html', controller: 'editUserCtrl'});
+        $routeProvider.when('/admin/users/new', {templateUrl: '/toplevel/admin/editUser.html', controller: 'editUserCtrl'});
+        $routeProvider.when('/admin/rights', {templateUrl: '/toplevel/admin/rights.html', controller: 'rightListCtrl'});
+        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: '/toplevel/admin/editRight.html', controller: 'editRightCtrl'});
+        $routeProvider.when('/admin/rights/new', {templateUrl: '/toplevel/admin/editRight.html', controller: 'editRightCtrl'});
+        $routeProvider.when('/admin/groups', {templateUrl: '/toplevel/admin/groups.html', controller: 'groupListCtrl'});
+        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: '/toplevel/admin/editGroup.html', controller: 'editGroupCtrl'});
+        $routeProvider.when('/admin/groups/new', {templateUrl: '/toplevel/admin/editGroup.html', controller: 'editGroupCtrl'});
     })
     .controller('userListCtrl', ['$scope', '$log', 'baboon.admin.users', function ($scope, $log, users) {
         var options = {},
