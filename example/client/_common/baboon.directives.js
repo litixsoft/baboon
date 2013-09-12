@@ -1,5 +1,6 @@
 /*global angular, Showdown, hljs*/
 angular.module('baboon.directives',  [
+    'ui.if',
     'lx.fileUpload',
     'lx.float',
     'lx.integer',

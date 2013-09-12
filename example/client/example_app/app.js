@@ -1,10 +1,7 @@
 /*global angular*/
 angular.module('app', [
         'pascalprecht.translate',
-        'ui.utils',
-        'ui.bootstrap',
-        'baboon.auth',
-        'baboon.nav',
+        'baboon.module',
         'baboon.services',
         'baboon.directives',
         'blog',
@@ -12,7 +9,7 @@ angular.module('app', [
         'home',
         'translation',
         'cache',
-        'sessionDoc'
+        'session'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
@@ -25,14 +22,14 @@ angular.module('app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'session', '$log', '$translate', '$window', 'msgBox',
-        function ($rootScope, session, $log, $translate, $window, msgBox) {
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
+        function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
         $rootScope.$on('$routeChangeStart', function () {
-            session.setActivity();
+            lxSession.setActivity();
         });
 
         // get users preferred language from session
-        session.getData('language', function (error, result) {
+        lxSession.getData('language', function (error, result) {
             if (error) {
                 $log.error(error);
             }
@@ -54,27 +51,10 @@ angular.module('app', [
             $translate.uses(langKey);
 
             // save selected language in session
-            session.setData('language', langKey, function(err) {
+            lxSession.setData('language', langKey, function(err) {
                 if (err) {
                     $log.error(err);
                 }
             });
         };
     }]);
-//    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', '$log', function ($scope, msgBox, $translate, session, $log) {
-//        $scope.modal = msgBox.modal;
-//
-//        $scope.changeLanguage = function (langKey) {
-//            // tell angular-translate to use the new language
-//            $translate.uses(langKey);
-//
-//            // save selected language in session
-//            session.setData('language', langKey, function(err) {
-//                if (err) {
-//                    $log.error(err);
-//                }
-//            });
-//        };
-//    }]);
-
-

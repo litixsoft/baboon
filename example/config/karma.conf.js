@@ -11,6 +11,7 @@ module.exports = function (config) {
             '../lib_client/vendor/angular/angular-mocks.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',
+            '../lib_client/module/**/*.js',
             'test/fixtures/mocks.js',
             'client/**/*.js',
             '../lib_client/vendor/showdown/src/showdown.js'

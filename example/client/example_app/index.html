@@ -21,15 +21,14 @@
 <body>
 
 <div id="singlepageFrame">
-
     <div class="layout-content">
         <div class="col-left navCol">
             <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
         </div>
         <div class="col-right">
             <!-- _partials -->
-            <%- include _partials/login.html %>
-            <%- include _partials/msgBox.html %>
+            <%- include baboon_auth/login.html %>
+            <%- include baboon_msgBox/msgBox.html %>
             <div class="view-container">
                 <div ng-view></div>
             </div>
