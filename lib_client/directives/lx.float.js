@@ -4,7 +4,16 @@ angular.module('lx.float', [])
         var FLOAT_REGEXP = /^\-?\d+((\.|,)?(\d+)?)?$/;
 
         function roundToDecimal (number, decimal) {
-            return parseFloat(number.toFixed(decimal));
+            var zeros = (1.0).toFixed(decimal);
+            zeros = zeros.substr(2);
+            var mul_div = parseInt('1' + zeros, 10);
+            var increment = parseFloat('.' + zeros + '01');
+
+            if (( (number * (mul_div * 10)) % 10) >= 5) {
+                number += increment;
+            }
+
+            return Math.round(number * mul_div) / mul_div;
         }
 
         return {
@@ -14,7 +23,7 @@ angular.module('lx.float', [])
                 var numberOfDigits = 2;
 
                 // get the number of digits from attr
-                attrs.$observe('lxFloat', function (value) {
+                attrs.$observe('lxCurrency', function (value) {
                     value = scope.$eval(value);
 
                     if (typeof value === 'number') {
@@ -43,8 +52,10 @@ angular.module('lx.float', [])
                 });
 
                 ctrl.$formatters.unshift(function (modelValue) {
-                    if (modelValue) {
-                        modelValue = modelValue.toFixed(numberOfDigits).replace('.', ',');
+                    ctrl.$setValidity('float', !isNaN(modelValue));
+
+                    if (!isNaN(modelValue)) {
+                        modelValue = parseFloat(modelValue).toFixed(numberOfDigits).replace('.', ',');
                     }
 
                     return modelValue;

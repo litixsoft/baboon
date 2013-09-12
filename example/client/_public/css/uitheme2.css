@@ -142,7 +142,7 @@ ul.nav.nav-pills li a:hover{
     border:none;
 }
 .layout-content .col-right .view-container{
-    width:100%;height:100%;overflow:auto;box-shadow:0 0 20px red;
+    width:100%;height:100%;overflow:auto;/*box-shadow:0 0 20px red;*/
 }
 .layout-content .col-right .view-container:before{
     content: '';
@@ -194,8 +194,18 @@ ul.nav.nav-pills li a:hover{
     min-width:350px;
     max-width:350px;
 }
+
+.btn-group.open .dropdown-menu.login .form-inner input[type="password"].error,
+.btn-group.open .dropdown-menu.login .form-inner input[type="text"].error{
+    border-color: #e9322d;
+    -webkit-box-shadow: 0 0 6px #f8b9b7;
+    -moz-box-shadow: 0 0 6px #f8b9b7;
+    box-shadow: 0 0 6px #f8b9b7;
+    background:#ffeeee url(../img/error-input.png) no-repeat 270px center;
+}
+
 .btn-group.open .dropdown-menu.login .form-submit{
-    padding:10px 10px 0 10px;
+    padding:10px;
 }
 
 .btn-group.open .dropdown-menu.login .btn.btn-block{
@@ -213,7 +223,7 @@ ul.nav.nav-pills li a:hover{
     border:0;
     padding:6px;
     display: block;
-    width:100%;
+    width:48.717948717948715%;
 }
 .btn-group.open .dropdown-menu.login .btn.btn-block:hover{
     /*background: url(../img/lock3.png), -webkit-linear-gradient(top,#0ccdf5,#0ab5df);*/
@@ -256,9 +266,13 @@ ul.nav.nav-pills li a:hover{
     line-height: 18px;
     border-top:1px solid rgba(0,0,0,0.3);
 }
+.btn-group.open .dropdown-menu.login .sublinks .span3,
+.btn-group.open .dropdown-menu.login .sublinks .span4,
 .btn-group.open .dropdown-menu.login .sublinks .span5,
 .btn-group.open .dropdown-menu.login .sublinks .span6,
-.btn-group.open .dropdown-menu.login .sublinks .span7{
+.btn-group.open .dropdown-menu.login .sublinks .span7,
+.btn-group.open .dropdown-menu.login .sublinks .span8,
+.btn-group.open .dropdown-menu.login .sublinks .span9{
     min-height:20px;
 }
 .btn-group.open .dropdown-menu.login .sublinks a{

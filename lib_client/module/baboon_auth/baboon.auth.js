@@ -1,5 +1,8 @@
 /*global angular*/
 angular.module('baboon.auth',  ['baboon.auth.services'])
+    .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/api/auth/register', {templateUrl: '/baboon_auth/register.html'});
+    }])
     .controller('baboon.auth.loginCtrl', ['$scope', '$window', 'auth', function ($scope, $window, auth) {
 
         var window = angular.element($window);
@@ -38,10 +41,25 @@ angular.module('baboon.auth',  ['baboon.auth.services'])
                 }
             });
         };
+
+        $scope.$watch('username',function(){
+            if($scope.authFailed){
+                $scope.authFailed= false;
+            }
+        });
+
+        $scope.$watch('password',function(){
+            if($scope.authFailed){
+                $scope.authFailed= false;
+            }
+        });
+
         $scope.logout = function() {
             console.log('logout');
         };
+
         $scope.register = function() {
             console.log('register');
         };
+
     }]);

@@ -26,6 +26,16 @@ angular.module('lx.integer', [])
                         return undefined;
                     }
                 });
+
+                ctrl.$formatters.unshift(function (modelValue) {
+                    ctrl.$setValidity('integer', !isNaN(modelValue));
+
+                    if (!isNaN(modelValue)) {
+                        modelValue = parseInt(modelValue, 10);
+                    }
+
+                    return modelValue.toString();
+                });
             }
         };
     });
