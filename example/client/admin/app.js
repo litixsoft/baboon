@@ -1,11 +1,9 @@
 /*global angular*/
 angular.module('baboon.admin', [
         'pascalprecht.translate',
-        'ui.utils',
-        'ui.bootstrap',
+        'baboon.module',
         'baboon.services',
         'baboon.directives',
-        'ui.lxnavigation',
         'admin'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
@@ -21,61 +19,39 @@ angular.module('baboon.admin', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'session', '$log', '$translate', '$window', function ($rootScope, session, $log, $translate, $window) {
-        $rootScope.$on('$routeChangeStart', function () {
-            session.setActivity();
-        });
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
+        function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
+            $rootScope.$on('$routeChangeStart', function () {
+                lxSession.setActivity();
+            });
 
-        // get users preferred language from session
-        session.getData('language', function (error, result) {
-            if (error) {
-                $log.error(error);
-            }
+            // get users preferred language from session
+            lxSession.getData('language', function (error, result) {
+                if (error) {
+                    $log.error(error);
+                }
 
-            // use language
-            if (result && result.language) {
-                $translate.uses(result.language);
-            } else {
-                // detect language of browser
-                var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
-                $translate.uses(browserLanguage.substring(0, 2));
-            }
-        });
-    }])
-    .controller('rootCtrl', ['$rootScope', 'msgBox', '$translate', 'session', '$log', function ($scope, msgBox, $translate, session, $log) {
-        $scope.modal = msgBox.modal;
-
-        $scope.changeLanguage = function (langKey) {
-            // tell angular-translate to use the new language
-            $translate.uses(langKey);
-
-            // save selected language in session
-            session.setData('language', langKey, function(err) {
-                if (err) {
-                    $log.error(err);
+                // use language
+                if (result && result.language) {
+                    $translate.uses(result.language);
+                } else {
+                    // detect language of browser
+                    var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
+                    $translate.uses(browserLanguage.substring(0, 2));
                 }
             });
 
-        };
-    }])
-    .controller('navLoginCtrl', ['$scope', '$window', function ($scope,$window) {
+            $rootScope.modal = msgBox.modal;
 
-        var window = angular.element($window);
+            $rootScope.changeLanguage = function (langKey) {
+                // tell angular-translate to use the new language
+                $translate.uses(langKey);
 
-        $scope.$watch('openMenu',function(newval){
-            if(newval){
-                window.bind('keydown',function(ev){
-                    if ( ev.which === 27 ) { //ESC Key
-                        $scope.$apply( function () {
-                            $scope.openMenu = false;
-                        });
+                // save selected language in session
+                lxSession.setData('language', langKey, function(err) {
+                    if (err) {
+                        $log.error(err);
                     }
                 });
-            } else {
-                window.unbind('keydown');
-            }
-        });
-
-        $scope.openMenu = false;
-
-    }]);
+            };
+        }]);

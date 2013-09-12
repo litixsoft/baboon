@@ -302,6 +302,9 @@ module.exports = function (grunt) {
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
                         '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -451,6 +454,9 @@ module.exports = function (grunt) {
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
                         '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',
@@ -599,6 +605,9 @@ module.exports = function (grunt) {
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
                         '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
 
                         // translate
                         '<%= bbc %>/vendor/angular-translate/angular-translate.js',

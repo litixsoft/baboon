@@ -3,7 +3,8 @@ angular.module('baboon.module',  [
     'ui.utils',
     'ui.bootstrap',
     'baboon.auth',
-    'baboon.msgBox'
+    'baboon.msgBox',
+    'baboon.nav'
 ]);
 angular.module('ui.utils',  [
     'ui.event',
