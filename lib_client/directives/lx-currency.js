@@ -52,8 +52,10 @@ angular.module('lx.currency', [])
                 });
 
                 ctrl.$formatters.unshift(function (modelValue) {
-                    if (modelValue) {
-                        modelValue = modelValue.toFixed(numberOfDigits).replace('.', ',');
+                    ctrl.$setValidity('currency', !isNaN(modelValue));
+
+                    if (!isNaN(modelValue)) {
+                        modelValue = parseFloat(modelValue).toFixed(numberOfDigits).replace('.', ',');
                     }
 
                     return modelValue;
