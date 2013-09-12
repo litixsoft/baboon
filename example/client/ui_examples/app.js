@@ -3,10 +3,10 @@ angular.module('ui_app', [
         'pascalprecht.translate',
         'ui.utils',
         'ui.bootstrap',
+        'baboon.nav',
         'baboon.services',
         'baboon.directives',
-        'ui_app.base',
-        'ui.lxnavigation'
+        'ui_app.base'
     ])
     .config(function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);

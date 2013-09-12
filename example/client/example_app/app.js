@@ -4,6 +4,7 @@ angular.module('app', [
         'ui.utils',
         'ui.bootstrap',
         'baboon.auth',
+        'baboon.nav',
         'baboon.services',
         'baboon.directives',
         'blog',
@@ -11,7 +12,6 @@ angular.module('app', [
         'home',
         'translation',
         'cache',
-        'ui.lxnavigation',
         'sessionDoc'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
