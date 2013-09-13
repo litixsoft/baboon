@@ -16,14 +16,14 @@ var path = require('path'),
 app.get('/ui', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('toplevel/ui_examples/ui',{mod_name: 'ui_'});
+        res.render('toplevel/ui_examples/ui');
     });
 });
 
 app.get('/ui/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('toplevel/ui_examples/ui',{mod_name: 'ui_'});
+        res.render('toplevel/ui_examples/ui');
     });
 });
 
@@ -31,7 +31,7 @@ app.get('/ui/*', function (req, res) {
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('toplevel/admin/admin',{mod_name: 'admin_'});
+        res.render('toplevel/admin/admin');
     });
 });
 
