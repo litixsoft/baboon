@@ -14,14 +14,14 @@ describe('lxInteger', function () {
             '</form>'
         );
 
-        scope.model = {val: 12.34};
+        scope.model = {};
         $compile(element)(scope);
         scope.$digest();
         form = scope.form;
     }));
 
     it('should be initialized correctly', function () {
-        expect(scope.model.val).toBe(12.34);
+        expect(scope.model.val).toBeUndefined();
     });
 
     it('should pass with integer', function() {

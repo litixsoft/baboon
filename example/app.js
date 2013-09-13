@@ -70,7 +70,7 @@ app.get('/admin/startAdministration', function (req, res) {
                 res.locals.navigation = userNavigation;
                 res.locals.topLevelNavigation = topLevelNavigation;
 
-                res.render('toplevel/admin/admin');
+                res.render('admin/admin');
                 return;
             }
 
@@ -83,7 +83,7 @@ app.get('/admin/startAdministration', function (req, res) {
 app.get('/admin/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('toplevel/admin/admin');
+        res.render('admin/admin');
     });
 });
 
