@@ -23,7 +23,7 @@ angular.module('lx.float', [])
                 var numberOfDigits = 2;
 
                 // get the number of digits from attr
-                attrs.$observe('lxCurrency', function (value) {
+                attrs.$observe('lxFloat', function (value) {
                     value = scope.$eval(value);
 
                     if (typeof value === 'number') {
