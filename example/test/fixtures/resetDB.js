@@ -4,7 +4,7 @@ var path = require('path'),
     async = require('async'),
     rootPath = path.resolve('..', '..', 'baboon/example'),
     baboon = require('../../../lib/baboon')(rootPath),
-    blogRepo = require('../../server/repositories/blog')(baboon.config.mongo.blog);
+    blogRepo = require('../../server/modules/example/blog/repositories')(baboon.config.mongo.blog);
 
 console.log('Resetting db: ' + baboon.config.mongo.blog);
 

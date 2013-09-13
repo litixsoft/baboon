@@ -2,75 +2,7 @@
 
 module.exports = function (grunt) {
 
-    var path = require('path'),
-        browsers = [
-            {
-                name: 'Chrome',
-                DEFAULT_CMD: {
-                    linux: ['google-chrome'],
-                    darwin: ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'],
-                    win32: [
-                        process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
-                        process.env.ProgramW6432 + '\\Google\\Chrome\\Application\\chrome.exe',
-                        process.env.ProgramFiles + '\\Google\\Chrome\\Application\\chrome.exe',
-                        process.env['ProgramFiles(x86)'] + '\\Google\\Chrome\\Application\\chrome.exe'
-                    ]
-                },
-                ENV_CMD: 'CHROME_BIN'
-            },
-            {
-                name: 'ChromeCanary',
-                DEFAULT_CMD: {
-                    linux: ['google-chrome-canary'],
-                    darwin: ['/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'],
-                    win32: [
-                        process.env.LOCALAPPDATA + '\\Google\\Chrome SxS\\Application\\chrome.exe',
-                        process.env.ProgramW6432 + '\\Google\\Chrome SxS\\Application\\chrome.exe',
-                        process.env.ProgramFiles + '\\Google\\Chrome SxS\\Application\\chrome.exe',
-                        process.env['ProgramFiles(x86)'] + '\\Google\\Chrome SxS\\Application\\chrome.exe'
-                    ]
-                },
-                ENV_CMD: 'CHROME_CANARY_BIN'
-            },
-            {
-                name: 'Firefox',
-                DEFAULT_CMD: {
-                    linux: ['firefox'],
-                    darwin: ['/Applications/Firefox.app/Contents/MacOS/firefox-bin'],
-                    win32: [
-                        process.env.LOCALAPPDATA + '\\Mozilla Firefox\\firefox.exe',
-                        process.env.ProgramW6432 + '\\Mozilla Firefox\\firefox.exe',
-                        process.env.ProgramFiles + '\\Mozilla Firefox\\firefox.exe',
-                        process.env['ProgramFiles(x86)'] + '\\Mozilla Firefox\\firefox.exe'
-                    ]
-                },
-                ENV_CMD: 'FIREFOX_BIN'
-            },
-            {
-                name: 'Safari',
-                DEFAULT_CMD: {
-                    darwin: ['/Applications/Safari.app/Contents/MacOS/Safari'],
-                    win32: [
-                        process.env.LOCALAPPDATA + '\\Safari\\Safari.exe',
-                        process.env.ProgramW6432 + '\\Safari\\Safari.exe',
-                        process.env.ProgramFiles + '\\Safari\\Safari.exe',
-                        process.env['ProgramFiles(x86)'] + '\\Safari\\Safari.exe'
-                    ]
-                },
-                ENV_CMD: 'SAFARI_BIN'
-            },
-            {
-                name: 'IE',
-                DEFAULT_CMD: {
-                    win32: [
-                        process.env.ProgramW6432 + '\\Internet Explorer\\iexplore.exe',
-                        process.env.ProgramFiles + '\\Internet Explorer\\iexplore.exe',
-                        process.env['ProgramFiles(x86)'] + '\\Internet Explorer\\iexplore.exe'
-                    ]
-                },
-                ENV_CMD: 'IE_BIN'
-            }
-        ];
+    var path = require('path');
 
     function getCoverageReport (folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
@@ -82,37 +14,17 @@ module.exports = function (grunt) {
         return '';
     }
 
-    function getInstalledBrowsers (browsers) {
-        var result = [];
-
-        browsers.forEach(function (browser) {
-            var browserPaths = browser.DEFAULT_CMD[process.platform] || [],
-                i, length = browserPaths.length;
-
-            for (i = 0; i < length; i++) {
-                if (grunt.file.exists(browserPaths[i]) || process.env[browser.ENV_CMD] || grunt.file.exists(path.join('/', 'usr', 'bin', browserPaths[i]))) {
-                    result.push(browser.name);
-
-                    if (process.platform === 'win32' && !process.env[browser.ENV_CMD]) {
-                        process.env[browser.ENV_CMD] = browserPaths[i];
-                    }
-
-                    return;
-                }
-            }
-        });
-
-        return result;
-    }
-
-    var availableBrowser = getInstalledBrowsers(browsers);
-
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
-        bbc: 'node_modules/baboon-client',
+        bbc: '../lib_client',
+        aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
+        module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
+        module_suffix: '\n})(window, window.angular);',
+        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
+            'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -126,8 +38,10 @@ module.exports = function (grunt) {
             dist: ['build/dist', 'build/tmp'],
             jasmine: ['build/reports/jasmine'],
             coverageServer: ['build/reports/coverage/server'],
-            coverageClient: ['build/reports/coverage/client']
+            coverageClient: ['build/reports/coverage/client'],
+            tmp: ['build/tmp']
         },
+
         // lint files
         jshint: {
             options: {
@@ -152,16 +66,14 @@ module.exports = function (grunt) {
                 globals: {
                 }
             },
-            test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js'],
+            test: '<%= jshint_files_to_test %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
                     reporterOutput: 'build/reports/jshint/jshint.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             },
             checkstyle: {
@@ -170,8 +82,7 @@ module.exports = function (grunt) {
                     reporterOutput: 'build/reports/jshint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/app/**/*.js', 'client/common/**/*.js',
-                        '!client/common/angular-*/*.*', 'test/**/*.js', '!test/lib/**/*.js']
+                    src: '<%= jshint_files_to_test %>'
                 }
             }
         },
@@ -182,14 +93,41 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    // all public files that need to be copy.
-                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/public/'},
-                    // all toplevel app html files
-                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/public/'},
-                    // all html views that need to be copy.
+
+                    // all public files
+                    {dest: 'build/dist/public', src: ['**'], expand: true, cwd: 'client/public/'},
+
+                    // all lib_client/module html files
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: '<%= bbc %>/module/'},
+
+                    // all app html files
                     {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
-                    // all vendor files that need to be copy.
+
+                    // all common html files
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
+
+                    // all toplevel and partials html files
+                    {dest: 'build/dist/views', src: ['**/*.html', '!app/**', '!common/**', '!public/**'], expand: true, cwd: 'client/'},
+
+                    // all bootstrap image files that need to be copy.
                     {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
+                ]
+            }
+        },
+
+        html2js: {
+            dist: {
+                options: {
+                    module: null, // no bundle module for all the html2js templates
+                    base: '<%= bbc %>/vendor/angular-ui-bootstrap'
+                },
+                files: [
+                    {
+                        expand: true,
+                        src: ['<%= bbc %>/vendor/angular-ui-bootstrap/template/**/*.html'],
+                        ext: '.tpl.js',
+                        dest: 'build/tmp/templates/'
+                    }
                 ]
             }
         },
@@ -197,7 +135,6 @@ module.exports = function (grunt) {
         /**
          * concat files
          */
-
         concat: {
             /**
              * The `lib` target is for all third-party js libraries we need to include
@@ -207,38 +144,126 @@ module.exports = function (grunt) {
                 files: {
                     // lib debug
                     'build/dist/public/js/lib.js': [
-                        '<%= bbc %>/vendor/angular/angular.js'
+                        '<%= bbc %>/vendor/angular/angular.js',
+                        '<%= bbc %>/vendor/showdown/src/showdown.js'
+                        //'<%= bbc %>/vendor/showdown/src/extensions/github.js',
+                        //'<%= bbc %>/vendor/showdown/src/extensions/prettify.js',
+                        //'<%= bbc %>/vendor/showdown/src/extensions/table.js',
+                        //'<%= bbc %>/vendor/showdown/src/extensions/twitter.js',
                     ],
                     // lib release
                     'build/dist/public/js/lib.min.js': [
-                        '<%= bbc %>/vendor/angular/angular.min.js'
+                        '<%= bbc %>/vendor/angular/angular.min.js',
+                        '<%= bbc %>/vendor/showdown/compressed/showdown.js'
+                        //'<%= bbc %>/vendor/showdown/compressed/extensions/github.js',
+                        //'<%= bbc %>/vendor/showdown/compressed/extensions/prettify.js',
+                        //'<%= bbc %>/vendor/showdown/compressed/extensions/table.js',
+                        //'<%= bbc %>/vendor/showdown/compressed/extensions/twitter.js',
                     ],
                     // libs debug
                     'build/dist/public/css/lib.css': [
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap.css',
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.css',
-                        '<%= bbc %>/lib/css/default.css'
+                        '<%= bbc %>/css/default.css'
                     ],
                     // libs release
                     'build/dist/public/css/lib.min.css': [
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap.min.css',
                         '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        '<%= bbc %>/lib/css/default.min.css'
+                        'build/tmp/default.min.css'
                     ]
                 }
             },
+
             /**
              * The `app` target is for application js and css libraries.
              */
-            app: {
+            app_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
+
                 files: {
                     'build/dist/public/js/app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
                         // ui-bootstrap
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
+
+                        /* required */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
+
+                        /* optional */
+
+                        /* accordion */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
+
+                        /* alert */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
+
+                        /* buttons */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
+
+                        /* carousel */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
+
+                        /* collapse */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
+
+                        /* datepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
+
+                        /* dialog */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
+
+                        /* dropdownToggle */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
+
+                        /* modal */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
+
+                        /* pagination */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
+
+                        /* popover */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
+
+                        /* progressbar */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
+
+                        /* rating */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
+
+                        /* tabs */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
+
+                        /* timepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
+
+                        /* tooltip */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
+
+                        /* typeahead */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
                         '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
@@ -258,16 +283,30 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
 
                         // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
+
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
+
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
                         'client/common/**/*.js',
@@ -275,36 +314,108 @@ module.exports = function (grunt) {
 
                         // app
                         'client/app/**/*.js',
-                        '!client/app/**/*.spec.js',
-
-                        // ! toplevel apps
-                        '!client/app/ui_examples/**/*.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
-                    'build/dist/public/css/app.css': [
-
-                        // app css files
-                        'client/app/**/*.css',
-
-                        // ! toplevel css
-                        '!client/app/ui_examples/**/*.css'
+                        '!client/app/**/*.spec.js'
                     ]
                 }
             },
+            app_css: {
+                files: {
+                    'build/dist/public/css/app.css': [
+                        // app css files
+                        'client/app/**/*.css'
+                    ]
+                }
+            },
+
             /**
              * The `ui` target is for toplevel application js and css libraries.
              */
-            ui: {
+            ui_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
+
                 files: {
                     'build/dist/public/js/ui_app.js': [
-
-                        // prefix
-                        'client/module.prefix',
-
                         // ui-bootstrap
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.4.0.js',
+
+                        /* required */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
+
+                        /* optional */
+
+                        /* accordion */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
+
+                        /* alert */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
+
+                        /* buttons */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
+
+                        /* carousel */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
+
+                        /* collapse */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
+
+                        /* datepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
+
+                        /* dialog */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
+
+                        /* dropdownToggle */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
+
+                        /* modal */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
+
+                        /* pagination */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
+
+                        /* popover */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
+
+                        /* progressbar */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
+
+                        /* rating */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
+
+                        /* tabs */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
+
+                        /* timepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
+
+                        /* tooltip */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
+
+                        /* typeahead */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
 
                         // ui-utils
                         '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
@@ -324,32 +435,197 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
 
                         // baboon.services
-                        '<%= bbc %>/lib/services/baboon-core.js',
-                        '<%= bbc %>/lib/services/lx-form.js',
-                        '<%= bbc %>/lib/services/lx-inline-edit.js',
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
 
                         // baboon.directives
-                        '<%= bbc %>/lib/directives/lx-file-upload.js',
-                        '<%= bbc %>/lib/directives/lx-float.js',
-                        '<%= bbc %>/lib/directives/lx-integer.js',
-                        '<%= bbc %>/lib/directives/lx-pager.js',
-                        '<%= bbc %>/lib/directives/lx-sort.js',
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
+
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
+
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
                         'client/common/**/*.js',
                         '!client/common/**/*.spec.js',
 
                         // toplevel app
-                        'client/app/ui_examples/**/*.js',
-                        '!client/app/ui_examples/**/*.spec.js',
-
-                        // suffix
-                        'client/module.suffix'
-                    ],
+                        'client/toplevel/ui_examples/**/*.js',
+                        '!client/toplevel/ui_examples/**/*.spec.js'
+                    ]
+                }
+            },
+            ui_css: {
+                files: {
                     'build/dist/public/css/ui_app.css': [
-
                         // toplevel css
-                        'client/app/ui_examples/**/*.css'
+                        'client/toplevel/ui_examples/**/*.css'
+                    ]
+                }
+            },
+
+            /**
+             * The `admin` target is for toplevel application js and css libraries.
+             */
+            admin_js: {
+                options: {
+                    banner: '<%= module_prefix %>',
+                    footer: '<%= module_suffix %>'
+                },
+                files: {
+                    'build/dist/public/js/admin_app.js': [
+                        // ui-bootstrap
+
+                        /* required */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
+
+                        /* optional */
+
+                        /* accordion */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
+                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
+                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
+
+                        /* alert */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
+                        '<%= aui_tmp %>/alert/alert.tpl.js',
+
+                        /* buttons */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
+
+                        /* carousel */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
+                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
+                        '<%= aui_tmp %>/carousel/slide.tpl.js',
+
+                        /* collapse */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
+
+                        /* datepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
+                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
+
+                        /* dialog */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
+                        '<%= aui_tmp %>/dialog/message.tpl.js',
+
+                        /* dropdownToggle */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
+
+                        /* modal */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
+
+                        /* pagination */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
+                        '<%= aui_tmp %>/pagination/pager.tpl.js',
+                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
+
+                        /* popover */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
+                        '<%= aui_tmp %>/popover/popover.tpl.js',
+
+                        /* progressbar */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
+                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
+                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
+
+                        /* rating */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
+                        '<%= aui_tmp %>/rating/rating.tpl.js',
+
+                        /* tabs */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
+                        '<%= aui_tmp %>/tabs/tab.tpl.js',
+                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
+
+                        /* timepicker */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
+                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
+
+                        /* tooltip */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
+                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
+
+                        /* typeahead */
+                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
+                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
+
+                        // ui-utils
+                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
+                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
+
+                        // baboon.services
+                        '<%= bbc %>/services/lx.cache.js',
+                        '<%= bbc %>/services/lx.form.js',
+                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.session.js',
+                        '<%= bbc %>/services/lx.socket.js',
+
+                        // baboon.directives
+                        '<%= bbc %>/directives/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort.js',
+
+                        // baboon.module
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
+                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
+                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
+                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
+
+                        // translate
+                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
+                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
+
+                        // common
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
+
+                        // toplevel app
+                        'client/toplevel/admin/**/*.js',
+                        '!client/toplevel/admin/**/*.spec.js'
+                    ]
+                }
+            },
+            admin_css: {
+                files: {
+                    'build/dist/public/css/admin_app.css': [
+                        // toplevel css
+                        'client/toplevel/admin/**/*.css'
                     ]
                 }
             }
@@ -367,6 +643,10 @@ module.exports = function (grunt) {
             ui: {
                 src: ['build/dist/public/js/ui_app.js'],
                 dest: 'build/tmp/ui_app.js'
+            },
+            admin: {
+                src: ['build/dist/public/js/admin_app.js'],
+                dest: 'build/tmp/admin_app.js'
             }
         },
 
@@ -378,7 +658,8 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'build/dist/public/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js'
+                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js',
+                    'build/dist/public/js/admin_app.min.js': 'build/tmp/admin_app.js'
                 }
             }
         },
@@ -388,10 +669,16 @@ module.exports = function (grunt) {
          */
 
         cssmin: {
-            target: {
+            pre_build: {
+                files: {
+                    'build/tmp/default.min.css': ['<%= bbc %>/css/default.css']
+                }
+            },
+            build: {
                 files: {
                     'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
-                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css']
+                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css'],
+                    'build/dist/public/css/admin_app.min.css': ['build/dist/public/css/admin_app.css']
                 }
             }
         },
@@ -399,6 +686,9 @@ module.exports = function (grunt) {
         bgShell: {
             e2e: {
                 cmd: 'node test/fixtures/resetDB.js e2e'
+            },
+            setup: {
+                cmd: 'node scripts/setup.js'
             },
             coverage: {
                 cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
@@ -423,19 +713,18 @@ module.exports = function (grunt) {
             }
         },
 
-        livereload: {
-            port: 35729 // Default livereload listening port.
-        },
-
         // Configuration to be run (and then tested)
-        regarde: {
+        watch: {
+            options: {
+                livereload: 35729
+            },
             client: {
                 files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
-                tasks: ['build:regarde', 'livereload']
+                tasks: ['build:watch']
             },
             server: {
-                files: ['server/api/**/*.*', 'server/controllers/**/*.*', 'server/repositories/**/*.*'],
-                tasks: ['express:dev', 'livereload']
+                files: ['server/modules/**/*.*'],
+                tasks: ['express:dev']
             }
         },
 
@@ -453,7 +742,7 @@ module.exports = function (grunt) {
 
         replace: {
             debug: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -461,7 +750,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -469,24 +758,22 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/views/*.html'],
+                src: ['build/dist/views/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
                     {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                        '<%=livereload.port%>/livereload.js?snipver=1"></script>'}
+                        '<%=watch.options.livereload%>/livereload.js?snipver=1"></script>'}
                 ]
             }
         },
 
         karma: {
             unit: {
-                configFile: 'config/karma.conf.js',
-                browsers: availableBrowser
+                configFile: 'config/karma.conf.js'
             },
             ci: {
                 configFile: 'config/karma.conf.js',
-                browsers: availableBrowser,
                 reporters: ['progress', 'junit'],
                 junitReporter: {
                     outputFile: 'build/reports/tests/karma.xml',
@@ -495,6 +782,7 @@ module.exports = function (grunt) {
             },
             debug: {
                 configFile: 'config/karma.conf.js',
+                detectBrowsers: false,
                 singleRun: false
             },
             coverage: {
@@ -509,6 +797,49 @@ module.exports = function (grunt) {
             },
             e2e: {
                 configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome: {
+                configFile: 'config/karma.e2e.conf.js'
+            },
+            e2e_chrome_canary: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['ChromeCanary'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/chrome_canary.xml',
+                    suite: 'ChromeCanary'
+                }
+            },
+            e2e_firefox: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Firefox'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/firefox.xml',
+                    suite: 'Firefox'
+                }
+            },
+            e2e_safari: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['Safari'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/safari.xml',
+                    suite: 'Safari'
+                }
+            },
+            e2e_ie: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['IE'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/ie.xml',
+                    suite: 'IE'
+                }
+            },
+            e2e_phantom: {
+                configFile: 'config/karma.e2e.conf.js',
+                browsers: ['PhantomJS'],
+                junitReporter: {
+                    outputFile: 'build/reports/jasmine/phantomJS.xml',
+                    suite: 'PhantomJS'
+                }
             }
         },
 
@@ -528,12 +859,11 @@ module.exports = function (grunt) {
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-express-server');
-    grunt.loadNpmTasks('grunt-contrib-livereload');
-    grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -542,27 +872,43 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Tasks
+    grunt.registerTask('setup', [
+        'bgShell:setup'
+    ]);
     grunt.registerTask('build', [
         'clean:dist',
+        'clean:tmp',
         'copy',
+        'html2js',
+        'cssmin:pre_build',
         'concat',
+        'setup',
         'replace:debug'
     ]);
-    grunt.registerTask('build:regarde', [
+    grunt.registerTask('build:watch', [
         'clean:dist',
+        'clean:tmp',
         'copy',
+        'html2js',
+        'cssmin:pre_build',
         'concat',
+        'setup',
         'replace:livereload'
     ]);
     grunt.registerTask('release', [
         'clean:dist',
+        'clean:tmp',
         'copy',
+        'html2js',
+        'cssmin:pre_build',
         'concat',
+        'setup',
         'ngmin',
         'uglify',
-        'cssmin',
+        'cssmin:build',
         'replace:release'
     ]);
     grunt.registerTask('lint', [
@@ -612,6 +958,23 @@ module.exports = function (grunt) {
         'express:e2e',
         'karma:e2e'
     ]);
+    grunt.registerTask('e2e:all', [
+        'jshint:test',
+        'bgShell:e2e',
+        'build',
+        'express:e2e',
+        'karma:e2e_chrome',
+        'bgShell:e2e',
+        'karma:e2e_firefox',
+        'bgShell:e2e',
+        'karma:e2e_chrome_canary',
+        'bgShell:e2e',
+        'karma:e2e_phantom',
+        'bgShell:e2e',
+        'karma:e2e_safari',
+        'bgShell:e2e',
+        'karma:e2e_ie'
+    ]);
     grunt.registerTask('e2e:release', [
         'jshint:test',
         'bgShell:e2e',
@@ -640,14 +1003,10 @@ module.exports = function (grunt) {
         'karma:e2e'
     ]);
     grunt.registerTask('server', [
-        'clean:dist',
-        'copy',
-        'concat',
-        'replace:livereload',
-        'livereload-start',
+        'build:watch',
         'express:dev',
         'open:browser',
-        'regarde'
+        'watch'
     ]);
     grunt.registerTask('ci', [
         'clean',

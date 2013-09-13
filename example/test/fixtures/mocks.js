@@ -1,6 +1,6 @@
 /*global angular, io:true */
 angular.module('mocks', [])
-    .factory('socket', function () {
+    .factory('lxSocket', function () {
         return {
             on: function (eventName, callback) {
                 callback(eventName);

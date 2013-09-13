@@ -8,7 +8,7 @@ angular.module('enterprise', ['enterprise.services'])
         $routeProvider.when('/enterprise/new', {templateUrl: '/enterprise/edit.html', controller: 'newCtrl'});
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
     })
-
+    .constant('enterprise.modulePath', 'example/enterprise/')
 /**
  * Enterprise controller
  */

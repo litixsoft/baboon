@@ -1,8 +1,10 @@
 /*global angular*/
 angular.module('baboon.services',  [
-    'baboon.core',
+    'lx.cache',
     'lx.form',
-    'lx.InlineEdit'
+    'lx.InlineEdit',
+    'lx.session',
+    'lx.socket'
 ]);
 
 

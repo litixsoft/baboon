@@ -1,26 +1,75 @@
-basePath = '../';
+module.exports = function (config) {
+    config.set({
+        // base path, that will be used to resolve files and exclude
+        basePath: '../',
 
-files = [
-    ANGULAR_SCENARIO,
-    ANGULAR_SCENARIO_ADAPTER,
-    'test/e2e/**/*.js'
-];
+        frameworks: ['ng-scenario'],
 
-autoWatch = false;
+        // list of files / patterns to load in the browser
+        files: [
+            'test/e2e/**/*.js'
+        ],
 
-browsers = ['Chrome'];
+        // use dots reporter, as travis terminal does not support escaping sequences
+        // possible values: 'dots', 'progress'
+        // CLI --reporters progress
+        reporters: ['progress', 'junit'],
 
-singleRun = true;
+        junitReporter: {
+            outputFile: 'build/reports/jasmine/chrome.xml',
+            suite: 'Chrome'
+        },
 
-proxies = {
-    '/': 'http://localhost:3003/'
-};
+        // web server port
+        // CLI --port 9876
+        port: 9876,
 
-//logLevel = LOG_DEBUG;
+        // enable / disable colors in the output (reporters and logs)
+        // CLI --colors --no-colors
+        colors: true,
 
-urlRoot = '/_karma_/';
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        // CLI --log-level debug
+        logLevel: config.LOG_INFO,
 
-junitReporter = {
-    outputFile: 'build/reports/e2e.xml',
-    suite: 'e2e'
+        // enable / disable watching file and executing tests whenever any file changes
+        // CLI --auto-watch --no-auto-watch
+        autoWatch: false,
+
+        // Start these browsers, currently available:
+        // - Chrome
+        // - ChromeCanary
+        // - Firefox
+        // - Opera
+        // - Safari (only Mac)
+        // - PhantomJS
+        // - IE (only Windows)
+        // CLI --browsers Chrome,Firefox,Safari
+        browsers: ['Chrome'],
+
+        proxies: {
+            '/': 'http://localhost:3003/'
+        },
+
+        urlRoot: '/_karma_/',
+
+        // If browser does not capture in given timeout [ms], kill it
+        // CLI --capture-timeout 5000
+        captureTimeout: 20000,
+
+        // Auto run tests on start (when browsers are captured) and exit
+        // CLI --single-run --no-single-run
+        singleRun: true,
+
+        plugins: [
+            'karma-chrome-launcher',
+            'karma-firefox-launcher',
+            'karma-ie-launcher',
+            'karma-safari-launcher',
+            'karma-phantomjs-launcher',
+            'karma-junit-reporter',
+            'karma-ng-scenario'
+        ]
+    });
 };

@@ -5,10 +5,11 @@
         "protocol": "http",
         "host": "localhost",
         "port": 3000,
+        "useRightsSystem": true,
         "version": "v0.1.0",
         "sessionKey": "baboon.sid",
         "sessionSecret": "a7f4eb39-744e-43e3-a30b-3ffea846030f",
-        "sessionMaxLife": 604800,
+        "sessionMaxLife": 804600,
         "sessionInactiveTime": 3600,
         "logging": {
             "maxLogSize": 2048000,
@@ -27,7 +28,8 @@
         },
         "mongo": {
             "blog": "localhost:27017/blog?w=0&journal=True&fsync=True",
-            "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True"
+            "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True",
+            "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
         }
     },
     "params": {
@@ -54,20 +56,24 @@
             },
             "mongo": {
                 "blog": "localhost:11111/blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:11111/enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:11111/enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:11111/baboon_rights?w=0&journal=True&fsync=True"
             }
         },
         "unitTest": {
             "mongo": {
                 "blog": "localhost:27017/test_blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:27017/test_enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:27017/test_enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
             }
         },
         "e2e": {
             "port": 3003,
+            "useRightsSystem": false,
             "mongo": {
                 "blog": "localhost:27017/e2e_blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:27017/e2e_enterprise?w=0&journal=True&fsync=True"
+                "enterprise": "localhost:27017/e2e_enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
             }
         }
     }

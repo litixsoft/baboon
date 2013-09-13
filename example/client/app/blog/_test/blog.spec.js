@@ -5,12 +5,12 @@ var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
     beforeEach(module('blog'));
-    beforeEach(module('baboon.core'));
+    beforeEach(module('mocks'));
 
     // blogCtrl tests
     describe('blogCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
                 value = {
                     data: [
@@ -84,15 +84,15 @@ describe('blog', function () {
     // postCtrl tests
     describe('postCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
-            service = $injector.get('socket');
+            service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'blog:addComment') {
+                if (eventName === 'example/blog/blog/addComment') {
                     value = {
                         data: {content: 'text', userName: 'wayne'}
                     };
                 }
 
-                if (eventName === 'blog:getPostById') {
+                if (eventName === 'example/blog/blog/getPostById') {
                     value = {
                         data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
                     };
@@ -149,7 +149,7 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {message: 'server error'};
                         callback(value);
@@ -170,7 +170,7 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('socket');
+                    service = $injector.get('lxSocket');
                     service.emit = function (eventName, data, callback) {
                         value = {errors: []};
                         callback(value);

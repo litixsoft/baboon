@@ -1,36 +1,36 @@
 /*global angular*/
 angular.module('admin.services', [])
-    .factory('authorPosts', function (socket) {
+    .factory('authorPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getById = function (id, callback) {
-            socket.emit('blog:getPostById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'blog/getPostById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (post, callback) {
-            socket.emit('blog:createPost', post, function (result) {
+            lxSocket.emit(modulePath + 'blog/createPost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (post, callback) {
-            socket.emit('blog:updatePost', post, function (result) {
+            lxSocket.emit(modulePath + 'blog/updatePost', post, function (result) {
                 callback(result);
             });
         };
 
         pub.addComment = function (id, comment, callback) {
             comment.post_id = id;
-            socket.emit('blog:addComment', comment, function (result) {
+            lxSocket.emit(modulePath + 'blog/addComment', comment, function (result) {
                 callback(result);
             });
         };
 
         return pub;
-    })
-    .factory('tags', function (socket) {
+    }])
+    .factory('tags', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
         var pub = {},
             tags = [];
 
@@ -38,7 +38,7 @@ angular.module('admin.services', [])
 
         pub.getAll = function (query, callback) {
             if (pub.refresh) {
-                socket.emit('blog:getAllTags', query, function (result) {
+                lxSocket.emit(modulePath + 'blog/getAllTags', query, function (result) {
                     if (result.data) {
                         tags = result.data;
                         pub.refresh = false;
@@ -52,22 +52,22 @@ angular.module('admin.services', [])
         };
 
         pub.createTag = function (tag, callback) {
-            socket.emit('blog:createTag', tag, function (result) {
+            lxSocket.emit(modulePath + 'blog/createTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.updateTag = function (tag, callback) {
-            socket.emit('blog:updateTag', tag, function (result) {
+            lxSocket.emit(modulePath + 'blog/updateTag', tag, function (result) {
                 callback(result);
             });
         };
 
         pub.deleteTag = function (id, callback) {
-            socket.emit('blog:deleteTag', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'blog/deleteTag', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         return pub;
-    });
+    }]);
