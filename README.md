@@ -106,6 +106,18 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * extend with new features
 
 ## Release History
+### v0.1.5
+
+* Fix bugs
+* sessions
+* msgBox
+* auth
+* navigation
+* rights system
+* admin area
+* new design
+* localisation
+
 ### v0.1.2
 
 * Fix bugs
