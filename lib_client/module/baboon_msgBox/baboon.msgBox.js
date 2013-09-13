@@ -1,7 +1,8 @@
 /*global angular*/
-angular.module('baboon.msgBox',  [])
-    .factory('msgBox', function () {
+angular.module('baboon.msgBox',  ['baboon.msgBox.tpl/msgBox.html'])
+    .factory('msgBox',['$modal', function ($modal) {
         var pub = {},
+            modalInstance,
             modal = {
                 opts: {
                     backdropClick: false,
@@ -14,11 +15,12 @@ angular.module('baboon.msgBox',  [])
          * Closes the modal window and clears the error message/action.
          */
         modal.close = function () {
-            modal.shouldBeOpen = false;
+//            modal.shouldBeOpen = false;
             modal.headline = '';
             modal.message = '';
             modal.type = '';
             modal.action = null;
+            modalInstance.dismiss('cancel');
         };
 
         /**
@@ -30,11 +32,15 @@ angular.module('baboon.msgBox',  [])
          * @param {function=} callback The callback action when click the ok button in the modal window.
          */
         modal.show = function (headline, message, type, callback) {
-            modal.shouldBeOpen = true;
+//            modal.shouldBeOpen = true;
             modal.headline = headline || '';
             modal.message = message;
             modal.type = type || 'Error';
             modal.action = callback;
+
+            modalInstance = $modal.open({
+                templateUrl: 'baboon.msgBox.tpl/msgBox.html'
+            });
         };
 
         /**
@@ -44,7 +50,6 @@ angular.module('baboon.msgBox',  [])
             if (typeof modal.action === 'function') {
                 modal.action.call();
             }
-
             modal.close();
         };
 
@@ -52,4 +57,4 @@ angular.module('baboon.msgBox',  [])
         pub.modal = modal;
 
         return pub;
-    });
+    }]);
