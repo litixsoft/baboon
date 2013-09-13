@@ -9,7 +9,7 @@ module.exports = function (config) {
         files: [
             '../lib_client/vendor/angular/angular.js',
             '../lib_client/vendor/angular/angular-mocks.js',
-            'client/_common/**/*.js',
+            '../client/common/**/*.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',
             '../lib_client/module/**/*.js',
@@ -19,8 +19,8 @@ module.exports = function (config) {
         ],
 
         exclude: [
-            'client/_public/**/*.js',
-            'client/_common/*.js'
+            'client/public/**/*.js',
+            'client/common/*.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences
@@ -29,9 +29,10 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            'client/example_app/**/*.js': 'coverage',
-            'client/admin/**/*.js': 'coverage',
-            'client/ui_examples/**/*.js': 'coverage'
+            'client/app/**/*.js': 'coverage',
+            'client/common/**/*.js': 'coverage',
+            'client/toplevel/admin/**/*.js': 'coverage',
+            'client/toplevel/ui_examples/**/*.js': 'coverage'
         },
 
         coverageReporter: {

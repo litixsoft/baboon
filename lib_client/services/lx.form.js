@@ -114,7 +114,7 @@ angular.module('lx.form', [])
 
                     for (var i = 0; i < errors.length; i++) {
                         // set form errors
-                        form.errors[errors[i].property] = errors[i].attribute + ' ' + errors[i].message;
+                        form.errors[errors[i].property] = errors[i].message;
                     }
                 }
             };

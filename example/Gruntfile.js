@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
-        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/_public/**/*.js',
+        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
             'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -93,23 +93,21 @@ module.exports = function (grunt) {
         copy: {
             client: {
                 files: [
-                    // all public files that need to be copy.
-                    {dest: 'build/dist/public', src: ['**', '!*.html'], expand: true, cwd: 'client/_public/'},
 
-                    // all public html files
-                    {dest: 'build/dist/views', src: ['*.html'], expand: true, cwd: 'client/_public/'},
+                    // all public files
+                    {dest: 'build/dist/public', src: ['**'], expand: true, cwd: 'client/public/'},
 
                     // all lib_client/module html files
                     {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: '<%= bbc %>/module/'},
 
+                    // all app html files
+                    {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
+
                     // all common html files
-                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/_common/'},
+                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
 
-                    // all app html views that need to be copy.
-                    {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/<%= pkg.name %>/'},
-
-                    // all top level apps html views that need to be copy.
-                    {dest: 'build/dist/views/', src: ['**/*.html', '!_common/**/*.html', '!_public/**/*.html', '!<%= pkg.name %>/**/*.html'], expand: true, cwd: 'client/'},
+                    // all toplevel and partials html files
+                    {dest: 'build/dist/views', src: ['**/*.html', '!app/**', '!common/**', '!public/**'], expand: true, cwd: 'client/'},
 
                     // all bootstrap image files that need to be copy.
                     {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
@@ -311,12 +309,12 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/_common/**/*.js',
-                        '!client/_common/**/*.spec.js',
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
 
                         // app
-                        'client/<%= pkg.name %>/**/*.js',
-                        '!client/<%= pkg.name %>/**/*.spec.js'
+                        'client/app/**/*.js',
+                        '!client/app/**/*.spec.js'
                     ]
                 }
             },
@@ -324,7 +322,7 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/public/css/app.css': [
                         // app css files
-                        'client/<%= pkg.name %>/**/*.css'
+                        'client/app/**/*.css'
                     ]
                 }
             },
@@ -463,12 +461,12 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/_common/**/*.js',
-                        '!client/_common/**/*.spec.js',
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
 
                         // toplevel app
-                        'client/ui_examples/**/*.js',
-                        '!client/ui_examples/**/*.spec.js'
+                        'client/toplevel/ui_examples/**/*.js',
+                        '!client/toplevel/ui_examples/**/*.spec.js'
                     ]
                 }
             },
@@ -476,7 +474,7 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/public/css/ui_app.css': [
                         // toplevel css
-                        'client/ui_examples/**/*.css'
+                        'client/toplevel/ui_examples/**/*.css'
                     ]
                 }
             },
@@ -614,12 +612,12 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
 
                         // common
-                        'client/_common/**/*.js',
-                        '!client/_common/**/*.spec.js',
+                        'client/common/**/*.js',
+                        '!client/common/**/*.spec.js',
 
                         // toplevel app
-                        'client/admin/**/*.js',
-                        '!client/admin/**/*.spec.js'
+                        'client/toplevel/admin/**/*.js',
+                        '!client/toplevel/admin/**/*.spec.js'
                     ]
                 }
             },
@@ -627,7 +625,7 @@ module.exports = function (grunt) {
                 files: {
                     'build/dist/public/css/admin_app.css': [
                         // toplevel css
-                        'client/admin/**/*.css'
+                        'client/toplevel/admin/**/*.css'
                     ]
                 }
             }

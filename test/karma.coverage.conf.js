@@ -12,12 +12,14 @@ module.exports = function (config) {
             'lib_client/vendor/showdown/src/showdown.js',
             'lib_client/services/**/*.js',
             'lib_client/directives/**/*.js',
+            'lib_client/module/**/*.js',
             'test/lib_client/**/*.js'
         ],
 
         preprocessors: {
             'lib_client/services/**/*.js': 'coverage',
-            'lib_client/directives/**/*.js': 'coverage'
+            'lib_client/directives/**/*.js': 'coverage',
+            'lib_client/module/**/*.js': 'coverage'
         },
 
         // use dots reporter, as travis terminal does not support escaping sequences

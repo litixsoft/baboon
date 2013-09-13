@@ -16,7 +16,8 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        jshint_files_to_test: ['Gruntfile.js', 'lib/**/*.js', 'lib_client/directives/**/*.js', 'lib_client/services/**/*.js', 'test/**/*.js'],
+        jshint_files_to_test: ['Gruntfile.js', 'lib/**/*.js', 'lib_client/directives/**/*.js',
+            'lib_client/services/**/*.js','lib_client/module/**/*.js', 'test/**/*.js'],
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
