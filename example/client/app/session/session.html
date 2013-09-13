@@ -6,9 +6,9 @@
 
         <p>
             Sessions werden in Baboon vom Server mit den Parametern aus der config/app.conf.json erzeugt und verwaltet.
-            Baboon beinhaltet Clientseitig einen Session-Service. Über diesen Service kann der Client mit der Session
-            interagieren. Hier finden Sie Beispiele wie dies funktioniert. Eine vollständige Dokumentation der Sessions
-            in Baboon finden Sie unter: <a href="http://litixsoft.de/documentation/baboon/sessions">Baboon Session Dokumentation</a>.
+            Baboon beinhaltet Clientseitig einen Session-Service. Über diesen Service kann der Client mit der Session interagieren.
+            Hier finden Sie Beispiele wie dies funktioniert. Eine vollständige Dokumentation der Sessions in Baboon
+            finden Sie unter: <a href="http://litixsoft.de/documentation/baboon/sessions">Baboon Session Dokumentation</a>.
         </p>
 
         <h3>Aktivität der Session melden</h3>
@@ -46,23 +46,29 @@ $scope.getLastActivity = function() {
     <h4>SetLastActivity</h4>
     <p>Aktuelle Zeit als letzte Aktivität in der Session speichern.</p>
 <pre class="prettyprint">
-session.setActivity();
+session.setActivity(callback);
 </pre>
 <pre class="prettyprint">
 $scope.setActivity = function(){
     var now = new Date();
-    $log.info('set activity to ' + now);
-    session.setActivity();
+    log(1, 'set activity to ' + now);
+    lxSession.setActivity(function(err) {
+        if(err) {
+            log(1, err);
+        }
+    });
 };
 </pre>
-        <p>
-            Öffnen Sie für die Beispiele Ihre Konsole (F12)
-        </p>
-
         <p>
             <button class="btn btn-info" ng-click="setActivity()">Set activity</button>
             <button class="btn btn-info" ng-click="getLastActivity()">Get last activity</button>
         </p>
+        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
+            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_1">
+                <li>{{item}}</li>
+            </ul>
+        </div>
+        <button class="btn btn-danger" ng-click="clearLog(1)">Clear Log</button>
         <h3>Daten in der Session speichern, auslesen und löschen</h3>
         <p>
             Sie können über den Session-Service vom Client aus Daten in der Session speichern, abrufen und löschen.
@@ -172,10 +178,6 @@ $scope.deleteData = function () {
 };
 </pre>
         <p>
-            Öffnen Sie für die Beispiele Ihre Konsole (F12)
-        </p>
-
-        <p>
 
             <input ng-model="data.key" placeholder="session key">
             <input ng-model="data.value" placeholder="session value">
@@ -186,5 +188,11 @@ $scope.deleteData = function () {
             <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
             <button class="btn btn-info" ng-click="deleteData()">Delete SessionData</button>
         </p>
+        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
+            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_2">
+                <li>{{item}}</li>
+            </ul>
+        </div>
+        <button class="btn btn-danger" ng-click="clearLog(2)" style="margin-bottom: 1em">Clear Log</button>
     </div>
 </div>
