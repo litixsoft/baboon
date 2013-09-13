@@ -52,6 +52,11 @@ angular.module('lx.float', [])
                 });
 
                 ctrl.$formatters.unshift(function (modelValue) {
+                    if(modelValue === undefined || modelValue === null) {
+                        ctrl.$setValidity('float', true);
+                        return modelValue;
+                    }
+
                     ctrl.$setValidity('float', !isNaN(modelValue));
 
                     if (!isNaN(modelValue)) {

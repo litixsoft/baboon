@@ -28,6 +28,10 @@ angular.module('lx.integer', [])
                 });
 
                 ctrl.$formatters.unshift(function (modelValue) {
+                    if(modelValue === undefined || modelValue === null) {
+                        ctrl.$setValidity('integer', true);
+                        return modelValue;
+                    }
                     ctrl.$setValidity('integer', !isNaN(modelValue));
 
                     if (!isNaN(modelValue) && modelValue !== null) {
