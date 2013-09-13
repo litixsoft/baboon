@@ -20,7 +20,13 @@ angular.module('ui_app', [
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
         function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
             $rootScope.$on('$routeChangeStart', function () {
-                lxSession.setActivity();
+                lxSession.setActivity(function(err) {
+                    if (err) {
+                        msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
+                            window.location.assign('/login');
+                        });
+                    }
+                });
             });
 
             // get users preferred language from session

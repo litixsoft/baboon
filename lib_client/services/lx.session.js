@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('lx.session', [])
     // Service for session handling
-    .factory('lxSession', ['$rootScope', '$http', '$log', 'msgBox', function ($rootScope, $http, $log, msgBox) {
+    .factory('lxSession', ['$rootScope', '$http', '$log', function ($rootScope, $http, $log) {
         var pub = {};
 
         // save key value in session
@@ -88,18 +88,10 @@ angular.module('lx.session', [])
         };
 
         // check session and set activity time
-        pub.setActivity = function () {
+        pub.setActivity = function (callback) {
             $http.post('/api/session/setActivity')
                 .error(function (data, status) {
-                    if (status === 500) {
-                        $log.error(data.message);
-                    } else {
-                        $log.warn(data.message);
-                    }
-
-                    msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
-                        window.location.assign('/login');
-                    });
+                    callback({status: status, data: data});
                 });
         };
 
