@@ -79,11 +79,7 @@ angular.module('lx.session', [])
                     callback(null, data);
                 })
                 .error(function (data, status) {
-                    if (status === 500) {
-                        $log.error(data.message);
-                    } else {
-                        $log.warn(data.message);
-                    }
+                    callback({status: status, data: data});
                 });
         };
 

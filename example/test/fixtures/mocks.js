@@ -9,6 +9,16 @@ angular.module('mocks', [])
                 callback(data);
             }
         };
+    })
+    .factory('lxSession', function() {
+        return {
+            getLastActivity: function (callback) {
+                callback({},{});
+            },
+            setActivity: function (callback) {
+                callback({},{});
+            }
+        };
     });
 
 // socket io mock
