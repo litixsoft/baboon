@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="app">
+<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="<% if(locals.mod_name){ %><%= locals.mod_name %><% } %>app">
 <head>
     <meta charset="utf-8">
-    <title><% if(locals.title){ %><%= locals.title %><% } %></title>
+    <title><% if(locals.title){ %><%= locals.title %><% } else { %>Baboon Example App<% }%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <% if(locals.description){ %><meta name="description" content="<%= locals.description %>"><% } %>
-    <% if(locals.keywords){ %><meta name="keywords" content="<%= locals.keywords %>"><% } %>
-    <% if(locals.author){ %><meta name="author" content="<%= locals.author %>"><% } %>
+    <meta name="description" content="Framework zum schnellen und performanten Aufbau von Anwendungen und Websites.">
+    <meta name="keywords" content="Baboon, Baboonstack, Javascript, Angular, RedisIO, MongoDb,Node.js,Express.js">
+    <meta name="author" content="Litixsoft GmbH">

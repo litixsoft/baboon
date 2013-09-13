@@ -16,14 +16,15 @@ var path = require('path'),
 app.get('/ui', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('ui_examples/ui');
+        res.render('ui_examples/ui',{mod_name: 'ui_'});
+
     });
 });
 
 app.get('/ui/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('ui_examples/ui');
+        res.render('ui_examples/ui',{mod_name: 'ui_'});
     });
 });
 
@@ -31,7 +32,7 @@ app.get('/ui/*', function (req, res) {
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/admin');
+        res.render('admin/admin',{mod_name: 'admin_'});
     });
 });
 
