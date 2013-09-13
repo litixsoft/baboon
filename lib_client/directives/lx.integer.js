@@ -30,11 +30,11 @@ angular.module('lx.integer', [])
                 ctrl.$formatters.unshift(function (modelValue) {
                     ctrl.$setValidity('integer', !isNaN(modelValue));
 
-                    if (!isNaN(modelValue)) {
-                        modelValue = parseInt(modelValue, 10);
+                    if (!isNaN(modelValue) && modelValue !== null) {
+                        modelValue = parseInt(modelValue, 10).toString();
                     }
 
-                    return modelValue.toString();
+                    return modelValue;
                 });
             }
         };
