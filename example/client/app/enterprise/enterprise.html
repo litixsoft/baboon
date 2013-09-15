@@ -12,7 +12,11 @@
             }
 
         </style>
-        <h2>Enterprise</h2>
+        <h2>Enterprise Beispiel</h2>
+        <p>
+            Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
+        </p>
+        <h3>Enterprise-Crew</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -29,27 +33,5 @@
             </tr>
             </tbody>
         </table>
-        <div>
-            <button class="btn" ng-click="open()">Open me!</button>
-            <div modal="shouldBeOpen" close="close()" options="opts">
-                <div class="modal-header">
-                    <h4>I'm a modal!</h4>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li ng-repeat="item in items">{{item}}</li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-
-        <h4>File Input Demo</h4>
-        <input type="file" lx-file-upload multiple on-files-selected="onFilesSelected(files)" />
-
-        <pre>{{ files | json }}</pre>
     </div>
 </div>
