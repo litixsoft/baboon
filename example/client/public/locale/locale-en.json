@@ -27,8 +27,18 @@
     "AUTH_FAILED": "Login failed, please check your username and password.",
     "SERVER_ERROR": "500: Internal Server Error",
     "LOGIN": "Login",
+    "GENDER": "Gender",
+    "FIRSTNAME": "Firstname",
+    "LASTNAME": "Lastname",
+    "EMAIL": "Email",
+    "EMAIL_REPEAT" : "Email (repeat)",
+    "PASSWORD": "Password",
+    "PASSWORD_REPEAT": "Password (repeat)",
     "ENTER_USERNAME": "Enter username",
     "ENTER_PASSWORD": "Enter password",
+    "ENTER_EMAIL": "Enter email",
+    "ENTER_FIRSTNAME": "Enter firstname",
+    "ENTER_LASTNAME": "Enter lastname",
     "REGISTER": "Register",
     "FORGET_PASSWORD": "Forget username / password"
 }

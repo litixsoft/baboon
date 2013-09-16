@@ -27,8 +27,18 @@
     "AUTH_FAILED": "Anmeldung fehlgeschlagen, überprüfen Sie bitte Ihren Benutzernamen und Ihr Passwort.",
     "SERVER_ERROR": "500: Internal Server Error",
     "LOGIN": "Anmelden",
+    "GENDER": "Anrede",
+    "FIRSTNAME": "Vorname",
+    "LASTNAME": "Nachname",
+    "EMAIL": "Email",
+    "EMAIL_REPEAT" : "Email (wiederholen)",
+    "PASSWORD": "Passwort",
+    "PASSWORD_REPEAT": "Passwort (wiederholen)",
     "ENTER_USERNAME": "Benutzernamen eingeben",
     "ENTER_PASSWORD": "Passwort eingeben",
+    "ENTER_EMAIL": "Emailadresse eingeben",
+    "ENTER_FIRSTNAME": "Vornamen eingeben",
+    "ENTER_LASTNAME": "Nachnamen eingeben",
     "REGISTER": "Registrieren",
     "FORGET_PASSWORD": "Benutzernamen / Passwort vergessen"
 }
