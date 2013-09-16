@@ -639,22 +639,22 @@ module.exports = function (grunt) {
     grunt.registerTask('debug', [
         'karma:debug'
     ]);
-    grunt.registerTask('unitClient', [
+    grunt.registerTask('test:client', [
         'jshint:test',
         'karma:unit'
     ]);
-    grunt.registerTask('coverClient', [
+    grunt.registerTask('cover:client', [
         'clean:coverageClient',
         'jshint:test',
         'karma:coverage',
         'open:coverageClient'
     ]);
-    grunt.registerTask('unitServer', [
+    grunt.registerTask('test:server', [
         'clean:jasmine',
         'jshint:test',
         'jasmine_node'
     ]);
-    grunt.registerTask('coverServer', [
+    grunt.registerTask('cover:server', [
         'clean:coverageServer',
         'jshint:test',
         'bgShell:coverage',

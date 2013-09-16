@@ -9,7 +9,6 @@ module.exports = function (config) {
         files: [
             '../lib_client/vendor/angular/angular.js',
             '../lib_client/vendor/angular/angular-mocks.js',
-            '../client/common/**/*.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',
             '../lib_client/module/**/*.js',
