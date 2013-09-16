@@ -2,6 +2,7 @@
 angular.module('baboon.auth',  ['baboon.auth.services'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/api/auth/register', {templateUrl: '/baboon_auth/register.html'});
+        $routeProvider.when('/api/auth/forget', {templateUrl: '/baboon_auth/forget.html'});
     }])
     .controller('baboon.auth.loginCtrl', ['$scope', '$window', 'auth', function ($scope, $window, auth) {
 
