@@ -16,6 +16,11 @@ module.exports = function (config) {
             'test/lib_client/**/*.js'
         ],
 
+        // list of excluded files / patterns
+        exclude: [
+            'lib_client/vendor/angular-ui-bootstrap/*tpls*.js'
+        ],
+
         preprocessors: {
             'lib_client/services/**/*.js': 'coverage',
             'lib_client/directives/**/*.js': 'coverage',

@@ -1521,7 +1521,7 @@ angular.module('ui.bootstrap.modal', [])
       };
 
       $modalStack.dismiss = function (modalInstance, reason) {
-        var modalWindow = openedWindows.get(modalInstance).value;
+          var modalWindow = (openedWindows.get(modalInstance) || {}).value;
         if (modalWindow) {
           modalWindow.deferred.reject(reason);
           removeModalWindow(modalInstance);

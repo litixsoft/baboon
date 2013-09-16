@@ -1,4 +1,4 @@
-/*---------------------------bar---------------------------*/
+/*global angular*/
 angular.module('baboon.msgBox.tpl/msgBox.html', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put('baboon.msgBox.tpl/msgBox.html',
         '<div class="lx-modal-msg">\n ' +
