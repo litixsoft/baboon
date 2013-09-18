@@ -143,7 +143,7 @@ describe('lxPager', function () {
 
         setTimeout(function () {
             expect(elementScope.currentPage).toBe(1);
-        }, 250);
+        }, 750);
     });
 
     describe('has a function refresh() which', function () {
