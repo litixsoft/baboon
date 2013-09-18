@@ -34,7 +34,7 @@
         "grunt-ngmin": "0.0.3",
         "grunt-open": "~0.2.2",
         "grunt-text-replace": "~0.3.7",
-        "istanbul": "~0.1.43",
+        "istanbul": "~0.1.44",
         "karma-detect-browsers": "*",
         "karma-coverage": "*",
         "karma-junit-reporter": "*",

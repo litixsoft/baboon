@@ -1,9 +1,9 @@
 /*global describe, it, expect, beforeEach */
 'use strict';
 
-var appMock = require('../../../fixtures/serverMock.js')(),
+var appMock = require('../../../../../fixtures/serverMock.js')(),
     repo = require(appMock.config.path.modules + '/example/blog/repositories')(appMock.config.mongo.blog),
-    sut = repo.tags,
+    sut = repo.comments,
     data = null;
 
 beforeEach(function (done) {
@@ -12,11 +12,12 @@ beforeEach(function (done) {
 
     // test data
     data = {
-        name: 'go'
+        content: 'text',
+        email: 'chuck@norris.de'
     };
 });
 
-describe('tagRepository', function () {
+describe('commentRepository', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.validate).toBe('function');
     });
@@ -26,49 +27,40 @@ describe('tagRepository', function () {
             sut.validate(data, {}, function (err, res) {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
-                expect(data.name).toBe('go');
+                expect(data.content).toBe('text');
+                expect(data.email).toBe('chuck@norris.de');
 
                 sut.validate(data, function (err, res) {
                     expect(res.valid).toBeTruthy();
                     expect(res.errors.length).toBe(0);
-                    expect(data.name).toBe('go');
+                    expect(data.content).toBe('text');
+                    expect(data.email).toBe('chuck@norris.de');
 
                     done();
                 });
             });
         });
 
-        it('should check if the name is unique', function (done) {
-            sut.create(data, function (err, res) {
-                expect(res[0].name).toBe('go');
-                expect(typeof res[0]._id).toBe('object');
+        it('should valid to false when the email is in wrong format', function (done) {
+            sut.validate({email: 'go', content: 'ee'}, function (err, res) {
+                expect(res.valid).toBeFalsy();
+                expect(res.errors.length).toBe(1);
+                expect(res.errors[0].attribute).toBe('format');
 
-                sut.validate({name: 'go'}, null, function (err, res) {
-                    expect(res.valid).toBeFalsy();
-                    expect(res.errors.length).toBe(1);
-                    expect(res.errors[0].attribute).toBe('checkTagName');
-                    expect(res.errors[0].message).toBe('name already exists');
-
-                    done();
-                });
+                done();
             });
         });
 
-        it('should not check if the name is unique when updating a tag', function (done) {
+        it('should not valid to false when updating a comment', function (done) {
             sut.create(data, function (err, res) {
-                expect(res[0].name).toBe('go');
+                expect(res[0].content).toBe('text');
                 expect(typeof res[0]._id).toBe('object');
 
-                sut.validate({name: 'go'}, {isUpdate: true}, function (err, res) {
-                    expect(res.valid).toBeFalsy();
-                    expect(res.errors.length).toBe(1);
+                sut.validate({username: 'wayne'}, {isUpdate: true}, function(err, res) {
+                    expect(res.valid).toBeTruthy();
+                    expect(res.errors.length).toBe(0);
 
-                    sut.validate({wayne: 'go'}, {isUpdate: true}, function (err, res) {
-                        expect(res.valid).toBeTruthy();
-                        expect(res.errors.length).toBe(0);
-
-                        done();
-                    });
+                    done();
                 });
             });
         });

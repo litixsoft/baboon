@@ -1,7 +1,7 @@
 /*global describe, it, expect, beforeEach, spyOn */
 'use strict';
 
-var appMock = require('../../fixtures/serverMock.js')(),
+var appMock = require('../../../../../fixtures/serverMock.js')(),
     sut = require(appMock.config.path.modules + '/example/blog').blog(appMock),
     repo = require(appMock.config.path.modules + '/example/blog/repositories')(appMock.config.mongo.blog),
     post = null,
