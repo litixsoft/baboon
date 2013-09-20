@@ -6,14 +6,12 @@ angular.module('enterprise', ['enterprise.services'])
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox', 'lxAlert', '$timeout',
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox', 'lxAlert',
         function ($scope, enterpriseCrew, msgBox, lxAlert) {
 
         $scope.headline = 'Üerschrift';
         $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
         $scope.type = 'Error';
-        $scope.visible = false;
-        $scope.visible2 = false;
 
 //        $scope.callbackObj = function(){
 //            console.log('OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
@@ -31,11 +29,11 @@ angular.module('enterprise', ['enterprise.services'])
 //            },
             cbYes : function(){
                 console.log('YES: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-                $scope.visible = $scope.visible2 = false;
+                $scope.visible.element = $scope.visible.element2 = false;
             },
             cbNo : function(){
                 console.log('NO: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-                $scope.visible = $scope.visible2 = false;
+                $scope.visible.element = $scope.visible.element2 = false;
             }
         };
 
@@ -68,7 +66,9 @@ angular.module('enterprise', ['enterprise.services'])
             // visible vars for controller
             $scope.visible = {
                 reset: false,
-                create: false
+                create: false,
+                element: false,
+                element2: false
             };
 
             // init get all members and register watch for crew
@@ -131,7 +131,7 @@ angular.module('enterprise', ['enterprise.services'])
                             lxAlert.error(result.message);
                         }
                     });
-                });
+                }, 'standard');
             };
         }])
     .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', 'lxAlert',

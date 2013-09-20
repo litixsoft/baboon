@@ -44,13 +44,13 @@
         <p ui-if="visible.create">
             <button class="btn" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
         </p>
-        <button class="btn" ng-click="visible2 = !visible">show as element</button>
-        <button class="btn" ng-click="visible2 = !visible2">show as attribute in div</button>
+        <button class="btn" ng-click="visible.element = !visible.element">show as element</button>
+        <button class="btn" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>
 
         <!-- use mmsgbox as element -->
-        <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible"></bb-msgbox>
+        <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element"></bb-msgbox>
 
         <!-- use mmsgbox as attribute -->
-        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible2"></div>
+        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element2"></div>
     </div>
 </div>
