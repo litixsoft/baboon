@@ -6,34 +6,19 @@ angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/m
             modal = { };
 
         /**
-         * Closes the modal window and clears the error message/action. is called by every action like: yes, no,ok,close
-         */
-        modal.reset = function () {
-            modal.headline = '';
-            modal.message = '';
-            modal.type = '';
-            modal.actionOk = null;
-            modal.actionClose = null;
-            modal.actionYes = null;
-            modal.actionNo = null;
-
-            if (modalInstance) {
-                modalInstance.dismiss('cancel');
-            }
-        };
-
-        /**
          * Opens the modal window.
          *
          * @param {string} headline The headline to show.
          * @param {string} message The message to show.
          * @param {string=} type The message type.
          * @param {function=} callback The callback action when click the ok button in the modal window OR {object=} object with multible callbacks
+         * @param {string=} cssClass an optinal css class to manipulate the msgbox style
          */
-        modal.show = function (headline, message, type, callObj) { //callbackOk, callbackClose, callbackYes, callbackNo,
+        modal.show = function (headline, message, type, callObj, cssClass) { //callbackOk, callbackClose, callbackYes, callbackNo,
             modal.headline = headline || '';
             modal.message = message;
-            modal.type = type || 'Error';
+            modal.type = type || '';
+            modal.class = cssClass || '';
 
             if(typeof(callObj)=== 'function'){
                 modal.actionOk = callObj;
@@ -51,6 +36,23 @@ angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/m
                 keyboard: false,
                 templateUrl: 'baboon.msgBox.tpl/msgBox.html'
             });
+        };
+
+        /**
+         * Closes the modal window and clears the error message/action. is called by every action like: yes, no,ok,close
+         */
+        modal.reset = function () {
+            modal.headline = '';
+            modal.message = '';
+            modal.type = '';
+            modal.actionOk = null;
+            modal.actionClose = null;
+            modal.actionYes = null;
+            modal.actionNo = null;
+
+            if (modalInstance) {
+                modalInstance.dismiss('cancel');
+            }
         };
 
         /**

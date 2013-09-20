@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('baboon.msgBox.tpl/msgBox.html', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put('baboon.msgBox.tpl/msgBox.html',
-        '<div class="">\n ' +
+        '<div class="lx-modal-msg {{ modal.class }}">\n ' +
             '<div class="modal-header">\n ' +
                 '<h4>{{ modal.type }}</h4>\n ' +
                 '<p>{{ modal.headline}}</p>\n ' +

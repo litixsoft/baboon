@@ -30,28 +30,6 @@
             </tbody>
         </table>
 
-        <!--<bb-msgbox>-->
-            <!--<div>-->
-                <!--<div class="modal-header">-->
-                    <!--<h4>{{ modal.type }}</h4>-->
-                    <!--<p>{{ modal.headline}}</p>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<div class="row-fluid">-->
-                        <!--<div class="span3">-->
-                            <!--<div class="icon"></div>-->
-                        <!--</div>-->
-                        <!--<div class="span9">-->
-                            <!--<h4>{{ modal.message }}</h4>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button class="btn" ng-click="modal.close()">Close</button>-->
-                    <!--<button class="btn btn-primary" ng-click="modal.ok()" ng-show="!!modal.action">Ok</button>-->
-                 <!--</div>-->
-            <!--</div>-->
-        <!--</bb-msgbox>-->
 
         <!--<div>-->
             <!--<button class="btn" ng-click="open()">Open me!</button>-->
@@ -81,10 +59,10 @@
         <button class="btn" ng-click="visible2 = !visible2">show as attribute in div</button>
 
         <!-- use mmsgbox as element -->
-        <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-show="visible"></bb-msgbox>
+        <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible"></bb-msgbox>
 
         <!-- use mmsgbox as attribute -->
-        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-show="visible2"></div>
+        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible2"></div>
 
 
     </div>
