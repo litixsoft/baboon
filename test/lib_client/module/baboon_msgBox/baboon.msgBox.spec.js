@@ -5,6 +5,7 @@ describe('baboon message box', function () {
     var service;
 
     beforeEach(function () {
+        module('ui.bootstrap.modal');
         module('baboon.msgBox');
     });
 
@@ -26,7 +27,6 @@ describe('baboon message box', function () {
         it('should open the dialog and set the message and headline', function () {
             service.modal.show('header', 'wayne');
 
-            expect(service.modal.shouldBeOpen).toBeTruthy();
             expect(service.modal.headline).toBe('header');
             expect(service.modal.message).toBe('wayne');
             expect(service.modal.type).toBe('Error');
@@ -36,7 +36,6 @@ describe('baboon message box', function () {
         it('should open the dialog and set the type', function () {
             service.modal.show('', '', 'Warning');
 
-            expect(service.modal.shouldBeOpen).toBeTruthy();
             expect(service.modal.headline).toBe('');
             expect(service.modal.message).toBe('');
             expect(service.modal.type).toBe('Warning');
@@ -46,7 +45,6 @@ describe('baboon message box', function () {
         it('should open the dialog and set the callback', function () {
             service.modal.show('header', 'wayne', 'Info', function () {});
 
-            expect(service.modal.shouldBeOpen).toBeTruthy();
             expect(service.modal.headline).toBe('header');
             expect(service.modal.message).toBe('wayne');
             expect(service.modal.type).toBe('Info');
@@ -57,7 +55,6 @@ describe('baboon message box', function () {
         it('should close the dialog', function () {
             service.modal.close();
 
-            expect(service.modal.shouldBeOpen).toBeFalsy();
             expect(service.modal.message).toBe('');
             expect(service.modal.type).toBe('');
             expect(service.modal.action).toBeNull();
@@ -67,7 +64,6 @@ describe('baboon message box', function () {
             service.modal.show('header', 'wayne');
             service.modal.ok();
 
-            expect(service.modal.shouldBeOpen).toBeFalsy();
             expect(service.modal.headline).toBe('');
             expect(service.modal.message).toBe('');
             expect(service.modal.type).toBe('');
@@ -87,7 +83,6 @@ describe('baboon message box', function () {
 
             service.modal.ok();
 
-            expect(service.modal.shouldBeOpen).toBeFalsy();
             expect(service.modal.message).toBe('');
             expect(service.modal.type).toBe('');
             expect(service.modal.action).toBeNull();

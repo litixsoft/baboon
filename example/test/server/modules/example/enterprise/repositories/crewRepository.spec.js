@@ -1,7 +1,7 @@
 /*global describe, it, expect, beforeEach */
 'use strict';
 
-var appMock = require('../../../fixtures/serverMock.js')(),
+var appMock = require('../../../../../fixtures/serverMock.js')(),
     repo = require(appMock.config.path.modules + '/example/enterprise/repositories')(appMock.config.mongo.enterprise),
     sut = repo.crew,
     data = null;

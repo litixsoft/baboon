@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('ui.if',[]).directive('uiIf', [function () {
+angular.module('ui.if', []).directive('uiIf', [function () {
     return {
         transclude: 'element',
         priority: 1000,
@@ -11,7 +11,7 @@ angular.module('ui.if',[]).directive('uiIf', [function () {
                 var childElement;
                 var childScope;
 
-                scope.$watch(attr['uiIf'], function (newValue) {
+                scope.$watch(attr.uiIf, function (newValue) {
                     if (childElement) {
                         childElement.remove();
                         childElement = undefined;

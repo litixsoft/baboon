@@ -9,24 +9,58 @@ angular.module('enterprise', ['enterprise.services'])
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox', 'lxAlert', '$timeout',
         function ($scope, enterpriseCrew, msgBox, lxAlert) {
 
-            // getAll members from service
-            var getAllMembers = function () {
-                enterpriseCrew.getAll({}, function (result) {
-                    $scope.crew = result.data;
+        $scope.headline = 'Üerschrift';
+        $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
+        $scope.type = 'Error';
+        $scope.visible = false;
+        $scope.visible2 = false;
 
-                    // watch the crew and show or hide
-                    $scope.$watch('crew', function (value) {
-                        if (value.length === 0) {
-                            $scope.visible.reset = false;
-                            $scope.visible.create = true;
-                        }
-                        else {
-                            $scope.visible.reset = true;
-                            $scope.visible.create = false;
-                        }
-                    });
+//        $scope.callbackObj = function(){
+//            console.log('OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
+//            $scope.visible = $scope.visible2 = false;
+//        };
+
+        $scope.callbackObj = {
+//            cbOk : function(){
+//                console.log('OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
+//                $scope.visible = $scope.visible2 = false;
+//            },
+//            cbClose : function(){
+//                console.log('CLOSE: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
+//                $scope.visible = $scope.visible2 = false;
+//            },
+            cbYes : function(){
+                console.log('YES: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
+                $scope.visible = $scope.visible2 = false;
+            },
+            cbNo : function(){
+                console.log('NO: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
+                $scope.visible = $scope.visible2 = false;
+            }
+        };
+
+        // getAll members from service
+        var getAllMembers = function () {
+            enterpriseCrew.getAll({}, function (result) {
+                $scope.crew = result.data;
+
+                // watch the crew and show or hide
+                $scope.$watch('crew', function (value) {
+                    if (value.length === 0) {
+                        $scope.visible.reset = false;
+                        $scope.visible.create = true;
+                    }
+                    else {
+                        $scope.visible.reset = true;
+                        $scope.visible.create = false;
+                    }
                 });
-            };
+            });
+        };
+
+        $scope.open = function () {
+            $scope.shouldBeOpen = true;
+        };
 
             // bind lxAlert service to $scope //
             $scope.alert = lxAlert;
