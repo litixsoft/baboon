@@ -182,6 +182,7 @@ module.exports = function (grunt) {
                         '<%= bbc %>/services/lx.InlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',
@@ -246,6 +247,7 @@ module.exports = function (grunt) {
                         '<%= bbc %>/services/lx.InlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',
@@ -309,6 +311,7 @@ module.exports = function (grunt) {
                         '<%= bbc %>/services/lx.InlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',

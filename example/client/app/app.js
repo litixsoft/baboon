@@ -24,14 +24,21 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
         function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
-        $rootScope.$on('$routeChangeStart', function () {
-            lxSession.setActivity(function(err) {
-                if (err) {
-                    msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
-                        window.location.assign('/login');
+
+            $rootScope.firstCall = true;
+            $rootScope.$on('$routeChangeStart', function () {
+                if(!$rootScope.firstCall) {
+                    lxSession.setActivity(function(err) {
+                        if (err) {
+                            msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
+                                window.location.assign('/login');
+                            });
+                        }
                     });
                 }
-            });
+                else {
+                    $rootScope.firstCall = false;
+                }
         });
 
         // get users preferred language from session

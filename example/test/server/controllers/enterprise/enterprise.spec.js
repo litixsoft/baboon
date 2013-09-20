@@ -191,7 +191,6 @@ describe('Enterprise Controller', function () {
                 });
             });
         });
-
         it('should delete nothing when the id is not specified', function (done) {
             sut.createMember(person, function () {
                 sut.deleteMember(null, function (res) {
@@ -204,6 +203,28 @@ describe('Enterprise Controller', function () {
                         expect(appMock.logging.audit.info).toHaveBeenCalled();
                         expect(appMock.logging.audit.info.calls.length).toBe(1);
                         expect(appMock.logging.syslog.error).toHaveBeenCalled();
+
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    describe('has a function resetMembersDb() which', function () {
+        it('should reset members database', function (done) {
+            sut.createMember(person, function () {
+                sut.resetMembersDb(function (res) {
+                    expect(res).toBeDefined();
+                    expect(res.data.length).toBe(4);
+                    expect(res.data[0].name).toBe('Picard');
+                    expect(res.data[0].description).toBe('Captain');
+
+                    sut.getAllMembers({}, function (res) {
+                        expect(res.data.length).toBe(4);
+                        expect(appMock.logging.audit.info).toHaveBeenCalled();
+                        expect(appMock.logging.audit.info.calls.length).toBe(3);
+                        expect(appMock.logging.syslog.error).wasNotCalled();
 
                         done();
                     });

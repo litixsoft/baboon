@@ -147,5 +147,58 @@ module.exports = function (app) {
         });
     };
 
+    /**
+     * Create test members in crew collection.
+     * @param {object} data The query.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.createTestMembers = function (data, callback) {
+        data = data || {};
+
+        var testCrew = [
+            {name: 'Picard', description: 'Captain'},
+            {name: 'Riker', description: 'Number One'},
+            {name: 'Worf', description: 'Security'},
+            {name: 'La Forge', description: 'Engineer'}
+        ];
+
+        // save in repo
+        repo.crew.create(testCrew, function (error, result) {
+            if (error) {
+                syslog.error('%s! creating test crew in db: %j', error, testCrew);
+                callback({message: 'Could not create test crew!'});
+                return;
+            }
+
+            if (result) {
+                audit.info('Created test crew in db: %j', testCrew);
+                callback({data: result});
+            }
+        });
+    };
+
+    /**
+     * Delete all members in crew collection.
+     * Generate test crew members in crew collection.
+     * @param {object} data The query.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.deleteAllMembers = function (data, callback) {
+        data = data || {};
+
+        repo.crew.delete({}, function (error, result) {
+            if (error || result === 0) {
+                syslog.error('%s! deleting crew in db', error);
+                callback({message: 'Could not delete crew!'});
+                return;
+            }
+
+            if (result) {
+                audit.info('Deleted all crew members in db');
+                callback({success: result});
+            }
+        });
+    };
+
     return pub;
 };

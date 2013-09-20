@@ -29,21 +29,38 @@ module.exports = function (collection) {
         baseRepo = lxDb.BaseRepo(collection, schema),
         validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
 
-    // validators
-    baseRepo.checkName = function (name, callback) {
-        baseRepo.getOne({name: name}, function (err, res) {
+    // async validator: check if name already exists
+    baseRepo.checkName = function (doc, callback) {
+
+        // query search the name in other documents
+        var query = {
+            name: doc.name,
+            _id: {
+                $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
+            }
+        };
+
+        // get query
+        baseRepo.getOne(query, function (err, res) {
             if (err) {
                 callback(err);
             } else if (res) {
-                callback(null, {valid: false, errors: [
+
+                // find name in other documents, validation error
+                callback(null,
                     {
-                        attribute: 'checkName',
-                        property: 'name',
-                        expected: false,
-                        actual: true,
-                        message: 'name already exists'
+                        valid: false,
+                        errors: [
+                            {
+                                attribute: 'Name',
+                                property: 'name',
+                                expected: false,
+                                actual: true,
+                                message: 'name already exists'
+                            }
+                        ]
                     }
-                ]});
+                );
             }
             else {
                 callback(null, {valid: true});
@@ -51,28 +68,20 @@ module.exports = function (collection) {
         });
     };
 
+    // start validation
     baseRepo.validate = function (doc, options, callback) {
         if (typeof options === 'function') {
             callback = options;
             options = {};
         }
 
-        doc = doc || {};
         options = options || {};
 
+        // schema validation
         var valResult = validationFunction(doc, options.schema || schema(), options);
-        var checkName = true;
-
-        if (options.isUpdate) {
-            if (!doc.hasOwnProperty('name')) {
-                checkName = false;
-            }
-        }
 
         // register async validator
-        if (checkName) {
-            val.asyncValidate.register(baseRepo.checkName, doc.name);
-        }
+        val.asyncValidate.register(baseRepo.checkName, doc);
 
         // async validate
         val.asyncValidate.exec(valResult, callback);

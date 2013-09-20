@@ -17,21 +17,32 @@
             Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
         </p>
         <h3>Enterprise-Crew</h3>
+        <alert type="alert.type" ui-if="alert.visible" close="alert.close()">{{alert.msg}}</alert>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <td>Name</td>
                     <td>Description</td>
-                    <td><a href="/enterprise/new"><i class="icon-plus-sign"></i></a></td>
+                    <td style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
+                        <i class="icon-plus-sign"></i></a></td>
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="person in enterpriseCrew">
+            <tr ng-repeat="person in crew">
                 <td>{{person.name}}</td>
                 <td>{{person.description}}</td>
-                <td><a href="/enterprise/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+                <td style="text-align: right">
+                    <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><i class="icon-edit"></i></a>&nbsp;
+                    <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><i class=" icon-trash"></i></a>
+                </td>
             </tr>
             </tbody>
         </table>
+        <p ui-if="visible.reset">
+            <button class="btn" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+        </p>
+        <p ui-if="visible.create">
+            <button class="btn" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+        </p>
     </div>
 </div>
