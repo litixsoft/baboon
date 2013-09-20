@@ -11,16 +11,11 @@ angular.module('baboon.msgBox.directives',[]) //
                 msgCbs: '='
             },
             link: function (scope) {
-
-                scope.checkVisibility = function(){
+                scope.$watch('msgShow',function(value){
                     //if visible use factory to show msgbox
-                    if(scope.msgShow){
+                    if(value){
                         msgBox.modal.show(scope.msgHeadline,scope.msgMessage,scope.msgType,scope.msgCbs);
                     }
-                }
-
-                scope.$watch('msgShow',function(value){
-                    scope.checkVisibility();
                 });
             }
         };

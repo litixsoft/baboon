@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/msgBox.html','baboon.msgBox.tpl/msgBox2.html'])//,'baboon.msgBox.directive.tpl/msgBox2.html'])
+angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/msgBox.html'])
     .factory('msgBox', ['$modal', function ($modal) {
         var pub = {},
             modalInstance,
@@ -61,7 +61,7 @@ angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/m
                 modal.actionYes.call();
             }
             modal.reset();
-        }
+        };
         /**
          * Executes the NO action and closes the modal window
          */
@@ -70,7 +70,7 @@ angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/m
                 modal.actionNo.call();
             }
             modal.reset();
-        }
+        };
 
         /**
          * Executes the OK action and closes the modal window
