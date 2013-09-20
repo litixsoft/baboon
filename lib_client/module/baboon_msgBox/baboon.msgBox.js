@@ -1,24 +1,21 @@
 /*global angular*/
-angular.module('baboon.msgBox', ['baboon.msgBox.tpl/msgBox.html'])
+angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/msgBox.html','baboon.msgBox.tpl/msgBox2.html'])//,'baboon.msgBox.directive.tpl/msgBox2.html'])
     .factory('msgBox', ['$modal', function ($modal) {
         var pub = {},
             modalInstance,
-            modal = {
-                opts: {
-                    backdropClick: false,
-                    backdropFade: true,
-                    dialogFade: true
-                }
-            };
+            modal = { };
 
         /**
-         * Closes the modal window and clears the error message/action.
+         * Closes the modal window and clears the error message/action. is called by every action like: yes, no,ok,close
          */
-        modal.close = function () {
+        modal.reset = function () {
             modal.headline = '';
             modal.message = '';
             modal.type = '';
-            modal.action = null;
+            modal.actionOk = null;
+            modal.actionClose = null;
+            modal.actionYes = null;
+            modal.actionNo = null;
 
             if (modalInstance) {
                 modalInstance.dismiss('cancel');
@@ -31,27 +28,67 @@ angular.module('baboon.msgBox', ['baboon.msgBox.tpl/msgBox.html'])
          * @param {string} headline The headline to show.
          * @param {string} message The message to show.
          * @param {string=} type The message type.
-         * @param {function=} callback The callback action when click the ok button in the modal window.
+         * @param {function=} callback The callback action when click the ok button in the modal window OR {object=} object with multible callbacks
          */
-        modal.show = function (headline, message, type, callback) {
+        modal.show = function (headline, message, type, callObj) { //callbackOk, callbackClose, callbackYes, callbackNo,
             modal.headline = headline || '';
             modal.message = message;
             modal.type = type || 'Error';
-            modal.action = callback;
+
+            if(typeof(callObj)=== 'function'){
+                modal.actionOk = callObj;
+            } else if(typeof(callObj)=== 'object'){
+                modal.actionOk = callObj.cbOk;
+                modal.actionClose = callObj.cbClose;
+                modal.actionYes = callObj.cbYes;
+                modal.actionNo = callObj.cbNo;
+            } else {
+                modal.actionClose = true;
+            }
 
             modalInstance = $modal.open({
+                backdrop: 'static',
+                keyboard: false,
                 templateUrl: 'baboon.msgBox.tpl/msgBox.html'
             });
         };
 
         /**
-         * Executes the action and closes the modal window
+         * Executes the YES action and closes the modal window
+         */
+        modal.yes = function() {
+            if (typeof modal.actionYes === 'function') {
+                modal.actionYes.call();
+            }
+            modal.reset();
+        }
+        /**
+         * Executes the NO action and closes the modal window
+         */
+        modal.no = function() {
+            if (typeof modal.actionNo === 'function') {
+                modal.actionNo.call();
+            }
+            modal.reset();
+        }
+
+        /**
+         * Executes the OK action and closes the modal window
          */
         modal.ok = function () {
-            if (typeof modal.action === 'function') {
-                modal.action.call();
+            if (typeof modal.actionOk === 'function') {
+                modal.actionOk.call();
             }
-            modal.close();
+            modal.reset();
+        };
+        /**
+         * Executes the CLOSE action and closes the modal window
+         */
+        modal.close = function () {
+            if (typeof modal.actionOk === 'function') {
+                modal.actionClose.call();
+            }
+            modal.reset();
         };
 
         // api

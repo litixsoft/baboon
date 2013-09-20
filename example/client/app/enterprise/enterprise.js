@@ -14,6 +14,38 @@ angular.module('enterprise', ['enterprise.services'])
  */
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
 
+        $scope.headline = "erschrift";
+        $scope.message = "Hallo Herr/Frau User(in), was soll ich nun machen?"
+        $scope.type = "Error";
+        $scope.visible = false;
+        $scope.visible2 = false;
+
+//        $scope.callbackObj = function(){
+//            console.log("OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox");
+//            $scope.visible = $scope.visible2 = false;
+//        };
+
+        $scope.callbackObj = {
+//            cbOk : function(){
+//                console.log("OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox");
+//                $scope.visible = $scope.visible2 = false;
+//            },
+//            cbClose : function(){
+//                console.log("CLOSE: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox");
+//                $scope.visible = $scope.visible2 = false;
+//            },
+            cbYes : function(){
+                console.log("YES: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox");
+                $scope.visible = $scope.visible2 = false;
+            },
+            cbNo : function(){
+                console.log("NO: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox");
+                $scope.visible = $scope.visible2 = false;
+            }
+        };
+
+
+
         enterpriseCrew.getAll(function (data) {
             $scope.enterpriseCrew = data;
         });
