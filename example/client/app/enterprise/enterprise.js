@@ -40,16 +40,10 @@ angular.module('enterprise', ['enterprise.services'])
                 });
             };
 
-            $scope.open = function () {
-                $scope.shouldBeOpen = true;
-            };
-
             // visible vars for controller
             $scope.visible = {
                 reset: false,
-                create: false,
-                element: false,
-                element2: false
+                create: false
             };
 
             // init get all members and register watch for crew

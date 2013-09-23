@@ -52,7 +52,7 @@ module.exports = function (collection) {
                         valid: false,
                         errors: [
                             {
-                                attribute: 'Name',
+                                attribute: 'checkName',
                                 property: 'name',
                                 expected: false,
                                 actual: true,
@@ -75,6 +75,7 @@ module.exports = function (collection) {
             options = {};
         }
 
+        doc = doc || {};
         options = options || {};
 
         // schema validation
