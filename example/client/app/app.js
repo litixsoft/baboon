@@ -27,6 +27,7 @@ angular.module('app', [
 
             // bind lxAlert service to $rootScope
             $rootScope.lxAlert = lxAlert;
+            $rootScope.lxModal = msgBox;
 
             $rootScope.$on('$routeChangeStart', function () {
 

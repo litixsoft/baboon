@@ -34,7 +34,8 @@ angular.module('baboon.msgBox', ['baboon.msgBox.directives','baboon.msgBox.tpl/m
             modalInstance = $modal.open({
                 backdrop: 'static',
                 keyboard: false,
-                templateUrl: 'baboon.msgBox.tpl/msgBox.html'
+//                templateUrl: 'baboon.msgBox.tpl/msgBox.html'
+                templateUrl: '/baboon_msgBox/baboon.msgBox.html'
             });
         };
 
