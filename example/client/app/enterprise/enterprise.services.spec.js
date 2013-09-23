@@ -24,7 +24,9 @@ describe('enterprise services', function () {
             expect(typeof service.getById).toBe('function');
             expect(typeof service.update).toBe('function');
             expect(typeof service.create).toBe('function');
+            expect(typeof service.createTestMembers).toBe('function');
             expect(typeof service.delete).toBe('function');
+            expect(typeof service.deleteAllMembers).toBe('function');
         });
 
         it('should return all members', function () {
@@ -121,22 +123,6 @@ describe('enterprise services', function () {
 
             runs(function () {
                 expect(value.id).toBe(99);
-            });
-        });
-        it('should reset crew members database', function () {
-            var value, flag;
-
-            runs(function () {
-                flag = false;
-
-                service.resetMembersDb(function (data) {
-                    value = data;
-                    flag = true;
-                });
-            });
-
-            runs(function () {
-                expect(typeof value).toBe('object');
             });
         });
     });

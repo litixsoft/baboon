@@ -12,12 +12,6 @@ angular.module('enterprise', ['enterprise.services'])
             // alert helper var
             var lxAlert = $scope.lxAlert;
 
-            console.log(lxAlert);
-
-            $scope.headline = 'Üerschrift';
-            $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
-            $scope.type = 'Error';
-
             // getAll members from service
             var getAllMembers = function () {
                 enterpriseCrew.getAll({}, function (result) {
@@ -37,16 +31,10 @@ angular.module('enterprise', ['enterprise.services'])
                 });
             };
 
-            $scope.open = function () {
-                $scope.shouldBeOpen = true;
-            };
-
             // visible vars for controller
             $scope.visible = {
                 reset: false,
-                create: false,
-                element: false,
-                element2: false
+                create: false
             };
 
             // init get all members and register watch for crew
@@ -109,7 +97,7 @@ angular.module('enterprise', ['enterprise.services'])
                             else if (result.message) {
                                 lxAlert.error(result.message);
                             }
-                        })
+                        });
                     },
                     cbNo: function () {}
                 },'standard');
