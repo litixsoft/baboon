@@ -2,23 +2,23 @@
 angular.module('lx.alert', [])
     // Service for angular-ui alert handling
     .factory('lxAlert', ['$log', '$timeout', function ($log, $timeout) {
-        var alert = {};
+        var pub = {};
 
         // timeout for show alert box
-        alert.timeout = 5000;
+        pub.timeout = 5000;
 
         // logLevel for $log
-        alert.logLevel = 'info';
+        pub.logLevel = 'info';
 
         // show or hide alert message box
-        alert.visible = false;
+        pub.visible = false;
 
         // private for timeout cancel
         var promise = null;
 
         // private close helper
         var close = function() {
-            alert.visible = false;
+            pub.visible = false;
         };
 
         // private log helper
@@ -26,16 +26,16 @@ angular.module('lx.alert', [])
 
             var level = 0;
 
-            if (alert.logLevel === 'info') {
+            if (pub.logLevel === 'info') {
                 level = 4;
             }
-            if (alert.logLevel === 'success') {
+            if (pub.logLevel === 'success') {
                 level = 3;
             }
-            if (alert.logLevel === 'warning') {
+            if (pub.logLevel === 'warning') {
                 level = 2;
             }
-            if (alert.logLevel === 'error') {
+            if (pub.logLevel === 'error') {
                 level = 1;
             }
 
@@ -55,48 +55,48 @@ angular.module('lx.alert', [])
 
         // private show helper
         var show = function(type, msg) {
-            alert.type = type;
-            alert.msg = msg;
-            alert.visible = true;
+            pub.type = type;
+            pub.msg = msg;
+            pub.visible = true;
 
             // log in console
             log(type, msg);
 
             // timeout for close alert
-            if (alert.timeout > 0) {
+            if (pub.timeout > 0) {
                 if(promise) {
                     $timeout.cancel(promise);
                 }
                 promise = $timeout(function() {
                     close();
-                }, alert.timeout);
+                }, pub.timeout);
             }
         };
 
         // close alert message
-        alert.close = function() {
+        pub.close = function() {
             close();
         };
 
         // show info alert message
-        alert.info = function (message) {
+        pub.info = function (message) {
             show('info', message);
         };
 
         // show success alert message
-        alert.success = function (message) {
+        pub.success = function (message) {
             show('success', message);
         };
 
         // show warning alert message
-        alert.warning = function (message) {
+        pub.warning = function (message) {
             show('warning', message);
         };
 
         // show error alert message
-        alert.error = function (message) {
+        pub.error = function (message) {
             show('error', message);
         };
 
-        return alert;
+        return pub;
     }]);

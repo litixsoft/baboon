@@ -6,62 +6,40 @@ angular.module('enterprise', ['enterprise.services'])
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox', 'lxAlert',
-        function ($scope, enterpriseCrew, msgBox, lxAlert) {
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox',
+        function ($scope, enterpriseCrew, msgBox) {
 
-        $scope.headline = 'Üerschrift';
-        $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
-        $scope.type = 'Error';
+            // alert helper var
+            var lxAlert = $scope.lxAlert;
 
-//        $scope.callbackObj = function(){
-//            console.log('OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-//            $scope.visible = $scope.visible2 = false;
-//        };
+            console.log(lxAlert);
 
-        $scope.callbackObj = {
-//            cbOk : function(){
-//                console.log('OK: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-//                $scope.visible = $scope.visible2 = false;
-//            },
-//            cbClose : function(){
-//                console.log('CLOSE: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-//                $scope.visible = $scope.visible2 = false;
-//            },
-            cbYes : function(){
-                console.log('YES: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-                $scope.visible.element = $scope.visible.element2 = false;
-            },
-            cbNo : function(){
-                console.log('NO: -----> Ich bin die Rückmeldung der Directive bb-msgbox, der Rückmeldung der Factory msgBox');
-                $scope.visible.element = $scope.visible.element2 = false;
-            }
-        };
+            $scope.headline = 'Üerschrift';
+            $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
+            $scope.type = 'Error';
 
-        // getAll members from service
-        var getAllMembers = function () {
-            enterpriseCrew.getAll({}, function (result) {
-                $scope.crew = result.data;
+            // getAll members from service
+            var getAllMembers = function () {
+                enterpriseCrew.getAll({}, function (result) {
+                    $scope.crew = result.data;
 
-                // watch the crew and show or hide
-                $scope.$watch('crew', function (value) {
-                    if (value.length === 0) {
-                        $scope.visible.reset = false;
-                        $scope.visible.create = true;
-                    }
-                    else {
-                        $scope.visible.reset = true;
-                        $scope.visible.create = false;
-                    }
+                    // watch the crew and show or hide
+                    $scope.$watch('crew', function (value) {
+                        if (value.length === 0) {
+                            $scope.visible.reset = false;
+                            $scope.visible.create = true;
+                        }
+                        else {
+                            $scope.visible.reset = true;
+                            $scope.visible.create = false;
+                        }
+                    });
                 });
-            });
-        };
+            };
 
-        $scope.open = function () {
-            $scope.shouldBeOpen = true;
-        };
-
-            // bind lxAlert service to $scope //
-            $scope.alert = lxAlert;
+            $scope.open = function () {
+                $scope.shouldBeOpen = true;
+            };
 
             // visible vars for controller
             $scope.visible = {
@@ -121,24 +99,24 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew member by id
             $scope.deleteMember = function (id, name) {
-                msgBox.modal.show('', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', function () {
-                    enterpriseCrew.delete(id, function (result) {
-                        if (result.success) {
-                            lxAlert.success('crew member ' + name + ' deleted.');
-                            getAllMembers();
-                        }
-                        else if (result.message) {
-                            lxAlert.error(result.message);
-                        }
-                    });
-                }, 'standard');
+                msgBox.modal.show('Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                    cbYes: function () {
+                        enterpriseCrew.delete(id, function (result) {
+                            if (result.success) {
+                                lxAlert.success('crew member ' + name + ' deleted.');
+                                getAllMembers();
+                            }
+                            else if (result.message) {
+                                lxAlert.error(result.message);
+                            }
+                        })
+                    },
+                    cbNo: function () {}
+                },'standard');
             };
         }])
-    .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', 'lxAlert',
-        function ($scope, $location, $routeParams, enterpriseCrew, lxAlert) {
-
-            // bind lxAlert service to $scope
-            $scope.alert = lxAlert;
+    .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew',
+        function ($scope, $location, $routeParams, enterpriseCrew) {
 
             // visible vars for controller
             $scope.visible = {
@@ -157,24 +135,21 @@ angular.module('enterprise', ['enterprise.services'])
                         $location.path('/enterprise');
                     }
                     else if (result.errors) {
-                        lxAlert.warning('Server: validation Errors');
+                        $scope.lxAlert.warning('Server: validation Errors');
                         $scope.validationErrors = result.errors;
                         $scope.visible.errors = true;
                     }
                     else if (result.message) {
-                        lxAlert.error(result.message);
+                        $scope.lxAlert.error(result.message);
                     }
                 });
             };
         }])
-    .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew', 'lxAlert',
-        function ($scope, $location, enterpriseCrew, lxAlert) {
+    .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew',
+        function ($scope, $location, enterpriseCrew) {
 
             // empty person
             $scope.person = {name: '', description: ''};
-
-            // bind lxAlert service to $scope
-            $scope.alert = lxAlert;
 
             // visible vars for controller
             $scope.visible = {
@@ -190,13 +165,13 @@ angular.module('enterprise', ['enterprise.services'])
                         $location.path('/enterprise');
                     }
                     else if (result.errors) {
-                        lxAlert.warning('Server: validation Errors');
+                        $scope.lxAlert.warning('Server: validation Errors');
                         $scope.validationErrors = result.errors;
                         $scope.visible.errors = true;
 
                     }
                     else if (result.message) {
-                        lxAlert.error(result.message);
+                        $scope.lxAlert.error(result.message);
                     }
                 });
             };

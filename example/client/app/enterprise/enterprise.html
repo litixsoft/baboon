@@ -17,7 +17,6 @@
             Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
         </p>
         <h3>Enterprise-Crew</h3>
-        <alert type="alert.type" ui-if="alert.visible" close="alert.close()">{{alert.msg}}</alert>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -44,13 +43,8 @@
         <p ui-if="visible.create">
             <button class="btn" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
         </p>
-        <button class="btn" ng-click="visible.element = !visible.element">show as element</button>
-        <button class="btn" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>
-
         <!-- use mmsgbox as element -->
         <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element"></bb-msgbox>
 
-        <!-- use mmsgbox as attribute -->
-        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element2"></div>
     </div>
 </div>
