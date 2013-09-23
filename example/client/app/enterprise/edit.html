@@ -2,19 +2,20 @@
     <div class="p-wrapper">
 
         <h2>Enterprise Edit</h2>
-        <alert type="alert.type" ui-if="alert.visible" close="alert.close()">{{alert.msg}}</alert>
-        <form class="form">
+        <form name="form" class="css-form" novalidate>
             <fieldset>
                 <legend>Crew Member</legend>
                 <div>
-                    <input type="text" ng-model="person.name" placeholder="Enter Name">
+                    <input type="text" name="name" ng-model="person.name" placeholder="Enter Name" required>
+                    <span ng-show="form.name.$error.required">Name is required.</span>
                 </div>
                 <div>
-                    <input type="text" ng-model="person.description" placeholder="Enter Description">
+                    <input type="text" name="description" ng-model="person.description" placeholder="Enter Description" required>
+                    <span ng-show="form.description.$error.required">Description is required.</span>
                 </div>
                 <div>
                     <a ng-href="/enterprise" class="btn"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
-                    <button ng-click="save()" class="btn"><i class="icon-ok"></i>&nbsp;Speichern</button>
+                    <button ng-click="save()" ng-disabled="form.$invalid" class="btn"><i class="icon-ok"></i>&nbsp;Speichern</button>
                 </div>
             </fieldset>
         </form>
