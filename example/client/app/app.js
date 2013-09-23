@@ -22,18 +22,18 @@ angular.module('app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox', 'lxAlert',
-        function ($rootScope, lxSession, $log, $translate, $window, msgBox, lxAlert) {
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal', 'lxAlert',
+        function ($rootScope, lxSession, $log, $translate, $window, lxModal, lxAlert) {
 
             // bind lxAlert service to $rootScope
             $rootScope.lxAlert = lxAlert;
-            $rootScope.lxModal = msgBox;
+            $rootScope.lxModal = lxModal;
 
             $rootScope.$on('$routeChangeStart', function () {
 
                 lxSession.setActivity(function (err) {
                     if (err) {
-                        msgBox.modal.show('', 'Session is expired! Please log in.', 'Warning', function () {
+                        lxModal.msgBox('', 'Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/login');
                         });
                     }
@@ -57,7 +57,7 @@ angular.module('app', [
                 }
             });
 
-            $rootScope.modal = msgBox.modal;
+            $rootScope.modal = lxModal.modal;
 
             $rootScope.changeLanguage = function (langKey) {
                 // tell angular-translate to use the new language

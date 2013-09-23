@@ -1,0 +1,22 @@
+<div class="lx-modal-msg {{ lxModal.class }}">
+    <div class="modal-header">
+        <h4>{{ lxModal.type }}</h4>
+        <p>{{ lxModal.headline}}</p>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="icon"></div>
+            </div>
+            <div class="span9">
+                <h4>{{ lxModal.message }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="lxModal.yes()" ng-show="!!lxModal.actionYes">Yes</button>
+        <button class="btn btn-primary" ng-click="lxModal.no()" ng-show="!!lxModal.actionNo">No</button>
+        <button class="btn" ng-click="lxModal.close()" ng-show="!!lxModal.actionClose">Close</button>
+        <button class="btn btn-primary" ng-click="lxModal.ok()" ng-show="!!lxModal.actionOk">Ok</button>
+    </div>
+</div>

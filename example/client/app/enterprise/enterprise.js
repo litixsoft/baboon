@@ -6,11 +6,14 @@ angular.module('enterprise', ['enterprise.services'])
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'msgBox',
-        function ($scope, enterpriseCrew, msgBox) {
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'lxModal',
+        function ($scope, enterpriseCrew, lxModal) {
 
             // alert helper var
             var lxAlert = $scope.lxAlert;
+
+//            // modal helper var
+//            var lxModal = $scope.lxModal;
 
             console.log(lxAlert);
 
@@ -99,7 +102,7 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew member by id
             $scope.deleteMember = function (id, name) {
-                msgBox.modal.show('Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                lxModal.msgBox('Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
                     cbYes: function () {
                         enterpriseCrew.delete(id, function (result) {
                             if (result.success) {
@@ -109,7 +112,7 @@ angular.module('enterprise', ['enterprise.services'])
                             else if (result.message) {
                                 lxAlert.error(result.message);
                             }
-                        })
+                        });
                     },
                     cbNo: function () {}
                 },'standard');

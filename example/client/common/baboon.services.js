@@ -5,7 +5,8 @@ angular.module('baboon.services',  [
     'lx.InlineEdit',
     'lx.session',
     'lx.socket',
-    'lx.alert'
+    'lx.alert',
+    'lx.modal'
 ]);
 
 
