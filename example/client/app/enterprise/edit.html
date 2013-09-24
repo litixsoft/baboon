@@ -2,23 +2,39 @@
     <div class="p-wrapper">
 
         <h2>Enterprise Edit</h2>
-        <form name="form" class="css-form" novalidate>
+        <form name="form" class="css-form form-horizontal" novalidate style="box-shadow:0 1px 6px rgba(0,0,0,0.2);background:#f8f8f8;border-radius: 9px;border:1px solid rgba(255,255,255,0.9);">
             <fieldset>
-                <legend>Crew Member</legend>
-                <div>
-                    <input type="text" name="name" ng-model="person.name" placeholder="Enter Name" required>
-                    <span ng-show="form.name.$error.required">Name is required.</span>
+
+                <div style="padding:10px;">
+
+                    <legend>Crew Member</legend>
+
+                    <div class="control-group" ng-class="{error : form.name.$error.required}">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input type="text" id="name" name="name" ng-model="person.name" placeholder="Enter Name" required>
+                            <span ng-show="form.name.$error.required" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group" ng-class="{error : form.description.$error.required}">
+                        <label class="control-label" for="description">Description</label>
+                        <div class="controls">
+                            <input type="text" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required>
+                            <span ng-show="form.description.$error.required" style="cursor:pointer" class="label label-important" popover="Description is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
+                        </div>
+                    </div>
+
+                    <alert type="'error'" close style="margin-bottom:0;">{{validationErrors}} Fehler sind hier.</alert><!-- ui-if="visible.errors"  -->
+
                 </div>
-                <div>
-                    <input type="text" name="description" ng-model="person.description" placeholder="Enter Description" required>
-                    <span ng-show="form.description.$error.required">Description is required.</span>
-                </div>
-                <div>
+
+                <div class="form-actions" style="margin-bottom: 0">
                     <a ng-href="/enterprise" class="btn"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
                     <button ng-click="save()" ng-disabled="form.$invalid" class="btn"><i class="icon-ok"></i>&nbsp;Speichern</button>
                 </div>
             </fieldset>
         </form>
-        <p ui-if="visible.errors" style="color: red">{{validationErrors}}</p>
+
     </div>
 </div>

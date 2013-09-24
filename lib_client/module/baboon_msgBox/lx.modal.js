@@ -18,7 +18,7 @@ angular.module('lx.modal', ['lx.modal.directives'])//,'baboon.msgBox.tpl/msgBox.
 
             pub.headline = headline || '';
             pub.message = message;
-            pub.type = type || '';
+            pub.type = type || 'info';
             pub.class = cssClass || '';
 
             if(typeof(callObj)=== 'function'){

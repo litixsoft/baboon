@@ -2,18 +2,24 @@
 'use strict';
 
 describe('baboon message box', function () {
-    var service;
+    var service,scope,$compile;
 
     beforeEach(function () {
         module('ui.bootstrap.modal');
         module('lx.modal');
     });
 
+
     describe('lxModal', function () {
         beforeEach(function () {
-            inject(function ($injector) {
+
+            inject(function ($injector,_$rootScope_, _$compile_, $templateCache) {
                 service = $injector.get('lxModal');
+                scope = _$rootScope_;
+                $compile = _$compile_;
+                $templateCache.put('/baboon_msgBox/msgBox.html', '<p>Hello</p>');
             });
+
         });
 
         it('should be initialized correctly', function () {
@@ -25,10 +31,10 @@ describe('baboon message box', function () {
         });
 
         it('should open the dialog and set the message and headline', function () {
-//            service.msgBox('header', 'wayne');
-//            expect(service.headline).toBe('header');
-//            expect(service.message).toBe('wayne');
-//            expect(service.type).toBe('Error');
+            service.msgBox('header', 'wayne');
+            expect(service.headline).toBe('header');
+            expect(service.message).toBe('wayne');
+            expect(service.type).toBe('info');
 //            expect(service.actionOk).toBeUndefined();
 //            expect(service.actionClose).toBeUndefined();
 //            expect(service.actionYes).toBeUndefined();
