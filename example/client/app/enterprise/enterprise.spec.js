@@ -11,7 +11,7 @@ dataTmp = [
 describe('enterprise', function () {
     beforeEach(module('lx.alert'));
     beforeEach(module('ui.bootstrap.modal'));
-    beforeEach(module('baboon.msgBox'));
+    beforeEach(module('lx.modal'));
     beforeEach(module('enterprise'));
     beforeEach(module('mocks'));
 
