@@ -9,12 +9,11 @@
 
                     <legend>Crew Member</legend>
 
-                    <div ng-init="person.count=0" class="control-group" ng-class="{error : (form.name.$error.required && person.count > 0)}">
+                    <div ng-init="person.count=1" class="control-group" ng-class="{error : (form.name.$error.required && person.count > 0)}">
                         <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            <input type="text" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count++;" required>
-                            <span ng-click="person.count=2;">{{ person.count}}</span>
-                            <span ng-show="form.name.$error.required" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
+                            <input type="text" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required>
+                            <span ng-show="form.name.$error.required && person.count > 0" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
                         </div>
                     </div>
 
