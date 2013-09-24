@@ -12,58 +12,44 @@
             }
 
         </style>
-        <h2>Enterprise</h2>
+        <h2>Enterprise Beispiel</h2>
+        <p>
+            Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
+        </p>
+        <h3>Enterprise-Crew</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <td>Name</td>
                     <td>Description</td>
-                    <td><a href="/enterprise/new"><i class="icon-plus-sign"></i></a></td>
+                    <td style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
+                        <i class="icon-plus-sign"></i></a></td>
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="person in enterpriseCrew">
+            <tr ng-repeat="person in crew">
                 <td>{{person.name}}</td>
                 <td>{{person.description}}</td>
-                <td><a href="/enterprise/edit/{{$index}}"><i class="icon-edit"></i></a></td>
+                <td style="text-align: right">
+                    <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><i class="icon-edit"></i></a>&nbsp;
+                    <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><i class=" icon-trash"></i></a>
+                </td>
             </tr>
             </tbody>
         </table>
-
-
-        <!--<div>-->
-            <!--<button class="btn" ng-click="open()">Open me!</button>-->
-            <!--<div modal="shouldBeOpen" close="close()" options="opts">-->
-                <!--<div class="modal-header">-->
-                    <!--<h4>I'm a modal!</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<ul>-->
-                        <!--<li ng-repeat="item in items">{{item}}</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-
-        <!--<h4>File Input Demo</h4>-->
-        <!--<input type="file" lx-file-upload multiple on-files-selected="onFilesSelected(files)" />-->
-
-        <!--<pre>{{ files | json }}</pre>-->
-
-
-        <button class="btn" ng-click="visible2 = !visible">show as element</button>
-        <button class="btn" ng-click="visible2 = !visible2">show as attribute in div</button>
+        <p ui-if="visible.reset">
+            <button class="btn" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+        </p>
+        <p ui-if="visible.create">
+            <button class="btn" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+        </p>
+        <button class="btn" ng-click="visible.element = !visible.element">show as element</button>
+        <button class="btn" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>
 
         <!-- use mmsgbox as element -->
-        <bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible"></bb-msgbox>
+        <bb-msgbox use-template msg-Headline="'Test 111111111'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element"></bb-msgbox>
 
         <!-- use mmsgbox as attribute -->
-        <div bb-msgbox use-template msg-Headline="'Test'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible2"></div>
-
-
+        <div bb-msgbox use-template msg-Headline="'Test 2222222222'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element2"></div>
     </div>
 </div>

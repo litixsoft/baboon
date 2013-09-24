@@ -179,9 +179,10 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',
@@ -194,9 +195,8 @@ module.exports = function (grunt) {
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.directives.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.tpls.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
@@ -244,9 +244,10 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',
@@ -259,9 +260,8 @@ module.exports = function (grunt) {
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.directives.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.tpls.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
@@ -308,9 +308,10 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert.js',
 
                         // baboon.directives
                         '<%= bbc %>/directives/lx.fileUpload.js',
@@ -323,9 +324,8 @@ module.exports = function (grunt) {
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
                         '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.directives.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.tpls.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.js',
+                        '<%= bbc %>/module/baboon_msgBox/lx.modal.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
                         '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',

@@ -22,6 +22,7 @@
         <div class="col-right">
             <!-- partials -->
             <%- include baboon_auth/login.html %>
+            <alert style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
             <div class="view-container">
                 <div ng-view></div>
             </div>

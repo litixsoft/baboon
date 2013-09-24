@@ -17,12 +17,12 @@ angular.module('ui_app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
-        function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
+        function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function(err) {
                     if (err) {
-                        msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
+                        lxModal.msgBox('','Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/login');
                         });
                     }
@@ -45,7 +45,7 @@ angular.module('ui_app', [
                 }
             });
 
-            $rootScope.modal = msgBox.modal;
+            $rootScope.modal = lxModal;
 
             $rootScope.changeLanguage = function (langKey) {
                 // tell angular-translate to use the new language

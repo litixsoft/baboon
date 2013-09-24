@@ -2,91 +2,99 @@
 'use strict';
 
 describe('baboon message box', function () {
-    var service;
+    var service,scope,$compile;
 
     beforeEach(function () {
         module('ui.bootstrap.modal');
-        module('baboon.msgBox');
+        module('lx.modal');
     });
 
-    describe('msgBox', function () {
+
+    describe('lxModal', function () {
         beforeEach(function () {
-            inject(function ($injector) {
-                service = $injector.get('msgBox');
+
+            inject(function ($injector,_$rootScope_, _$compile_, $templateCache) {
+                service = $injector.get('lxModal');
+                scope = _$rootScope_;
+                $compile = _$compile_;
+                $templateCache.put('/baboon_msgBox/msgBox.html', '<p>Hello</p>');
             });
+
         });
 
         it('should be initialized correctly', function () {
-            expect(service.modal).toBeDefined();
-            expect(service.modal.opts).toBeDefined();
-            expect(service.modal.close).toBeDefined();
-            expect(service.modal.show).toBeDefined();
-            expect(service.modal.ok).toBeDefined();
+            expect(service).toBeDefined();
+//            expect(service.opts).toBeDefined();
+            expect(service.close).toBeDefined();
+            expect(service.msgBox).toBeDefined();
+            expect(service.ok).toBeDefined();
         });
 
         it('should open the dialog and set the message and headline', function () {
-            service.modal.show('header', 'wayne');
-
-            expect(service.modal.headline).toBe('header');
-            expect(service.modal.message).toBe('wayne');
-            expect(service.modal.type).toBe('Error');
-            expect(service.modal.action).toBeUndefined();
+            service.msgBox('header', 'wayne');
+            expect(service.headline).toBe('header');
+            expect(service.message).toBe('wayne');
+            expect(service.type).toBe('info');
+//            expect(service.actionOk).toBeUndefined();
+//            expect(service.actionClose).toBeUndefined();
+//            expect(service.actionYes).toBeUndefined();
+//            expect(service.actionNo).toBeUndefined();
         });
-
-        it('should open the dialog and set the type', function () {
-            service.modal.show('', '', 'Warning');
-
-            expect(service.modal.headline).toBe('');
-            expect(service.modal.message).toBe('');
-            expect(service.modal.type).toBe('Warning');
-            expect(service.modal.action).toBeUndefined();
-        });
-
-        it('should open the dialog and set the callback', function () {
-            service.modal.show('header', 'wayne', 'Info', function () {});
-
-            expect(service.modal.headline).toBe('header');
-            expect(service.modal.message).toBe('wayne');
-            expect(service.modal.type).toBe('Info');
-            expect(service.modal.action).toBeDefined();
-            expect(typeof service.modal.action).toBe('function');
-        });
-
-        it('should close the dialog', function () {
-            service.modal.close();
-
-            expect(service.modal.message).toBe('');
-            expect(service.modal.type).toBe('');
-            expect(service.modal.action).toBeNull();
-        });
-
-        it('should close the dialog and do nothing when no action is defined', function () {
-            service.modal.show('header', 'wayne');
-            service.modal.ok();
-
-            expect(service.modal.headline).toBe('');
-            expect(service.modal.message).toBe('');
-            expect(service.modal.type).toBe('');
-            expect(service.modal.action).toBeNull();
-        });
-
-        it('should close the dialog and execute the action if an action is defined', function () {
-            var test = 1,
-                testFn = function () {
-                    test++;
-                };
-
-            service.modal.show('', 'wayne', 'Info', testFn);
-
-            expect(service.modal.action).toBeDefined();
-            expect(typeof service.modal.action).toBe('function');
-
-            service.modal.ok();
-
-            expect(service.modal.message).toBe('');
-            expect(service.modal.type).toBe('');
-            expect(service.modal.action).toBeNull();
-            expect(test).toBe(2);
-        });
+//
+//        it('should open the dialog and set the type', function () {
+//            service.msgBox('', '', 'Warning');
+//
+//            expect(service.headline).toBe('');
+//            expect(service.message).toBe('');
+//            expect(service.type).toBe('Warning');
+//            expect(service.action).toBeUndefined();
+//        });
+//
+//        it('should open the dialog and set the callback', function () {
+//            service.msgBox('header', 'wayne', 'Info', function () {});
+//
+//            expect(service.headline).toBe('header');
+//            expect(service.message).toBe('wayne');
+//            expect(service.type).toBe('Info');
+//            expect(service.action).toBeDefined();
+//            expect(typeof service.action).toBe('function');
+//        });
+//
+//        it('should close the dialog', function () {
+//            service.close();
+//
+//            expect(service.message).toBe('');
+//            expect(service.type).toBe('');
+//            expect(service.action).toBeNull();
+//        });
+//
+//        it('should close the dialog and do nothing when no action is defined', function () {
+//            service.msgBox('header', 'wayne');
+//            service.ok();
+//
+//            expect(service.headline).toBe('');
+//            expect(service.message).toBe('');
+//            expect(service.type).toBe('');
+//            expect(service.action).toBeNull();
+//        });
+//
+//        it('should close the dialog and execute the action if an action is defined', function () {
+//            var test = 1,
+//                testFn = function () {
+//                    test++;
+//                };
+//
+//            service.msgBox('', 'wayne', 'Info', testFn);
+//
+//            expect(service.action).toBeDefined();
+//            expect(typeof service.action).toBe('function');
+//
+//            service.ok();
+//
+//            expect(service.message).toBe('');
+//            expect(service.type).toBe('');
+//            expect(service.action).toBeNull();
+//            expect(test).toBe(2);
+//        });
     });
 });

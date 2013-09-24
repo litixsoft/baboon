@@ -1,7 +1,7 @@
 /*global angular, io*/
 angular.module('lx.socket', [])
     // Wrapper service for socket.io
-    .factory('lxSocket', ['$rootScope', '$window', '$location', '$log', 'msgBox', function ($rootScope, $window, $location, $log, msgBox) {
+    .factory('lxSocket', ['$rootScope', '$window', '$location', '$log', 'lxModal', function ($rootScope, $window, $location, $log, lxModal) {
         var protocol = $window.location.protocol,
             hostname = $window.location.hostname,
             port = $window.location.port,
@@ -26,7 +26,7 @@ angular.module('lx.socket', [])
             $log.error('Lost connection to Socket.IO');
 
             $rootScope.$apply(function () {
-                msgBox.modal.show('Lost connection to server!','', 'Warning');
+                lxModal.msgBox('Lost connection to server!','', 'Warning');
             });
         });
 
@@ -38,7 +38,7 @@ angular.module('lx.socket', [])
             $log.error('connect_error: ', err);
 
             $rootScope.$apply(function () {
-                msgBox.modal.show('Could not connect to socket server!','', 'Error');
+                lxModal.msgBox('Could not connect to socket server!','', 'Error');
             });
         });
 
@@ -50,7 +50,7 @@ angular.module('lx.socket', [])
             $log.log('socket.io reconnect with: ' + transport);
 
             $rootScope.$apply(function () {
-                msgBox.modal.close();
+                lxModal.reset(); //close
             });
         });
 
@@ -60,9 +60,9 @@ angular.module('lx.socket', [])
 
             $rootScope.$apply(function () {
                 if (reconnectionAttempts === 1) {
-                    msgBox.modal.message += ' Trying to reconnect. Attempt: ' + reconnectionAttempts;
+                    lxModal.message += ' Trying to reconnect. Attempt: ' + reconnectionAttempts;
                 } else {
-                    msgBox.modal.message = msgBox.modal.message.replace((reconnectionAttempts - 1).toString(), reconnectionAttempts);
+                    lxModal.message = lxModal.message.replace((reconnectionAttempts - 1).toString(), reconnectionAttempts);
                 }
             });
         });
@@ -79,7 +79,7 @@ angular.module('lx.socket', [])
             $log.warn('Site Reload triggered by Server');
 
             $rootScope.$apply(function () {
-                msgBox.modal.show('','Session is expired! Please reload the site.', 'Warning', function () {
+                lxModal.msgBox('','Session is expired! Please reload the site.', 'Warning', function () {
                     window.location.reload();
                 });
             });

@@ -3,7 +3,7 @@ module.exports = function (config) {
         // base path, that will be used to resolve files and exclude
         basePath: '../',
 
-        frameworks: ['jasmine', 'detectBrowsers'],
+        frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -11,6 +11,7 @@ module.exports = function (config) {
             '../lib_client/vendor/angular/angular-mocks.js',
             '../lib_client/vendor/angular-ui-bootstrap/ui-bootstrap-0.7.0.js',
             '../lib_client/vendor/angular-ui-utils/ui-utils.js',
+            '../client/common/**/*.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',
             '../lib_client/module/**/*.js',
@@ -27,7 +28,19 @@ module.exports = function (config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
+
+        preprocessors: {
+            'client/app/**/*.js': 'coverage',
+            'client/common/**/*.js': 'coverage',
+            'client/toplevel/admin/**/*.js': 'coverage',
+            'client/toplevel/ui_examples/**/*.js': 'coverage'
+        },
+
+        coverageReporter: {
+            type: 'html',
+            dir: 'build/reports/coverage/client'
+        },
 
         // web server port
         // CLI --port 9876
@@ -72,12 +85,8 @@ module.exports = function (config) {
         plugins: [
             'karma-jasmine',
             'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-ie-launcher',
-            'karma-safari-launcher',
-            'karma-phantomjs-launcher',
-            'karma-junit-reporter',
-            'karma-detect-browsers'
+            'karma-coverage',
+            'karma-junit-reporter'
         ]
     });
 };

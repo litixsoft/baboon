@@ -1,17 +1,10 @@
-module.exports = function (config) {
-    'use strict';
+'use strict';
 
-    if (!config) {
-        throw new Error('missing config');
-    }
+var lxDb = require('lx-mongodb');
 
-    //noinspection JSUnresolvedVariable
-    var lxDb = require('lx-mongodb'),
-        //noinspection JSUnresolvedVariable
-        db = lxDb.GetDb(config.mongo.enterprise, ['crew']),
-        crewRepo = require('./crew')(db.crew);
-
-    // Enterprise API
+module.exports = function (enterpriseConnection) {
+    var db = lxDb.GetDb(enterpriseConnection, ['crew']),
+        crewRepo = require('./crewRepository')(db.crew);
 
     return {
         crew: crewRepo

@@ -1,100 +1,139 @@
-/*global describe, it, expect, beforeEach, inject */
+/*global describe, it, expect, beforeEach, inject, runs, waitsFor */
 'use strict';
 
-describe('enterprise modul', function () {
+var ctrl, scope, flag, value, service, dataTmp, lxAlert;
+dataTmp = [
+    {name: 'p1', description: 'des1'},
+    {name: 'p2', description: 'des2'},
+    {name: 'p3', description: 'des3'}
+];
+
+describe('enterprise', function () {
+    beforeEach(module('lx.alert'));
+    beforeEach(module('ui.bootstrap.modal'));
+    beforeEach(module('lx.modal'));
     beforeEach(module('enterprise'));
     beforeEach(module('mocks'));
 
-    // newCtrl tests
-    describe('enterprise newCtrl', function () {
-        var newCtrl, scope;
-
-        beforeEach(inject(function ($controller) {
-            scope = {};
-            newCtrl = $controller('newCtrl', { $scope: scope});
-        }));
-
-        it('should create a empty person', inject(function () {
-            expect(scope.person).toBeDefined();
-            expect(scope.person.name).toBe('');
-            expect(scope.person.description).toBe('');
-        }));
-
-        it('should have a save function', inject(function () {
-            expect(typeof scope.save).toBe('function');
-
-            scope.save();
-        }));
-
-        it('should pass a dummy test', inject(function () {
-            expect(newCtrl).toBeTruthy();
-        }));
-    });
-
-    // editCtrl tests
-    describe('enterprise editCtrl', function () {
-        var scope, editCtrl;
-
-        beforeEach(inject(function ($controller, $routeParams) {
-            scope = {};
-            $routeParams.id = 0;
-            editCtrl = $controller('editCtrl', { $scope: scope });
-        }));
-
-        it('should have a save function', inject(function () {
-            expect(typeof scope.save).toBe('function');
-
-            scope.save();
-        }));
-
-        it('should pass a dummy test', inject(function () {
-            expect(editCtrl).toBeTruthy();
-            expect(scope.person).toBeUndefined();
-        }));
-    });
-
-    // enterprise ctrl tests
+    // blogCtrl tests
     describe('enterpriseCtrl', function () {
-        var ctrl, scope;
+        beforeEach(inject(function ($controller, $rootScope, $injector) {
+            service = $injector.get('lxSocket');
+            lxAlert = $injector.get('lxAlert');
+            service.emit = function (eventName, data, callback) {
+                value = {
+                    data: dataTmp,
+                    count: 3
+                };
+                callback(value);
+                flag = true;
+            };
 
-        beforeEach(inject(function ($controller) {
-            scope = {};
-            ctrl = $controller('enterpriseCtrl', { $scope: scope});
+            scope = $rootScope.$new();
+            scope.lxAlert = lxAlert;
+            ctrl = $controller('enterpriseCtrl', {$scope: scope});
         }));
 
-        it('should have some data', inject(function () {
-            expect(typeof scope.enterpriseCrew).toBe('object');
-            expect(Object.keys(scope.enterpriseCrew).length).toBe(0);
-            expect(scope.shouldBeOpen).toBeUndefined();
-            expect(scope.closeMsg).toBeUndefined();
-            expect(Array.isArray(scope.items)).toBeTruthy();
-            expect(scope.items.length).toBe(2);
-            expect(scope.items[0]).toBe('item1');
-            expect(scope.items[1]).toBe('item2');
-            expect(scope.opts).toBeDefined();
-            expect(scope.opts.backdropFade).toBeTruthy();
-            expect(scope.opts.dialogFade).toBeTruthy();
-        }));
+        it('should be initialized correctly', function () {
 
-        it('should have a open function', inject(function () {
-            expect(typeof scope.open).toBe('function');
+            waitsFor(function () {
+                return scope.crew.length > 0;
+            }, 'Length should be greater than 0', 1000);
 
-            scope.open();
+            runs(function () {
+                expect(typeof scope.lxAlert).toBe('object');
+                expect(typeof scope.visible).toBe('object');
+                expect(typeof scope.createTestMembers).toBe('function');
+                expect(typeof scope.resetDb).toBe('function');
+                expect(typeof scope.deleteMember).toBe('function');
 
-            expect(scope.shouldBeOpen).toBeTruthy();
-        }));
+                waitsFor(function () {
+                    return scope.crew.length > 0;
+                }, 'Length should be greater than 0', 1000);
 
-        it('should have a close function', inject(function () {
-            expect(typeof scope.close).toBe('function');
+                runs(function () {
+                    expect(typeof scope.crew).toBe('object');
+                    expect(scope.crew).toEqual(dataTmp);
+                });
+            });
+        });
+        it('should be create test-members', function () {
 
-            scope.close();
+            waitsFor(function () {
+                return scope.crew.length > 0;
+            }, 'Length should be greater than 0', 1000);
 
-            expect(scope.shouldBeOpen).toBeFalsy();
-            expect(typeof scope.closeMsg).toBe('string');
-        }));
+            runs(function () {
+                scope.crew = []; // reset crew
+                scope.createTestMembers();
 
-        it('should pass a dummy test', inject(function () {
-            expect(ctrl).toBeTruthy();
-        }));
+                waitsFor(function () {
+                    return scope.crew.length > 0;
+                }, 'Length should be greater than 0', 1000);
+            });
+
+            runs(function () {
+                expect(scope.crew).toEqual(dataTmp);
+                expect(scope.lxAlert.type).toEqual('success');
+                expect(scope.lxAlert.msg).toEqual('crew created.');
+            });
+        });
+        it('should be not create test-members by crew.length > 0', function () {
+
+            waitsFor(function () {
+                return scope.crew.length > 0;
+            }, 'Length should be greater than 0', 1000);
+
+            runs(function () {
+                scope.createTestMembers();
+
+                waitsFor(function () {
+                    return scope.crew.length > 0;
+                }, 'Length should be greater than 0', 1000);
+            });
+
+            runs(function () {
+                expect(scope.crew).toEqual(dataTmp);
+                expect(scope.lxAlert.type).toEqual('error');
+                expect(scope.lxAlert.msg).toEqual('can\'t create test crew, already exists.');
+            });
+        });
+        it('should be not create test-members by service error.', function () {
+
+            waitsFor(function () {
+                return scope.crew.length > 0;
+            }, 'Length should be greater than 0', 1000);
+
+            runs(function () {
+
+                service.emit = function (eventName, data, callback) {
+                    if (eventName === 'example/enterprise/enterprise/createTestMembers') {
+                        callback({message: 'Could not create test crew!'});
+                    }
+                    else {
+                        value = {
+                            data: dataTmp,
+                            count: 3
+                        };
+                        callback(value);
+                    }
+
+                    flag = true;
+                };
+
+                scope.crew = []; // reset crew
+                scope.createTestMembers();
+
+                waitsFor(function () {
+                    return scope.crew.length > 0;
+                }, 'Length should be greater than 0', 1000);
+            });
+
+            runs(function () {
+                expect(scope.crew).toEqual(dataTmp);
+                expect(scope.lxAlert.type).toEqual('error');
+                expect(scope.lxAlert.msg).toEqual('Could not create test crew!');
+            });
+        });
     });
 });
