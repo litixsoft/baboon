@@ -7,7 +7,7 @@ describe('admin modul', function () {
     beforeEach(module('blog'));
     beforeEach(module('lx.cache'));
     beforeEach(module('lx.session'));
-    beforeEach(module('lx.InlineEdit'));
+    beforeEach(module('lx.inlineEdit'));
     beforeEach(module('mocks'));
     beforeEach(module('lx.form'));
 

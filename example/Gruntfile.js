@@ -179,7 +179,7 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
                         '<%= bbc %>/services/lx.alert.js',
@@ -244,7 +244,7 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
                         '<%= bbc %>/services/lx.alert.js',
@@ -308,7 +308,7 @@ module.exports = function (grunt) {
                         // baboon.services
                         '<%= bbc %>/services/lx.cache.js',
                         '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
+                        '<%= bbc %>/services/lx.inlineEdit.js',
                         '<%= bbc %>/services/lx.session.js',
                         '<%= bbc %>/services/lx.socket.js',
                         '<%= bbc %>/services/lx.alert.js',
