@@ -19,12 +19,12 @@ angular.module('baboon.admin', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
-        function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
+        function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function(err) {
                     if (err) {
-                        msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
+                        lxModal.show('','Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/login');
                         });
                     }
@@ -47,7 +47,7 @@ angular.module('baboon.admin', [
                 }
             });
 
-            $rootScope.modal = msgBox.modal;
+            $rootScope.modal = lxModal;
 
             $rootScope.changeLanguage = function (langKey) {
                 // tell angular-translate to use the new language

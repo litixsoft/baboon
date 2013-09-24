@@ -2,10 +2,11 @@
 angular.module('baboon.services',  [
     'lx.cache',
     'lx.form',
-    'lx.InlineEdit',
+    'lx.inlineEdit',
     'lx.session',
     'lx.socket',
-    'lx.alert'
+    'lx.alert',
+    'lx.modal'
 ]);
 
 

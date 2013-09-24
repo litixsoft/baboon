@@ -9,6 +9,8 @@ module.exports = function (config) {
         files: [
             '../lib_client/vendor/angular/angular.js',
             '../lib_client/vendor/angular/angular-mocks.js',
+            '../lib_client/vendor/angular-ui-bootstrap/ui-bootstrap-0.7.0.js',
+            '../lib_client/vendor/angular-ui-utils/ui-utils.js',
             '../client/common/**/*.js',
             '../lib_client/services/**/*.js',
             '../lib_client/directives/**/*.js',

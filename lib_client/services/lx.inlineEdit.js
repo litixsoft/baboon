@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('lx.InlineEdit', [])
+angular.module('lx.inlineEdit', [])
     .factory('lxInlineEdit', function () {
         return function () {
             var pub = {},

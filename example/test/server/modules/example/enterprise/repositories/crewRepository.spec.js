@@ -43,7 +43,6 @@ describe('crewRepository', function () {
 
         it('should check if the name is unique', function (done) {
             sut.create(data, function (err, res) {
-                console.log(res);
                 expect(res[0].name).toBe('Picard');
                 expect(typeof res[0]._id).toBe('object');
 
