@@ -29,7 +29,7 @@ angular.module('lx.socket', [])
             $log.error('Lost connection to Socket.IO');
 
             $rootScope.$apply(function () {
-                lxModal.msgBox('Lost connection to server!','', 'Warning');
+                lxModal.msgBox('socketLost', true ,'Lost connection to server!','', 'Warning');
             });
         });
 
@@ -52,22 +52,20 @@ angular.module('lx.socket', [])
         socket.on('reconnect', function (transport) {
             $log.log('socket.io reconnect with: ' + transport);
 
-            $rootScope.$apply(function () {
-                lxModal.reset(); //close
-            });
+            lxModal.reset(); //close
+
         });
 
         socket.on('reconnecting', function () {
             var reconnectionAttempts = arguments[1] || 0;
             $log.log('Try to reconnect with: ' + socket.socket.transport.name + ', attempt: ' + reconnectionAttempts);
 
-            $rootScope.$apply(function () {
-                if (reconnectionAttempts === 1) {
-                    lxModal.message += ' Trying to reconnect. Attempt: ' + reconnectionAttempts;
-                } else {
-                    lxModal.message = lxModal.message.replace((reconnectionAttempts - 1).toString(), reconnectionAttempts);
-                }
-            });
+            if (reconnectionAttempts === 1) {
+                lxModal.updateMsg('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
+            } else {
+                lxModal.updateMsg('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
+            }
+
         });
 
         socket.on('reconnect_error', function (err) {

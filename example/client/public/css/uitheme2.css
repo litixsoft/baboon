@@ -1,4 +1,21 @@
-
+.table.table-striped.load-content{
+    position: relative;
+}
+.table.table-striped.load-content thead td{
+    padding-bottom:110px;
+}
+.table.table-striped.load-content:after{
+    content: ' ';
+    position:absolute;
+    bottom:0px;
+    left:0;
+    height:100px;
+    width:100%;
+    display:block;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    background:rgba(0,255,0,0.03) url('../img/loader.gif') no-repeat center center;
+}
 .row-fluid.layout{
     position:fixed;
     top:0;

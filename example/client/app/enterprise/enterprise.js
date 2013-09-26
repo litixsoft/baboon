@@ -7,7 +7,7 @@ angular.module('enterprise', ['enterprise.services'])
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
     .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'lxModal',
-        function ($scope, enterpriseCrew, lxModal) {
+        function ( $scope, enterpriseCrew, lxModal) {
 
             // alert helper var
             var lxAlert = $scope.lxAlert;
@@ -95,7 +95,7 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew member by id
             $scope.deleteMember = function (id, name) {
-                lxModal.msgBox('Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                lxModal.msgBox('enterpriseDeleteMember'+name,false,'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
                     cbYes: function () {
                         enterpriseCrew.delete(id, function (result) {
                             if (result.success) {
@@ -109,6 +109,12 @@ angular.module('enterprise', ['enterprise.services'])
                     },
                     cbNo: function () {}
                 },'standard');
+
+                setTimeout(function(){
+                    lxModal.updateMsg('enterpriseDeleteMember'+name,'Diese neue Meldung wird dir vom Sven präsentiert. Du kannst aber gern trotzdem crew member '+ name +' löschen!');
+                },2000);
+
+
             };
         }])
     .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew',
