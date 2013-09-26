@@ -6,9 +6,10 @@ angular.module('lx.modal', ['lx.modal.directives'])
         $scope.modalOptions = modalOptions;
 
         $rootScope.$on($scope.modalOptions.msgId,function(ev, mass){
-            $scope.modalOptions.message = mass;
+            $scope.$apply(function () {
+                $scope.modalOptions.message = mass;
+            });
         });
-
 
         if(typeof($scope.modalOptions.callObj)=== 'function'){
             $scope.modalOptions.actionOk = $scope.modalOptions.callObj;
@@ -58,9 +59,8 @@ angular.module('lx.modal', ['lx.modal.directives'])
             }
             $scope.reset();
         };
-
     }])
-    .service('lxModal', ['$modal','$http', function ($modal,$http) {
+    .service('lxModal', ['$rootScope','$modal','$http', function ($rootScope,$modal,$http) {
 
         /**
          * Opens the modal window.
@@ -72,18 +72,25 @@ angular.module('lx.modal', ['lx.modal.directives'])
          * @param {string=} cssClass an optinal css class to manipulate the msgbox style
          */
 
-        var htmlTemplate = '';
+        var pub = {};
 
-        this.fetchContent = function() {
-            $http.get('/baboon_msgBox/msgBox.html').then(function(result){
-                htmlTemplate = result.data;
-                console.log("jetzt");
-            });
+//        var htmlTemplate = '';
+//
+//        pub.fetchContent = function() {
+//            $http.get('/baboon_msgBox/msgBox.html').then(function(result){
+//                htmlTemplate = result.data;
+//            });
+//        };
+//
+//        pub.fetchContent();
+
+        pub.updateMsg = function(id, message){
+            $rootScope.$emit(id, message);
         };
 
-        this.fetchContent();
+        pub.msgBox = function(id, backdrop, headline, message, type, callObj, cssClass){
 
-        this.msgBox = function(id, backdrop, headline, message, type, callObj, cssClass){
+            var self = this;
 
             var modalOptions = {
                 msgId: id,
@@ -94,8 +101,7 @@ angular.module('lx.modal', ['lx.modal.directives'])
                 cssClass: cssClass
             };
 
-
-            this.modalInstance = $modal.open({
+            self.modalInstance = $modal.open({
                 backdrop: backdrop, //static, true, false
                 modalFade: true,
                 controller: 'lxModalCtrl',
@@ -103,11 +109,16 @@ angular.module('lx.modal', ['lx.modal.directives'])
                     modalOptions: function(){ return modalOptions; }
                 },
                 keyboard: false,
-//                templateUrl: '/baboon_msgBox/msgBox2.html'
-                template: htmlTemplate
+                templateUrl: '/baboon_msgBox/msgBox.html'
+//                template: htmlTemplate
             });
 
-
         };
+
+        pub.reset = function(){
+            this.modalInstance.dismiss('cancel');
+        };
+
+        return pub;
 
     }]);

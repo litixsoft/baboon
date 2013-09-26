@@ -49,26 +49,20 @@ angular.module('lx.socket', [])
         socket.on('reconnect', function (transport) {
             $log.log('socket.io reconnect with: ' + transport);
 
-            $rootScope.$apply(function () {
-                lxModal.reset(); //close
-            });
+            lxModal.reset(); //close
+
         });
 
         socket.on('reconnecting', function () {
             var reconnectionAttempts = arguments[1] || 0;
             $log.log('Try to reconnect with: ' + socket.socket.transport.name + ', attempt: ' + reconnectionAttempts);
 
-            $rootScope.$apply(function () {
-                if (reconnectionAttempts === 1) {
-                    $rootScope.$emit('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
-//                    lxModal.message += ' Trying to reconnect. Attempt: ' + reconnectionAttempts;
-//                    lxModal.popUp('Trying to reconnect. Attempt: ' + reconnectionAttempts);
-                } else {
-                    $rootScope.$emit('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
-//                    lxModal.popUp('Trying to reconnect. Attempt: ' + reconnectionAttempts);
-//                    lxModal.message = lxModal.message.replace((reconnectionAttempts - 1).toString(), reconnectionAttempts);
-                }
-            });
+            if (reconnectionAttempts === 1) {
+                lxModal.updateMsg('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
+            } else {
+                lxModal.updateMsg('socketLost',' Trying to reconnect. Attempt: ' + reconnectionAttempts);
+            }
+
         });
 
         socket.on('reconnect_error', function (err) {
