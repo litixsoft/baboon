@@ -5,21 +5,24 @@ angular.module('lx.socket', [])
         var protocol = $window.location.protocol,
             hostname = $window.location.hostname,
             port = $window.location.port,
-            transports = ['websocket', 'xhr-polling', 'jsonp-polling'];
-
-        if (protocol === 'https') {
-            protocol = 'wss';
-        } else {
-            protocol = 'ws';
-        }
+            transports = ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling'],
+            host;
 
         // detect karma test runner and remove wensocket from transports (default karma port is 9876)
         if (port > 9870 && port < 9900 && hostname === 'localhost') {
-            transports = ['xhr-polling', 'jsonp-polling'];
+            transports = ['xhr-polling'];
         }
 
-        var host = protocol + '://' + hostname + ':' + port,
-            socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
+        // create host for connect
+        if (port.length > 0) {
+            host = protocol + '//' + hostname + ':' + port;
+        }
+        else {
+            host = protocol + '//' + hostname;
+        }
+
+        // socket connect
+        var socket = io.connect(host, {'connect timeout': 4000, 'transports': transports});
 
         // socket.io events
         socket.on('disconnect', function () {
