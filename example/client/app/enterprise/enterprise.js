@@ -14,8 +14,7 @@ angular.module('enterprise', ['enterprise.services'])
 
 //            // modal helper var
 //            var lxModal = $scope.lxModal;
-
-            console.log(lxAlert);
+            //
 
             $scope.headline = 'Üerschrift';
             $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
