@@ -96,7 +96,7 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew member by id
             $scope.deleteMember = function (id, name) {
-                lxModal.msgBox('Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                lxModal.msgBox('',false,'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
                     cbYes: function () {
                         enterpriseCrew.delete(id, function (result) {
                             if (result.success) {

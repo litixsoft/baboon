@@ -1,9 +1,66 @@
 /*global angular*/
-angular.module('lx.modal', ['lx.modal.directives'])//,'baboon.msgBox.tpl/msgBox.html'])
-    .service('lxModal', ['$modal', function ($modal) {
 
-        var pub = {},
-            modalInstance;
+angular.module('lx.modal', ['lx.modal.directives'])
+    .controller('lxModalCtrl',['$rootScope', '$scope', '$modalInstance','modalOptions', function($rootScope, $scope, $modalInstance, modalOptions){
+
+        $scope.modalOptions = modalOptions;
+
+        $rootScope.$on($scope.modalOptions.msgId,function(ev, mass){
+            $scope.modalOptions.message = mass;
+        });
+
+
+        if(typeof($scope.modalOptions.callObj)=== 'function'){
+            $scope.modalOptions.actionOk = $scope.modalOptions.callObj;
+        } else if(typeof($scope.modalOptions.callObj)=== 'object'){
+            $scope.modalOptions.actionOk = $scope.modalOptions.callObj.cbOk;
+            $scope.modalOptions.actionClose = $scope.modalOptions.callObj.cbClose;
+            $scope.modalOptions.actionYes = $scope.modalOptions.callObj.cbYes;
+            $scope.modalOptions.actionNo = $scope.modalOptions.callObj.cbNo;
+        } else {
+            $scope.modalOptions.actionClose = true;
+        }
+
+        $scope.reset = function () {
+            if ($modalInstance) {
+                $modalInstance.dismiss('cancel');
+            }
+        };
+
+        /** Executes the YES action and closes the modal window */
+        $scope.modalOptions.yes = function() {
+            if (typeof $scope.modalOptions.actionYes === 'function') {
+                $scope.modalOptions.actionYes.call();
+            }
+            $scope.reset();
+        };
+
+        /** Executes the NO action and closes the modal window */
+        $scope.modalOptions.no = function() {
+            if (typeof $scope.modalOptions.actionNo === 'function') {
+                $scope.modalOptions.actionNo.call();
+            }
+            $scope.reset();
+        };
+
+        /** Executes the OK action and closes the modal window */
+        $scope.modalOptions.ok = function () {
+            if (typeof $scope.modalOptions.actionOk === 'function') {
+                $scope.modalOptions.actionOk.call();
+            }
+            $scope.reset();
+        };
+
+        /** Executes the CLOSE action and closes the modal window */
+        $scope.modalOptions.close = function () {
+            if (typeof $scope.modalOptions.actionOk === 'function') {
+                $scope.modalOptions.actionClose.call();
+            }
+            $scope.reset();
+        };
+
+    }])
+    .service('lxModal', ['$modal','$http', function ($modal,$http) {
 
         /**
          * Opens the modal window.
@@ -14,97 +71,43 @@ angular.module('lx.modal', ['lx.modal.directives'])//,'baboon.msgBox.tpl/msgBox.
          * @param {function=} callback The callback action when click the ok button in the modal window OR {object=} object with multible callbacks
          * @param {string=} cssClass an optinal css class to manipulate the msgbox style
          */
-        var show = function (headline, message, type, callObj, cssClass) {
 
-            pub.headline = headline || '';
-            pub.message = message;
-            pub.type = type || 'info';
-            pub.class = cssClass || '';
+        var htmlTemplate = '';
 
-            if(typeof(callObj)=== 'function'){
-                pub.actionOk = callObj;
-            } else if(typeof(callObj)=== 'object'){
-                pub.actionOk = callObj.cbOk;
-                pub.actionClose = callObj.cbClose;
-                pub.actionYes = callObj.cbYes;
-                pub.actionNo = callObj.cbNo;
-            } else {
-                pub.actionClose = true;
-            }
-
-            modalInstance = $modal.open({
-                backdrop: 'static',
-                keyboard: false,
-//                templateUrl: 'baboon.msgBox.tpl/msgBox.html'
-                templateUrl: '/baboon_msgBox/msgBox.html'
+        this.fetchContent = function() {
+            $http.get('/baboon_msgBox/msgBox.html').then(function(result){
+                htmlTemplate = result.data;
+                console.log("jetzt");
             });
         };
 
+        this.fetchContent();
 
-        pub.msgBox = function(headline, message, type, callObj, cssClass){
-            show(headline, message, type, callObj, cssClass);
+        this.msgBox = function(id, backdrop, headline, message, type, callObj, cssClass){
+
+            var modalOptions = {
+                msgId: id,
+                headline: headline,
+                message: message,
+                type: type,
+                callObj: callObj,
+                cssClass: cssClass
+            };
+
+
+            this.modalInstance = $modal.open({
+                backdrop: backdrop, //static, true, false
+                modalFade: true,
+                controller: 'lxModalCtrl',
+                resolve: {
+                    modalOptions: function(){ return modalOptions; }
+                },
+                keyboard: false,
+//                templateUrl: '/baboon_msgBox/msgBox2.html'
+                template: htmlTemplate
+            });
+
+
         };
 
-        pub.popUp = function(){
-
-        };
-
-        /**
-         * Closes the modal window and clears the error message/action. is called by every action like: yes, no,ok,close
-         */
-        pub.reset = function () {
-            pub.headline = '';
-            pub.message = '';
-            pub.type = '';
-            pub.actionOk = null;
-            pub.actionClose = null;
-            pub.actionYes = null;
-            pub.actionNo = null;
-
-            if (modalInstance) {
-                modalInstance.dismiss('cancel');
-            }
-        };
-
-        /**
-         * Executes the YES action and closes the modal window
-         */
-        pub.yes = function() {
-            if (typeof pub.actionYes === 'function') {
-                pub.actionYes.call();
-            }
-            pub.reset();
-        };
-
-        /**
-         * Executes the NO action and closes the modal window
-         */
-        pub.no = function() {
-            if (typeof pub.actionNo === 'function') {
-                pub.actionNo.call();
-            }
-            pub.reset();
-        };
-
-        /**
-         * Executes the OK action and closes the modal window
-         */
-        pub.ok = function () {
-            if (typeof pub.actionOk === 'function') {
-                pub.actionOk.call();
-            }
-            pub.reset();
-        };
-
-        /**
-         * Executes the CLOSE action and closes the modal window
-         */
-        pub.close = function () {
-            if (typeof pub.actionOk === 'function') {
-                pub.actionClose.call();
-            }
-            pub.reset();
-        };
-
-        return pub;
     }]);
