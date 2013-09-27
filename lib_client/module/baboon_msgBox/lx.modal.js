@@ -60,7 +60,7 @@ angular.module('lx.modal', ['lx.modal.directives'])
             $scope.reset();
         };
     }])
-    .service('lxModal', ['$rootScope','$modal','$http', function ($rootScope,$modal,$http) {
+    .service('lxModal', ['$rootScope','$modal', function ($rootScope,$modal) {
 
         /**
          * Opens the modal window.
@@ -73,16 +73,6 @@ angular.module('lx.modal', ['lx.modal.directives'])
          */
 
         var pub = {};
-
-//        var htmlTemplate = '';
-//
-//        pub.fetchContent = function() {
-//            $http.get('/baboon_msgBox/msgBox.html').then(function(result){
-//                htmlTemplate = result.data;
-//            });
-//        };
-//
-//        pub.fetchContent();
 
         pub.updateMsg = function(id, message){
             $rootScope.$emit(id, message);
