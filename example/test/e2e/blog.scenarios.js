@@ -39,12 +39,12 @@ describe('Admin Scenarios', function () {
         input('lxForm.model.title').enter('e2e');
         input('lxForm.model.content').enter('e2e Content');
         element('button[name=save]').click();
-        sleep(5);
+        sleep(2);
 
         expect(element('.uneditable-input').text()).toContain('2013-');
 
         browser().navigateTo('/blog/admin');
-        sleep(5);
+        sleep(2);
 
         expect(repeater('table[name=posts] tbody tr').count()).toBe(1);
     });
@@ -59,7 +59,7 @@ describe('Admin Scenarios', function () {
 
         input('modal.name').enter('tag1');
         element('button[name=saveTag]').click();
-        sleep(5);
+        sleep(2);
 
         expect(repeater('table[name=tags] tbody tr').count()).toBe(1);
 
@@ -85,7 +85,7 @@ describe('Admin Scenarios', function () {
 describe('Blog Scenarios', function () {
     it('should show all blog posts', function () {
         browser().navigateTo('/blog');
-        sleep(5);
+        sleep(2);
 
         expect(browser().location().url()).toEqual('/blog');
         expect(repeater('article').count()).toBe(1);
