@@ -4,8 +4,8 @@ angular.module('lx.sort', [])
         return {
             restrict: 'E',
             template: '<div><span ng-click="sort()">{{field_title}}</span>' +
-                '<i ng-show="sortOpts[field_name] == 1" class="icon-arrow-up"></i>' +
-                '<i ng-show="sortOpts[field_name] == -1" class="icon-arrow-down"></i></div>',
+                '<i ng-class="{\'icon-arrow-up\': sortOpts[field_name] == 1, \'icon-arrow-down\': sortOpts[field_name] == -1}"></i>' +
+                '</div>',
             replace: true,
             scope: {
                 sortOpts: '=',
