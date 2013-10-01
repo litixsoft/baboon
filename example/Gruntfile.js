@@ -177,20 +177,20 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/ui-utils.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.inlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-                        '<%= bbc %>/services/lx.alert.js',
+                        '<%= bbc %>/services/lx.cache/lx.cache.js',
+                        '<%= bbc %>/services/lx.form/lx.form.js',
+                        '<%= bbc %>/services/lx.inlineEdit/lx.inlineEdit.js',
+                        '<%= bbc %>/services/lx.session/lx.session.js',
+                        '<%= bbc %>/services/lx.socket/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert/lx.alert.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-                        '<%= bbc %>/directives/ui.if.js',
+                        '<%= bbc %>/directives/lx.fileUpload/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort/lx.sort.js',
+                        '<%= bbc %>/directives/ui.if/ui.if.js',
 
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
@@ -242,20 +242,20 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/ui-utils.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.inlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-                        '<%= bbc %>/services/lx.alert.js',
+                        '<%= bbc %>/services/lx.cache/lx.cache.js',
+                        '<%= bbc %>/services/lx.form/lx.form.js',
+                        '<%= bbc %>/services/lx.inlineEdit/lx.inlineEdit.js',
+                        '<%= bbc %>/services/lx.session/lx.session.js',
+                        '<%= bbc %>/services/lx.socket/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert/lx.alert.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-                        '<%= bbc %>/directives/ui.if.js',
+                        '<%= bbc %>/directives/lx.fileUpload/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort/lx.sort.js',
+                        '<%= bbc %>/directives/ui.if/ui.if.js',
 
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',
@@ -306,20 +306,20 @@ module.exports = function (grunt) {
                         '<%= bbc %>/vendor/angular-ui-utils/ui-utils.js',
 
                         // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.inlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-                        '<%= bbc %>/services/lx.alert.js',
+                        '<%= bbc %>/services/lx.cache/lx.cache.js',
+                        '<%= bbc %>/services/lx.form/lx.form.js',
+                        '<%= bbc %>/services/lx.inlineEdit/lx.inlineEdit.js',
+                        '<%= bbc %>/services/lx.session/lx.session.js',
+                        '<%= bbc %>/services/lx.socket/lx.socket.js',
+                        '<%= bbc %>/services/lx.alert/lx.alert.js',
 
                         // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-                        '<%= bbc %>/directives/ui.if.js',
+                        '<%= bbc %>/directives/lx.fileUpload/lx.fileUpload.js',
+                        '<%= bbc %>/directives/lx.float/lx.float.js',
+                        '<%= bbc %>/directives/lx.integer/lx.integer.js',
+                        '<%= bbc %>/directives/lx.pager/lx.pager.js',
+                        '<%= bbc %>/directives/lx.sort/lx.sort.js',
+                        '<%= bbc %>/directives/ui.if/ui.if.js',
 
                         // baboon.module
                         '<%= bbc %>/module/baboon_auth/baboon.auth.js',

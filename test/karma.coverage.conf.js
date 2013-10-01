@@ -13,8 +13,7 @@ module.exports = function (config) {
             'lib_client/vendor/angular-ui-bootstrap/*.js',
             'lib_client/services/**/*.js',
             'lib_client/directives/**/*.js',
-            'lib_client/module/**/*.js',
-            'test/lib_client/**/*.js'
+            'lib_client/module/**/*.js'
         ],
 
         // list of excluded files / patterns
