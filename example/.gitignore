@@ -1,5 +1,6 @@
 .idea
-/build
-/node_modules
-/server/logs
-/client/app/doc/md/*.html
+build
+node_modules
+server/logs
+client/vendor
+client/app/doc/md/*.html
