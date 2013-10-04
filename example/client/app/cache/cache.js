@@ -1,8 +1,8 @@
 /*global angular*/
-angular.module('cache', [])
+angular.module('app.cache', [])
     .config(function ($routeProvider) {
-        $routeProvider.when('/cache', {templateUrl: '/cache/cache.html', controller: 'cacheCtrl'});
+        $routeProvider.when('/cache', {templateUrl: '/cache/cache.html', controller: 'appCacheCtrl'});
     })
-    .controller('cacheCtrl', ['$scope', 'lxCache', function ($scope, lxCache) {
+    .controller('appCacheCtrl', ['$scope', 'lxCache', function ($scope, lxCache) {
         $scope.cache = lxCache;
     }]);

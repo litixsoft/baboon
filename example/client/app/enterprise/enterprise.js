@@ -1,13 +1,13 @@
 /*global angular*/
-angular.module('enterprise', ['enterprise.services'])
+angular.module('app.enterprise', ['app.enterprise.services'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/enterprise', {templateUrl: '/enterprise/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/enterprise/new', {templateUrl: '/enterprise/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
+        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'appEnterpriseCtrl'});
+        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'appEnterpriseNewCtrl'});
+        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'appEnterpriseEditCtrl'});
     })
-    .constant('enterprise.modulePath', 'example/enterprise/')
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'lxModal',
-        function ( $scope, enterpriseCrew, lxModal) {
+    .constant('app.enterprise.modulePath', 'example/enterprise/')
+    .controller('appEnterpriseCtrl', ['$scope', 'appEnterpriseCrew', 'lxModal',
+        function ( $scope, appEnterpriseCrew, lxModal) {
 
             // alert helper var
             var lxAlert = $scope.lxAlert;
@@ -22,7 +22,7 @@ angular.module('enterprise', ['enterprise.services'])
 
             // getAll members from service
             var getAllMembers = function () {
-                enterpriseCrew.getAll({}, function (result) {
+                appEnterpriseCrew.getAll({}, function (result) {
                     $scope.crew = result.data;
 
                     // watch the crew and show or hide
@@ -53,7 +53,7 @@ angular.module('enterprise', ['enterprise.services'])
                 reset = reset || null;
                 if ($scope.crew.length === 0) {
 
-                    enterpriseCrew.createTestMembers(function (result) {
+                    appEnterpriseCrew.createTestMembers(function (result) {
                         if (result.message) {
                             lxAlert.error(result.message);
                             getAllMembers();
@@ -78,7 +78,7 @@ angular.module('enterprise', ['enterprise.services'])
             // delete crew collection and create test members
             $scope.resetDb = function () {
                 if ($scope.crew.length > 0) {
-                    enterpriseCrew.deleteAllMembers(function (result) {
+                    appEnterpriseCrew.deleteAllMembers(function (result) {
                         if (result.message) {
                             lxAlert.error(result.message);
                         }
@@ -97,7 +97,7 @@ angular.module('enterprise', ['enterprise.services'])
             $scope.deleteMember = function (id, name) {
                 lxModal.msgBox('enterpriseDeleteMember'+name,false,'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
                     cbYes: function () {
-                        enterpriseCrew.delete(id, function (result) {
+                        appEnterpriseCrew.delete(id, function (result) {
                             if (result.success) {
                                 lxAlert.success('crew member ' + name + ' deleted.');
                                 getAllMembers();
@@ -117,8 +117,8 @@ angular.module('enterprise', ['enterprise.services'])
 
             };
         }])
-    .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew',
-        function ($scope, $location, $routeParams, enterpriseCrew) {
+    .controller('appEnterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'appEnterpriseCrew',
+        function ($scope, $location, $routeParams, appEnterpriseCrew) {
 
             // visible vars for controller
             $scope.visible = {
@@ -127,12 +127,12 @@ angular.module('enterprise', ['enterprise.services'])
 
             $scope.validationErrors = {};
 
-            enterpriseCrew.getById($routeParams.id, function (result) {
+            appEnterpriseCrew.getById($routeParams.id, function (result) {
                 $scope.person = result.data;
             });
 
             $scope.save = function () {
-                enterpriseCrew.update($scope.person, function (result) {
+                appEnterpriseCrew.update($scope.person, function (result) {
                     if (result.success) {
                         $location.path('/enterprise');
                     }
@@ -147,8 +147,8 @@ angular.module('enterprise', ['enterprise.services'])
                 });
             };
         }])
-    .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew',
-        function ($scope, $location, enterpriseCrew) {
+    .controller('appEnterpriseNewCtrl', ['$scope', '$location', 'appEnterpriseCrew',
+        function ($scope, $location, appEnterpriseCrew) {
 
             // empty person
             $scope.person = {name: '', description: ''};
@@ -162,7 +162,7 @@ angular.module('enterprise', ['enterprise.services'])
             $scope.validationErrors = {};
 
             $scope.save = function () {
-                enterpriseCrew.create($scope.person, function (result) {
+                appEnterpriseCrew.create($scope.person, function (result) {
                     if (result.data) {
                         $location.path('/enterprise');
                     }
