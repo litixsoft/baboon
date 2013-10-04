@@ -1,0 +1,25 @@
+/*global angular*/
+angular.module('app.includes',  [
+    'ui.utils',
+    'pascalprecht.translate',
+    'lib.common.templates',
+    'common.templates',
+    'lib.optional.templates',
+    'optional.templates',
+    'app.templates',
+    'lx.alert',
+    'lx.auth',
+    'lx.float',
+    'lx.integer',
+    'lx.modal',
+    'lx.nav',
+    'lx.session',
+    'lx.socket',
+    'ui.if',
+    'lx.cache',
+    'lx.fileUpload',
+    'lx.form',
+    'lx.inlineEdit',
+    'lx.pager',
+    'lx.sort'
+]);

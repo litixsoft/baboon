@@ -19,8 +19,8 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         conf: grunt.file.readJSON('config/app.conf.json').base,
-        bbc: '../lib_client',
-        aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
+        //bbc: '../lib_client',
+        //aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
         jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',

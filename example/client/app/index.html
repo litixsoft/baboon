@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="app">
 <head>
-    <title>Baboon</title>
-    <%- include partials/layoutHeaderMeta.html %>
 
+    <title>Baboon-Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Framework zum schnellen und performanten Aufbau von Anwendungen und Websites.">
+    <meta name="keywords" content="Baboon, Baboonstack, Javascript, Angular, RedisIO, MongoDb,Node.js,Express.js">
+    <meta name="author" content="Litixsoft GmbH">
     <!-- styles -->
-    <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/uitheme2.css" />
+    <link href="/vendor/bootstrap/css/bootstrap<!--@@min-->.css" rel="stylesheet">
+    <link href="/css/app<!--@@min-->.css" rel="stylesheet">
 
-<%- include partials/layoutHeaderStatic.html %>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+    <!-- fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 
 </head>
 <body>
@@ -31,9 +45,9 @@
 </div>
 
 <!--@@livereload-->
-<script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
-
+<script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
 </body>
 </html>
