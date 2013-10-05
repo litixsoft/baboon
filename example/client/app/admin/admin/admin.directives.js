@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('baboon.admin.directives', ['template/lxRights/outer.html', 'template/lxRights/inner.html'])
+angular.module('admin.directives', ['template/lxRights/outer.html', 'template/lxRights/inner.html'])
     .directive('lxRights', function () {
         return {
             restrict: 'E',

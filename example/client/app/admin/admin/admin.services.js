@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('baboon.admin.services', [])
-    .factory('baboon.admin.users', ['lxSocket', function (lxSocket) {
+angular.module('admin.services', [])
+    .factory('adminUsers', ['lxSocket', function (lxSocket) {
         var pub = {};
 
         pub.getAll = function (query, callback) {
@@ -35,7 +35,7 @@ angular.module('baboon.admin.services', [])
 
         return pub;
     }])
-    .factory('baboon.admin.rights', ['lxSocket', function (lxSocket) {
+    .factory('adminRights', ['lxSocket', function (lxSocket) {
         var pub = {};
 
         function convertRightStringToObject (selectedRights, rightObj, right, path) {
@@ -103,7 +103,7 @@ angular.module('baboon.admin.services', [])
 
         return pub;
     }])
-    .factory('baboon.admin.groups', ['lxSocket', function (lxSocket) {
+    .factory('adminGroups', ['lxSocket', function (lxSocket) {
         var pub = {};
 
         pub.getAll = function (query, callback) {

@@ -18,8 +18,8 @@
     "angular-translate": "~1.1.0",
     "angular-translate-loader-static-files": "~0.1.5",
     "angular-bootstrap": "~0.6.0",
-    "angular-ui-utils": "git@github.com:litixsoft/ui-utils.git#master",
+    "angular-ui-utils": "https://github.com/litixsoft/ui-utils.git#master",
     "showdown": "~0.3.1",
-    "baboon-client": "git@github.com:litixsoft/baboon-client.git#master"
+    "baboon-client": "https://github.com/litixsoft/baboon-client.git#master"
   }
 }

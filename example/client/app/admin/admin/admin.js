@@ -1,17 +1,17 @@
 /*global angular*/
-angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
+angular.module('admin', ['admin.services', 'admin.directives'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/admin/users', {templateUrl: '/toplevel/admin/users.html', controller: 'userListCtrl'});
-        $routeProvider.when('/admin/users/edit/:id', {templateUrl: '/toplevel/admin/editUser.html', controller: 'editUserCtrl'});
-        $routeProvider.when('/admin/users/new', {templateUrl: '/toplevel/admin/editUser.html', controller: 'editUserCtrl'});
-        $routeProvider.when('/admin/rights', {templateUrl: '/toplevel/admin/rights.html', controller: 'rightListCtrl'});
-        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: '/toplevel/admin/editRight.html', controller: 'editRightCtrl'});
-        $routeProvider.when('/admin/rights/new', {templateUrl: '/toplevel/admin/editRight.html', controller: 'editRightCtrl'});
-        $routeProvider.when('/admin/groups', {templateUrl: '/toplevel/admin/groups.html', controller: 'groupListCtrl'});
-        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: '/toplevel/admin/editGroup.html', controller: 'editGroupCtrl'});
-        $routeProvider.when('/admin/groups/new', {templateUrl: '/toplevel/admin/editGroup.html', controller: 'editGroupCtrl'});
+        $routeProvider.when('/admin/users', {templateUrl: 'admin/users.html', controller: 'adminUserListCtrl'});
+        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'admin/editUser.html', controller: 'adminEditUserCtrl'});
+        $routeProvider.when('/admin/users/new', {templateUrl: 'admin/editUser.html', controller: 'adminEditUserCtrl'});
+        $routeProvider.when('/admin/rights', {templateUrl: 'admin/rights.html', controller: 'adminRightListCtrl'});
+        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: 'admin/editRight.html', controller: 'adminEditRightCtrl'});
+        $routeProvider.when('/admin/rights/new', {templateUrl: 'admin/editRight.html', controller: 'adminEditRightCtrl'});
+        $routeProvider.when('/admin/groups', {templateUrl: 'admin/groups.html', controller: 'adminGroupListCtrl'});
+        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'admin/editGroup.html', controller: 'adminEditGroupCtrl'});
+        $routeProvider.when('/admin/groups/new', {templateUrl: 'admin/editGroup.html', controller: 'adminEditGroupCtrl'});
     })
-    .controller('userListCtrl', ['$scope', '$log', 'baboon.admin.users', function ($scope, $log, users) {
+    .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -41,7 +41,7 @@ angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
 
         $scope.getData();
     }])
-    .controller('editUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'baboon.admin.users', '$log', 'baboon.admin.rights', 'baboon.admin.groups', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups) {
+    .controller('adminEditUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminUsers', '$log', 'adminRights', 'adminGroups', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
@@ -128,7 +128,7 @@ angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
             }
         });
     }])
-    .controller('rightListCtrl', ['$scope', '$log', 'baboon.admin.rights', function ($scope, $log, rights) {
+    .controller('adminRightListCtrl', ['$scope', '$log', 'adminRights', function ($scope, $log, rights) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -158,7 +158,7 @@ angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
 
         $scope.getData();
     }])
-    .controller('editRightCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'baboon.admin.rights', '$log', function ($scope, $routeParams, $location, lxForm, rights, $log) {
+    .controller('adminEditRightCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminRights', '$log', function ($scope, $routeParams, $location, lxForm, rights, $log) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
@@ -198,7 +198,7 @@ angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
             }
         };
     }])
-    .controller('groupListCtrl', ['$scope', '$log', 'baboon.admin.groups', function ($scope, $log, groups) {
+    .controller('adminGroupListCtrl', ['$scope', '$log', 'adminGroups', function ($scope, $log, groups) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -228,7 +228,7 @@ angular.module('admin', ['baboon.admin.services', 'baboon.admin.directives'])
 
         $scope.getData();
     }])
-    .controller('editGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'baboon.admin.groups', '$log', 'baboon.admin.rights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
+    .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
         $scope.lxForm = lxForm('baboon_group', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {

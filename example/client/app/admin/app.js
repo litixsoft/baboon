@@ -1,14 +1,12 @@
 /*global angular*/
-angular.module('baboon.admin', [
-        'pascalprecht.translate',
-        'baboon.module',
-        'baboon.services',
-        'baboon.directives',
+angular.module('app', [
+        'ui.bootstrap',
+        'app.includes',
         'admin'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/admin', {templateUrl: '/toplevel/admin/administration.html'});
+        $routeProvider.when('/admin', {templateUrl: 'admin/administration.html'});
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $translateProvider.useStaticFilesLoader({
