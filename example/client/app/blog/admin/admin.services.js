@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('admin.services', [])
-    .factory('authorPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
+angular.module('app.blog.admin.services', [])
+    .factory('appBlogAdminAuthorPosts', ['lxSocket', 'app.blog.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getById = function (id, callback) {
@@ -30,7 +30,7 @@ angular.module('admin.services', [])
 
         return pub;
     }])
-    .factory('tags', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
+    .factory('appBlogAdminTags', ['lxSocket', 'app.blog.modulePath', function (lxSocket, modulePath) {
         var pub = {},
             tags = [];
 

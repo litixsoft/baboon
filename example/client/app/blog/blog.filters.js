@@ -1,5 +1,5 @@
 /*global angular */
-angular.module('blog.filters', []).
+angular.module('app.blog.filters', []).
     filter('notZero', function () {
         return function (items) {
             items = items || [];
