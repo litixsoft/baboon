@@ -1,7 +1,33 @@
 {
-    "name": "app",
+    "name": "baboon-example",
     "description": "Example App for baboon web application framework",
     "version": "0.2.0",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
+    },
+    "homepage": "https://github.com/litixsoft/baboon",
+    "maintainers": [
+        {
+            "name": "Timo Liebetrau",
+            "email": "t.liebetrau@litixsoft.de"
+        },
+        {
+            "name": "Andreas Krummsdorf",
+            "email": "a.krummsdorf@litixsoft.de"
+        },
+        {
+            "name": "Sven Bernstein",
+            "email": "s.bernstein@litixsoft.de"
+        }
+    ],
+    "license": "The MIT License (MIT)",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
+        }
+    ],
     "private": true,
     "repository": {
         "type": "git",
@@ -38,6 +64,7 @@
         "karma-coverage": "*",
         "karma-junit-reporter": "*",
         "karma-ng-scenario": "*",
-        "grunt-contrib-less": "~0.7.0"
+        "grunt-contrib-less": "~0.7.0",
+        "grunt-html2js": "~0.1.7"
     }
 }

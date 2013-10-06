@@ -1,7 +1,7 @@
 'use strict';
 //noinspection JSUnresolvedVariable
 var path = require('path'),
-    lxHelpers = require('lx-helper'),
+    lxHelpers = require('lx-helpers'),
     baboon = require('../lib/baboon')(path.join(__dirname)),
     middleware = baboon.middleware,
     server = baboon.server,
