@@ -7,8 +7,8 @@ var path = require('path'),
     server = baboon.server,
     app = server.app,
     logging = baboon.logging,
-    rights = baboon.rights;
-//    config = baboon.config;
+    rights = baboon.rights,
+    config = baboon.config;
 //    api = require(config.path.api);
 
 ///////////////////////////////////////////
