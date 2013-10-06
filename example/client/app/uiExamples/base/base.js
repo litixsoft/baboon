@@ -1,13 +1,13 @@
 /*global angular */
 
-angular.module('ui_app.base', [])
+angular.module('base', [])
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: '/toplevel/ui_examples/base/base.html', controller: 'ui_app.base.baseCtrl'});
-        $routeProvider.when('/ui/base', {templateUrl: '/toplevel/ui_examples/base/base.html', controller: 'ui_app.base.baseCtrl'});
-        $routeProvider.when('/ui/md/first', {templateUrl: '/toplevel/ui_examples/base/docs/first.html', controller: 'ui_app.base.baseCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'uiExamples/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui/base', {templateUrl: 'uiExamples/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui/md/first', {templateUrl: 'uiExamples/docs/first.html', controller: 'baseCtrl'});
     })
-    .controller('ui_app.base.baseCtrl', ['$scope', function ($scope) {
+    .controller('baseCtrl', ['$scope', function ($scope) {
         $scope.title = 'UI-Examples-Base';
 
         $scope.mdcontent = '###Ueberschrifttest ' +

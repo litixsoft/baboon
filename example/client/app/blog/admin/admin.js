@@ -1,11 +1,11 @@
 /*global angular*/
-angular.module('app.blog.admin', ['app.blog.services', 'app.blog.admin.services'])
+angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog/admin', {templateUrl: 'blog/admin/admin.html'});
-        $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'appBlogAdminEditPostCtrl'});
-        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'appBlogAdminEditPostCtrl'});
+        $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
+        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .controller('appBlogAdminAdminCtrl', ['$scope', 'appBlogPosts', 'appBlogAdminAuthorPosts', 'lxInlineEdit', function ($scope, appBlogPosts, appBlogAdminAuthorPosts, lxInlineEdit) {
+    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -35,7 +35,7 @@ angular.module('app.blog.admin', ['app.blog.services', 'app.blog.admin.services'
                     options: options || {}
                 };
 
-                appBlogPosts.getAllWithCount(query, callback);
+                blogPosts.getAllWithCount(query, callback);
             };
 
         $scope.sort = function (field) {
@@ -72,7 +72,7 @@ angular.module('app.blog.admin', ['app.blog.services', 'app.blog.admin.services'
             form.errors = {};
 
             if (post._id) {
-                appBlogAdminAuthorPosts.update(post, saveCallback);
+                blogAdminAuthorPosts.update(post, saveCallback);
             }
         };
 
@@ -85,17 +85,17 @@ angular.module('app.blog.admin', ['app.blog.services', 'app.blog.admin.services'
                     content: 'Content ' + i
                 };
 
-                appBlogAdminAuthorPosts.create(data, function () {});
+                blogAdminAuthorPosts.create(data, function () {});
             }
         };
 
         $scope.getData({skip: 0, limit: 5});
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'appBlogAdminAuthorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, appBlogAdminAuthorPosts, tags, lxForm) {
+    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            appBlogAdminAuthorPosts.getById($routeParams.id, function (result) {
+            blogAdminAuthorPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.lxForm.setModel(result.data);
                 } else {
@@ -125,9 +125,9 @@ angular.module('app.blog.admin', ['app.blog.services', 'app.blog.admin.services'
             };
 
             if (model._id) {
-                appBlogAdminAuthorPosts.update(model, callback);
+                blogAdminAuthorPosts.update(model, callback);
             } else {
-                appBlogAdminAuthorPosts.create(model, callback);
+                blogAdminAuthorPosts.create(model, callback);
             }
         };
 

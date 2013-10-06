@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('app.blog.admin.services', [])
-    .factory('appBlogAdminAuthorPosts', ['lxSocket', 'app.blog.modulePath', function (lxSocket, modulePath) {
+angular.module('blog.admin.services', [])
+    .factory('blogAdminAuthorPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getById = function (id, callback) {

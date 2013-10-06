@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('app.blog.services', [])
-    .factory('appBlogPosts', ['lxSocket', 'app.blog.modulePath', function (lxSocket, modulePath) {
+angular.module('blog.services', [])
+    .factory('blogPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getAll = function (query, callback) {

@@ -1,6 +1,6 @@
 /*global angular*/
-angular.module('app.enterprise.services', [])
-    .factory('appEnterpriseCrew', ['lxSocket', 'app.enterprise.modulePath', function (lxSocket, modulePath) {
+angular.module('enterprise.services', [])
+    .factory('enterpriseCrew', ['lxSocket', 'enterprise.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getAll = function(query, callback) {

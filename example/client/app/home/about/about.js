@@ -1,12 +1,12 @@
 /*global angular*/
-angular.module('app.home.about', [])
+angular.module('home.about', [])
 
     // config home module
     .config(function ($routeProvider) {
-        $routeProvider.when('/home/about', {templateUrl: 'home/about/about.html', controller: 'appAboutCtrl'});
+        $routeProvider.when('/home/about', {templateUrl: 'home/about/about.html', controller: 'homeAboutCtrl'});
     })
     // home controller
-    .controller('appAboutCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('homeAboutCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.startAdministration = function () {
             $http.post('/admin/startAdministration', {project_id: 123})
                 .success(function (data) {

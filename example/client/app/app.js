@@ -2,12 +2,12 @@
 angular.module('app', [
         'ui.bootstrap',
         'app.includes',
-        'app.blog',
-        'app.cache',
-        'app.enterprise',
-        'app.home',
-        'app.session',
-        'app.translation'
+        'blog',
+        'cache',
+        'enterprise',
+        'home',
+        'session',
+        'translation'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);

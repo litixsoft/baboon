@@ -1,9 +1,9 @@
 /*global angular*/
-angular.module('app.session', []).
+angular.module('session', []).
     config(function ($routeProvider) {
-        $routeProvider.when('/session', {templateUrl: 'session/session.html', controller: 'appSessionCtrl'});
+        $routeProvider.when('/session', {templateUrl: 'session/session.html', controller: 'sessionCtrl'});
     }).
-    controller('appSessionCtrl', ['$scope', 'lxSession', '$log', function ($scope, lxSession, $log) {
+    controller('sessionCtrl', ['$scope', 'lxSession', '$log', function ($scope, lxSession, $log) {
 
         $scope.logs_1 = [];
         $scope.logs_2 = [];

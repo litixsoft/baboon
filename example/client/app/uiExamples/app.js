@@ -1,10 +1,8 @@
 /*global angular*/
-angular.module('ui_app', [
-        'pascalprecht.translate',
-        'ui_app.base',
-        'baboon.module',
-        'baboon.services',
-        'baboon.directives'
+angular.module('app', [
+        'ui.bootstrap',
+        'app.includes',
+        'base'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);

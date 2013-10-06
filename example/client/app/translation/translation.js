@@ -1,9 +1,9 @@
 /*global angular*/
-angular.module('app.translation', [])
+angular.module('translation', [])
     .config(function ($routeProvider) {
-        $routeProvider.when('/translation', {templateUrl: 'translation/translation.html', controller: 'appTranslationCtrl'});
+        $routeProvider.when('/translation', {templateUrl: 'translation/translation.html', controller: 'translationCtrl'});
     })
-    .controller('appTranslationCtrl', ['$scope', '$translate', 'lxSession', '$log',
+    .controller('translationCtrl', ['$scope', '$translate', 'lxSession', '$log',
         function ($scope, $translate, lxSession, $log) {
         $scope.changeLanguage = function (langKey) {
             // tell angular-translate to use the new language

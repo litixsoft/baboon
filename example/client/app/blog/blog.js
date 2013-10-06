@@ -1,11 +1,11 @@
 /*global angular*/
-angular.module('app.blog', ['app.blog.services', 'app.blog.admin', 'app.blog.filters'])
+angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'appBlogCtrl'});
-        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'appPostCtrl'});
+        $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
+        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'blogPostCtrl'});
     })
-    .constant('app.blog.modulePath', 'example/blog/')
-    .controller('appBlogCtrl', ['$scope', 'appBlogPosts', 'tags', function ($scope, appBlogPosts, tags) {
+    .constant('blog.modulePath', 'example/blog/')
+    .controller('blogCtrl', ['$scope', 'blogPosts', 'tags', function ($scope, blogPosts, tags) {
         var options = {},
             params = {},
             getData = function () {
@@ -15,10 +15,10 @@ angular.module('app.blog', ['app.blog.services', 'app.blog.admin', 'app.blog.fil
                 };
 
                 if (typeof params === 'string') {
-                    appBlogPosts.searchPosts(query, callback);
+                    blogPosts.searchPosts(query, callback);
                 } else {
                     params = {};
-                    appBlogPosts.getAllWithCount(query, callback);
+                    blogPosts.getAllWithCount(query, callback);
                 }
             },
             callback = function (result) {
@@ -48,10 +48,10 @@ angular.module('app.blog', ['app.blog.services', 'app.blog.admin', 'app.blog.fil
 
         $scope.getData({skip: 0, limit: 5});
     }])
-    .controller('appPostCtrl', ['$scope', '$routeParams', 'appBlogPosts', function ($scope, $routeParams, appBlogPosts) {
+    .controller('blogPostCtrl', ['$scope', '$routeParams', 'blogPosts', function ($scope, $routeParams, blogPosts) {
         // load post
         if ($routeParams.id) {
-            appBlogPosts.getById($routeParams.id, function (result) {
+            blogPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.post = result.data;
                     $scope.post.comments = $scope.post.comments || [];
@@ -89,7 +89,7 @@ angular.module('app.blog', ['app.blog.services', 'app.blog.admin', 'app.blog.fil
                 }
             };
 
-            appBlogPosts.addComment(id, comment, callback);
+            blogPosts.addComment(id, comment, callback);
 //            if (post._id) {
 //                appBlogPosts.update(post, callback);
 //            } else {
