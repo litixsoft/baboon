@@ -10,10 +10,10 @@ describe('admin services', function () {
         module('mocks');
     });
 
-    describe('authorPosts', function () {
+    describe('blogAdminAuthorPosts', function () {
         beforeEach(function () {
             inject(function ($injector) {
-                service = $injector.get('authorPosts');
+                service = $injector.get('blogAdminAuthorPosts');
             });
         });
 
@@ -103,10 +103,10 @@ describe('admin services', function () {
         });
     });
 
-    describe('tags', function () {
+    describe('appBlogAdminTags', function () {
         beforeEach(function () {
             inject(function ($injector) {
-                service = $injector.get('tags');
+                service = $injector.get('appBlogAdminTags');
             });
         });
 

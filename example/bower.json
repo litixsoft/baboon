@@ -12,8 +12,8 @@
   "private": true,
   "devDependencies": {
     "bootstrap": "~3.0.0",
-    "angular": "~1.0.7",
-    "angular-mocks": "~1.0.7",
+    "angular": "~1.0.8",
+    "angular-mocks": "~1.0.8",
     "angular-scenario": "~1.0.8",
     "angular-translate": "~1.1.0",
     "angular-translate-loader-static-files": "~0.1.5",

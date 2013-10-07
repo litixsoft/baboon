@@ -11,17 +11,18 @@ module.exports = function (config) {
             'client/vendor/angular-mocks/angular-mocks.js',
             'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
             'client/vendor/angular-ui-utils/modules/**/*.js',
+            'build/tmp/tpls/**/*js',
             'client/vendor/baboon-client/common/**/*.js',
             'client/vendor/baboon-client/optional/**/*.js',
             'test/fixtures/mocks.js',
-            'client/**/*.js',
+            'client/common/*.js',
+            'client/app/**/*.js',
             'client/vendor/showdown/src/showdown.js'
         ],
 
         exclude: [
             'client/public/**/*.js',
-            'client/common/*.js',
-            'client/vendor/**/*.js',
+            'client/vendor/angular-ui-utils/modules/**/*Spec.js',
             'client/vendor/baboon-client/common/**/*.spec.js',
             'client/vendor/baboon-client/optional/**/*.spec.js'
         ],
@@ -57,7 +58,7 @@ module.exports = function (config) {
         // - PhantomJS
         // - IE (only Windows)
         // CLI --browsers Chrome,Firefox,Safari
-        browsers: ['Chrome'],
+        browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
         // If browser does not capture in given timeout [ms], kill it
         // CLI --capture-timeout 5000

@@ -30,7 +30,7 @@ angular.module('blog.admin.services', [])
 
         return pub;
     }])
-    .factory('appBlogAdminTags', ['lxSocket', 'app.blog.modulePath', function (lxSocket, modulePath) {
+    .factory('appBlogAdminTags', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
         var pub = {},
             tags = [];
 

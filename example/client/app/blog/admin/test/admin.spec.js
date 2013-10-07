@@ -12,7 +12,7 @@ describe('admin modul', function () {
     beforeEach(module('lx.form'));
 
     // adminCtrl tests
-    describe('adminCtrl', function () {
+    describe('blogAdminAdminCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
             service = $injector.get('lxSocket');
@@ -30,7 +30,7 @@ describe('admin modul', function () {
             };
 
             scope = $rootScope.$new();
-            ctrl = $controller('adminCtrl', {$scope: scope});
+            ctrl = $controller('blogAdminAdminCtrl', {$scope: scope});
         }));
 
         it('should be initialized correctly', function () {
@@ -76,7 +76,7 @@ describe('admin modul', function () {
     });
 
     // editPostCtrl tests
-    describe('editPostCtrl', function () {
+    describe('blogAdminEditPostCtrl', function () {
         beforeEach(inject(function ($controller, $routeParams, $injector) {
             flag = false;
             service = $injector.get('lxSocket');
@@ -100,7 +100,7 @@ describe('admin modul', function () {
 
             scope = {};
             $routeParams.id = 22;
-            ctrl = $controller('editPostCtrl', {$scope: scope});
+            ctrl = $controller('blogAdminEditPostCtrl', {$scope: scope});
         }));
 
         it('should have initialized correctly', function () {
@@ -229,7 +229,7 @@ describe('admin modul', function () {
     });
 
     // tagsCtrl tests
-    describe('tagsCtrl', function () {
+    describe('blogAdminTagsCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
             service = $injector.get('lxSocket');
@@ -259,7 +259,7 @@ describe('admin modul', function () {
             };
 
             scope = $rootScope.$new();
-            ctrl = $controller('tagsCtrl', {$scope: scope});
+            ctrl = $controller('blogAdminTagsCtrl', {$scope: scope});
         }));
 
         it('should be initialized correctly', function () {
