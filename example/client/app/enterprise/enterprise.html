@@ -31,20 +31,20 @@
                 <td>{{person.name}}</td>
                 <td>{{person.description}}</td>
                 <td style="text-align: right">
-                    <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><i class="icon-edit"></i></a>&nbsp;
-                    <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><i class=" icon-trash"></i></a>
+                    <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
+                    <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
             </tbody>
         </table>
         <p ui-if="visible.reset">
-            <button class="btn" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+            <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
         </p>
         <p ui-if="visible.create">
-            <button class="btn" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+            <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
         </p>
-        <button class="btn" ng-click="visible.element = !visible.element">show as element</button>
-        <button class="btn" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>
+        <button class="btn btn-default" ng-click="visible.element = !visible.element">show as element</button>
+        <button class="btn btn-default" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>
 
         <!-- use mmsgbox as element -->
         <bb-msgbox use-template msg-Headline="'Test 111111111'" msg-type="type" msg-message="message" msg-cbs="callbackObj" msg-class="'standard'" msg-show="visible.element"></bb-msgbox>
