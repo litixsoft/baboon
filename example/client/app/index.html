@@ -32,7 +32,8 @@
 <div id="singlepageFrame">
     <div class="layout-content">
         <div class="col-left navCol">
-            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
+            <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
+            <lxtreeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
         </div>
         <div class="col-right">
 
@@ -109,7 +110,9 @@
                     <% } %>
                 </div>
 
-                <lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>
+                <!--<lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>-->
+                <lxbootnav class="navlist" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxbootnav>
+
 
                 <div class="pull-right" style="margin:0 40px 0 0;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(0,0,0,0.1);">
                     <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
