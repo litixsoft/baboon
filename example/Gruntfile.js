@@ -423,7 +423,7 @@ module.exports = function (grunt) {
                 configFile: '<%= configFolder %>/karma.conf.js',
                 reporters: ['progress', 'junit'],
                 junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/tests/karma.xml',
+                    outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
                     suite: 'karma'
                 }
             },
@@ -707,13 +707,12 @@ module.exports = function (grunt) {
     grunt.registerTask('ci', [
         'clean',
         'build',
-        'baboon',
         'jshint:jslint',
         'jshint:checkstyle',
         'bgShell:coverage',
         'bgShell:cobertura',
         'jasmine_node',
-        'karma:unit',
+        'karma:ci',
         'karma:coverage',
         'karma:cobertura'
     ]);
