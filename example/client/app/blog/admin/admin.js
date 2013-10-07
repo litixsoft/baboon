@@ -91,7 +91,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
 
         $scope.getData({skip: 0, limit: 5});
     }])
-    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
+    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'appBlogAdminTags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
@@ -137,7 +137,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             }
         });
     }])
-    .controller('tagsCtrl', ['$scope', 'tags', function ($scope, tags) {
+    .controller('blogAdminTagsCtrl', ['$scope', 'appBlogAdminTags', function ($scope, tags) {
         $scope.modal = {
             opts: {
                 backdropFade: true,

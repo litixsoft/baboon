@@ -82,7 +82,7 @@ describe('blog', function () {
     });
 
     // postCtrl tests
-    describe('postCtrl', function () {
+    describe('blogPostCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
             service = $injector.get('lxSocket');
             service.emit = function (eventName, data, callback) {
@@ -103,7 +103,7 @@ describe('blog', function () {
 
             scope = $rootScope.$new();
             $routeParams.id = 22;
-            ctrl = $controller('postCtrl', {$scope: scope});
+            ctrl = $controller('blogPostCtrl', {$scope: scope});
         }));
 
         it('should be initialized correctly', function () {

@@ -1,9 +1,13 @@
 'use strict';
 
 module.exports = function (grunt) {
-
     var path = require('path');
 
+    /**
+     * Gets the index.html file from the code coverage folder.
+     *
+     * @param {!string} folder The path to the code coverage folder.
+     */
     function getCoverageReport (folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
@@ -53,6 +57,9 @@ module.exports = function (grunt) {
         // test folder
         testFolder: 'test',
 
+        // scripts folder
+        scriptsFolder: 'scripts',
+
         // js module prefix and suffix for concat
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
@@ -74,16 +81,18 @@ module.exports = function (grunt) {
             '!<%= clientPublicFolder %>/**/*.js',
             '<%= serverFolder %>/**/*.js',
             '<%= testFolder %>/**/*.js',
-            '<%= configFolder %>/**/*.js'
+            '<%= configFolder %>/**/*.js',
+            '<%= scriptsFolder %>/**/*.js'
         ],
 
         // config tasks
 
         // Before generating any new files, remove any previously-created files.
         clean: {
-            jshint: ['<%= buildReportsFolder %>/jshint'],
+            jshint: ['<%= buildReportsFolder %>/lint'],
             dist: ['<%= buildDistFolder %>'],
-            jasmine: ['<%= buildReportsFolder %>/jasmine'],
+            jasmine: ['<%= buildReportsFolder %>/tests/server'],
+            karma: ['<%= buildReportsFolder %>/tests/client'],
             coverageServer: ['<%= buildReportsFolder %>/coverage/server'],
             coverageClient: ['<%= buildReportsFolder %>/coverage/client'],
             reports: ['<%= buildReportsFolder %>'],
@@ -118,7 +127,7 @@ module.exports = function (grunt) {
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: '<%= buildReportsFolder %>/jshint/jshint.xml'
+                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint.xml'
                 },
                 files: {
                     src: '<%= jshintFiles %>'
@@ -127,7 +136,7 @@ module.exports = function (grunt) {
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: '<%= buildReportsFolder %>/jshint/jshint_checkstyle.xml'
+                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint_checkstyle.xml'
                 },
                 files: {
                     src: '<%= jshintFiles %>'
@@ -312,13 +321,13 @@ module.exports = function (grunt) {
                 cmd: 'node test/fixtures/resetDB.js e2e'
             },
             setup: {
-                cmd: 'node scripts/setup.js'
+                cmd: 'node <%= scriptsFolder %>/setup.js'
             },
             coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir <%= buildReportsFolder %>/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/reports/coverage/server --dir build/reports/coverage/server cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root <%= buildReportsFolder %>/coverage/server --dir <%= buildReportsFolder %>/coverage/server cobertura'
             }
         },
 
@@ -366,10 +375,10 @@ module.exports = function (grunt) {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             },
             coverageServer: {
-                path: path.join(__dirname, getCoverageReport('<%= buildReportsFolder %>/coverage/server/lcov-report/'))
+                path: path.join(__dirname, getCoverageReport('build/reports/coverage/server/'))
             },
             coverageClient: {
-                path: path.join(__dirname, getCoverageReport('<%= buildReportsFolder %>/coverage/client/'))
+                path: path.join(__dirname, getCoverageReport('build/reports/coverage/client/'))
             }
         },
 
@@ -414,13 +423,15 @@ module.exports = function (grunt) {
                 configFile: '<%= configFolder %>/karma.conf.js',
                 reporters: ['progress', 'junit'],
                 junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/tests/karma.xml',
+                    outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
                     suite: 'karma'
                 }
             },
             debug: {
                 configFile: '<%= configFolder %>/karma.conf.js',
-                detectBrowsers: false,
+                detectBrowsers: {
+                    enabled: false
+                },
                 singleRun: false
             },
             coverage: {
@@ -489,7 +500,7 @@ module.exports = function (grunt) {
             forceExit: true,
             jUnit: {
                 report: true,
-                savePath: '<%= buildReportsFolder %>/jasmine/',
+                savePath: '<%= buildReportsFolder %>/tests/server/',
                 useDotNotation: true,
                 consolidate: true
             }
@@ -585,8 +596,10 @@ module.exports = function (grunt) {
     grunt.registerTask('lint', [
         'jshint:test'
     ]);
-    grunt.registerTask('unit', [
+    grunt.registerTask('test:unit', [
         'clean:jasmine',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
         'karma:unit'
@@ -595,11 +608,15 @@ module.exports = function (grunt) {
         'karma:debug'
     ]);
     grunt.registerTask('test:client', [
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'karma:unit'
     ]);
     grunt.registerTask('cover:client', [
         'clean:coverageClient',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'karma:coverage',
         'open:coverageClient'
@@ -618,9 +635,13 @@ module.exports = function (grunt) {
     grunt.registerTask('cover', [
         'clean:coverageServer',
         'clean:coverageClient',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'bgShell:coverage',
-        'karma:coverage'
+        'karma:coverage',
+        'open:coverageServer',
+        'open:coverageClient'
     ]);
     grunt.registerTask('e2e', [
         'jshint:test',
@@ -656,6 +677,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'bgShell:e2e',
         'clean:jasmine',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
         'karma:unit',
@@ -666,6 +689,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test:release', [
         'bgShell:e2e',
         'clean:jasmine',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
         'karma:unit',
@@ -687,7 +712,7 @@ module.exports = function (grunt) {
         'bgShell:coverage',
         'bgShell:cobertura',
         'jasmine_node',
-        'karma:unit',
+        'karma:ci',
         'karma:coverage',
         'karma:cobertura'
     ]);

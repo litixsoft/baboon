@@ -5,7 +5,7 @@ angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
         $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'blogPostCtrl'});
     })
     .constant('blog.modulePath', 'example/blog/')
-    .controller('blogCtrl', ['$scope', 'blogPosts', 'tags', function ($scope, blogPosts, tags) {
+    .controller('blogCtrl', ['$scope', 'blogPosts', 'appBlogAdminTags', function ($scope, blogPosts, tags) {
         var options = {},
             params = {},
             getData = function () {

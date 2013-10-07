@@ -10,10 +10,10 @@ describe('blog services', function () {
         module('mocks');
     });
 
-    describe('posts', function () {
+    describe('blogPosts', function () {
         beforeEach(function () {
             inject(function ($injector) {
-                service = $injector.get('posts');
+                service = $injector.get('blogPosts');
             });
         });
 

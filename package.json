@@ -53,12 +53,9 @@
         "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-jshint": "~0.6.4",
         "grunt-jasmine-node": "~0.1.0",
-        "grunt-karma": "~0.6.2",
         "grunt-open": "~0.2.2",
         "istanbul": "~0.1.44",
-        "karma-detect-browsers": "*",
-        "karma-coverage": "*",
-        "karma-junit-reporter": "*"
+        "load-grunt-tasks": "0.1.0"
     },
     "dependencies": {
         "async": "~0.2.9",
@@ -69,11 +66,11 @@
         "log4js": "~0.6.9",
         "lx-helpers": "~0.2.5",
         "lx-mongodb": "~0.4.5",
-        "lx-valid": "~0.2.8",
+        "lx-valid": "~0.2.9",
         "passport": "*",
         "passport-local": "*",
         "pwd": "0.0.2",
-        "redis": "~0.8.5",
+        "redis": "~0.8.6",
         "socket.io": "~0.9.16"
     }
 }
