@@ -365,7 +365,7 @@ module.exports = function (grunt) {
                     '<%= serverFolder %>/modules/**/*.*',
                     '!<%= serverFolder %>/**/*.spec.js'
                 ],
-                tasks: ['express:dev']
+                tasks: ['build:rights', 'express:dev']
             }
         },
 
@@ -566,31 +566,33 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('setup', [
+    grunt.registerTask('build:rights', [
         'bgShell:setup'
     ]);
-    grunt.registerTask('build', [
+    grunt.registerTask('build:client', [
         'clean:dist',
         'clean:tmp',
         'copy',
         'baboon',
-        'setup',
         'replace:debug'
+    ]);
+    grunt.registerTask('build', [
+        'build:rights',
+        'build:client'
     ]);
     grunt.registerTask('build:watch', [
         'clean:dist',
         'clean:tmp',
         'copy',
         'baboon',
-        'setup',
         'replace:livereload'
     ]);
-    grunt.registerTask('build:release', [
+    grunt.registerTask('build:deploy', [
         'clean:dist',
         'clean:tmp',
         'copy',
         'baboon:release',
-        'setup',
+        'build:rights',
         'replace:release'
     ]);
     grunt.registerTask('lint', [
@@ -670,7 +672,7 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e:release', [
         'jshint:test',
         'bgShell:e2e',
-        'build:release',
+        'build:deploy',
         'express:e2e',
         'karma:e2e'
     ]);
@@ -691,7 +693,7 @@ module.exports = function (grunt) {
         'clean:tmp',
         'jshint:test',
         'jasmine_node',
-        'build:release',
+        'build:deploy',
         'karma:unit',
         'express:e2e',
         'karma:e2e'
