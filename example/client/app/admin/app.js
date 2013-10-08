@@ -6,7 +6,7 @@ angular.module('app', [
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/admin', {templateUrl: 'admin/administration.html'});
+        $routeProvider.when('/admin', {templateUrl: 'admin/tpls/administration.html'});
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $translateProvider.useStaticFilesLoader({
