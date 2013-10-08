@@ -3,7 +3,6 @@ angular.module('app', [
         'ui.bootstrap',
         'app.includes',
         'blog',
-        'cache',
         'enterprise',
         'home',
         'session',
