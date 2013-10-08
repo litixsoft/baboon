@@ -41,7 +41,7 @@
 
             <!-- login start -->
 
-            <div style="display:block;height:50px;position:absolute;top:0;background:#444444;width:100%;">
+            <div class="dark-header">
                 <div class="pull-right login-area" ng-controller="lxAuthLoginCtrl">
                     <% if(!isAuth) { %>
                     <div class="btn-group" ng-class="{open: openMenu}">
@@ -114,29 +114,28 @@
                     <% } %>
                 </div>
 
-                <!--<lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>-->
                 <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
 
 
-                <div class="pull-right" style="margin:0 40px 0 0;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(0,0,0,0.1);">
-                    <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
-                        <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" style="height: 25px; cursor: pointer;"/>
-                        <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" style="height: 25px; cursor: pointer;"/>
+                <div class="pull-right connection-area">
+                    <div class="pull-right">
+                        <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
+                        <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
-
-                    <div class="pull-right" style="padding:12px 20px 12px 20px;border-right:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(0,0,0,0.1);">
-                        <img src="/img/flag-german.png" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;" title="Sprachauswahl: deutsche Sprache auswählen!"/>
-                        <img src="/img/flag-english.png" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;" title="Language selection: select english language!"/>
+                    <div class="pull-right flag-area">
+                        <img src="/img/flag-german.png" ng-click="changeLanguage('de')" title="Sprachauswahl: deutsche Sprache auswählen!"/>
+                        <img src="/img/flag-english.png" ng-click="changeLanguage('en')" title="Language selection: select english language!"/>
                     </div>
                 </div>
 
-                <span class="pull-right" style="text-shadow:1px 1px 4px rgba(0,0,0,0);/*rgba(255,255,255,0.5)*/;font-family: 'Ubuntu', sans-serif;color:rgba(255,255,255,0.15);font-size:40px;font-weight:bold;line-height:50px;padding:0 0;margin:0px 30px 0px 10px;">baboon</span>
+                <span class="pull-right trademark-area">baboon</span>
             </div>
 
             <!-- login end -->
 
-            <alert style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+            <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+
             <div class="view-container">
                 <div ng-view></div>
             </div>
