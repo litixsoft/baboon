@@ -1,6 +1,6 @@
 <div>
     <div class="p-wrapper">
-        <div ng-controller="adminCtrl">
+        <div ng-controller="blogAdminAdminCtrl">
             <h2>Blog Posts</h2>
             <table name="posts" class="table table-hover">
                 <thead>
@@ -64,7 +64,7 @@
         <br />
         <br />
 
-        <div ng-controller="tagsCtrl">
+        <div ng-controller="blogAdminTagsCtrl">
             <button name="showTags" class="btn btn-info" ng-click="modal.open()">Tags</button>
 
             <div modal="modal.shouldBeOpen" close="modal.close()" options="opts">
