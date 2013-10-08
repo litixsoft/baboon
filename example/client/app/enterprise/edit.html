@@ -2,42 +2,38 @@
     <div class="p-wrapper">
 
         <h2 style="font-weight:bold;">Enterprise Edit</h2>
-        <form name="form" class="form-horizontal" novalidate style="box-shadow:0 1px 6px rgba(0,0,0,0.35);background:#f4f4f4;border-radius: 9px;border:1px solid rgba(255,255,255,0.9);margin-top:20px;">
+        <form name="form" class="form-horizontal boxed-shadow" novalidate>
             <fieldset>
 
-                <div style="padding:20px;">
+                <legend style="color:rgba(0,0,0,0.5);font-weight:bold;">Crew Member</legend>
 
-                    <legend style="color:rgba(0,0,0,0.5);font-weight:bold;">Crew Member</legend>
-
-                    <div ng-init="person.count=1" class="form-group" ng-class="{error : (form.name.$error.required && person.count > 0)}">
-                        <label class="col-lg-2 control-label" for="name">Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required>
-                            <span ng-show="form.name.$error.required && person.count > 0" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
-                        </div>
+                <div ng-init="person.count=1" class="form-group" ng-class="{error : (form.name.$error.required && person.count > 0)}">
+                    <label class="col-lg-2 control-label" for="name">Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required>
+                        <span ng-show="form.name.$error.required && person.count > 0" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
                     </div>
+                </div>
 
-                    <div class="form-group" ng-class="{error : form.description.$error.required}">
-                        <label class="col-lg-2 control-label" for="description">Description</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required>
-                            <span ng-show="form.description.$error.required" style="cursor:pointer" class="label label-important" popover="Description is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
-                        </div>
+                <div class="form-group" ng-class="{error : form.description.$error.required}">
+                    <label class="col-lg-2 control-label" for="description">Description</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required>
+                        <span ng-show="form.description.$error.required" style="cursor:pointer" class="label label-important" popover="Description is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
                     </div>
+                </div>
 
-                    <div class="form-group" ui-if="visible.errors">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <alert type="'error'" close style="margin-bottom:0;">{{validationErrors}} Fehler sind hier.</alert>
-                        </div>
-                     </div>
-
-                    <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <a ng-href="/enterprise" class="btn btn-default"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
-                            <button ng-click="save()" ng-disabled="form.$invalid" class="btn btn-primary"><i class="icon-ok"></i>&nbsp;Speichern</button>
-                        </div>
+                <div class="form-group" ui-if="visible.errors">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <alert type="'error'" close style="margin-bottom:0;">{{validationErrors}} Fehler sind hier.</alert>
                     </div>
+                 </div>
 
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <a ng-href="/enterprise" class="btn btn-default"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
+                        <button ng-click="save()" ng-disabled="form.$invalid" class="btn btn-primary"><i class="icon-ok"></i>&nbsp;Speichern</button>
+                    </div>
                 </div>
 
             </fieldset>

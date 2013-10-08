@@ -16,33 +16,40 @@
         <p>
             Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
         </p>
-        <h3>Enterprise-Crew</h3>
-        <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
-                        <i class="icon-plus-sign"></i></a></td>
+
+        <div class="boxed-shadow">
+            <legend>Enterprise-Crew</legend>
+            <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
+                            <i class="icon-plus-sign"></i></a></td>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="person in crew">
+                    <td>{{person.name}}</td>
+                    <td>{{person.description}}</td>
+                    <td style="text-align: right">
+                        <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
+                        <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="person in crew">
-                <td>{{person.name}}</td>
-                <td>{{person.description}}</td>
-                <td style="text-align: right">
-                    <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
-                    <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <p ui-if="visible.reset">
-            <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
-        </p>
-        <p ui-if="visible.create">
-            <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
-        </p>
+                </tbody>
+            </table>
+
+            <p ui-if="visible.reset">
+                <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+            </p>
+            <p ui-if="visible.create">
+                <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+            </p>
+
+        </div>
+
+
         <!--<button class="btn btn-default" ng-click="visible.element = !visible.element">show as element</button>-->
         <!--<button class="btn btn-default" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>-->
 

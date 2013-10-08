@@ -13,8 +13,8 @@ module.exports = [
                 {title: 'Demo2', route: '/demo2', icon: 'gear'},
                 {title: 'Demo3', route: '/demo3', icon: 'home'}
             ]}
-        ]},
-        {title: 'Cache', route: '/cache'}
+        ]}
+//        {title: 'Cache', route: '/cache'}
     ]},
     {'title': 'UI_EXAMPLE', 'route': '/ui', target: '_self', children: [
         {title: 'DEMO', route: '/demo'}
