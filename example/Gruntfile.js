@@ -678,11 +678,10 @@ module.exports = function (grunt) {
         'bgShell:e2e',
         'clean:jasmine',
         'clean:tmp',
-        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
-        'karma:unit',
         'build',
+        'karma:unit',
         'express:e2e',
         'karma:e2e'
     ]);
@@ -690,11 +689,10 @@ module.exports = function (grunt) {
         'bgShell:e2e',
         'clean:jasmine',
         'clean:tmp',
-        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
-        'karma:unit',
         'build:release',
+        'karma:unit',
         'express:e2e',
         'karma:e2e'
     ]);
@@ -709,9 +707,9 @@ module.exports = function (grunt) {
         'build',
         'jshint:jslint',
         'jshint:checkstyle',
+        'jasmine_node',
         'bgShell:coverage',
         'bgShell:cobertura',
-        'jasmine_node',
         'karma:ci',
         'karma:coverage',
         'karma:cobertura'
