@@ -1,8 +1,8 @@
 /*global angular*/
 angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog', {templateUrl: 'blog/blog.html', controller: 'blogCtrl'});
-        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/post.html', controller: 'blogPostCtrl'});
+        $routeProvider.when('/blog', {templateUrl: 'blog/tpls/blog.html', controller: 'blogCtrl'});
+        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/tpls/post.html', controller: 'blogPostCtrl'});
     })
     .constant('blog.modulePath', 'example/blog/')
     .controller('blogCtrl', ['$scope', 'blogPosts', 'appBlogAdminTags', function ($scope, blogPosts, tags) {
