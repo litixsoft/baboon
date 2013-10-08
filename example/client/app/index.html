@@ -22,7 +22,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="img/favicon.png">
 
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 
@@ -55,26 +55,26 @@
                                     <form class="form" ng-submit="login()" name="loginForm" >
                                         <div class="form-inner">
                                             <div class="row">
-                                                <div class="col-md-1"><span class="glyphicon glyphicon-user"></span></div>
-                                                <div class="col-md-11">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-user"></span></div>
+                                                <div class="col-lg-11">
                                                     <div class="form-group">
                                                         <input class="form-control" ng-class="{error: authFailed}" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off'>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1"><span class="glyphicon glyphicon-lock"></span></div>
-                                                <div class="col-md-11">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-lock"></span></div>
+                                                <div class="col-lg-11">
                                                     <input class="form-control" ng-class="{error: authFailed}" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
                                                 </div>
                                             </div>
                                             <div class="row" ui-if="authFailed">
-                                                <div class="col-md-offset-1 alert alert-danger">
+                                                <div class="col-lg-offset-1 alert alert-danger">
                                                     <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
                                                 </div>
                                             </div>
                                             <div class="row" ui-if="serverError">
-                                                <div class="col-md-offset-1">
+                                                <div class="col-lg-offset-1">
                                                     <div class="alert alert-danger">
                                                         <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
                                                     </div>
