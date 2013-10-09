@@ -581,6 +581,7 @@ module.exports = function (grunt) {
         'build:client'
     ]);
     grunt.registerTask('build:watch', [
+        'build:rights',
         'clean:dist',
         'clean:tmp',
         'copy',
