@@ -1,15 +1,15 @@
 /*global angular*/
 angular.module('admin', ['admin.services', 'admin.directives'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/admin/users', {templateUrl: 'admin/users.html', controller: 'adminUserListCtrl'});
-        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'admin/editUser.html', controller: 'adminEditUserCtrl'});
-        $routeProvider.when('/admin/users/new', {templateUrl: 'admin/editUser.html', controller: 'adminEditUserCtrl'});
-        $routeProvider.when('/admin/rights', {templateUrl: 'admin/rights.html', controller: 'adminRightListCtrl'});
-        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: 'admin/editRight.html', controller: 'adminEditRightCtrl'});
-        $routeProvider.when('/admin/rights/new', {templateUrl: 'admin/editRight.html', controller: 'adminEditRightCtrl'});
-        $routeProvider.when('/admin/groups', {templateUrl: 'admin/groups.html', controller: 'adminGroupListCtrl'});
-        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'admin/editGroup.html', controller: 'adminEditGroupCtrl'});
-        $routeProvider.when('/admin/groups/new', {templateUrl: 'admin/editGroup.html', controller: 'adminEditGroupCtrl'});
+        $routeProvider.when('/admin/users', {templateUrl: 'admin/tpls/users.html', controller: 'adminUserListCtrl'});
+        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
+        $routeProvider.when('/admin/users/new', {templateUrl: 'admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
+        $routeProvider.when('/admin/rights', {templateUrl: 'admin/tpls/rights.html', controller: 'adminRightListCtrl'});
+        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: 'admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
+        $routeProvider.when('/admin/rights/new', {templateUrl: 'admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
+        $routeProvider.when('/admin/groups', {templateUrl: 'admin/tpls/groups.html', controller: 'adminGroupListCtrl'});
+        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
+        $routeProvider.when('/admin/groups/new', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
     })
     .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
         var options = {},

@@ -3,9 +3,9 @@
 angular.module('base', [])
 
     .config(function ($routeProvider) {
-        $routeProvider.when('/ui', {templateUrl: 'uiExamples/base.html', controller: 'baseCtrl'});
-        $routeProvider.when('/ui/base', {templateUrl: 'uiExamples/base.html', controller: 'baseCtrl'});
-        $routeProvider.when('/ui/md/first', {templateUrl: 'uiExamples/docs/first.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui/base', {templateUrl: 'base/base.html', controller: 'baseCtrl'});
+        $routeProvider.when('/ui/md/first', {templateUrl: 'base/docs/first.html', controller: 'baseCtrl'});
     })
     .controller('baseCtrl', ['$scope', function ($scope) {
         $scope.title = 'UI-Examples-Base';
