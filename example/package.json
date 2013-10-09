@@ -65,6 +65,6 @@
         "karma-junit-reporter": "*",
         "karma-ng-scenario": "*",
         "grunt-contrib-less": "~0.7.0",
-        "grunt-html2js": "~0.1.7"
+        "grunt-html2js": "~0.1.8"
     }
 }
