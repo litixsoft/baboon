@@ -12,43 +12,51 @@
             }
 
         </style>
-        <h2>Enterprise Beispiel</h2>
-        <p>
-            Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.
-        </p>
 
-        <div class="boxed-shadow">
-            <legend>Enterprise-Crew</legend>
-            <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Description</td>
-                        <td style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
-                            <i class="icon-plus-sign"></i></a></td>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="person in crew">
-                    <td>{{person.name}}</td>
-                    <td>{{person.description}}</td>
-                    <td style="text-align: right">
-                        <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
-                        <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <p ui-if="visible.reset">
-                <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
-            </p>
-            <p ui-if="visible.create">
-                <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
-            </p>
-
+        <div class="page-header">
+            <h1>Enterprise Beispiel<br><small>Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.</small></h1>
         </div>
 
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Enterprise-Crew</div>
+            <div class="panel-body">
+                <!--<p>An diese Stelle kann man ein paar tolle Sachen schreiben um eine Hilfestellung zu geben oder was auch immer man möchte. Man mir fällt einfach nix mehr ein was man schreiben könnte.</p>-->
+                <div class="alert alert-info">An diese Stelle kann man ein paar tolle Sachen schreiben um eine Hilfestellung zu geben oder was auch immer man möchte. Man mir fällt einfach nix mehr ein was man schreiben könnte.</div>
+
+                <!--<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Und hier kann man auch gleich Fehler anzeigen. Es treten ja nie welche auf aber für alle Fälle.</div>-->
+
+                <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
+                            <i class="icon-plus-sign"></i></a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="person in crew">
+                        <td>{{person.name}}</td>
+                        <td>{{person.description}}</td>
+                        <td style="text-align: right">
+                            <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
+                            <a href="#" ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <p ui-if="visible.reset">
+                    <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+                </p>
+                <p ui-if="visible.create">
+                    <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+                </p>
+            </div>
+        </div>
 
         <!--<button class="btn btn-default" ng-click="visible.element = !visible.element">show as element</button>-->
         <!--<button class="btn btn-default" ng-click="visible.element2 = !visible.element2">show as attribute in div</button>-->
