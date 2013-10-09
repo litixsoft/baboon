@@ -1,6 +1,9 @@
 <div>
     <div class="p-wrapper">
-        <h2>Latest Articles</h2>
+
+        <div class="page-header">
+            <h1>Latest Articles</h1>
+        </div>
 
         <!--<div class="btn-group">-->
             <!--<div class="input-prepend input-append">-->
@@ -38,6 +41,9 @@
             }
         </style>
 
+
+        <input type="checkbox" />
+
         <div class="btn-group">
             <div class="input-prepend input-append">
                 <input type="text" ng-model="searchValue" placeholder="Search..." ui-reset>
@@ -51,23 +57,40 @@
             </li>
         </ul>
 
-        <article class="posts-article" ng-repeat="entry in posts">
-            <div class="entry-title">
-                <h1>
-                    <a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>
-                </h1>
-
+        <div class="panel" ng-class="{'panel-success': ($index<1),'panel-default': ($index>0)}"  ng-repeat="entry in posts">
+            <div class="panel-heading">
+                <a class="entry-title" href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}} <span class="label label-success" ui-if="($index<1)">New</span></a>
                 <div class="entry-replies">
                     <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
                 </div>
             </div>
-
-            <div class="entry-excerpt">
+            <div class="panel-body">
                 <p>{{entry.content}}</p>
-                  <br />
-                <a href="/blog/post/{{entry._id}}" class="btn btn-mini">mehr...</a>
+                <br />
+                <a href="/blog/post/{{entry._id}}" class="btn btn-sm" ng-class="{'btn-success': ($index<1),'btn-info': ($index>0)}">mehr...</a>
             </div>
-            <footer class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</footer>
-        </article>
+            <div class="panel-footer">
+                <div class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</div>
+            </div>
+        </div>
+
+        <!--<article class="posts-article" ng-repeat="entry in posts">-->
+            <!--<div class="entry-title">-->
+                <!--<h1>-->
+                    <!--<a href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}}</a>-->
+                <!--</h1>-->
+
+                <!--<div class="entry-replies">-->
+                    <!--<a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="entry-excerpt">-->
+                <!--<p>{{entry.content}}</p>-->
+                  <!--<br />-->
+                <!--<a href="/blog/post/{{entry._id}}" class="btn btn-mini">mehr...</a>-->
+            <!--</div>-->
+            <!--<footer class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</footer>-->
+        <!--</article>-->
     </div>
 </div>
