@@ -133,8 +133,11 @@
             </div>
 
             <!-- login end -->
-
-            <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+            <div>
+                <div class="p-wrapper">
+                    <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+                </div>
+            </div>
 
             <div class="view-container">
                 <div ng-view></div>
