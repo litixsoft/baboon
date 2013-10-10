@@ -1,62 +1,74 @@
 <div>
     <div class="p-wrapper">
-        <form name="form" novalidate class="css-form form-horizontal">
-            <fieldset>
-                <legend>Create Post</legend>
 
-                <div class="control-group">
-                    <label class="control-label">Title</label>
+        <div class="page-header">
+            <h1>Blog-Administration</h1>
+        </div>
 
-                    <div class="controls">
-                        <input type="text" ng-model="lxForm.model.title" name="title" required/>
+        <div class="panel panel-default">
+            <div class="panel-heading">Create/Edit Post</div>
+            <div class="panel-body">
+                <form name="form2" class="form-horizontal" novalidate>
+                    <fieldset>
 
-                        <span class="label label-important" ui-if="(form.title.$dirty && form.title.$invalid) || form.errors.title">
-                            Error:
-                            <span ng-show="form.title.$error.required"> Title is required.</span>
-                            <span ng-show="form.errors.title"> {{form.errors.title}}</span>
-                        </span>
-                    </div>
-                </div>
+                        <div class="form-group" ng-class="{'has-error': ((form2.title.$dirty && form2.title.$invalid) || form2.errors.title)}">
+                            <label class="col-lg-2 control-label" for="title">Title</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="lxForm.model.title" id="title" name="title" placeholder="Enter Title" required/>
 
-                <div class="control-group">
-                    <label class="control-label">Content</label>
+                                <label ng-show="((form2.title.$dirty && form2.title.$invalid) || form2.errors.title)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form2.title.$error.required" popover="Error: Title is required" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form2.errors.title" popover="Error: {{form.errors.title}}" popover-trigger="mouseenter"></span>
+                                </label>
 
-                    <div class="controls">
-                        <textarea rows="10" type="text" name="content" ng-model="lxForm.model.content" required></textarea>
+                            </div>
+                        </div>
 
-                        <span class="label label-important" ui-if="form.content.$dirty && form.content.$invalid">
-                            Error:<span ng-show="form.content.$error.required"> Content is required.</span>
-                        </span>
-                    </div>
-                </div>
+                        <div class="form-group" ng-class="{'has-error': ((form2.content.$dirty && form2.content.$invalid) || form2.errors.content)}">
+                            <label class="col-lg-2 control-label" for="content">Content</label>
+                            <div class="col-lg-10">
+                                <textarea rows="6" type="text" class="form-control" id="content" name="content" ng-model="lxForm.model.content" required></textarea>
 
-                <div class="control-group">
-                    <label class="control-label">Tag(s)</label>
+                                <label ng-show="((form2.content.$dirty && form2.content.$invalid) || form2.errors.content)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form2.content.$error.required" popover="Error: Content is required" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form2.errors.content" popover="Error: {{form.errors.content}}" popover-trigger="mouseenter"></span>
+                                </label>
 
-                    <div class="controls">
-                        <select size="5" name="tags" ng-model="lxForm.model.tags" ng-options="tag._id as tag.name for tag in tags" multiple="multiple">
-                            <option value="">-- select tag(s) --</option>
-                        </select>
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-                <div class="control-group">
-                    <label class="control-label">Created</label>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="tags">Tag(s)</label>
+                            <div class="col-lg-10">
+                                <select size="5" class="form-control" name="tags" id="tags" ng-model="lxForm.model.tags" ng-options="tag._id as tag.name for tag in tags" multiple="multiple">
+                                    <option value="">-- select tag(s) --</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="controls">
-                        <span class="uneditable-input">{{lxForm.model.created}}</span>
-                    </div>
-                </div>
-            </fieldset>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Created</label>
+                            <div class="col-lg-10">
+                                <p class="form-control-static">{{lxForm.model.created}}</p>
+                            </div>
+                        </div>
 
-            <alert ng-repeat="alert in validationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="button" class="btn btn-danger" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
+                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form2.$invalid || lxForm.isUnchanged()">Save</button>
+                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)">Simple Save</button>
+                            </div>
+                        </div>
 
-            <div class="form-actions">
-                <button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)">Simple Save</button>
+                    </fieldset>
+                </form>
             </div>
-        </form>
+        </div>
+
+        <!---->
 
         <!--<legend>Preview</legend>-->
         <!--<div class="well well-small">-->
@@ -78,8 +90,8 @@
         <legend>Preview</legend>
         <div class="well well-small">
             <blockquote>
-                <h2>{{post.title}}</h2>
-                <small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>
+                <h2>{{lxForm.model.title}}</h2>
+                <small>{{lxForm.model.created | date:'dd.MM.yyyy, HH:mm'}}</small>
             </blockquote>
             <br />
 
