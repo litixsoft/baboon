@@ -1,41 +1,41 @@
 /*global angular*/
 angular.module('admin.services', [])
-    .factory('adminUsers', ['lxSocket', function (lxSocket) {
+    .factory('adminUsers', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit('baboon/admin/user/getAll', query, function (result) {
+            lxSocket.emit(modulePath + 'user/getAll', query, function (result) {
                 callback(result);
             });
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit('baboon/admin/user/getById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'user/getById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (user, callback) {
-            lxSocket.emit('baboon/admin/user/create', user, function (result) {
+            lxSocket.emit(modulePath + 'user/create', user, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (user, callback) {
-            lxSocket.emit('baboon/admin/user/update', user, function (result) {
+            lxSocket.emit(modulePath + 'user/update', user, function (result) {
                 callback(result);
             });
         };
 
         pub.delete = function (user, callback) {
-            lxSocket.emit('baboon/admin/user/delete', user, function (result) {
+            lxSocket.emit(modulePath + 'user/delete', user, function (result) {
                 callback(result);
             });
         };
 
         return pub;
     }])
-    .factory('adminRights', ['lxSocket', function (lxSocket) {
+    .factory('adminRights', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         function convertRightStringToObject (selectedRights, rightObj, right, path) {
@@ -72,66 +72,101 @@ angular.module('admin.services', [])
         };
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit('baboon/admin/right/getAll', query, function (result) {
+            lxSocket.emit(modulePath + 'right/getAll', query, function (result) {
                 callback(result);
             });
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit('baboon/admin/right/getById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'right/getById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (right, callback) {
-            lxSocket.emit('baboon/admin/right/create', right, function (result) {
+            lxSocket.emit(modulePath + 'right/create', right, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (right, callback) {
-            lxSocket.emit('baboon/admin/right/update', right, function (result) {
+            lxSocket.emit(modulePath + 'right/update', right, function (result) {
                 callback(result);
             });
         };
 
         pub.delete = function (right, callback) {
-            lxSocket.emit('baboon/admin/right/delete', right, function (result) {
+            lxSocket.emit(modulePath + 'right/delete', right, function (result) {
                 callback(result);
             });
         };
 
         return pub;
     }])
-    .factory('adminGroups', ['lxSocket', function (lxSocket) {
+    .factory('adminGroups', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
         var pub = {};
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit('baboon/admin/group/getAll', query, function (result) {
+            lxSocket.emit(modulePath + 'group/getAll', query, function (result) {
                 callback(result);
             });
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit('baboon/admin/group/getById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'group/getById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (group, callback) {
-            lxSocket.emit('baboon/admin/group/create', group, function (result) {
+            lxSocket.emit(modulePath + 'group/create', group, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (group, callback) {
-            lxSocket.emit('baboon/admin/group/update', group, function (result) {
+            lxSocket.emit(modulePath + 'group/update', group, function (result) {
                 callback(result);
             });
         };
 
         pub.delete = function (group, callback) {
-            lxSocket.emit('baboon/admin/group/delete', group, function (result) {
+            lxSocket.emit(modulePath + 'group/delete', group, function (result) {
+                callback(result);
+            });
+        };
+
+        return pub;
+    }])
+    .factory('adminRoles', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
+        var pub = {};
+
+        pub.getAll = function (query, callback) {
+            lxSocket.emit(modulePath + 'roles/getAll', query, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.getById = function (id, callback) {
+            lxSocket.emit(modulePath + 'roles/getById', {id: id}, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.create = function (role, callback) {
+            lxSocket.emit(modulePath + 'roles/create', role, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.update = function (role, callback) {
+            lxSocket.emit(modulePath + 'roles/update', role, function (result) {
+                callback(result);
+            });
+        };
+
+        pub.delete = function (role, callback) {
+            lxSocket.emit(modulePath + 'roles/delete', role, function (result) {
                 callback(result);
             });
         };

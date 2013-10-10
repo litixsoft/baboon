@@ -17,25 +17,25 @@ module.exports = function (app) {
         audit = app.logging.audit;
 
     /**
-     * Gets all groups and the number of groups from db.
+     * Gets all roles and the number of roles from db.
      *
      * @roles admin
-     * @description Gets all groups and the number of groups from db.
+     * @description Gets all roles and the number of roles from db.
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
     pub.getAll = function (data, callback) {
         async.auto({
             getAll: function (callback) {
-                repo.groups.getAll(data.params || {}, data.options || {}, callback);
+                repo.roles.getAll(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.groups.getCount(data.params || {}, callback);
+                repo.roles.getCount(data.params || {}, callback);
             }
         }, function (error, results) {
             if (error) {
-                syslog.error('%s! getting all groups from db: %j', error, data);
-                callback({message: 'Could not load all groups!'});
+                syslog.error('%s! getting all roles from db: %j', error, data);
+                callback({message: 'Could not load all roles!'});
                 return;
             }
 
@@ -44,21 +44,21 @@ module.exports = function (app) {
     };
 
     /**
-     * Gets a single group post by id.
+     * Gets a single role post by id.
      *
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
      * @roles admin
-     * @description Gets a single group post by id.
+     * @description Gets a single role post by id.
      */
     pub.getById = function (data, callback) {
         data = data || {};
 
-        repo.groups.getOneById(data.id, data.options || {}, function (error, result) {
+        repo.roles.getOneById(data.id, data.options || {}, function (error, result) {
             if (error) {
-                syslog.error('%s! getting group from db: %s', error, data.id);
-                callback({message: 'Could not load group!'});
+                syslog.error('%s! getting role from db: %s', error, data.id);
+                callback({message: 'Could not load roles!'});
                 return;
             }
 
@@ -67,35 +67,35 @@ module.exports = function (app) {
     };
 
     /**
-     * Creates a new group in the db.
+     * Creates a new role in the db.
      *
      * @roles admin
-     * @description Creates a new group in the db.
-     * @param {object} data The group data.
+     * @description Creates a new role in the db.
+     * @param {object} data The role data.
      * @param {!function(result)} callback The callback.
      */
     pub.create = function (data, callback) {
         data = data || {};
 
         // validate client data
-        repo.groups.validate(data, {}, function (error, result) {
+        repo.roles.validate(data, {}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating group: %j', error, data);
-                callback({message: 'Could not create group!'});
+                syslog.error('%s! validating role: %j', error, data);
+                callback({message: 'Could not create role!'});
                 return;
             }
 
             if (result.valid) {
                 // save in repo
-                repo.groups.create(data, function (error, result) {
+                repo.roles.create(data, function (error, result) {
                     if (error) {
-                        syslog.error('%s! creating group in db: %j', error, data);
-                        callback({message: 'Could not create group!'});
+                        syslog.error('%s! creating role in db: %j', error, data);
+                        callback({message: 'Could not create role!'});
                         return;
                     }
 
                     if (result) {
-                        audit.info('Created group in db: %j', data);
+                        audit.info('Created role in db: %j', data);
                         callback({data: result[0]});
                     }
                 });
@@ -106,11 +106,11 @@ module.exports = function (app) {
     };
 
     /**
-     * Updates a group in the db.
+     * Updates a role in the db.
      *
      * @roles admin
-     * @description Updates a group in the db.
-     * @param {object} data The group data.
+     * @description Updates a role in the db.
+     * @param {object} data The role data.
      * @param {!function(result)} callback The callback.
      */
     pub.update = function (data, callback) {
@@ -120,25 +120,25 @@ module.exports = function (app) {
         }
 
         // validate client data
-        repo.groups.validate(data, {isUpdate: true}, function (error, result) {
+        repo.roles.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating group: %j', error, data);
-                callback({message: 'Could not update group!'});
+                syslog.error('%s! validating role: %j', error, data);
+                callback({message: 'Could not update role!'});
                 return;
             }
 
             if (result.valid) {
 
                 // save in repo
-                repo.groups.update({_id: data._id}, {$set: data}, function (error, result) {
+                repo.roles.update({_id: data._id}, {$set: data}, function (error, result) {
                     if (error || result === 0) {
-                        syslog.error('%s! updating group in db: %j', error, data);
-                        callback({message: 'Could not update group!'});
+                        syslog.error('%s! updating role in db: %j', error, data);
+                        callback({message: 'Could not update role!'});
                         return;
                     }
 
                     if (result) {
-                        audit.info('Updated group in db: %j', data);
+                        audit.info('Updated role in db: %j', data);
                         callback({success: result});
                     }
                 });

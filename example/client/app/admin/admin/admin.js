@@ -11,6 +11,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
         $routeProvider.when('/admin/groups/new', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
     })
+    .constant('admin.modulePath', 'baboon/admin/')
     .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
         var options = {},
             callback = function (result) {

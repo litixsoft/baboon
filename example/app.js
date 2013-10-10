@@ -38,7 +38,7 @@ app.get('/admin', function (req, res) {
 app.get('/admin/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/admin');
+        res.render('admin/index');
     });
 });
 

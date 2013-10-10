@@ -3,6 +3,7 @@
 /*global describe, it, expect, beforeEach, spyOn */
 describe('Rights', function () {
     var path = require('path'),
+        lxHelpers = require('lx-helpers'),
         appMock = require('../../fixtures/appMock.js')(),
         rootPath = path.resolve('..', 'baboon'),
         sut = require(path.resolve(rootPath, 'lib', 'rights'))(appMock.config, appMock.logging),
@@ -423,6 +424,22 @@ describe('Rights', function () {
                         f: ['g']
                     }
                 });
+
+                done();
+            });
+        });
+
+        it('should return an acl object when the rights system is disabled', function (done) {
+            var testConfig = lxHelpers.clone(appMock.config);
+            testConfig.useRightsSystem = false;
+
+            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))(testConfig, appMock.logging);
+
+            sut1.getAclObj(null, function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBeDefined();
+                expect(typeof res).toBe('object');
+                expect(Object.keys(res).length).toBeGreaterThan(0);
 
                 done();
             });
@@ -1008,502 +1025,6 @@ describe('Rights', function () {
 
     });
 
-//    describe('.data()', function () {
-////        it('should be initialized correctly', function () {
-////            var res = sut.data();
-////
-////            expect(res).toBeDefined();
-////            expect(res.getUser).toBeDefined();
-////            expect(res.getUserForLogin).toBeDefined();
-////            expect(res.getExtendedAcl).toBeDefined();
-////        });
-//
-////        describe('.getUserForLogin()', function () {
-////            beforeEach(function (done) {
-////                user = {
-////                    name: 'wayne',
-////                    hash: 'hash',
-////                    salt: 'salt'
-////                };
-////
-////                repo.users.delete({name: user.name}, function () {done();});
-////            });
-////
-////            it('should return the user with minimal data', function (done) {
-////                repo.users.create(user, function (err, res) {
-////                    expect(err).toBeNull();
-////                    expect(res).toBeDefined();
-////
-////                    sut.data().getUserForLogin(user.name, function (err, res) {
-////                        expect(err).toBeNull();
-////                        expect(res).toEqual(user);
-////
-////                        done();
-////                    });
-////                });
-////            });
-////        });
-//
-////        describe('.getUser()', function () {
-////            beforeEach(function (done) {
-////                user = {
-////                    name: 'wayne',
-////                    hash: 'hash',
-////                    salt: 'salt'
-////                };
-////
-////                repo.users.delete({name: user.name}, function () {
-////                    repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
-////                        repo.roles.delete({name: 'dev'}, function () {
-////                            repo.groups.delete({name: 'devs'}, function () {
-////                                repo.resourceRights.delete({resource: 'a'}, function () {
-////                                    done();
-////                                });
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should throw an error when the param "callback" is not of type "function"', function () {
-////                expect(function () { return sut.data().getUser(1); }).toThrow();
-////            });
-////
-////            it('should return the user with his rights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, res) {
-////                    expect(err).toBeNull();
-////                    expect(res.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: res[0]._id, hasAccess: true},
-////                        {_id: res[1]._id, hasAccess: false},
-////                        {_id: res[2]._id, hasAccess: true}
-////                    ];
-////
-////                    repo.users.create(user, function (err, res) {
-////                        expect(err).toBeNull();
-////                        expect(res).toBeDefined();
-////
-////                        sut.data().getUser(user._id, function (err, res) {
-////                            expect(err).toBeNull();
-////                            expect(res).toBeDefined();
-////                            expect(res.name).toBe('wayne');
-////                            expect(res.hash).toBeUndefined();
-////                            expect(res.salt).toBeUndefined();
-////                            expect(res.acl).toBeDefined();
-////                            expect(res.acl).toEqual({
-////                                'add': {hasAccess: true},
-////                                'delete': {hasAccess: true}
-////                            });
-////
-////                            done();
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the an empty user object if the user does not exits', function (done) {
-////                sut.data().getUser(123, function (err, res) {
-////                    expect(err).toBeNull();
-////                    expect(res).toEqual({});
-////
-////                    done();
-////                });
-////            });
-////
-////            it('should return the user found by his id with his rights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, res) {
-////                    expect(err).toBeNull();
-////                    expect(res.length).toBe(3);
-////
-////                    user.id = 99;
-////                    user.rights = [
-////                        {_id: res[0]._id, hasAccess: true},
-////                        {_id: res[1]._id, hasAccess: false},
-////                        {_id: res[2]._id, hasAccess: true}
-////                    ];
-////
-////                    repo.users.create(user, function (err, res) {
-////                        expect(err).toBeNull();
-////                        expect(res).toBeDefined();
-////
-////                        sut.data().getUser(user.id, function (err, res) {
-////                            expect(err).toBeNull();
-////                            expect(res).toBeDefined();
-////                            expect(res.name).toBe('wayne');
-////                            expect(res.hash).toBeUndefined();
-////                            expect(res.salt).toBeUndefined();
-////                            expect(res.acl).toBeDefined();
-////                            expect(res.acl).toEqual({
-////                                'add': {hasAccess: true},
-////                                'delete': {hasAccess: true}
-////                            });
-////
-////                            done();
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the user with his rights and role rights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, rights) {
-////                    expect(err).toBeNull();
-////                    expect(rights.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: rights[1]._id, hasAccess: false}
-////                    ];
-////
-////                    repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
-////                        expect(err).toBeNull();
-////                        expect(roles).toBeDefined();
-////
-////                        user.roles = [roles[0]._id];
-////
-////                        repo.users.create(user, function (err, users) {
-////                            expect(err).toBeNull();
-////                            expect(users).toBeDefined();
-////
-////                            sut.data().getUser(user._id, function (err, res) {
-////                                expect(err).toBeNull();
-////                                expect(res).toBeDefined();
-////                                expect(res.name).toBe('wayne');
-////                                expect(res.hash).toBeUndefined();
-////                                expect(res.salt).toBeUndefined();
-////                                expect(res.acl).toBeDefined();
-////                                expect(res.acl).toEqual({
-////                                    'add': {hasAccess: true},
-////                                    'delete': {hasAccess: true}
-////                                });
-////
-////                                done();
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the user with his rights and group rights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, rights) {
-////                    expect(err).toBeNull();
-////                    expect(rights.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: rights[1]._id, hasAccess: false}
-////                    ];
-////
-////                    repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
-////                        expect(err).toBeNull();
-////                        expect(roles).toBeDefined();
-////
-////                        repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
-////                            expect(err).toBeNull();
-////                            expect(groups).toBeDefined();
-////
-////                            user.groups = [groups[0]._id];
-////
-////                            repo.users.create(user, function (err, users) {
-////                                expect(err).toBeNull();
-////                                expect(users).toBeDefined();
-////
-////                                sut.data().getUser(user._id, function (err, res) {
-////                                    expect(err).toBeNull();
-////                                    expect(res).toBeDefined();
-////                                    expect(res.name).toBe('wayne');
-////                                    expect(res.hash).toBeUndefined();
-////                                    expect(res.salt).toBeUndefined();
-////                                    expect(res.acl).toBeDefined();
-////                                    expect(res.acl).toEqual({
-////                                        'add': {hasAccess: true},
-////                                        'delete': {hasAccess: true}
-////                                    });
-////
-////                                    done();
-////                                });
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the user with his rights and group rights and role rights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, rights) {
-////                    expect(err).toBeNull();
-////                    expect(rights.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: rights[1]._id, hasAccess: false}
-////                    ];
-////
-////                    repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
-////                        expect(err).toBeNull();
-////                        expect(roles).toBeDefined();
-////
-////                        user.roles = [roles[0]._id];
-////
-////                        repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
-////                            expect(err).toBeNull();
-////                            expect(groups).toBeDefined();
-////
-////                            user.groups = [groups[0]._id];
-////
-////                            repo.users.create(user, function (err, users) {
-////                                expect(err).toBeNull();
-////                                expect(users).toBeDefined();
-////
-////                                sut.data().getUser(user._id, function (err, res) {
-////                                    expect(err).toBeNull();
-////                                    expect(res).toBeDefined();
-////                                    expect(res.name).toBe('wayne');
-////                                    expect(res.hash).toBeUndefined();
-////                                    expect(res.salt).toBeUndefined();
-////                                    expect(res.acl).toBeDefined();
-////                                    expect(res.acl).toEqual({
-////                                        'add': {hasAccess: true},
-////                                        'delete': {hasAccess: true}
-////                                    });
-////
-////                                    done();
-////                                });
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, rights) {
-////                    expect(err).toBeNull();
-////                    expect(rights.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: rights[1]._id, hasAccess: false}
-////                    ];
-////
-////                    repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
-////                        expect(err).toBeNull();
-////                        expect(roles).toBeDefined();
-////
-////                        user.roles = [roles[0]._id];
-////
-////                        repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
-////                            expect(err).toBeNull();
-////                            expect(groups).toBeDefined();
-////
-////                            user.groups = [groups[0]._id];
-////
-////                            repo.users.create(user, function (err, users) {
-////                                expect(err).toBeNull();
-////                                expect(users).toBeDefined();
-////
-////                                sut.data().addResourceRight('a', {user_id: user._id, right_id: user.rights[0]._id}, function (err) {
-////                                    expect(err).toBeNull();
-////                                    expect(users).toBeDefined();
-////
-////                                    sut.data().getUser(user._id, function (err, res) {
-////                                        expect(err).toBeNull();
-////                                        expect(res).toBeDefined();
-////                                        expect(res.name).toBe('wayne');
-////                                        expect(res.hash).toBeUndefined();
-////                                        expect(res.salt).toBeUndefined();
-////                                        expect(res.acl).toBeDefined();
-////                                        expect(res.acl).toEqual({
-////                                            'add': {hasAccess: true},
-////                                            'delete': {hasAccess: true},
-////                                            'save': {hasAccess: true, resource: 'a'}
-////                                        });
-////
-////                                        done();
-////                                    });
-////                                });
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////
-////            it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
-////                repo.rights.create([
-////                    {name: 'add'},
-////                    {name: 'save'},
-////                    {name: 'delete'}
-////                ], function (err, rights) {
-////                    expect(err).toBeNull();
-////                    expect(rights.length).toBe(3);
-////
-////                    user.rights = [
-////                        {_id: rights[1]._id, hasAccess: false}
-////                    ];
-////
-////                    repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
-////                        expect(err).toBeNull();
-////                        expect(roles).toBeDefined();
-////
-////                        repo.groups.create({name: 'devs'}, function (err, groups) {
-////                            expect(err).toBeNull();
-////                            expect(groups).toBeDefined();
-////
-////                            user.groups = [groups[0]._id];
-////
-////                            repo.users.create(user, function (err, users) {
-////                                expect(err).toBeNull();
-////                                expect(users).toBeDefined();
-////
-////                                sut.data().addResourceRight('a', {group_id: groups[0]._id, role_id: roles[0]._id}, function (err) {
-////                                    expect(err).toBeNull();
-////                                    expect(users).toBeDefined();
-////
-////                                    sut.data().getUser(user._id, function (err, res) {
-////                                        expect(err).toBeNull();
-////                                        expect(res).toBeDefined();
-////                                        expect(res.name).toBe('wayne');
-////                                        expect(res.hash).toBeUndefined();
-////                                        expect(res.salt).toBeUndefined();
-////                                        expect(res.acl).toBeDefined();
-////                                        expect(res.acl).toEqual({
-////                                            'add': {hasAccess: true, resource: 'a'},
-////                                            'delete': {hasAccess: true, resource: 'a'},
-////                                            'save': {hasAccess: true, resource: 'a'}
-////                                        });
-////
-////                                        done();
-////                                    });
-////                                });
-////                            });
-////                        });
-////                    });
-////                });
-////            });
-////        });
-//
-//        describe('.getExtendedAcl()', function () {
-//            beforeEach(function (done) {
-//                user = {
-//                    name: 'wayne',
-//                    hash: 'hash',
-//                    salt: 'salt'
-//                };
-//
-//                repo.users.delete({name: user.name}, function () {
-//                    repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
-//                        repo.roles.delete({name: 'dev'}, function () {
-//                            repo.groups.delete({name: 'devs'}, function () {
-//                                repo.resourceRights.delete({resource: 'a'}, function () {
-//                                    done();
-//                                });
-//                            });
-//                        });
-//                    });
-//                });
-//            });
-//
-//            it('should throw an error when the param "callback" is not of type "function"', function () {
-//                expect(function () { return sut.data().getExtendedAcl({}, []); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], 1); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], '1'); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], null); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], undefined); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], true); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], {}); }).toThrow();
-//                expect(function () { return sut.data().getExtendedAcl({}, [], []); }).toThrow();
-//            });
-//
-//            it('should throw an error when the param "user" is not of type "object"', function (done) {
-//                sut.data().getExtendedAcl([1], [1], function (err) {
-//                    expect(err).toBeDefined();
-//                    expect(err instanceof TypeError).toBeTruthy();
-//                    expect(err.message).toContain('user');
-//
-//                    done();
-//                });
-//            });
-//
-//            it('should throw an error when the param "additionalRoles" is not of type "array"', function (done) {
-//                sut.data().getExtendedAcl({1: 1}, {1: 1}, function (err) {
-//                    expect(err).toBeDefined();
-//                    expect(err instanceof TypeError).toBeTruthy();
-//                    expect(err.message).toContain('additionalRoles');
-//
-//                    done();
-//                });
-//            });
-//
-//            it('should return an empty callback when the params "user" or "additionalRoles" are empty', function (done) {
-//                sut.data().getExtendedAcl(1, 1, function (err, res) {
-//                    expect(err).toBeUndefined();
-//                    expect(res).toBeUndefined();
-//
-//                    done();
-//                });
-//            });
-//        });
-//
-//        describe('.addResourceRight()', function () {
-//            beforeEach(function (done) {
-//                repo.resourceRights.delete({resource: 'projectA'}, function () {done();});
-//            });
-//
-//            it('should throw an error when the params are missing', function () {
-//                var func = function () { return sut.data().addResourceRight();};
-//                var func1 = function () { return sut.data().addResourceRight(1);};
-//                var func2 = function () { return sut.data().addResourceRight(1, {});};
-//                var func3 = function () { return sut.data().addResourceRight(null, {}, function () {});};
-//                var func4 = function () { return sut.data().addResourceRight(1, {}, function () {});};
-//                var func5 = function () { return sut.data().addResourceRight(1, {group_id: 1}, function () {});};
-//                var func6 = function () { return sut.data().addResourceRight(1, {role_id: 1}, function () {});};
-//                var func7 = function () { return sut.data().addResourceRight(1, {user_id: 1}, function () {});};
-//                var func8 = function () { return sut.data().addResourceRight(1, {right_id: 1}, function () {});};
-//
-//                expect(func).toThrow();
-//                expect(func1).toThrow();
-//                expect(func2).toThrow();
-//                expect(func3).toThrow();
-//                expect(func4).toThrow();
-//                expect(func5).toThrow();
-//                expect(func6).toThrow();
-//                expect(func7).toThrow();
-//                expect(func8).toThrow();
-//            });
-//
-//            it('should add an resource right', function (done) {
-//                sut.data().addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
-//                    expect(err).toBeNull();
-//                    expect(res).toBeDefined();
-//                    expect(res[0].resource).toBe('projectA');
-//                    expect(res[0].group_id).toBe(1);
-//                    expect(res[0].role_id).toBe(2);
-//
-//                    done();
-//                });
-//            });
-//
-//        });
-//    });
-
     describe('.getPublicFunctionsFromControllers()', function () {
         it('should return an array with the full name of the rights', function () {
             sut.getPublicFunctionsFromControllers(function (err, res) {
@@ -1516,7 +1037,11 @@ describe('Rights', function () {
 
     describe('.refreshRightsIdDb()', function () {
         beforeEach(function (done) {
-            repo.rights.delete({}, function () {done();});
+            repo.rights.delete({}, function () {
+                repo.roles.delete({}, function () {
+                    done();
+                });
+            });
         });
 
         it('should save all rights in the db', function (done) {
@@ -1530,7 +1055,8 @@ describe('Rights', function () {
 
                 sut.refreshRightsIdDb(function (err, res) {
                     expect(err).toBeNull();
-                    expect(res).toBe(0);
+                    expect(res).toBeDefined();
+                    expect(res).toBeGreaterThan(0);
 
                     done();
                 });
