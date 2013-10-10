@@ -1,5 +1,7 @@
 'use strict';
 
+var lxHelpers = require('lx-helpers');
+
 module.exports = function (grunt) {
     var path = require('path');
 
@@ -283,6 +285,29 @@ module.exports = function (grunt) {
             },
 
             /**
+             * The includes for all applications. The optional includes are added by baboon-build.
+             * This Includes Angular needed for injection. Use here the correct module name.
+             */
+            includes: [
+                'ui.utils',
+                'pascalprecht.translate',
+                'lib.common.templates',
+                'common.templates',
+                'lib.optional.templates',
+                'optional.templates',
+                'app.templates',
+                'lx.alert',
+                'lx.auth',
+                'lx.float',
+                'lx.integer',
+                'lx.modal',
+                'lx.nav',
+                'lx.session',
+                'lx.socket',
+                'ui.if'
+            ],
+
+            /**
              * Less configuration skeleton. Baboon-build to insert the application less files.
              * You can simply insert your configurations here.
              */
@@ -544,7 +569,10 @@ module.exports = function (grunt) {
         // buildHelper
         var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
 
-        console.dir(buildHelper.imports);
+        // write include files for app
+        lxHelpers.objectForEach(buildHelper.fileContents, function(key, value) {
+            grunt.file.write('build/tmp/includes/' + key + '.js', value);
+        });
 
         // append concat, ngmin, uglify and less config
         grunt.config.data.concat = buildHelper.concatConfig;
