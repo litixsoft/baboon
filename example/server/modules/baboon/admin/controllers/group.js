@@ -19,6 +19,8 @@ module.exports = function (app) {
     /**
      * Gets all groups and the number of groups from db.
      *
+     * @roles admin
+     * @description Gets all groups and the number of groups from db.
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -47,6 +49,8 @@ module.exports = function (app) {
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
+     * @roles admin
+     * @description Gets a single group post by id.
      */
     pub.getById = function (data, callback) {
         data = data || {};
@@ -65,6 +69,8 @@ module.exports = function (app) {
     /**
      * Creates a new group in the db.
      *
+     * @roles admin
+     * @description Creates a new group in the db.
      * @param {object} data The group data.
      * @param {!function(result)} callback The callback.
      */
@@ -102,6 +108,8 @@ module.exports = function (app) {
     /**
      * Updates a group in the db.
      *
+     * @roles admin
+     * @description Updates a group in the db.
      * @param {object} data The group data.
      * @param {!function(result)} callback The callback.
      */
