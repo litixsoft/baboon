@@ -20,9 +20,9 @@ angular.module('app', [
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
             $rootScope.$on('$routeChangeStart', function () {
-                lxSession.setActivity(function(err) {
-                    if (err) {
-                        lxModal.show('','Session is expired! Please log in.', 'Warning', function () {
+                lxSession.setActivity(function (error) {
+                    if (error) {
+                        lxModal.show('', 'Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/login');
                         });
                     }
@@ -52,9 +52,9 @@ angular.module('app', [
                 $translate.uses(langKey);
 
                 // save selected language in session
-                lxSession.setData('language', langKey, function(err) {
-                    if (err) {
-                        $log.error(err);
+                lxSession.setData('language', langKey, function (error) {
+                    if (error) {
+                        $log.error(error);
                     }
                 });
             };
