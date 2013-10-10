@@ -544,6 +544,8 @@ module.exports = function (grunt) {
         // buildHelper
         var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
 
+        console.dir(buildHelper.imports);
+
         // append concat, ngmin, uglify and less config
         grunt.config.data.concat = buildHelper.concatConfig;
         grunt.config.data.html2js = buildHelper.html2jsConfig;
