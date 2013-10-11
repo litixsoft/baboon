@@ -13,7 +13,7 @@
 
                         <div class="form-group" ng-class="{'has-error': ((form2.title.$dirty && form2.title.$invalid) || form2.errors.title)}">
                             <label class="col-lg-2 control-label" for="title">Title</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-10 lxvalidation">
                                 <input type="text" class="form-control" ng-model="lxForm.model.title" id="title" name="title" placeholder="Enter Title" required/>
 
                                 <label ng-show="((form2.title.$dirty && form2.title.$invalid) || form2.errors.title)" style="cursor:pointer;" class="label label-danger">
@@ -27,7 +27,7 @@
 
                         <div class="form-group" ng-class="{'has-error': ((form2.content.$dirty && form2.content.$invalid) || form2.errors.content)}">
                             <label class="col-lg-2 control-label" for="content">Content</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-10 lxvalidation">
                                 <textarea rows="6" type="text" class="form-control" id="content" name="content" ng-model="lxForm.model.content" required></textarea>
 
                                 <label ng-show="((form2.content.$dirty && form2.content.$invalid) || form2.errors.content)" style="cursor:pointer;" class="label label-danger">

@@ -10,20 +10,41 @@
             <div class="panel-body">
                 <form name="form" class="form-horizontal" novalidate>
                     <fieldset>
-
-                        <div ng-init="person.count=1" class="form-group" ng-class="{error : (form.name.$error.required && person.count > 0)}">
+                        <!--<pre>{{form.name.$dirty}}</pre>-->
+                        <!--<pre>{{form.name.$invalid}}</pre>-->
+                        <!--<pre>{{form.errors.name}}</pre>-->
+                                                                                            <!--(form.name.$dirty && form.name.$error.required || person.count > 0)-->
+                        <div ng-init="person.count=1" class="form-group" ng-class="{'has-error' : ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                             <label class="col-lg-2 control-label" for="name">Name</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required>
-                                <span ng-show="form.name.$error.required && person.count > 0" style="cursor:pointer" class="label label-important" popover="Name is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
+                            <div class="col-lg-10 lxvalidation">
+                                <input type="text" class="form-control" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required ui-reset>
+
+                                <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.name.$error.required" popover="Error: Title is required" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.name" popover="Error: {{form.errors.name}}" popover-trigger="mouseenter"></span>
+                                </label>
+
                             </div>
                         </div>
 
-                        <div class="form-group" ng-class="{error : form.description.$error.required}">
+                        <div class="form-group" ng-class="{'has-error' : ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
                             <label class="col-lg-2 control-label" for="description">Description</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-10 lxvalidation">
                                 <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required>
-                                <span ng-show="form.description.$error.required" style="cursor:pointer" class="label label-important" popover="Description is required." popover-trigger="mouseenter"><i class="icon-fire icon-white"></i></span>
+
+
+                                <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.description.$error.required" popover="Error: Description is required" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.description" popover="Error: {{form.errors.description}}" popover-trigger="mouseenter"></span>
+                                </label>
+
+                                <!--<label ng-show="(form.description.$dirty && form.description.$error.required)" class="label label-danger">-->
+                                    <!--<div class="glyphicon glyphicon-fire"></div>-->
+                                    <!--<span popover="Error: Description is required." popover-trigger="mouseenter"></span>-->
+                                <!--</label>-->
+
                             </div>
                         </div>
 
@@ -36,7 +57,7 @@
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
                                 <a ng-href="/enterprise" class="btn btn-default"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
-                                <button ng-click="save()" ng-disabled="form.$invalid" class="btn btn-primary"><i class="icon-ok"></i>&nbsp;Speichern</button>
+                                <button ng-click="save()" class="btn btn-primary" ng-disabled="form.$invalid"><i class="icon-ok"></i>&nbsp;Speichern</button>
                             </div>
                         </div>
 

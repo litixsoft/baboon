@@ -14,6 +14,7 @@
                     <div class="btn-group" style="margin:10px 0;">
                         <a class="btn btn-default" name="newPost" href="/blog/admin/post/new"><span class="glyphicon glyphicon-plus-sign"></span> Add new Blog Post</a>
                         <button class="btn btn-default" ng-click="addPosts()"><span class="glyphicon glyphicon-plus-sign"></span> Add 1000 Blog Posts</button>
+                        <button name="showTags" class="btn btn-info" ng-click="openTags()">Edit Tags</button>
                     </div>
 
                     <table name="posts" class="table table-striped"  ng-class="{'load-content' : !posts.length}">
@@ -34,10 +35,10 @@
                                 <td ui-if="inlineEdit.model == post">
                                     <ng-form name="formTitle" class="inline-edit">
                                         <div class="form-group" ng-class="{'has-error': ((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)}">
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" ng-model="inlineEdit.model.title" name="title" required>
+                                            <div class="col-lg-10 lxvalidation">
+                                                <input type="text" class="form-control" ng-model="inlineEdit.model.title" name="title" required ui-reset>
 
-                                                <label ng-show="((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)" style="cursor:pointer;" class="label label-danger">
+                                                <label ng-show="((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)" class="label label-danger">
                                                     <div class="glyphicon glyphicon-fire"></div>
                                                     <span ng-show="formTitle.title.$error.required" popover="Error:  Title is required." popover-trigger="mouseenter"></span>
                                                     <span ng-show="form.errors.title" popover="Error: {{form.errors.title}}" popover-trigger="mouseenter"></span>
@@ -50,10 +51,10 @@
                                 <td ui-if="inlineEdit.model == post">
                                     <ng-form name="formContent" class="inline-edit">
                                         <div class="form-group" ng-class="{'has-error': (formContent.content.$dirty && formContent.content.$invalid)}">
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" ng-model="inlineEdit.model.content" name="content" required>
+                                            <div class="col-lg-10 lxvalidation">
+                                                <input type="text" class="form-control" ng-model="inlineEdit.model.content" name="content" required ui-reset>
 
-                                                <label ng-show="(formContent.content.$dirty && formContent.content.$invalid)" style="cursor:pointer;" class="label label-danger">
+                                                <label ng-show="(formContent.content.$dirty && formContent.content.$invalid)" class="label label-danger">
                                                     <div class="glyphicon glyphicon-fire"></div>
                                                     <span ng-show="formContent.content.$error.required" popover="Error:  Content is required." popover-trigger="mouseenter"></span>
                                                 </label>
@@ -131,51 +132,60 @@
 
             <!--<button class="btn btn-danger" ng-click="addPosts()">Add 1000 Blog Posts</button>-->
 
-        </div>
-        <br />
-        <br />
+        <!--</div>-->
+            <br />
+            <br />
 
-        <div ng-controller="blogAdminTagsCtrl">
-            <button name="showTags" class="btn btn-info" ng-click="modal.open()">Tags</button>
 
-            <div modal="modal.shouldBeOpen" close="modal.close()" options="opts">
-                <div class="modal-header">
-                    <h4>Tags</h4>
+
+            <script type="text/ng-template" id="blog/admin/blogAdminTagsCtrl/myModalContent.html">
+                <div class="modal-dialog modal-form">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Tags</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <form name="form" novalidate class="css-form form-horizontal">
+                                <fieldset>
+                                    <div class="form-group" ng-class="{'has-error': (modal.validationErrors.length > 0) }">
+                                        <label class="col-lg-2 control-label">Name</label>
+                                        <div class="col-lg-7 lxvalidation">
+                                            <input type="text" class="form-control" ng-model="modal.name" name="name" placeholder="Name" ui-reset />
+
+                                            <label ng-show="(modal.validationErrors.length > 0)" class="label label-danger">
+                                                <div class="glyphicon glyphicon-fire"></div>
+                                                <span popover="{{modal.validationErrors[0].msg}}" popover-trigger="mouseenter" popover-animation="false"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button name="saveTag" type="submit" class="btn btn-primary" ng-click="modal.save(modal.name)">Add Tag</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <!--<alert class="alert alert-danger" ng-repeat="alert in modal.validationErrors" type="alert.type" close="modal.closeAlert($index)">{{alert.msg}}</alert>-->
+
+                            <table class="table table-striped" name="tags">
+                                <tbody>
+                                    <tr ng-repeat="tag in modal.items">
+                                        <td style="width: 30px;">
+                                            <button name="deleteTag" class="close" ng-click="modal.delete(tag)">&times;</button>
+                                        </td>
+                                        <td>{{tag.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" ng-click="modal.close()">Close</button>
+                        </div>
+                    </div>
                 </div>
+            </script>
 
-                <div class="modal-body">
-                    <form name="form" novalidate class="css-form form-horizontal">
-                        <fieldset>
-                            <div class="control-group">
-                                <label class="control-label">Name</label>
-
-                                <div class="controls">
-                                    <input type="text" ng-model="modal.name" name="name" />
-                                    <button name="saveTag" type="submit" class="btn btn-primary" ng-click="modal.save(modal.name)">Add Tag</button>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <alert ng-repeat="alert in modal.validationErrors" type="alert.type" close="modal.closeAlert($index)">{{alert.msg}}</alert>
-                    </form>
-
-                    <table class="table table-striped" name="tags">
-                        <tbody>
-                            <tr ng-repeat="tag in modal.items">
-                                <td style="width: 30px;">
-                                    <button name="deleteTag" class="close" ng-click="modal.delete(tag)">&times;</button>
-                                </td>
-                                <td>{{tag.name}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn" ng-click="modal.close()">Close</button>
-                </div>
-            </div>
-        </div>
+         </div>
     </div>
 </div>
 
