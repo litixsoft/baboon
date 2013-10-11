@@ -117,8 +117,10 @@ angular.module('enterprise', ['enterprise.services'])
 
             };
         }])
-    .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew',
-        function ($scope, $location, $routeParams, enterpriseCrew) {
+    .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', 'lxForm',
+        function ($scope, $location, $routeParams, enterpriseCrew, lxForm) {
+
+            $scope.lxForm = lxForm('enterpriseEdit', '_id');
 
             // visible vars for controller
             $scope.visible = {
@@ -140,6 +142,8 @@ angular.module('enterprise', ['enterprise.services'])
                         $scope.lxAlert.warning('Server: validation Errors');
                         $scope.validationErrors = result.errors;
                         $scope.visible.errors = true;
+
+                        $scope.lxForm.populateValidation($scope.form, result.errors);
                     }
                     else if (result.message) {
                         $scope.lxAlert.error(result.message);

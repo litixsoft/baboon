@@ -5,7 +5,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
         $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit) {
+    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit','$modal', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit, $modal) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -89,6 +89,17 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             }
         };
 
+        $scope.openTags = function () {
+            $scope.instance = $modal.open({
+                backdrop: true, //static, true, false
+                modalFade: true,
+                controller: 'blogAdminModalCtrl',
+                keyboard: false,
+                resolve: {},
+                templateUrl: 'blog/admin/blogAdminTagsCtrl/myModalContent.html'
+            });
+        };
+
         $scope.getData({skip: 0, limit: 5});
     }])
     .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'appBlogAdminTags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
@@ -137,38 +148,26 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             }
         });
     }])
-    .controller('blogAdminTagsCtrl', ['$scope', 'appBlogAdminTags', function ($scope, tags) {
-        $scope.modal = {
-            opts: {
-                backdropFade: true,
-                dialogFade: true
-            },
-            validationErrors: []
-        };
+    .controller('blogAdminModalCtrl', ['$scope','$modalInstance','appBlogAdminTags', function ($scope, $modalInstance, tags) {
 
-        $scope.modal.closeAlert = function (index) {
-            $scope.modal.validationErrors.splice(index, 1);
-        };
+        $scope.modal = {};
 
-        $scope.modal.open = function () {
-            $scope.modal.shouldBeOpen = true;
-            $scope.modal.validationErrors = [];
+        $scope.modal.validationErrors = [];
 
-            tags.getAll({}, function (result) {
-                if (result.data) {
-                    $scope.modal.items = result.data;
-                }
-            });
-        };
+        tags.getAll({}, function (result) {
+            if (result.data) {
+                $scope.modal.items = result.data;
+            }
+        });
 
         $scope.modal.save = function (name) {
             tags.createTag({name: name}, function (result) {
+                $scope.modal.validationErrors = [];
                 if (result.data) {
                     $scope.modal.items.push(result.data);
                     $scope.modal.name = '';
-                    $scope.modal.validationErrors = [];
+//                    $scope.modal.validationErrors = [];
                 }
-
                 if (result.errors) {
                     for (var i = 0; i < result.errors.length; i++) {
                         $scope.modal.validationErrors.push({
@@ -177,7 +176,6 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
                         });
                     }
                 }
-
                 if (result.message) {
                     $scope.modal.validationErrors.push({type: 'error', msg: result.message});
                 }
@@ -198,6 +196,12 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
         };
 
         $scope.modal.close = function () {
-            $scope.modal.shouldBeOpen = false;
+            if ($modalInstance) {
+                $modalInstance.dismiss('cancel');
+            }
+        };
+
+        $scope.modal.closeAlert = function (index) {
+            $scope.modal.validationErrors.splice(index, 1);
         };
     }]);
