@@ -21,6 +21,7 @@ module.exports = [
     {'title': 'ADMINISTRATION', 'route': '/admin', target: '_self', right: 'baboon/admin/user/create', children: [
         {title: 'USERS', route: '/admin/users', right: 'baboon/admin/user/getAll'},
         {title: 'GROUPS', route: '/admin/groups', right: 'baboon/admin/group/getAll'},
+        {title: 'ROLES', route: '/admin/roles', right: 'baboon/admin/role/getAll'},
         {title: 'RIGHTS', route: '/admin/rights', right: 'baboon/admin/right/getAll'}
     ]}
 ];

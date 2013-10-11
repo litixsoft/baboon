@@ -10,6 +10,9 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $routeProvider.when('/admin/groups', {templateUrl: 'admin/tpls/groups.html', controller: 'adminGroupListCtrl'});
         $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
         $routeProvider.when('/admin/groups/new', {templateUrl: 'admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
+        $routeProvider.when('/admin/roles', {templateUrl: 'admin/tpls/roles.html', controller: 'adminRoleListCtrl'});
+        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
+        $routeProvider.when('/admin/roles/new', {templateUrl: 'admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
     })
     .constant('admin.modulePath', 'baboon/admin/')
     .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
@@ -130,31 +133,35 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         });
     }])
     .controller('adminRightListCtrl', ['$scope', '$log', 'adminRights', function ($scope, $log, rights) {
-        var options = {},
-            callback = function (result) {
+        $scope.pagingOptions = {skip: 0, limit: 10};
+        $scope.sortOpts = {name: 1};
+
+        $scope.getData = function (sortingOptions, pagingOptions) {
+            var query = {
+                params: {},
+                options: {}
+            };
+
+            if (pagingOptions) {
+                $scope.pagingOptions = pagingOptions;
+            }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
+
+            rights.getAll(query, function (result) {
                 if (result.data) {
                     $scope.rights = result.data;
                     $scope.count = result.count;
                 } else {
                     $log.log(result);
                 }
-            },
-            getData = function () {
-                var query = {
-                    params: {},
-                    options: options || {}
-                };
-
-                rights.getAll(query, callback);
-            };
-
-        $scope.getData = function (pagingOptions) {
-            if (pagingOptions) {
-                options.skip = pagingOptions.skip;
-                options.limit = pagingOptions.limit;
-            }
-
-            getData();
+            });
         };
 
         $scope.getData();
@@ -230,6 +237,99 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $scope.getData();
     }])
     .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
+        $scope.lxForm = lxForm('baboon_group', '_id');
+
+        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
+            groups.getById($routeParams.id, function (result) {
+                if (result.data) {
+                    $scope.lxForm.setModel(result.data);
+                } else {
+                    $log.log(result.message);
+                }
+            });
+        }
+
+        $scope.save = function (model) {
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            var callback = function (result) {
+                if (result.data || result.success) {
+                    $scope.lxForm.setModel(result.data || model, true);
+                    $location.path('/admin/groups');
+                } else {
+                    if (result.errors) {
+                        $scope.lxForm.populateValidation($scope.form, result.errors);
+                    }
+
+                    if (result.message) {
+                        $log.log(result.message);
+                    }
+                }
+            };
+
+            if (model._id) {
+                groups.update(model, callback);
+            } else {
+                groups.create(model, callback);
+            }
+        };
+
+        rights.getAll({}, function (result) {
+            if (result.data) {
+                $scope.rights = result.data;
+                $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+            }
+        });
+
+        $scope.setRight = function (right) {
+            if (!$scope.lxForm.model.rights) {
+                $scope.lxForm.model.rights = [];
+            }
+
+            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
+                $scope.lxForm.model.rights.push(right._id);
+            } else if (!right.isSelected) {
+                var index = $scope.lxForm.model.rights.indexOf(right._id);
+
+                if (index > 0) {
+                    $scope.lxForm.model.rights.splice(index, 1);
+                }
+            }
+        };
+
+        $scope.reset = function (form) {
+            $scope.lxForm.reset(form);
+
+            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+        };
+    }])
+    .controller('adminRoleListCtrl', ['$scope', '$log', 'adminRoles', function ($scope, $log, roles) {
+        $scope.getData = function (pagingOptions) {
+            var query = {
+                params: {},
+                options: {}
+            };
+
+            if (pagingOptions) {
+                query.options.skip = pagingOptions.skip;
+                query.options.limit = pagingOptions.limit;
+            }
+
+            roles.getAll(query, function (result) {
+                if (result.data) {
+                    $scope.roles = result.data;
+                    $scope.count = result.count;
+                } else {
+                    $log.log(result);
+                }
+            });
+        };
+
+        $scope.getData({skip: 0, limit: 5});
+    }])
+    .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
         $scope.lxForm = lxForm('baboon_group', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {

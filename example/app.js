@@ -30,7 +30,12 @@ app.get('/ui/*', function (req, res) {
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/index');
+
+        if (baboon.rights.userHasAccessTo(req.session.user, 'baboon/admin/user/create')) {
+            res.render('admin/index');
+        } else {
+            res.render('index');
+        }
     });
 });
 
@@ -38,7 +43,12 @@ app.get('/admin', function (req, res) {
 app.get('/admin/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.context.index(req, res);
-        res.render('admin/index');
+
+        if (baboon.rights.userHasAccessTo(req.session.user, 'baboon/admin/user/create')) {
+            res.render('admin/index');
+        } else {
+            res.render('index');
+        }
     });
 });
 

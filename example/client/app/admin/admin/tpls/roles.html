@@ -1,0 +1,23 @@
+<div class="p-wrapper">
+    <div>
+        <h2>Roles</h2>
+        <table name="name" class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 20px;">
+                        <a name="newRole" href="/admin/roles/new"><i class="icon-plus-sign"></i></a>
+                    </th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="role in roles">
+                    <td><a href="/admin/roles/edit/{{role._id}}"><i class="icon-edit"></i></a></td>
+                    <td>{{role.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <lx-Pager count="count" current-page="currentPage" on-paging="getData(pagingOptions)"></lx-Pager>
+    </div>
+</div>

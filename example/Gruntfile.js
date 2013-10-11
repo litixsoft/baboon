@@ -388,6 +388,7 @@ module.exports = function (grunt) {
             server: {
                 files: [
                     '<%= serverFolder %>/modules/**/*.*',
+                    'app.js',
                     '!<%= serverFolder %>/**/*.spec.js'
                 ],
                 tasks: ['build:rights', 'express:dev']
