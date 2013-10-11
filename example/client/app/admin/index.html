@@ -55,18 +55,29 @@
                                 <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
                                 <div>
                                     <h1>Login</h1>
-                                    <form class="form" ng-submit="login()" name="loginForm" >
+                                    <form class="form-horizontal" ng-submit="login()" name="loginForm" novalidate>
                                         <div class="form-inner">
-                                            <div class="row-fluid">
-                                                <div class="span1"><i class="icon-user icon-white"></i></div>
-                                                <div class="span11">
-                                                    <input class="span12" ng-class="{error: authFailed}" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off'>
+                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)}">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-user"></span></div>
+                                                <div class="col-lg-11 lxvalidation">
+                                                    <input class="form-control" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off'>
+                                                    <label ng-show="((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)" class="label label-danger">
+                                                        <div class="glyphicon glyphicon-fire"></div>
+                                                        <span ng-show="loginForm.username.$error.required" popover="Error: Username is required" popover-trigger="mouseenter"></span>
+                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="row-fluid">
-                                                <div class="span1"><i class="icon-lock icon-white"></i></div>
-                                                <div class="span11">
-                                                    <input class="span12" ng-class="{error: authFailed}" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
+                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)}">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-lock"></span></div>
+                                                <div class="col-lg-11 lxvalidation">
+                                                    <input class="form-control" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
+                                                    <label ng-show="((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)" class="label label-danger">
+                                                        <div class="glyphicon glyphicon-fire"></div>
+                                                        <span ng-show="loginForm.password.$error.required" popover="Error: Password is required" popover-trigger="mouseenter"></span>
+                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
+                                                    </label>
+
                                                 </div>
                                             </div>
                                             <div class="row-fluid" ui-if="authFailed">
@@ -81,8 +92,8 @@
                                             </div>
                                         </div>
                                         <div class="form-submit">
-                                            <div class="row-fluid">
-                                                <input type="submit" class="btn btn-block span6 offset6" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
+                                            <div class="row">
+                                                <input type="submit" class="btn btn-block col-md-6 col-md-offset-6" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
                                             </div>
                                         </div>
 
