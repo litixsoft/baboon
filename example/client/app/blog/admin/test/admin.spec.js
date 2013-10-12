@@ -4,6 +4,7 @@
 var ctrl, scope, flag, value, service;
 
 describe('admin modul', function () {
+    beforeEach(module('ui.bootstrap.modal'));
     beforeEach(module('blog'));
     beforeEach(module('lx.cache'));
     beforeEach(module('lx.session'));
@@ -229,7 +230,7 @@ describe('admin modul', function () {
     });
 
     // tagsCtrl tests
-    describe('blogAdminTagsCtrl', function () {
+    describe('blogAdminModalCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
             service = $injector.get('lxSocket');
@@ -259,7 +260,7 @@ describe('admin modul', function () {
             };
 
             scope = $rootScope.$new();
-            ctrl = $controller('blogAdminTagsCtrl', {$scope: scope});
+            ctrl = $controller('blogAdminModalCtrl', {$scope: scope, $modalInstance: {}});
         }));
 
         it('should be initialized correctly', function () {
