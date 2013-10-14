@@ -25,6 +25,10 @@
                 <!--<p>An diese Stelle kann man ein paar tolle Sachen schreiben um eine Hilfestellung zu geben oder was auch immer man möchte. Man mir fällt einfach nix mehr ein was man schreiben könnte.</p>-->
                 <div class="alert alert-info">An diese Stelle kann man ein paar tolle Sachen schreiben um eine Hilfestellung zu geben oder was auch immer man möchte. Man mir fällt einfach nix mehr ein was man schreiben könnte.</div>
 
+                <div class="btn-group" style="margin:10px 0;">
+                    <a class="btn btn-default" name="newCrewMember" href="/enterprise/new"><span class="glyphicon glyphicon-plus-sign"></span> Add new crew member</a>
+                </div>
+
                 <!--<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Und hier kann man auch gleich Fehler anzeigen. Es treten ja nie welche auf aber für alle Fälle.</div>-->
 
                 <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
@@ -32,8 +36,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
-                        <th style="text-align: right"><a href="/enterprise/new" title="Neu anlegen">
-                            <i class="icon-plus-sign"></i></a></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
