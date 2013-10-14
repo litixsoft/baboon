@@ -16,31 +16,38 @@ angular.module('admin', ['admin.services', 'admin.directives'])
     })
     .constant('admin.modulePath', 'baboon/admin/')
     .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
-        var options = {},
-            callback = function (result) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = {name: 1};
+
+        $scope.getData = function (sortingOptions, pagingOptions) {
+            var query = {
+                params: {},
+                options: {
+                    fields: ['name', 'email', 'id']
+                }
+            };
+
+            if (pagingOptions) {
+                $scope.pagingOptions = pagingOptions;
+            }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
+
+            users.getAll(query, function (result) {
                 if (result.data) {
                     $scope.users = result.data;
                     $scope.count = result.count;
                 } else {
                     $log.log(result);
                 }
-            },
-            getData = function () {
-                var query = {
-                    params: {},
-                    options: options || {}
-                };
-
-                users.getAll(query, callback);
-            };
-
-        $scope.getData = function (pagingOptions) {
-            if (pagingOptions) {
-                options.skip = pagingOptions.skip;
-                options.limit = pagingOptions.limit;
-            }
-
-            getData();
+            });
         };
 
         $scope.getData();
@@ -133,7 +140,8 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         });
     }])
     .controller('adminRightListCtrl', ['$scope', '$log', 'adminRights', function ($scope, $log, rights) {
-        $scope.pagingOptions = {skip: 0, limit: 10};
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = {name: 1};
 
         $scope.getData = function (sortingOptions, pagingOptions) {
@@ -207,31 +215,38 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         };
     }])
     .controller('adminGroupListCtrl', ['$scope', '$log', 'adminGroups', function ($scope, $log, groups) {
-        var options = {},
-            callback = function (result) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = {name: 1};
+
+        $scope.getData = function (sortingOptions, pagingOptions) {
+            var query = {
+                params: {},
+                options: {
+                    fields: ['name', 'id']
+                }
+            };
+
+            if (pagingOptions) {
+                $scope.pagingOptions = pagingOptions;
+            }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
+
+            groups.getAll(query, function (result) {
                 if (result.data) {
                     $scope.groups = result.data;
                     $scope.count = result.count;
                 } else {
                     $log.log(result);
                 }
-            },
-            getData = function () {
-                var query = {
-                    params: {},
-                    options: options || {}
-                };
-
-                groups.getAll(query, callback);
-            };
-
-        $scope.getData = function (pagingOptions) {
-            if (pagingOptions) {
-                options.skip = pagingOptions.skip;
-                options.limit = pagingOptions.limit;
-            }
-
-            getData();
+            });
         };
 
         $scope.getData();
@@ -306,16 +321,29 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         };
     }])
     .controller('adminRoleListCtrl', ['$scope', '$log', 'adminRoles', function ($scope, $log, roles) {
-        $scope.getData = function (pagingOptions) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = {name: 1};
+
+        $scope.getData = function (sortingOptions, pagingOptions) {
             var query = {
                 params: {},
-                options: {}
+                options: {
+                    fields: ['name', 'description']
+                }
             };
 
             if (pagingOptions) {
-                query.options.skip = pagingOptions.skip;
-                query.options.limit = pagingOptions.limit;
+                $scope.pagingOptions = pagingOptions;
             }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
 
             roles.getAll(query, function (result) {
                 if (result.data) {
@@ -327,10 +355,10 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             });
         };
 
-        $scope.getData({skip: 0, limit: 5});
+        $scope.getData();
     }])
     .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
-        $scope.lxForm = lxForm('baboon_group', '_id');
+        $scope.lxForm = lxForm('baboon_role', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             groups.getById($routeParams.id, function (result) {
@@ -376,25 +404,25 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         });
 
-        $scope.setRight = function (right) {
-            if (!$scope.lxForm.model.rights) {
-                $scope.lxForm.model.rights = [];
-            }
-
-            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
-                $scope.lxForm.model.rights.push(right._id);
-            } else if (!right.isSelected) {
-                var index = $scope.lxForm.model.rights.indexOf(right._id);
-
-                if (index > 0) {
-                    $scope.lxForm.model.rights.splice(index, 1);
-                }
-            }
-        };
-
-        $scope.reset = function (form) {
-            $scope.lxForm.reset(form);
-
-            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
-        };
+//        $scope.setRight = function (right) {
+//            if (!$scope.lxForm.model.rights) {
+//                $scope.lxForm.model.rights = [];
+//            }
+//
+//            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
+//                $scope.lxForm.model.rights.push(right._id);
+//            } else if (!right.isSelected) {
+//                var index = $scope.lxForm.model.rights.indexOf(right._id);
+//
+//                if (index > 0) {
+//                    $scope.lxForm.model.rights.splice(index, 1);
+//                }
+//            }
+//        };
+//
+//        $scope.reset = function (form) {
+//            $scope.lxForm.reset(form);
+//
+//            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+//        };
     }]);

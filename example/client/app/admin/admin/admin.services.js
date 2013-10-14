@@ -142,31 +142,31 @@ angular.module('admin.services', [])
         var pub = {};
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'roles/getAll', query, function (result) {
+            lxSocket.emit(modulePath + 'role/getAll', query, function (result) {
                 callback(result);
             });
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'roles/getById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'role/getById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/create', role, function (result) {
+            lxSocket.emit(modulePath + 'role/create', role, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/update', role, function (result) {
+            lxSocket.emit(modulePath + 'role/update', role, function (result) {
                 callback(result);
             });
         };
 
         pub.delete = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/delete', role, function (result) {
+            lxSocket.emit(modulePath + 'role/delete', role, function (result) {
                 callback(result);
             });
         };
