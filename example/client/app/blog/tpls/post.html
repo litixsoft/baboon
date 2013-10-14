@@ -1,21 +1,14 @@
 <div>
     <div class="p-wrapper">
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <!--<blockquote>-->
-                    <span class="entry-title">{{post.title}}</span><br>
-                    <span class="entry-replies">Dieser Artikel wurde am {{ post.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</span>
-                <!--</blockquote>-->
-                <!--{{entry.title}}-->
-            </div>
-            <div class="panel-body">
-                <p>{{post.content}}</p>
-            </div>
-            <div class="panel-footer">
-                <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
-            </div>
+        <div class="page-header">
+            <h1>{{post.title}}<br><small>Dieser Artikel wurde am {{ post.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</small></h1>
         </div>
+
+        <p>{{post.content}}</p>
+        <br>
+        <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
+
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -46,10 +39,11 @@
                     </fieldset>
                 </form>
 
-                <div ng-repeat="comment in post.comments" class="well" name="comments">
-                    <div>#{{$index + 1}} - {{comment.created | date:'dd.MM.yyyy, HH:mm'}} - {{comment.username}}</div>
-                    <div>{{comment.content}}</div>
+                <div class="well" ng-repeat="comment in post.comments" name="comments">
+                    <h4 class="list-group-item-heading" style="font-weight:bold;">#{{$index + 1}} - {{comment.username}} <small>{{comment.created | date:'dd.MM.yyyy, HH:mm'}}</small></h4>
+                    <p class="list-group-item-text">{{comment.content}}</p>
                 </div>
+
             </div>
             <div class="panel-footer">
                 <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
