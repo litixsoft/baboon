@@ -216,6 +216,13 @@ module.exports = function (grunt) {
                         src: ['**/*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/showdown/'
+                    },
+                    {
+                        // highlight js
+                        dest: '<%= buildDistPublicVendorFolder %>/highlight',
+                        src: ['**/*'],
+                        expand: true,
+                        cwd: '<%= clientOptionalFolder %>/highlight/'
                     }
                 ]
             }

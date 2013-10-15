@@ -6,7 +6,8 @@ angular.module('app', [
         'enterprise',
         'home',
         'session',
-        'translation'
+        'translation',
+        'hljs'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
@@ -30,8 +31,8 @@ angular.module('app', [
 
                 lxSession.setActivity(function (err) {
                     if (err) {
-                        lxModal.msgBox('', 'Session is expired! Please log in.', 'Warning', function () {
-                            window.location.assign('/login');
+                        lxModal.msgBox('sessionExpired', true ,'','Session is expired! Please log in.', 'Warning',function(){
+                            window.location.assign('/');
                         });
                     }
                 });
