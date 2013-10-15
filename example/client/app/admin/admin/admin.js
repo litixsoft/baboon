@@ -251,7 +251,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
 
         $scope.getData();
     }])
-    .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
+    .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRoles', function ($scope, $routeParams, $location, lxForm, groups, $log, roles) {
         $scope.lxForm = lxForm('baboon_group', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
@@ -291,33 +291,23 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         };
 
-        rights.getAll({}, function (result) {
+        roles.getAll({options: {fields: ['name', 'description']}}, function (result) {
             if (result.data) {
-                $scope.rights = result.data;
-                $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+                $scope.roles = result.data;
+//                $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
             }
         });
 
-        $scope.setRight = function (right) {
-            if (!$scope.lxForm.model.rights) {
-                $scope.lxForm.model.rights = [];
+        $scope.setRole = function(role) {
+            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
+
+            var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
+
+            if (role.isSelected && indexOfRole === -1) {
+                $scope.lxForm.model.roles.push(role._id);
+            } else if (!role.isSelected && indexOfRole !== -1) {
+                $scope.lxForm.model.roles.splice(indexOfRole, 1);
             }
-
-            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
-                $scope.lxForm.model.rights.push(right._id);
-            } else if (!right.isSelected) {
-                var index = $scope.lxForm.model.rights.indexOf(right._id);
-
-                if (index > 0) {
-                    $scope.lxForm.model.rights.splice(index, 1);
-                }
-            }
-        };
-
-        $scope.reset = function (form) {
-            $scope.lxForm.reset(form);
-
-            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
         };
     }])
     .controller('adminRoleListCtrl', ['$scope', '$log', 'adminRoles', function ($scope, $log, roles) {
@@ -357,11 +347,11 @@ angular.module('admin', ['admin.services', 'admin.directives'])
 
         $scope.getData();
     }])
-    .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, groups, $log, rights) {
+    .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminRoles', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, roles, $log, rights) {
         $scope.lxForm = lxForm('baboon_role', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            groups.getById($routeParams.id, function (result) {
+            roles.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.lxForm.setModel(result.data);
                 } else {
@@ -378,7 +368,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             var callback = function (result) {
                 if (result.data || result.success) {
                     $scope.lxForm.setModel(result.data || model, true);
-                    $location.path('/admin/groups');
+                    $location.path('/admin/roles');
                 } else {
                     if (result.errors) {
                         $scope.lxForm.populateValidation($scope.form, result.errors);
@@ -391,9 +381,9 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             };
 
             if (model._id) {
-                groups.update(model, callback);
+                roles.update(model, callback);
             } else {
-                groups.create(model, callback);
+                roles.create(model, callback);
             }
         };
 
@@ -404,25 +394,25 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         });
 
-//        $scope.setRight = function (right) {
-//            if (!$scope.lxForm.model.rights) {
-//                $scope.lxForm.model.rights = [];
-//            }
-//
-//            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
-//                $scope.lxForm.model.rights.push(right._id);
-//            } else if (!right.isSelected) {
-//                var index = $scope.lxForm.model.rights.indexOf(right._id);
-//
-//                if (index > 0) {
-//                    $scope.lxForm.model.rights.splice(index, 1);
-//                }
-//            }
-//        };
-//
-//        $scope.reset = function (form) {
-//            $scope.lxForm.reset(form);
-//
-//            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
-//        };
+        $scope.setRight = function (right) {
+            if (!$scope.lxForm.model.rights) {
+                $scope.lxForm.model.rights = [];
+            }
+
+            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
+                $scope.lxForm.model.rights.push(right._id);
+            } else if (!right.isSelected) {
+                var index = $scope.lxForm.model.rights.indexOf(right._id);
+
+                if (index > 0) {
+                    $scope.lxForm.model.rights.splice(index, 1);
+                }
+            }
+        };
+
+        $scope.reset = function (form) {
+            $scope.lxForm.reset(form);
+
+            $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+        };
     }]);

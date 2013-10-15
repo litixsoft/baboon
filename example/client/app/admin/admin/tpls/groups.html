@@ -1,14 +1,14 @@
 <div class="p-wrapper">
     <div>
-        <h2>Groups</h2>
+        <h2>{{ 'GROUPS' | translate }}</h2>
         <table name="groups" class="table table-hover">
             <thead>
                 <tr>
                     <th style="width: 20px;">
                         <a name="newGroup" href="/admin/groups/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     </th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />Name</th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />Id</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
                 </tr>
             </thead>
             <tbody>

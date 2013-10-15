@@ -46,7 +46,7 @@ angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
             }
         });
 
-        $scope.getData({skip: 0, limit: 5});
+        $scope.getData({skip: 0, limit: 10});
     }])
     .controller('blogPostCtrl', ['$scope', '$routeParams', 'blogPosts', function ($scope, $routeParams, blogPosts) {
         // load post

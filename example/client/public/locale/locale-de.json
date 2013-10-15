@@ -41,5 +41,18 @@
     "ENTER_FIRSTNAME": "Vornamen eingeben",
     "ENTER_LASTNAME": "Nachnamen eingeben",
     "REGISTER": "Registrieren",
-    "FORGET_PASSWORD": "Benutzernamen / Passwort vergessen"
+    "FORGET_PASSWORD": "Benutzernamen / Passwort vergessen",
+    "NAME": "Name",
+    "DESCRIPTION": "Beschreibung",
+    "CREATE_EDIT_ROLE": "Rolle erstellen/bearbeiten",
+    "RESET": "Zurücksetzen",
+    "SAVE": "Speichern",
+    "ENTER_NAME": "Bitte Namen eingeben",
+    "REQUIRED_NAME": "Name ist ein Pflichtfeld",
+    "REQUIRED_DESCRIPTION": "Name ist ein Pflichtfeld",
+    "ID": "Id",
+    "MAIL": "Mail",
+    "MODULE": "Modul",
+    "baboon/admin/group/create": "Gruppe erstellen",
+    "CREATE_EDIT_GROUP": "Gruppe erstellen/bearbeiten"
 }

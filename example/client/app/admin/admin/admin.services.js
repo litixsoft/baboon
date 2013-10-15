@@ -48,11 +48,12 @@ angular.module('admin.services', [])
                 right.displayName = s.shift();
                 right.isSelected = selectedRights.indexOf(right._id) > -1 ? true : false;
                 right.name = path + right.name;
+                right.description = right.description;
                 rightObj[mod].push(right);
             } else {
                 path += mod + '/';
                 rightObj[mod] = rightObj[mod] || {children: {}};
-                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/')}, path);
+                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/'), description: right.description}, path);
             }
         }
 
@@ -67,7 +68,6 @@ angular.module('admin.services', [])
                 convertRightStringToObject(selectedRights, res, rights[i]);
             }
 
-//            console.log(res);
             return res;
         };
 
