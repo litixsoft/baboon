@@ -1,4 +1,5 @@
 {
+    "LANGUAGE": "Sprache",
     "TRANSLATION_HEADER": "Example for translation in baboon!",
     "TRANSLATION_INTRO": "In baboon we use the module angular-translate for the tranaltion. We will show you some examples. A detailed documentation can be found here:",
     "TRANSLATION_LINK": "Angular-Translate documentation",

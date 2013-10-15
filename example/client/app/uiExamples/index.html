@@ -124,16 +124,33 @@
                 <!--<lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>-->
                 <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
 
-                <div class="pull-left connection-area">
+                <div class="pull-right connection-area">
+                    <div class="pull-right flag-area">
+                        <style>
+
+
+                        </style>
+
+                        <div class="btn-group dark-select">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ 'LANGUAGE' | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="#" ng-click="changeLanguage('de')"><img src="/img/flag-german.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                    <a href="#" ng-click="changeLanguage('en')"><img src="/img/flag-english.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
                     <div class="pull-right">
                         <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
                         <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
-                    <div class="pull-right flag-area">
-                        <img src="/img/flag-german.png" ng-click="changeLanguage('de')" title="Sprachauswahl: deutsche Sprache auswählen!"/>
-                        <img src="/img/flag-english.png" ng-click="changeLanguage('en')" title="Language selection: select english language!"/>
-                    </div>
+
                 </div>
 
 
