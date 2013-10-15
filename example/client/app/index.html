@@ -34,6 +34,7 @@
 <div id="singlepageFrame">
     <div class="layout-content">
         <div class="col-left navCol">
+            <span class="trademark-area">Baboon</span>
             <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
             <lxtreeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
 
@@ -60,7 +61,7 @@
                                             <div class="form-group" ng-class="{'has-error' : ((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)}">
                                                 <div class="col-lg-1"><span class="glyphicon glyphicon-user"></span></div>
                                                 <div class="col-lg-11 lxvalidation">
-                                                    <input class="form-control" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off'>
+                                                    <input class="form-control" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off' autofocus>
                                                     <label ng-show="((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)" class="label label-danger">
                                                         <div class="glyphicon glyphicon-fire"></div>
                                                         <span ng-show="loginForm.username.$error.required" popover="Error: Username is required" popover-trigger="mouseenter"></span>
@@ -128,8 +129,7 @@
 
                 <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
 
-
-                <div class="pull-right connection-area">
+                <div class="pull-left connection-area">
                     <div class="pull-right">
                         <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
                         <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
@@ -141,7 +141,7 @@
                     </div>
                 </div>
 
-                <span class="pull-right trademark-area">baboon</span>
+                <!--<span class="pull-right trademark-area">Baboon</span>-->
             </div>
 
             <!-- login end -->

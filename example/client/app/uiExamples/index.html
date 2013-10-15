@@ -32,6 +32,7 @@
 
     <div class="layout-content">
         <div class="col-left navCol">
+            <span class="trademark-area">baboon</span>
             <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[1].children) %>"></lxtreeview>-->
             <lxtreeview class="navlist" nr-attr="1" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
         </div>
@@ -123,7 +124,7 @@
                 <!--<lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>-->
                 <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
 
-                <div class="pull-right connection-area">
+                <div class="pull-left connection-area">
                     <div class="pull-right">
                         <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
                         <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
@@ -135,7 +136,7 @@
                     </div>
                 </div>
 
-                <span class="pull-right trademark-area">baboon</span>
+
             </div>
 
             <!-- login end -->
