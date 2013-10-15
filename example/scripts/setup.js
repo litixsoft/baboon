@@ -2,6 +2,7 @@
 
 var grunt = require('grunt'),
     path = require('path'),
+    async = require('async'),
     rootPath = path.resolve(),
     config = require('../../lib/config.js')(rootPath),
     logging = require('../../lib/logging.js')(
@@ -39,7 +40,54 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
 
             grunt.log.ok('rights: All rights are stored in db.');
 
-            finalCallback();
+            // add roles to users
+            var repo = rights.getRepositories();
+            repo.roles.getAll({}, {fields: ['_id', 'name']}, function (error, result) {
+                if (error) {
+                    finalCallback(error);
+                    return;
+                }
+
+                var roles = {};
+
+                result.forEach(function (role) {
+                    roles[role.name] = role._id;
+                });
+
+                repo.users.getAll({name: { $in: ['admin', 'guest']}}, {fields: ['_id', 'name', 'roles']}, function (error, result) {
+                    if (error) {
+                        finalCallback(error);
+                        return;
+                    }
+
+                    async.eachSeries(result, function (user, next) {
+                        var idx;
+                        user.roles = user.roles || [];
+
+                        if (user.name === 'admin') {
+                            idx = user.roles.indexOf(roles.Admin);
+
+                            if (idx === -1) {
+                                user.roles.push(roles.Admin);
+
+                                repo.users.update({_id: user._id}, {$set: user}, next);
+                            }
+                        } else if (user.name === 'guest') {
+                            idx = user.roles.indexOf(roles.Guest);
+
+                            if (idx === -1) {
+                                user.roles.push(roles.Guest);
+
+                                repo.users.update({_id: user._id}, {$set: user}, next);
+                            }
+                        } else {
+                            next();
+                        }
+                    }, finalCallback);
+                });
+            });
+
+//            finalCallback();
         });
     } else {
         finalCallback();

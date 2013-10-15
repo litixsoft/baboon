@@ -40,25 +40,19 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">{{ 'ROLES' | translate }}</label>
                             <div class="col-lg-10">
-                                <ul style="list-style-type: none;">
-                                    <li ng-repeat="role in roles">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" ng-click="setRole(role)" ng-model="role.isSelected">
-                                                {{ role.name }}
-                                                <span ui-if="role.description" class="glyphicon glyphicon-question-sign" popover="{{ role.description }}" popover-trigger="mouseenter"></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <div class="checkbox" ng-repeat="role in roles">
+                                    <label>
+                                        <input type="checkbox" ng-click="setRole(role)" ng-model="role.isSelected">
+                                        {{ role.name }}
+                                        <span ui-if="role.description" class="glyphicon glyphicon-question-sign" popover="{{ role.description }}" popover-trigger="mouseenter"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
-                        <pre>{{ lxForm.model | json }}</pre>
-
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                                <button type="button" class="btn btn-default" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                                <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
                                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
                             </div>
                         </div>
@@ -69,51 +63,3 @@
         </div>
     </div>
 </div>
-
-
-
-<!--<div>-->
-    <!--<div class="p-wrapper">-->
-        <!--<form name="form" novalidate class="css-form form-horizontal">-->
-            <!--<fieldset>-->
-                <!--<legend>Group</legend>-->
-
-                <!--<div class="control-group">-->
-                    <!--<label class="control-label">Name</label>-->
-
-                    <!--<div class="controls">-->
-                        <!--<input type="text" ng-model="lxForm.model.name" name="name" required />-->
-
-                        <!--<span class="label label-important" ui-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">-->
-                            <!--Error:-->
-                            <!--<span ng-show="form.name.$error.required"> Name is required.</span>-->
-                            <!--<span ng-show="form.errors.name"> {{form.errors.name}}.</span>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="control-group">-->
-                    <!--<label class="control-label">Right(s)</label>-->
-
-                    <!--<div class="controls">-->
-                        <!--<select size="10" name="rights" ng-model="lxForm.model.rights" ng-options="right._id as right.name for right in rights" multiple="multiple">-->
-                            <!--<option value="">-- select right(s) --</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="control-group">-->
-                    <!--<label class="control-label">Rights</label>-->
-
-                    <!--<lx-rights class="navlist" rights="rightsObj" on-set-right="setRight(right)"></lx-rights>-->
-                <!--</div>-->
-
-            <!--</fieldset>-->
-
-            <!--<div class="form-actions">-->
-                <!--<button type="button" class="btn" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>-->
-                <!--<button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>-->
-            <!--</div>-->
-        <!--</form>-->
-    <!--</div>-->
-<!--</div>-->

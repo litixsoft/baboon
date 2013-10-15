@@ -65,6 +65,8 @@ module.exports = function (app) {
     /**
      * Gets all users and the number of users from db.
      *
+     * @roles Admin
+     * @description Gets all users and the number of users from db
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -93,8 +95,10 @@ module.exports = function (app) {
     };
 
     /**
-     * Gets a single user post by id.
+     * Gets a single user by id.
      *
+     * @roles Admin
+     * @description Gets a single user by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
@@ -120,6 +124,8 @@ module.exports = function (app) {
     /**
      * Creates a new user in the db.
      *
+     * @roles Admin
+     * @description Creates a new user in the db
      * @param {object} data The user data.
      * @param {!function(result)} callback The callback.
      */
@@ -172,6 +178,8 @@ module.exports = function (app) {
     /**
      * Updates a user in the db.
      *
+     * @roles Admin
+     * @description Updates a user in the db
      * @param {object} data The user data.
      * @param {!function(result)} callback The callback.
      */

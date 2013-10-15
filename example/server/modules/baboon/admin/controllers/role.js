@@ -19,7 +19,7 @@ module.exports = function (app) {
     /**
      * Gets all roles and the number of roles from db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Gets all roles and the number of roles from db.
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
@@ -49,7 +49,7 @@ module.exports = function (app) {
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
-     * @roles admin
+     * @roles Admin
      * @description Gets a single role post by id.
      */
     pub.getById = function (data, callback) {
@@ -69,7 +69,7 @@ module.exports = function (app) {
     /**
      * Creates a new role in the db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Creates a new role in the db.
      * @param {object} data The role data.
      * @param {!function(result)} callback The callback.
@@ -108,7 +108,7 @@ module.exports = function (app) {
     /**
      * Updates a role in the db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Updates a role in the db.
      * @param {object} data The role data.
      * @param {!function(result)} callback The callback.

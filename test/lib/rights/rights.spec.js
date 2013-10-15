@@ -1056,7 +1056,7 @@ describe('Rights', function () {
                 sut.refreshRightsIdDb(function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeDefined();
-                    expect(res).toBeGreaterThan(0);
+                    expect(typeof res).toBe('number');
 
                     done();
                 });
@@ -1072,10 +1072,10 @@ describe('Rights', function () {
         it('should create system users in db if they do not exist', function (done) {
             sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();
-                expect(res).toBe(2);
+                expect(res).toBe(3);
 
                 expect(appMock.logging.syslog.info).toHaveBeenCalled();
-                expect(appMock.logging.syslog.info.calls.length).toBe(2);
+                expect(appMock.logging.syslog.info.calls.length).toBe(3);
 
                 sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                     expect(err).toBeNull();

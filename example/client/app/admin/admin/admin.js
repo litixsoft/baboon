@@ -52,7 +52,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
 
         $scope.getData();
     }])
-    .controller('adminEditUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminUsers', '$log', 'adminRights', 'adminGroups', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups) {
+    .controller('adminEditUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminUsers', '$log', 'adminRights', 'adminGroups', 'adminRoles', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups, roles) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
@@ -96,28 +96,46 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         };
 
-        $scope.addRight = function (right) {
-            right.hasAccess = right.hasAccess || false;
+        $scope.addRight = function (rightToAdd) {
+            rightToAdd.hasAccess = rightToAdd.hasAccess || false;
             $scope.lxForm.model.rights = $scope.lxForm.model.rights || [];
-            $scope.lxForm.model.rights.push(right);
+
+            var i;
+            var length = $scope.lxForm.model.rights.length;
+
+            for (i = 0; i < length; i++) {
+                if ($scope.lxForm.model.rights[i]._id === rightToAdd._id) {
+                    $scope.addRightMsg = 'Right was already added';
+                    return;
+                }
+            }
+
+            $scope.lxForm.model.rights.push(rightToAdd);
 
             $scope.addingRight = false;
             $scope.addedRight = {};
+            $scope.addRightMsg = null;
         };
 
-//        $scope.getRightName = function (right) {
-//            var i, name;
-//            var length = ($scope.rights || []).length;
-//
-//            for (i = 0; i < length; i++) {
-//                if ($scope.rights[i]._id === right._id) {
-//                    name = $scope.rights[i].name;
-//                    return;
-//                }
-//            }
-//
-//            return name;
-//        };
+        $scope.cancelAddRight = function() {
+            $scope.addingRight = false;
+            $scope.addedRight = {};
+            $scope.addRightMsg = null;
+        };
+
+        $scope.getRightName = function (rightId) {
+            var i, name;
+            var length = ($scope.rights || []).length;
+
+            for (i = 0; i < length; i++) {
+                if ($scope.rights[i]._id === rightId) {
+                    name = $scope.rights[i].name;
+                    return name;
+                }
+            }
+
+            return name;
+        };
 
         $scope.removeRight = function (right) {
             var index = $scope.lxForm.model.rights.indexOf(right);
@@ -133,11 +151,79 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         });
 
-        groups.getAll({}, function (result) {
+        groups.getAll({options: {fields: ['name', 'description']}}, function (result) {
             if (result.data) {
                 $scope.groups = result.data;
+
+                if ($scope.lxForm.model.groups) {
+                    angular.forEach($scope.lxForm.model.groups, function (groupId) {
+                        angular.forEach($scope.groups, function (group) {
+                            if (group._id === groupId) {
+                                group.isSelected = true;
+                            }
+                        });
+                    });
+                }
             }
         });
+
+        $scope.setGroup = function (group) {
+            $scope.lxForm.model.groups = $scope.lxForm.model.groups || [];
+
+            var indexOfGroup = $scope.lxForm.model.groups.indexOf(group._id);
+
+            if (group.isSelected && indexOfGroup === -1) {
+                $scope.lxForm.model.groups.push(group._id);
+            } else if (!group.isSelected && indexOfGroup !== -1) {
+                $scope.lxForm.model.groups.splice(indexOfGroup, 1);
+            }
+        };
+
+        roles.getAll({options: {fields: ['name', 'description']}}, function (result) {
+            if (result.data) {
+                $scope.roles = result.data;
+
+                if ($scope.lxForm.model.roles) {
+                    angular.forEach($scope.lxForm.model.roles, function (roleId) {
+                        angular.forEach($scope.roles, function (role) {
+                            if (role._id === roleId) {
+                                role.isSelected = true;
+                            }
+                        });
+                    });
+                }
+            }
+        });
+
+        $scope.setRole = function (role) {
+            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
+
+            var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
+
+            if (role.isSelected && indexOfRole === -1) {
+                $scope.lxForm.model.roles.push(role._id);
+            } else if (!role.isSelected && indexOfRole !== -1) {
+                $scope.lxForm.model.roles.splice(indexOfRole, 1);
+            }
+        };
+
+        $scope.reset = function (form) {
+            $scope.lxForm.reset(form);
+            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
+            $scope.lxForm.model.groups = $scope.lxForm.model.groups || [];
+
+            angular.forEach($scope.roles, function(role) {
+                var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
+
+                role.isSelected = indexOfRole !== -1;
+            });
+
+            angular.forEach($scope.groups, function(group) {
+                var indexOfGroup = $scope.lxForm.model.groups.indexOf(group._id);
+
+                group.isSelected = indexOfGroup !== -1;
+            });
+        };
     }])
     .controller('adminRightListCtrl', ['$scope', '$log', 'adminRights', function ($scope, $log, rights) {
         $scope.initialPageSize = 10;
@@ -294,11 +380,20 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         roles.getAll({options: {fields: ['name', 'description']}}, function (result) {
             if (result.data) {
                 $scope.roles = result.data;
-//                $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
+
+                if ($scope.lxForm.model.roles) {
+                    angular.forEach($scope.lxForm.model.roles, function (roleId) {
+                        angular.forEach($scope.roles, function (role) {
+                            if (role._id === roleId) {
+                                role.isSelected = true;
+                            }
+                        });
+                    });
+                }
             }
         });
 
-        $scope.setRole = function(role) {
+        $scope.setRole = function (role) {
             $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
 
             var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
@@ -308,6 +403,17 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             } else if (!role.isSelected && indexOfRole !== -1) {
                 $scope.lxForm.model.roles.splice(indexOfRole, 1);
             }
+        };
+
+        $scope.reset = function (form) {
+            $scope.lxForm.reset(form);
+            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
+
+            angular.forEach($scope.roles, function(role) {
+                var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
+
+                role.isSelected = indexOfRole !== -1;
+            });
         };
     }])
     .controller('adminRoleListCtrl', ['$scope', '$log', 'adminRoles', function ($scope, $log, roles) {

@@ -69,6 +69,8 @@ module.exports = function (app) {
     /**
      * Gets all blog post from db.
      *
+     * @roles Admin, Guest, Author
+     * @description Gets all blog post from db
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -87,6 +89,8 @@ module.exports = function (app) {
     /**
      * Gets all blog post and the number of blog posts from db.
      *
+     * @roles Admin, Guest, Author
+     * @description Gets all blog post and the number of blog posts from db
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -112,6 +116,8 @@ module.exports = function (app) {
     /**
      * Gets all blog post and the number of blog posts from db.
      *
+     * @roles Admin, Guest, Author
+     * @description Gets all blog post and the number of blog posts from db
      * @param {object} data The query.
      * @param {string=} data.params The values for searching.
      * @param {object=} data.options The mongo filter options.
@@ -159,6 +165,8 @@ module.exports = function (app) {
     /**
      * Gets a single blog post by id.
      *
+     * @roles Admin, Guest, Author
+     * @description Gets a single blog post by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
@@ -198,6 +206,8 @@ module.exports = function (app) {
     /**
      * Creates a new blog post in the db.
      *
+     * @roles Admin, Author
+     * @description Creates a new blog post in the db
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
@@ -240,6 +250,8 @@ module.exports = function (app) {
     /**
      * Updates a blog post in the db.
      *
+     * @roles Admin, Author
+     * @description Updates a blog post in the db
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
@@ -285,6 +297,8 @@ module.exports = function (app) {
     /**
      * Adds a comment to a blog post.
      *
+     * @roles Admin, Guest, Author
+     * @description Adds a comment to a blog post
      * @param {object} data The comment data.
      * @param {!function(result)} callback The callback.
      */
@@ -333,6 +347,8 @@ module.exports = function (app) {
     /**
      * Gets all tags from db.
      *
+     * @roles Admin, Guest, Author
+     * @description Gets all tags from db
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -351,6 +367,8 @@ module.exports = function (app) {
     /**
      * Creates a new tag in the db.
      *
+     * @roles Admin, Author
+     * @description Creates a new tag in the db
      * @param {object} data The tag data.
      * @param {!function(result)} callback The callback.
      */
@@ -386,6 +404,8 @@ module.exports = function (app) {
     /**
      * Deletes a tag.
      *
+     * @roles Admin, Author
+     * @description Deletes a tag
      * @param {object} data The data.
      * @param {string|object} data.id The id.
      * @param {!function(result)} callback The callback.
