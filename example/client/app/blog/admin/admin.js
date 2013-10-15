@@ -100,7 +100,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             });
         };
 
-        $scope.getData({skip: 0, limit: 5});
+        $scope.getData({skip: 0, limit: 10});
     }])
     .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'appBlogAdminTags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');

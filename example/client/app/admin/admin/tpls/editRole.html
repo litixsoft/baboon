@@ -1,45 +1,87 @@
 <div>
     <div class="p-wrapper">
-        <form name="form" novalidate class="css-form form-horizontal">
-            <fieldset>
-                <legend>Role</legend>
 
-                <div class="control-group">
-                    <label class="control-label">Name</label>
+        <div class="page-header">
+            <h1>{{ 'ROLES' | translate}}</h1>
+        </div>
 
-                    <div class="controls">
-                        <input type="text" ng-model="lxForm.model.name" name="name" required />
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'CREATE_EDIT_ROLE' | translate }}</div>
+            <div class="panel-body">
+                <form name="form" class="form-horizontal" novalidate>
+                    <fieldset>
+                        <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
+                            <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
+                            <div class="col-lg-10 lxvalidation">
+                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required />
 
-                        <span class="label label-important" ui-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">
-                            Error:
-                            <span ng-show="form.name.$error.required"> Name is required.</span>
-                            <span ng-show="form.errors.name"> {{form.errors.name}}.</span>
-                        </span>
-                    </div>
-                </div>
+                                <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.name.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.name" popover="Error: {{form.errors.name}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
 
-                <!--<div class="control-group">-->
-                    <!--<label class="control-label">Right(s)</label>-->
+                        <div class="form-group" ng-class="{'has-error': ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
+                            <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
+                            <div class="col-lg-10 lxvalidation">
+                                <textarea rows="6" type="text" class="form-control" id="description" name="description" ng-model="lxForm.model.description"></textarea>
 
-                    <!--<div class="controls">-->
-                        <!--<select size="10" name="rights" ng-model="lxForm.model.rights" ng-options="right._id as right.name for right in rights" multiple="multiple">-->
-                            <!--<option value="">-- select right(s) --</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
+                                <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.description.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.description" popover="Error: {{form.errors.description}}" popover-trigger="mouseenter"></span>
+                                </label>
 
-                <!--<div class="control-group">-->
-                    <!--<label class="control-label">Rights</label>-->
+                            </div>
+                        </div>
 
-                    <!--<lx-rights class="navlist" rights="rightsObj" on-set-right="setRight(right)"></lx-rights>-->
-                <!--</div>-->
+                        <blockquote>
+                            <p>{{ 'RIGHTS' | translate }}</p>
+                        </blockquote>
 
-            </fieldset>
+                        <div ng-repeat="(module, data) in rightsObj" class="panel panel-info">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">{{ 'MODULE' | translate }} - {{ module }}</h2>
+                            </div>
 
-            <div class="form-actions">
-                <button type="button" class="btn" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
-                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
+                            <div ng-repeat="(module1, data) in data.children" class="panel-body">
+                                <legend>{{ 'MODULE' | translate }} - {{ module1 | translate }}</legend>
+
+                                <ul class="list-group">
+                                    <li class="list-group-item" ng-repeat="(controller, data) in data.children">
+                                        <div class="row">
+                                            <div class="col-md-2">{{ controller | translate }}</div>
+                                            <div class="col-md-10">
+                                                <ul style="list-style-type: none;">
+                                                    <li ng-repeat="right in data">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" ng-model="right.isSelected" ng-click="setRight(right)">
+                                                                {{ right.name | translate }}
+                                                                <span ui-if="right.description" class="glyphicon glyphicon-question-sign" popover="{{ right.description }}" popover-trigger="mouseenter"></span>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>

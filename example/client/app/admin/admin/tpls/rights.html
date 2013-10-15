@@ -1,26 +1,25 @@
 <div class="p-wrapper">
     <div>
-        <h2>Rights</h2>
+        <h2>{{ 'RIGHTS' | translate }}</h2>
         <table name="rights" class="table table-hover">
             <thead>
                 <tr>
                     <th style="width: 20px;">
-                        <a name="newRight" href="/admin/rights/new"><i class="icon-plus-sign"></i></a>
+                        <a name="newRight" href="/admin/rights/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     </th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />Name</th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="description" on-sorting="getData(sortingOptions, pagingOptions)" />Description</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="description" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="right in rights">
-                    <td><a href="/admin/rights/edit/{{right._id}}"><i class="icon-edit"></i></a></td>
+                    <td><a href="/admin/rights/edit/{{right._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td>{{right.name}}</td>
                     <td>{{right.description}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <lx-pager count="count" current-page="currentPage" page-size="10" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
-
+        <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
     </div>
 </div>

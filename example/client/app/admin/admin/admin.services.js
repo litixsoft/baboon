@@ -48,11 +48,12 @@ angular.module('admin.services', [])
                 right.displayName = s.shift();
                 right.isSelected = selectedRights.indexOf(right._id) > -1 ? true : false;
                 right.name = path + right.name;
+                right.description = right.description;
                 rightObj[mod].push(right);
             } else {
                 path += mod + '/';
                 rightObj[mod] = rightObj[mod] || {children: {}};
-                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/')}, path);
+                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/'), description: right.description}, path);
             }
         }
 
@@ -67,7 +68,6 @@ angular.module('admin.services', [])
                 convertRightStringToObject(selectedRights, res, rights[i]);
             }
 
-//            console.log(res);
             return res;
         };
 
@@ -142,31 +142,31 @@ angular.module('admin.services', [])
         var pub = {};
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'roles/getAll', query, function (result) {
+            lxSocket.emit(modulePath + 'role/getAll', query, function (result) {
                 callback(result);
             });
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'roles/getById', {id: id}, function (result) {
+            lxSocket.emit(modulePath + 'role/getById', {id: id}, function (result) {
                 callback(result);
             });
         };
 
         pub.create = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/create', role, function (result) {
+            lxSocket.emit(modulePath + 'role/create', role, function (result) {
                 callback(result);
             });
         };
 
         pub.update = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/update', role, function (result) {
+            lxSocket.emit(modulePath + 'role/update', role, function (result) {
                 callback(result);
             });
         };
 
         pub.delete = function (role, callback) {
-            lxSocket.emit(modulePath + 'roles/delete', role, function (result) {
+            lxSocket.emit(modulePath + 'role/delete', role, function (result) {
                 callback(result);
             });
         };

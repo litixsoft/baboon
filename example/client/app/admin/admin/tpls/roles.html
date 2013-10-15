@@ -1,23 +1,25 @@
 <div class="p-wrapper">
     <div>
-        <h2>Roles</h2>
+        <h2>{{ 'ROLES' | translate }}</h2>
         <table name="name" class="table table-hover">
             <thead>
                 <tr>
                     <th style="width: 20px;">
-                        <a name="newRole" href="/admin/roles/new"><i class="icon-plus-sign"></i></a>
+                        <a name="newRole" href="/admin/roles/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     </th>
-                    <th>Name</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="description" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="role in roles">
-                    <td><a href="/admin/roles/edit/{{role._id}}"><i class="icon-edit"></i></a></td>
+                    <td><a href="/admin/roles/edit/{{role._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td>{{role.name}}</td>
+                    <td>{{role.description}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <lx-Pager count="count" current-page="currentPage" on-paging="getData(pagingOptions)"></lx-Pager>
+        <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
     </div>
 </div>

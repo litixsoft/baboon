@@ -1,26 +1,28 @@
 <div class="p-wrapper">
     <div>
-        <h2>Users</h2>
+        <h2>{{ 'USERS' | translate }}</h2>
         <table name="users" class="table table-hover">
             <thead>
                 <tr>
-                    <td style="width: 20px;">
-                        <a name="newUser" href="/admin/users/new"><i class="icon-plus-sign"></i></a>
-                    </td>
-                    <td>Name</td>
-                    <td>Id</td>
+                    <th style="width: 20px;">
+                        <a name="newUser" href="/admin/users/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    </th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
+                    <th><lx-sort sort-opts="sortOpts" field-name="email" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="user in users">
-                    <td><a href="/admin/users/edit/{{user._id}}"><i class="icon-edit"></i></a></td>
+                    <td><a href="/admin/users/edit/{{user._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td>{{user.name}}</td>
                     <td>{{user.id}}</td>
+                    <td>{{user.email}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <lx-Pager count="count" current-page="currentPage" on-paging="getData(pagingOptions)"></lx-Pager>
+        <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
     </div>
 </div>
 

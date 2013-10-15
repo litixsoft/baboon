@@ -8,7 +8,9 @@ module.exports = function (app) {
 
     /**
      * Gets all members from db.
-     *
+     * 
+     * @roles Admin, Guest
+     * @description Gets all members from db
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -27,6 +29,8 @@ module.exports = function (app) {
     /**
      * Gets a single member by id.
      *
+     * @roles Admin, Guest
+     * @description Gets a single member by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
@@ -49,6 +53,8 @@ module.exports = function (app) {
     /**
      * Creates a new member in the db.
      *
+     * @roles Admin, Guest
+     * @description Creates a new member in the db
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
@@ -86,6 +92,8 @@ module.exports = function (app) {
     /**
      * Updates a member in the db.
      *
+     * @roles Admin, Guest
+     * @description Updates a member in the db
      * @param {object} data The member data.
      * @param {!function(result)} callback The callback.
      */
@@ -126,6 +134,8 @@ module.exports = function (app) {
     /**
      * Deletes a member.
      *
+     * @roles Admin, Guest
+     * @description Deletes a member
      * @param {object} data The data.
      * @param {string|object} data.id The id.
      * @param {!function(result)} callback The callback.
@@ -149,6 +159,9 @@ module.exports = function (app) {
 
     /**
      * Create test members in crew collection.
+     * 
+     * @roles Admin, Guest
+     * @description Create test members in crew collection
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
@@ -180,6 +193,9 @@ module.exports = function (app) {
     /**
      * Delete all members in crew collection.
      * Generate test crew members in crew collection.
+     * 
+     * @roles Admin, Guest
+     * @description Delete all members in crew collection. Generate test crew members in crew collection
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
