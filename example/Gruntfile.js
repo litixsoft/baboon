@@ -84,7 +84,8 @@ module.exports = function (grunt) {
             '<%= serverFolder %>/**/*.js',
             '<%= testFolder %>/**/*.js',
             '<%= configFolder %>/**/*.js',
-            '<%= scriptsFolder %>/**/*.js'
+            '<%= scriptsFolder %>/**/*.js',
+            '!<%= clientOptionalFolder %>/**/*.js'
         ],
 
         // config tasks
