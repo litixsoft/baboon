@@ -84,7 +84,8 @@ module.exports = function (grunt) {
             '<%= serverFolder %>/**/*.js',
             '<%= testFolder %>/**/*.js',
             '<%= configFolder %>/**/*.js',
-            '<%= scriptsFolder %>/**/*.js'
+            '<%= scriptsFolder %>/**/*.js',
+            '!<%= clientOptionalFolder %>/**/*.js'
         ],
 
         // config tasks
@@ -216,6 +217,13 @@ module.exports = function (grunt) {
                         src: ['**/*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/showdown/'
+                    },
+                    {
+                        // highlight js
+                        dest: '<%= buildDistPublicVendorFolder %>/highlight',
+                        src: ['**/*'],
+                        expand: true,
+                        cwd: '<%= clientOptionalFolder %>/highlight/'
                     }
                 ]
             }

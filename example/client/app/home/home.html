@@ -1,14 +1,36 @@
 <div class="beige-noise">
-    <div class="p-wrapper" ng-controller="Test">
-        <h1 class="headline">Ich bin ein Home View</h1>
-        <p>Und hier kommt das allgemeine Blubber Bla Bla</p>
+    <div class="p-wrapper">
 
-        <div class="form-horizontal">
-            <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" />
-            <button class="btn btn-default" ng-click="open()">
-                <span class="glyphicon glyphicon-search"></span>
-                <i class="icon-calendar"></i>
-            </button>
+        <div class="page-header">
+            <h1>Baboon - Web Toolkit<br><small>{{ 'HOME_H1_SMALL' | translate }}</small></h1>
         </div>
+
+        <p>{{ 'HOME_P' | translate }}</p>
+
+        <div class="bs-callout bs-callout-danger">
+            <h3>{{ 'HOME_GENERAL_H3' | translate }} <small>Enterprise</small></h3>
+            <p>{{ 'HOME_GENERAL_P' | translate }}</p>
+            <a ng-href="/enterprise" class="btn btn-default">{{ 'MORE_BTN' | translate }}</a>
+        </div>
+
+        <div class="bs-callout bs-callout-danger">
+            <h3>{{ 'HOME_ADVANCED_H3' | translate }} <small>Blog</small></h3>
+            <p>{{ 'HOME_ADVANCED_P' | translate }}</p>
+            <a ng-href="/blog" class="btn btn-default">{{ 'MORE_BTN' | translate }}</a>
+        </div>
+
+        <div class="bs-callout bs-callout-danger">
+            <h3>{{ 'HOME_SESSION_H3' | translate }}</h3>
+            <p>{{ 'HOME_SESSION_P' | translate }}</p>
+            <a ng-href="/session" class="btn btn-default">{{ 'MORE_BTN' | translate }}</a>
+        </div>
+
+
+        <div class="bs-callout bs-callout-danger">
+            <h3>{{ 'HOME_TRANSLATION_H3' | translate }}</h3>
+            <p>{{ 'HOME_TRANSLATION_P' | translate }}</p>
+            <a ng-href="/translation" class="btn btn-default">{{ 'MORE_BTN' | translate }}</a>
+        </div>
+
     </div>
 </div>

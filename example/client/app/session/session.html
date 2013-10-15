@@ -1,8 +1,9 @@
 <div class="beige-noise">
     <div class="p-wrapper">
-        <h3 style="vertical-align: middle;">
-            Beispiele für Sessions in Baboon
-        </h3>
+
+        <div class="page-header">
+            <h1>Beispiele für Sessions in Baboon</h1>
+        </div>
 
         <p>
             Sessions werden in Baboon vom Server mit den Parametern aus der config/app.conf.json erzeugt und verwaltet.
@@ -18,19 +19,24 @@
             Das ist für die Session ein Problem, da zwangsläufig die Inaktivitätszeit überschritten wird. Um das zu
             vermeiden meldet die Clientseite von baboon bei jeder Änderung der Route eine Aktivität an den Server.
         </p>
-<pre class="prettyprint">
+
+<div hljs>
 // app.js
 
 $rootScope.$on('$routeChangeStart', function () {
     session.setActivity();
 });
-</pre>
+</div>
+        <br>
+
         <h4>GetLastActivity</h4>
         <p>Zeit der letzten Aktivität</p>
-<pre class="prettyprint">
+
+<div hljs>
 session.getLastActivity(callback);
-</pre>
-<pre class="prettyprint">
+</div>
+
+<div hljs>
 $scope.getLastActivity = function() {
     session.getLastActivity(function(err, data) {
         if(err) {
@@ -42,13 +48,16 @@ $scope.getLastActivity = function() {
         }
     });
 };
-</pre>
+</div>
+        <br>
+
     <h4>SetLastActivity</h4>
     <p>Aktuelle Zeit als letzte Aktivität in der Session speichern.</p>
-<pre class="prettyprint">
+
+<div hljs>
 session.setActivity(callback);
-</pre>
-<pre class="prettyprint">
+</div>
+<div hljs>
 $scope.setActivity = function(){
     var now = new Date();
     log(1, 'set activity to ' + now);
@@ -58,29 +67,55 @@ $scope.setActivity = function(){
         }
     });
 };
-</pre>
-        <p>
-            <button class="btn btn-info" ng-click="setActivity()">Set activity</button>
-            <button class="btn btn-info" ng-click="getLastActivity()">Get last activity</button>
-        </p>
-        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
-            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_1">
-                <li>{{item}}</li>
-            </ul>
+</div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">Example Activity Set/Get</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn btn-info" ng-click="setActivity()">Set activity</button>
+                        <button class="btn btn-info" ng-click="getLastActivity()">Get last activity</button>
+                        <button class="btn btn-danger" ng-click="clearLog(1)"><span class="glyphicon glyphicon-trash"></span> Clear Log</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
+                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_1">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-danger" ng-click="clearLog(1)">Clear Log</button>
+
+
+
+
+
+
+        <br><br>
+
         <h3>Daten in der Session speichern, auslesen und löschen</h3>
         <p>
             Sie können über den Session-Service vom Client aus Daten in der Session speichern, abrufen und löschen.
             Baboon verwendet zum speichern in der Session den Container data. Alle Daten vom Client werden innerhalb des
             Containers session.data abgelegt und können auch nur aus diesem gelesen werden.
         </p>
+
+        <br>
+
         <h4>SetData</h4>
         <p>Key -> Value in der Session speichern.</p>
-<pre class="prettyprint">
+
+<div hljs>
 session.setData(key, value, callback);
-</pre>
-<pre class="prettyprint">
+</div>
+
+<div hljs>
 $scope.setData = function () {
     if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
         $scope.data.key.length === 0 || typeof $scope.data.value === 'undefined' ||
@@ -99,16 +134,20 @@ $scope.setData = function () {
         });
     }
 };
-</pre>
+</div>
+        <br>
+
         <h4>GetData</h4>
         <p>
             Daten des angegeben Keys aus der Session lesen. Wird kein Key angegeben liefert die Funktion den gesamten
             data Container aus der Session.
         </p>
-<pre class="prettyprint">
+
+<div hljs>
 session.getData([key], callback);
-</pre>
-<pre class="prettyprint">
+</div>
+
+        <div hljs>
 $scope.getData = function () {
     if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
         $scope.data.key.length === 0) {
@@ -137,17 +176,20 @@ $scope.getData = function () {
             });
     }
 };
-</pre>
+</div>
+        <br>
+
         <h4>DeleteData</h4>
         <p>
             Key und die zugehörigen Daten aus der Session entfernen. Wird kein Key angegeben, löscht die Funktion den
             gesamten data Container aus der Session.
         </p>
 
-<pre class="prettyprint">
+<div hljs>
 session.deleteData([key], callback);
-</pre>
-<pre class="prettyprint">
+</div>
+
+<div hljs>
 $scope.deleteData = function () {
     if (typeof $scope.data === 'undefined' || typeof $scope.data.key === 'undefined' ||
         $scope.data.key.length === 0) {
@@ -176,23 +218,40 @@ $scope.deleteData = function () {
         });
     }
 };
-</pre>
-        <p>
+</div>
 
-            <input ng-model="data.key" placeholder="session key">
-            <input ng-model="data.value" placeholder="session value">
-        </p>
-
-        <p>
-            <button class="btn" ng-click="setData()">Set To Session</button>
-            <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
-            <button class="btn btn-info" ng-click="deleteData()">Delete SessionData</button>
-        </p>
-        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
-            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_2">
-                <li>{{item}}</li>
-            </ul>
+        <div class="panel panel-info">
+            <div class="panel-heading">Example Session Set/Get/Delete</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input ng-model="data.key" class="form-control" placeholder="session key">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input ng-model="data.value" class="form-control" placeholder="session value">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn" ng-click="setData()">Set To Session</button>
+                        <button class="btn btn-info" ng-click="getData()">Get SessionData</button>
+                        <button class="btn btn-info" ng-click="deleteData()">Delete SessionData</button>
+                        <button class="btn btn-danger" ng-click="clearLog(2)"><span class="glyphicon glyphicon-trash"></span> Clear Log</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
+                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_2">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-danger" ng-click="clearLog(2)" style="margin-bottom: 1em">Clear Log</button>
+
     </div>
 </div>
