@@ -1,5 +1,4 @@
 {
-    "LANGUAGE": "Language",
     "TRANSLATION_HEADER": "Beispiel für die Übersetzung in baboon!",
     "TRANSLATION_INTRO": "Für die Übersetzung in baboon verwenden wir angular-translate. Es folgen ein paar einfache Beispiele. Eine ausführliche Dokumentation findet man hier:",
     "TRANSLATION_LINK": "Angular-Translate Dokumentation",
@@ -72,6 +71,7 @@
     "REQUIRED_PASSWORD": "Passwort ist ein Pflichtfeld",
     "CONFIRM_PASSWORD": "Passwort wiederholen",
     "LANGUAGE": "Sprache",
+    "LANGUAGE_SELECT": "Deutsch",
     "ENTER_LANGUAGE": "Sprache eingeben",
     "RIGHT": "Recht",
     "HAS_ACCESS": "Hat Zugriff",

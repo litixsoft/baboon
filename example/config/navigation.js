@@ -4,8 +4,6 @@ module.exports = [
     {title: 'APP_EXAMPLE', route: '/', target: '_self', children: [
         {title: 'HOME', route: '/home'},
         {title: 'ABOUT', route: '/home/about'},
-        {title: 'TRANSLATION', route: '/translation'},
-        {title: 'SESSION', route: '/session'},
         {title: 'ENTERPRISE', route: '/enterprise', right: 'example/enterprise/enterprise/getAllMembers'},
         {title: 'BLOG', route: '/blog', right: 'example/blog/blog/getAllPosts', children: [
             {title: 'ADMIN', route: '/blog/admin', right: 'example/blog/blog/createPost', children: [
@@ -13,7 +11,9 @@ module.exports = [
                 {title: 'Demo2', route: '/demo2', icon: 'gear'},
                 {title: 'Demo3', route: '/demo3', icon: 'home'}
             ]}
-        ]}
+        ]},
+        {title: 'SESSION', route: '/session'},
+        {title: 'TRANSLATION', route: '/translation'}
     ]},
     {'title': 'UI_EXAMPLE', 'route': '/ui', target: '_self', children: [
         {title: 'DEMO', route: '/demo'}
