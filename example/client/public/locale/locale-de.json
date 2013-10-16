@@ -28,6 +28,8 @@
     "HOME_SESSION_P": "Diese Dokumentation zeigt ihnen den Umgang mit Sessions.",
     "HOME_TRANSLATION_H3": "Übersetzung",
     "HOME_TRANSLATION_P": "Diese Dokumentation zeigt ihnen den Umgang mit der Übersetzungsfunktion von Baboon.",
+    "HOME_POPUP_H3": "Messageboxen und Popups",
+    "HOME_POPUP_P": "Diese Dokumentation zeigt ihnen den Umgang mit dem lxModal Service für die Erzeugung von Popups und Messageboxen.",
     "ABOUT": "About",
     "ABOUT_H1": "Ein paar Worte über",
     "DOCUMENTATION": "Dokumentation",
