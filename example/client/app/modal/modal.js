@@ -10,10 +10,10 @@ angular.module('modalExample', []).
         $scope.popupYesNo = function(){
             lxModal.msgBox('modalExamplePopup', false,'Ja bzw. Nein drücken!', 'Wenn Sie "ja" drücken wollen tun sie dies bitte, ansonsten einfach "nein" drücken.', 'Warning', {
                 cbYes: function () {
-                    $scope.message = "Du hast tatsächlich ja gedrückt.";
+                    $scope.message = 'Du hast tatsächlich ja gedrückt.';
                 },
                 cbNo: function () {
-                    $scope.message = "Du willst es also wirklich nicht.";
+                    $scope.message = 'Du willst es also wirklich nicht.';
                 }
             });//,'standard');
         };
@@ -21,10 +21,10 @@ angular.module('modalExample', []).
         $scope.popupOkClose = function(){
             lxModal.msgBox('modalExamplePopup', false,'Ok bzw. Close drücken!', 'Wenn Sie "Ok" drücken wollen tun sie dies bitte, ansonsten einfach "Close" drücken.', 'Warning', {
                 cbOk: function () {
-                    $scope.message = "Wow, du findest es also auch ok.";
+                    $scope.message = 'Wow, du findest es also auch ok.';
                 },
                 cbClose: function () {
-                    $scope.message = "Dann schließe ich es halt..";
+                    $scope.message = 'Dann schließe ich es halt..';
                 }
             });//,'standard');
         };
@@ -32,7 +32,7 @@ angular.module('modalExample', []).
         $scope.popupModal = function(){
             lxModal.msgBox('modalExamplePopup', true,'Modales Popup', 'So ich bin einfach mal ein Modales Popup, cool oder?', 'Warning', {
                 cbOk: function () {
-                    $scope.message = "Ich schließe das Popup mal für dich.";
+                    $scope.message = 'Ich schließe das Popup mal für dich.';
                 }
             });//,'standard');
         };
@@ -40,7 +40,7 @@ angular.module('modalExample', []).
         $scope.popupModalUpdate = function(){
             lxModal.msgBox('modalExamplePopup', true,'Modales Popup', 'So ich bin einfach mal ein Modales Popup, cool oder?', 'Warning', {
                 cbOk: function () {
-                    $scope.message = "Ich schließe das Popup mal für dich.";
+                    $scope.message = 'Ich schließe das Popup mal für dich.';
                 }
             });//,'standard');
 
