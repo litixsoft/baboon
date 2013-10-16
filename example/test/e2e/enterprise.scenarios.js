@@ -1,18 +1,12 @@
 'use strict';
 
-/*global describe, it, expect, browser, element, sleep, repeater*/
+/*global describe, it, expect, browser, element */
 describe('Enterprise Scenarios', function () {
 
     it('should redirect to edit.html when Add New Member is clicked', function () {
         browser().navigateTo('/enterprise');
-        element('table thead tr td a', 'Add New').click();
+        element('.panel-body .btn-group a.btn-default', 'Add new crew member').click();
 
         expect(browser().location().url()).toEqual('/enterprise/new');
-    });
-
-    it('should display crew members', function () {
-        browser().navigateTo('/enterprise');
-        sleep(1);
-        expect(repeater('table tbody tr').count()).toBe(3);
     });
 });

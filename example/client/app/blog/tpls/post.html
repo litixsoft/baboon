@@ -1,0 +1,95 @@
+<div>
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>{{post.title}}<br><small>Dieser Artikel wurde am {{ post.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</small></h1>
+        </div>
+
+        <p>{{post.content}}</p>
+        <br>
+        <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="entry-title">Comments</span>
+            </div>
+            <div class="panel-body">
+
+                <form name="form" class="form-horizontal" novalidate>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Comment</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-mousedown="enterComment(true)" ng-model="newComment.content" name="content" placeholder="my comment" required />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="enter">
+                            <label class="control-label col-lg-2">Username</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="newComment.username" name="username" placeholder="my name" required />
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid" name="saveComment">Save Comment</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <div class="well" ng-repeat="comment in post.comments" name="comments">
+                    <h4 class="list-group-item-heading" style="font-weight:bold;">#{{$index + 1}} - {{comment.username}} <small>{{comment.created | date:'dd.MM.yyyy, HH:mm'}}</small></h4>
+                    <p class="list-group-item-text">{{comment.content}}</p>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
+            </div>
+        </div>
+
+        <!--&lt;!&ndash;<blockquote>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h2>{{post.title}}</h2>&ndash;&gt;-->
+            <!--&lt;!&ndash;<small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>&ndash;&gt;-->
+        <!--&lt;!&ndash;</blockquote>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<h2>{{post.title}}</h2>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;created: {{post.created | date:'dd.MM.yyyy, HH:mm'}}&ndash;&gt;-->
+        <!--&lt;!&ndash;<br />&ndash;&gt;-->
+        <!--&lt;!&ndash;modified: {{post.modified | date:'dd.MM.yyyy, HH:mm'}}&ndash;&gt;-->
+        <!--&lt;!&ndash;<br />&ndash;&gt;-->
+        <!--<br />-->
+
+        <!--&lt;!&ndash;<div name="content">{{post.content}}</div>&ndash;&gt;-->
+
+        <!--<a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>-->
+
+        <!--<h3>Comments:</h3>-->
+
+        <!--<div ng-repeat="comment in post.comments" class="well well-small" name="comments">-->
+            <!--<div>#{{$index + 1}} - {{comment.created | date:'dd.MM.yyyy, HH:mm'}} - {{comment.username}}</div>-->
+            <!--<div>{{comment.content}}</div>-->
+        <!--</div>-->
+        <!--<br />-->
+
+        <!--<div>-->
+            <!--<form name="form" novalidate class="css-form">-->
+                <!--<fieldset>-->
+                    <!--<div class="control-group">-->
+                        <!--&lt;!&ndash;<label class="control-label">Comment</label>&ndash;&gt;-->
+
+                        <!--<div class="controls input-append">-->
+                            <!--<input type="text" ng-mousedown="enterComment(true)" ng-model="newComment.content" name="content" placeholder="my comment" required />-->
+                            <!--<input type="text" ng-model="newComment.username" name="username" placeholder="my name" ng-show="enter" required />-->
+                            <!--<button type="submit" class="btn btn-primary" ng-click="saveComment(post._id, newComment)" ng-disabled="form.$invalid" name="saveComment">Save Comment</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</fieldset>-->
+            <!--</form>-->
+        <!--</div>-->
+        <!---->
+    </div>
+</div>

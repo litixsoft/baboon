@@ -1,15 +1,14 @@
 /*global angular*/
 angular.module('app', [
-        'pascalprecht.translate',
-        'baboon.module',
-        'baboon.services',
-        'baboon.directives',
+        'ui.bootstrap',
+        'app.includes',
         'blog',
         'enterprise',
         'home',
+        'session',
         'translation',
-        'cache',
-        'session'
+        'modalExample',
+        'hljs'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
@@ -22,45 +21,52 @@ angular.module('app', [
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
     }])
-    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'msgBox',
-        function ($rootScope, lxSession, $log, $translate, $window, msgBox) {
-        $rootScope.$on('$routeChangeStart', function () {
-            lxSession.setActivity(function(err) {
-                if (err) {
-                    msgBox.modal.show('','Session is expired! Please log in.', 'Warning', function () {
-                        window.location.assign('/login');
-                    });
+    .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal', 'lxAlert',
+        function ($rootScope, lxSession, $log, $translate, $window, lxModal, lxAlert) {
+
+            // bind lxAlert service to $rootScope
+            $rootScope.lxAlert = lxAlert;
+            $rootScope.lxModal = lxModal;
+
+            $rootScope.$on('$routeChangeStart', function () {
+
+                lxSession.setActivity(function (err) {
+                    if (err) {
+                        lxModal.msgBox('sessionExpired', true ,'','Session is expired! Please log in.', 'Warning',function(){
+                            window.location.assign('/');
+                        });
+                    }
+                });
+
+            });
+
+            // get users preferred language from session
+            lxSession.getData('language', function (error, result) {
+                if (error) {
+                    $log.error(error);
+                }
+
+                // use language
+                if (result && result.language) {
+                    $translate.uses(result.language);
+                } else {
+                    // detect language of browser
+                    var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
+                    $translate.uses(browserLanguage.substring(0, 2));
                 }
             });
-        });
 
-        // get users preferred language from session
-        lxSession.getData('language', function (error, result) {
-            if (error) {
-                $log.error(error);
-            }
+            $rootScope.modal = lxModal.modal;
 
-            // use language
-            if (result && result.language) {
-                $translate.uses(result.language);
-            } else {
-                // detect language of browser
-                var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
-                $translate.uses(browserLanguage.substring(0, 2));
-            }
-        });
+            $rootScope.changeLanguage = function (langKey) {
+                // tell angular-translate to use the new language
+                $translate.uses(langKey);
 
-        $rootScope.modal = msgBox.modal;
-
-        $rootScope.changeLanguage = function (langKey) {
-            // tell angular-translate to use the new language
-            $translate.uses(langKey);
-
-            // save selected language in session
-            lxSession.setData('language', langKey, function(err) {
-                if (err) {
-                    $log.error(err);
-                }
-            });
-        };
-    }]);
+                // save selected language in session
+                lxSession.setData('language', langKey, function (err) {
+                    if (err) {
+                        $log.error(err);
+                    }
+                });
+            };
+        }]);

@@ -1,0 +1,25 @@
+{
+  "name": "baboon-example",
+  "version": "0.2.0",
+  "authors": [
+    "Litixsoft GmbH <info@litixsoft.de>",
+    "Timo Liebetrau <t.liebetrau@litixsoft.de>",
+    "Andreas Krummsdorf <a.krummsdorf@litixsoft.de>",
+    "Sven Bernstein <s.bernstein@litixsoft.de>"
+  ],
+  "description": "Baboon example application",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "~3.0.0",
+    "angular": "~1.0.8",
+    "angular-mocks": "~1.0.8",
+    "angular-scenario": "~1.0.8",
+    "angular-translate": "~1.1.0",
+    "angular-translate-loader-static-files": "~0.1.5",
+    "angular-bootstrap": "~0.6.0",
+    "angular-ui-utils": "https://github.com/litixsoft/ui-utils.git#master",
+    "showdown": "~0.3.1",
+    "baboon-client": "https://github.com/litixsoft/baboon-client.git#develop"
+  }
+}

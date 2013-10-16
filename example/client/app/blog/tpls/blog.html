@@ -1,0 +1,67 @@
+<div>
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>Latest Articles</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9 col-sm-7">
+
+
+        <lx-Pager count="count" current-page="currentPage" page-sizes="[1, 5, 10]" on-paging="getData(pagingOptions)"></lx-Pager>
+
+        <div class="panel" ng-class="{'panel-success': ($index<1),'panel-default': ($index>0)}"  ng-repeat="entry in posts">
+            <div class="panel-heading">
+                <a class="entry-title" href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}} <span class="label label-success pull-right" ui-if="($index<1)">New</span></a>
+                <div class="entry-replies">
+                    <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>{{entry.content}}</p>
+                <br />
+                <a href="/blog/post/{{entry._id}}" class="btn btn-sm btn-default">mehr...</a>
+            </div>
+            <div class="panel-footer">
+                <div class="entry-meta">Dieser Artikel wurde am {{ entry.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</div>
+            </div>
+        </div>
+
+            </div>
+            <div class="col-md-3 col-sm-5">
+
+                <div class="panel panel-default" style="margin-top: 0;">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-search" style="color:#696969;"></span>&nbsp;&nbsp;
+                        <span class="entry-title">Search Blog</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="searchValue" placeholder="Search..." ui-reset>
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" ng-click="searchPosts(searchValue)">Search</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-pushpin" style="color:#696969;"></span>&nbsp;&nbsp;
+                        <span class="entry-title">Tags</span>
+                    </div>
+
+                    <div class="list-group">
+                        <a href="#" class="list-group-item" ng-click="searchPosts(tag._id)" ng-repeat="tag in tags | notZero">
+                            <span class="badge">{{tag.count}}</span>
+                            {{tag.name}}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

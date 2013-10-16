@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('translation', [])
     .config(function ($routeProvider) {
-        $routeProvider.when('/translation', {templateUrl: '/translation/translation.html', controller: 'translationCtrl'});
+        $routeProvider.when('/translation', {templateUrl: 'translation/translation.html', controller: 'translationCtrl'});
     })
     .controller('translationCtrl', ['$scope', '$translate', 'lxSession', '$log',
         function ($scope, $translate, lxSession, $log) {

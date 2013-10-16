@@ -1,9 +1,17 @@
 <div class="beige-noise">
     <div class="p-wrapper">
-        <h3 style="vertical-align: middle;">{{ 'TRANSLATION_HEADER' | translate }}
-            <img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')" style="height: 25px; cursor: pointer;"/>
-            <img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')" style="height: 25px; cursor: pointer;"/>
-        </h3>
+
+        <div class="page-header">
+            <h1>{{ 'TRANSLATION_HEADER' | translate }}</h1>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-default" ng-click="changeLanguage('de')"><img src="/img/Germany-Flag-icon.png" alt="german" style="height: 25px; cursor: pointer;"/></button>
+            <button class="btn btn-default" ng-click="changeLanguage('en')"><img src="/img/United-States-Flag-icon.png" alt="english" style="height: 25px; cursor: pointer;"/></button>
+        </div>
+
+        <br />
+        <br />
 
         <p>{{ 'TRANSLATION_INTRO' | translate }}</p>
         <a href="http://pascalprecht.github.io/angular-translate/#/guide">{{ 'TRANSLATION_LINK' | translate }}</a>
@@ -13,7 +21,7 @@
 
         <p>{{ 'Q1_TEXT' | translate }}</p>
 
-        <pre class="prettyprint">angular.module('app', ['pascalprecht.translate'])
+        <div hljs>angular.module('app', ['pascalprecht.translate'])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
@@ -25,26 +33,27 @@
 
         $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
-    }]);</pre>
+    }]);</div>
+
         <br />
         <h4>{{ 'Q2' | translate }}</h4>
 
         <p>{{ 'Q2_TEXT' | translate }}</p>
 
-        <pre class="prettyprint">$scope.changeLanguage = function (langKey) {
+        <div hljs>$scope.changeLanguage = function (langKey) {
     // tell angular-translate to use the new language
     $translate.uses(langKey);
 
     // save selected language in session
     session.setData('language', langKey);
-};</pre>
+};</div>
 
         <br />
         <h4>{{ 'Q3' | translate }}</h4>
 
         <p>{{ 'Q3_TEXT' | translate }}</p>
 
-        <pre class="prettyprint">angular.module('app', ['pascalprecht.translate'])
+        <div hljs>angular.module('app', ['pascalprecht.translate'])
     .run(['session', '$log', '$translate', function (session, $log, $translate) {
         // get users preferred language from session
         session.getData('language', function (error, result) {
@@ -58,6 +67,6 @@
                 $log.info('Language key loaded from session: ' + result.language);
             }
         });
-    }]);</pre>
+    }]);</div>
     </div>
 </div>

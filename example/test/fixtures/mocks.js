@@ -1,4 +1,4 @@
-/*global angular, io:true */
+/*global angular */
 angular.module('mocks', [])
     .factory('lxSocket', function () {
         return {
@@ -9,14 +9,14 @@ angular.module('mocks', [])
                 callback(data);
             }
         };
-    });
-
-// socket io mock
-io = {
-    connect: function () {
+    })
+    .factory('lxSession', function () {
         return {
-            on: function () {},
-            emit: function () {}
+            getLastActivity: function (callback) {
+                callback({}, {});
+            },
+            setActivity: function (callback) {
+                callback({}, {});
+            }
         };
-    }
-};
+    });

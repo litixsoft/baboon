@@ -1,7 +1,7 @@
 /*global angular*/
 angular.module('session', []).
     config(function ($routeProvider) {
-        $routeProvider.when('/session', {templateUrl: '/session/session.html', controller: 'sessionCtrl'});
+        $routeProvider.when('/session', {templateUrl: 'session/session.html', controller: 'sessionCtrl'});
     }).
     controller('sessionCtrl', ['$scope', 'lxSession', '$log', function ($scope, lxSession, $log) {
 

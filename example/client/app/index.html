@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="app">
 <head>
-    <title>Baboon</title>
-    <%- include partials/layoutHeaderMeta.html %>
 
+    <title>Baboon-Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Framework zum schnellen und performanten Aufbau von Anwendungen und Websites.">
+    <meta name="keywords" content="Baboon, Baboonstack, Javascript, Angular, RedisIO, MongoDb,Node.js,Express.js">
+    <meta name="author" content="Litixsoft GmbH">
     <!-- styles -->
-    <link rel="stylesheet" href="/css/lib<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/app<!--@@min-->.css" />
-    <link rel="stylesheet" href="/css/uitheme2.css" />
+    <link href="/vendor/bootstrap/css/bootstrap<!--@@min-->.css" rel="stylesheet">
+    <!--<link href="/vendor/bootstrap/css/bootstrap-theme&lt;!&ndash;@@min&ndash;&gt;.css" rel="stylesheet">-->
+    <link href="/css/app<!--@@min-->.css" rel="stylesheet">
 
-<%- include partials/layoutHeaderStatic.html %>
+    <link href="/vendor/highlight/css/github.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+    <!-- fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 
 </head>
 <body>
@@ -17,12 +34,140 @@
 <div id="singlepageFrame">
     <div class="layout-content">
         <div class="col-left navCol">
-            <lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>
+            <span class="trademark-area">Baboon</span>
+            <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
+            <lxtreeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
+
         </div>
         <div class="col-right">
-            <!-- partials -->
-            <%- include baboon_auth/login.html %>
-            <%- include baboon_msgBox/msgBox.html %>
+
+            <!-- must be moved later in baboon-client -->
+
+            <!-- login start -->
+
+            <div class="dark-header">
+                <div class="pull-right login-area" ng-controller="lxAuthLoginCtrl">
+                    <% if(!isAuth) { %>
+                    <div class="btn-group" ng-class="{open: openMenu}">
+                        <!--<a href="/login" class="btn">Login</a>-->
+                        <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
+                        <ul class="dropdown-menu login pull-right">
+                            <li>
+                                <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                                <div>
+                                    <h1>Login</h1>
+                                    <form class="form-horizontal" ng-submit="login()" name="loginForm" novalidate>
+                                        <div class="form-inner">
+                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)}">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-user"></span></div>
+                                                <div class="col-lg-11 lxvalidation">
+                                                    <input class="form-control" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off' autofocus>
+                                                    <label ng-show="((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)" class="label label-danger">
+                                                        <div class="glyphicon glyphicon-fire"></div>
+                                                        <span ng-show="loginForm.username.$error.required" popover="Error: Username is required" popover-trigger="mouseenter"></span>
+                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)}">
+                                                <div class="col-lg-1"><span class="glyphicon glyphicon-lock"></span></div>
+                                                <div class="col-lg-11 lxvalidation">
+                                                    <input class="form-control" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
+                                                    <label ng-show="((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)" class="label label-danger">
+                                                        <div class="glyphicon glyphicon-fire"></div>
+                                                        <span ng-show="loginForm.password.$error.required" popover="Error: Password is required" popover-trigger="mouseenter"></span>
+                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" ui-if="authFailed">
+                                                <div class="col-lg-offset-1 alert alert-danger">
+                                                    <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row" ui-if="serverError">
+                                                <div class="col-lg-offset-1">
+                                                    <div class="alert alert-danger">
+                                                        <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-submit">
+                                            <div class="row">
+                                                <input type="submit" class="btn btn-block col-md-6 col-md-offset-6" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row sublinks">
+                                            <div class="col-md-3"><a href="/api/auth/register" ng-click="register">{{ 'REGISTER' | translate }}</a></div>
+                                            <div class="col-md-9"><a href="/api/auth/forget">{{ 'FORGET_PASSWORD' | translate }}</a></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } %>
+                    <% if(isAuth) { %>
+                    <div class="btn-group">
+                        <button class="btn btn-success"><%= username %></button>
+                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#">Nachrichten</a>
+                                <a href="#">Kontoeinstellungen</a>
+                                <a href="/api/auth/logout" target="_self">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } %>
+                </div>
+
+                <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
+
+                <div class="pull-right connection-area">
+                    <div class="pull-right flag-area">
+                        <style>
+
+
+                        </style>
+
+                        <div class="btn-group dark-select">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ 'LANGUAGE_SELECT' | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="#" ng-click="changeLanguage('de')"><img src="/img/flag-german.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                    <a href="#" ng-click="changeLanguage('en')"><img src="/img/flag-english.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    <div class="pull-right">
+                        <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
+                        <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
+                        <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
+                    </div>
+
+                </div>
+
+                <!--<span class="pull-right trademark-area">Baboon</span>-->
+            </div>
+
+            <!-- login end -->
+            <div>
+                <div class="p-wrapper">
+                    <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+                </div>
+            </div>
+
             <div class="view-container">
                 <div ng-view></div>
             </div>
@@ -32,8 +177,11 @@
 
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/lib<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
-
+<script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/highlight/highlight.pack.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/highlight/angular-highlightjs.js" charset="utf-8"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 /*global angular*/
-angular.module('blog.admin', ['blog.services', 'admin.services'])
+angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog/admin', {templateUrl: '/blog/admin/admin.html'});
-        $routeProvider.when('/blog/admin/post/new', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
-        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: '/blog/admin/editPost.html', controller: 'editPostCtrl'});
+        $routeProvider.when('/blog/admin', {templateUrl: 'blog/admin/admin.html'});
+        $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
+        $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .controller('adminCtrl', ['$scope', 'posts', 'authorPosts', 'lxInlineEdit', function ($scope, posts, authorPosts, lxInlineEdit) {
+    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit','$modal', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit, $modal) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -35,7 +35,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
                     options: options || {}
                 };
 
-                posts.getAllWithCount(query, callback);
+                blogPosts.getAllWithCount(query, callback);
             };
 
         $scope.sort = function (field) {
@@ -72,7 +72,7 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
             form.errors = {};
 
             if (post._id) {
-                authorPosts.update(post, saveCallback);
+                blogAdminAuthorPosts.update(post, saveCallback);
             }
         };
 
@@ -85,17 +85,28 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
                     content: 'Content ' + i
                 };
 
-                authorPosts.create(data, function () {});
+                blogAdminAuthorPosts.create(data, function () {});
             }
         };
 
-        $scope.getData({skip: 0, limit: 5});
+        $scope.openTags = function () {
+            $scope.instance = $modal.open({
+                backdrop: true, //static, true, false
+                modalFade: true,
+                controller: 'blogAdminModalCtrl',
+                keyboard: false,
+                resolve: {},
+                templateUrl: 'blog/admin/blogAdminTagsCtrl/myModalContent.html'
+            });
+        };
+
+        $scope.getData({skip: 0, limit: 10});
     }])
-    .controller('editPostCtrl', ['$scope', '$routeParams', 'authorPosts', 'tags', 'lxForm', '$location', function ($scope, $routeParams, authorPosts, tags, lxForm) {
+    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'appBlogAdminTags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
         $scope.lxForm = lxForm('blog_post', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            authorPosts.getById($routeParams.id, function (result) {
+            blogAdminAuthorPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.lxForm.setModel(result.data);
                 } else {
@@ -125,9 +136,9 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
             };
 
             if (model._id) {
-                authorPosts.update(model, callback);
+                blogAdminAuthorPosts.update(model, callback);
             } else {
-                authorPosts.create(model, callback);
+                blogAdminAuthorPosts.create(model, callback);
             }
         };
 
@@ -137,38 +148,26 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
             }
         });
     }])
-    .controller('tagsCtrl', ['$scope', 'tags', function ($scope, tags) {
-        $scope.modal = {
-            opts: {
-                backdropFade: true,
-                dialogFade: true
-            },
-            validationErrors: []
-        };
+    .controller('blogAdminModalCtrl', ['$scope','$modalInstance','appBlogAdminTags', function ($scope, $modalInstance, tags) {
 
-        $scope.modal.closeAlert = function (index) {
-            $scope.modal.validationErrors.splice(index, 1);
-        };
+        $scope.modal = {};
 
-        $scope.modal.open = function () {
-            $scope.modal.shouldBeOpen = true;
-            $scope.modal.validationErrors = [];
+        $scope.modal.validationErrors = [];
 
-            tags.getAll({}, function (result) {
-                if (result.data) {
-                    $scope.modal.items = result.data;
-                }
-            });
-        };
+        tags.getAll({}, function (result) {
+            if (result.data) {
+                $scope.modal.items = result.data;
+            }
+        });
 
         $scope.modal.save = function (name) {
             tags.createTag({name: name}, function (result) {
+                $scope.modal.validationErrors = [];
                 if (result.data) {
                     $scope.modal.items.push(result.data);
                     $scope.modal.name = '';
-                    $scope.modal.validationErrors = [];
+//                    $scope.modal.validationErrors = [];
                 }
-
                 if (result.errors) {
                     for (var i = 0; i < result.errors.length; i++) {
                         $scope.modal.validationErrors.push({
@@ -177,7 +176,6 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
                         });
                     }
                 }
-
                 if (result.message) {
                     $scope.modal.validationErrors.push({type: 'error', msg: result.message});
                 }
@@ -198,6 +196,12 @@ angular.module('blog.admin', ['blog.services', 'admin.services'])
         };
 
         $scope.modal.close = function () {
-            $scope.modal.shouldBeOpen = false;
+            if ($modalInstance) {
+                $modalInstance.dismiss('cancel');
+            }
+        };
+
+        $scope.modal.closeAlert = function (index) {
+            $scope.modal.validationErrors.splice(index, 1);
         };
     }]);

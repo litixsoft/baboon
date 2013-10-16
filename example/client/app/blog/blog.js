@@ -1,11 +1,11 @@
 /*global angular*/
 angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
     .config(function ($routeProvider) {
-        $routeProvider.when('/blog', {templateUrl: '/blog/blog.html', controller: 'blogCtrl'});
-        $routeProvider.when('/blog/post/:id', {templateUrl: '/blog/post.html', controller: 'postCtrl'});
+        $routeProvider.when('/blog', {templateUrl: 'blog/tpls/blog.html', controller: 'blogCtrl'});
+        $routeProvider.when('/blog/post/:id', {templateUrl: 'blog/tpls/post.html', controller: 'blogPostCtrl'});
     })
     .constant('blog.modulePath', 'example/blog/')
-    .controller('blogCtrl', ['$scope', 'posts', 'tags', function ($scope, posts, tags) {
+    .controller('blogCtrl', ['$scope', 'blogPosts', 'appBlogAdminTags', function ($scope, blogPosts, tags) {
         var options = {},
             params = {},
             getData = function () {
@@ -15,10 +15,10 @@ angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
                 };
 
                 if (typeof params === 'string') {
-                    posts.searchPosts(query, callback);
+                    blogPosts.searchPosts(query, callback);
                 } else {
                     params = {};
-                    posts.getAllWithCount(query, callback);
+                    blogPosts.getAllWithCount(query, callback);
                 }
             },
             callback = function (result) {
@@ -46,12 +46,12 @@ angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
             }
         });
 
-        $scope.getData({skip: 0, limit: 5});
+        $scope.getData({skip: 0, limit: 10});
     }])
-    .controller('postCtrl', ['$scope', '$routeParams', 'posts', function ($scope, $routeParams, posts) {
+    .controller('blogPostCtrl', ['$scope', '$routeParams', 'blogPosts', function ($scope, $routeParams, blogPosts) {
         // load post
         if ($routeParams.id) {
-            posts.getById($routeParams.id, function (result) {
+            blogPosts.getById($routeParams.id, function (result) {
                 if (result.data) {
                     $scope.post = result.data;
                     $scope.post.comments = $scope.post.comments || [];
@@ -89,11 +89,11 @@ angular.module('blog', ['blog.services', 'blog.admin', 'blog.filters'])
                 }
             };
 
-            posts.addComment(id, comment, callback);
+            blogPosts.addComment(id, comment, callback);
 //            if (post._id) {
-//                posts.update(post, callback);
+//                appBlogPosts.update(post, callback);
 //            } else {
-//                posts.create(post, callback);
+//                appBlogPosts.create(post, callback);
 //            }
         };
     }]);

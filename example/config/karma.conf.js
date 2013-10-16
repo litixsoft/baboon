@@ -7,20 +7,24 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            '../lib_client/vendor/angular/angular.js',
-            '../lib_client/vendor/angular/angular-mocks.js',
-            '../client/common/**/*.js',
-            '../lib_client/services/**/*.js',
-            '../lib_client/directives/**/*.js',
-            '../lib_client/module/**/*.js',
+            'client/vendor/angular/angular.js',
+            'client/vendor/angular-mocks/angular-mocks.js',
+            'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+            'client/vendor/angular-ui-utils/modules/**/*.js',
+            'build/tmp/tpls/**/*js',
+            'client/vendor/baboon-client/common/**/*.js',
+            'client/vendor/baboon-client/optional/**/*.js',
             'test/fixtures/mocks.js',
-            'client/**/*.js',
-            '../lib_client/vendor/showdown/src/showdown.js'
+            'client/common/*.js',
+            'client/app/**/*.js',
+            'client/vendor/showdown/src/showdown.js'
         ],
 
         exclude: [
             'client/public/**/*.js',
-            'client/common/*.js'
+            'client/vendor/angular-ui-utils/modules/**/*Spec.js',
+            'client/vendor/baboon-client/common/**/*.spec.js',
+            'client/vendor/baboon-client/optional/**/*.spec.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences
@@ -54,7 +58,7 @@ module.exports = function (config) {
         // - PhantomJS
         // - IE (only Windows)
         // CLI --browsers Chrome,Firefox,Safari
-        browsers: ['Chrome'],
+        browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
         // If browser does not capture in given timeout [ms], kill it
         // CLI --capture-timeout 5000

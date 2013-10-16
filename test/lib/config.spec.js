@@ -15,7 +15,6 @@ describe('Config', function () {
         var sut = config(path.join(rootPath + '/example'));
 
         expect(sut.path).toBeDefined();
-        expect(sut.nodeEnv).toBe('development');
         expect(sut.logging).toBeDefined();
         expect(sut.redis).toBeDefined();
         expect(sut.host).toBeDefined();
@@ -23,7 +22,7 @@ describe('Config', function () {
         expect(sut.mongo.blog).toBeDefined();
         expect(sut.mongo.blog).toContain('/blog?');
 
-        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: development');
+//        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: development');
     });
 
     it('should merge the settings from the conf.json file with the NODE_ENV param', function() {

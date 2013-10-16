@@ -1,9 +1,15 @@
 'use strict';
 
-module.exports = function (grunt) {
+var lxHelpers = require('lx-helpers');
 
+module.exports = function (grunt) {
     var path = require('path');
 
+    /**
+     * Gets the index.html file from the code coverage folder.
+     *
+     * @param {!string} folder The path to the code coverage folder.
+     */
     function getCoverageReport (folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
@@ -17,14 +23,50 @@ module.exports = function (grunt) {
     // Project configuration.
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     grunt.initConfig({
+
+        // load package.json config file
         pkg: grunt.file.readJSON('package.json'),
+
+        // load app.conf.json
         conf: grunt.file.readJSON('config/app.conf.json').base,
-        bbc: '../lib_client',
-        aui_tmp: 'build/tmp/lib_client/vendor/angular-ui-bootstrap/template',
+
+        // config files and folders
+
+        // build folder
+        buildFolder: 'build',
+        buildDistFolder: '<%= buildFolder %>/dist',
+        buildReportsFolder: '<%= buildFolder %>/reports',
+        buildTmpFolder: '<%= buildFolder %>/tmp',
+        buildDistPublicFolder: '<%= buildDistFolder %>/public',
+        buildDistPublicVendorFolder: '<%= buildDistPublicFolder %>/vendor',
+        buildDistAppFolder: '<%= buildDistFolder %>/app',
+
+        // client folder
+        clientFolder: 'client',
+        clientAppFolder: '<%= clientFolder %>/app',
+        clientCommonFolder: '<%= clientFolder %>/common',
+        clientOptionalFolder: '<%= clientFolder %>/optional',
+        clientPublicFolder: '<%= clientFolder %>/public',
+        clientVendorFolder: '<%= clientFolder %>/vendor',
+        clientVendorBaboonFolder: '<%= clientVendorFolder %>/baboon-client',
+
+        // server folder
+        serverFolder: 'server',
+
+        // config folder
+        configFolder: 'config',
+
+        // test folder
+        testFolder: 'test',
+
+        // scripts folder
+        scriptsFolder: 'scripts',
+
+        // js module prefix and suffix for concat
         module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
         module_suffix: '\n})(window, window.angular);',
-        jshint_files_to_test: ['Gruntfile.js', 'app.js', 'server/**/*.js', 'client/**/*.js', '!client/public/**/*.js',
-            'test/**/*.js', '!test/lib/**/*.js', 'config/**/*.js'],
+
+        // banner for created files
         banner: '/*!\n' +
             ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -32,14 +74,32 @@ module.exports = function (grunt) {
             ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
             ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
             ' */\n\n',
+
+        // files for jshint
+        jshintFiles: [
+            '*.js',
+            '<%= clientFolder %>/**/*.js',
+            '!<%= clientVendorFolder %>/**/*.js',
+            '!<%= clientPublicFolder %>/**/*.js',
+            '<%= serverFolder %>/**/*.js',
+            '<%= testFolder %>/**/*.js',
+            '<%= configFolder %>/**/*.js',
+            '<%= scriptsFolder %>/**/*.js',
+            '!<%= clientOptionalFolder %>/**/*.js'
+        ],
+
+        // config tasks
+
         // Before generating any new files, remove any previously-created files.
         clean: {
-            jshint: ['build/reports/jshint'],
-            dist: ['build/dist', 'build/tmp'],
-            jasmine: ['build/reports/jasmine'],
-            coverageServer: ['build/reports/coverage/server'],
-            coverageClient: ['build/reports/coverage/client'],
-            tmp: ['build/tmp']
+            jshint: ['<%= buildReportsFolder %>/lint'],
+            dist: ['<%= buildDistFolder %>'],
+            jasmine: ['<%= buildReportsFolder %>/tests/server'],
+            karma: ['<%= buildReportsFolder %>/tests/client'],
+            coverageServer: ['<%= buildReportsFolder %>/coverage/server'],
+            coverageClient: ['<%= buildReportsFolder %>/coverage/client'],
+            reports: ['<%= buildReportsFolder %>'],
+            tmp: ['<%= buildTmpFolder %>']
         },
 
         // lint files
@@ -66,638 +126,245 @@ module.exports = function (grunt) {
                 globals: {
                 }
             },
-            test: '<%= jshint_files_to_test %>',
+            test: '<%= jshintFiles %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: 'build/reports/jshint/jshint.xml'
+                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= jshintFiles %>'
                 }
             },
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: 'build/reports/jshint/jshint_checkstyle.xml'
+                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= jshintFiles %>'
                 }
             }
         },
 
-        /**
-         * `grunt copy` just copies files from client or vendor to dist.
-         */
+        // just copies files from client or vendor to dist.
         copy: {
-            client: {
-                files: [
-
-                    // all public files
-                    {dest: 'build/dist/public', src: ['**'], expand: true, cwd: 'client/public/'},
-
-                    // all lib_client/module html files
-                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: '<%= bbc %>/module/'},
-
-                    // all app html files
-                    {dest: 'build/dist/views/', src: ['**/*.html'], expand: true, cwd: 'client/app/'},
-
-                    // all common html files
-                    {dest: 'build/dist/views', src: ['**/*.html'], expand: true, cwd: 'client/common/'},
-
-                    // all toplevel and partials html files
-                    {dest: 'build/dist/views', src: ['**/*.html', '!app/**', '!common/**', '!public/**'], expand: true, cwd: 'client/'},
-
-                    // all bootstrap image files that need to be copy.
-                    {dest: 'build/dist/public/img/', src: ['**'], expand: true, cwd: '<%= bbc %>/vendor/bootstrap/img/'}
-                ]
-            }
-        },
-
-        html2js: {
-            dist: {
-                options: {
-                    module: null, // no bundle module for all the html2js templates
-                    base: '<%= bbc %>/vendor/angular-ui-bootstrap'
-                },
+            app: {
                 files: [
                     {
+                        // copy all from client/app folder without js, less and html files to dist public
+                        dest: '<%= buildDistPublicFolder %>',
+                        src: ['**/*.*', '!**/*.js', '!**/*.json', '!**/*.less', '!**/*.html', '!**/*.md'],
                         expand: true,
-                        src: ['<%= bbc %>/vendor/angular-ui-bootstrap/template/**/*.html'],
-                        ext: '.tpl.js',
-                        dest: 'build/tmp/templates/'
+                        cwd: '<%= clientAppFolder %>'
+                    },
+                    {
+                        // copy all index.html files as toplevel apps
+                        dest: '<%= buildDistAppFolder %>',
+                        src: ['**/index.html'],
+                        expand: true,
+                        cwd: '<%= clientAppFolder %>'
+                    },
+                    {
+                        // copy public
+                        dest: '<%= buildDistPublicFolder %>',
+                        src: ['**'],
+                        expand: true,
+                        cwd: '<%= clientFolder %>/public/'
+                    }
+                ]
+            },
+            vendor: {
+                files: [
+                    {
+                        // angular
+                        dest: '<%= buildDistPublicVendorFolder %>/angular',
+                        src: ['*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/angular/'
+                    },
+                    {
+                        // bootstrap dist
+                        dest: '<%= buildDistPublicVendorFolder %>/bootstrap',
+                        src: ['**/*.*', '!**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/bootstrap/dist/'
+                    },
+                    {
+                        // angular-bootstrap
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-ui-bootstrap',
+                        src: ['**/*-tpls.*'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
+                    },
+                    {
+                        // bootstrap assets
+                        dest: '<%= buildDistPublicFolder %>',
+                        src: ['**/*.png'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/bootstrap/assets/'
+                    },
+                    {
+                        // baboon-client public
+                        dest: '<%= buildDistPublicFolder %>',
+                        src: ['**/*.*'],
+                        expand: true,
+                        cwd: '<%= clientVendorBaboonFolder %>/public/'
+                    },
+                    {
+                        // showdown
+                        dest: '<%= buildDistPublicVendorFolder %>/showdown',
+                        src: ['**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/showdown/'
+                    },
+                    {
+                        // highlight js
+                        dest: '<%= buildDistPublicVendorFolder %>/highlight',
+                        src: ['**/*'],
+                        expand: true,
+                        cwd: '<%= clientOptionalFolder %>/highlight/'
                     }
                 ]
             }
         },
 
         /**
-         * concat files
+         * Baboon build
+         * The Baboon build process overwrites all configuration settings for concat, html2js,
+         * ngmin, uglify and less outside this range. These tasks can be configured only in this area.
          */
-        concat: {
-            /**
-             * The `lib` target is for all third-party js libraries we need to include
-             * in the final distribution.
-             */
-            lib: {
-                files: {
-                    // lib debug
-                    'build/dist/public/js/lib.js': [
-                        '<%= bbc %>/vendor/angular/angular.js',
-                        '<%= bbc %>/vendor/showdown/src/showdown.js'
-                        //'<%= bbc %>/vendor/showdown/src/extensions/github.js',
-                        //'<%= bbc %>/vendor/showdown/src/extensions/prettify.js',
-                        //'<%= bbc %>/vendor/showdown/src/extensions/table.js',
-                        //'<%= bbc %>/vendor/showdown/src/extensions/twitter.js',
-                    ],
-                    // lib release
-                    'build/dist/public/js/lib.min.js': [
-                        '<%= bbc %>/vendor/angular/angular.min.js',
-                        '<%= bbc %>/vendor/showdown/compressed/showdown.js'
-                        //'<%= bbc %>/vendor/showdown/compressed/extensions/github.js',
-                        //'<%= bbc %>/vendor/showdown/compressed/extensions/prettify.js',
-                        //'<%= bbc %>/vendor/showdown/compressed/extensions/table.js',
-                        //'<%= bbc %>/vendor/showdown/compressed/extensions/twitter.js',
-                    ],
-                    // libs debug
-                    'build/dist/public/css/lib.css': [
-                        '<%= bbc %>/vendor/bootstrap/css/bootstrap.css',
-                        '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.css',
-                        '<%= bbc %>/css/default.css'
-                    ],
-                    // libs release
-                    'build/dist/public/css/lib.min.css': [
-                        '<%= bbc %>/vendor/bootstrap/css/bootstrap.min.css',
-                        '<%= bbc %>/vendor/bootstrap/css/bootstrap-responsive.min.css',
-                        'build/tmp/default.min.css'
-                    ]
-                }
-            },
+        baboon: {
 
             /**
-             * The `app` target is for application js and css libraries.
+             * Builds the templates from baboon.common and client.common.
+             * The Baboon build expanded this configuration with the optional templates from baboon and the client.
+             * In addition, baboon-build expanded this configuration with the application templates.
+             * Baboon-build uses the prefixes bb_ *.
              */
-            app_js: {
-                options: {
-                    banner: '<%= module_prefix %>',
-                    footer: '<%= module_suffix %>'
+            html2js: {
+                // client common templates
+                common: {
+                    options: {
+                        base: '<%= clientCommonFolder %>'
+                    },
+                    src: ['<%= clientCommonFolder %>/**/*.html'],
+                    dest: '<%= buildTmpFolder %>/tpls/common.tpl.js',
+                    module: 'common.templates'
                 },
-
-                files: {
-                    'build/dist/public/js/app.js': [
-                        // ui-bootstrap
-
-                        /* required */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
-
-                        /* optional */
-
-                        /* accordion */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
-                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
-
-                        /* alert */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= aui_tmp %>/alert/alert.tpl.js',
-
-                        /* buttons */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
-
-                        /* carousel */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
-                        '<%= aui_tmp %>/carousel/slide.tpl.js',
-
-                        /* collapse */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
-
-                        /* datepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
-
-                        /* dialog */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= aui_tmp %>/dialog/message.tpl.js',
-
-                        /* dropdownToggle */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
-
-                        /* modal */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
-
-                        /* pagination */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= aui_tmp %>/pagination/pager.tpl.js',
-                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
-
-                        /* popover */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= aui_tmp %>/popover/popover.tpl.js',
-
-                        /* progressbar */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
-                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
-
-                        /* rating */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= aui_tmp %>/rating/rating.tpl.js',
-
-                        /* tabs */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= aui_tmp %>/tabs/tab.tpl.js',
-                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
-
-                        /* timepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
-
-                        /* tooltip */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
-
-                        /* typeahead */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
-
-                        // ui-utils
-                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
-
-                        // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-
-                        // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-
-                        // baboon.module
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
-
-                        // translate
-                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
-                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
-
-                        // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
-
-                        // app
-                        'client/app/**/*.js',
-                        '!client/app/**/*.spec.js'
-                    ]
+                // lib common templates
+                lib_common: {
+                    options: {
+                        base: '<%= clientVendorBaboonFolder %>/common'
+                    },
+                    src: ['<%= clientVendorBaboonFolder %>/common/**/*.html'],
+                    dest: '<%= buildTmpFolder %>/tpls/lib.common.tpl.js',
+                    module: 'lib.common.templates'
                 }
             },
-            app_css: {
-                files: {
-                    'build/dist/public/css/app.css': [
-                        // app css files
-                        'client/app/**/*.css'
+
+            /**
+             * The concat configuration overwrite dynamically by baboon-build with the prefixes bb_ *.
+             * Currently you can only adjust the base here. Extending concat is not yet possible.
+             */
+            concat: {
+                /**
+                 * The basis for all applications will be inserted into any application.
+                 * The dest is generated dynamically from baboon build.
+                 * Here is regulated, what all should be included in the application.
+                 */
+                base: {
+                    options: {
+                        banner: '<%= banner %>\n<%= module_prefix %>',
+                        footer: '<%= module_suffix %>'
+                    },
+                    src: [
+                        '<%= clientVendorFolder %>/angular-ui-utils/modules/*.js',
+                        '<%= clientVendorFolder %>/angular-ui-utils/modules/**/*.js',
+                        '!<%= clientVendorFolder %>/angular-ui-utils/modules/**/*Spec.js',
+                        '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
+                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+                        '<%= clientVendorBaboonFolder %>/common/**/*.js',
+                        '!<%= clientVendorBaboonFolder %>/common/**/*.spec.js',
+                        '<%= clientCommonFolder %>/**/*.js',
+                        '!<%= clientCommonFolder %>/**/*.spec.js'
                     ]
                 }
             },
 
             /**
-             * The `ui` target is for toplevel application js and css libraries.
+             * The includes for all applications. The optional includes are added by baboon-build.
+             * This Includes Angular needed for injection. Use here the correct module name.
              */
-            ui_js: {
-                options: {
-                    banner: '<%= module_prefix %>',
-                    footer: '<%= module_suffix %>'
+            includes: [
+                'ui.utils',
+                'pascalprecht.translate',
+                'lib.common.templates',
+                'common.templates',
+                'lib.optional.templates',
+                'optional.templates',
+                'app.templates',
+                'lx.alert',
+                'lx.auth',
+                'lx.float',
+                'lx.integer',
+                'lx.modal',
+                'lx.nav',
+                'lx.session',
+                'lx.socket',
+                'ui.if'
+            ],
+
+            /**
+             * Less configuration skeleton. Baboon-build to insert the application less files.
+             * You can simply insert your configurations here.
+             */
+            less: {
+                debug: {
+                    files: {}
                 },
-
-                files: {
-                    'build/dist/public/js/ui_app.js': [
-                        // ui-bootstrap
-
-                        /* required */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
-
-                        /* optional */
-
-                        /* accordion */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
-                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
-
-                        /* alert */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= aui_tmp %>/alert/alert.tpl.js',
-
-                        /* buttons */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
-
-                        /* carousel */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
-                        '<%= aui_tmp %>/carousel/slide.tpl.js',
-
-                        /* collapse */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
-
-                        /* datepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
-
-                        /* dialog */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= aui_tmp %>/dialog/message.tpl.js',
-
-                        /* dropdownToggle */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
-
-                        /* modal */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
-
-                        /* pagination */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= aui_tmp %>/pagination/pager.tpl.js',
-                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
-
-                        /* popover */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= aui_tmp %>/popover/popover.tpl.js',
-
-                        /* progressbar */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
-                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
-
-                        /* rating */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= aui_tmp %>/rating/rating.tpl.js',
-
-                        /* tabs */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= aui_tmp %>/tabs/tab.tpl.js',
-                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
-
-                        /* timepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
-
-                        /* tooltip */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
-
-                        /* typeahead */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
-
-                        // ui-utils
-                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
-
-                        // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-
-                        // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-
-                        // baboon.module
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
-
-                        // translate
-                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
-                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
-
-                        // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
-
-                        // toplevel app
-                        'client/toplevel/ui_examples/**/*.js',
-                        '!client/toplevel/ui_examples/**/*.spec.js'
-                    ]
-                }
-            },
-            ui_css: {
-                files: {
-                    'build/dist/public/css/ui_app.css': [
-                        // toplevel css
-                        'client/toplevel/ui_examples/**/*.css'
-                    ]
+                release: {
+                    options: {
+                        yuicompress: true
+                    },
+                    files: {}
                 }
             },
 
             /**
-             * The `admin` target is for toplevel application js and css libraries.
+             * ngmin configuration skeleton. Baboon-build is to insert all the javascript files of the application.
+             * You can simply insert your configurations here.
              */
-            admin_js: {
-                options: {
-                    banner: '<%= module_prefix %>',
-                    footer: '<%= module_suffix %>'
-                },
-                files: {
-                    'build/dist/public/js/admin_app.js': [
-                        // ui-bootstrap
+            ngmin: {},
 
-                        /* required */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/transition/transition.js',
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/position/position.js',
-
-                        /* optional */
-
-                        /* accordion */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/accordion/accordion.js',
-                        '<%= aui_tmp %>/accordion/accordion.tpl.js',
-                        '<%= aui_tmp %>/accordion/accordion-group.tpl.js',
-
-                        /* alert */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/alert/alert.js',
-                        '<%= aui_tmp %>/alert/alert.tpl.js',
-
-                        /* buttons */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/buttons/buttons.js',
-
-                        /* carousel */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/carousel/carousel.js',
-                        '<%= aui_tmp %>/carousel/carousel.tpl.js',
-                        '<%= aui_tmp %>/carousel/slide.tpl.js',
-
-                        /* collapse */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/collapse/collapse.js',
-
-                        /* datepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/datepicker/datepicker.js',
-                        '<%= aui_tmp %>/datepicker/datepicker.tpl.js',
-
-                        /* dialog */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dialog/dialog.js',
-                        '<%= aui_tmp %>/dialog/message.tpl.js',
-
-                        /* dropdownToggle */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
-
-                        /* modal */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/modal/modal.js',
-
-                        /* pagination */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/pagination/pagination.js',
-                        '<%= aui_tmp %>/pagination/pager.tpl.js',
-                        '<%= aui_tmp %>/pagination/pagination.tpl.js',
-
-                        /* popover */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/popover/popover.js',
-                        '<%= aui_tmp %>/popover/popover.tpl.js',
-
-                        /* progressbar */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/progressbar/progressbar.js',
-                        '<%= aui_tmp %>/progressbar/bar.tpl.js',
-                        '<%= aui_tmp %>/progressbar/progress.tpl.js',
-
-                        /* rating */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/rating/rating.js',
-                        '<%= aui_tmp %>/rating/rating.tpl.js',
-
-                        /* tabs */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tabs/tabs.js',
-                        '<%= aui_tmp %>/tabs/tab.tpl.js',
-                        '<%= aui_tmp %>/tabs/tabset.tpl.js',
-
-                        /* timepicker */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/timepicker/timepicker.js',
-                        '<%= aui_tmp %>/timepicker/timepicker.tpl.js',
-
-                        /* tooltip */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/tooltip/tooltip.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-html-unsafe-popup.tpl.js',
-                        '<%= aui_tmp %>/tooltip/tooltip-popup.tpl.js',
-
-                        /* typeahead */
-                        '<%= bbc %>/vendor/angular-ui-bootstrap/src/typeahead/typeahead.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-match.tpl.js',
-                        '<%= aui_tmp %>/typeahead/typeahead-popup.tpl.js',
-
-                        // ui-utils
-                        '<%= bbc %>/vendor/angular-ui-utils/event/event.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/format/format.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/highlight/highlight.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/if/if.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/indeterminate/indeterminate.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/inflector/inflector.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/jq/jq.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/keypress/keypress.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/mask/mask.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/reset/reset.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/route/route.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/scrollfix/scrollfix.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/showhide/showhide.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/unique/unique.js',
-                        '<%= bbc %>/vendor/angular-ui-utils/validate/validate.js',
-
-                        // baboon.services
-                        '<%= bbc %>/services/lx.cache.js',
-                        '<%= bbc %>/services/lx.form.js',
-                        '<%= bbc %>/services/lx.InlineEdit.js',
-                        '<%= bbc %>/services/lx.session.js',
-                        '<%= bbc %>/services/lx.socket.js',
-
-                        // baboon.directives
-                        '<%= bbc %>/directives/lx.fileUpload.js',
-                        '<%= bbc %>/directives/lx.float.js',
-                        '<%= bbc %>/directives/lx.integer.js',
-                        '<%= bbc %>/directives/lx.pager.js',
-                        '<%= bbc %>/directives/lx.sort.js',
-
-                        // baboon.module
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.js',
-                        '<%= bbc %>/module/baboon_auth/baboon.auth.services.js',
-                        '<%= bbc %>/module/baboon_msgBox/baboon.msgBox.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.directives.js',
-                        '<%= bbc %>/module/baboon_nav/baboon.nav.tpls.js',
-
-                        // translate
-                        '<%= bbc %>/vendor/angular-translate/angular-translate.js',
-                        '<%= bbc %>/vendor/angular-translate/angular-translate-loader-static-files.js',
-
-                        // common
-                        'client/common/**/*.js',
-                        '!client/common/**/*.spec.js',
-
-                        // toplevel app
-                        'client/toplevel/admin/**/*.js',
-                        '!client/toplevel/admin/**/*.spec.js'
-                    ]
-                }
-            },
-            admin_css: {
-                files: {
-                    'build/dist/public/css/admin_app.css': [
-                        // toplevel css
-                        'client/toplevel/admin/**/*.css'
-                    ]
+            /**
+             * uglify configuration skeleton. Baboon-build is to insert all the javascript files of the application.
+             * You can simply insert your configurations here.
+             */
+            uglify: {
+                target: {
+                    files: {}
                 }
             }
         },
 
-        /**
-         * prepare uglify with ngmin only for angular stuff
-         */
-
-        ngmin: {
-            app: {
-                src: ['build/dist/public/js/app.js'],
-                dest: 'build/tmp/app.js'
-            },
-            ui: {
-                src: ['build/dist/public/js/ui_app.js'],
-                dest: 'build/tmp/ui_app.js'
-            },
-            admin: {
-                src: ['build/dist/public/js/admin_app.js'],
-                dest: 'build/tmp/admin_app.js'
-            }
-        },
-
-        /**
-         * minification js files
-         */
-
-        uglify: {
-            target: {
-                files: {
-                    'build/dist/public/js/app.min.js': 'build/tmp/app.js',
-                    'build/dist/public/js/ui_app.min.js': 'build/tmp/ui_app.js',
-                    'build/dist/public/js/admin_app.min.js': 'build/tmp/admin_app.js'
-                }
-            }
-        },
-
-        /**
-         * minification css files
-         */
-
-        cssmin: {
-            pre_build: {
-                files: {
-                    'build/tmp/default.min.css': ['<%= bbc %>/css/default.css']
-                }
-            },
-            build: {
-                files: {
-                    'build/dist/public/css/app.min.css': ['build/dist/public/css/app.css'],
-                    'build/dist/public/css/ui_app.min.css': ['build/dist/public/css/ui_app.css'],
-                    'build/dist/public/css/admin_app.min.css': ['build/dist/public/css/admin_app.css']
-                }
-            }
-        },
-
+        // commandline
         bgShell: {
             e2e: {
                 cmd: 'node test/fixtures/resetDB.js e2e'
             },
             setup: {
-                cmd: 'node scripts/setup.js'
+                cmd: 'node <%= scriptsFolder %>/setup.js'
             },
             coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir <%= buildReportsFolder %>/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/reports/coverage/server --dir build/reports/coverage/server cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root <%= buildReportsFolder %>/coverage/server --dir <%= buildReportsFolder %>/coverage/server cobertura'
             }
         },
 
+        // express server
         express: {
             dev: {
                 options: {
@@ -719,30 +386,40 @@ module.exports = function (grunt) {
                 livereload: 35729
             },
             client: {
-                files: ['client/**/*.*', 'client/*.*', '!client/**/*.spec.js'],
+                files: [
+                    '<%= clientFolder %>/**/*.*',
+                    '!<%= clientFolder %>/**/*.spec.js',
+                    '!<%= clientVendorFolder %>/**/*.*'
+                ],
                 tasks: ['build:watch']
             },
             server: {
-                files: ['server/modules/**/*.*'],
-                tasks: ['express:dev']
+                files: [
+                    '<%= serverFolder %>/modules/**/*.*',
+                    'app.js',
+                    '!<%= serverFolder %>/**/*.spec.js'
+                ],
+                tasks: ['build:rights', 'express:dev']
             }
         },
 
+        // open browser
         open: {
             browser: {
                 url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
             },
             coverageServer: {
-                path: path.join(__dirname, getCoverageReport('build/reports/coverage/server/lcov-report/'))
+                path: path.join(__dirname, getCoverageReport('build/reports/coverage/server/'))
             },
             coverageClient: {
                 path: path.join(__dirname, getCoverageReport('build/reports/coverage/client/'))
             }
         },
 
+        // replacements in app index files
         replace: {
             debug: {
-                src: ['build/dist/views/**/*.html'],
+                src: ['<%= buildDistAppFolder %>/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
@@ -750,7 +427,7 @@ module.exports = function (grunt) {
                 ]
             },
             release: {
-                src: ['build/dist/views/**/*.html'],
+                src: ['<%= buildDistAppFolder %>/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: '.min'},
@@ -758,99 +435,106 @@ module.exports = function (grunt) {
                 ]
             },
             livereload: {
-                src: ['build/dist/views/**/*.html'],
+                src: ['<%= buildDistAppFolder %>/**/*.html'],
                 overwrite: true,
                 replacements: [
                     {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@livereload-->', to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                        '<%=watch.options.livereload%>/livereload.js?snipver=1"></script>'}
+                    {
+                        from: '<!--@@livereload-->',
+                        to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
+                            '<%=watch.options.livereload%>/livereload.js?snipver=1"></script>'
+                    }
                 ]
             }
         },
 
+        // karma client tests
         karma: {
             unit: {
-                configFile: 'config/karma.conf.js'
+                configFile: '<%= configFolder %>/karma.conf.js'
             },
             ci: {
-                configFile: 'config/karma.conf.js',
+                configFile: '<%= configFolder %>/karma.conf.js',
                 reporters: ['progress', 'junit'],
                 junitReporter: {
-                    outputFile: 'build/reports/tests/karma.xml',
+                    outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
                     suite: 'karma'
                 }
             },
             debug: {
-                configFile: 'config/karma.conf.js',
-                detectBrowsers: false,
+                configFile: '<%= configFolder %>/karma.conf.js',
+                detectBrowsers: {
+                    enabled: false
+                },
                 singleRun: false
             },
             coverage: {
-                configFile: 'config/karma.coverage.conf.js'
+                configFile: '<%= configFolder %>/karma.coverage.conf.js'
             },
             cobertura: {
-                configFile: 'config/karma.coverage.conf.js',
+                configFile: '<%= configFolder %>/karma.coverage.conf.js',
                 coverageReporter: {
                     type: 'cobertura',
-                    dir: 'build/reports/coverage/client'
+                    dir: '<%= buildReportsFolder %>/coverage/client'
                 }
             },
             e2e: {
-                configFile: 'config/karma.e2e.conf.js'
+                configFile: '<%= configFolder %>/karma.e2e.conf.js'
             },
             e2e_chrome: {
-                configFile: 'config/karma.e2e.conf.js'
+                configFile: '<%= configFolder %>/karma.e2e.conf.js'
             },
             e2e_chrome_canary: {
-                configFile: 'config/karma.e2e.conf.js',
+                configFile: '<%= configFolder %>/karma.e2e.conf.js',
                 browsers: ['ChromeCanary'],
                 junitReporter: {
-                    outputFile: 'build/reports/jasmine/chrome_canary.xml',
+                    outputFile: '<%= buildReportsFolder %>/jasmine/chrome_canary.xml',
                     suite: 'ChromeCanary'
                 }
             },
             e2e_firefox: {
-                configFile: 'config/karma.e2e.conf.js',
+                configFile: '<%= configFolder %>/karma.e2e.conf.js',
                 browsers: ['Firefox'],
                 junitReporter: {
-                    outputFile: 'build/reports/jasmine/firefox.xml',
+                    outputFile: '<%= buildReportsFolder %>/jasmine/firefox.xml',
                     suite: 'Firefox'
                 }
             },
             e2e_safari: {
-                configFile: 'config/karma.e2e.conf.js',
+                configFile: '<%= configFolder %>/karma.e2e.conf.js',
                 browsers: ['Safari'],
                 junitReporter: {
-                    outputFile: 'build/reports/jasmine/safari.xml',
+                    outputFile: '<%= buildReportsFolder %>/jasmine/safari.xml',
                     suite: 'Safari'
                 }
             },
             e2e_ie: {
-                configFile: 'config/karma.e2e.conf.js',
+                configFile: '<%= configFolder %>/karma.e2e.conf.js',
                 browsers: ['IE'],
                 junitReporter: {
-                    outputFile: 'build/reports/jasmine/ie.xml',
+                    outputFile: '<%= buildReportsFolder %>/jasmine/ie.xml',
                     suite: 'IE'
                 }
             },
             e2e_phantom: {
-                configFile: 'config/karma.e2e.conf.js',
+                configFile: '<%= configFolder %>/karma.e2e.conf.js',
                 browsers: ['PhantomJS'],
                 junitReporter: {
-                    outputFile: 'build/reports/jasmine/phantomJS.xml',
+                    outputFile: '<%= buildReportsFolder %>/jasmine/phantomJS.xml',
                     suite: 'PhantomJS'
                 }
             }
         },
 
+        // jasmine server tests
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'test',
+            projectRoot: '<%= testFolder %>',
             requirejs: false,
             forceExit: true,
             jUnit: {
                 report: true,
-                savePath: 'build/reports/jasmine/',
+                savePath: '<%= buildReportsFolder %>/tests/server/',
                 useDotNotation: true,
                 consolidate: true
             }
@@ -859,7 +543,6 @@ module.exports = function (grunt) {
 
     // Load tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -868,54 +551,97 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
-    // Tasks
-    grunt.registerTask('setup', [
+    // Register tasks.
+
+    // baboon build task
+    grunt.registerTask('baboon', 'Baboon build helper.', function (arg1) {
+
+        // release flag
+        var release = false;
+
+        // check release argument
+        if (arg1 === 'release') {
+            grunt.log.writeln('baboon task running in release mode, file minification');
+            release = true;
+        }
+        else {
+            grunt.log.writeln('baboon task running in develop mode, no file minification');
+        }
+
+        // buildHelper
+        var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
+
+        // write include files for app
+        lxHelpers.objectForEach(buildHelper.fileContents, function(key, value) {
+            grunt.file.write('build/tmp/includes/' + key + '.js', value);
+        });
+
+        // append concat, ngmin, uglify and less config
+        grunt.config.data.concat = buildHelper.concatConfig;
+        grunt.config.data.html2js = buildHelper.html2jsConfig;
+        grunt.config.data.ngmin = buildHelper.ngminConfig;
+        grunt.config.data.uglify = buildHelper.uglifyConfig;
+        grunt.config.data.less = buildHelper.lessConfig;
+
+        // start concat
+        grunt.task.run('html2js');
+        grunt.task.run('concat');
+
+        // if release mode, start ngmin
+        if (release) {
+            grunt.task.run('ngmin');
+            grunt.task.run('uglify');
+            grunt.task.run('less:release');
+        }
+        else {
+            grunt.task.run('less:debug');
+        }
+    });
+
+    grunt.registerTask('build:rights', [
         'bgShell:setup'
     ]);
-    grunt.registerTask('build', [
+    grunt.registerTask('build:client', [
         'clean:dist',
         'clean:tmp',
         'copy',
-        'html2js',
-        'cssmin:pre_build',
-        'concat',
-        'setup',
+        'baboon',
         'replace:debug'
     ]);
+    grunt.registerTask('build', [
+        'build:rights',
+        'build:client'
+    ]);
     grunt.registerTask('build:watch', [
+        'build:rights',
         'clean:dist',
         'clean:tmp',
         'copy',
-        'html2js',
-        'cssmin:pre_build',
-        'concat',
-        'setup',
+        'baboon',
         'replace:livereload'
     ]);
-    grunt.registerTask('release', [
+    grunt.registerTask('build:deploy', [
         'clean:dist',
         'clean:tmp',
         'copy',
-        'html2js',
-        'cssmin:pre_build',
-        'concat',
-        'setup',
-        'ngmin',
-        'uglify',
-        'cssmin:build',
+        'baboon:release',
+        'build:rights',
         'replace:release'
     ]);
     grunt.registerTask('lint', [
         'jshint:test'
     ]);
-    grunt.registerTask('unit', [
+    grunt.registerTask('test:unit', [
         'clean:jasmine',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'jasmine_node',
         'karma:unit'
@@ -923,22 +649,26 @@ module.exports = function (grunt) {
     grunt.registerTask('debug', [
         'karma:debug'
     ]);
-    grunt.registerTask('unitClient', [
+    grunt.registerTask('test:client', [
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'karma:unit'
     ]);
-    grunt.registerTask('coverClient', [
+    grunt.registerTask('cover:client', [
         'clean:coverageClient',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'karma:coverage',
         'open:coverageClient'
     ]);
-    grunt.registerTask('unitServer', [
+    grunt.registerTask('test:server', [
         'clean:jasmine',
         'jshint:test',
         'jasmine_node'
     ]);
-    grunt.registerTask('coverServer', [
+    grunt.registerTask('cover:server', [
         'clean:coverageServer',
         'jshint:test',
         'bgShell:coverage',
@@ -947,9 +677,13 @@ module.exports = function (grunt) {
     grunt.registerTask('cover', [
         'clean:coverageServer',
         'clean:coverageClient',
+        'clean:tmp',
+        'baboon:html2js',
         'jshint:test',
         'bgShell:coverage',
-        'karma:coverage'
+        'karma:coverage',
+        'open:coverageServer',
+        'open:coverageClient'
     ]);
     grunt.registerTask('e2e', [
         'jshint:test',
@@ -978,27 +712,29 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e:release', [
         'jshint:test',
         'bgShell:e2e',
-        'release',
+        'build:deploy',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
         'bgShell:e2e',
         'clean:jasmine',
+        'clean:tmp',
         'jshint:test',
         'jasmine_node',
-        'karma:unit',
         'build',
+        'karma:unit',
         'express:e2e',
         'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
         'bgShell:e2e',
         'clean:jasmine',
+        'clean:tmp',
         'jshint:test',
         'jasmine_node',
+        'build:deploy',
         'karma:unit',
-        'release',
         'express:e2e',
         'karma:e2e'
     ]);
@@ -1013,10 +749,10 @@ module.exports = function (grunt) {
         'build',
         'jshint:jslint',
         'jshint:checkstyle',
+        'jasmine_node',
         'bgShell:coverage',
         'bgShell:cobertura',
-        'jasmine_node',
-        'karma:unit',
+        'karma:ci',
         'karma:coverage',
         'karma:cobertura'
     ]);

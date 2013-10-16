@@ -1,66 +1,184 @@
 /*global angular*/
 angular.module('enterprise', ['enterprise.services'])
-/**
- * Enterprise config area
- */
     .config(function ($routeProvider) {
-        $routeProvider.when('/enterprise', {templateUrl: '/enterprise/enterprise.html', controller: 'enterpriseCtrl'});
-        $routeProvider.when('/enterprise/new', {templateUrl: '/enterprise/edit.html', controller: 'newCtrl'});
-        $routeProvider.when('/enterprise/edit/:id', {templateUrl: '/enterprise/edit.html', controller: 'editCtrl'});
+        $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
+        $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseNewCtrl'});
+        $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseEditCtrl'});
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
-/**
- * Enterprise controller
- */
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', function ($scope, enterpriseCrew) {
+    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'lxModal',
+        function ( $scope, enterpriseCrew, lxModal) {
 
-        enterpriseCrew.getAll(function (data) {
-            $scope.enterpriseCrew = data;
-        });
+            // alert helper var
+            var lxAlert = $scope.lxAlert;
 
-        $scope.open = function () {
-            $scope.shouldBeOpen = true;
-        };
+//            // modal helper var
+//            var lxModal = $scope.lxModal;
+            //
 
-        $scope.close = function () {
-            $scope.closeMsg = 'I was closed at: ' + new Date();
-            $scope.shouldBeOpen = false;
-        };
+            $scope.headline = 'Üerschrift';
+            $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
+            $scope.type = 'Error';
 
-        $scope.items = ['item1', 'item2'];
+            // getAll members from service
+            var getAllMembers = function () {
+                enterpriseCrew.getAll({}, function (result) {
+                    $scope.crew = result.data;
 
-        $scope.opts = {
-            backdropFade: true,
-            dialogFade: true
-        };
+                    // watch the crew and show or hide
+                    $scope.$watch('crew', function (value) {
+                        if (value.length === 0) {
+                            $scope.visible.reset = false;
+                            $scope.visible.create = true;
+                        }
+                        else {
+                            $scope.visible.reset = true;
+                            $scope.visible.create = false;
+                        }
+                    });
+                });
+            };
 
-        $scope.onFilesSelected = function(files) {
-            $scope.files = files;
-        };
-    }])
-/**
- * Enterprise edit controller
- */
-    .controller('editCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', function ($scope, $location, $routeParams, enterpriseCrew) {
+            // visible vars for controller
+            $scope.visible = {
+                reset: false,
+                create: false
+            };
 
-        enterpriseCrew.getById([$routeParams.id], function (data) {
-            $scope.person = data;
-        });
+            // init get all members and register watch for crew
+            getAllMembers();
 
-        $scope.save = function () {
-            enterpriseCrew.updateById($routeParams.id, $scope.person, function() {
-                $location.path('/enterprise');
+            // create test members for crew collection
+            $scope.createTestMembers = function (reset) {
+                reset = reset || null;
+                if ($scope.crew.length === 0) {
+
+                    enterpriseCrew.createTestMembers(function (result) {
+                        if (result.message) {
+                            lxAlert.error(result.message);
+                            getAllMembers();
+                        }
+                        else if (result.data) {
+                            if (reset) {
+                                lxAlert.success('db reset.');
+                            }
+                            else {
+                                lxAlert.success('crew created.');
+                            }
+
+                            $scope.crew = result.data;
+                        }
+                    });
+                }
+                else {
+                    lxAlert.error('can\'t create test crew, already exists.');
+                }
+            };
+
+            // delete crew collection and create test members
+            $scope.resetDb = function () {
+                if ($scope.crew.length > 0) {
+                    enterpriseCrew.deleteAllMembers(function (result) {
+                        if (result.message) {
+                            lxAlert.error(result.message);
+                        }
+                        else if (result.success) {
+                            $scope.crew = [];
+                            $scope.createTestMembers(true);
+                        }
+                    });
+                }
+                else {
+                    lxAlert.error('can\'t reset db, find no data.');
+                }
+            };
+
+            // delete crew member by id
+            $scope.deleteMember = function (id, name) {
+                lxModal.msgBox('enterpriseDeleteMember'+name,false,'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                    cbYes: function () {
+                        enterpriseCrew.delete(id, function (result) {
+                            if (result.success) {
+                                lxAlert.success('crew member ' + name + ' deleted.');
+                                getAllMembers();
+                            }
+                            else if (result.message) {
+                                lxAlert.error(result.message);
+                            }
+                        });
+                    },
+                    cbNo: function () {}
+                },'standard');
+
+                setTimeout(function(){
+                    lxModal.updateMsg('enterpriseDeleteMember'+name,'Diese neue Meldung wird dir vom Sven präsentiert. Du kannst aber gern trotzdem crew member '+ name +' löschen!');
+                },2000);
+
+
+            };
+        }])
+    .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', 'lxForm',
+        function ($scope, $location, $routeParams, enterpriseCrew, lxForm) {
+
+            $scope.lxForm = lxForm('enterpriseEdit', '_id');
+
+            // visible vars for controller
+            $scope.visible = {
+                errors: false
+            };
+
+            $scope.validationErrors = {};
+
+            enterpriseCrew.getById($routeParams.id, function (result) {
+                $scope.person = result.data;
             });
-        };
-    }])
-/**
- * Enterprise new controller
- */
-    .controller('newCtrl', ['$scope', '$location', 'enterpriseCrew', function ($scope, $location, enterpriseCrew) {
-        $scope.person = {name: '', description: ''};
-        $scope.save = function () {
-            enterpriseCrew.create($scope.person, function() {
-                $location.path('/enterprise');
-            });
-        };
-    }]);
+
+            $scope.save = function () {
+                enterpriseCrew.update($scope.person, function (result) {
+                    if (result.success) {
+                        $location.path('/enterprise');
+                    }
+                    else if (result.errors) {
+                        $scope.lxAlert.warning('Server: validation Errors');
+                        $scope.validationErrors = result.errors;
+                        $scope.visible.errors = true;
+
+                        $scope.lxForm.populateValidation($scope.form, result.errors);
+                    }
+                    else if (result.message) {
+                        $scope.lxAlert.error(result.message);
+                    }
+                });
+            };
+        }])
+    .controller('enterpriseNewCtrl', ['$scope', '$location', 'enterpriseCrew',
+        function ($scope, $location, enterpriseCrew) {
+
+            // empty person
+            $scope.person = {name: '', description: ''};
+
+            // visible vars for controller
+            $scope.visible = {
+                errors: false
+            };
+
+            // validation errors
+            $scope.validationErrors = {};
+
+            $scope.save = function () {
+                enterpriseCrew.create($scope.person, function (result) {
+                    if (result.data) {
+                        $location.path('/enterprise');
+                    }
+                    else if (result.errors) {
+                        $scope.lxAlert.warning('Server: validation Errors');
+                        $scope.validationErrors = result.errors;
+                        $scope.visible.errors = true;
+
+                    }
+                    else if (result.message) {
+                        $scope.lxAlert.error(result.message);
+                    }
+                });
+            };
+        }]);
