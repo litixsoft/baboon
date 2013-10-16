@@ -1,25 +1,31 @@
-<div class="p-wrapper">
-    <div>
-        <h2>{{ 'GROUPS' | translate }}</h2>
-        <table name="groups" class="table table-hover">
-            <thead>
-                <tr>
-                    <th style="width: 20px;">
-                        <a name="newGroup" href="/admin/groups/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    </th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
-                    <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="group in groups">
-                    <td><a href="/admin/groups/edit/{{group._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td>{{group.name}}</td>
-                    <td>{{group.id}}</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="beige-noise">
+    <div class="p-wrapper">
 
-        <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'GROUPS' | translate }}</div>
+            <div class="panel-body">
+                <table name="groups" class="table table-hover"  ng-class="{'load-content' : !groups.length}">
+                    <thead>
+                    <tr>
+                        <th style="width: 20px;">
+                            <a name="newGroup" href="/admin/groups/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                        </th>
+                        <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                        <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="group in groups">
+                        <td><a href="/admin/groups/edit/{{group._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td>{{group.name}}</td>
+                        <td>{{group.id}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
+            </div>
+        </div>
     </div>
 </div>
