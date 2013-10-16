@@ -12,11 +12,11 @@ For quickstart and overviewing baboon, read the "Example app" section.
 Getting started with the example app:
 Install global dependencies:
 
-    $ npm install -g grunt-cli bower
+    $ npm install -g grunt-cli karma bower
 
 On Linux/Mac use administrative rights to install global modules:
 
-    $ sudo npm install -g grunt-cli bower
+    $ sudo npm install -g grunt-cli karma bower
 
 Clone the baboon repository and install the dev dependencies. Also install the dev dependencies for the example app. Build the example app and start the server with grunt.
 
@@ -88,48 +88,43 @@ Tests will be aborted in case of an error. Use the --force option to skip aborti
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
 
-## Roadmap
-### 0.2 beta
-* commandline management tool
-* user and rights with roles and groups
-* optimize API
-* extend with new features
+## Roadmap for next releases
+* extend admin area
+* auth with passport (g+, facebook, Github login), auth only clientside
+* replace optional and common by module with new directory structure
+* remove EJS dependencies on server
+* replace socket transport with new transport layer, websocket with REST fallback
+* modularize navigation and locale
+* example for productive config with nginx load balance
+* make server and client independently
 
 ## Release History
-### v0.1.5
 
-* Fix bugs
+### v0.2 beta
+* outsourcing client code in baboon-client (bower registry)
+* integrate bower
+* app.includes automated
+* integrate less
+* optimize grunt build with build helper
+* integrate toplevel applications in build process
+* user and rights with roles and groups
 * sessions
-* msgBox
-* auth
-* navigation
 * rights system
 * admin area
 * new design
 * localisation
-
-### v0.1.2
-
-* Fix bugs
-* optimize angular-ui-utils import
 * integrate tests for all installed browsers
-
-### v0.1.1
-
 * Fix bug which causes endless loop on client when session was not regenerated when session's sessionMaxLife was reached.
 
 ### v0.1 alpha
-* create project structure
+* create feature project structure
 * grunt tasks for management
 * angularjs
 * socket.io
-* websocket transport with socket.io and angular
 * test frameworks karma, jasmin
 * logging and audit
 * configuration management
 * express.js for server
-* server routing
-* services for client
 * sessions with redis.io
 * mongoDb
 * redisIo
