@@ -81,5 +81,6 @@
     "SAVE_RIGHT": "Save right",
     "ENTER_MAIL": "Enter email",
     "Right was already added": "The right was already added",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "MODAL": "Popups"
 }

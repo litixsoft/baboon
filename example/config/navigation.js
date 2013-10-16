@@ -13,7 +13,8 @@ module.exports = [
             ]}
         ]},
         {title: 'SESSION', route: '/session'},
-        {title: 'TRANSLATION', route: '/translation'}
+        {title: 'TRANSLATION', route: '/translation'},
+        {title: 'MODAL', route: '/modal'}
     ]},
     {'title': 'UI_EXAMPLE', 'route': '/ui', target: '_self', children: [
         {title: 'DEMO', route: '/demo'}

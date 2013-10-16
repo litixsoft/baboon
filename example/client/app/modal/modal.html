@@ -1,0 +1,44 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>Messageboxen und Popups</h1>
+        </div>
+
+        <button class="btn btn-info" ng-click="popupYesNo()">Popup öffnen</button>
+        <button class="btn btn-info" ng-click="updatePopupMsg()">Update Message</button>
+        <p>{{ message }}</p>
+
+        <div hljs>
+angular.module('modalExample', [])
+.controller('modalExampleCtrl', ['$scope','lxModal', function ($scope, lxModal) {
+
+    ...
+
+}]);</div>
+
+<div hljs>
+pub.msgBox = function (id, backdrop, headline, message, type, callObj, cssClass) {
+    ...
+}</div>
+
+<div hljs>
+lxModal.msgBox('popupYesNo', false,'Connection Lost!', 'Was wollen siie nun tun', 'Warning', {
+    cbYes: function () {
+        // do something
+    },
+    cbNo: function () {
+        // do something
+     }},'standard');</div>
+
+<div hljs>
+    lxModal.msgBox('popupYesNo', false,'Connection Lost!', 'Was wollen siie nun tun', 'Warning', {
+    cbYes: function () {
+    // do something
+    },
+    cbNo: function () {
+    // do something
+    }},'standard');</div>
+
+    </div>
+</div>

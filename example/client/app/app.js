@@ -7,6 +7,7 @@ angular.module('app', [
         'home',
         'session',
         'translation',
+        'modalExample',
         'hljs'
     ])
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
