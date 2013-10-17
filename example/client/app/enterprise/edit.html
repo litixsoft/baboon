@@ -10,10 +10,7 @@
             <div class="panel-body">
                 <form name="form" class="form-horizontal" novalidate>
                     <fieldset>
-                        <!--<pre>{{form.name.$dirty}}</pre>-->
-                        <!--<pre>{{form.name.$invalid}}</pre>-->
-                        <!--<pre>{{form.errors.name}}</pre>-->
-                                                                                            <!--(form.name.$dirty && form.name.$error.required || person.count > 0)-->
+
                         <div ng-init="person.count=1" class="form-group" ng-class="{'has-error' : ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                             <label class="col-lg-2 control-label" for="name">Name</label>
                             <div class="col-lg-10 lxvalidation">
@@ -31,7 +28,7 @@
                         <div class="form-group" ng-class="{'has-error' : ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
                             <label class="col-lg-2 control-label" for="description">Description</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required>
+                                <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required ui-reset>
 
 
                                 <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" class="label label-danger">
@@ -40,19 +37,9 @@
                                     <span ng-show="form.errors.description" popover="Error: {{form.errors.description}}" popover-trigger="mouseenter"></span>
                                 </label>
 
-                                <!--<label ng-show="(form.description.$dirty && form.description.$error.required)" class="label label-danger">-->
-                                    <!--<div class="glyphicon glyphicon-fire"></div>-->
-                                    <!--<span popover="Error: Description is required." popover-trigger="mouseenter"></span>-->
-                                <!--</label>-->
 
                             </div>
                         </div>
-
-                        <div class="form-group" ui-if="visible.errors">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <alert type="'error'" close style="margin-bottom:0;">{{validationErrors}} Fehler sind hier.</alert>
-                            </div>
-                         </div>
 
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
