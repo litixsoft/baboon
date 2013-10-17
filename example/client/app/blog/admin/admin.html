@@ -36,7 +36,7 @@
                                     <ng-form name="formTitle" class="inline-edit">
                                         <div class="form-group" ng-class="{'has-error': ((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)}">
                                             <div class="col-lg-10 lxvalidation">
-                                                <input type="text" class="form-control" ng-model="inlineEdit.model.title" name="title" required ui-reset>
+                                                <input type="text" class="form-control" ng-model="inlineEdit.model.title" ui-event="{keydown: 'form.errors.title=false;'}" name="title" required ui-reset>
 
                                                 <label ng-show="((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)" class="label label-danger">
                                                     <div class="glyphicon glyphicon-fire"></div>
@@ -50,11 +50,11 @@
                                 <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
                                 <td ui-if="inlineEdit.model == post">
                                     <ng-form name="formContent" class="inline-edit">
-                                        <div class="form-group" ng-class="{'has-error': (formContent.content.$dirty && formContent.content.$invalid)}">
+                                        <div class="form-group" ng-class="{'has-error': ((formContent.content.$dirty && formContent.content.$invalid) || form.errors.content)}">
                                             <div class="col-lg-10 lxvalidation">
-                                                <input type="text" class="form-control" ng-model="inlineEdit.model.content" name="content" required ui-reset>
+                                                <input type="text" class="form-control" ng-model="inlineEdit.model.content" ui-event="{keydown: 'form.errors.content=false;'}" name="content" required ui-reset>
 
-                                                <label ng-show="(formContent.content.$dirty && formContent.content.$invalid)" class="label label-danger">
+                                                <label ng-show="((formContent.content.$dirty && formContent.content.$invalid) || form.errors.content)" class="label label-danger">
                                                     <div class="glyphicon glyphicon-fire"></div>
                                                     <span ng-show="formContent.content.$error.required" popover="Error:  Content is required." popover-trigger="mouseenter"></span>
                                                 </label>

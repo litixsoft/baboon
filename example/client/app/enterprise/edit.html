@@ -14,7 +14,7 @@
                         <div ng-init="person.count=1" class="form-group" ng-class="{'has-error' : ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                             <label class="col-lg-2 control-label" for="name">Name</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" id="name" name="name" ng-model="person.name" placeholder="Enter Name" ng-focus="person.count=1" required ui-reset>
+                                <input type="text" class="form-control" id="name" name="name" ng-model="person.name" ui-event="{keydown: 'form.errors.name=false;'}" placeholder="Enter Name" ng-focus="person.count=1" required ui-reset>
 
                                 <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -28,7 +28,7 @@
                         <div class="form-group" ng-class="{'has-error' : ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
                             <label class="col-lg-2 control-label" for="description">Description</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" id="description" name="description" ng-model="person.description" placeholder="Enter Description" required ui-reset>
+                                <input type="text" class="form-control" id="description" name="description" ng-model="person.description" ui-event="{keydown: 'form.errors.description=false;'}" placeholder="Enter Description" required ui-reset>
 
 
                                 <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" class="label label-danger">
