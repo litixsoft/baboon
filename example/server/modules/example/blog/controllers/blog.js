@@ -21,16 +21,20 @@ module.exports = function (app) {
     function updateTagCount () {
         async.auto({
             getAllTags: function (callback) {
+                syslog.debug('updateTagCount: getAllTags');
                 repo.tags.getAll({}, {fields: ['_id']}, callback);
             },
             getAllPostsWithTags: function (callback) {
+                syslog.debug('updateTagCount: getAllPostsWithTags');
                 repo.posts.getAll({ tags: { $exists: true}}, {fields: ['tags']}, callback);
             },
             calculateTagCount: ['getAllTags', 'getAllPostsWithTags', function (callback, results) {
                 var tags = {};
 
                 if (results.getAllTags.length === 0 || results.getAllPostsWithTags.length === 0) {
+                    syslog.debug('updateTagCount: calculateTagCount: not tags');
                     callback();
+                    return;
                 }
 
                 // normalize tags array to tags object with count
@@ -55,6 +59,8 @@ module.exports = function (app) {
                     });
                 });
 
+                syslog.debug('updateTagCount: calculateTagCount: tags: %j', Object.keys(tags).length);
+
                 async.each(Object.keys(tags), function (item, innerCallback) {
                     repo.tags.update({_id: item}, {$set: {count: tags[item].count}}, innerCallback);
                 }, callback);
@@ -63,6 +69,8 @@ module.exports = function (app) {
             if (error) {
                 syslog.error('%s! setting count of tags: updateTagCount()', error);
             }
+
+            syslog.debug('updateTagCount: end');
         });
     }
 
@@ -423,6 +431,40 @@ module.exports = function (app) {
             if (result) {
                 audit.info('Deleted tag in db: %j', data);
                 callback({success: result});
+            }
+        });
+    };
+
+    /**
+     * Creates a new blog post in the db.
+     *
+     * @roles Admin, Author
+     * @description Creates a new blog post in the db
+     * @param {object} data The blog post data.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.addPosts = function (data, callback) {
+        var posts = [], i,
+            numberOfPostsToInsert = 1000;
+
+        for (i = 0; i < numberOfPostsToInsert; i++) {
+            posts.push({
+                title: 'Post ' + i,
+                content: 'Content ' + i
+            });
+        }
+
+        // save in repo
+        repo.posts.create(posts, function (error, result) {
+            if (error) {
+                syslog.error('%s! creating blog post in db: %j', error, data);
+                callback({message: 'Could not create blog posts!'});
+                return;
+            }
+
+            if (result) {
+                audit.info('Created blog post in db: %j', result.length);
+                callback({data: result.length});
             }
         });
     };

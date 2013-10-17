@@ -28,6 +28,12 @@ angular.module('blog.admin.services', [])
             });
         };
 
+        pub.addPosts = function (callback) {
+            lxSocket.emit(modulePath + 'blog/addPosts', function (result) {
+                callback(result);
+            });
+        };
+
         return pub;
     }])
     .factory('appBlogAdminTags', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
