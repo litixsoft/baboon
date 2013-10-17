@@ -14,7 +14,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                             <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required />
+                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name"  ui-event="{keydown: 'form.errors.name=false;'}" placeholder="{{ 'ENTER_NAME' | translate }}" required />
 
                                 <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -27,7 +27,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email)}">
                             <label class="col-lg-2 control-label" for="email">{{ 'MAIL' | translate }}</label>
                                 <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.email" id="email" name="email" placeholder="{{ 'ENTER_MAIL' | translate }}" required />
+                                <input type="text" class="form-control" ng-model="lxForm.model.email" id="email" name="email" ui-event="{keydown: 'form.errors.email=false;'}" placeholder="{{ 'ENTER_MAIL' | translate }}" required />
 
                                 <label ng-show="((form.email.$dirty && form.email.$invalid) || form.errors.email)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -40,7 +40,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password)}">
                             <label class="col-lg-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="password" class="form-control" ng-model="lxForm.model.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" />
+                                <input type="password" class="form-control" ng-model="lxForm.model.password" id="password" name="password" ui-event="{keydown: 'form.errors.password=false;'}" placeholder="{{ 'ENTER_PASSWORD' | translate }}" />
 
                                 <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -53,7 +53,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())}">
                             <label class="col-lg-2 control-label" for="confirmedPassword">{{ 'CONFIRM_PASSWORD' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="password" class="form-control" ng-model="lxForm.model.confirmedPassword" id="confirmedPassword" name="confirmedPassword" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
+                                <input type="password" class="form-control" ng-model="lxForm.model.confirmedPassword" id="confirmedPassword" name="confirmedPassword" ui-event="{keydown: 'form.errors.confirmedPassword=false;'}" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
 
                                 <label ng-show="((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -67,7 +67,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.language.$dirty && form.language.$invalid) || form.errors.language)}">
                             <label class="col-lg-2 control-label" for="language">{{ 'LANGUAGE' | translate }}</label>
                                 <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" />
+                                <input type="text" class="form-control" ng-model="lxForm.model.language" id="language" name="language" ui-event="{keydown: 'form.errors.language=false;'}" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" />
 
                                 <label ng-show="((form.language.$dirty && form.language.$invalid) || form.errors.language)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
