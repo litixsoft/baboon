@@ -14,7 +14,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.title.$dirty && form.title.$invalid) || form.errors.title)}">
                             <label class="col-lg-2 control-label" for="title">Title</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.title" id="title" name="title" placeholder="Enter Title" required/>
+                                <input type="text" class="form-control" ng-model="lxForm.model.title" id="title" ui-event="{keydown: 'form.errors.title=false;'}" name="title" placeholder="Enter Title" required/>
 
                                 <div ng-show="((form.title.$dirty && form.title.$invalid) || form.errors.title)" class="alert alert-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -34,7 +34,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.content.$dirty && form.content.$invalid) || form.errors.content)}">
                             <label class="col-lg-2 control-label" for="content">Content</label>
                             <div class="col-lg-10 lxvalidation">
-                                <textarea rows="6" type="text" class="form-control" id="content" name="content" ng-model="lxForm.model.content" required></textarea>
+                                <textarea rows="6" type="text" class="form-control" id="content" name="content" ui-event="{keydown: 'form.errors.content=false;'}" ng-model="lxForm.model.content" required></textarea>
 
                                 <div ng-show="((form.content.$dirty && form.content.$invalid) || form.errors.content)" class="alert alert-danger">
                                     <div class="glyphicon glyphicon-fire"></div>

@@ -13,7 +13,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                             <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required />
+                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name" ui-event="{keydown: 'form.errors.name=false;'}" placeholder="{{ 'ENTER_NAME' | translate }}" required />
 
                                 <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
@@ -26,7 +26,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
                             <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <textarea rows="6" type="text" class="form-control" id="description" name="description" ng-model="lxForm.model.description"></textarea>
+                                <textarea rows="6" type="text" class="form-control" id="description" name="description" ui-event="{keydown: 'form.errors.description=false;'}" ng-model="lxForm.model.description"></textarea>
 
                                 <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>

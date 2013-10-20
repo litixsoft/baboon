@@ -122,13 +122,6 @@ angular.module('enterprise', ['enterprise.services'])
 
             $scope.lxForm = lxForm('enterpriseEdit', '_id');
 
-            // visible vars for controller
-            $scope.visible = {
-                errors: false
-            };
-
-            $scope.validationErrors = {};
-
             enterpriseCrew.getById($routeParams.id, function (result) {
                 $scope.person = result.data;
             });
@@ -139,10 +132,6 @@ angular.module('enterprise', ['enterprise.services'])
                         $location.path('/enterprise');
                     }
                     else if (result.errors) {
-                        $scope.lxAlert.warning('Server: validation Errors');
-                        $scope.validationErrors = result.errors;
-                        $scope.visible.errors = true;
-
                         $scope.lxForm.populateValidation($scope.form, result.errors);
                     }
                     else if (result.message) {
@@ -151,19 +140,13 @@ angular.module('enterprise', ['enterprise.services'])
                 });
             };
         }])
-    .controller('enterpriseNewCtrl', ['$scope', '$location', 'enterpriseCrew',
-        function ($scope, $location, enterpriseCrew) {
+    .controller('enterpriseNewCtrl', ['$scope', '$location', 'enterpriseCrew', 'lxForm',
+        function ($scope, $location, enterpriseCrew, lxForm) {
+
+            $scope.lxForm = lxForm('enterpriseNew', '_id');
 
             // empty person
             $scope.person = {name: '', description: ''};
-
-            // visible vars for controller
-            $scope.visible = {
-                errors: false
-            };
-
-            // validation errors
-            $scope.validationErrors = {};
 
             $scope.save = function () {
                 enterpriseCrew.create($scope.person, function (result) {
@@ -171,10 +154,7 @@ angular.module('enterprise', ['enterprise.services'])
                         $location.path('/enterprise');
                     }
                     else if (result.errors) {
-                        $scope.lxAlert.warning('Server: validation Errors');
-                        $scope.validationErrors = result.errors;
-                        $scope.visible.errors = true;
-
+                        $scope.lxForm.populateValidation($scope.form, result.errors);
                     }
                     else if (result.message) {
                         $scope.lxAlert.error(result.message);
