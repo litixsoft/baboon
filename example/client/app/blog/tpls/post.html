@@ -5,7 +5,9 @@
             <h1>{{post.title}}<br><small>Dieser Artikel wurde am {{ post.created | date:'dd.MM.yyyy, HH:mm' }} Uhr erstellt</small></h1>
         </div>
 
-        <p>{{post.content}}</p>
+
+        <lx-markdown ng-model="post.content"></lx-markdown>
+
         <br>
         <a ng-href="/blog" class="btn btn-default"><i class="icon-arrow-left"></i>Zurück</a>
 

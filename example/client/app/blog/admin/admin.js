@@ -5,7 +5,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
         $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit','$modal', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit, $modal) {
+    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit', '$modal', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit, $modal) {
         var options = {},
             callback = function (result) {
                 if (result.data) {
@@ -76,7 +76,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             }
         };
 
-        $scope.addPosts = function () {
+        $scope.addPostsBadPerformance = function () {
             var data = {};
 
             for (var i = 0; i < 1000; i++) {
@@ -87,6 +87,12 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
 
                 blogAdminAuthorPosts.create(data, function () {});
             }
+        };
+
+        $scope.addPosts = function () {
+            blogAdminAuthorPosts.addPosts(function () {
+
+            });
         };
 
         $scope.openTags = function () {
@@ -148,7 +154,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             }
         });
     }])
-    .controller('blogAdminModalCtrl', ['$scope','$modalInstance','appBlogAdminTags', function ($scope, $modalInstance, tags) {
+    .controller('blogAdminModalCtrl', ['$scope', '$modalInstance', 'appBlogAdminTags', function ($scope, $modalInstance, tags) {
 
         $scope.modal = {};
 
