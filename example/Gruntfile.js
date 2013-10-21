@@ -191,11 +191,11 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/bootstrap/dist/'
                     },
                     {
-                        // angular-bootstrap
+                        // angular-bootstrap  src: ['**/*-tpls.*'],  cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
                         dest: '<%= buildDistPublicVendorFolder %>/angular-ui-bootstrap',
-                        src: ['**/*-tpls.*'],
+                        src: ['**/*-tpls-0.6.0*'],
                         expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
+                        cwd: '<%= clientVendorFolder %>/angular-ui-bootstrap/'
                     },
                     {
                         // bootstrap assets
