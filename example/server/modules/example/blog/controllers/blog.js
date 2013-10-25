@@ -361,15 +361,17 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllTags = function (data, callback) {
-        repo.tags.getAll(data.params || {}, data.options || {}, function (error, result) {
-            if (error) {
-                syslog.error('%s! getting all blog posts from db: %j', error, data);
-                callback({message: 'Could not load all blog posts!'});
-                return;
-            }
+//        repo.tags.getAll(data.params || {}, data.options || {}, function (error, result) {
+//            if (error) {
+//                syslog.error('%s! getting all blog posts from db: %j', error, data);
+//                callback({message: 'Could not load all blog posts!'});
+//                return;
+//            }
+//
+//            callback({data: result});
+//        });
 
-            callback({data: result});
-        });
+        repo.tags.getAll(data.params || {}, data.options || {}, callback);
     };
 
     /**
