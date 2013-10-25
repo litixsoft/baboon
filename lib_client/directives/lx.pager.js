@@ -28,7 +28,7 @@ angular.module('lx.pager', [])
             link: function (scope, element, attrs) {
                 scope.currentPage = 1;
                 scope.count = 0;
-                scope.pageSize = 5;
+                scope.pageSize = 10;
                 scope.pageSizeOptions = [1, 5, 10, 25, 100];
 
                 // get page size options from attrs
