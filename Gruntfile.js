@@ -102,6 +102,13 @@ module.exports = function (grunt) {
     });
 
     // Register tasks.
+//    grunt.registerTask('git:hooks', 'Install pre-push script if it doesn\'t exist', function () {
+//        if (!grunt.file.exists('.git/hooks/pre-push')) {
+//            grunt.file.copy('example/scripts/pre-push.js', '.git/hooks/pre-push');
+//            require('fs').chmodSync('.git/hooks/pre-push', '0755');
+//        }
+//    });
+
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
