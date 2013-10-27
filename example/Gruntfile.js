@@ -44,8 +44,7 @@ module.exports = function (grunt) {
         // client folder
         clientFolder: 'client',
         clientAppFolder: '<%= clientFolder %>/app',
-        clientCommonFolder: '<%= clientFolder %>/common',
-        clientOptionalFolder: '<%= clientFolder %>/optional',
+        clientModulesFolder: '<%= clientFolder %>/modules',
         clientPublicFolder: '<%= clientFolder %>/public',
         clientVendorFolder: '<%= clientFolder %>/vendor',
         clientVendorBaboonFolder: '<%= clientVendorFolder %>/baboon-client',
@@ -85,7 +84,7 @@ module.exports = function (grunt) {
             '<%= testFolder %>/**/*.js',
             '<%= configFolder %>/**/*.js',
             '<%= scriptsFolder %>/**/*.js',
-            '!<%= clientOptionalFolder %>/**/*.js'
+            '!<%= clientModulesFolder %>/**/*.js'
         ],
 
         // config tasks
@@ -219,11 +218,18 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/showdown/'
                     },
                     {
-                        // highlight js
-                        dest: '<%= buildDistPublicVendorFolder %>/highlight',
-                        src: ['**/*'],
+                        // angular-highlight
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-highlightjs',
+                        src: ['*.js'],
                         expand: true,
-                        cwd: '<%= clientOptionalFolder %>/highlight/'
+                        cwd: '<%= clientVendorFolder %>/angular-highlightjs/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/highlightjs',
+                        src: ['highlight.pack.js','styles/arta.css','styles/default.css', 'styles/github.css'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/highlightjs/'
                     }
                 ]
             }
@@ -238,29 +244,11 @@ module.exports = function (grunt) {
 
             /**
              * Builds the templates from baboon.common and client.common.
-             * The Baboon build expanded this configuration with the optional templates from baboon and the client.
+             * The Baboon build expanded this configuration with the templates from baboon-client.
              * In addition, baboon-build expanded this configuration with the application templates.
              * Baboon-build uses the prefixes bb_ *.
              */
             html2js: {
-                // client common templates
-                common: {
-                    options: {
-                        base: '<%= clientCommonFolder %>'
-                    },
-                    src: ['<%= clientCommonFolder %>/**/*.html'],
-                    dest: '<%= buildTmpFolder %>/tpls/common.tpl.js',
-                    module: 'common.templates'
-                },
-                // lib common templates
-                lib_common: {
-                    options: {
-                        base: '<%= clientVendorBaboonFolder %>/common'
-                    },
-                    src: ['<%= clientVendorBaboonFolder %>/common/**/*.html'],
-                    dest: '<%= buildTmpFolder %>/tpls/lib.common.tpl.js',
-                    module: 'lib.common.templates'
-                }
             },
 
             /**
@@ -283,17 +271,13 @@ module.exports = function (grunt) {
                         '<%= clientVendorFolder %>/angular-ui-utils/modules/**/*.js',
                         '!<%= clientVendorFolder %>/angular-ui-utils/modules/**/*Spec.js',
                         '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
-                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-                        '<%= clientVendorBaboonFolder %>/common/**/*.js',
-                        '!<%= clientVendorBaboonFolder %>/common/**/*.spec.js',
-                        '<%= clientCommonFolder %>/**/*.js',
-                        '!<%= clientCommonFolder %>/**/*.spec.js'
+                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
                     ]
                 }
             },
 
             /**
-             * The includes for all applications. The optional includes are added by baboon-build.
+             * The includes for all applications. The optional includes from app.conf.json are added by baboon-build.
              * This Includes Angular needed for injection. Use here the correct module name.
              */
             includes: [

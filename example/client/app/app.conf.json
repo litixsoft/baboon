@@ -3,13 +3,13 @@
         "optional": {
             "client": [],
             "baboon": [
-                "lxPager",
-                "lxSort",
-                "lxCache",
-                "lxForm",
-                "lxInlineEdit",
-                "lxFileUpload",
-                "lxMarkdown"
+                "lx.pager.sort.blub.foo",
+                "lx.sort",
+                "lx.cache",
+                "lx.form",
+                "lx.inline.edit",
+                "lx.file.upload",
+                "lx.markdown"
             ]
         }
     },
