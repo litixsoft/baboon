@@ -17,8 +17,8 @@
     "angular-scenario": "~1.0.8",
     "angular-translate": "~1.1.0",
     "angular-translate-loader-static-files": "~0.1.5",
-    "angular-bootstrap": "~0.6.0",
-    "angular-ui-utils": "https://github.com/litixsoft/ui-utils.git#master",
+    "angular-ui-bootstrap": "https://github.com/litixsoft/bootstrap.git#gh-pages",
+    "angular-ui-utils": "https://github.com/angular-ui/ui-utils.git#master",
     "showdown": "~0.3.1",
     "baboon-client": "https://github.com/litixsoft/baboon-client.git#develop"
   }
