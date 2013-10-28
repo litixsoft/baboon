@@ -13,7 +13,7 @@
     <!--<link href="/vendor/bootstrap/css/bootstrap-theme&lt;!&ndash;@@min&ndash;&gt;.css" rel="stylesheet">-->
     <link href="/css/app<!--@@min-->.css" rel="stylesheet">
 
-    <link href="/vendor/highlight/css/github.css" rel="stylesheet">
+    <link href="/vendor/highlightjs/styles/github.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -36,7 +36,7 @@
         <div class="col-left navCol">
             <span class="trademark-area">Baboon</span>
             <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
-            <lxtreeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
+            <treeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
 
         </div>
         <div class="col-right">
@@ -127,7 +127,7 @@
                     <% } %>
                 </div>
 
-                <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
+                <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
 
                 <div class="pull-right connection-area">
                     <div class="pull-right flag-area">
@@ -182,7 +182,7 @@
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/showdown/src/showdown.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/highlight/highlight.pack.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/highlight/angular-highlightjs.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/highlightjs/highlight.pack.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-highlightjs/angular-highlightjs<!--@@min-->.js" charset="utf-8"></script>
 </body>
 </html>
