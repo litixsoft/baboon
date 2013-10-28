@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 console.log('Start Tests before pushing repo');
+process.exit(1);
 
 var cmd = process.platform === 'win32' ? 'grunt.cmd' : 'grunt';
 
