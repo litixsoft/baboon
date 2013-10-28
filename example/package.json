@@ -58,13 +58,13 @@
         "grunt-markdown": "~0.4.0",
         "grunt-ngmin": "0.0.3",
         "grunt-open": "~0.2.2",
-        "grunt-text-replace": "~0.3.8",
+        "grunt-text-replace": "~0.3.9",
         "istanbul": "~0.1.44",
         "karma-detect-browsers": "*",
         "karma-coverage": "*",
         "karma-junit-reporter": "*",
         "karma-ng-scenario": "*",
-        "grunt-contrib-less": "~0.8.0",
+        "grunt-contrib-less": "~0.8.1",
         "grunt-html2js": "~0.1.8"
     }
 }

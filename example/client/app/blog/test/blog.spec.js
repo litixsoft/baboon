@@ -10,17 +10,17 @@ describe('blog', function () {
     // blogCtrl tests
     describe('blogCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
-            service = $injector.get('lxSocket');
+            service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
                 value = {
-                    data: [
+                    items: [
                         {title: 'p1', content: 'text', created: (new Date()).toUTCString()},
                         {title: 'p2', content: 'text', created: (new Date()).toUTCString()},
                         {title: 'p3', content: 'text', created: (new Date()).toUTCString()}
                     ],
                     count: 3
                 };
-                callback(value);
+                callback(null, value);
                 flag = true;
             };
 
@@ -84,20 +84,23 @@ describe('blog', function () {
     // postCtrl tests
     describe('blogPostCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
-            service = $injector.get('lxSocket');
+            service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
                 if (eventName === 'example/blog/blog/addComment') {
                     value = {
-                        data: {content: 'text', userName: 'wayne'}
+                        content: 'text',
+                        userName: 'wayne'
                     };
                 }
 
                 if (eventName === 'example/blog/blog/getPostById') {
                     value = {
-                        data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
+                        title: 'p1',
+                        content: 'text',
+                        created: (new Date()).toUTCString()
                     };
                 }
-                callback(value);
+                callback(null, value);
                 flag = true;
             };
 
@@ -149,9 +152,9 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {message: 'server error'};
+                        value = 'server error';
                         callback(value);
                         flag = true;
                     };
@@ -170,9 +173,9 @@ describe('blog', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {errors: []};
+                        value = {validation: []};
                         callback(value);
                         flag = true;
                     };

@@ -13,7 +13,6 @@ var async = require('async');
 module.exports = function (app) {
     var pub = {},
         repo = app.rights.getRepositories(),
-        syslog = app.logging.syslog,
         audit = app.logging.audit;
 
     /**
@@ -33,13 +32,7 @@ module.exports = function (app) {
                 repo.groups.getCount(data.params || {}, callback);
             }
         }, function (error, results) {
-            if (error) {
-                syslog.error('%s! getting all groups from db: %j', error, data);
-                callback({message: 'Could not load all groups!'});
-                return;
-            }
-
-            callback({data: results.getAll, count: results.getCount});
+            callback(error, {items: results.getAll, count: results.getCount});
         });
     };
 
@@ -55,15 +48,7 @@ module.exports = function (app) {
     pub.getById = function (data, callback) {
         data = data || {};
 
-        repo.groups.getOneById(data.id, data.options || {}, function (error, result) {
-            if (error) {
-                syslog.error('%s! getting group from db: %s', error, data.id);
-                callback({message: 'Could not load group!'});
-                return;
-            }
-
-            callback({data: result});
-        });
+        repo.groups.getOneById(data.id, data.options || {}, callback);
     };
 
     /**
@@ -80,8 +65,7 @@ module.exports = function (app) {
         // validate client data
         repo.groups.validate(data, {}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating group: %j', error, data);
-                callback({message: 'Could not create group!'});
+                callback(error);
                 return;
             }
 
@@ -89,18 +73,17 @@ module.exports = function (app) {
                 // save in repo
                 repo.groups.create(data, function (error, result) {
                     if (error) {
-                        syslog.error('%s! creating group in db: %j', error, data);
-                        callback({message: 'Could not create group!'});
+                        callback(error);
                         return;
                     }
 
                     if (result) {
                         audit.info('Created group in db: %j', data);
-                        callback({data: result[0]});
+                        callback(null, result[0]);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };
@@ -115,35 +98,32 @@ module.exports = function (app) {
      */
     pub.update = function (data, callback) {
         if (!data) {
-            callback({});
+            callback();
             return;
         }
 
         // validate client data
         repo.groups.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating group: %j', error, data);
-                callback({message: 'Could not update group!'});
+                callback(error);
                 return;
             }
 
             if (result.valid) {
-
                 // save in repo
                 repo.groups.update({_id: data._id}, {$set: data}, function (error, result) {
-                    if (error || result === 0) {
-                        syslog.error('%s! updating group in db: %j', error, data);
-                        callback({message: 'Could not update group!'});
+                    if (error) {
+                        callback(error);
                         return;
                     }
 
                     if (result) {
                         audit.info('Updated group in db: %j', data);
-                        callback({success: result});
+                        callback(null, result);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };

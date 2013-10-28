@@ -16,17 +16,17 @@ describe('admin modul', function () {
     describe('blogAdminAdminCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
             flag = false;
-            service = $injector.get('lxSocket');
+            service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
                 value = {
-                    data: [
+                    items: [
                         {title: 'p1', content: 'text', created: (new Date()).toUTCString()},
                         {title: 'p2', content: 'text', created: (new Date()).toUTCString()},
                         {title: 'p3', content: 'text', created: (new Date()).toUTCString()}
                     ],
                     count: 3
                 };
-                callback(value);
+                callback(null, value);
                 flag = true;
             };
 
@@ -36,7 +36,6 @@ describe('admin modul', function () {
 
         it('should be initialized correctly', function () {
             expect(typeof scope.getData).toBe('function');
-            expect(typeof scope.sort).toBe('function');
         });
 
         describe('has a function getData() which', function () {
@@ -62,40 +61,30 @@ describe('admin modul', function () {
                 });
             });
         });
-
-        describe('has a function sort which', function () {
-            it('should sort the blog posts', function () {
-                runs(function () {
-                    scope.sort('title');
-                });
-
-                runs(function () {
-                    expect(scope.posts.length).toBe(3);
-                });
-            });
-        });
     });
 
     // editPostCtrl tests
     describe('blogAdminEditPostCtrl', function () {
         beforeEach(inject(function ($controller, $routeParams, $injector) {
             flag = false;
-            service = $injector.get('lxSocket');
+            service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
                 if (eventName === 'example/blog/blog/getAllTags') {
-                    value = {data: [
+                    value = [
                         {name: 'tag1'},
                         {name: 'tag2'},
                         {name: 'tag3'}
-                    ]};
+                    ];
                 }
 
                 if (eventName === 'example/blog/blog/getPostById') {
                     value = {
-                        data: {title: 'p1', content: 'text', created: (new Date()).toUTCString()}
+                        title: 'p1',
+                        content: 'text',
+                        created: (new Date()).toUTCString()
                     };
                 }
-                callback(value);
+                callback(null, value);
                 flag = true;
             };
 
@@ -128,10 +117,10 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {data: data};
-                        callback(value);
+                        value = data;
+                        callback(null, value);
                         flag = true;
                     };
 
@@ -155,10 +144,10 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {data: data};
-                        callback(value);
+                        value = data;
+                        callback(null, value);
                         flag = true;
                     };
 
@@ -185,9 +174,9 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {errors: [
+                        value = {validation: [
                             {property: 'title'}
                         ]};
                         callback(value);
@@ -212,9 +201,9 @@ describe('admin modul', function () {
             runs(function () {
                 flag = false;
                 inject(function ($injector) {
-                    service = $injector.get('lxSocket');
+                    service = $injector.get('lxTransport');
                     service.emit = function (eventName, data, callback) {
-                        value = {message: 'server error'};
+                        value = 'server error';
                         callback(value);
                         flag = true;
                     };

@@ -13,7 +13,6 @@ var async = require('async');
 module.exports = function (app) {
     var pub = {},
         repo = app.rights.getRepositories(),
-        syslog = app.logging.syslog,
         audit = app.logging.audit;
 
     /**
@@ -33,13 +32,7 @@ module.exports = function (app) {
                 repo.rights.getCount(data.params || {}, callback);
             }
         }, function (error, results) {
-            if (error) {
-                syslog.error('%s! getting all rights from db: %j', error, data);
-                callback({message: 'Could not load all rights!'});
-                return;
-            }
-
-            callback({data: results.getAll, count: results.getCount});
+            callback(error, {items: results.getAll, count: results.getCount});
         });
     };
 
@@ -55,15 +48,7 @@ module.exports = function (app) {
     pub.getById = function (data, callback) {
         data = data || {};
 
-        repo.rights.getOneById(data.id, data.options || {}, function (error, result) {
-            if (error) {
-                syslog.error('%s! getting right from db: %s', error, data.id);
-                callback({message: 'Could not load right!'});
-                return;
-            }
-
-            callback({data: result});
-        });
+        repo.rights.getOneById(data.id, data.options || {}, callback);
     };
 
     /**
@@ -80,8 +65,7 @@ module.exports = function (app) {
         // validate client data
         repo.rights.validate(data, {}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating right: %j', error, data);
-                callback({message: 'Could not create right!'});
+                callback(error);
                 return;
             }
 
@@ -89,18 +73,17 @@ module.exports = function (app) {
                 // save in repo
                 repo.rights.create(data, function (error, result) {
                     if (error) {
-                        syslog.error('%s! creating right in db: %j', error, data);
-                        callback({message: 'Could not create right!'});
+                        callback(error);
                         return;
                     }
 
                     if (result) {
                         audit.info('Created right in db: %j', data);
-                        callback({data: result[0]});
+                        callback(null, result[0]);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };
@@ -115,15 +98,14 @@ module.exports = function (app) {
      */
     pub.update = function (data, callback) {
         if (!data) {
-            callback({});
+            callback();
             return;
         }
 
         // validate client data
         repo.rights.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating right: %j', error, data);
-                callback({message: 'Could not update right!'});
+                callback(error);
                 return;
             }
 
@@ -132,18 +114,17 @@ module.exports = function (app) {
                 // save in repo
                 repo.rights.update({_id: data._id}, {$set: data}, function (error, result) {
                     if (error || result === 0) {
-                        syslog.error('%s! updating right in db: %j', error, data);
-                        callback({message: 'Could not update right!'});
+                        callback(error);
                         return;
                     }
 
                     if (result) {
                         audit.info('Updated right in db: %j', data);
-                        callback({success: result});
+                        callback(null, result);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };

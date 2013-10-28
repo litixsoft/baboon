@@ -1,67 +1,58 @@
 /*global angular*/
-angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
+angular.module('blog.admin', ['blog.admin.services'])
     .config(function ($routeProvider) {
         $routeProvider.when('/blog/admin', {templateUrl: 'blog/admin/admin.html'});
         $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/admin/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .controller('blogAdminAdminCtrl', ['$scope', 'blogPosts', 'blogAdminAuthorPosts', 'lxInlineEdit', '$modal', function ($scope, blogPosts, blogAdminAuthorPosts, lxInlineEdit, $modal) {
-        var options = {},
-            callback = function (result) {
-                if (result.data) {
-                    $scope.posts = result.data;
-                    $scope.count = result.count;
-                } else {
-                    console.log(result);
-                }
-            },
-            saveCallback = function (result) {
-                if (result.data || result.success) {
-                    $scope.inlineEdit.model = null;
-                } else {
-                    if (result.errors) {
-//                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                        $scope.inlineEdit.populateValidation($scope.myForm, result.errors);
-                    }
+    .controller('blogAdminAdminCtrl', ['$scope', '$log', 'lxTransport', 'lxInlineEdit', '$modal', 'blog.modulePath', function ($scope, $log, transport, lxInlineEdit, $modal, modulePath) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = {title: 1};
 
-                    if (result.message) {
-                        console.log(result.message);
-                    }
-                }
-            },
-            getData = function () {
-                var query = {
-                    params: {},
-                    options: options || {}
-                };
-
-                blogPosts.getAllWithCount(query, callback);
+        $scope.getData = function (sortingOptions, pagingOptions) {
+            var query = {
+                params: {},
+                options: {}
             };
 
-        $scope.sort = function (field) {
-            options.sort = options.sort || {};
-            var oldDirection = options.sort[field] || -1;
-
-            // set sort
-            options.sort = {};
-            options.sort[field] = oldDirection > 0 ? -1 : 1;
-
-            // go to first page
-            if ($scope.currentPage > 1) {
-                options.skip = 0;
-                $scope.currentPage = 1;
-            } else {
-                $scope.getData();
+            if (pagingOptions) {
+                $scope.pagingOptions = pagingOptions;
             }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
+
+            transport.emit(modulePath + 'blog/getAllPostsWithCount', query, function (error, result) {
+                if (result) {
+                    $scope.posts = result.items;
+                    $scope.count = result.count;
+                } else {
+                    $log.error(error);
+                }
+            });
         };
 
-        $scope.getData = function (pagingOptions) {
-            if (pagingOptions) {
-                options.skip = pagingOptions.skip;
-                options.limit = pagingOptions.limit;
+        $scope.getData();
+
+        var saveCallback = function (error, result) {
+            if (result) {
+                $scope.inlineEdit.model = null;
             }
 
-            getData();
+            if (error) {
+                if (error.validation) {
+//                        $scope.lxForm.populateValidation($scope.form, result.errors);
+                    $scope.inlineEdit.populateValidation($scope.myForm, error.validation);
+                } else {
+                    $log.error(result.message);
+                }
+            }
         };
 
         ///////////////////////////////////////
@@ -72,7 +63,7 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
             form.errors = {};
 
             if (post._id) {
-                blogAdminAuthorPosts.update(post, saveCallback);
+                transport.emit(modulePath + 'blog/updatePost', post, saveCallback);
             }
         };
 
@@ -85,14 +76,12 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
                     content: 'Content ' + i
                 };
 
-                blogAdminAuthorPosts.create(data, function () {});
+                transport.emit(modulePath + 'blog/createPost', data, angular.noop);
             }
         };
 
         $scope.addPosts = function () {
-            blogAdminAuthorPosts.addPosts(function () {
-
-            });
+            transport.emit(modulePath + 'blog/addPosts', angular.noop);
         };
 
         $scope.openTags = function () {
@@ -105,18 +94,16 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
                 templateUrl: 'blog/admin/blogAdminTagsCtrl/myModalContent.html'
             });
         };
-
-        $scope.getData({skip: 0, limit: 10});
     }])
-    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'blogAdminAuthorPosts', 'appBlogAdminTags', 'lxForm', '$location', function ($scope, $routeParams, blogAdminAuthorPosts, tags, lxForm) {
+    .controller('blogAdminEditPostCtrl', ['$scope', '$routeParams', 'lxTransport', 'appBlogAdminTags', 'lxForm', '$log', 'blog.modulePath', function ($scope, $routeParams, transport, tags, lxForm, $log, modulePath) {
         $scope.lxForm = lxForm('blog_post', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            blogAdminAuthorPosts.getById($routeParams.id, function (result) {
-                if (result.data) {
-                    $scope.lxForm.setModel(result.data);
+            transport.emit(modulePath + 'blog/getPostById', {id: $routeParams.id}, function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result);
                 } else {
-                    console.log(result.message);
+                    $log.error(error);
                 }
             });
         }
@@ -126,77 +113,78 @@ angular.module('blog.admin', ['blog.services', 'blog.admin.services'])
                 $scope.form.errors = {};
             }
 
-            var callback = function (result) {
-                if (result.data || result.success) {
-                    $scope.lxForm.setModel(result.data || model, true);
+            var callback = function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result || model, true);
                     tags.refresh = true;
-                } else {
-                    if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
+                }
 
-                    if (result.message) {
-                        console.log(result.message);
+                if (error) {
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    } else {
+                        $log.error(error);
                     }
                 }
             };
 
             if (model._id) {
-                blogAdminAuthorPosts.update(model, callback);
+                transport.emit(modulePath + 'blog/updatePost', model, callback);
             } else {
-                blogAdminAuthorPosts.create(model, callback);
+                transport.emit(modulePath + 'blog/createPost', model, callback);
             }
         };
 
-        tags.getAll({}, function (result) {
-            if (result.data) {
-                $scope.tags = result.data;
+        tags.getAll({}, function (error, result) {
+            if (result) {
+                $scope.tags = result;
             }
         });
     }])
     .controller('blogAdminModalCtrl', ['$scope', '$modalInstance', 'appBlogAdminTags', function ($scope, $modalInstance, tags) {
-
         $scope.modal = {};
-
         $scope.modal.validationErrors = [];
 
-        tags.getAll({}, function (result) {
-            if (result.data) {
-                $scope.modal.items = result.data;
+        tags.getAll({}, function (error, result) {
+            if (result) {
+                $scope.modal.items = result;
             }
         });
 
         $scope.modal.save = function (name) {
-            tags.createTag({name: name}, function (result) {
+            tags.createTag({name: name}, function (error, result) {
                 $scope.modal.validationErrors = [];
-                if (result.data) {
-                    $scope.modal.items.push(result.data);
+
+                if (result) {
+                    $scope.modal.items.push(result);
                     $scope.modal.name = '';
 //                    $scope.modal.validationErrors = [];
                 }
-                if (result.errors) {
-                    for (var i = 0; i < result.errors.length; i++) {
-                        $scope.modal.validationErrors.push({
-                            type: 'error',
-                            msg: result.errors[i].property + ' ' + result.errors[i].message
-                        });
+
+                if (error) {
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            $scope.modal.validationErrors.push({
+                                type: 'error',
+                                msg: error.validation[i].property + ' ' + error.validation[i].message
+                            });
+                        }
+                    } else {
+                        $scope.modal.validationErrors.push({type: 'error', msg: error});
                     }
-                }
-                if (result.message) {
-                    $scope.modal.validationErrors.push({type: 'error', msg: result.message});
                 }
             });
         };
 
         $scope.modal.delete = function (tag) {
-            tags.deleteTag(tag._id, function (result) {
-                if (result.success) {
+            tags.deleteTag(tag._id, function (error, result) {
+                if (result) {
                     var index = $scope.modal.items.indexOf(tag);
                     $scope.modal.items.splice(index, 1);
                 }
 
-                if (result.message) {
-                    $scope.modal.validationErrors.push({type: 'error', msg: result.message});
+                if (error) {
+                    $scope.modal.validationErrors.push({type: 'error', msg: error});
                 }
             });
         };

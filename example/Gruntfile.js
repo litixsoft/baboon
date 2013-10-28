@@ -311,6 +311,7 @@ module.exports = function (grunt) {
                 'lx.modal',
                 'lx.nav',
                 'lx.session',
+                'lx.transport',
                 'lx.socket',
                 'ui.if'
             ],

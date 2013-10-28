@@ -1,13 +1,13 @@
 /*global angular*/
-angular.module('enterprise', ['enterprise.services'])
+angular.module('enterprise', [])
     .config(function ($routeProvider) {
         $routeProvider.when('/enterprise', {templateUrl: 'enterprise/enterprise.html', controller: 'enterpriseCtrl'});
         $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseNewCtrl'});
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseEditCtrl'});
     })
     .constant('enterprise.modulePath', 'example/enterprise/')
-    .controller('enterpriseCtrl', ['$scope', 'enterpriseCrew', 'lxModal',
-        function ( $scope, enterpriseCrew, lxModal) {
+    .controller('enterpriseCtrl', ['$scope', 'lxModal', 'lxTransport', 'enterprise.modulePath', '$log',
+        function ($scope, lxModal, transport, modulePath, $log) {
 
             // alert helper var
             var lxAlert = $scope.lxAlert;
@@ -19,15 +19,16 @@ angular.module('enterprise', ['enterprise.services'])
             $scope.headline = 'Üerschrift';
             $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
             $scope.type = 'Error';
+            $scope.crew = [];
 
             // getAll members from service
             var getAllMembers = function () {
-                enterpriseCrew.getAll({}, function (result) {
-                    $scope.crew = result.data;
+                transport.emit(modulePath + 'enterprise/getAllMembers', {}, function (error, result) {
+                    $scope.crew = result;
 
                     // watch the crew and show or hide
                     $scope.$watch('crew', function (value) {
-                        if (value.length === 0) {
+                        if (value && value.length === 0) {
                             $scope.visible.reset = false;
                             $scope.visible.create = true;
                         }
@@ -36,6 +37,10 @@ angular.module('enterprise', ['enterprise.services'])
                             $scope.visible.create = false;
                         }
                     });
+
+                    if (error) {
+                        $log.error(error);
+                    }
                 });
             };
 
@@ -52,21 +57,19 @@ angular.module('enterprise', ['enterprise.services'])
             $scope.createTestMembers = function (reset) {
                 reset = reset || null;
                 if ($scope.crew.length === 0) {
-
-                    enterpriseCrew.createTestMembers(function (result) {
-                        if (result.message) {
-                            lxAlert.error(result.message);
+                    transport.emit(modulePath + 'enterprise/createTestMembers', {}, function (error, result) {
+                        if (error) {
+                            lxAlert.error(error);
                             getAllMembers();
                         }
-                        else if (result.data) {
+                        else if (result) {
                             if (reset) {
                                 lxAlert.success('db reset.');
-                            }
-                            else {
+                            } else {
                                 lxAlert.success('crew created.');
                             }
 
-                            $scope.crew = result.data;
+                            $scope.crew = result;
                         }
                     });
                 }
@@ -77,12 +80,12 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew collection and create test members
             $scope.resetDb = function () {
-                if ($scope.crew.length > 0) {
-                    enterpriseCrew.deleteAllMembers(function (result) {
-                        if (result.message) {
-                            lxAlert.error(result.message);
+                if (!$scope.crew || $scope.crew.length > 0) {
+                    transport.emit(modulePath + 'enterprise/deleteAllMembers', {}, function (error, result) {
+                        if (error) {
+                            lxAlert.error(error);
                         }
-                        else if (result.success) {
+                        else if (result) {
                             $scope.crew = [];
                             $scope.createTestMembers(true);
                         }
@@ -95,69 +98,67 @@ angular.module('enterprise', ['enterprise.services'])
 
             // delete crew member by id
             $scope.deleteMember = function (id, name) {
-                lxModal.msgBox('enterpriseDeleteMember'+name,false,'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
+                lxModal.msgBox('enterpriseDeleteMember' + name, false, 'Crew-Member löschen?', 'Wollen Sie ' + name + ' wirklich löschen?', 'Warning', {
                     cbYes: function () {
-                        enterpriseCrew.delete(id, function (result) {
-                            if (result.success) {
+                        transport.emit(modulePath + 'enterprise/deleteMember', {id: id}, function (error, result) {
+                            if (result) {
                                 lxAlert.success('crew member ' + name + ' deleted.');
                                 getAllMembers();
                             }
-                            else if (result.message) {
-                                lxAlert.error(result.message);
+                            else if (error) {
+                                lxAlert.error(error);
                             }
                         });
                     },
                     cbNo: function () {}
-                },'standard');
+                }, 'standard');
 
-                setTimeout(function(){
-                    lxModal.updateMsg('enterpriseDeleteMember'+name,'Diese neue Meldung wird dir vom Sven präsentiert. Du kannst aber gern trotzdem crew member '+ name +' löschen!');
-                },2000);
-
-
+                setTimeout(function () {
+                    lxModal.updateMsg('enterpriseDeleteMember' + name, 'Diese neue Meldung wird dir vom Sven präsentiert. Du kannst aber gern trotzdem crew member ' + name + ' löschen!');
+                }, 2000);
             };
         }])
-    .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'enterpriseCrew', 'lxForm',
-        function ($scope, $location, $routeParams, enterpriseCrew, lxForm) {
-
+    .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'lxTransport', 'lxForm', 'enterprise.modulePath',
+        function ($scope, $location, $routeParams, transport, lxForm, modulePath) {
             $scope.lxForm = lxForm('enterpriseEdit', '_id');
 
-            enterpriseCrew.getById($routeParams.id, function (result) {
-                $scope.person = result.data;
+            transport.emit(modulePath + 'enterprise/getMemberById', {id: $routeParams.id}, function (error, result) {
+                $scope.person = result;
             });
 
             $scope.save = function () {
-                enterpriseCrew.update($scope.person, function (result) {
-                    if (result.success) {
+                transport.emit(modulePath + 'enterprise/updateMember', $scope.person, function (error, result) {
+                    if (result) {
                         $location.path('/enterprise');
                     }
-                    else if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-                    else if (result.message) {
-                        $scope.lxAlert.error(result.message);
+                    else if (error) {
+                        if (error.validation) {
+                            $scope.lxForm.populateValidation($scope.form, error.validation);
+                        } else {
+                            $scope.lxAlert.error(error);
+                        }
                     }
                 });
             };
         }])
-    .controller('enterpriseNewCtrl', ['$scope', '$location', 'enterpriseCrew', 'lxForm',
-        function ($scope, $location, enterpriseCrew, lxForm) {
-
+    .controller('enterpriseNewCtrl', ['$scope', '$location', 'lxTransport', 'lxForm', 'enterprise.modulePath',
+        function ($scope, $location, transport, lxForm, modulePath) {
             $scope.lxForm = lxForm('enterpriseNew', '_id');
 
             // empty person
             $scope.person = {name: '', description: ''};
 
             $scope.save = function () {
-                enterpriseCrew.create($scope.person, function (result) {
-                    if (result.data) {
+                transport.emit(modulePath + 'enterprise/createMember', $scope.person, function (error, result) {
+                    if (result) {
                         $location.path('/enterprise');
                     }
-                    else if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-                    else if (result.message) {
-                        $scope.lxAlert.error(result.message);
+                    else if (error) {
+                        if (error.validation) {
+                            $scope.lxForm.populateValidation($scope.form, error.validation);
+                        } else {
+                            $scope.lxAlert.error(error);
+                        }
                     }
                 });
             };

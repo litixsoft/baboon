@@ -1,42 +1,6 @@
 /*global angular*/
 angular.module('blog.admin.services', [])
-    .factory('blogAdminAuthorPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
-        var pub = {};
-
-        pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'blog/getPostById', {id: id}, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.create = function (post, callback) {
-            lxSocket.emit(modulePath + 'blog/createPost', post, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.update = function (post, callback) {
-            lxSocket.emit(modulePath + 'blog/updatePost', post, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.addComment = function (id, comment, callback) {
-            comment.post_id = id;
-            lxSocket.emit(modulePath + 'blog/addComment', comment, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.addPosts = function (callback) {
-            lxSocket.emit(modulePath + 'blog/addPosts', function (result) {
-                callback(result);
-            });
-        };
-
-        return pub;
-    }])
-    .factory('appBlogAdminTags', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
+    .factory('appBlogAdminTags', ['lxTransport', 'blog.modulePath', function (transport, modulePath) {
         var pub = {},
             tags = [];
 
@@ -44,35 +8,29 @@ angular.module('blog.admin.services', [])
 
         pub.getAll = function (query, callback) {
             if (pub.refresh) {
-                lxSocket.emit(modulePath + 'blog/getAllTags', query, function (result) {
-                    if (result.data) {
-                        tags = result.data;
+                transport.emit(modulePath + 'blog/getAllTags', query, function (error, result) {
+                    if (result) {
+                        tags = result;
                         pub.refresh = false;
                     }
 
-                    callback(result);
+                    callback(error, result);
                 });
             } else {
-                callback({data: tags});
+                callback(null, tags);
             }
         };
 
         pub.createTag = function (tag, callback) {
-            lxSocket.emit(modulePath + 'blog/createTag', tag, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'blog/createTag', tag, callback);
         };
 
         pub.updateTag = function (tag, callback) {
-            lxSocket.emit(modulePath + 'blog/updateTag', tag, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'blog/updateTag', tag, callback);
         };
 
         pub.deleteTag = function (id, callback) {
-            lxSocket.emit(modulePath + 'blog/deleteTag', {id: id}, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'blog/deleteTag', {id: id}, callback);
         };
 
         return pub;

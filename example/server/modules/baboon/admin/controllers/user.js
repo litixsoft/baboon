@@ -59,7 +59,6 @@ function removeProtectedFields (options) {
 module.exports = function (app) {
     var pub = {},
         repo = app.rights.getRepositories(),
-        syslog = app.logging.syslog,
         audit = app.logging.audit;
 
     /**
@@ -84,13 +83,7 @@ module.exports = function (app) {
                 repo.users.getCount(data.params || {}, callback);
             }
         }, function (error, results) {
-            if (error) {
-                syslog.error('%s! getting all users from db: %j', error, data);
-                callback({message: 'Could not load all users!'});
-                return;
-            }
-
-            callback({data: results.getAll, count: results.getCount});
+            callback(error, {items: results.getAll, count: results.getCount});
         });
     };
 
@@ -110,15 +103,7 @@ module.exports = function (app) {
         removeProtectedFields(options);
 
         // query user
-        repo.users.getOneById(data.id, options, function (error, result) {
-            if (error) {
-                syslog.error('%s! getting user from db: %s', error, data.id);
-                callback({message: 'Could not load user!'});
-                return;
-            }
-
-            callback({data: result});
-        });
+        repo.users.getOneById(data.id, options, callback);
     };
 
     /**
@@ -135,8 +120,7 @@ module.exports = function (app) {
         // validate client data
         repo.users.validate(data, {}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating user: %j', error, data);
-                callback({message: 'Could not create user!'});
+                callback(error);
                 return;
             }
 
@@ -154,8 +138,7 @@ module.exports = function (app) {
                     }]
                 }, function (error, results) {
                     if (error) {
-                        syslog.error('%s! creating user in db: %j', error, data);
-                        callback({message: 'Could not create user!'});
+                        callback(error);
                         return;
                     }
 
@@ -166,11 +149,11 @@ module.exports = function (app) {
                         });
 
                         audit.info('Created user in db: %j', data);
-                        callback({data: results.createUser[0]});
+                        callback(null, results.createUser[0]);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };
@@ -185,15 +168,14 @@ module.exports = function (app) {
      */
     pub.update = function (data, callback) {
         if (!data) {
-            callback({});
+            callback();
             return;
         }
 
         // validate client data
         repo.users.validate(data, {isUpdate: true}, function (error, result) {
             if (error) {
-                syslog.error('%s! validating user: %j', error, data);
-                callback({message: 'Could not create user!'});
+                callback(error);
                 return;
             }
 
@@ -210,19 +192,18 @@ module.exports = function (app) {
                         repo.users.update({_id: data._id}, {$set: data}, next);
                     }]
                 }, function (error, results) {
-                    if (error || results.updateUser[0] === 0) {
-                        syslog.error('%s! updating user in db: %j', error, data);
-                        callback({message: 'Could not update user!'});
+                    if (error) {
+                        callback(error);
                         return;
                     }
 
                     if (results.updateUser[0]) {
                         audit.info('Updated user in db: %j', data);
-                        callback({success: results.updateUser[0]});
+                        callback(null, results.updateUser[0]);
                     }
                 });
             } else {
-                callback({errors: result.errors});
+                callback({validation: result.errors});
             }
         });
     };

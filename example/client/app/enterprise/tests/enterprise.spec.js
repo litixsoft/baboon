@@ -18,14 +18,11 @@ describe('enterprise', function () {
     // blogCtrl tests
     describe('enterpriseCtrl', function () {
         beforeEach(inject(function ($controller, $rootScope, $injector) {
-            service = $injector.get('lxSocket');
+            service = $injector.get('lxTransport');
             lxAlert = $injector.get('lxAlert');
             service.emit = function (eventName, data, callback) {
-                value = {
-                    data: dataTmp,
-                    count: 3
-                };
-                callback(value);
+                value = dataTmp;
+                callback(null, value);
                 flag = true;
             };
 
@@ -35,30 +32,35 @@ describe('enterprise', function () {
         }));
 
         it('should be initialized correctly', function () {
+            expect(typeof scope.lxAlert).toBe('object');
+            expect(typeof scope.visible).toBe('object');
+            expect(typeof scope.createTestMembers).toBe('function');
+            expect(typeof scope.resetDb).toBe('function');
+            expect(typeof scope.deleteMember).toBe('function');
 
             waitsFor(function () {
                 return scope.crew.length > 0;
             }, 'Length should be greater than 0', 1000);
-
-            runs(function () {
-                expect(typeof scope.lxAlert).toBe('object');
-                expect(typeof scope.visible).toBe('object');
-                expect(typeof scope.createTestMembers).toBe('function');
-                expect(typeof scope.resetDb).toBe('function');
-                expect(typeof scope.deleteMember).toBe('function');
-
-                waitsFor(function () {
-                    return scope.crew.length > 0;
-                }, 'Length should be greater than 0', 1000);
-
-                runs(function () {
-                    expect(typeof scope.crew).toBe('object');
-                    expect(scope.crew).toEqual(dataTmp);
-                });
-            });
+//
+//            runs(function () {
+//                expect(typeof scope.lxAlert).toBe('object');
+//                expect(typeof scope.visible).toBe('object');
+//                expect(typeof scope.createTestMembers).toBe('function');
+//                expect(typeof scope.resetDb).toBe('function');
+//                expect(typeof scope.deleteMember).toBe('function');
+//
+//                waitsFor(function () {
+//                    return scope.crew.length > 0;
+//                }, 'Length should be greater than 0', 1000);
+//
+//                runs(function () {
+//                    expect(typeof scope.crew).toBe('object');
+//                    expect(scope.crew).toEqual(dataTmp);
+//                });
+//            });
         });
-        it('should be create test-members', function () {
 
+        it('should create test-members', function () {
             waitsFor(function () {
                 return scope.crew.length > 0;
             }, 'Length should be greater than 0', 1000);
@@ -67,10 +69,14 @@ describe('enterprise', function () {
                 scope.crew = []; // reset crew
                 scope.createTestMembers();
 
-                waitsFor(function () {
-                    return scope.crew.length > 0;
-                }, 'Length should be greater than 0', 1000);
+//                waitsFor(function () {
+//                    return scope.crew.length > 0;
+//                }, 'Length should be greater than 0', 1000);
             });
+
+            waitsFor(function () {
+                return scope.crew.length > 0;
+            }, 'Length should be greater than 0', 1000);
 
             runs(function () {
                 expect(scope.crew).toEqual(dataTmp);
@@ -78,7 +84,8 @@ describe('enterprise', function () {
                 expect(scope.lxAlert.msg).toEqual('crew created.');
             });
         });
-        it('should be not create test-members by crew.length > 0', function () {
+
+        it('should not create test-members by crew.length > 0', function () {
 
             waitsFor(function () {
                 return scope.crew.length > 0;
@@ -98,24 +105,20 @@ describe('enterprise', function () {
                 expect(scope.lxAlert.msg).toEqual('can\'t create test crew, already exists.');
             });
         });
-        it('should be not create test-members by service error.', function () {
 
+        it('should create test-members by service error.', function () {
             waitsFor(function () {
                 return scope.crew.length > 0;
             }, 'Length should be greater than 0', 1000);
 
             runs(function () {
-
                 service.emit = function (eventName, data, callback) {
                     if (eventName === 'example/enterprise/enterprise/createTestMembers') {
-                        callback({message: 'Could not create test crew!'});
-                    }
-                    else {
-                        value = {
-                            data: dataTmp,
-                            count: 3
-                        };
-                        callback(value);
+                        callback('Could not create test crew!');
+                    } else {
+                        value = dataTmp;
+
+                        callback(null, value);
                     }
 
                     flag = true;

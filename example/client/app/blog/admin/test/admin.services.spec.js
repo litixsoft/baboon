@@ -6,101 +6,9 @@ describe('admin services', function () {
 
     beforeEach(function () {
         module('blog');
+        module('lx.transport');
         module('admin.services');
         module('mocks');
-    });
-
-    describe('blogAdminAuthorPosts', function () {
-        beforeEach(function () {
-            inject(function ($injector) {
-                service = $injector.get('blogAdminAuthorPosts');
-            });
-        });
-
-        it('should be initialized correctly', function () {
-            expect(service).toBeDefined();
-            expect(typeof service.getById).toBe('function');
-            expect(typeof service.update).toBe('function');
-            expect(typeof service.create).toBe('function');
-            expect(typeof service.addComment).toBe('function');
-        });
-
-        it('should return a single blog post', function () {
-            var value, flag;
-
-            runs(function () {
-                flag = false;
-                service.getById(123, function (data) {
-                    value = data;
-                    flag = true;
-                });
-            });
-
-            runs(function () {
-                expect(typeof value).toBe('object');
-                expect(value.id).toBe(123);
-            });
-        });
-
-        it('should create a blog post', function () {
-            var value, flag;
-            var post = {
-                title: 'p1',
-                content: 'test'
-            };
-
-            runs(function () {
-                flag = false;
-                service.create(post, function (data) {
-                    value = data;
-                    flag = true;
-                });
-            });
-
-            runs(function () {
-                expect(value.title).toBe('p1');
-                expect(value.content).toBe('test');
-            });
-        });
-
-        it('should update a blog post', function () {
-            var value, flag;
-            var post = {
-                title: 'p1',
-                content: 'test'
-            };
-
-            runs(function () {
-                flag = false;
-                service.update(post, function (data) {
-                    value = data;
-                    flag = true;
-                });
-            });
-
-            runs(function () {
-                expect(value.title).toBe('p1');
-                expect(value.content).toBe('test');
-            });
-        });
-
-        it('should add a comment to a blog post', function () {
-            var value, flag;
-
-            runs(function () {
-                flag = false;
-                service.addComment('123', {content: 'text'}, function (data) {
-                    value = data;
-                    flag = true;
-                });
-            });
-
-            runs(function () {
-                expect(typeof value).toBe('object');
-                expect(value.content).toBe('text');
-                expect(value.post_id).toBe('123');
-            });
-        });
     });
 
     describe('appBlogAdminTags', function () {
@@ -123,25 +31,20 @@ describe('admin services', function () {
 
             runs(function () {
                 flag = false;
-                service.getAll({}, function (data) {
-                    expect(typeof data).toBe('object');
-                    expect(Object.keys(data).length).toBe(0);
+                service.getAll({}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toEqual({});
 
-                    service.getAll({data: 123}, function (data) {
-                        expect(typeof data).toBe('object');
-                        expect(data.data).toBe(123);
-
-                        service.getAll({}, function (data) {
-                            value = data;
-                            flag = true;
-                        });
+                    service.getAll(123, function (err, res) {
+                        expect(err).toBeNull();
+                        value = res;
+                        flag = true;
                     });
                 });
             });
 
             runs(function () {
-                expect(typeof value).toBe('object');
-                expect(value.data).toBe(123);
+                expect(value).toEqual({});
             });
         });
 
@@ -150,8 +53,9 @@ describe('admin services', function () {
 
             runs(function () {
                 flag = false;
-                service.createTag({name: 'angular'}, function (data) {
-                    value = data;
+                service.createTag({name: 'angular'}, function (err, res) {
+                    expect(err).toBeNull();
+                    value = res;
                     flag = true;
                 });
             });
@@ -166,8 +70,9 @@ describe('admin services', function () {
 
             runs(function () {
                 flag = false;
-                service.updateTag({name: 'angular'}, function (data) {
-                    value = data;
+                service.updateTag({name: 'angular'}, function (err, res) {
+                    expect(err).toBeNull();
+                    value = res;
                     flag = true;
                 });
             });
@@ -182,8 +87,9 @@ describe('admin services', function () {
 
             runs(function () {
                 flag = false;
-                service.deleteTag(123, function (data) {
-                    value = data;
+                service.deleteTag(123, function (err, res) {
+                    expect(err).toBeNull();
+                    value = res;
                     flag = true;
                 });
             });

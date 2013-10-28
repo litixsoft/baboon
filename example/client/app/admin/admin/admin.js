@@ -15,7 +15,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $routeProvider.when('/admin/roles/new', {templateUrl: 'admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
     })
     .constant('admin.modulePath', 'baboon/admin/')
-    .controller('adminUserListCtrl', ['$scope', '$log', 'adminUsers', function ($scope, $log, users) {
+    .controller('adminUserListCtrl', ['$scope', '$log', 'lxTransport', 'admin.modulePath', function ($scope, $log, transport, modulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = {name: 1};
@@ -40,19 +40,19 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             query.options.skip = $scope.pagingOptions.skip;
             query.options.limit = $scope.pagingOptions.limit;
 
-            users.getAll(query, function (result) {
-                if (result.data) {
-                    $scope.users = result.data;
+            transport.emit(modulePath + 'user/getAll', query, function (error, result) {
+                if (result) {
+                    $scope.users = result.items;
                     $scope.count = result.count;
                 } else {
-                    $log.log(result);
+                    $log.log(error);
                 }
             });
         };
 
         $scope.getData();
     }])
-    .controller('adminEditUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminUsers', '$log', 'adminRights', 'adminGroups', 'adminRoles', function ($scope, $routeParams, $location, lxForm, users, $log, rights, groups, roles) {
+    .controller('adminEditUserCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'lxTransport', '$log', 'admin.modulePath', 'adminRights', function ($scope, $routeParams, $location, lxForm, transport, $log, modulePath, rights) {
         $scope.lxForm = lxForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
@@ -60,11 +60,11 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         };
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            users.getById($routeParams.id, function (result) {
-                if (result.data) {
-                    $scope.lxForm.setModel(result.data);
+            transport.emit(modulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result);
                 } else {
-                    $log.log(result.message);
+                    $log.log(error);
                 }
             });
         }
@@ -74,25 +74,23 @@ angular.module('admin', ['admin.services', 'admin.directives'])
                 $scope.form.errors = {};
             }
 
-            var callback = function (result) {
-                if (result.data || result.success) {
-                    $scope.lxForm.setModel(result.data || model, true);
+            var callback = function (error, result) {
+                if (result) {
+                    // $scope.lxForm.setModel(result || model, true);
                     $location.path('/admin/users');
-                } else {
-                    if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-
-                    if (result.message) {
-                        $log.log(result.message);
+                } else if (error) {
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    } else {
+                        $log.log(error);
                     }
                 }
             };
 
             if (model._id) {
-                users.update(model, callback);
+                transport.emit(modulePath + 'user/update', model, callback);
             } else {
-                users.create(model, callback);
+                transport.emit(modulePath + 'user/create', model, callback);
             }
         };
 
@@ -117,7 +115,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             $scope.addRightMsg = null;
         };
 
-        $scope.cancelAddRight = function() {
+        $scope.cancelAddRight = function () {
             $scope.addingRight = false;
             $scope.addedRight = {};
             $scope.addRightMsg = null;
@@ -145,15 +143,15 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         };
 
-        rights.getAll({}, function (result) {
-            if (result.data) {
-                $scope.rights = result.data;
+        rights.getAll({}, function (error, result) {
+            if (result) {
+                $scope.rights = result.items;
             }
         });
 
-        groups.getAll({options: {fields: ['name', 'description']}}, function (result) {
-            if (result.data) {
-                $scope.groups = result.data;
+        transport.emit(modulePath + 'group/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
+            if (result) {
+                $scope.groups = result.items;
 
                 if ($scope.lxForm.model.groups) {
                     angular.forEach($scope.lxForm.model.groups, function (groupId) {
@@ -179,9 +177,9 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         };
 
-        roles.getAll({options: {fields: ['name', 'description']}}, function (result) {
-            if (result.data) {
-                $scope.roles = result.data;
+        transport.emit(modulePath + 'role/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
+            if (result) {
+                $scope.roles = result.items;
 
                 if ($scope.lxForm.model.roles) {
                     angular.forEach($scope.lxForm.model.roles, function (roleId) {
@@ -212,13 +210,13 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
             $scope.lxForm.model.groups = $scope.lxForm.model.groups || [];
 
-            angular.forEach($scope.roles, function(role) {
+            angular.forEach($scope.roles, function (role) {
                 var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
 
                 role.isSelected = indexOfRole !== -1;
             });
 
-            angular.forEach($scope.groups, function(group) {
+            angular.forEach($scope.groups, function (group) {
                 var indexOfGroup = $scope.lxForm.model.groups.indexOf(group._id);
 
                 group.isSelected = indexOfGroup !== -1;
@@ -248,12 +246,12 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             query.options.skip = $scope.pagingOptions.skip;
             query.options.limit = $scope.pagingOptions.limit;
 
-            rights.getAll(query, function (result) {
-                if (result.data) {
-                    $scope.rights = result.data;
+            rights.getAll(query, function (error, result) {
+                if (result) {
+                    $scope.rights = result.items;
                     $scope.count = result.count;
                 } else {
-                    $log.log(result);
+                    $log.error(error);
                 }
             });
         };
@@ -264,11 +262,11 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $scope.lxForm = lxForm('baboon_right', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            rights.getById($routeParams.id, function (result) {
-                if (result.data) {
-                    $scope.lxForm.setModel(result.data);
+            rights.getById($routeParams.id, function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result);
                 } else {
-                    $log.log(result.message);
+                    $log.error(error);
                 }
             });
         }
@@ -278,17 +276,15 @@ angular.module('admin', ['admin.services', 'admin.directives'])
                 $scope.form.errors = {};
             }
 
-            var callback = function (result) {
-                if (result.data || result.success) {
-                    $scope.lxForm.setModel(result.data || model, true);
+            var callback = function (error, result) {
+                if (result) {
+                    //$scope.lxForm.setModel(result.data || model, true);
                     $location.path('/admin/rights');
-                } else {
-                    if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-
-                    if (result.message) {
-                        $log.log(result.message);
+                } else if (error) {
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    } else {
+                        $log.error(error);
                     }
                 }
             };
@@ -300,7 +296,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             }
         };
     }])
-    .controller('adminGroupListCtrl', ['$scope', '$log', 'adminGroups', function ($scope, $log, groups) {
+    .controller('adminGroupListCtrl', ['$scope', '$log', 'lxTransport', 'admin.modulePath', function ($scope, $log, transport, modulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = {name: 1};
@@ -325,27 +321,27 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             query.options.skip = $scope.pagingOptions.skip;
             query.options.limit = $scope.pagingOptions.limit;
 
-            groups.getAll(query, function (result) {
-                if (result.data) {
-                    $scope.groups = result.data;
+            transport.emit(modulePath + 'group/getAll', query, function (error, result) {
+                if (result) {
+                    $scope.groups = result.items;
                     $scope.count = result.count;
                 } else {
-                    $log.log(result);
+                    $log.log(error);
                 }
             });
         };
 
         $scope.getData();
     }])
-    .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminGroups', '$log', 'adminRoles', function ($scope, $routeParams, $location, lxForm, groups, $log, roles) {
+    .controller('adminEditGroupCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'lxTransport', '$log', 'admin.modulePath', function ($scope, $routeParams, $location, lxForm, transport, $log, modulePath) {
         $scope.lxForm = lxForm('baboon_group', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            groups.getById($routeParams.id, function (result) {
-                if (result.data) {
-                    $scope.lxForm.setModel(result.data);
+            transport.emit(modulePath + 'group/getById', {id: $routeParams.id}, function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result);
                 } else {
-                    $log.log(result.message);
+                    $log.log(error);
                 }
             });
         }
@@ -355,31 +351,29 @@ angular.module('admin', ['admin.services', 'admin.directives'])
                 $scope.form.errors = {};
             }
 
-            var callback = function (result) {
-                if (result.data || result.success) {
-                    $scope.lxForm.setModel(result.data || model, true);
+            var callback = function (error, result) {
+                if (result) {
+                    // $scope.lxForm.setModel(result.data || model, true);
                     $location.path('/admin/groups');
-                } else {
-                    if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-
-                    if (result.message) {
-                        $log.log(result.message);
+                } else if (error) {
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    } else {
+                        $log.error(error);
                     }
                 }
             };
 
             if (model._id) {
-                groups.update(model, callback);
+                transport.emit(modulePath + 'group/update', model, callback);
             } else {
-                groups.create(model, callback);
+                transport.emit(modulePath + 'group/create', model, callback);
             }
         };
 
-        roles.getAll({options: {fields: ['name', 'description']}}, function (result) {
-            if (result.data) {
-                $scope.roles = result.data;
+        transport.emit(modulePath + 'role/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
+            if (result) {
+                $scope.roles = result.items;
 
                 if ($scope.lxForm.model.roles) {
                     angular.forEach($scope.lxForm.model.roles, function (roleId) {
@@ -409,14 +403,14 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             $scope.lxForm.reset(form);
             $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
 
-            angular.forEach($scope.roles, function(role) {
+            angular.forEach($scope.roles, function (role) {
                 var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
 
                 role.isSelected = indexOfRole !== -1;
             });
         };
     }])
-    .controller('adminRoleListCtrl', ['$scope', '$log', 'adminRoles', function ($scope, $log, roles) {
+    .controller('adminRoleListCtrl', ['$scope', '$log', 'lxTransport', 'admin.modulePath', function ($scope, $log, transport, modulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = {name: 1};
@@ -441,27 +435,27 @@ angular.module('admin', ['admin.services', 'admin.directives'])
             query.options.skip = $scope.pagingOptions.skip;
             query.options.limit = $scope.pagingOptions.limit;
 
-            roles.getAll(query, function (result) {
-                if (result.data) {
-                    $scope.roles = result.data;
+            transport.emit(modulePath + 'role/getAll', query, function (error, result) {
+                if (result) {
+                    $scope.roles = result.items;
                     $scope.count = result.count;
                 } else {
-                    $log.log(result);
+                    $log.error(error);
                 }
             });
         };
 
         $scope.getData();
     }])
-    .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'adminRoles', '$log', 'adminRights', function ($scope, $routeParams, $location, lxForm, roles, $log, rights) {
+    .controller('adminEditRoleCtrl', ['$scope', '$routeParams', '$location', 'lxForm', 'lxTransport', '$log', 'adminRights', 'admin.modulePath', function ($scope, $routeParams, $location, lxForm, transport, $log, rights, modulePath) {
         $scope.lxForm = lxForm('baboon_role', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            roles.getById($routeParams.id, function (result) {
-                if (result.data) {
-                    $scope.lxForm.setModel(result.data);
+            transport.emit(modulePath + 'role/getById', {id: $routeParams.id}, function (error, result) {
+                if (result) {
+                    $scope.lxForm.setModel(result);
                 } else {
-                    $log.log(result.message);
+                    $log.error(error);
                 }
             });
         }
@@ -471,31 +465,29 @@ angular.module('admin', ['admin.services', 'admin.directives'])
                 $scope.form.errors = {};
             }
 
-            var callback = function (result) {
-                if (result.data || result.success) {
-                    $scope.lxForm.setModel(result.data || model, true);
+            var callback = function (error, result) {
+                if (result) {
+                    //$scope.lxForm.setModel(result.data || model, true);
                     $location.path('/admin/roles');
-                } else {
-                    if (result.errors) {
-                        $scope.lxForm.populateValidation($scope.form, result.errors);
-                    }
-
-                    if (result.message) {
-                        $log.log(result.message);
+                } else if (error) {
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    } else {
+                        $log.error(error);
                     }
                 }
             };
 
             if (model._id) {
-                roles.update(model, callback);
+                transport.emit(modulePath + 'role/update', model, callback);
             } else {
-                roles.create(model, callback);
+                transport.emit(modulePath + 'role/create', model, callback);
             }
         };
 
-        rights.getAll({}, function (result) {
-            if (result.data) {
-                $scope.rights = result.data;
+        rights.getAll({}, function (error, result) {
+            if (result) {
+                $scope.rights = result.items;
                 $scope.rightsObj = rights.convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
             }
         });
