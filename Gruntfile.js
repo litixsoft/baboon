@@ -132,7 +132,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('lint', ['jshint:test']);
-    grunt.registerTask('test', ['git:registerHooks', 'clean:jasmine', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
     grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
 
