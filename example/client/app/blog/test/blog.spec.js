@@ -8,7 +8,7 @@ describe('blog', function () {
     beforeEach(module('blog'));
     beforeEach(module('lx.cache'));
     beforeEach(module('lx.session'));
-    beforeEach(module('lx.inlineEdit'));
+    beforeEach(module('lx.inline.edit'));
     beforeEach(module('mocks'));
     beforeEach(module('lx.form'));
 

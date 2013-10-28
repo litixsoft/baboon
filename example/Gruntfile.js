@@ -303,6 +303,7 @@ module.exports = function (grunt) {
                     'lx.session',
                     'lx.transport',
                     'lx.socket',
+                    'lx.rest',
                     'ui.if'
                 ]
             },
