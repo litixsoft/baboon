@@ -280,24 +280,28 @@ module.exports = function (grunt) {
              * The includes for all applications. The optional includes from app.conf.json are added by baboon-build.
              * This Includes Angular needed for injection. Use here the correct module name.
              */
-            includes: [
-                'ui.utils',
-                'pascalprecht.translate',
-                'lib.common.templates',
-                'common.templates',
-                'lib.optional.templates',
-                'optional.templates',
-                'app.templates',
-                'lx.alert',
-                'lx.auth',
-                'lx.float',
-                'lx.integer',
-                'lx.modal',
-                'lx.nav',
-                'lx.session',
-                'lx.socket',
-                'ui.if'
-            ],
+            includes: {
+                concat: [
+                    'ui.utils',
+                    'pascalprecht.translate'
+                ],
+                system: [
+                    'lib.templates',
+                    'client.templates',
+                    'app.templates'
+                ],
+                modules: [
+                    'lx.alert',
+                    'lx.auth',
+                    'lx.float',
+                    'lx.integer',
+                    'lx.modal',
+                    'lx.nav',
+                    'lx.session',
+                    'lx.socket',
+                    'ui.if'
+                ]
+            },
 
             /**
              * Less configuration skeleton. Baboon-build to insert the application less files.

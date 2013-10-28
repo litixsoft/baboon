@@ -1,15 +1,10 @@
 {
-    "includes": {
-        "optional": {
-            "client": [],
-            "baboon": [
-                "lx.pager",
-                "lx.sort",
-                "lx.cache",
-                "lx.form",
-                "lx.inline.edit",
-                "lx.file.upload"
-            ]
-        }
-    }
+    "includes": [
+        "lx.pager",
+        "lx.sort",
+        "lx.cache",
+        "lx.form",
+        "lx.inline.edit",
+        "lx.file.upload"
+    ]
 }
