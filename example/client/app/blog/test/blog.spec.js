@@ -91,14 +91,14 @@ describe('blog', function () {
         beforeEach(inject(function ($controller, $rootScope, $routeParams, $injector) {
             service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'example/blog/blog/addComment') {
+                if (eventName === 'app/blog/blog/addComment') {
                     value = {
                         content: 'text',
                         userName: 'wayne'
                     };
                 }
 
-                if (eventName === 'example/blog/blog/getPostById') {
+                if (eventName === 'app/blog/blog/getPostById') {
                     value = {
                         title: 'p1',
                         content: 'text',
@@ -253,7 +253,7 @@ describe('blog', function () {
             flag = false;
             service = $injector.get('lxTransport');
             service.emit = function (eventName, data, callback) {
-                if (eventName === 'example/blog/blog/getAllTags') {
+                if (eventName === 'app/blog/blog/getAllTags') {
                     value = [
                         {name: 'tag1'},
                         {name: 'tag2'},
@@ -261,7 +261,7 @@ describe('blog', function () {
                     ];
                 }
 
-                if (eventName === 'example/blog/blog/getPostById') {
+                if (eventName === 'app/blog/blog/getPostById') {
                     value = {
                         title: 'p1',
                         content: 'text',

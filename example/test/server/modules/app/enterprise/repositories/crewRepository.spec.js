@@ -2,7 +2,7 @@
 'use strict';
 
 var appMock = require('../../../../../fixtures/serverMock.js')(),
-    repo = require(appMock.config.path.modules + '/example/enterprise/repositories')(appMock.config.mongo.enterprise),
+    repo = require(appMock.config.path.modules + '/app/enterprise/repositories')(appMock.config.mongo.enterprise),
     sut = repo.crew,
     data = null;
 

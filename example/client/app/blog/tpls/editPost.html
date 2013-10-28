@@ -80,24 +80,9 @@
             </div>
         </div>
 
-        <!---->
-
-        <!--<legend>Preview</legend>-->
-        <!--<div class="well well-small">-->
-            <!--<blockquote>-->
-                <!--<h2>{{post.title}}</h2>-->
-                <!--<small>{{post.created | date:'dd.MM.yyyy, HH:mm'}}</small>-->
-            <!--</blockquote>-->
-            <!--<br />-->
-
-            <!--<markdown ng-model="post.content"></markdown>-->
-        <!--</div>-->
-
         <pre>post = {{lxForm.model | json}}</pre>
-        <!--<pre>master = {{lxForm.master | json}}</pre>-->
         <pre>dirty = {{form.$dirty | json}}</pre>
         <pre>valid = {{form.$valid | json}}</pre>
-        <!--<pre>tags = {{tags | json}}</pre>-->
 
         <legend>Preview</legend>
         <div class="well well-small">
@@ -107,7 +92,7 @@
             </blockquote>
             <br />
 
-            <markdown ng-model="lxForm.model.content"></markdown>
+            <lx-markdown ng-model="lxForm.model.content"></lx-markdown>
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@ angular.module('enterprise', [])
         $routeProvider.when('/enterprise/new', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseNewCtrl'});
         $routeProvider.when('/enterprise/edit/:id', {templateUrl: 'enterprise/edit.html', controller: 'enterpriseEditCtrl'});
     })
-    .constant('enterprise.modulePath', 'example/enterprise/')
+    .constant('enterprise.modulePath', 'app/enterprise/')
     .controller('enterpriseCtrl', ['$scope', 'lxModal', 'lxTransport', 'enterprise.modulePath', '$log',
         function ($scope, lxModal, transport, modulePath, $log) {
 

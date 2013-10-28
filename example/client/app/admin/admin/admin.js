@@ -14,7 +14,7 @@ angular.module('admin', ['admin.services', 'admin.directives'])
         $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
         $routeProvider.when('/admin/roles/new', {templateUrl: 'admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
     })
-    .constant('admin.modulePath', 'baboon/admin/')
+    .constant('admin.modulePath', 'app/admin/')
     .controller('adminUserListCtrl', ['$scope', '$log', 'lxTransport', 'admin.modulePath', function ($scope, $log, transport, modulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};

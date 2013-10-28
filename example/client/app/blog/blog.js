@@ -7,7 +7,7 @@ angular.module('blog', ['blog.services', 'blog.filters'])
         $routeProvider.when('/blog/admin/post/new', {templateUrl: 'blog/tpls/editPost.html', controller: 'blogAdminEditPostCtrl'});
         $routeProvider.when('/blog/admin/post/edit/:id', {templateUrl: 'blog/tpls/editPost.html', controller: 'blogAdminEditPostCtrl'});
     })
-    .constant('blog.modulePath', 'example/blog/')
+    .constant('blog.modulePath', 'app/blog/')
     .controller('blogCtrl', ['$scope', '$log', 'lxTransport', 'appBlogAdminTags', 'blog.modulePath', function ($scope, $log, transport, tags, modulePath) {
         var options = {},
             params = {},
@@ -16,6 +16,8 @@ angular.module('blog', ['blog.services', 'blog.filters'])
                     params: params || {},
                     options: options || {}
                 };
+
+                query.options.sort = {created: -1};
 
                 if (typeof params === 'string') {
                     transport.emit(modulePath + 'blog/searchPosts', query, callback);
@@ -102,7 +104,7 @@ angular.module('blog', ['blog.services', 'blog.filters'])
     .controller('blogAdminAdminCtrl', ['$scope', '$log', 'lxTransport', 'lxInlineEdit', '$modal', 'blog.modulePath', function ($scope, $log, transport, lxInlineEdit, $modal, modulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
-        $scope.sortOpts = {title: 1};
+        $scope.sortOpts = {created: -1};
 
         $scope.getData = function (sortingOptions, pagingOptions) {
             var query = {
@@ -209,7 +211,7 @@ angular.module('blog', ['blog.services', 'blog.filters'])
 
             var callback = function (error, result) {
                 if (result) {
-                    $scope.lxForm.setModel(result || model, true);
+                    $scope.lxForm.setModel(typeof result === 'number' ? model : result, true);
                     tags.refresh = true;
                 }
 

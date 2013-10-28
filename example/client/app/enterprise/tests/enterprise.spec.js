@@ -113,7 +113,7 @@ describe('enterprise', function () {
 
             runs(function () {
                 service.emit = function (eventName, data, callback) {
-                    if (eventName === 'example/enterprise/enterprise/createTestMembers') {
+                    if (eventName === 'app/enterprise/enterprise/createTestMembers') {
                         callback('Could not create test crew!');
                     } else {
                         value = dataTmp;
