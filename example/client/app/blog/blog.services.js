@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('blog.admin.services', [])
+angular.module('blog.services', [])
     .factory('appBlogAdminTags', ['lxTransport', 'blog.modulePath', function (transport, modulePath) {
         var pub = {},
             tags = [];
