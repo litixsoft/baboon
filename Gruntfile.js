@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         fs = require('fs'),
         gitHooksScriptFolder = path.join('example', 'scripts', 'git-hooks'),
         gitHooksPath = path.join('.git', 'hooks'),
-        gitHooks = ['update.js', 'post-merge'];
+        gitHooks = ['pre-receive.js', 'update.js', 'post-merge'];
 
     /**
      * Gets the index.html file from the code coverage folder.
