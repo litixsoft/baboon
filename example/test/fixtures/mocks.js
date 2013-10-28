@@ -19,4 +19,16 @@ angular.module('mocks', [])
                 callback({}, {});
             }
         };
+    })
+    .factory('lxTransport', function () {
+        return {
+            emit: function (eventName, data, callback) {
+                if (data.error) {
+                    callback(data.error);
+                } else {
+                    callback(null, data);
+                }
+                // callback(data);
+            }
+        };
     });

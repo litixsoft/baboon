@@ -1,7 +1,14 @@
 'use strict';
 
 module.exports = function (grunt) {
-    var path = require('path');
+    var path = require('path'),
+        fs = require('fs'),
+        gitHooksScriptFolder = path.join('example', 'scripts', 'git-hooks'),
+        gitHooksPath = path.join('.git', 'hooks'),
+        gitHooks = ['pre-receive.js', 'update.js', 'post-merge'];
+
+    // enable stack trace for grunt tasks execptions
+    grunt.option('stack', true);
 
     /**
      * Gets the index.html file from the code coverage folder.
@@ -102,6 +109,31 @@ module.exports = function (grunt) {
     });
 
     // Register tasks.
+    grunt.registerTask('git:registerHooks', 'Install git hooks', function () {
+        gitHooks.forEach(function (hook) {
+            var src = path.join(gitHooksScriptFolder, hook),
+                dest = path.join(gitHooksPath, hook.replace('.js', ''));
+
+            grunt.file.copy(src, dest);
+            fs.chmodSync(dest, '0755');
+
+            grunt.log.ok('Registered git hook %s.', dest);
+        });
+    });
+
+    grunt.registerTask('git:removeHooks', 'Remove git hooks', function () {
+        gitHooks.forEach(function (hook) {
+            var dest = path.join(gitHooksPath, hook.replace('.js', ''));
+
+            if (grunt.file.exists(dest)) {
+                grunt.file.delete(dest);
+                grunt.log.ok('Removed git hook %s.', dest);
+            } else {
+                grunt.log.ok('Git hook %s was already removed.', dest);
+            }
+        });
+    });
+
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);

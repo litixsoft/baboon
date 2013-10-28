@@ -5,6 +5,9 @@ var lxHelpers = require('lx-helpers');
 module.exports = function (grunt) {
     var path = require('path');
 
+    // enable stack trace for grunt tasks execptions
+    grunt.option('stack', true);
+
     /**
      * Gets the index.html file from the code coverage folder.
      *
@@ -298,6 +301,7 @@ module.exports = function (grunt) {
                     'lx.modal',
                     'lx.nav',
                     'lx.session',
+                    'lx.transport',
                     'lx.socket',
                     'ui.if'
                 ]

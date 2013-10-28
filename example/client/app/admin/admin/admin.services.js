@@ -1,41 +1,6 @@
 /*global angular*/
 angular.module('admin.services', [])
-    .factory('adminUsers', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
-        var pub = {};
-
-        pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'user/getAll', query, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'user/getById', {id: id}, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.create = function (user, callback) {
-            lxSocket.emit(modulePath + 'user/create', user, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.update = function (user, callback) {
-            lxSocket.emit(modulePath + 'user/update', user, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.delete = function (user, callback) {
-            lxSocket.emit(modulePath + 'user/delete', user, function (result) {
-                callback(result);
-            });
-        };
-
-        return pub;
-    }])
-    .factory('adminRights', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
+    .factory('adminRights', ['lxTransport', 'admin.modulePath', function (transport, modulePath) {
         var pub = {};
 
         function convertRightStringToObject (selectedRights, rightObj, right, path) {
@@ -72,103 +37,23 @@ angular.module('admin.services', [])
         };
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'right/getAll', query, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'right/getAll', query, callback);
         };
 
         pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'right/getById', {id: id}, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'right/getById', {id: id}, callback);
         };
 
         pub.create = function (right, callback) {
-            lxSocket.emit(modulePath + 'right/create', right, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'right/create', right, callback);
         };
 
         pub.update = function (right, callback) {
-            lxSocket.emit(modulePath + 'right/update', right, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'right/update', right, callback);
         };
 
         pub.delete = function (right, callback) {
-            lxSocket.emit(modulePath + 'right/delete', right, function (result) {
-                callback(result);
-            });
-        };
-
-        return pub;
-    }])
-    .factory('adminGroups', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
-        var pub = {};
-
-        pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'group/getAll', query, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'group/getById', {id: id}, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.create = function (group, callback) {
-            lxSocket.emit(modulePath + 'group/create', group, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.update = function (group, callback) {
-            lxSocket.emit(modulePath + 'group/update', group, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.delete = function (group, callback) {
-            lxSocket.emit(modulePath + 'group/delete', group, function (result) {
-                callback(result);
-            });
-        };
-
-        return pub;
-    }])
-    .factory('adminRoles', ['lxSocket', 'admin.modulePath', function (lxSocket, modulePath) {
-        var pub = {};
-
-        pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'role/getAll', query, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'role/getById', {id: id}, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.create = function (role, callback) {
-            lxSocket.emit(modulePath + 'role/create', role, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.update = function (role, callback) {
-            lxSocket.emit(modulePath + 'role/update', role, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.delete = function (role, callback) {
-            lxSocket.emit(modulePath + 'role/delete', role, function (result) {
-                callback(result);
-            });
+            transport.emit(modulePath + 'right/delete', right, callback);
         };
 
         return pub;
