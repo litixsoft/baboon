@@ -83,9 +83,17 @@ describe('Admin Scenarios', function () {
 });
 
 describe('Blog Scenarios', function () {
+    it('should show all blog posts', function () {
+        browser().navigateTo('/blog');
+        sleep(1);
+
+        expect(browser().location().url()).toEqual('/blog');
+//        expect(repeater('article').count()).toBe(1);
+    });
+
 //    it('should show all blog posts', function () {
 //        browser().navigateTo('/blog');
-//        sleep(2);
+//        sleep(10);
 //
 //        expect(browser().location().url()).toEqual('/blog');
 //        expect(repeater('article').count()).toBe(1);
