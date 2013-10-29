@@ -29,7 +29,7 @@
 
                 <!--<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Und hier kann man auch gleich Fehler anzeigen. Es treten ja nie welche auf aber für alle Fälle.</div>-->
 
-                <table class="table table-striped"  ng-class="{'load-content' : !crew.length}">
+                <table class="table table-striped"  ng-class="{'load-content' : isLoading}">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -54,7 +54,7 @@
                     <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
                 </p>
                 <p ui-if="visible.create">
-                    <button class="btn btn-default" ng-click="createTestMembers()"><i class=" icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+                    <button class="btn btn-default" ng-click="createTestMembers()"><i class="icon-arrow-up"></i>&nbsp;Crew erstellen</button>
                 </p>
             </div>
         </div>
