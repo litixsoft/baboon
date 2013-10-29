@@ -1,3 +1,9 @@
 #!/bin/sh
 
 npm install
+
+cd example
+
+npm install
+npm update
+bower update
