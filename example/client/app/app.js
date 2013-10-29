@@ -28,11 +28,6 @@ angular.module('app', [
             $rootScope.lxAlert = lxAlert;
             $rootScope.lxModal = lxModal;
 
-            $rootScope.xxx = 'sdsdsd';
-            $rootScope.a = {
-                b: 'sdsdsd'
-            };
-
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (err) {
                     if (err) {
