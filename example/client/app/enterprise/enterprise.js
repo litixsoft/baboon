@@ -8,7 +8,6 @@ angular.module('enterprise', [])
     .constant('enterprise.modulePath', 'app/enterprise/')
     .controller('enterpriseCtrl', ['$scope', 'lxModal', 'lxTransport', 'enterprise.modulePath', '$log',
         function ($scope, lxModal, transport, modulePath, $log) {
-
             // alert helper var
             var lxAlert = $scope.lxAlert;
 

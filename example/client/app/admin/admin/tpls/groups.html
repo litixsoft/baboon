@@ -4,7 +4,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'GROUPS' | translate }}</div>
             <div class="panel-body">
-                <table name="groups" class="table table-hover"  ng-class="{'load-content' : !groups.length}">
+                <table name="groups" class="table table-hover"  ng-class="{'load-content' : isLoading}">
                     <thead>
                     <tr>
                         <th style="width: 20px;">
