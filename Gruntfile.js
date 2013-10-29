@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         fs = require('fs'),
         gitHooksScriptFolder = path.join('example', 'scripts', 'git-hooks'),
         gitHooksPath = path.join('.git', 'hooks'),
-        gitHooks = ['pre-receive.js', 'update.js', 'post-merge'];
+        gitHooks = ['post-merge'];
 
     // enable stack trace for grunt tasks execptions
     grunt.option('stack', true);
