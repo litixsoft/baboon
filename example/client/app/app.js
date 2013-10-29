@@ -39,9 +39,6 @@ angular.module('app', [
             $rootScope.lxAlert = lxAlert;
             $rootScope.lxModal = lxModal;
 
-
-
-
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (err) {
                     if (err) {
