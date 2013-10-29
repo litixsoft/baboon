@@ -4,6 +4,7 @@ angular.module('app', [
         'app.includes',
         'admin'
     ])
+    .constant('USE_SOCKET', true)
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.when('/admin', {templateUrl: 'admin/tpls/administration.html'});
@@ -19,17 +20,6 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
-
-            // config
-            $rootScope.config = {
-                transport: {
-                    socket: {
-                        enable: true,
-                        transports: ['websocket']
-                    }
-                }
-            };
-
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (error) {
                     if (error) {
