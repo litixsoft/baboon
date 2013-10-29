@@ -19,6 +19,17 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
+
+            // config
+            $rootScope.config = {
+                transport: {
+                    socket: {
+                        enable: true,
+                        transports: ['websocket']
+                    }
+                }
+            };
+
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (error) {
                     if (error) {

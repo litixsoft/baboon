@@ -150,8 +150,8 @@
 
                     </div>
                     <div class="pull-right">
-                        <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
-                        <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
+                        <img src="/img/socketon-icon.png" title="Socketverbindung" ui-if="socketEnabled" />
+                        <img src="/img/socketerror-icon.png" title="Socketverbindung getrennt!" ui-if="!socketEnabled" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
 

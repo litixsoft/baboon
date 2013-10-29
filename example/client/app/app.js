@@ -24,9 +24,23 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal', 'lxAlert',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal, lxAlert) {
+
+            // config
+            $rootScope.config = {
+                transport: {
+                    socket: {
+                        enable: true,
+                        transports: ['websocket']
+                    }
+                }
+            };
+
             // bind lxAlert service to $rootScope
             $rootScope.lxAlert = lxAlert;
             $rootScope.lxModal = lxModal;
+
+
+
 
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (err) {
