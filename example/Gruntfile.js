@@ -233,6 +233,20 @@ module.exports = function (grunt) {
                         src: ['highlight.pack.js','styles/arta.css','styles/default.css', 'styles/github.css'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/highlightjs/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/chroma-js',
+                        src: ['**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/chroma-js/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/d3',
+                        src: ['**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/d3/'
                     }
                 ]
             }

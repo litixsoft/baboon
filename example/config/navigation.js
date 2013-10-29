@@ -13,6 +13,7 @@ module.exports = [
             ]}
         ]},
         {title: 'SESSION', route: '/session'},
+        {title: 'DIAGRAMS', route: '/diagrams'},
         {title: 'TRANSLATION', route: '/translation'},
         {title: 'MODAL', route: '/modal'}
     ]},
