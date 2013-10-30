@@ -4,7 +4,9 @@ angular.module('app', [
         'app.includes',
         'base'
     ])
-    .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
+    .constant('USE_SOCKET', true)
+    .config(['$routeProvider', '$locationProvider', '$translateProvider',
+        function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
 
@@ -17,16 +19,6 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
-
-            // config
-            $rootScope.config = {
-                transport: {
-                    socket: {
-                        enable: true,
-                        transports: ['websocket']
-                    }
-                }
-            };
 
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function(err) {

@@ -11,29 +11,21 @@ angular.module('app', [
         'diagrams',
         'hljs'
     ])
-    .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
-        $locationProvider.html5Mode(true);
-        $routeProvider.otherwise({redirectTo: '/'});
+    .constant('USE_SOCKET', true)
+    .config(['$routeProvider', '$locationProvider', '$translateProvider',
+        function ($routeProvider, $locationProvider, $translateProvider) {
+            $locationProvider.html5Mode(true);
+            $routeProvider.otherwise({redirectTo: '/'});
 
-        $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/locale-',
-            suffix: '.json'
-        });
-        $translateProvider.preferredLanguage('en');
-        $translateProvider.fallbackLanguage('en');
-    }])
+            $translateProvider.useStaticFilesLoader({
+                prefix: '/locale/locale-',
+                suffix: '.json'
+            });
+            $translateProvider.preferredLanguage('en');
+            $translateProvider.fallbackLanguage('en');
+        }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal', 'lxAlert',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal, lxAlert) {
-
-            // config
-            $rootScope.config = {
-                transport: {
-                    socket: {
-                        enable: true,
-                        transports: ['websocket']
-                    }
-                }
-            };
 
             // bind lxAlert service to $rootScope
             $rootScope.lxAlert = lxAlert;
@@ -42,7 +34,7 @@ angular.module('app', [
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (err) {
                     if (err) {
-                        lxModal.msgBox('sessionExpired', true ,'','Session is expired! Please log in.', 'Warning',function(){
+                        lxModal.msgBox('sessionExpired', true, '', 'Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/');
                         });
                     }
