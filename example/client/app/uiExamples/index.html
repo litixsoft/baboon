@@ -77,12 +77,12 @@
 
                                                 </div>
                                             </div>
-                                            <div class="row-fluid" ui-if="authFailed">
+                                            <div class="row-fluid" ng-if="authFailed">
                                                 <div class="span11 offset1 alert alert-error">
                                                     <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
                                                 </div>
                                             </div>
-                                            <div class="row-fluid" ui-if="serverError">-->
+                                            <div class="row-fluid" ng-if="serverError">-->
                                                 <div class="span11 offset1 alert alert-error">
                                                     <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
                                                 </div>
@@ -146,8 +146,8 @@
 
                     </div>
                     <div class="pull-right">
-                        <img src="/img/socketon-icon.png" title="Socketverbindung" ui-if="socketEnabled" />
-                        <img src="/img/socketerror-icon.png" title="Socketverbindung getrennt!" ui-if="!socketEnabled" />
+                        <img src="/img/socketon-icon.png" title="Socketverbindung" ng-if="socketEnabled" />
+                        <img src="/img/socketerror-icon.png" title="Socketverbindung getrennt!" ng-if="!socketEnabled" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
 
@@ -167,6 +167,7 @@
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular/angular-route<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_uiExamples<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_uiExamples.tpl<!--@@min-->.js" charset="utf-8"></script>

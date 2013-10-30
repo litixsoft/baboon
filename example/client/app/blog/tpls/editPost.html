@@ -16,13 +16,13 @@
                             <div class="col-lg-10 lxvalidation">
                                 <input type="text" class="form-control" ng-model="lxForm.model.title" id="title" ui-event="{keydown: 'form.errors.title=false;'}" name="title" placeholder="Enter Title" required/>
 
-                                <div ng-show="((form.title.$dirty && form.title.$invalid) || form.errors.title)" class="alert alert-danger">
+                                <div ng-if="((form.title.$dirty && form.title.$invalid) || form.errors.title)" class="alert alert-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.title.$error.required">Title is required</span>
                                     <span ng-show="form.errors.title">{{form.errors.title}}</span>
                                 </div>
 
-                                <label ng-show="((form.title.$dirty && form.title.$invalid) || form.errors.title)" style="cursor:pointer;" class="label label-danger">
+                                <label ng-if="((form.title.$dirty && form.title.$invalid) || form.errors.title)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.title.$error.required" popover="Error: Title is required" popover-trigger="mouseenter"></span>
                                     <span ng-show="form.errors.title" popover="Error: {{form.errors.title}}" popover-trigger="mouseenter"></span>
@@ -36,13 +36,13 @@
                             <div class="col-lg-10 lxvalidation">
                                 <textarea rows="6" type="text" class="form-control" id="content" name="content" ui-event="{keydown: 'form.errors.content=false;'}" ng-model="lxForm.model.content" required></textarea>
 
-                                <div ng-show="((form.content.$dirty && form.content.$invalid) || form.errors.content)" class="alert alert-danger">
+                                <div ng-if="((form.content.$dirty && form.content.$invalid) || form.errors.content)" class="alert alert-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.content.$error.required">Content is required</span>
                                     <span ng-show="form.errors.content">{{form.errors.content}}</span>
                                 </div>
 
-                                <label ng-show="((form.content.$dirty && form.content.$invalid) || form.errors.content)" style="cursor:pointer;" class="label label-danger">
+                                <label ng-if="((form.content.$dirty && form.content.$invalid) || form.errors.content)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.content.$error.required" popover="Error: Content is required" popover-trigger="mouseenter"></span>
                                     <span ng-show="form.errors.content" popover="Error: {{form.errors.content}}" popover-trigger="mouseenter"></span>
@@ -71,7 +71,7 @@
                             <div class="col-lg-offset-2 col-lg-10">
                                 <button type="button" class="btn btn-danger" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">Reset</button>
                                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">Save</button>
-                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)">Simple Save</button>
+                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)">Save without client validation</button>
                             </div>
                         </div>
 

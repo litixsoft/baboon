@@ -186,6 +186,13 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/angular/'
                     },
                     {
+                        // angular-route
+                        dest: '<%= buildDistPublicVendorFolder %>/angular',
+                        src: ['*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/angular-route/'
+                    },
+                    {
                         // bootstrap dist
                         dest: '<%= buildDistPublicVendorFolder %>/bootstrap',
                         src: ['**/*.*', '!**/*.js'],
@@ -317,8 +324,7 @@ module.exports = function (grunt) {
                     'lx.session',
                     'lx.transport',
                     'lx.socket',
-                    'lx.rest',
-                    'ui.if'
+                    'lx.rest'
                 ]
             },
 

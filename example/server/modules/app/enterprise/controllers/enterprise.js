@@ -84,7 +84,7 @@ module.exports = function (app) {
         }
 
         // validate client data
-        repo.crew.validate(data, {isUpdate: true}, function (error, result) {
+        repo.crew.validate(data, {}, function (error, result) {
             if (error) {
                 callback(error);
                 return;

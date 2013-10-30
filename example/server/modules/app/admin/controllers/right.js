@@ -103,7 +103,7 @@ module.exports = function (app) {
         }
 
         // validate client data
-        repo.rights.validate(data, {isUpdate: true}, function (error, result) {
+        repo.rights.validate(data, {}, function (error, result) {
             if (error) {
                 callback(error);
                 return;

@@ -43,7 +43,7 @@ angular.module('template/lxRights/inner.html', []).run(['$templateCache', functi
             '<span>{{ mod }}</span>\n' +
             '</div>\n' +
 
-            '<div ui-if="!data.children">' +
+            '<div ng-if="!data.children">' +
             '<ul>' +
             '<li ng-repeat="right in data">' +
             '<input type="checkbox" ng-model="right.isSelected" ng-click="onSetRight({right: right})">' +
@@ -52,7 +52,7 @@ angular.module('template/lxRights/inner.html', []).run(['$templateCache', functi
             '</ul>' +
             '</div>' +
 
-            '<ul class="display {{data.hide}}" ui-if="data.children">\n' +
+            '<ul class="display {{data.hide}}" ng-if="data.children">\n' +
             '<li ng-repeat="(mod, data) in data.children" ng-include="\'template/lxRights/inner.html\'">\n' +
             '</li>\n' +
             '</ul> '

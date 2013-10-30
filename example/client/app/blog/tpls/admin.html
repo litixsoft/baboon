@@ -32,8 +32,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="post in posts" ng-form="form">
-                                <td ui-if="inlineEdit.model != post">{{post.title}}</td>
-                                <td ui-if="inlineEdit.model == post">
+                                <td ng-if="inlineEdit.model != post">{{post.title}}</td>
+                                <td ng-if="inlineEdit.model == post">
                                     <ng-form name="formTitle" class="inline-edit">
                                         <div class="form-group" ng-class="{'has-error': ((formTitle.title.$dirty && formTitle.title.$invalid) || form.errors.title)}">
                                             <div class="col-lg-10 lxvalidation">
@@ -48,8 +48,8 @@
                                         </div>
                                     </ng-form>
                                 </td>
-                                <td ui-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
-                                <td ui-if="inlineEdit.model == post">
+                                <td ng-if="inlineEdit.model != post"><label>{{post.content}}</label></td>
+                                <td ng-if="inlineEdit.model == post">
                                     <ng-form name="formContent" class="inline-edit">
                                         <div class="form-group" ng-class="{'has-error': ((formContent.content.$dirty && formContent.content.$invalid) || form.errors.content)}">
                                             <div class="col-lg-10 lxvalidation">

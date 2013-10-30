@@ -103,7 +103,7 @@ module.exports = function (app) {
         }
 
         // validate client data
-        repo.roles.validate(data, {isUpdate: true}, function (error, result) {
+        repo.roles.validate(data, {}, function (error, result) {
             if (error) {
                 callback(error);
                 return;

@@ -50,10 +50,10 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <p ui-if="visible.reset">
+                <p ng-if="visible.reset">
                     <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
                 </p>
-                <p ui-if="visible.create">
+                <p ng-if="visible.create">
                     <button class="btn btn-default" ng-click="createTestMembers()"><i class="icon-arrow-up"></i>&nbsp;Crew erstellen</button>
                 </p>
             </div>

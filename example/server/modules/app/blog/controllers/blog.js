@@ -239,7 +239,7 @@ module.exports = function (app) {
         }
 
         // validate client data
-        repo.posts.validate(data, {isUpdate: true}, function (error, result) {
+        repo.posts.validate(data, {}, function (error, result) {
             if (error) {
                 callback(error);
                 return;

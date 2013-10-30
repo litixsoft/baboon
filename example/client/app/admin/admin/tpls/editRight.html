@@ -10,7 +10,7 @@
                     <div class="controls">
                         <input type="text" ng-model="lxForm.model.name" name="name" required />
 
-                        <span class="label label-important" ui-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">
+                        <span class="label label-important" ng-if="(form.name.$dirty && form.name.$invalid) || form.errors.name">
                             Error:
                             <span ng-show="form.name.$error.required"> Name is required.</span>
                             <span ng-show="form.errors.name"> {{form.errors.name}}.</span>

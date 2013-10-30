@@ -1,5 +1,6 @@
 /*global angular*/
 angular.module('app', [
+        'ngRoute',
         'ui.bootstrap',
         'app.includes',
         'base'

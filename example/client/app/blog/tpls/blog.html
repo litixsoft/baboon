@@ -13,7 +13,7 @@
 
         <div class="panel" ng-class="{'panel-success': ($index<1),'panel-default': ($index>0)}"  ng-repeat="entry in posts">
             <div class="panel-heading">
-                <a class="entry-title" href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}} <span class="label label-success pull-right" ui-if="($index<1)">New</span></a>
+                <a class="entry-title" href="/blog/post/{{entry._id}}" title="{{entry.title}}">{{entry.title}} <span class="label label-success pull-right" ng-if="($index<1)">New</span></a>
                 <div class="entry-replies">
                     <a href="/blog/post/{{entry._id}}">{{entry.comments.length}} Antworten</a>
                 </div>
