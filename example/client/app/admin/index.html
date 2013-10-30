@@ -32,13 +32,10 @@
     <div class="layout-content">
         <div class="col-left navCol">
             <span class="trademark-area">baboon</span>
-            <!--<img src="/img/Germany-Flag-icon.png" alt="german" ng-click="changeLanguage('de')"-->
-                 <!--style="height: 25px; cursor: pointer;"/>-->
-            <!--<img src="/img/United-States-Flag-icon.png" alt="english" ng-click="changeLanguage('en')"-->
-                 <!--style="height: 25px; cursor: pointer;"/>-->
-            <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route"-->
-                        <!--ng-init="navData = <%= JSON.stringify(navigation[2].children) %>"></lxtreeview>-->
-            <treeview class="navlist" nr-attr="2" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
+
+            <treeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target" ng-init="navData = <%= JSON.stringify(navigation[2].children) %>"></treeview>
+            <!--<treeview class="navlist" nr-attr="2" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>-->
+
         </div>
         <div class="col-right">
             <!-- must be moved later in baboon-client -->
@@ -125,8 +122,8 @@
                     <% } %>
                 </div>
 
-                <!--<lxbootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></lxbootnav>-->
-                <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
+                <bootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" target-attr="target" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></bootnav>
+                <!--<bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>-->
 
                 <div class="pull-right connection-area">
                     <div class="pull-right flag-area">
@@ -150,8 +147,8 @@
 
                     </div>
                     <div class="pull-right">
-                        <img src="/img/socketon-icon.png" title="Socketverbindung" ng-if="socketEnabled" />
-                        <img src="/img/socketerror-icon.png" title="Socketverbindung getrennt!" ng-if="!socketEnabled" />
+                        <img src="/img/socket-on.png" title="Socketverbindung" ng-if="socketEnabled" />
+                        <img src="/img/socket-off.png" title="Socketverbindung getrennt!" ng-if="!socketEnabled" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
 
@@ -171,7 +168,6 @@
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/angular/angular-route<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_admin<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_admin.tpl<!--@@min-->.js" charset="utf-8"></script>
