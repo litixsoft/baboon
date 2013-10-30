@@ -34,8 +34,8 @@
         <div class="col-left navCol">
             <span class="trademark-area">baboon</span>
 
-            <treeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target" ng-init="navData = <%= JSON.stringify(navigation[1].children) %>"></treeview>
-            <!--<treeview class="navlist" nr-attr="1" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>-->
+            <!--<treeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target" ng-init="navData = <%= JSON.stringify(navigation[1].children) %>"></treeview>-->
+            <treeview class="navlist" nr-attr="1" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
 
         </div>
         <div class="col-right">
@@ -123,8 +123,8 @@
                     <% } %>
                 </div>
 
-                <bootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" target-attr="target" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></bootnav>
-                <!--<bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>-->
+                <!--<bootnav class="navlist pull-right" itemlist-attr="mainNavData" type-attr="nav-pills" label-attr="title" icon-attr="icon" target-attr="target" link-attr="route" ng-init="mainNavData = <%= JSON.stringify(topLevelNavigation) %>"></bootnav>-->
+                <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
 
                 <div class="pull-right connection-area">
                     <div class="pull-right flag-area">
@@ -169,6 +169,7 @@
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular/angular-route<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_uiExamples<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_uiExamples.tpl<!--@@min-->.js" charset="utf-8"></script>
