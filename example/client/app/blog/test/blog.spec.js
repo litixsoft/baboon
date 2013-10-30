@@ -4,6 +4,7 @@
 var ctrl, scope, flag, value, service;
 
 describe('blog', function () {
+    beforeEach(module('ngRoute'));
     beforeEach(module('ui.bootstrap.modal'));
     beforeEach(module('blog'));
     beforeEach(module('lx.cache'));

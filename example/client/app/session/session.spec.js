@@ -3,6 +3,7 @@
 var ctrl, scope, service, data, tmp;
 
 describe('session modul', function () {
+    beforeEach(module('ngRoute'));
     beforeEach(module('session'));
     beforeEach(module('mocks'));
 

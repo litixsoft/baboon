@@ -8,6 +8,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'client/vendor/angular/angular.js',
+            'client/vendor/angular-route/angular-route.js',
             'client/vendor/angular-mocks/angular-mocks.js',
             'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
             'client/vendor/angular-ui-utils/modules/**/*.js',

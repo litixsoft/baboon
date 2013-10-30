@@ -9,6 +9,7 @@ dataTmp = [
 ];
 
 describe('enterprise', function () {
+    beforeEach(module('ngRoute'));
     beforeEach(module('lx.alert'));
     beforeEach(module('ui.bootstrap.modal'));
     beforeEach(module('lx.modal'));

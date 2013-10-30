@@ -5,6 +5,7 @@ describe('admin services', function () {
     var service;
 
     beforeEach(function () {
+        module('ngRoute');
         module('blog');
         module('lx.transport');
         module('admin.services');

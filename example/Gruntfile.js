@@ -736,9 +736,9 @@ module.exports = function (grunt) {
         'jshint:test',
         'jasmine_node',
         'build',
-        'karma:unit',
-        'express:e2e',
-        'karma:e2e'
+        'karma:unit'
+        //'express:e2e',
+        //'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
         'bgShell:e2e',
@@ -747,9 +747,9 @@ module.exports = function (grunt) {
         'jshint:test',
         'jasmine_node',
         'build:deploy',
-        'karma:unit',
-        'express:e2e',
-        'karma:e2e'
+        'karma:unit'
+        //'express:e2e',
+        //'karma:e2e'
     ]);
     grunt.registerTask('server', [
         'build:watch',

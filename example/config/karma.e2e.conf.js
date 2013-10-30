@@ -3,10 +3,13 @@ module.exports = function (config) {
         // base path, that will be used to resolve files and exclude
         basePath: '../',
 
-        frameworks: ['ng-scenario'],
+        //frameworks: ['ng-scenario'],
+        frameworks: [],
 
         // list of files / patterns to load in the browser
         files: [
+            'client/vendor/angular-scenario/angular-scenario.js',
+            'node_modules/karma-ng-scenario/lib/adapter.js',
             'test/e2e/**/*.js'
         ],
 
