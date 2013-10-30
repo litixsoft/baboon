@@ -38,7 +38,8 @@
             "logging": {
                 "syslog": "DEBUG",
                 "audit": "DEBUG",
-                "socket": "DEBUG"
+                "socket": "DEBUG",
+                "express": "DEBUG"
             }
         },
         "pro": {
@@ -55,9 +56,9 @@
                 "options": {}
             },
             "mongo": {
-                "blog": "localhost:11111/blog?w=0&journal=True&fsync=True",
-                "enterprise": "localhost:11111/enterprise?w=0&journal=True&fsync=True",
-                "rights": "localhost:11111/baboon_rights?w=0&journal=True&fsync=True"
+                "blog": "localhost:27017/blog?w=0&journal=True&fsync=True",
+                "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True",
+                "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True"
             }
         },
         "unitTest": {
