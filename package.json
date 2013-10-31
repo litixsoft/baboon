@@ -72,6 +72,6 @@
         "passport-local": "*",
         "pwd": "0.0.2",
         "redis": "~0.9.0",
-        "socket.io": "~0.9.16"
+        "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
     }
 }
