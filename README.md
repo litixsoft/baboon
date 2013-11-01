@@ -99,6 +99,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * make server and client independently
 
 ## Release History
+### v0.2.1
+* fix error in logging in production mode
 
 ### v0.2 beta
 * outsourcing client code in baboon-client (bower registry)

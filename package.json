@@ -1,7 +1,7 @@
 {
     "name": "baboon",
     "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "homepage": "https://github.com/litixsoft/baboon",
     "author": {
         "name": "Litixsoft GmbH",
@@ -72,6 +72,6 @@
         "passport-local": "*",
         "pwd": "0.0.2",
         "redis": "~0.8.6",
-        "socket.io": "~0.9.16"
+        "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
     }
 }
