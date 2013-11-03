@@ -1,9 +1,11 @@
 /*global angular*/
 angular.module('app', [
+        'ngRoute',
         'ui.bootstrap',
         'app.includes',
         'admin'
     ])
+    .constant('USE_SOCKET', true)
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.when('/admin', {templateUrl: 'admin/tpls/administration.html'});

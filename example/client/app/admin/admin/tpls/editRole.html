@@ -60,7 +60,7 @@
                                                             <label>
                                                                 <input type="checkbox" ng-model="right.isSelected" ng-click="setRight(right)">
                                                                 {{ right.name | translate }}
-                                                                <span ui-if="right.description" class="glyphicon glyphicon-question-sign" popover="{{ right.description }}" popover-trigger="mouseenter"></span>
+                                                                <span ng-if="right.description" class="glyphicon glyphicon-question-sign" popover="{{ right.description }}" popover-trigger="mouseenter"></span>
                                                             </label>
                                                         </div>
                                                     </li>

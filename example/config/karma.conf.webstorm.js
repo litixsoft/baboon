@@ -8,14 +8,14 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'client/vendor/angular/angular.js',
+            'client/vendor/angular-route/angular-route.js',
             'client/vendor/angular-mocks/angular-mocks.js',
             'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
             'client/vendor/angular-ui-utils/modules/**/*.js',
             'build/tmp/tpls/**/*js',
-            'client/vendor/baboon-client/common/**/*.js',
-            'client/vendor/baboon-client/optional/**/*.js',
+            'client/vendor/baboon-client/modules/**/*.js',
             'test/fixtures/mocks.js',
-            'client/common/*.js',
+            'client/modules/*.js',
             'client/app/**/*.js',
             'client/vendor/showdown/src/showdown.js'
         ],
@@ -23,8 +23,8 @@ module.exports = function (config) {
         exclude: [
             'client/public/**/*.js',
             'client/vendor/angular-ui-utils/modules/**/*Spec.js',
-            'client/vendor/baboon-client/common/**/*.spec.js',
-            'client/vendor/baboon-client/optional/**/*.spec.js'
+            'client/vendor/baboon-client/modules/**/*.spec.js',
+            'client/modules/**/*.spec.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences

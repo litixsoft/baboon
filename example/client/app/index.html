@@ -13,7 +13,7 @@
     <!--<link href="/vendor/bootstrap/css/bootstrap-theme&lt;!&ndash;@@min&ndash;&gt;.css" rel="stylesheet">-->
     <link href="/css/app<!--@@min-->.css" rel="stylesheet">
 
-    <link href="/vendor/highlight/css/github.css" rel="stylesheet">
+    <link href="/vendor/highlightjs/styles/github.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -31,12 +31,16 @@
 </head>
 <body>
 
-<div id="singlepageFrame">
+<div id="singlepageFrame" class="ng-cloak">
     <div class="layout-content">
         <div class="col-left navCol">
             <span class="trademark-area">Baboon</span>
             <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
-            <lxtreeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></lxtreeview>
+            <!--<treeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>-->
+
+
+            <!--<treeview class="navlist" itemlist-attr="<%= JSON.stringify(navigation[0].children) %>" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>-->
+            <treeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
 
         </div>
         <div class="col-right">
@@ -46,88 +50,19 @@
             <!-- login start -->
 
             <div class="dark-header">
-                <div class="pull-right login-area" ng-controller="lxAuthLoginCtrl">
+                <div class="pull-right login-area">
+                    <!--ng-controller="lxAuthLoginCtrl">-->
+
                     <% if(!isAuth) { %>
-                    <div class="btn-group" ng-class="{open: openMenu}">
-                        <!--<a href="/login" class="btn">Login</a>-->
-                        <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
-                        <ul class="dropdown-menu login pull-right">
-                            <li>
-                                <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
-                                <div>
-                                    <h1>Login</h1>
-                                    <form class="form-horizontal" ng-submit="login()" name="loginForm" novalidate>
-                                        <div class="form-inner">
-                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)}">
-                                                <div class="col-lg-1"><span class="glyphicon glyphicon-user"></span></div>
-                                                <div class="col-lg-11 lxvalidation">
-                                                    <input class="form-control" type="text" name="username" ng-model="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off' autofocus>
-                                                    <label ng-show="((loginForm.username.$dirty && loginForm.username.$invalid) || loginForm.errors.username || authFailed || serverError)" class="label label-danger">
-                                                        <div class="glyphicon glyphicon-fire"></div>
-                                                        <span ng-show="loginForm.username.$error.required" popover="Error: Username is required" popover-trigger="mouseenter"></span>
-                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" ng-class="{'has-error' : ((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)}">
-                                                <div class="col-lg-1"><span class="glyphicon glyphicon-lock"></span></div>
-                                                <div class="col-lg-11 lxvalidation">
-                                                    <input class="form-control" type="password" name="password" ng-model="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
-                                                    <label ng-show="((loginForm.password.$dirty && loginForm.password.$invalid) || loginForm.errors.password || authFailed || serverError)" class="label label-danger">
-                                                        <div class="glyphicon glyphicon-fire"></div>
-                                                        <span ng-show="loginForm.password.$error.required" popover="Error: Password is required" popover-trigger="mouseenter"></span>
-                                                        <!--<span ng-show="loginForm.errors.password" popover="Error: {{loginForm.errors.password}}" popover-trigger="mouseenter"></span>-->
-                                                    </label>
-
-                                                </div>
-                                            </div>
-                                            <div class="row" ui-if="authFailed">
-                                                <div class="col-lg-offset-1 alert alert-danger">
-                                                    <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="row" ui-if="serverError">
-                                                <div class="col-lg-offset-1">
-                                                    <div class="alert alert-danger">
-                                                        <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-submit">
-                                            <div class="row">
-                                                <input type="submit" class="btn btn-block col-md-6 col-md-offset-6" value="&nbsp;{{ 'LOGIN' | translate }}" name="login"> <!-- btn-login -->
-                                            </div>
-                                        </div>
-
-                                        <div class="row sublinks">
-                                            <div class="col-md-3"><a href="/api/auth/register" ng-click="register">{{ 'REGISTER' | translate }}</a></div>
-                                            <div class="col-md-9"><a href="/api/auth/forget">{{ 'FORGET_PASSWORD' | translate }}</a></div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                        <lx-login-popup></lx-login-popup>
                     <% } %>
                     <% if(isAuth) { %>
-                    <div class="btn-group">
-                        <button class="btn btn-success"><%= username %></button>
-                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="#">Nachrichten</a>
-                                <a href="#">Kontoeinstellungen</a>
-                                <a href="/api/auth/logout" target="_self">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
+                        <lx-logout-popup user="'<%= username %>'"></lx-logout-popup>
                     <% } %>
                 </div>
 
-                <lxbootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></lxbootnav>
+                <!--<bootnav class="navlist pull-right" itemlist-attr="<%= JSON.stringify(topLevelNavigation) %>" type-attr="nav-pills" label-attr="title" icon-attr="icon" target-attr="target" link-attr="route"></bootnav>-->
+                <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
 
                 <div class="pull-right connection-area">
                     <div class="pull-right flag-area">
@@ -151,8 +86,8 @@
 
                     </div>
                     <div class="pull-right">
-                        <img src="/img/socketon-icon.png" title="Schnelle Socketverbindung" />
-                        <img src="/img/socketerror-icon.png" title="Socketverbindung wurde wegen eines Fehlers getrennt!" />
+                        <img src="/img/socket-on.png" title="Socketverbindung" ng-if="socketEnabled" />
+                        <img src="/img/socket-off.png" title="Socketverbindung getrennt!" ng-if="!socketEnabled" />
                         <!--<img src="/img/socketoff-icon.png" title="Keine schnelle Datenverbindung möglich!" style="height: 25px; cursor: pointer;"/>-->
                     </div>
 
@@ -164,7 +99,7 @@
             <!-- login end -->
             <div>
                 <div class="p-wrapper">
-                    <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ui-if="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+                    <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ng-show="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
                 </div>
             </div>
 
@@ -178,11 +113,15 @@
 <!--@@livereload-->
 <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular/angular-route<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/showdown/src/showdown.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/highlightjs/highlight.pack.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-highlightjs/angular-highlightjs<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/d3/d3<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/chroma-js/chroma<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app.tpl<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/showdown/src/showdown.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/highlight/highlight.pack.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/highlight/angular-highlightjs.js" charset="utf-8"></script>
+
 </body>
 </html>

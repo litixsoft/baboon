@@ -5,6 +5,9 @@ var lxHelpers = require('lx-helpers');
 module.exports = function (grunt) {
     var path = require('path');
 
+    // enable stack trace for grunt tasks execptions
+    grunt.option('stack', true);
+
     /**
      * Gets the index.html file from the code coverage folder.
      *
@@ -44,8 +47,7 @@ module.exports = function (grunt) {
         // client folder
         clientFolder: 'client',
         clientAppFolder: '<%= clientFolder %>/app',
-        clientCommonFolder: '<%= clientFolder %>/common',
-        clientOptionalFolder: '<%= clientFolder %>/optional',
+        clientModulesFolder: '<%= clientFolder %>/modules',
         clientPublicFolder: '<%= clientFolder %>/public',
         clientVendorFolder: '<%= clientFolder %>/vendor',
         clientVendorBaboonFolder: '<%= clientVendorFolder %>/baboon-client',
@@ -85,7 +87,7 @@ module.exports = function (grunt) {
             '<%= testFolder %>/**/*.js',
             '<%= configFolder %>/**/*.js',
             '<%= scriptsFolder %>/**/*.js',
-            '!<%= clientOptionalFolder %>/**/*.js'
+            '!<%= clientModulesFolder %>/**/*.js'
         ],
 
         // config tasks
@@ -184,6 +186,13 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/angular/'
                     },
                     {
+                        // angular-route
+                        dest: '<%= buildDistPublicVendorFolder %>/angular',
+                        src: ['*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/angular-route/'
+                    },
+                    {
                         // bootstrap dist
                         dest: '<%= buildDistPublicVendorFolder %>/bootstrap',
                         src: ['**/*.*', '!**/*.js'],
@@ -191,11 +200,11 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/bootstrap/dist/'
                     },
                     {
-                        // angular-bootstrap
+                        // angular-bootstrap  src: ['**/*-tpls.*'],  cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
                         dest: '<%= buildDistPublicVendorFolder %>/angular-ui-bootstrap',
-                        src: ['**/*-tpls.*'],
+                        src: ['**/*-tpls-0.6.0*'],
                         expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
+                        cwd: '<%= clientVendorFolder %>/angular-ui-bootstrap/'
                     },
                     {
                         // bootstrap assets
@@ -219,11 +228,32 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/showdown/'
                     },
                     {
-                        // highlight js
-                        dest: '<%= buildDistPublicVendorFolder %>/highlight',
-                        src: ['**/*'],
+                        // angular-highlight
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-highlightjs',
+                        src: ['*.js'],
                         expand: true,
-                        cwd: '<%= clientOptionalFolder %>/highlight/'
+                        cwd: '<%= clientVendorFolder %>/angular-highlightjs/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/highlightjs',
+                        src: ['highlight.pack.js','styles/arta.css','styles/default.css', 'styles/github.css'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/highlightjs/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/chroma-js',
+                        src: ['**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/chroma-js/'
+                    },
+                    {
+                        // highlightjs
+                        dest: '<%= buildDistPublicVendorFolder %>/d3',
+                        src: ['**/*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/d3/'
                     }
                 ]
             }
@@ -238,29 +268,11 @@ module.exports = function (grunt) {
 
             /**
              * Builds the templates from baboon.common and client.common.
-             * The Baboon build expanded this configuration with the optional templates from baboon and the client.
+             * The Baboon build expanded this configuration with the templates from baboon-client.
              * In addition, baboon-build expanded this configuration with the application templates.
              * Baboon-build uses the prefixes bb_ *.
              */
             html2js: {
-                // client common templates
-                common: {
-                    options: {
-                        base: '<%= clientCommonFolder %>'
-                    },
-                    src: ['<%= clientCommonFolder %>/**/*.html'],
-                    dest: '<%= buildTmpFolder %>/tpls/common.tpl.js',
-                    module: 'common.templates'
-                },
-                // lib common templates
-                lib_common: {
-                    options: {
-                        base: '<%= clientVendorBaboonFolder %>/common'
-                    },
-                    src: ['<%= clientVendorBaboonFolder %>/common/**/*.html'],
-                    dest: '<%= buildTmpFolder %>/tpls/lib.common.tpl.js',
-                    module: 'lib.common.templates'
-                }
             },
 
             /**
@@ -283,37 +295,38 @@ module.exports = function (grunt) {
                         '<%= clientVendorFolder %>/angular-ui-utils/modules/**/*.js',
                         '!<%= clientVendorFolder %>/angular-ui-utils/modules/**/*Spec.js',
                         '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
-                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-                        '<%= clientVendorBaboonFolder %>/common/**/*.js',
-                        '!<%= clientVendorBaboonFolder %>/common/**/*.spec.js',
-                        '<%= clientCommonFolder %>/**/*.js',
-                        '!<%= clientCommonFolder %>/**/*.spec.js'
+                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
                     ]
                 }
             },
 
             /**
-             * The includes for all applications. The optional includes are added by baboon-build.
+             * The includes for all applications. The optional includes from app.conf.json are added by baboon-build.
              * This Includes Angular needed for injection. Use here the correct module name.
              */
-            includes: [
-                'ui.utils',
-                'pascalprecht.translate',
-                'lib.common.templates',
-                'common.templates',
-                'lib.optional.templates',
-                'optional.templates',
-                'app.templates',
-                'lx.alert',
-                'lx.auth',
-                'lx.float',
-                'lx.integer',
-                'lx.modal',
-                'lx.nav',
-                'lx.session',
-                'lx.socket',
-                'ui.if'
-            ],
+            includes: {
+                concat: [
+                    'ui.utils',
+                    'pascalprecht.translate'
+                ],
+                system: [
+                    'lib.templates',
+                    'client.templates',
+                    'app.templates'
+                ],
+                modules: [
+                    'lx.alert',
+                    'lx.auth',
+                    'lx.float',
+                    'lx.integer',
+                    'lx.modal',
+                    'lx.nav',
+                    'lx.session',
+                    'lx.transport',
+                    'lx.socket',
+                    'lx.rest'
+                ]
+            },
 
             /**
              * Less configuration skeleton. Baboon-build to insert the application less files.
@@ -723,9 +736,9 @@ module.exports = function (grunt) {
         'jshint:test',
         'jasmine_node',
         'build',
-        'karma:unit',
-        'express:e2e',
-        'karma:e2e'
+        'karma:unit'
+        //'express:e2e',
+        //'karma:e2e'
     ]);
     grunt.registerTask('test:release', [
         'bgShell:e2e',
@@ -734,9 +747,9 @@ module.exports = function (grunt) {
         'jshint:test',
         'jasmine_node',
         'build:deploy',
-        'karma:unit',
-        'express:e2e',
-        'karma:e2e'
+        'karma:unit'
+        //'express:e2e',
+        //'karma:e2e'
     ]);
     grunt.registerTask('server', [
         'build:watch',

@@ -1,10 +1,13 @@
 /*global angular*/
 angular.module('app', [
+        'ngRoute',
         'ui.bootstrap',
         'app.includes',
         'base'
     ])
-    .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
+    .constant('USE_SOCKET', true)
+    .config(['$routeProvider', '$locationProvider', '$translateProvider',
+        function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.otherwise({redirectTo: '/'});
 
@@ -17,6 +20,7 @@ angular.module('app', [
     }])
     .run(['$rootScope', 'lxSession', '$log', '$translate', '$window', 'lxModal',
         function ($rootScope, lxSession, $log, $translate, $window, lxModal) {
+
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function(err) {
                     if (err) {

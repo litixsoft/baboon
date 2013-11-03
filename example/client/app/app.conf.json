@@ -1,18 +1,16 @@
 {
-    "includes": {
-        "optional": {
-            "client": [],
-            "baboon": [
-                "lxPager",
-                "lxSort",
-                "lxCache",
-                "lxForm",
-                "lxInlineEdit",
-                "lxFileUpload",
-                "lxMarkdown"
-            ]
-        }
-    },
+    "includes": [
+        "lx.pager",
+        "lx.sort",
+        "lx.cache",
+        "lx.form",
+        "lx.inline.edit",
+        "lx.file.upload",
+        "lx.markdown",
+        "lx.float",
+        "lx.charts",
+        "lx.auth"
+    ],
     "toplevels": [
         "admin",
         "uiExamples"

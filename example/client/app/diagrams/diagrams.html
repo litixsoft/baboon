@@ -1,0 +1,129 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>Beispiele für Diagramme</h1>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Wonach</label>
+            <div class="col-lg-10">
+                <div class="btn-group">
+                    <button class="btn btn-info" ng-repeat="val in yearList" ng-click="setYear( val.year )">{{ val.year }}</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Aufwärts/Abwärts</label>
+            <div class="col-lg-10">
+                <div class="btn-group">
+                    <button class="btn btn-info" ng-click="sortDirection='descending';">Descending</button>
+                    <button class="btn btn-info" ng-click="sortDirection='ascending';">Ascending</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Diagramm Type</label>
+            <div class="col-lg-10">
+                <div class="btn-group">
+                    <button class="btn btn-info" ng-click="chartType='bars';">Balken-Diagramm</button>
+                    <button class="btn btn-info" ng-click="chartType='ring';">Ring-Diagramm</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <!--<div class="form-group">-->
+        <!--<label for="inputPassword1" class="col-lg-2 control-label">Wonach sortieren?</label>-->
+        <!--<div class="col-lg-10">-->
+        <!--<div class="btn-group">-->
+        <!--<button class="btn btn-info" ng-click="sortValue=selected.year;">Selected Year</button>-->
+        <!--<button class="btn btn-info" ng-click="sortValue='name';">Name</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <br><br>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="align">angleichen
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+        <style>
+
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: #000;
+                shape-rendering: crispEdges;
+            }
+
+            .bar {
+                fill: steelblue;
+            }
+
+            .x.axis path {
+                display: none;
+            }
+
+            .output{
+                color:#888;
+                font-size: 1em;
+                fill: #777;
+            }
+            .output + .output{
+                font-weight:bold;
+                font-size: 3.5em;
+                fill: #555;
+            }
+            .barValue{
+                font-size:1em;
+                font-weight:bold;
+                fill: #666666;
+                padding-left:30px;
+            }
+            .x.axis .domain,
+            .y.axis .domain,
+            .tick line{
+                stroke:#ddd;
+            }
+            .tick text{
+                font-size:0.9em;
+                fill: #777;
+                shape-rendering: crispEdges;
+            }
+
+            .dashed-line{
+                stroke: #ff0000;
+                stroke-width: 0.3;
+                stroke-dasharray: "3, 3" ;
+            }
+        </style>
+
+
+        <!--<div id="euwesteurope" lx-d3="arcdata, selected.year, selected.country['euwesteurope']"></div>-->
+
+        <lx-charts id="euwesteurope" style="display:block;" lx-d3-chart-type="chartType" lx-d3-data="arcdata" lx-d3-dim1="'name'" lx-d3-dim2="selected.year" lx-d3-sort="sortDirection" lx-d3-align="align"></lx-charts>
+        <!--<lx-d3-test id="euwesteurope" style="display:block;" lx-d3-data="arcdata" lx-d3-dim1="'AUTHOR'" lx-d3-dim2="'DISCOUNTED_PRICE'" lx-d3-sort="sortDirection" lx-d3-align="align"></lx-d3-test>-->
+
+
+
+        <lx-charts id="euwesteurope" style="display:block;" lx-d3-chart-type="'ring'" lx-d3-data="arcdata" lx-d3-dim1="'name'" lx-d3-dim2="selected.name" lx-d3-sort="sortDirection" lx-d3-align="align"></lx-charts>
+
+
+        <!--lx-d3-sort-dim="sortValue"-->
+
+        <!-- lx-d3-optional="selected.country['euwesteurope']"></lx-d3-test>-->
+        <!--<lx-d3-test id="euwesteurope" lx-d3-data="arcdata"  lx-d3-dim1="selected.year" lx-d3-dim2="'name'" lx-d3-sort="'ascending'" lx-d3-sort-dim="selected.year" lx-d3-optional="selected.country['euwesteurope']"></lx-d3-test>-->
+        <!--<lx-d3-test id="euwesteurope" lx-d3-data="arcdata"  lx-d3-dim1="selected.year" lx-d3-dim2="'name'" lx-d3-sort="'descending'" lx-d3-sort-dim="'name'" lx-d3-optional="selected.country['euwesteurope']"></lx-d3-test>-->
+
+
+
+    </div>
+</div>

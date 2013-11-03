@@ -4,15 +4,16 @@ module.exports = [
     {title: 'APP_EXAMPLE', route: '/', target: '_self', children: [
         {title: 'HOME', route: '/home'},
         {title: 'ABOUT', route: '/home/about'},
-        {title: 'ENTERPRISE', route: '/enterprise', right: 'example/enterprise/enterprise/getAllMembers'},
-        {title: 'BLOG', route: '/blog', right: 'example/blog/blog/getAllPosts', children: [
-            {title: 'ADMIN', route: '/blog/admin', right: 'example/blog/blog/createPost', children: [
+        {title: 'ENTERPRISE', route: '/enterprise', right: 'app/enterprise/enterprise/getAllMembers'},
+        {title: 'BLOG', route: '/blog', right: 'app/blog/blog/getAllPosts', children: [
+            {title: 'ADMIN', route: '/blog/admin', right: 'app/blog/blog/createPost', children: [
                 {title: 'Demo1', route: '/demo1', icon: 'home', target: '_self'},
                 {title: 'Demo2', route: '/demo2', icon: 'gear'},
                 {title: 'Demo3', route: '/demo3', icon: 'home'}
             ]}
         ]},
         {title: 'SESSION', route: '/session'},
+        {title: 'DIAGRAMS', route: '/diagrams'},
         {title: 'TRANSLATION', route: '/translation'},
         {title: 'MODAL', route: '/modal'}
     ]},

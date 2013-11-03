@@ -36,7 +36,7 @@ describe('Config', function () {
         expect(sut.host).toBeDefined();
         expect(sut.port).toBeDefined();
         expect(sut.mongo.blog).toBeDefined();
-        expect(sut.mongo.blog).toContain(':11111/');
+        expect(sut.mongo.blog).toContain('localhost');
 
         expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: production');
         expect(console.log).toHaveBeenCalledWith('   info  - override base config with param: pro');

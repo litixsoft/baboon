@@ -4,7 +4,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'ROLES' | translate }}</div>
             <div class="panel-body">
-                <table name="name" class="table table-hover"  ng-class="{'load-content' : !roles.length}">
+                <table name="name" class="table table-hover"  ng-class="{'load-content' : isLoading}">
                     <thead>
                     <tr>
                         <th style="width: 20px;">

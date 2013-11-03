@@ -1,37 +1,36 @@
 /*global angular*/
 angular.module('blog.services', [])
-    .factory('blogPosts', ['lxSocket', 'blog.modulePath', function (lxSocket, modulePath) {
-        var pub = {};
+    .factory('appBlogAdminTags', ['lxTransport', 'blog.modulePath', function (transport, modulePath) {
+        var pub = {},
+            tags = [];
+
+        pub.refresh = true;
 
         pub.getAll = function (query, callback) {
-            lxSocket.emit(modulePath + 'blog/getAllPosts', query, function (result) {
-                callback(result);
-            });
+            if (pub.refresh) {
+                transport.emit(modulePath + 'blog/getAllTags', query, function (error, result) {
+                    if (result) {
+                        tags = result;
+                        pub.refresh = false;
+                    }
+
+                    callback(error, result);
+                });
+            } else {
+                callback(null, tags);
+            }
         };
 
-        pub.searchPosts = function (query, callback) {
-            lxSocket.emit(modulePath + 'blog/searchPosts', query, function (result) {
-                callback(result);
-            });
+        pub.createTag = function (tag, callback) {
+            transport.emit(modulePath + 'blog/createTag', tag, callback);
         };
 
-        pub.getAllWithCount = function (query, callback) {
-            lxSocket.emit(modulePath + 'blog/getAllPostsWithCount', query, function (result) {
-                callback(result);
-            });
+        pub.updateTag = function (tag, callback) {
+            transport.emit(modulePath + 'blog/updateTag', tag, callback);
         };
 
-        pub.getById = function (id, callback) {
-            lxSocket.emit(modulePath + 'blog/getPostById', {id: id}, function (result) {
-                callback(result);
-            });
-        };
-
-        pub.addComment = function (id, comment, callback) {
-            comment.post_id = id;
-            lxSocket.emit(modulePath + 'blog/addComment', comment, function (result) {
-                callback(result);
-            });
+        pub.deleteTag = function (id, callback) {
+            transport.emit(modulePath + 'blog/deleteTag', {id: id}, callback);
         };
 
         return pub;
