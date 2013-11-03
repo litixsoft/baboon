@@ -91,16 +91,25 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Roadmap for next releases
 * extend admin area
 * auth with passport (g+, facebook, Github login), auth only clientside
-* replace optional and common by module with new directory structure
 * remove EJS dependencies on server
-* replace socket transport with new transport layer, websocket with REST fallback
 * modularize navigation and locale
 * example for productive config with nginx load balance
 * make server and client independently
+* audit to mongo
+* more tests
+
+## Release publication dates
+* 12/2013 0.3 beta2
+* 02/2013 0.4 release canditate
+* 03/2013 0.5 release stable
 
 ## Release History
-### v0.2.1
+### v0.2.5
 * fix error in logging in production mode
+* fix error baboon-client version
+* merge with actual 0.3 develop version (angular 1.2)
+* replace optional and common by module with new directory structure
+* replace socket transport with new transport layer, websocket with REST fallback
 
 ### v0.2 beta
 * outsourcing client code in baboon-client (bower registry)
