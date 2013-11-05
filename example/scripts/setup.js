@@ -73,12 +73,12 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                                 }
                             });
 
-                            if (roleExists) {
-                                next();
-                            } else {
+                            if (!roleExists && roles.Admin) {
                                 user.roles.push(roles.Admin);
 
                                 repo.users.update({_id: user._id}, {$set: user}, next);
+                            } else {
+                                next();
                             }
                         } else if (user.name === 'guest') {
                             lxHelpers.forEach(user.roles, function (role) {
@@ -88,12 +88,12 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                                 }
                             });
 
-                            if (roleExists) {
-                                next();
-                            } else {
+                            if (!roleExists && roles.Guest) {
                                 user.roles.push(roles.Guest);
 
                                 repo.users.update({_id: user._id}, {$set: user}, next);
+                            } else {
+                                next();
                             }
                         } else {
                             next();
