@@ -83,7 +83,7 @@ $scope.setActivity = function(){
                 <div class="form-group">
                     <div class="col-md-12">
                         <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
-                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_1">
+                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_1 track by $index">
                                 <li>{{item}}</li>
                             </ul>
                         </div>
@@ -244,7 +244,7 @@ $scope.deleteData = function () {
                 <div class="form-group">
                     <div class="col-md-12">
                         <div style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">
-                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_2">
+                            <ul style="margin: 0; padding-left: 0.5em; list-style: none" ng-repeat="item in logs_2 track by $index">
                                 <li>{{item}}</li>
                             </ul>
                         </div>

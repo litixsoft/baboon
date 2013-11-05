@@ -1,7 +1,7 @@
 {
     "name": "baboon-example",
     "description": "Example App for baboon web application framework",
-    "version": "0.2.0",
+    "version": "0.2.5",
     "author": {
         "name": "Litixsoft GmbH",
         "email": "info@litixsoft.de"
