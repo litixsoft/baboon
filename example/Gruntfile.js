@@ -186,6 +186,13 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/angular/'
                     },
                     {
+                        // angular
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-animate',
+                        src: ['*.js'],
+                        expand: true,
+                        cwd: '<%= clientVendorFolder %>/angular-animate/'
+                    },
+                    {
                         // angular-route
                         dest: '<%= buildDistPublicVendorFolder %>/angular',
                         src: ['*.js'],
