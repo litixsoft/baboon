@@ -3,6 +3,7 @@
 var grunt = require('grunt'),
     path = require('path'),
     async = require('async'),
+    lxHelpers = require('lx-helpers'),
     rootPath = path.resolve(),
     config = require('../../lib/config.js')(rootPath),
     logging = require('../../lib/logging.js')(
@@ -61,21 +62,35 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                     }
 
                     async.eachSeries(result, function (user, next) {
-                        var idx;
+                        var roleExists = false;
                         user.roles = user.roles || [];
 
                         if (user.name === 'admin') {
-                            idx = user.roles.indexOf(roles.Admin);
+                            lxHelpers.forEach(user.roles, function (role) {
+                                if (role.toString() === roles.Admin.toString()) {
+                                    roleExists = true;
+                                    return false;
+                                }
+                            });
 
-                            if (idx === -1) {
+                            if (roleExists) {
+                                next();
+                            } else {
                                 user.roles.push(roles.Admin);
 
                                 repo.users.update({_id: user._id}, {$set: user}, next);
                             }
                         } else if (user.name === 'guest') {
-                            idx = user.roles.indexOf(roles.Guest);
+                            lxHelpers.forEach(user.roles, function (role) {
+                                if (role.toString() === roles.Guest.toString()) {
+                                    roleExists = true;
+                                    return false;
+                                }
+                            });
 
-                            if (idx === -1) {
+                            if (roleExists) {
+                                next();
+                            } else {
                                 user.roles.push(roles.Guest);
 
                                 repo.users.update({_id: user._id}, {$set: user}, next);
