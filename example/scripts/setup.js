@@ -55,7 +55,7 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                     roles[role.name] = role._id;
                 });
 
-                repo.users.getAll({name: { $in: ['admin', 'guest']}}, {fields: ['_id', 'name', 'roles']}, function (error, result) {
+                repo.users.getAll({username: { $in: ['admin', 'guest']}}, {fields: ['_id', 'username', 'roles']}, function (error, result) {
                     if (error) {
                         finalCallback(error);
                         return;
@@ -65,7 +65,7 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                         var roleExists = false;
                         user.roles = user.roles || [];
 
-                        if (user.name === 'admin') {
+                        if (user.username === 'admin') {
                             lxHelpers.forEach(user.roles, function (role) {
                                 if (role.toString() === roles.Admin.toString()) {
                                     roleExists = true;
@@ -80,7 +80,7 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                             } else {
                                 next();
                             }
-                        } else if (user.name === 'guest') {
+                        } else if (user.username === 'guest') {
                             lxHelpers.forEach(user.roles, function (role) {
                                 if (role.toString() === roles.Guest.toString()) {
                                     roleExists = true;
