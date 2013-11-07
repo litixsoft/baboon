@@ -72,6 +72,99 @@ body {
   left:-100%;
 }
 
+@font-face {
+  font-family: 'OpenSansB';
+  src: url('../fonts/OpenSans-Bold-webfont.eot');
+  src: url('../fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/OpenSans-Bold-webfont.woff') format('woff'),
+  url('../fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+  url('../fonts/OpenSans-Bold-webfont.svg#OpenSans') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSansL';
+  src: url('../fonts/OpenSans-Light-webfont.eot');
+  src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/OpenSans-Light-webfont.woff') format('woff'),
+  url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'),
+  url('../fonts/OpenSans-Light-webfont.svg#OpenSans') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+.trademark-area{
+  font-family: OpenSansB;
+  font-size: 30px;
+  color:#e65b44;
+}
+.trademark-area i{
+  font-family: OpenSansL;
+  color:white;
+  font-style: normal;
+  font-size: 20px;
+}
+.trademark-area sup{
+  font-family: OpenSansB;
+  color:white;
+  font-style: normal;
+  font-size: 13px;
+  vertical-align: super;
+  margin-left: 4px;
+}
+.btn-group.dark-select .btn-default {
+  background: #444a52;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-header {
+  background: #3C4148;
+}
+.layout-content .col-right{
+  box-shadow:none;
+  //  padding-left:10px;
+  //  margin-left: -10px;
+}
+
+.layout-content .col-left:after{
+  content:'';
+  width:400px;
+  height:90%;
+  min-height: 400px;
+  border-radius: 0 200px 0 500px;
+  display:block;
+//  background:red;
+  position: absolute;
+  top:50px;
+  left:250px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+.layout-content .col-right .dark-header{
+  //  background:#1894c3;
+//  overflow: hidden;
+}
+.layout-content .col-right .view-container {
+  background:white;
+  z-index:10;
+  border-radius: 10px 0 0 0;
+}
+.layout-content .col-right .dark-header:before{
+  z-index:8;
+  content:'';
+  width:85%;
+  max-width:1100px;
+  height:200px;
+  border-radius: 0 500px 0 500px;
+  display:block;
+  background:transparent;
+  position: absolute;
+  top:50px;
+  left:0px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+.layout-content .col-right .view-container:before{
+  background: transparent;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
