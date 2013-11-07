@@ -50,16 +50,7 @@
             <!-- login start -->
 
             <div class="dark-header">
-                <div class="pull-right login-area">
-                    <!--ng-controller="lxAuthLoginCtrl">-->
-
-                    <% if(!isAuth) { %>
-                        <lx-login-popup></lx-login-popup>
-                    <% } %>
-                    <% if(isAuth) { %>
-                        <lx-logout-popup user="'<%= username %>'"></lx-logout-popup>
-                    <% } %>
-                </div>
+                <lx-auth-popup></lx-auth-popup>
 
                 <!--<bootnav class="navlist pull-right" itemlist-attr="<%= JSON.stringify(topLevelNavigation) %>" type-attr="nav-pills" label-attr="title" icon-attr="icon" target-attr="target" link-attr="route"></bootnav>-->
                 <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
