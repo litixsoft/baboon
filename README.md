@@ -90,7 +90,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Roadmap for next releases
 * extend admin area
-* auth with passport (g+, facebook, Github login), auth only clientside
 * remove EJS dependencies on server
 * modularize navigation and locale
 * example for productive config with nginx load balance
@@ -104,9 +103,15 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * 03/2013 0.5 release stable
 
 ## Release History
+### v0.2.7
+* remove passport auth
+* remove uiExamples
+* change server url (chrome bug localhost)
+* bug fixes
+
 ### v0.2.6
 * passport auth
-* bug fixing
+* bug fixes
 * refactoring
 
 ### v0.2.5
