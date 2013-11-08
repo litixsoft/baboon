@@ -82,8 +82,13 @@
             </div>
 
             <!-- login end -->
-            <div class="view-container">
-                <div ng-view></div>
+
+            <div class="lx-alert animate-show" ng-show="lxAlert.visible">
+                <alert class="ng-cloak" type="lxAlert.type" close="lxAlert.close()">{{lxAlert.msg}}</alert>
+            </div>
+
+            <div class="view-container example-animate-container">
+                <div ng-view class="view-example"></div>
             </div>
 
         </div>

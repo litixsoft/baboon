@@ -34,7 +34,9 @@
 <div id="singlepageFrame" class="ng-cloak">
     <div class="layout-content">
         <div class="col-left navCol">
-            <span class="trademark-area">Baboon</span>
+
+            <span class="trademark-area">BABOON<sup>0.3</sup></span>
+
             <!--<lxtreeview class="navlist" itemlist-attr="navData" label-attr="title" icon-attr="icon" link-attr="route" ng-init="navData = <%= JSON.stringify(navigation[0].children) %>"></lxtreeview>-->
             <!--<treeview class="navlist" nr-attr="0" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>-->
 
@@ -88,10 +90,9 @@
             </div>
 
             <!-- login end -->
-            <div>
-                <div class="p-wrapper">
-                    <alert class="ng-cloak" style="margin: 2em 2em 0em; text-align: center" type="lxAlert.type" ng-show="lxAlert.visible" close="lxAlert.close()">{{lxAlert.msg}}</alert>
-                </div>
+
+            <div class="lx-alert animate-show" ng-show="lxAlert.visible">
+                <alert class="ng-cloak" type="lxAlert.type" close="lxAlert.close()">{{lxAlert.msg}}</alert>
             </div>
 
 

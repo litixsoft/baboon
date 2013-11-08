@@ -1,6 +1,7 @@
 /*global angular*/
 angular.module('app', [
         'ngRoute',
+        'ngAnimate',
         'ui.bootstrap',
         'app.includes',
         'admin'
