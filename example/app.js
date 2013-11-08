@@ -15,8 +15,8 @@ var GitHubStrategy = require('passport-github').Strategy;
 ///////////////////////////////////////////
 
 passport.use(new GoogleStrategy({
-        returnURL: process.env.GOOGLE_RETURN_URL || "http://127.0.0.1:3000/auth/google/return",
-        realm: process.env.GOOGLE_REALM || "http://127.0.0.1:3000/"
+        returnURL: process.env.GOOGLE_RETURN_URL || 'http://127.0.0.1:3000/auth/google/return',
+        realm: process.env.GOOGLE_REALM || 'http://127.0.0.1:3000/'
     },
     function(identifier, profile, done) {
         rights.findOrCreateUser(profile.emails[0].value,profile.displayName, function(err, user) {
@@ -28,7 +28,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
         clientID: 'e255d4c484d293e40e05',
         clientSecret: 'c939429366715b49000c95bab6f0bdb4fe10c7be',
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+        callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
     },
     function(accessToken, refreshToken, profile, done) {
         rights.findOrCreateUser(profile.emails[0].value, profile.displayName, function (err, user) {
