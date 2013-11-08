@@ -87,22 +87,22 @@ describe('Rights', function () {
         users = [
             {
                 _id: 1,
-                name: 'user',
+                username: 'user',
                 groups: [1]
             },
             {
                 _id: 2,
-                name: 'wayne',
+                username: 'wayne',
                 groups: [2, 5]
             },
             {
                 _id: 3,
-                name: 'devver',
+                username: 'devver',
                 groups: [2, 4]
             },
             {
                 _id: 4,
-                name: 'chief',
+                username: 'chief',
                 groups: [2, 6]
             }
         ];
@@ -293,7 +293,7 @@ describe('Rights', function () {
         it('should return an empty object when the param "allRights" is empty', function () {
             var user = {
                     id: 0,
-                    name: 'admin',
+                    username: 'admin',
                     rights: [
                         {_id: 1, hasAccess: true}
                     ]
@@ -305,7 +305,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights', function () {
-            var user = {id: 0, name: 'admin'},
+            var user = {id: 0, username: 'admin'},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -313,7 +313,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights and his groups have no rights', function () {
-            var user = {id: 0, name: 'admin', groups: [1]},
+            var user = {id: 0, username: 'admin', groups: [1]},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -321,7 +321,7 @@ describe('Rights', function () {
         });
 
         it('should return all rights when the user id is 1', function () {
-            var user = {id: 1, name: 'sysadmin'},
+            var user = {id: 1, username: 'sysadmin'},
                 res = sut.getUserAcl(user, rights, roles);
 
             expect(typeof res).toBe('object');
@@ -543,12 +543,12 @@ describe('Rights', function () {
     describe('.getUserForLogin()', function () {
         beforeEach(function (done) {
             user = {
-                name: 'wayne',
+                username: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.delete({name: user.name}, function () {done();});
+            repo.users.delete({username: user.username}, function () {done();});
         });
 
         it('should return the user with minimal data', function (done) {
@@ -556,7 +556,7 @@ describe('Rights', function () {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
 
-                sut.getUserForLogin(user.name, function (err, res) {
+                sut.getUserForLogin(user.username, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toEqual(user);
 
@@ -569,12 +569,12 @@ describe('Rights', function () {
     describe('.getUser()', function () {
         beforeEach(function (done) {
             user = {
-                name: 'wayne',
+                username: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.delete({name: user.name}, function () {
+            repo.users.delete({username: user.username}, function () {
                 repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
                     repo.roles.delete({name: 'dev'}, function () {
                         repo.groups.delete({name: 'devs'}, function () {
@@ -613,7 +613,7 @@ describe('Rights', function () {
                     sut.getUser(user._id, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
-                        expect(res.name).toBe('wayne');
+                        expect(res.username).toBe('wayne');
                         expect(res.hash).toBeUndefined();
                         expect(res.salt).toBeUndefined();
                         expect(res.acl).toBeDefined();
@@ -660,7 +660,7 @@ describe('Rights', function () {
                     sut.getUser(user.id, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
-                        expect(res.name).toBe('wayne');
+                        expect(res.username).toBe('wayne');
                         expect(res.hash).toBeUndefined();
                         expect(res.salt).toBeUndefined();
                         expect(res.acl).toBeDefined();
@@ -701,7 +701,7 @@ describe('Rights', function () {
                         sut.getUser(user._id, function (err, res) {
                             expect(err).toBeNull();
                             expect(res).toBeDefined();
-                            expect(res.name).toBe('wayne');
+                            expect(res.username).toBe('wayne');
                             expect(res.hash).toBeUndefined();
                             expect(res.salt).toBeUndefined();
                             expect(res.acl).toBeDefined();
@@ -747,7 +747,7 @@ describe('Rights', function () {
                             sut.getUser(user._id, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
-                                expect(res.name).toBe('wayne');
+                                expect(res.username).toBe('wayne');
                                 expect(res.hash).toBeUndefined();
                                 expect(res.salt).toBeUndefined();
                                 expect(res.acl).toBeDefined();
@@ -796,7 +796,7 @@ describe('Rights', function () {
                             sut.getUser(user._id, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
-                                expect(res.name).toBe('wayne');
+                                expect(res.username).toBe('wayne');
                                 expect(res.hash).toBeUndefined();
                                 expect(res.salt).toBeUndefined();
                                 expect(res.acl).toBeDefined();
@@ -849,7 +849,7 @@ describe('Rights', function () {
                                 sut.getUser(user._id, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
-                                    expect(res.name).toBe('wayne');
+                                    expect(res.username).toBe('wayne');
                                     expect(res.hash).toBeUndefined();
                                     expect(res.salt).toBeUndefined();
                                     expect(res.acl).toBeDefined();
@@ -902,7 +902,7 @@ describe('Rights', function () {
                                 sut.getUser(user._id, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
-                                    expect(res.name).toBe('wayne');
+                                    expect(res.username).toBe('wayne');
                                     expect(res.hash).toBeUndefined();
                                     expect(res.salt).toBeUndefined();
                                     expect(res.acl).toBeDefined();
@@ -925,12 +925,12 @@ describe('Rights', function () {
     describe('.getExtendedAcl()', function () {
         beforeEach(function (done) {
             user = {
-                name: 'wayne',
+                username: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.delete({name: user.name}, function () {
+            repo.users.delete({username: user.username}, function () {
                 repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
                     repo.roles.delete({name: 'dev'}, function () {
                         repo.groups.delete({name: 'devs'}, function () {
