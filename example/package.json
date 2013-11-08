@@ -41,9 +41,7 @@
     "async": "~0.2.9",
     "lx-helpers": "~0.2.5",
     "lx-mongodb": "~0.4.7",
-    "lx-valid": "~0.2.9",
-    "passport-google": "~0.3.0",
-    "passport-github": "~0.1.5"
+    "lx-valid": "~0.2.9"
   },
   "devDependencies": {
     "grunt": "0.4.1",

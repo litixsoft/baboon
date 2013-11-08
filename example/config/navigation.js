@@ -17,9 +17,6 @@ module.exports = [
         {title: 'TRANSLATION', route: '/translation'},
         {title: 'MODAL', route: '/modal'}
     ]},
-    {'title': 'UI_EXAMPLE', 'route': '/ui', target: '_self', children: [
-        {title: 'DEMO', route: '/demo'}
-    ]},
     {'title': 'ADMINISTRATION', 'route': '/admin', target: '_self', right: 'baboon/admin/user/create', children: [
         {title: 'USERS', route: '/admin/users', right: 'baboon/admin/user/getAll'},
         {title: 'GROUPS', route: '/admin/groups', right: 'baboon/admin/group/getAll'},
