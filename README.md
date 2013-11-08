@@ -104,6 +104,11 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * 03/2013 0.5 release stable
 
 ## Release History
+### v0.2.6
+* passport auth
+* bug fixing
+* refactoring
+
 ### v0.2.5
 * fix error in logging in production mode
 * fix error baboon-client version
