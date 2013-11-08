@@ -89,53 +89,6 @@
                 <!--<span class="pull-right trademark-area">Baboon</span>-->
             </div>
 
-            <style>
-                .lx-alert .alert{
-                    border-radius:8px;
-                    position:fixed;
-                    top:80px;
-                    right:30px;
-                    z-index:100;
-                    margin:0;
-                    width:300px;
-                    display:inline-block;
-                    border:1px solid rgba(255,255,255,0.6);
-                    background:rgba(0,0,0,0.75);
-                    color:white;
-                    box-shadow:0 0 23px rgba(0,0,0,0.8);
-                    text-align: center;
-                }
-
-                .lx-alert.animate-show .alert {
-                    -webkit-transition:all linear 0.25s;
-                    transition:all linear 0.25s;
-                    opacity:1;
-                    right:30px;
-                    /*width:400px;*/
-                }
-
-                .lx-alert.animate-show.ng-hide-add,
-                .lx-alert.animate-show.ng-hide-remove {
-                    display:block!important;
-                }
-
-                .lx-alert.animate-show.ng-hide {
-                    display:block !important;
-                }
-
-                .lx-alert.animate-show.ng-hide  .alert{
-                    -webkit-transition:all linear 0.25s;
-                    transition:all linear 0.25s;
-                    opacity:0;
-                    /*width:0px;*/
-                    /*right:0px;*/
-                    right:-340px;
-                }
-
-
-
-            </style>
-
             <!-- login end -->
 
             <div class="lx-alert animate-show" ng-show="lxAlert.visible">
