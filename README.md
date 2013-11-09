@@ -103,6 +103,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * 03/2013 0.5 release stable
 
 ## Release History
+### v0.2.8
+* update tests
+* revert to angular 1.2.0-rc.3
+
 ### v0.2.7
 * remove passport auth
 * remove uiExamples
