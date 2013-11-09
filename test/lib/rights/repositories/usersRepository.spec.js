@@ -82,7 +82,7 @@ describe('Users repositiory', function () {
         it('should valid to false when the data is not valid', function (done) {
             sut.validate({roles: ['1', '2']}, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
-                expect(res.errors.length).toBe(5);
+                expect(res.errors.length).toBe(4);
                 expect(res.errors[0].property).toBe('email');
                 expect(res.errors[0].attribute).toBe('required');
                 expect(res.errors[1].property).toBe('roles');
@@ -91,8 +91,6 @@ describe('Users repositiory', function () {
                 expect(res.errors[2].attribute).toBe('format');
                 expect(res.errors[3].property).toBe('username');
                 expect(res.errors[3].attribute).toBe('required');
-                expect(res.errors[4].property).toBe('username');
-                expect(res.errors[4].attribute).toBe('checkName');
 
                 done();
             });
