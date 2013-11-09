@@ -91,8 +91,6 @@ describe('Users repositiory', function () {
                 expect(res.errors[2].attribute).toBe('format');
                 expect(res.errors[3].property).toBe('username');
                 expect(res.errors[3].attribute).toBe('required');
-                expect(res.errors[4].property).toBe('username');
-                expect(res.errors[4].attribute).toBe('checkName');
 
                 done();
             });
