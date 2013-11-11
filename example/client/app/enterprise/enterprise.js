@@ -111,10 +111,6 @@ angular.module('enterprise', [])
                     },
                     cbNo: function () {}
                 }, 'standard');
-
-                setTimeout(function () {
-                    lxModal.updateMsg('enterpriseDeleteMember' + name, 'Diese neue Meldung wird dir vom Sven präsentiert. Du kannst aber gern trotzdem crew member ' + name + ' löschen!');
-                }, 2000);
             };
         }])
     .controller('enterpriseEditCtrl', ['$scope', '$location', '$routeParams', 'lxTransport', 'lxForm', 'enterprise.modulePath',
