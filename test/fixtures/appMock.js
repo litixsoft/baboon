@@ -6,6 +6,7 @@ var path = require('path'),
 
 // override mongo connection strings
 config.mongo.rights = configFile.params.unitTest.mongo.rights;
+config.mongo.logs = configFile.params.unitTest.mongo.logs;
 
 module.exports = function () {
     var logging = function (msg) {

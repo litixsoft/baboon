@@ -7,10 +7,23 @@ describe('Logging', function () {
         fs = require('fs'),
         rootPath = path.resolve('..', 'baboon'),
         tmpPath = path.resolve(rootPath, 'build', 'tmp'),
-        log = require(path.resolve(rootPath, 'lib', 'logging.js'));
+        log = require(path.resolve(rootPath, 'lib', 'logging.js')),
+        config = {
+            path: {
+                logs: tmpPath
+            },
+            nodeEnv: 'development',
+            logging: {
+                maxLogSize: 20480,
+                backups: 10
+            },
+            mongo: {
+                logs: 'localhost:27017/test_baboon_logs'
+            }
+        };
 
     it('returns console logger if nodeEnv is not "production"', function () {
-        var sut = log(tmpPath, 'dev', 20480, 10);
+        var sut = log(config);
 
         expect(sut.syslog).toBeDefined();
         expect(sut.audit).toBeDefined();
@@ -20,13 +33,15 @@ describe('Logging', function () {
         // check log4js
         expect(log4js.appenders.console).toBeDefined();
         expect(typeof log4js.appenders.console).toBe('function');
+        expect(log4js.appenders['log4js-node-mongodb']).toBeDefined();
+        expect(typeof log4js.appenders['log4js-node-mongodb']).toBe('function');
     });
 
     it('returns file logger if nodeEnv is set to "production"', function (done) {
-        var sut = log(tmpPath, 'production', 20480, 10);
+        config.nodeEnv = 'production';
+        var sut = log(config);
 
         sut.syslog.error('test');
-        sut.audit.info('test');
         sut.socket.warn('test');
         sut.express.debug('test');
 
@@ -39,8 +54,6 @@ describe('Logging', function () {
         expect(fs.existsSync(tmpPath)).toBeTruthy();
         expect(fs.existsSync(tmpPath + '/sys')).toBeTruthy();
         expect(fs.existsSync(tmpPath + '/sys/sys.log')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/audit')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/audit/audit.log')).toBeTruthy();
         expect(fs.existsSync(tmpPath + '/socket')).toBeTruthy();
         expect(fs.existsSync(tmpPath + '/socket/socket.log')).toBeTruthy();
         expect(fs.existsSync(tmpPath + '/express')).toBeTruthy();
@@ -62,9 +75,6 @@ describe('Logging', function () {
         setTimeout(function() {
             var syslog = fs.readFileSync(tmpPath + '/sys/sys.log', {encoding: 'utf8'});
             expect(syslog.indexOf('[ERROR] syslog - test')).toBeGreaterThan(0);
-
-            var audit = fs.readFileSync(tmpPath + '/audit/audit.log', {encoding: 'utf8'});
-            expect(audit.indexOf('[INFO] audit - test')).toBeGreaterThan(0);
 
             var socket = fs.readFileSync(tmpPath + '/socket/socket.log', {encoding: 'utf8'});
             expect(socket.indexOf('[WARN] socket - test')).toBeGreaterThan(0);
