@@ -6,8 +6,7 @@ var grunt = require('grunt'),
     lxHelpers = require('lx-helpers'),
     rootPath = path.resolve(),
     config = require('../../lib/config.js')(rootPath),
-    logging = require('../../lib/logging.js')(
-        config.path.logs, config.nodeEnv, config.logging.maxLogSize, config.logging.backups),
+    logging = require('../../lib/logging.js')(config),
     rights = require('../../lib/rights')(config, logging);
 
 grunt.log.ok('Start setup script for baboon example app.');
