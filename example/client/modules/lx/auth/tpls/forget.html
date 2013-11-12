@@ -1,0 +1,49 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Passwort vergessen</div>
+            <div class="panel-body">
+
+                <form class="form-horizontal" ng-submit="login()" name="loginForm">
+
+                    <p>Bitte geben Sie die Email-Adresse ein mit der sie sich registriert haben. Die Email mit dem Passwort bzw. dem Benutzernamen wird dann an diese Adresse geschickt.</p>
+                    <hr>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="email">{{ 'EMAIL' | translate }}</label>
+                        <div class="col-md-10">
+                            <input type="text" id="email" placeholder="{{ 'ENTER_EMAIL' | translate }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="forgotsomething" value="forgot">
+                                    Ich habe mein Passwort vergessen.
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="forgotsomething" value="forgot">
+                                    Ich habe meinen Benutzernamen vergessen.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'REGISTER' | translate }}" name="register"> <!-- btn-login -->
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
