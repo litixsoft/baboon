@@ -15,7 +15,7 @@ angular.module('lx.auth.services', [])
 
         pub.login = function (username, password, callback) {
             //$http.post('/api/auth/login', username, password)
-            $http.post('/api/auth/login', {username: username, password: password})
+            $http.post('/api/v1/auth/login', {username: username, password: password})
                 .success(function (data) {
                     callback(null, data);
                 })

@@ -11,7 +11,7 @@ angular.module('lx.auth', ['lx.auth.services','lx.auth.directives','lx/auth/tpls
         $scope.isAuth = false;
         $scope.user = '';
 
-        $http.get('/api/session/getAuthData').success(function (data) {
+        $http.post('/api/v1/auth/getAuthData').success(function (data) {
             $scope.user = data.username;
             $scope.isAuth = data.isAuth;
         });
