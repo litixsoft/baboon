@@ -5,8 +5,8 @@ var lxHelpers = require('lx-helpers');
 module.exports = function (grunt) {
     var path = require('path');
 
-    // enable stack trace for grunt tasks execptions
-    grunt.option('stack', true);
+    // load all grunt tasks
+    require('load-grunt-tasks')(grunt);
 
     /**
      * Gets the index.html file from the code coverage folder.
@@ -389,7 +389,8 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     port: 3000,
-                    script: 'app.js'
+                    script: 'app.js',
+                    delay: 1
                 }
             },
             e2e: {
@@ -403,7 +404,8 @@ module.exports = function (grunt) {
         // Configuration to be run (and then tested)
         watch: {
             options: {
-                livereload: 35729
+                livereload: 35729,
+                forever: false
             },
             client: {
                 files: [
@@ -416,10 +418,15 @@ module.exports = function (grunt) {
             server: {
                 files: [
                     '<%= serverFolder %>/modules/**/*.*',
-                    'app.js',
-                    '!<%= serverFolder %>/**/*.spec.js'
+                    '!<%= serverFolder %>/**/*.spec.js',
+                    '<%= configFolder %>/app.conf.json',
+                    '<%= configFolder %>/navigation.js',
+                    'app.js'
                 ],
-                tasks: ['build:rights', 'express:dev']
+                tasks: ['build:rights', 'express:dev'],
+                options: {
+                    spawn: false //Without this option specified express won't be reloaded
+                }
             }
         },
 
@@ -561,23 +568,6 @@ module.exports = function (grunt) {
         }
     });
 
-    // Load tasks.
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-express-server');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-text-replace');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-ngmin');
-    grunt.loadNpmTasks('grunt-jasmine-node');
-    grunt.loadNpmTasks('grunt-bg-shell');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-contrib-less');
-
     // Register tasks.
 
     // baboon build task
@@ -640,7 +630,6 @@ module.exports = function (grunt) {
         'build:client'
     ]);
     grunt.registerTask('build:watch', [
-        'build:rights',
         'clean:dist',
         'clean:tmp',
         'copy',
@@ -759,6 +748,7 @@ module.exports = function (grunt) {
         //'karma:e2e'
     ]);
     grunt.registerTask('server', [
+        'build:rights',
         'build:watch',
         'express:dev',
         'open:browser',
