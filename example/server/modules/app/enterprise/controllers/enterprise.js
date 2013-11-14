@@ -16,8 +16,6 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllMembers = function (data, request, callback) {
-        console.log('1eeee444');
-
         repo.crew.getAll(data.params || {}, data.options || {}, callback);
     };
 
