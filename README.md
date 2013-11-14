@@ -103,6 +103,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * 03/2013 0.5 release stable
 
 ## Release History
+### v0.2.10
+* BREAKING CHANGE: add request object as param to server controller function calls
+
 ### v0.2.9
 * change rest api
 * include auth module (unstable)
