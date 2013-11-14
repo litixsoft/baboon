@@ -69,7 +69,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.getAll = function (data, callback) {
+    pub.getAll = function (data, request, callback) {
         var options = data.options || {};
 
         // remove protected fields from options.fields
@@ -96,7 +96,7 @@ module.exports = function (app) {
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.getById = function (data, callback) {
+    pub.getById = function (data, request, callback) {
         var options = data.options || {};
 
         // remove protected fields from options.fields
@@ -114,7 +114,7 @@ module.exports = function (app) {
      * @param {object} data The user data.
      * @param {!function(result)} callback The callback.
      */
-    pub.create = function (data, callback) {
+    pub.create = function (data, request, callback) {
         data = data || {};
 
         // validate client data
@@ -166,7 +166,7 @@ module.exports = function (app) {
      * @param {object} data The user data.
      * @param {!function(result)} callback The callback.
      */
-    pub.update = function (data, callback) {
+    pub.update = function (data, request, callback) {
         if (!data) {
             callback();
             return;

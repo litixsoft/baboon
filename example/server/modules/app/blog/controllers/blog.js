@@ -75,7 +75,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.getAllPosts = function (data, callback) {
+    pub.getAllPosts = function (data, request, callback) {
         repo.posts.getAll(data.params || {}, data.options || {}, callback);
     };
 
@@ -87,7 +87,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.getAllPostsWithCount = function (data, callback) {
+    pub.getAllPostsWithCount = function (data, request, callback) {
         async.auto({
             getAll: function (callback) {
                 repo.posts.getAll(data.params || {}, data.options || {}, callback);
@@ -110,7 +110,7 @@ module.exports = function (app) {
      * @param {object=} data.options The mongo filter options.
      * @param {!function(result)} callback The callback.
      */
-    pub.searchPosts = function (data, callback) {
+    pub.searchPosts = function (data, request, callback) {
         var filter = {};
         data.params = data.params || {};
 
@@ -152,7 +152,7 @@ module.exports = function (app) {
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.getPostById = function (data, callback) {
+    pub.getPostById = function (data, request, callback) {
         data = data || {};
 
         repo.posts.getOneById(data.id, data.options || {}, function (error, result) {
@@ -190,7 +190,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    pub.createPost = function (data, callback) {
+    pub.createPost = function (data, request, callback) {
         data = data || {};
 
         // validate client data
@@ -232,7 +232,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    pub.updatePost = function (data, callback) {
+    pub.updatePost = function (data, request, callback) {
         if (!data) {
             callback();
             return;
@@ -277,7 +277,7 @@ module.exports = function (app) {
      * @param {object} data The comment data.
      * @param {!function(result)} callback The callback.
      */
-    pub.addComment = function (data, callback) {
+    pub.addComment = function (data, request, callback) {
         data = data || {};
         var postId = data.post_id;
 
@@ -325,7 +325,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.getAllTags = function (data, callback) {
+    pub.getAllTags = function (data, request, callback) {
         repo.tags.getAll(data.params || {}, data.options || {}, callback);
     };
 
@@ -337,7 +337,7 @@ module.exports = function (app) {
      * @param {object} data The tag data.
      * @param {!function(result)} callback The callback.
      */
-    pub.createTag = function (data, callback) {
+    pub.createTag = function (data, request, callback) {
         // validate client data
         repo.tags.validate(data || {}, {}, function (error, result) {
             if (error) {
@@ -373,7 +373,7 @@ module.exports = function (app) {
      * @param {string|object} data.id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.deleteTag = function (data, callback) {
+    pub.deleteTag = function (data, request, callback) {
         data = data || {};
 
         repo.tags.delete({_id: data.id}, function (error, result) {
@@ -397,7 +397,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    pub.addPosts = function (data, callback) {
+    pub.addPosts = function (data, request, callback) {
         var posts = [], i,
             numberOfPostsToInsert = 1000;
 

@@ -13,7 +13,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.getAllMembers = function (data, callback) {
+    pub.getAllMembers = function (data, request, callback) {
         repo.crew.getAll(data.params || {}, data.options || {}, callback);
     };
 
@@ -26,7 +26,7 @@ module.exports = function (app) {
      * @param {!string} data.id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.getMemberById = function (data, callback) {
+    pub.getMemberById = function (data, request, callback) {
         data = data || {};
 
         repo.crew.getOneById(data.id, data.options || {}, callback);
@@ -40,7 +40,7 @@ module.exports = function (app) {
      * @param {object} data The blog post data.
      * @param {!function(result)} callback The callback.
      */
-    pub.createMember = function (data, callback) {
+    pub.createMember = function (data, request, callback) {
         data = data || {};
 
         // validate client data
@@ -77,7 +77,7 @@ module.exports = function (app) {
      * @param {object} data The member data.
      * @param {!function(result)} callback The callback.
      */
-    pub.updateMember = function (data, callback) {
+    pub.updateMember = function (data, request, callback) {
         if (!data) {
             callback();
             return;
@@ -118,7 +118,7 @@ module.exports = function (app) {
      * @param {string|object} data.id The id.
      * @param {!function(result)} callback The callback.
      */
-    pub.deleteMember = function (data, callback) {
+    pub.deleteMember = function (data, request, callback) {
         data = data || {};
 
         repo.crew.delete({_id: data.id}, function (error, result) {
@@ -142,7 +142,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.createTestMembers = function (data, callback) {
+    pub.createTestMembers = function (data, request, callback) {
         var testCrew = [
             {name: 'Picard', description: 'Captain'},
             {name: 'Riker', description: 'Number One'},
@@ -173,7 +173,7 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.deleteAllMembers = function (data, callback) {
+    pub.deleteAllMembers = function (data, request, callback) {
         repo.crew.delete({}, function (error, result) {
             if (error) {
                 callback(error);

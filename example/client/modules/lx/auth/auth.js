@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('lx.auth', ['lx.auth.services','lx.auth.directives','lx/auth/tpls/register.html','lx/auth/tpls/forget.html'])
+angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tpls/register.html', 'lx/auth/tpls/forget.html'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/auth/register', {templateUrl: 'lx/auth/tpls/register.html', controller: 'lxAuthRegisterCtrl'});
         $routeProvider.when('/auth/forget', {templateUrl: 'lx/auth/tpls/forget.html', controller: 'lxAuthForgotCtrl'});
@@ -71,7 +71,7 @@ angular.module('lx.auth', ['lx.auth.services','lx.auth.directives','lx/auth/tpls
 
         $scope.user = {};
 
-        $scope.register = function() {
+        $scope.register = function () {
 
             console.log($scope.user);
 

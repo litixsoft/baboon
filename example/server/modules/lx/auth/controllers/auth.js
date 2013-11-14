@@ -12,7 +12,7 @@ module.exports = function () {
      * @param {object} data The query.
      * @param {!function(result)} callback The callback.
      */
-    pub.registerUser = function (data, callback) {
+    pub.registerUser = function (data, request, callback) {
         callback(null,'registered');
     };
 
