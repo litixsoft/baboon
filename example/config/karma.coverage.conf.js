@@ -15,7 +15,7 @@ module.exports = function (config) {
             'build/tmp/tpls/**/*js',
             'client/vendor/baboon-client/modules/**/*.js',
             'test/fixtures/mocks.js',
-            'client/modules/*.js',
+            'client/modules/**/*.js',
             'client/app/**/*.js',
             'client/vendor/showdown/src/showdown.js'
         ],

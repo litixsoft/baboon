@@ -72,7 +72,9 @@ module.exports = function (app) {
      *
      * @roles Admin, Guest, Author
      * @description Gets all blog post from db
-     * @param {object} data The query.
+     * @param {!object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAllPosts = function (data, request, callback) {
@@ -85,6 +87,8 @@ module.exports = function (app) {
      * @roles Admin, Guest, Author
      * @description Gets all blog post and the number of blog posts from db
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAllPostsWithCount = function (data, request, callback) {
@@ -108,6 +112,8 @@ module.exports = function (app) {
      * @param {object} data The query.
      * @param {string=} data.params The values for searching.
      * @param {object=} data.options The mongo filter options.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.searchPosts = function (data, request, callback) {
@@ -150,6 +156,8 @@ module.exports = function (app) {
      * @description Gets a single blog post by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getPostById = function (data, request, callback) {
@@ -188,6 +196,8 @@ module.exports = function (app) {
      * @roles Admin, Author
      * @description Creates a new blog post in the db
      * @param {object} data The blog post data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.createPost = function (data, request, callback) {
@@ -230,6 +240,8 @@ module.exports = function (app) {
      * @roles Admin, Author
      * @description Updates a blog post in the db
      * @param {object} data The blog post data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.updatePost = function (data, request, callback) {
@@ -275,6 +287,8 @@ module.exports = function (app) {
      * @roles Admin, Guest, Author
      * @description Adds a comment to a blog post
      * @param {object} data The comment data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.addComment = function (data, request, callback) {
@@ -323,6 +337,8 @@ module.exports = function (app) {
      * @roles Admin, Guest, Author
      * @description Gets all tags from db
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAllTags = function (data, request, callback) {
@@ -335,6 +351,8 @@ module.exports = function (app) {
      * @roles Admin, Author
      * @description Creates a new tag in the db
      * @param {object} data The tag data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.createTag = function (data, request, callback) {
@@ -371,6 +389,8 @@ module.exports = function (app) {
      * @description Deletes a tag
      * @param {object} data The data.
      * @param {string|object} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.deleteTag = function (data, request, callback) {
@@ -395,6 +415,8 @@ module.exports = function (app) {
      * @roles Admin, Author
      * @description Creates a new blog post in the db
      * @param {object} data The blog post data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.addPosts = function (data, request, callback) {

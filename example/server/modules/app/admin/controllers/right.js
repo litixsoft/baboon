@@ -21,6 +21,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Gets all rights and the number of rights from db
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAll = function (data, request, callback) {
@@ -43,6 +45,8 @@ module.exports = function (app) {
      * @description Gets a single right by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getById = function (data, request, callback) {
@@ -57,6 +61,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Creates a new right in the db
      * @param {object} data The right data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.create = function (data, request, callback) {
@@ -94,6 +100,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Updates a right in the db
      * @param {object} data The right data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.update = function (data, request, callback) {

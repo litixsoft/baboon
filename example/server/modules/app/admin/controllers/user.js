@@ -67,6 +67,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Gets all users and the number of users from db
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAll = function (data, request, callback) {
@@ -94,6 +96,8 @@ module.exports = function (app) {
      * @description Gets a single user by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getById = function (data, request, callback) {
@@ -112,6 +116,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Creates a new user in the db
      * @param {object} data The user data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.create = function (data, request, callback) {
@@ -164,6 +170,8 @@ module.exports = function (app) {
      * @roles Admin
      * @description Updates a user in the db
      * @param {object} data The user data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.update = function (data, request, callback) {

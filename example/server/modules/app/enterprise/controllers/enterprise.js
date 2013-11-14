@@ -11,6 +11,8 @@ module.exports = function (app) {
      * @roles Admin, Guest
      * @description Gets all members from db
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getAllMembers = function (data, request, callback) {
@@ -24,6 +26,8 @@ module.exports = function (app) {
      * @description Gets a single member by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.getMemberById = function (data, request, callback) {
@@ -38,6 +42,8 @@ module.exports = function (app) {
      * @roles Admin, Guest
      * @description Creates a new member in the db
      * @param {object} data The blog post data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.createMember = function (data, request, callback) {
@@ -75,6 +81,8 @@ module.exports = function (app) {
      * @roles Admin, Guest
      * @description Updates a member in the db
      * @param {object} data The member data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.updateMember = function (data, request, callback) {
@@ -116,6 +124,8 @@ module.exports = function (app) {
      * @description Deletes a member
      * @param {object} data The data.
      * @param {string|object} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.deleteMember = function (data, request, callback) {
@@ -140,6 +150,8 @@ module.exports = function (app) {
      * @roles Admin, Guest
      * @description Create test members in crew collection
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.createTestMembers = function (data, request, callback) {
@@ -171,6 +183,8 @@ module.exports = function (app) {
      * @roles Admin, Guest
      * @description Delete all members in crew collection. Generate test crew members in crew collection
      * @param {object} data The query.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
     pub.deleteAllMembers = function (data, request, callback) {
