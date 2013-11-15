@@ -244,7 +244,7 @@ module.exports = function (grunt) {
                     {
                         // highlightjs
                         dest: '<%= buildDistPublicVendorFolder %>/highlightjs',
-                        src: ['highlight.pack.js','styles/arta.css','styles/default.css', 'styles/github.css'],
+                        src: ['highlight.pack.js', 'styles/arta.css', 'styles/default.css', 'styles/github.css'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/highlightjs/'
                     },
@@ -423,7 +423,7 @@ module.exports = function (grunt) {
                     '<%= configFolder %>/navigation.js',
                     'app.js'
                 ],
-                tasks: ['build:rights', 'express:dev'],
+                tasks: ['build:rights', 'express:dev', 'wait'],
                 options: {
                     spawn: false //Without this option specified express won't be reloaded
                 }
@@ -589,7 +589,7 @@ module.exports = function (grunt) {
         var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
 
         // write include files for app
-        lxHelpers.objectForEach(buildHelper.fileContents, function(key, value) {
+        lxHelpers.objectForEach(buildHelper.fileContents, function (key, value) {
             grunt.file.write('build/tmp/includes/' + key + '.js', value);
         });
 
@@ -613,6 +613,18 @@ module.exports = function (grunt) {
         else {
             grunt.task.run('less:debug');
         }
+    });
+
+    // task that simply waits for 1 second, usefull for livereload
+    grunt.registerTask('wait', function () {
+        grunt.log.ok('Waiting...');
+
+        var done = this.async();
+
+        setTimeout(function() {
+            grunt.log.writeln('Done waiting!');
+            done();
+        }, 1000);
     });
 
     grunt.registerTask('build:rights', [
@@ -751,6 +763,7 @@ module.exports = function (grunt) {
         'build:rights',
         'build:watch',
         'express:dev',
+        'wait',
         'open:browser',
         'watch'
     ]);
