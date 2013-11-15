@@ -1,70 +1,71 @@
 {
-  "name": "baboon-example",
-  "description": "Example App for baboon web application framework",
-  "version": "0.2.9",
-  "author": {
-    "name": "Litixsoft GmbH",
-    "email": "info@litixsoft.de"
-  },
-  "homepage": "https://github.com/litixsoft/baboon",
-  "maintainers": [
-    {
-      "name": "Timo Liebetrau",
-      "email": "t.liebetrau@litixsoft.de"
+    "name": "baboon-example",
+    "description": "Example App for baboon web application framework",
+    "version": "0.2.9",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
     },
-    {
-      "name": "Andreas Krummsdorf",
-      "email": "a.krummsdorf@litixsoft.de"
+    "homepage": "https://github.com/litixsoft/baboon",
+    "maintainers": [
+        {
+            "name": "Timo Liebetrau",
+            "email": "t.liebetrau@litixsoft.de"
+        },
+        {
+            "name": "Andreas Krummsdorf",
+            "email": "a.krummsdorf@litixsoft.de"
+        },
+        {
+            "name": "Sven Bernstein",
+            "email": "s.bernstein@litixsoft.de"
+        }
+    ],
+    "license": "The MIT License (MIT)",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
+        }
+    ],
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/baboon.git"
     },
-    {
-      "name": "Sven Bernstein",
-      "email": "s.bernstein@litixsoft.de"
+    "scripts": {
+        "test-client": "grunt test",
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "async": "~0.2.9",
+        "lx-helpers": "~0.2.5",
+        "lx-mongodb": "~0.4.7",
+        "lx-valid": "~0.2.9"
+    },
+    "devDependencies": {
+        "grunt": "0.4.1",
+        "grunt-bg-shell": "~2.3.0",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-jshint": "~0.7.1",
+        "grunt-contrib-uglify": "~0.2.7",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-express-server": "~0.4.5",
+        "grunt-jasmine-node": "~0.1.0",
+        "grunt-karma": "~0.6.2",
+        "grunt-markdown": "~0.4.0",
+        "grunt-ngmin": "0.0.3",
+        "grunt-open": "~0.2.2",
+        "grunt-text-replace": "~0.3.9",
+        "istanbul": "~0.1.44",
+        "karma-detect-browsers": "*",
+        "karma-coverage": "*",
+        "karma-junit-reporter": "*",
+        "karma-ng-scenario": "*",
+        "load-grunt-tasks": "0.2.0",
+        "grunt-contrib-less": "~0.8.1",
+        "grunt-html2js": "~0.1.9"
     }
-  ],
-  "license": "The MIT License (MIT)",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
-    }
-  ],
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/litixsoft/baboon.git"
-  },
-  "scripts": {
-    "test-client": "grunt test",
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "async": "~0.2.9",
-    "lx-helpers": "~0.2.5",
-    "lx-mongodb": "~0.4.7",
-    "lx-valid": "~0.2.9"
-  },
-  "devDependencies": {
-    "grunt": "0.4.1",
-    "grunt-bg-shell": "~2.3.0",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-jshint": "~0.7.1",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-express-server": "~0.4.5",
-    "grunt-jasmine-node": "~0.1.0",
-    "grunt-karma": "~0.6.2",
-    "grunt-markdown": "~0.4.0",
-    "grunt-ngmin": "0.0.3",
-    "grunt-open": "~0.2.2",
-    "grunt-text-replace": "~0.3.9",
-    "istanbul": "~0.1.44",
-    "karma-detect-browsers": "*",
-    "karma-coverage": "*",
-    "karma-junit-reporter": "*",
-    "karma-ng-scenario": "*",
-    "grunt-contrib-less": "~0.8.1",
-    "grunt-html2js": "~0.1.9"
-  }
 }

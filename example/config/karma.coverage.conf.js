@@ -10,7 +10,7 @@ module.exports = function (config) {
             'client/vendor/angular/angular.js',
             'client/vendor/angular-route/angular-route.js',
             'client/vendor/angular-mocks/angular-mocks.js',
-            'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+            'client/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0.js',
             'client/vendor/angular-ui-utils/modules/**/*.js',
             'build/tmp/tpls/**/*js',
             'client/vendor/baboon-client/modules/**/*.js',
