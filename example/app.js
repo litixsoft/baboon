@@ -10,22 +10,6 @@ var app = server.app;
 // routes config
 ///////////////////////////////////////////
 
-// toplevel uiExamples route
-app.get('/ui', function (req, res) {
-    middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
-        res.render('uiExamples/index');
-    });
-});
-
-// toplevel uiExamples catch all route
-app.get('/ui/*', function (req, res) {
-    middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
-        res.render('uiExamples/index');
-    });
-});
-
 // toplevel admin routes
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
