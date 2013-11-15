@@ -186,7 +186,7 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/angular/'
                     },
                     {
-                        // angular
+                        // angular-animate
                         dest: '<%= buildDistPublicVendorFolder %>/angular-animate',
                         src: ['*.js'],
                         expand: true,
@@ -194,7 +194,7 @@ module.exports = function (grunt) {
                     },
                     {
                         // angular-route
-                        dest: '<%= buildDistPublicVendorFolder %>/angular',
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-route',
                         src: ['*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/angular-route/'
@@ -624,7 +624,7 @@ module.exports = function (grunt) {
         setTimeout(function() {
             grunt.log.writeln('Done waiting!');
             done();
-        }, 1000);
+        }, 2000);
     });
 
     grunt.registerTask('build:rights', [
