@@ -5,3 +5,4 @@ example/
 test/
 .travis.yml
 Gruntfile.js
+.jshintrc
