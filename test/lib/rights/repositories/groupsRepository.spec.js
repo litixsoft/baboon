@@ -4,7 +4,7 @@
 var path = require('path'),
     appMock = require('../../../fixtures/appMock.js')(),
     rootPath = path.resolve('..', 'baboon'),
-    repo = require(path.resolve(rootPath, 'lib', 'rights', 'repositories'))(appMock.config.mongo.rights),
+    repo = require(path.resolve(rootPath, 'lib', 'repositories'))(appMock.config.mongo.rights),
     sut = repo.groups,
     data = null;
 

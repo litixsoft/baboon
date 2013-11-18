@@ -7,7 +7,7 @@ describe('Rights', function () {
         appMock = require('../../fixtures/appMock.js')(),
         rootPath = path.resolve('..', 'baboon'),
         sut = require(path.resolve(rootPath, 'lib', 'rights'))(appMock.config, appMock.logging),
-        repo = require(path.resolve(rootPath, 'lib', 'rights', 'repositories'))(appMock.config.mongo.rights),
+        repo = require(path.resolve(rootPath, 'lib', 'repositories'))(appMock.config.mongo.rights),
         users, roles, rights, groups, projects, navigation, user;
 
     beforeEach(function () {

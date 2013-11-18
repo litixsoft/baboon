@@ -7,7 +7,7 @@ var grunt = require('grunt'),
     rootPath = path.resolve(),
     config = require('../../lib/config.js')(rootPath),
     logging = require('../../lib/logging.js')(config),
-    rights = require('../../lib/rights')(config, logging);
+    rights = require('../../lib/rights.js')(config, logging);
 
 grunt.log.ok('Start setup script for baboon example app.');
 
@@ -100,8 +100,6 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                     }, finalCallback);
                 });
             });
-
-//            finalCallback();
         });
     } else {
         finalCallback();
