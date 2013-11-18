@@ -34,14 +34,13 @@ angular.module('app', [
             $rootScope.lxModal = lxModal;
 
             $rootScope.$on('$routeChangeStart', function () {
-                lxSession.setActivity(function (err) {
-                    if (err) {
+                lxSession.setActivity(function (error) {
+                    if (error) {
                         lxModal.msgBox('sessionExpired', true, '', 'Session is expired! Please log in.', 'Warning', function () {
                             window.location.assign('/');
                         });
                     }
                 });
-
             });
 
             // get users preferred language from session
