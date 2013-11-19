@@ -31,11 +31,13 @@ describe('Enterprise Controller', function () {
         it('should return errors if the member is not valid (no data)', function (done) {
             sut.createMember({}, {}, function (err) {
                 expect(err).toBeDefined();
-                expect(err.validation.length).toBe(1);
+                expect(err instanceof appMock.ValidationError);
+                expect(err.data.length).toBe(1);
 
                 sut.createMember(null, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(1);
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(1);
 
                     done();
                 });
@@ -65,7 +67,9 @@ describe('Enterprise Controller', function () {
 
                 sut.updateMember(res, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(2);
+                    // expect(err.validation.length).toBe(2);
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(2);
 
                     sut.updateMember(null, {}, function (err, res) {
                         expect(err).toBeUndefined();

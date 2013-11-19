@@ -3,7 +3,8 @@ process.env.NODE_ENV = 'unitTest';
 
 var path = require('path'),
     rootPath = path.resolve('..', '..', 'baboon/example'),
-    config = require('../../../lib/config.js')(rootPath);
+    config = require('../../../lib/config.js')(rootPath),
+    errors = require('../../../lib/errors.js');
 
 process.env.NODE_ENV = undefined;
 
@@ -20,11 +21,19 @@ module.exports = function () {
         fatal: logging
     };
 
-    return {
+    var app = {
         logging: {
             syslog: syslog,
             audit: syslog
         },
         config: config
     };
+
+    for (var err in errors) {
+        if (errors.hasOwnProperty(err)) {
+            app[err] = errors[err];
+        }
+    }
+
+    return app;
 };

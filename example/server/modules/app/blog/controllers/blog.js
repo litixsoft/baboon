@@ -175,7 +175,7 @@ module.exports = function (app) {
                 if (post.comments && post.comments.length > 0) {
                     repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
                         if (error) {
-                            callback('Could not load blog post!');
+                            callback(app.ClientError('Could not load blog post!'));
                             return;
                         }
 
@@ -217,7 +217,7 @@ module.exports = function (app) {
                 // save in repo
                 repo.posts.create(data, function (error, result) {
                     if (error) {
-                        callback('Could not create blog post!');
+                        callback(app.ClientError('Could not create blog post!'));
                         return;
                     }
 
@@ -229,7 +229,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };
@@ -276,7 +276,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };
@@ -326,7 +326,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };
@@ -377,7 +377,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };

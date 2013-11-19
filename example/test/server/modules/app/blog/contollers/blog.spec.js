@@ -50,12 +50,14 @@ describe('Blog Controller', function () {
             sut.createPost({}, {}, function (error, res) {
                 expect(error).toBeDefined();
                 expect(res).toBeUndefined();
-                expect(error.validation.length).toBe(2);
+                expect(error instanceof appMock.ValidationError);
+                expect(error.data.length).toBe(2);
 
                 sut.createPost(null, {}, function (error, res) {
                     expect(error).toBeDefined();
                     expect(res).toBeUndefined();
-                    expect(error.validation.length).toBe(2);
+                    expect(error instanceof appMock.ValidationError);
+                    expect(error.data.length).toBe(2);
 
                     done();
                 });
@@ -110,7 +112,8 @@ describe('Blog Controller', function () {
 
                 sut.updatePost(res, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(2);
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(2);
 
                     sut.updatePost(null, {}, function (err, res) {
                         expect(err).toBeUndefined();
@@ -349,7 +352,8 @@ describe('Blog Controller', function () {
             sut.createPost(post, {}, function (err, res) {
                 sut.addComment({post_id: res._id, someProp: '123'}, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(1);
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(1);
 
                     done();
                 });
@@ -359,7 +363,8 @@ describe('Blog Controller', function () {
         it('should validate the comment', function (done) {
             sut.addComment(null, {}, function (err) {
                 expect(err).toBeDefined();
-                expect(err.validation.length).toBe(1);
+                expect(err instanceof appMock.ValidationError);
+                expect(err.data.length).toBe(1);
 
                 done();
             });
@@ -385,11 +390,13 @@ describe('Blog Controller', function () {
         it('should return errors if the tag is not valid', function (done) {
             sut.createTag({}, {}, function (err) {
                 expect(err).toBeDefined();
-                expect(err.validation.length).toBe(1);
+                expect(err instanceof appMock.ValidationError);
+                expect(err.data.length).toBe(1);
 
                 sut.createTag(null, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(1);
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(1);
 
                     done();
                 });
@@ -402,8 +409,9 @@ describe('Blog Controller', function () {
 
                 sut.createTag({name: tag.name}, {}, function (err) {
                     expect(err).toBeDefined();
-                    expect(err.validation.length).toBe(1);
-                    expect(err.validation[0].message).toBe('name already exists');
+                    expect(err instanceof appMock.ValidationError);
+                    expect(err.data.length).toBe(1);
+                    expect(err.data[0].message).toBe('name already exists');
 
                     done();
                 });

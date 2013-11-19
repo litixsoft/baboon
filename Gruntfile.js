@@ -7,9 +7,6 @@ module.exports = function (grunt) {
         gitHooksPath = path.join('.git', 'hooks'),
         gitHooks = ['post-merge'];
 
-    // enable stack trace for grunt tasks execptions
-    grunt.option('stack', true);
-
     /**
      * Gets the index.html file from the code coverage folder.
      *

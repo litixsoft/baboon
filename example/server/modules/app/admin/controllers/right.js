@@ -89,7 +89,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };
@@ -132,7 +132,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback({validation: result.errors});
+                callback(new app.ValidationError(result.errors));
             }
         });
     };

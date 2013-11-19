@@ -45,7 +45,7 @@
     "readmeFilename": "README.md",
     "main": "lib/baboon.js",
     "scripts": {
-        "test": "grunt test"
+        "test": "grunt test && cd example && grunt test"
     },
     "devDependencies": {
         "grunt": "0.4.1",
