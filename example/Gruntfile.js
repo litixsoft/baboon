@@ -107,26 +107,7 @@ module.exports = function (grunt) {
         // lint files
         jshint: {
             options: {
-                bitwise: true,
-                curly: true,
-                eqeqeq: true,
-                forin: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                noempty: true,
-                nonew: true,
-                regexp: true,
-                undef: true,
-                unused: true,
-                indent: 4,
-                quotmark: 'single',
-                loopfunc: true,
-                browser: true,
-                node: true,
-                globals: {
-                }
+                jshintrc: true
             },
             test: '<%= jshintFiles %>',
             jslint: {
@@ -738,7 +719,7 @@ module.exports = function (grunt) {
         'karma:e2e'
     ]);
     grunt.registerTask('test', [
-        'bgShell:e2e',
+//        'bgShell:e2e',
         'clean:jasmine',
         'clean:tmp',
         'jshint:test',
