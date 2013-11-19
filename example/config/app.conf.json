@@ -1,6 +1,6 @@
 {
     "base": {
-        "nodeEnv": "development",
+        "node_env": "development",
         "appName": "Baboon Example App",
         "protocol": "http",
         "host": "127.0.0.1",
@@ -35,7 +35,7 @@
     },
     "params": {
         "dev": {
-            "nodeEnv": "development",
+            "node_env": "development",
             "logging": {
                 "syslog": "DEBUG",
                 "audit": "DEBUG",
@@ -44,7 +44,7 @@
             }
         },
         "pro": {
-            "nodeEnv": "production",
+            "node_env": "production",
             "logging": {
                 "syslog": "INFO",
                 "audit": "INFO",

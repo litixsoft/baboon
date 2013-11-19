@@ -12,7 +12,7 @@ describe('Logging', function () {
             path: {
                 logs: tmpPath
             },
-            nodeEnv: 'development',
+            node_env: 'development',
             logging: {
                 maxLogSize: 20480,
                 backups: 10
@@ -22,7 +22,7 @@ describe('Logging', function () {
             }
         };
 
-    it('returns console logger if nodeEnv is not "production"', function () {
+    it('returns console logger if node_env is not "production"', function () {
         var sut = log(config);
 
         expect(sut.syslog).toBeDefined();
@@ -37,8 +37,8 @@ describe('Logging', function () {
         expect(typeof log4js.appenders['log4js-node-mongodb']).toBe('function');
     });
 
-    it('returns file logger if nodeEnv is set to "production"', function (done) {
-        config.nodeEnv = 'production';
+    it('returns file logger if node_env is set to "production"', function (done) {
+        config.node_env = 'production';
         var sut = log(config);
 
         sut.syslog.error('test');

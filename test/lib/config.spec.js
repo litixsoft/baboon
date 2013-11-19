@@ -30,7 +30,7 @@ describe('Config', function () {
         var sut = config(path.join(rootPath + '/example'));
 
         expect(sut.path).toBeDefined();
-        expect(sut.nodeEnv).toBe('production');
+        expect(sut.node_env).toBe('production');
         expect(sut.logging).toBeDefined();
         expect(sut.redis).toBeDefined();
         expect(sut.host).toBeDefined();
@@ -38,7 +38,7 @@ describe('Config', function () {
         expect(sut.mongo.blog).toBeDefined();
         expect(sut.mongo.blog).toContain('localhost');
 
-        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: production');
+        expect(console.log).toHaveBeenCalledWith('   info  - setting process.env.NODE_ENV environment from config to: production');
         expect(console.log).toHaveBeenCalledWith('   info  - override base config with param: pro');
         expect(console.log.calls.length).toEqual(2);
     });
@@ -48,7 +48,7 @@ describe('Config', function () {
         var sut = config(path.join(rootPath + '/example'));
 
         expect(sut.path).toBeDefined();
-        expect(sut.nodeEnv).toBe('unitTest');
+        expect(sut.node_env).toBe('unitTest');
         expect(sut.logging).toBeDefined();
         expect(sut.redis).toBeDefined();
         expect(sut.host).toBeDefined();
@@ -56,7 +56,7 @@ describe('Config', function () {
         expect(sut.mongo.blog).toBeDefined();
         expect(sut.mongo.blog).toContain('/test_blog?');
 
-        expect(console.log).toHaveBeenCalledWith('   info  - setting config NODE_ENV from environment to: unitTest');
+        expect(console.log).toHaveBeenCalledWith('   info  - setting config.node_env from environment to: unitTest');
         expect(console.log).toHaveBeenCalledWith('   info  - override base config with param: unitTest');
         expect(console.log.calls.length).toEqual(2);
     });
