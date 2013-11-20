@@ -1,27 +1,32 @@
 /*global angular*/
 angular.module('lx.auth.services', [])
-    .factory('lxAuth', ['$http', function ($http) {
+    .factory('lxAuth', ['$http', '$log', 'lxTransport', function ($http, $log, transport) {
         var pub = {};
 
-        pub.register = function (user, callback) {
-            $http.post('/api/auth/register', user)
-                .success(function (data) {
-                    callback(null, data);
-                })
-                .error(function (data, status) {
-                    callback({status: status, data: data});
-                });
+        pub.getAuthData = function(callback) {
+            transport.rest('auth/getAuthData', function (error, result) {
+                if (error) {
+                    $log.error(error);
+                    callback({isAuth: false, username: 'Guest'});
+                }
+                else {
+                    callback(result);
+                }
+            });
         };
 
+//        pub.register = function (user, callback) {
+//            $http.post('/api/auth/register', user)
+//                .success(function (data) {
+//                    callback(null, data);
+//                })
+//                .error(function (data, status) {
+//                    callback({status: status, data: data});
+//                });
+//        };
+
         pub.login = function (username, password, callback) {
-            //$http.post('/api/auth/login', username, password)
-            $http.post('/api/v1/auth/login', {username: username, password: password})
-                .success(function (data) {
-                    callback(null, data);
-                })
-                .error(function (data, status) {
-                    callback({status: status, data: data});
-                });
+            transport.rest('auth/login', {username: username, password: password}, callback);
         };
 
         return pub;

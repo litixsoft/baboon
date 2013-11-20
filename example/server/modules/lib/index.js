@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports.auth = require('./controllers/auth.js');
+module.exports.register = require('./controllers/register.js');

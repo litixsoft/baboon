@@ -5,14 +5,13 @@ module.exports = function (app) {
         repo = app.rights.getRepositories();
 
     /**
-     * sdadadad
+     * Register a new user in database
      *
      * @roles Admin, Guest
-     * @description wayne
+     * @description Register a new user
      */
-    pub.log = function (callback) {
-        app.logging.syslog.debug('new auth.log() implementation');
-
+    pub.registerUser = function (data, req, callback) {
+        app.logging.syslog.debug('new registerUser implementation');
         repo.users.getAll(callback);
     };
 
