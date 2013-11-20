@@ -13,7 +13,7 @@ var app = server.app;
 // toplevel admin routes
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
+        middleware.nav.setNavData(req);
 
         if (baboon.rights.userHasAccessTo(req.session.user, 'baboon/admin/user/create')) {
             res.render('admin/index');
@@ -26,7 +26,7 @@ app.get('/admin', function (req, res) {
 // toplevel admin catch all route
 app.get('/admin/*', function (req, res) {
     middleware.session.checkSession(req, res, function () {
-        middleware.context.index(req, res);
+        middleware.nav.setNavData(req);
 
         if (baboon.rights.userHasAccessTo(req.session.user, 'baboon/admin/user/create')) {
             res.render('admin/index');

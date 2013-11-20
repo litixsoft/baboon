@@ -35,16 +35,13 @@ angular.module('app', [
             // get users preferred language from session
             lxSession.getData('language', function (error, result) {
                 if (error) {
-                    $log.error(error);
-                }
-
-                // use language
-                if (result && result.language) {
-                    $translate.uses(result.language);
-                } else {
                     // detect language of browser
                     var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
                     $translate.uses(browserLanguage.substring(0, 2));
+                }
+                else {
+                    // use language
+                    $translate.uses(result.language);
                 }
             });
 
