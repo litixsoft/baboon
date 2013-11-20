@@ -63,21 +63,40 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
     .controller('lxAuthViewLoginCtrl', ['$scope', 'lxAuth', '$http', function ($scope, $window, lxAuth, $http) {
 
     }])
-    .constant('auth.modulePath', 'lib/')
-    .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', 'lxTransport', 'auth.modulePath', function ($scope, lxAuth, transport, modulePath) {
+
+    .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
 
         $scope.user = {};
 
         $scope.register = function () {
 
-            console.log($scope.user);
-
-            transport.emit(modulePath + 'register/registerUser', {}, function (error, result) {
-                console.log(error);
-                console.log(result);
+            lxAuth.register($scope.user, function (error, result) {
+                if (error) {
+                    $log.error(error);
+                }
+                else {
+                    $log.info(result);
+                }
             });
         };
     }])
-    .controller('lxAuthForgotCtrl', ['$scope', 'lxAuth', '$http', function ($scope, $window, lxAuth, $http) {
+    .controller('lxAuthForgotCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
 
+        $scope.createNewPassword = function () {
+
+            var data = {
+                email: $scope.email,
+                forgotPassword: $scope.forgotPassword,
+                forgotUsername: $scope.forgotUsername
+            };
+
+            lxAuth.createNewPassword(data, function (error, result) {
+                if (error) {
+                    $log.error(error);
+                }
+                else {
+                    $log.info(result);
+                }
+            });
+        };
     }]);

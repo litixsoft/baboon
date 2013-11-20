@@ -15,15 +15,13 @@ angular.module('lx.auth.services', [])
             });
         };
 
-//        pub.register = function (user, callback) {
-//            $http.post('/api/auth/register', user)
-//                .success(function (data) {
-//                    callback(null, data);
-//                })
-//                .error(function (data, status) {
-//                    callback({status: status, data: data});
-//                });
-//        };
+        pub.register = function (user, callback) {
+            transport.emit('lib/register/registerUser', user, callback);
+        };
+
+        pub.createNewPassword = function (data, callback) {
+            transport.emit('lib/register/createNewPassword', data, callback);
+        };
 
         pub.login = function (username, password, callback) {
             transport.rest('auth/login', {username: username, password: password}, callback);
