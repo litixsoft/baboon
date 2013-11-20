@@ -8,10 +8,10 @@
         "lx.file.upload",
         "lx.markdown",
         "lx.float",
-        "lx.charts",
-        "lx.auth"
+        "lx.charts"
     ],
     "toplevels": [
-        "admin"
+        "admin",
+        "auth"
     ]
 }

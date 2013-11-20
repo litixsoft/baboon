@@ -11,6 +11,20 @@ var app = server.app;
 ///////////////////////////////////////////
 
 // toplevel admin routes
+app.get('/login', function (req, res) {
+    middleware.session.checkSession(req, res, function () {
+        res.render('auth/index');
+    });
+});
+
+// toplevel admin catch all route
+app.get('/login/*', function (req, res) {
+    middleware.session.checkSession(req, res, function () {
+        res.render('auth/index');
+    });
+});
+
+// toplevel admin routes
 app.get('/admin', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.nav.setNavData(req);
