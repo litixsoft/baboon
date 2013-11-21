@@ -10,7 +10,7 @@ var app = server.app;
 // routes config
 ///////////////////////////////////////////
 
-// toplevel admin routes
+// toplevel auth routes
 app.get('/login', function (req, res) {
     middleware.session.checkSession(req, res, function () {
         res.render('auth/index');

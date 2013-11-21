@@ -8,7 +8,7 @@ angular.module('app', [
     .constant('USE_SOCKET', true)
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
-        $routeProvider.when('/login', {templateUrl: 'auth/tpls/login.html', controller: 'authLoginCtrl'});
+        $routeProvider.when('/login', {templateUrl: 'lx/auth/tpls/auth_view_login.html', controller: 'lxAuthViewLoginCtrl'});
         $routeProvider.otherwise({redirectTo: '/login'});
 
         $translateProvider.useStaticFilesLoader({
@@ -56,30 +56,5 @@ angular.module('app', [
                         $log.error(error);
                     }
                 });
-            };
-        }])
-    .controller('authLoginCtrl', ['$scope', 'lxForm', '$log',
-        function ($scope, lxForm, $log) {
-            $scope.lxForm = lxForm('authLoginCtrl', '_id');
-            $scope.person = {};
-
-//            transport.emit(modulePath + 'enterprise/getMemberById', {id: $routeParams.id}, function (error, result) {
-//                $scope.person = result;
-//            });
-
-            $scope.login = function () {
-                $log.info($scope.person);
-//                transport.emit(modulePath + 'enterprise/updateMember', $scope.person, function (error, result) {
-//                    if (result) {
-//                        $location.path('/enterprise');
-//                    }
-//                    else if (error) {
-//                        if (error.validation) {
-//                            $scope.lxForm.populateValidation($scope.form, error.validation);
-//                        } else {
-//                            $scope.lxAlert.error(error);
-//                        }
-//                    }
-//                });
             };
         }]);
