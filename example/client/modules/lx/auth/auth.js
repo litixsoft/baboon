@@ -59,6 +59,10 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                 $scope.authFailed = false;
             }
         });
+
+        $scope.closePopupOnAction = function(){
+            $scope.openMenu = false;
+        };
     }])
     .controller('lxAuthViewLoginCtrl', ['$scope', 'lxForm', 'lxAuth', '$window', '$log',
         function ($scope, lxForm, lxAuth, $window, $log) {
@@ -81,6 +85,18 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                     }
                 });
             };
+
+            $scope.$watch('username', function () {
+                if ($scope.authFailed) {
+                    $scope.authFailed = false;
+                }
+            });
+
+            $scope.$watch('password', function () {
+                if ($scope.authFailed) {
+                    $scope.authFailed = false;
+                }
+            });
         }])
     .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
 
