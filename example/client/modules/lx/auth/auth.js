@@ -59,6 +59,11 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                     $scope.authFailed = false;
                 }
             });
+
+            $scope.closePopupOnAction = function(){
+                $scope.openMenu = false;
+            };
+
         }])
     .controller('lxAuthViewLoginCtrl', ['$scope', 'lxAuth', '$http', function ($scope, $window, lxAuth, $http) {
 
