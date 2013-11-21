@@ -19,7 +19,7 @@
         "angular-translate-loader-static-files": "~0.1.5",
         "angular-ui-bootstrap": "https://github.com/litixsoft/bootstrap.git#gh-pages",
         "angular-ui-utils": "https://github.com/angular-ui/ui-utils.git#master",
-        "baboon-client": "git@github.com:litixsoft/baboon-client.git#develop",
+        "baboon-client": "https://github.com/litixsoft/baboon-client.git#develop",
         "bootstrap": "~3.0.0",
         "showdown": "~0.3.1"
     },
