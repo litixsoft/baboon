@@ -13,7 +13,7 @@ angular.module('app', [
         'diagrams',
         'hljs'
     ])
-    .constant('USE_SOCKET', true)
+    .constant('USE_SOCKET', false)
     .config(['$routeProvider', '$locationProvider', '$translateProvider',
         function ($routeProvider, $locationProvider, $translateProvider) {
             $locationProvider.html5Mode(true);
