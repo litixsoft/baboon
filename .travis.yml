@@ -9,3 +9,4 @@ before_script:
   - npm install -g grunt-cli
   - cd example
   - npm install
+  - cd ..
