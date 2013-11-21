@@ -5,7 +5,7 @@ angular.module('app', [
         'ui.bootstrap',
         'app.includes'
     ])
-    .constant('USE_SOCKET', true)
+    .constant('USE_SOCKET', false)
     .config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider.when('/login', {templateUrl: 'lx/auth/tpls/auth_view_login.html', controller: 'lxAuthViewLoginCtrl'});

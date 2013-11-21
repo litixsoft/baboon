@@ -11,7 +11,7 @@ var app = server.app;
 ///////////////////////////////////////////
 
 // toplevel admin routes
-app.get('/admin', middleware.auth.restrictedRoute, function (req, res) {
+app.get('/admin', middleware.auth.restrictedAdminRoleRoute, function (req, res) {
 
     middleware.session.checkSession(req, res, function () {
         middleware.nav.setNavData(req);
@@ -25,7 +25,7 @@ app.get('/admin', middleware.auth.restrictedRoute, function (req, res) {
 });
 
 // toplevel admin catch all route
-app.get('/admin/*', middleware.auth.restrictedRoute, function (req, res) {
+app.get('/admin/*', middleware.auth.restrictedAdminRoleRoute, function (req, res) {
     middleware.session.checkSession(req, res, function () {
         middleware.nav.setNavData(req);
 
