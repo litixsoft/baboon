@@ -64,28 +64,45 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             $scope.openMenu = false;
         };
     }])
-    .controller('lxAuthViewLoginCtrl', ['$scope', 'lxForm', 'lxAuth', '$window', '$log',
-        function ($scope, lxForm, lxAuth, $window, $log) {
-            $scope.lxForm = lxForm('authViewLoginCtrl', '_id');
-            $scope.person = {};
+    .controller('lxAuthViewLoginCtrl', ['$scope', 'lxForm', 'lxAuth', '$window', '$log', function ($scope, lxForm, lxAuth, $window, $log) {
 
-            $scope.login = function () {
+        $scope.lxForm = lxForm('authViewLoginCtrl', '_id');
+        $scope.user = {};
 
-                lxAuth.login($scope.person.username, $scope.person.password, function (error, result) {
-                    if (result && !error) {
-                        $window.location.href = '/';
+        $scope.authFailed = false;
+        $scope.serverError = false;
+
+        $scope.login = function () {
+
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            lxAuth.login($scope.user.username, $scope.user.password, function (error, result) {
+                if (result && !error) {
+//                        lxAlert.success('User '+$scope.user.username+' erfolgreich registriert.');
+                    $window.location.href = '/';
+                }
+                else {
+                    if (error === 403 || error === 401) {
+                        $log.error('Error ' + error + ' auth Failed!');
+                        $scope.errorMsg = 'Error ' + error + ' auth Failed!';
+                        $scope.authFailed = true;
                     }
                     else {
-                        if (error === 403 || error === 401) {
-                            $log.error('Error ' + error + ' auth Failed!');
-                        }
-                        else {
+                        if(error.validation){
+                            $scope.lxForm.populateValidation($scope.form, error.validation);
+                            $scope.authFailed = true;
+                        } else {
+                            $scope.serverError = false;
+                            $scope.errorMsg = 'Error ' + error + ' internal server error!';
                             $log.error('Error ' + error + ' internal server error!');
                         }
                     }
-                });
-            };
-        }])
+                }
+            });
+        };
+    }])
     .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
 
         $scope.user = {};

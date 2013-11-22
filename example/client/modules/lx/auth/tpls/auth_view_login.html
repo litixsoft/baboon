@@ -8,36 +8,44 @@
         <div class="panel panel-default">
             <div class="panel-heading">Login</div>
             <div class="panel-body">
-                <form name="form" class="form-horizontal" novalidate>
+                <form class="form-horizontal" ng-submit="login()" name="form" novalidate>
                     <fieldset>
-                        <div ng-init="person.count=1" class="form-group" ng-class="{'has-error' : ((form.username.$dirty && form.username.$invalid) || form.errors.username)}">
-                            <label class="col-lg-2 control-label" for="username">username</label>
-                            <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" id="username" name="username" ng-model="person.username" ui-event="{keydown: 'form.errors.username=false;'}" placeholder="Enter Username" ng-focus="person.count=1" required ui-reset>
-                                <label ng-show="((form.username.$dirty && form.username.$invalid) || form.errors.username)" class="label label-danger">
+
+                        <div class="form-group" ng-class="{'has-error': ((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)}">
+                            <label class="col-md-2 control-label" for="password">{{ 'USERNAME' | translate }}</label>
+                            <div class="col-md-10 lxvalidation">
+                                <input type="text" ng-model="user.username" id="username" name="username" ng-keydown="form.errors.username=false;authFailed=false;serverError=false;" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
+                                <label ng-show="((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
-                                    <span ng-show="form.username.$error.required" popover="Error: Username is required" popover-trigger="mouseenter"></span>
-                                    <span ng-show="form.errors.username" popover="Error: {{form.errors.username}}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.username.$error.required" popover="{{ 'REQUIRED_USERNAME' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.username" popover="{{form.errors.username}}" popover-trigger="mouseenter"></span>
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group" ng-class="{'has-error' : ((form.password.$dirty && form.password.$invalid) || form.errors.password)}">
-                            <label class="col-lg-2 control-label" for="password">password</label>
-                            <div class="col-lg-10 lxvalidation">
-                                <input type="password" class="form-control" id="password" name="password" ng-model="person.password" ui-event="{keydown: 'form.errors.password=false;'}" placeholder="Enter password" required ui-reset>
-                                <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password)" class="label label-danger">
+
+                        <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)}">
+                            <label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
+                            <div class="col-md-10 lxvalidation">
+                                <input type="password" ng-model="user.password" id="password" name="password" ng-keydown="form.errors.password=false" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
+                                <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
-                                    <span ng-show="form.password.$error.required" popover="Error: password is required" popover-trigger="mouseenter"></span>
-                                    <span ng-show="form.errors.password" popover="Error: {{form.errors.password}}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.password.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.password" popover="{{form.errors.password}}" popover-trigger="mouseenter"></span>
                                 </label>
+                            </div>
+                        </div>
 
-
+                        <div class="form-group" ng-show="( authFailed || serverError)">
+                            <div class="col-md-10 col-md-offset-2">
+                                <div class="alert alert-danger">{{ errorMsg }}</div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                                <button ng-click="login()" class="btn btn-primary" ng-disabled="form.$invalid"><i class="icon-ok"></i>&nbsp;Login</button>
+                                <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'LOGIN' | translate }}"  ng-disabled="form.$invalid" name="login">
+                                <a href="/auth/register" class="btn btn-default">Registrieren</a>
+                                <a href="/auth/forget" class="btn btn-default">Benutzernamen / Passwort vergessen</a>
                             </div>
                         </div>
 
