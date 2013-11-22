@@ -1,6 +1,6 @@
-/*global describe, it, expect, beforeEach, spyOn */
 'use strict';
 
+/*global describe, it, expect, beforeEach, spyOn */
 var appMock = require('../../../../../fixtures/serverMock.js')(),
     sut = require(appMock.config.path.modules + '/app/enterprise').enterprise(appMock),
     repo = require(appMock.config.path.modules + '/app/enterprise/repositories')(appMock.config.mongo.enterprise),

@@ -42,7 +42,7 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
 
             // add roles to users
             var repo = rights.getRepositories();
-            repo.roles.getAll({}, {fields: ['_id', 'name']}, function (error, result) {
+            repo.roles.find({}, {fields: ['_id', 'name']}, function (error, result) {
                 if (error) {
                     finalCallback(error);
                     return;
@@ -54,7 +54,7 @@ rights.ensureThatDefaultSystemUsersExists(function (error) {
                     roles[role.name] = role._id;
                 });
 
-                repo.users.getAll({username: { $in: ['admin', 'guest']}}, {fields: ['_id', 'username', 'roles']}, function (error, result) {
+                repo.users.find({username: { $in: ['admin', 'guest']}}, {fields: ['_id', 'username', 'roles']}, function (error, result) {
                     if (error) {
                         finalCallback(error);
                         return;
