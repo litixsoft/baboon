@@ -548,11 +548,11 @@ describe('Rights', function () {
                 salt: 'salt'
             };
 
-            repo.users.delete({username: user.username}, function () {done();});
+            repo.users.remove({username: user.username}, function () {done();});
         });
 
         it('should return the user with minimal data', function (done) {
-            repo.users.create(user, function (err, res) {
+            repo.users.insert(user, function (err, res) {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
 
@@ -574,11 +574,11 @@ describe('Rights', function () {
                 salt: 'salt'
             };
 
-            repo.users.delete({username: user.username}, function () {
-                repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
-                    repo.roles.delete({name: 'dev'}, function () {
-                        repo.groups.delete({name: 'devs'}, function () {
-                            repo.resourceRights.delete({resource: 'a'}, function () {
+            repo.users.remove({username: user.username}, function () {
+                repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
+                    repo.roles.remove({name: 'dev'}, function () {
+                        repo.groups.remove({name: 'devs'}, function () {
+                            repo.resourceRights.remove({resource: 'a'}, function () {
                                 done();
                             });
                         });
@@ -592,7 +592,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -606,7 +606,7 @@ describe('Rights', function () {
                     {_id: res[2]._id, hasAccess: true}
                 ];
 
-                repo.users.create(user, function (err, res) {
+                repo.users.insert(user, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeDefined();
 
@@ -638,7 +638,7 @@ describe('Rights', function () {
         });
 
         it('should return the user found by his id with his rights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -653,7 +653,7 @@ describe('Rights', function () {
                     {_id: res[2]._id, hasAccess: true}
                 ];
 
-                repo.users.create(user, function (err, res) {
+                repo.users.insert(user, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeDefined();
 
@@ -676,7 +676,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights and role rights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -688,13 +688,13 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
                     user.roles = [roles[0]._id];
 
-                    repo.users.create(user, function (err, users) {
+                    repo.users.insert(user, function (err, users) {
                         expect(err).toBeNull();
                         expect(users).toBeDefined();
 
@@ -718,7 +718,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights and group rights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -730,17 +730,17 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
-                    repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
                         user.groups = [groups[0]._id];
 
-                        repo.users.create(user, function (err, users) {
+                        repo.users.insert(user, function (err, users) {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
@@ -765,7 +765,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights and group rights and role rights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -777,19 +777,19 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
                     user.roles = [roles[0]._id];
 
-                    repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
                         user.groups = [groups[0]._id];
 
-                        repo.users.create(user, function (err, users) {
+                        repo.users.insert(user, function (err, users) {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
@@ -814,7 +814,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -826,19 +826,19 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
                     user.roles = [roles[0]._id];
 
-                    repo.groups.create({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
                         user.groups = [groups[0]._id];
 
-                        repo.users.create(user, function (err, users) {
+                        repo.users.insert(user, function (err, users) {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
@@ -869,7 +869,7 @@ describe('Rights', function () {
         });
 
         it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
-            repo.rights.create([
+            repo.rights.insert([
                 {name: 'add'},
                 {name: 'save'},
                 {name: 'delete'}
@@ -881,17 +881,17 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.create({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
-                    repo.groups.create({name: 'devs'}, function (err, groups) {
+                    repo.groups.insert({name: 'devs'}, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
                         user.groups = [groups[0]._id];
 
-                        repo.users.create(user, function (err, users) {
+                        repo.users.insert(user, function (err, users) {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
@@ -930,11 +930,11 @@ describe('Rights', function () {
                 salt: 'salt'
             };
 
-            repo.users.delete({username: user.username}, function () {
-                repo.rights.delete({name: {$in: ['add', 'save', 'delete']}}, function () {
-                    repo.roles.delete({name: 'dev'}, function () {
-                        repo.groups.delete({name: 'devs'}, function () {
-                            repo.resourceRights.delete({resource: 'a'}, function () {
+            repo.users.remove({username: user.username}, function () {
+                repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
+                    repo.roles.remove({name: 'dev'}, function () {
+                        repo.groups.remove({name: 'devs'}, function () {
+                            repo.resourceRights.remove({resource: 'a'}, function () {
                                 done();
                             });
                         });
@@ -986,7 +986,7 @@ describe('Rights', function () {
 
     describe('.addResourceRight()', function () {
         beforeEach(function (done) {
-            repo.resourceRights.delete({resource: 'projectA'}, function () {done();});
+            repo.resourceRights.remove({resource: 'projectA'}, function () {done();});
         });
 
         it('should throw an error when the params are missing', function () {
@@ -1037,8 +1037,8 @@ describe('Rights', function () {
 
     describe('.refreshRightsIdDb()', function () {
         beforeEach(function (done) {
-            repo.rights.delete({}, function () {
-                repo.roles.delete({}, function () {
+            repo.rights.remove({}, function () {
+                repo.roles.remove({}, function () {
                     done();
                 });
             });
@@ -1066,7 +1066,7 @@ describe('Rights', function () {
 
     describe('.ensureThatDefaultSystemUsersExists()', function () {
         beforeEach(function (done) {
-            repo.users.delete({locked: true}, function () {done();});
+            repo.users.remove({locked: true}, function () {done();});
         });
 
         it('should create system users in db if they do not exist', function (done) {

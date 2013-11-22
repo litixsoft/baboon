@@ -40,11 +40,11 @@
     "dependencies": {
         "async": "~0.2.9",
         "lx-helpers": "~0.3.0",
-        "lx-mongodb": "~0.4.7",
+        "lx-mongodb": "~0.5.1",
         "lx-valid": "~0.2.9"
     },
     "devDependencies": {
-        "grunt": "0.4.1",
+        "grunt": "0.4.2",
         "grunt-bg-shell": "~2.3.0",
         "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-concat": "~0.3.0",

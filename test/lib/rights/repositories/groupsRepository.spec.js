@@ -19,7 +19,7 @@ beforeEach(function (done) {
         ]
     };
 
-    sut.delete({name: data.name}, function () {done();});
+    sut.remove({name: data.name}, function () {done();});
 });
 
 describe('Groups repositiory', function () {
@@ -81,7 +81,7 @@ describe('Groups repositiory', function () {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
 
-                sut.create(data, function (err, res) {
+                sut.insert(data, function (err, res) {
                     expect(err).toBeNull();
                     expect(res.length).toBe(1);
 

@@ -1,77 +1,77 @@
 {
-  "name": "baboon",
-  "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
-  "version": "0.2.10",
-  "homepage": "https://github.com/litixsoft/baboon",
-  "author": {
-    "name": "Litixsoft GmbH",
-    "email": "info@litixsoft.de"
-  },
-  "maintainers": [
-    {
-      "name": "Timo Liebetrau",
-      "email": "t.liebetrau@litixsoft.de"
+    "name": "baboon",
+    "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
+    "version": "0.2.10",
+    "homepage": "https://github.com/litixsoft/baboon",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
     },
-    {
-      "name": "Andreas Krummsdorf",
-      "email": "a.krummsdorf@litixsoft.de"
+    "maintainers": [
+        {
+            "name": "Timo Liebetrau",
+            "email": "t.liebetrau@litixsoft.de"
+        },
+        {
+            "name": "Andreas Krummsdorf",
+            "email": "a.krummsdorf@litixsoft.de"
+        },
+        {
+            "name": "Sven Bernstein",
+            "email": "s.bernstein@litixsoft.de"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/baboon.git"
     },
-    {
-      "name": "Sven Bernstein",
-      "email": "s.bernstein@litixsoft.de"
+    "bugs": {
+        "url": "https://github.com/litixsoft/baboon/issues"
+    },
+    "keywords": [
+        "single-page",
+        "realtime app",
+        "web application framework",
+        "web toolkit",
+        "fullstack web application framework"
+    ],
+    "license": "The MIT License (MIT)",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
+        }
+    ],
+    "readmeFilename": "README.md",
+    "main": "lib/baboon.js",
+    "scripts": {
+        "test": "grunt test && cd example && grunt test"
+    },
+    "devDependencies": {
+        "grunt": "0.4.2",
+        "grunt-bg-shell": "~2.3.0",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-jshint": "~0.7.2",
+        "grunt-jasmine-node": "~0.1.0",
+        "grunt-open": "~0.2.2",
+        "istanbul": "~0.1.45",
+        "load-grunt-tasks": "0.2.0"
+    },
+    "dependencies": {
+        "async": "~0.2.9",
+        "cli-color": "~0.2.3",
+        "connect-redis": "~1.4.6",
+        "ejs": "~0.8.5",
+        "express": "~3.4.4",
+        "glob": "~3.2.7",
+        "log4js": "~0.6.9",
+        "log4js-node-mongodb": "~0.1.0",
+        "lx-helpers": "~0.3.0",
+        "lx-mongodb": "~0.5.1",
+        "lx-valid": "~0.2.9",
+        "pwd": "0.0.2",
+        "redis": "~0.9.0",
+        "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9",
+        "nodemailer": "~0.5.8"
     }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/litixsoft/baboon.git"
-  },
-  "bugs": {
-    "url": "https://github.com/litixsoft/baboon/issues"
-  },
-  "keywords": [
-    "single-page",
-    "realtime app",
-    "web application framework",
-    "web toolkit",
-    "fullstack web application framework"
-  ],
-  "license": "The MIT License (MIT)",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
-    }
-  ],
-  "readmeFilename": "README.md",
-  "main": "lib/baboon.js",
-  "scripts": {
-    "test": "grunt test && cd example && grunt test"
-  },
-  "devDependencies": {
-    "grunt": "0.4.1",
-    "grunt-bg-shell": "~2.3.0",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-jasmine-node": "~0.1.0",
-    "grunt-open": "~0.2.2",
-    "istanbul": "~0.1.45",
-    "load-grunt-tasks": "0.2.0"
-  },
-  "dependencies": {
-    "async": "~0.2.9",
-    "cli-color": "~0.2.3",
-    "connect-redis": "~1.4.6",
-    "ejs": "~0.8.4",
-    "express": "~3.4.4",
-    "glob": "~3.2.7",
-    "log4js": "~0.6.9",
-    "log4js-node-mongodb": "~0.1.0",
-    "lx-helpers": "~0.3.0",
-    "lx-mongodb": "~0.4.7",
-    "lx-valid": "~0.2.9",
-    "pwd": "0.0.2",
-    "redis": "~0.9.0",
-    "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9",
-    "nodemailer": "~0.5.7"
-  }
 }

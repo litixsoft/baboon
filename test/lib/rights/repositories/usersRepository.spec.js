@@ -29,7 +29,7 @@ beforeEach(function (done) {
         confirmedPassword: 'a'
     };
 
-    sut.delete({username: data.username}, function () {done();});
+    sut.remove({username: data.username}, function () {done();});
 });
 
 describe('Users repositiory', function () {
@@ -101,7 +101,7 @@ describe('Users repositiory', function () {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
 
-                sut.create(data, function (err, res) {
+                sut.insert(data, function (err, res) {
                     expect(err).toBeNull();
                     expect(res.length).toBe(1);
 
