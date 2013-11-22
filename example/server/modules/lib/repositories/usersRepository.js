@@ -15,7 +15,14 @@ module.exports = function (collection) {
                     email: {
                         type: 'string',
                         format: 'email',
-                        required: true
+                        required: true,
+                        dependencies: 'confirmedEmail'
+                    },
+                    confirmedEmail: {
+                        type: 'string',
+                        conform: function (actual, data) {
+                            return actual === data.email;
+                        }
                     },
                     language: {
                         type: 'string',
