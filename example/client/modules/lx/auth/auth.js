@@ -4,6 +4,33 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         $routeProvider.when('/auth/register', {templateUrl: 'lx/auth/tpls/register.html', controller: 'lxAuthRegisterCtrl'});
         $routeProvider.when('/auth/forget', {templateUrl: 'lx/auth/tpls/forget.html', controller: 'lxAuthForgotCtrl'});
         $routeProvider.when('/login', {templateUrl: 'lx/auth/tpls/auth_view_login.html', controller: 'lxAuthViewLoginCtrl'});
+        $routeProvider.when('/auth/activate:userid', {templateUrl: 'lx/auth/tpls/activate.html', controller: 'lxAuthActivateCtrl'});
+    }])
+    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams,$location) {
+
+        var lxAlert = $scope.lxAlert;
+
+        $scope.message= '';
+
+        var str = $routeParams.userid;
+        var n = str.indexOf(":");
+
+        var callback = function (error, result) {
+            if(error){
+//                lxAlert.success('Bei der Aktivierung ihres Accounts ist ein Problem aufgetreten.');
+                $scope.message = error;
+            } else {
+                lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
+                $location.path('/');
+            }
+        };
+
+        if(n>=0){
+            var string = $routeParams.userid;
+            var s = string.substr(1);
+            transport.emit('auth/activateUser', {data: s} , callback);
+        }
+
     }])
     .controller('lxAuthLoginCtrl', ['$scope', '$window', 'lxAuth', function ($scope, $window, lxAuth) {
         var window = angular.element($window);
@@ -103,19 +130,35 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             });
         };
     }])
-    .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
+    .controller('lxAuthRegisterCtrl', ['$scope', 'lxAuth', '$log', '$location', 'lxForm', function ($scope, lxAuth, $log, $location, lxForm) {
 
+        var lxAlert = $scope.lxAlert;
+
+        $scope.lxForm = lxForm('registerForm', '_id');
         $scope.user = {};
 
         $scope.register = function () {
 
+            if ($scope.registerForm) {
+                $scope.registerForm.errors = {};
+            }
+
             lxAuth.register($scope.user, function (error, result) {
-                if (error) {
-                    $log.error(error);
-                }
-                else {
+//
+                if (result) {
                     $log.info(result);
+                    lxAlert.success('User '+$scope.user.username+' erfolgreich registriert. Eine Benachrichtigungs-Email wurde Ihnen zugesendet.');
+                    $location.path('/');
                 }
+                else if (error) {
+                    $log.error(error);
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.registerForm, error.validation);
+                    } else {
+                        lxAlert.success('Fehler: '+error);
+                    }
+                }
+
             });
         };
     }])

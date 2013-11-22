@@ -91,6 +91,51 @@ module.exports = function (collection) {
         validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
 
     /**
+     * Validation of email.
+     *
+     * @param {!Object} doc The document.
+     * @param {string=} doc.email The email.
+     * @param {(Object|string)=} doc._id The id.
+     * @param {!function({}, {})} callback The callback function.
+     */
+    baseRepo.checkEmail = function (doc, callback) {
+        if (!doc) {
+            callback(null, {valid: true});
+            return;
+        }
+
+        var query = {
+            email: doc.email,
+            _id: {
+                $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
+            }
+        };
+
+        baseRepo.getOne(query, function (err, res) {
+            if (err) {
+                callback(err);
+            } else if (res) {
+                callback(null,
+                    {
+                        valid: false,
+                        errors: [
+                            {
+                                attribute: 'checkEmail',
+                                property: 'email',
+                                expected: false,
+                                actual: true,
+                                message: 'Email already exists.'
+                            }
+                        ]
+                    }
+                );
+            } else {
+                callback(null, {valid: true});
+            }
+        });
+    };
+
+    /**
      * Validation of username.
      *
      * @param {!Object} doc The document.
@@ -124,7 +169,7 @@ module.exports = function (collection) {
                                 property: 'username',
                                 expected: false,
                                 actual: true,
-                                message: 'already exists'
+                                message: 'Username already exists.'
                             }
                         ]
                     }
@@ -155,6 +200,7 @@ module.exports = function (collection) {
 
         // register async validator
         val.asyncValidate.register(baseRepo.checkName, doc);
+        val.asyncValidate.register(baseRepo.checkEmail, doc);
 
         // async validate
         val.asyncValidate.exec(valResult, callback);

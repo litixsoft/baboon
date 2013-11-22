@@ -14,25 +14,37 @@ module.exports = function (app) {
      * @description Register a new user
      */
     pub.registerUser = function (data, req, callback) {
-        app.logging.syslog.debug('new registerUser implementation');
-        repo.getAll(function(error, result) {
 
-            var response = {};
+//        repo.validate(data, { schema: { properties: repo.getSchemaForRegistration() }} , function (error, result) {
+        repo.validate(data, {} , function (error, result) {
 
             if (error) {
-                response = error;
+                callback(new app.Error(error.toString()));
             }
             else {
-                response = result;
+                if(result.valid){
+                    var time = new Date();
+                    data.timestamp = time; //sets a timestamp to proof if and when a user was created
+                    data.status = 'unregistered';
+
+                    repo.create(data, function(error, result){
+                        if (error) {
+                            callback(new app.Error(error));
+                        } else {
+                            app.mail.sendMail({data : data, mongoid: result[0]._id},function(error, result){
+                                if(error){
+                                    callback(new app.Error(error));
+                                } else {
+                                    callback(null,result);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    callback(new app.ValidationError(result.errors));
+                }
             }
 
-            var echoTest = {
-                header: 'echoTest from server registerUser',
-                receivedFromClient: data,
-                sentFromServer: response
-            };
-
-            callback(null, echoTest);
         });
     };
 

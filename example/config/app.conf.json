@@ -32,6 +32,14 @@
             "enterprise": "localhost:27017/enterprise?w=0&journal=True&fsync=True",
             "rights": "localhost:27017/baboon_rights?w=0&journal=True&fsync=True",
             "logs": "localhost:27017/baboon_logs"
+        },
+        "nodemail": {
+            "user": "dummyuser",
+            "password": "dummypwd",
+            "host": "dummyhost",
+            "port": 25,
+            "senderaddress": "dummy@email.de",
+            "receiveraddress": "dummy@email2.de"
         }
     },
     "params": {
