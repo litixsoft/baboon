@@ -2,7 +2,7 @@
     "base": {
         "node_env": "development",
         "appName": "Baboon Example App",
-        "appAuthModus": false,
+        "extraLoginPage": false,
         "protocol": "http",
         "host": "127.0.0.1",
         "port": 3000,
