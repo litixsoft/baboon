@@ -28,10 +28,10 @@ module.exports = function (app) {
     pub.getAll = function (data, request, callback) {
         async.auto({
             getAll: function (callback) {
-                repo.roles.getAll(data.params || {}, data.options || {}, callback);
+                repo.roles.find(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.roles.getCount(data.params || {}, callback);
+                repo.roles.count(data.params || {}, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -52,7 +52,7 @@ module.exports = function (app) {
     pub.getById = function (data, request, callback) {
         data = data || {};
 
-        repo.roles.getOneById(data.id, data.options || {}, callback);
+        repo.roles.findOneById(data.id, data.options || {}, callback);
     };
 
     /**
@@ -77,7 +77,7 @@ module.exports = function (app) {
 
             if (result.valid) {
                 // save in repo
-                repo.roles.create(data, function (error, result) {
+                repo.roles.insert(data, function (error, result) {
                     if (error) {
                         callback(error);
                         return;

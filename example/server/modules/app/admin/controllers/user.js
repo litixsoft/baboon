@@ -79,10 +79,10 @@ module.exports = function (app) {
 
         async.auto({
             getAll: function (callback) {
-                repo.users.getAll(data.params || {}, options, callback);
+                repo.users.find(data.params || {}, options, callback);
             },
             getCount: function (callback) {
-                repo.users.getCount(data.params || {}, callback);
+                repo.users.count(data.params || {}, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -107,7 +107,7 @@ module.exports = function (app) {
         removeProtectedFields(options);
 
         // query user
-        repo.users.getOneById(data.id, options, callback);
+        repo.users.findOneById(data.id, options, callback);
     };
 
     /**
@@ -140,7 +140,7 @@ module.exports = function (app) {
                         delete data.password;
                         delete data.confirmedPassword;
 
-                        repo.users.create(data, next);
+                        repo.users.insert(data, next);
                     }]
                 }, function (error, results) {
                     if (error) {

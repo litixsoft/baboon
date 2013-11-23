@@ -118,7 +118,7 @@ module.exports = function (collection) {
             }
         };
 
-        baseRepo.getOne(query, function (err, res) {
+        baseRepo.findOne(query, function (err, res) {
             if (err) {
                 callback(err);
             } else if (res) {
@@ -163,7 +163,7 @@ module.exports = function (collection) {
             }
         };
 
-        baseRepo.getOne(query, function (err, res) {
+        baseRepo.findOne(query, function (err, res) {
             if (err) {
                 callback(err);
             } else if (res) {

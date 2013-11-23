@@ -8,7 +8,7 @@ var appMock = require('../../../../../fixtures/serverMock.js')(),
 
 beforeEach(function (done) {
     // clear db
-    repo.crew.delete({}, function () {
+    repo.crew.remove({}, function () {
         done();
     });
 

@@ -8,7 +8,7 @@ var appMock = require('../../../../../fixtures/serverMock.js')(),
 
 beforeEach(function (done) {
     // clear db
-    sut.delete({}, function () {done();});
+    sut.remove({}, function () {done();});
 
     // test data
     data = {
@@ -42,7 +42,7 @@ describe('crewRepository', function () {
         });
 
         it('should check if the name is unique', function (done) {
-            sut.create(data, function (err, res) {
+            sut.insert(data, function (err, res) {
                 expect(res[0].name).toBe('Picard');
                 expect(typeof res[0]._id).toBe('object');
 
@@ -58,7 +58,7 @@ describe('crewRepository', function () {
         });
 
         it('should not check if the name is unique when updating a crew member', function (done) {
-            sut.create(data, function (err, res) {
+            sut.insert(data, function (err, res) {
                 expect(res[0].name).toBe('Picard');
                 expect(typeof res[0]._id).toBe('object');
 

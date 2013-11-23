@@ -16,7 +16,7 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllMembers = function (data, request, callback) {
-        repo.crew.getAll(data.params || {}, data.options || {}, callback);
+        repo.crew.find(data.params || {}, data.options || {}, callback);
     };
 
     /**
@@ -33,7 +33,7 @@ module.exports = function (app) {
     pub.getMemberById = function (data, request, callback) {
         data = data || {};
 
-        repo.crew.getOneById(data.id, data.options || {}, callback);
+        repo.crew.findOneById(data.id, data.options || {}, callback);
     };
 
     /**
@@ -58,7 +58,7 @@ module.exports = function (app) {
 
             if (result.valid) {
                 // save in repo
-                repo.crew.create(data, function (error, result) {
+                repo.crew.insert(data, function (error, result) {
                     if (error) {
                         callback(error);
                         return;
@@ -131,7 +131,7 @@ module.exports = function (app) {
     pub.deleteMember = function (data, request, callback) {
         data = data || {};
 
-        repo.crew.delete({_id: data.id}, function (error, result) {
+        repo.crew.remove({_id: data.id}, function (error, result) {
             if (error) {
                 callback(error);
                 return;
@@ -163,7 +163,7 @@ module.exports = function (app) {
         ];
 
         // save in repo
-        repo.crew.create(testCrew, function (error, result) {
+        repo.crew.insert(testCrew, function (error, result) {
             if (error) {
                 callback(error);
                 return;
@@ -188,7 +188,7 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.deleteAllMembers = function (data, request, callback) {
-        repo.crew.delete({}, function (error, result) {
+        repo.crew.remove({}, function (error, result) {
             if (error) {
                 callback(error);
                 return;
