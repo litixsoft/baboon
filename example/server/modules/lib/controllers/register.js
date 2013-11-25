@@ -28,7 +28,7 @@ module.exports = function (app) {
     function checkGUID(guid){
         //var temp = guid;
         var cleaned = '';
-        var n = guid.indexOf(":");
+        var n = guid.indexOf(':');
         if(n>=0){
             //var string = $routeParams.userid;
             cleaned = guid.substr(1);
@@ -54,8 +54,7 @@ module.exports = function (app) {
             }
             else {
                 if(result.valid){
-                    var time = new Date();
-//                    data.timestamp = time; //sets a timestamp to proof if and when a user was created
+
                     data.status = 'unregistered';
 
                     repo.create(data, function(error, result){
@@ -71,20 +70,21 @@ module.exports = function (app) {
                                 type: 'register',
                                 userid: result[0]._id,
                                 email: data.email
-                            }
+                            };
 
                             tokenRepo.create(tokenData,function(error,result){
                                 if(error){
                                     callback(error);
                                 } else {
-//                                    app.mail.sendMail({data : data, mongoid: result[0]._id}, 'register',function(error, result){
-                                    app.mail.sendMail({data : data, guid: tokenData.guid}, 'register',function(error, result){
-                                        if(error){
-                                            callback(error);
-                                        } else {
-                                            callback(null,result);
-                                        }
-                                    });
+                                    if(result){
+                                        app.mail.sendMail({data : data, guid: tokenData.guid}, 'register',function(error, result){
+                                            if(error){
+                                                callback(error);
+                                            } else {
+                                                callback(null,result);
+                                            }
+                                        });
+                                    }
                                 }
                             });
                         }
@@ -131,7 +131,7 @@ module.exports = function (app) {
                                         }
                                     });
                                 } else {
-                                    repo.remove({_id: userid},function(error,result){
+                                    repo.remove({_id: userid},function(error){
                                         if(error){
                                             callback(error);
                                         } else {
@@ -189,7 +189,7 @@ module.exports = function (app) {
                             type: 'reset',
                             userid: result._id,
                             email: result.email
-                        }
+                        };
 
                         tokenRepo.create(tokenData,function(error,result){
                             if(error){
