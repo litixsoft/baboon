@@ -64,11 +64,6 @@ module.exports = function (app) {
                         } else {
 
                             var time = new Date();
-//                            var guid = createGUID(time,data.email,result[0]._id);
-//
-//                            repo.findOne({guid: data.email},function(error,result){
-//
-//                            });
 
                             var tokenData = {
                                 guid: createGUID(time,data.email,result[0]._id),
