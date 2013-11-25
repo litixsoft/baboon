@@ -64,7 +64,6 @@ module.exports = function (app) {
     /**
      * Gets all users and the number of users from db.
      *
-     * @roles Admin
      * @description Gets all users and the number of users from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -79,10 +78,10 @@ module.exports = function (app) {
 
         async.auto({
             getAll: function (callback) {
-                repo.users.getAll(data.params || {}, options, callback);
+                repo.users.find(data.params || {}, options, callback);
             },
             getCount: function (callback) {
-                repo.users.getCount(data.params || {}, callback);
+                repo.users.count(data.params || {}, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -92,7 +91,6 @@ module.exports = function (app) {
     /**
      * Gets a single user by id.
      *
-     * @roles Admin
      * @description Gets a single user by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -107,13 +105,12 @@ module.exports = function (app) {
         removeProtectedFields(options);
 
         // query user
-        repo.users.getOneById(data.id, options, callback);
+        repo.users.findOneById(data.id, options, callback);
     };
 
     /**
      * Creates a new user in the db.
      *
-     * @roles Admin
      * @description Creates a new user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.
@@ -131,33 +128,34 @@ module.exports = function (app) {
             }
 
             if (result.valid) {
-                async.auto({
-                    createPasswordHash: function (next) {
-                        createHash(data, next);
-                    },
-                    createUser: ['createPasswordHash', function (next) {
-                        // do not save password and confirmedPassword
-                        delete data.password;
-                        delete data.confirmedPassword;
-
-                        repo.users.create(data, next);
-                    }]
-                }, function (error, results) {
-                    if (error) {
-                        callback(error);
-                        return;
-                    }
-
-                    if (results.createUser[0]) {
-                        // remove protected fields
-                        lxHelpers.forEach(protectedFields, function (field) {
-                            delete results.createUser[0][field];
-                        });
-
-                        audit.info('Created user in db: %j', data);
-                        callback(null, results.createUser[0]);
-                    }
-                });
+                repo.users.createUser(data, callback);
+//                async.auto({
+//                    createPasswordHash: function (next) {
+//                        createHash(data, next);
+//                    },
+//                    createUser: ['createPasswordHash', function (next) {
+//                        // do not save password and confirmedPassword
+//                        delete data.password;
+//                        delete data.confirmedPassword;
+//
+//                        repo.users.insert(data, next);
+//                    }]
+//                }, function (error, results) {
+//                    if (error) {
+//                        callback(error);
+//                        return;
+//                    }
+//
+//                    if (results.createUser[0]) {
+//                        // remove protected fields
+//                        lxHelpers.forEach(protectedFields, function (field) {
+//                            delete results.createUser[0][field];
+//                        });
+//
+//                        audit.info('Created user in db: %j', data);
+//                        callback(null, results.createUser[0]);
+//                    }
+//                });
             } else {
                 callback(new app.ValidationError(result.errors));
             }
@@ -167,7 +165,6 @@ module.exports = function (app) {
     /**
      * Updates a user in the db.
      *
-     * @roles Admin
      * @description Updates a user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.

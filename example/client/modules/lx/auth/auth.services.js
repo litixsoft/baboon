@@ -7,7 +7,7 @@ angular.module('lx.auth.services', [])
             transport.rest('auth/getAuthData', function (error, result) {
                 if (error) {
                     $log.error(error);
-                    callback({isAuth: false, username: 'Guest'});
+                    callback({isAuth: false, name: 'Guest'});
                 }
                 else {
                     callback(result);

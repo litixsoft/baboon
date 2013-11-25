@@ -41,7 +41,7 @@ module.exports = function (app) {
     /**
      * Register a new user in database
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Register a new user
      */
     pub.registerUser = function (data, req, callback) {
@@ -57,7 +57,7 @@ module.exports = function (app) {
 
                     data.status = 'unregistered';
 
-                    repo.create(data, function(error, result){
+                    repo.insert(data, function(error, result){
                         if (error) {
                             callback(error);
                         } else {
@@ -156,7 +156,7 @@ module.exports = function (app) {
     /**
      * Create a new password for user
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Create a new password
      */
     pub.forgetPassword = function (data, req, callback) {

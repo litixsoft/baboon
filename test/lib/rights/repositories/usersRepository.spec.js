@@ -11,7 +11,7 @@ var path = require('path'),
 beforeEach(function (done) {
     // test data
     data = {
-        username: 'wayne',
+        name: 'wayne',
         email: 'wayne@wat.com',
         roles: [
             '5204cf825dd46a6c15000001'
@@ -29,7 +29,7 @@ beforeEach(function (done) {
         confirmedPassword: 'a'
     };
 
-    sut.remove({username: data.username}, function () {done();});
+    sut.remove({name: data.name}, function () {done();});
 });
 
 describe('Users repositiory', function () {
@@ -42,7 +42,7 @@ describe('Users repositiory', function () {
             sut.validate(data, {}, function (err, res) {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
-                expect(data.username).toBe('wayne');
+                expect(data.name).toBe('wayne');
                 expect(data.email).toBe('wayne@wat.com');
                 expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
                 expect(data.groups).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
@@ -58,7 +58,7 @@ describe('Users repositiory', function () {
             sut.validate(data, function (err, res) {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
-                expect(data.username).toBe('wayne');
+                expect(data.name).toBe('wayne');
                 expect(data.email).toBe('wayne@wat.com');
                 expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
                 expect(data.groups).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
@@ -89,14 +89,14 @@ describe('Users repositiory', function () {
                 expect(res.errors[1].attribute).toBe('format');
                 expect(res.errors[2].property).toBe('roles');
                 expect(res.errors[2].attribute).toBe('format');
-                expect(res.errors[3].property).toBe('username');
+                expect(res.errors[3].property).toBe('name');
                 expect(res.errors[3].attribute).toBe('required');
 
                 done();
             });
         });
 
-        it('should valid to false when the user username already exists in db', function (done) {
+        it('should valid to false when the user name already exists in db', function (done) {
             sut.validate(data, {}, function (err, res) {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
@@ -105,20 +105,20 @@ describe('Users repositiory', function () {
                     expect(err).toBeNull();
                     expect(res.length).toBe(1);
 
-                    sut.validate({username: data.username}, {}, function (err, res) {
+                    sut.validate({name: data.name}, {}, function (err, res) {
                         expect(res.valid).toBeFalsy();
                         expect(res.errors.length).toBe(2);
                         expect(res.errors[0].property).toBe('email');
                         expect(res.errors[0].attribute).toBe('required');
-                        expect(res.errors[1].property).toBe('username');
+                        expect(res.errors[1].property).toBe('name');
                         expect(res.errors[1].attribute).toBe('checkName');
 
-                        sut.validate({username: data.username, _id: '5204cf825dd46a6c15000001'}, {}, function (err, res) {
+                        sut.validate({name: data.name, _id: '5204cf825dd46a6c15000001'}, {}, function (err, res) {
                             expect(res.valid).toBeFalsy();
                             expect(res.errors.length).toBe(2);
                             expect(res.errors[0].property).toBe('email');
                             expect(res.errors[0].attribute).toBe('required');
-                            expect(res.errors[1].property).toBe('username');
+                            expect(res.errors[1].property).toBe('name');
                             expect(res.errors[1].attribute).toBe('checkName');
 
                             done();

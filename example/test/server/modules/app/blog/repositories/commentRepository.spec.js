@@ -8,7 +8,7 @@ var appMock = require('../../../../../fixtures/serverMock.js')(),
 
 beforeEach(function (done) {
     // clear db
-    sut.delete({}, function () {done();});
+    sut.remove({}, function () {done();});
 
     // test data
     data = {
@@ -52,11 +52,11 @@ describe('commentRepository', function () {
         });
 
         it('should not valid to false when updating a comment', function (done) {
-            sut.create(data, function (err, res) {
+            sut.insert(data, function (err, res) {
                 expect(res[0].content).toBe('text');
                 expect(typeof res[0]._id).toBe('object');
 
-                sut.validate({username: 'wayne'}, {isUpdate: true}, function(err, res) {
+                sut.validate({name: 'wayne'}, {isUpdate: true}, function(err, res) {
                     expect(res.valid).toBeTruthy();
                     expect(res.errors.length).toBe(0);
 
