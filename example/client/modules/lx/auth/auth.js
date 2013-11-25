@@ -143,24 +143,16 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
 
         $scope.message= '';
 
-        var str = $routeParams.userid;
-        var n = str.indexOf(":");
-
-
-        if(n>=0){
-            var string = $routeParams.userid;
-            var s = string.substr(1);
-            lxAuth.activate({guid: s}, function(error, result){
-                if(error){
-                    $scope.message = error;
-                } else {
-                    if(result){
-                        lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
-                        $location.path('/');
-                    }
+        lxAuth.activate({guid: $routeParams.userid}, function(error, result){
+            if(error){
+                $scope.message = error;
+            } else {
+                if(result){
+                    lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
+                    $location.path('/');
                 }
-            });
-        }
+            }
+        });
 
     }])
     .controller('lxAuthForgotCtrl', ['$scope', 'lxAuth', '$log', 'lxForm','$location', function ($scope, lxAuth, $log, lxForm, $location) {
@@ -210,7 +202,9 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             });
         };
     }])
-    .controller('lxAuthResetCtrl', ['$scope', 'lxAuth', 'lxForm', '$routeParams', function ($scope, lxAuth, lxForm, $routeParams) {
+    .controller('lxAuthResetCtrl', ['$scope', 'lxAuth', 'lxForm', '$routeParams','$log','$location', function ($scope, lxAuth, lxForm, $routeParams, $log, $location) {
+
+        var lxAlert = $scope.lxAlert;
 
         $scope.lxForm = lxForm('newPasswordForm', '_id');
         $scope.user = {};
@@ -222,18 +216,24 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             }
 
             var data = {
-                _id: $routeParams.userid,
+                guid: $routeParams.userid,
                 password: $scope.user.password,
                 confirmedPassword: $scope.user.confirmedPassword
             };
 
             lxAuth.resetPassword(data, function(error,result){
-                if(error){
-                    $scope.message = error;
-                } else {
-                    if(result){
-                        lxAlert.success('Ihr Passwort wurde erfolgreich geändert. Bitte loggen Sie sich nun ein.');
-                        $location.path('/');
+                if (result) {
+                    $log.info(result);
+                    lxAlert.success('Ihr Passwort wurde erfolgreich geändert. Bitte loggen Sie sich nun ein.');
+                    $location.path('/');
+                }
+                else if (error) {
+                    $log.error(error);
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.resetForm, error.validation);
+                    } else {
+                        $scope.message = error;
+                        //lxAlert.success('Fehler: '+error);
                     }
                 }
             });

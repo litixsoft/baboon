@@ -25,6 +25,19 @@ module.exports = function (app) {
         return guid;
     }
 
+    function checkGUID(guid){
+        //var temp = guid;
+        var cleaned = '';
+        var n = guid.indexOf(":");
+        if(n>=0){
+            //var string = $routeParams.userid;
+            cleaned = guid.substr(1);
+        } else {
+            cleaned = guid;
+        }
+        return cleaned;
+    }
+
     /**
      * Register a new user in database
      *
@@ -97,7 +110,8 @@ module.exports = function (app) {
      */
     pub.activateUser = function (data, req, callback) {
 
-        var guid = {guid : data.guid};
+        //var guid = {guid : data.guid};
+        var guid = {guid : checkGUID(data.guid)};
 
         tokenRepo.findOne(guid,function(error,result){
             if(error){
@@ -214,9 +228,72 @@ module.exports = function (app) {
      */
     pub.resetPassword = function (data, req, callback) {
 
-        console.log("newPwd");
-        console.log(data);
-        callback(null,'toll');
+
+        var val = require('lx-valid');
+        var schemaForTest = {
+            'properties': {
+                'password': {
+                    'type': 'string',
+                    'maxLength': 100,
+                    'required': true,
+                    'dependencies': 'confirmedPassword'
+                },
+                'confirmedPassword': {
+                    'type': 'string',
+                    'required':true,
+                    conform: function (actual, data) {
+                        return actual === data.password;
+                    }
+                }
+            }
+        };
+
+        var result = val.validate(data, schemaForTest);
+
+        if(result.valid){
+
+            var guid = {guid : checkGUID(data.guid)};
+
+            tokenRepo.findOne(guid,function(error,result){
+                if(error){
+                    app.logging.syslog.error('Interner Servererror: database problem.');
+                    callback(error);
+                } else {
+                    if(result){
+                        var time = new Date();//getTime();
+                        var hours = ( Math.abs(time - result.timestamp) / 3600000);
+                        var userid = result.userid;
+                        tokenRepo.remove({guid: guid.guid},function(error,result){
+                            if(error){
+                                callback(error);
+                            } else {
+                                if(result){
+                                    if(hours < 48){
+                                        repo.update({_id: userid}, {$set: { password: data.password, confirmedPassword: data.confirmedPassword}}, function(error,result){
+                                            if(error){
+                                                callback(error);
+                                            } else {
+                                                callback(error,result);
+                                            }
+                                        });
+                                    } else {
+                                        callback(new app.ClientError('Der Änderungszeitraum ist abgelaufen, bitte fordern Sie die Passwortänderung erneut an.'));
+                                    }
+                                } else {
+                                    callback(new app.ClientError('Token konnte nicht gefunden werden'));
+                                }
+                            }
+                        });
+                    } else {
+                        callback(new app.ClientError('Kein gültiges Token gefunden.'));
+                    }
+                }
+            });
+
+        } else {
+            callback(new app.ValidationError(result.errors));
+        }
+
     };
 
     return pub;
