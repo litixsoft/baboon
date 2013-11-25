@@ -137,8 +137,9 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             });
         };
     }])
-    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams,$location) {
+    .controller('lxAuthActivateCtrl', ['$scope', 'lxAuth', 'lxTransport', '$routeParams', '$location', function ($scope, lxAuth, transport, $routeParams,$location) {
 
+        console.log("Active");
         var lxAlert = $scope.lxAlert;
 
         $scope.message= '';
@@ -159,7 +160,18 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         if(n>=0){
             var string = $routeParams.userid;
             var s = string.substr(1);
-            transport.emit('auth/activateUser', {data: s} , callback);
+            lxAuth.activate({guid: s}, function(error, result){
+                if(error){
+                    console.log(error);
+                } else {
+                    if(result){
+                        console.log(result);
+                    }else {
+                        console.log("nüschd");
+                    }
+                }
+            });
+            //transport.emit('auth/activateUser', {data: s} , callback);
         }
 
     }])

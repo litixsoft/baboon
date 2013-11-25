@@ -34,12 +34,12 @@
             "logs": "localhost:27017/baboon_logs"
         },
         "nodemail": {
-            "user": "mailsender",
-            "password": "#MailPasswd*05%",
-            "host": "lts0001.litix.local",
+            "user": "dummyuser",
+            "password": "dummypwd",
+            "host": "dummyhost",
             "port": 25,
-            "senderaddress": "Mailsender <mailsenderintern@litixsoft.de>",
-            "receiveraddress": "s.bernstein@litixsoft.de"
+            "senderaddress": "dummy@email.de",
+            "receiveraddress": "dummy@email2.de"
         }
     },
     "params": {
