@@ -10,13 +10,13 @@ console.log('Resetting db: ' + baboon.config.mongo.blog);
 
 async.parallel([
     function (callback) {
-        blogRepo.posts.delete({}, callback);
+        blogRepo.posts.remove({}, callback);
     },
     function (callback) {
-        blogRepo.tags.delete({}, callback);
+        blogRepo.tags.remove({}, callback);
     },
     function (callback) {
-        blogRepo.comments.delete({}, callback);
+        blogRepo.comments.remove({}, callback);
     }
 ], function (err, results) {
     if (err) {

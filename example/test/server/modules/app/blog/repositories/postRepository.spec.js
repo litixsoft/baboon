@@ -8,7 +8,7 @@ var appMock = require('../../../../../fixtures/serverMock.js')(),
 
 beforeEach(function (done) {
     // clear db
-    sut.delete({}, function () {done();});
+    sut.remove({}, function () {done();});
 
     // test data
     data = {

@@ -6,17 +6,17 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         $routeProvider.when('/login', {templateUrl: 'lx/auth/tpls/auth_view_login.html', controller: 'lxAuthViewLoginCtrl'});
         $routeProvider.when('/auth/activate:userid', {templateUrl: 'lx/auth/tpls/activate.html', controller: 'lxAuthActivateCtrl'});
     }])
-    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams,$location) {
+    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams, $location) {
 
         var lxAlert = $scope.lxAlert;
 
-        $scope.message= '';
+        $scope.message = '';
 
         var str = $routeParams.userid;
         var n = str.indexOf(":");
 
         var callback = function (error, result) {
-            if(error){
+            if (error) {
 //                lxAlert.success('Bei der Aktivierung ihres Accounts ist ein Problem aufgetreten.');
                 $scope.message = error;
             } else {
@@ -25,10 +25,10 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             }
         };
 
-        if(n>=0){
+        if (n >= 0) {
             var string = $routeParams.userid;
             var s = string.substr(1);
-            transport.emit('auth/activateUser', {data: s} , callback);
+            transport.emit('auth/activateUser', {data: s}, callback);
         }
 
     }])
@@ -36,7 +36,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         var window = angular.element($window);
 
         lxAuth.getAuthData(function (result) {
-            $scope.user = result.username;
+            $scope.user = result.name;
             $scope.isAuth = result.isAuth;
         });
 
@@ -117,7 +117,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                         $scope.authFailed = true;
                     }
                     else {
-                        if(error.validation){
+                        if (error.validation) {
                             $scope.lxForm.populateValidation($scope.form, error.validation);
                             $scope.authFailed = true;
                         } else {
@@ -147,7 +147,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
 //
                 if (result) {
                     $log.info(result);
-                    lxAlert.success('User '+$scope.user.username+' erfolgreich registriert. Eine Benachrichtigungs-Email wurde Ihnen zugesendet.');
+                    lxAlert.success('User ' + $scope.user.username + ' erfolgreich registriert. Eine Benachrichtigungs-Email wurde Ihnen zugesendet.');
                     $location.path('/');
                 }
                 else if (error) {
@@ -155,7 +155,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                     if (error.validation) {
                         $scope.lxForm.populateValidation($scope.registerForm, error.validation);
                     } else {
-                        lxAlert.success('Fehler: '+error);
+                        lxAlert.success('Fehler: ' + error);
                     }
                 }
 

@@ -21,10 +21,10 @@ module.exports = function (app) {
     function updateTagCount () {
         async.auto({
             getAllTags: function (callback) {
-                repo.tags.getAll({}, {fields: ['_id']}, callback);
+                repo.tags.find({}, {fields: ['_id']}, callback);
             },
             getAllPostsWithTags: function (callback) {
-                repo.posts.getAll({ tags: { $exists: true}}, {fields: ['tags']}, callback);
+                repo.posts.find({ tags: { $exists: true}}, {fields: ['tags']}, callback);
             },
             calculateTagCount: ['getAllTags', 'getAllPostsWithTags', function (callback, results) {
                 var tags = {};
@@ -70,7 +70,7 @@ module.exports = function (app) {
     /**
      * Gets all blog post from db.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Gets all blog post from db
      * @param {!object} data The query.
      * @param {!object} request The request object.
@@ -78,13 +78,13 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllPosts = function (data, request, callback) {
-        repo.posts.getAll(data.params || {}, data.options || {}, callback);
+        repo.posts.find(data.params || {}, data.options || {}, callback);
     };
 
     /**
      * Gets all blog post and the number of blog posts from db.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Gets all blog post and the number of blog posts from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -94,10 +94,10 @@ module.exports = function (app) {
     pub.getAllPostsWithCount = function (data, request, callback) {
         async.auto({
             getAll: function (callback) {
-                repo.posts.getAll(data.params || {}, data.options || {}, callback);
+                repo.posts.find(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.posts.getCount(data.params || {}, callback);
+                repo.posts.count(data.params || {}, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -107,7 +107,7 @@ module.exports = function (app) {
     /**
      * Gets all blog post and the number of blog posts from db.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Gets all blog post and the number of blog posts from db
      * @param {object} data The query.
      * @param {string=} data.params The values for searching.
@@ -139,10 +139,10 @@ module.exports = function (app) {
 
         async.auto({
             getAll: function (callback) {
-                repo.posts.getAll(filter, data.options || {}, callback);
+                repo.posts.find(filter, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.posts.getCount(filter, callback);
+                repo.posts.count(filter, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -152,7 +152,7 @@ module.exports = function (app) {
     /**
      * Gets a single blog post by id.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Gets a single blog post by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -163,7 +163,7 @@ module.exports = function (app) {
     pub.getPostById = function (data, request, callback) {
         data = data || {};
 
-        repo.posts.getOneById(data.id, data.options || {}, function (error, result) {
+        repo.posts.findOneById(data.id, data.options || {}, function (error, result) {
             if (error) {
                 callback(error);
                 return;
@@ -173,7 +173,7 @@ module.exports = function (app) {
                 var post = result;
 
                 if (post.comments && post.comments.length > 0) {
-                    repo.comments.getAll({_id: {$in: post.comments}}, function (error, result) {
+                    repo.comments.find({_id: {$in: post.comments}}, function (error, result) {
                         if (error) {
                             callback(app.ClientError('Could not load blog post!'));
                             return;
@@ -193,7 +193,7 @@ module.exports = function (app) {
     /**
      * Creates a new blog post in the db.
      *
-     * @roles Admin, Author
+     * @roles User
      * @description Creates a new blog post in the db
      * @param {object} data The blog post data.
      * @param {!object} request The request object.
@@ -215,7 +215,7 @@ module.exports = function (app) {
                 data.created = new Date();
 
                 // save in repo
-                repo.posts.create(data, function (error, result) {
+                repo.posts.insert(data, function (error, result) {
                     if (error) {
                         callback(app.ClientError('Could not create blog post!'));
                         return;
@@ -237,7 +237,7 @@ module.exports = function (app) {
     /**
      * Updates a blog post in the db.
      *
-     * @roles Admin, Author
+     * @roles User
      * @description Updates a blog post in the db
      * @param {object} data The blog post data.
      * @param {!object} request The request object.
@@ -284,7 +284,7 @@ module.exports = function (app) {
     /**
      * Adds a comment to a blog post.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Adds a comment to a blog post
      * @param {object} data The comment data.
      * @param {!object} request The request object.
@@ -307,7 +307,7 @@ module.exports = function (app) {
                 data.created = new Date();
 
                 // save in repo
-                repo.comments.create(data, function (error, result) {
+                repo.comments.insert(data, function (error, result) {
                     if (error) {
                         callback(error);
                         return;
@@ -334,7 +334,7 @@ module.exports = function (app) {
     /**
      * Gets all tags from db.
      *
-     * @roles Admin, Guest, Author
+     * @roles Guest, User
      * @description Gets all tags from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -342,13 +342,13 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllTags = function (data, request, callback) {
-        repo.tags.getAll(data.params || {}, data.options || {}, callback);
+        repo.tags.find(data.params || {}, data.options || {}, callback);
     };
 
     /**
      * Creates a new tag in the db.
      *
-     * @roles Admin, Author
+     * @roles User
      * @description Creates a new tag in the db
      * @param {object} data The tag data.
      * @param {!object} request The request object.
@@ -365,7 +365,7 @@ module.exports = function (app) {
 
             if (result.valid) {
                 // save in repo
-                repo.tags.create(data, function (error, result) {
+                repo.tags.insert(data, function (error, result) {
                     if (error) {
                         callback(error);
                         return;
@@ -385,7 +385,7 @@ module.exports = function (app) {
     /**
      * Deletes a tag.
      *
-     * @roles Admin, Author
+     * @roles User
      * @description Deletes a tag
      * @param {object} data The data.
      * @param {string|object} data.id The id.
@@ -396,7 +396,7 @@ module.exports = function (app) {
     pub.deleteTag = function (data, request, callback) {
         data = data || {};
 
-        repo.tags.delete({_id: data.id}, function (error, result) {
+        repo.tags.remove({_id: data.id}, function (error, result) {
             if (error || result === 0) {
                 callback(error);
                 return;
@@ -412,7 +412,7 @@ module.exports = function (app) {
     /**
      * Creates a new blog post in the db.
      *
-     * @roles Admin, Author
+     * @roles User
      * @description Creates a new blog post in the db
      * @param {object} data The blog post data.
      * @param {!object} request The request object.
@@ -431,7 +431,7 @@ module.exports = function (app) {
         }
 
         // save in repo
-        repo.posts.create(posts, function (error, result) {
+        repo.posts.insert(posts, function (error, result) {
             if (error) {
                 callback(error);
                 return;

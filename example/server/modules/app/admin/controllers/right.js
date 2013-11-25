@@ -18,7 +18,6 @@ module.exports = function (app) {
     /**
      * Gets all rights and the number of rights from db.
      *
-     * @roles Admin
      * @description Gets all rights and the number of rights from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -28,10 +27,10 @@ module.exports = function (app) {
     pub.getAll = function (data, request, callback) {
         async.auto({
             getAll: function (callback) {
-                repo.rights.getAll(data.params || {}, data.options || {}, callback);
+                repo.rights.find(data.params || {}, data.options || {}, callback);
             },
             getCount: function (callback) {
-                repo.rights.getCount(data.params || {}, callback);
+                repo.rights.count(data.params || {}, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -41,7 +40,6 @@ module.exports = function (app) {
     /**
      * Gets a single right by id.
      *
-     * @roles Admin
      * @description Gets a single right by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -52,13 +50,12 @@ module.exports = function (app) {
     pub.getById = function (data, request, callback) {
         data = data || {};
 
-        repo.rights.getOneById(data.id, data.options || {}, callback);
+        repo.rights.findOneById(data.id, data.options || {}, callback);
     };
 
     /**
      * Creates a new right in the db.
      *
-     * @roles Admin
      * @description Creates a new right in the db
      * @param {object} data The right data.
      * @param {!object} request The request object.
@@ -77,7 +74,7 @@ module.exports = function (app) {
 
             if (result.valid) {
                 // save in repo
-                repo.rights.create(data, function (error, result) {
+                repo.rights.insert(data, function (error, result) {
                     if (error) {
                         callback(error);
                         return;
@@ -97,7 +94,6 @@ module.exports = function (app) {
     /**
      * Updates a right in the db.
      *
-     * @roles Admin
      * @description Updates a right in the db
      * @param {object} data The right data.
      * @param {!object} request The request object.

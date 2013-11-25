@@ -4,6 +4,7 @@
 describe('Rights', function () {
     var path = require('path'),
         lxHelpers = require('lx-helpers'),
+        ObjectID = require('../../../node_modules/lx-mongodb/node_modules/mongodb').ObjectID,
         appMock = require('../../fixtures/appMock.js')(),
         rootPath = path.resolve('..', 'baboon'),
         sut = require(path.resolve(rootPath, 'lib', 'rights'))(appMock.config, appMock.logging),
@@ -87,22 +88,22 @@ describe('Rights', function () {
         users = [
             {
                 _id: 1,
-                username: 'user',
+                name: 'user',
                 groups: [1]
             },
             {
                 _id: 2,
-                username: 'wayne',
+                name: 'wayne',
                 groups: [2, 5]
             },
             {
                 _id: 3,
-                username: 'devver',
+                name: 'devver',
                 groups: [2, 4]
             },
             {
                 _id: 4,
-                username: 'chief',
+                name: 'chief',
                 groups: [2, 6]
             }
         ];
@@ -159,9 +160,11 @@ describe('Rights', function () {
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeFalsy();
         });
 
-        it('should return true when the user id is 1', function () {
+        it('should return true when the user has the role admin', function () {
             var user = users[0];
-            user.id = 1;
+            user.rolesAsObjects = [
+                {_id: 1, name: 'Admin'}
+            ];
 
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeTruthy();
             expect(sut.userHasAccessTo(user, 'someUnknownRight')).toBeTruthy();
@@ -217,6 +220,74 @@ describe('Rights', function () {
             expect(sut.userHasAccessTo(user, 'addTime', 'xxx')).toBeFalsy();
             expect(sut.userHasAccessTo(user, 'login')).toBeTruthy();
             expect(sut.userHasAccessTo(user, 'addUser')).toBeFalsy();
+        });
+
+        it('should return true when the rights system is disabled', function () {
+            var user = users[0];
+            appMock.config.useRightsSystem = false;
+
+            expect(sut.userHasAccessTo(user, 'wayne')).toBeTruthy();
+
+            appMock.config.useRightsSystem = true;
+        });
+    });
+
+    describe('.userIsInRole()', function () {
+        it('should throw an Error when the param "user" is of wrong type', function () {
+            var func = function () { return sut.userIsInRole('user', '123');};
+
+            expect(func).toThrow();
+        });
+
+        it('should return false when the user has no roles', function () {
+            var user = users[0];
+
+            expect(sut.userIsInRole(user, 'admin')).toBeFalsy();
+        });
+
+        it('should return false when the user does not have the role', function () {
+            var user = users[0];
+            user.rolesAsObjects = [
+                {_id: 1, name: 'admin'}
+            ];
+
+            expect(sut.userIsInRole(user, 'guest')).toBeFalsy();
+        });
+
+        it('should return true when the user has the role and the role is a mongo-id', function () {
+            var user = users[0];
+            user.rolesAsObjects = [
+                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+            ];
+
+            expect(sut.userIsInRole(user, new ObjectID('511106fc574d81d815000001'))).toBeTruthy();
+        });
+
+        it('should return true when the user has the role and the role is a mongo-id string', function () {
+            var user = users[0];
+            user.rolesAsObjects = [
+                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+            ];
+
+            expect(sut.userIsInRole(user, '511106fc574d81d815000001')).toBeTruthy();
+        });
+
+        it('should return true when the user has the role and the role is a mongo-id string', function () {
+            var user = users[0];
+            user.rolesAsObjects = [
+                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+            ];
+
+            expect(sut.userIsInRole(user, 'admin')).toBeTruthy();
+        });
+
+        it('should return true when the rights system is disabled', function () {
+            var user = users[0];
+            appMock.config.useRightsSystem = false;
+
+            expect(sut.userIsInRole(user, 'wayne')).toBeTruthy();
+
+            appMock.config.useRightsSystem = true;
         });
     });
 
@@ -293,7 +364,7 @@ describe('Rights', function () {
         it('should return an empty object when the param "allRights" is empty', function () {
             var user = {
                     id: 0,
-                    username: 'admin',
+                    name: 'admin',
                     rights: [
                         {_id: 1, hasAccess: true}
                     ]
@@ -305,7 +376,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights', function () {
-            var user = {id: 0, username: 'admin'},
+            var user = {id: 0, name: 'admin'},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -313,15 +384,21 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights and his groups have no rights', function () {
-            var user = {id: 0, username: 'admin', groups: [1]},
+            var user = {id: 0, name: 'admin', groups: [1]},
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
             expect(Object.keys(res).length).toBe(0);
         });
 
-        it('should return all rights when the user id is 1', function () {
-            var user = {id: 1, username: 'sysadmin'},
+        it('should return all rights when the user has the role "Admin"', function () {
+            var user = {
+                    id: 1,
+                    name: 'admin',
+                    rolesAsObjects: [
+                        {_id: 1, name: 'Admin'}
+                    ]
+                },
                 res = sut.getUserAcl(user, rights, roles);
 
             expect(typeof res).toBe('object');
@@ -543,12 +620,12 @@ describe('Rights', function () {
     describe('.getUserForLogin()', function () {
         beforeEach(function (done) {
             user = {
-                username: 'wayne',
+                name: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.remove({username: user.username}, function () {done();});
+            repo.users.remove({name: user.name}, function () {done();});
         });
 
         it('should return the user with minimal data', function (done) {
@@ -556,7 +633,7 @@ describe('Rights', function () {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
 
-                sut.getUserForLogin(user.username, function (err, res) {
+                sut.getUserForLogin(user.name, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toEqual(user);
 
@@ -569,12 +646,12 @@ describe('Rights', function () {
     describe('.getUser()', function () {
         beforeEach(function (done) {
             user = {
-                username: 'wayne',
+                name: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.remove({username: user.username}, function () {
+            repo.users.remove({name: user.name}, function () {
                 repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
                     repo.roles.remove({name: 'dev'}, function () {
                         repo.groups.remove({name: 'devs'}, function () {
@@ -613,7 +690,7 @@ describe('Rights', function () {
                     sut.getUser(user._id, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
-                        expect(res.username).toBe('wayne');
+                        expect(res.name).toBe('wayne');
                         expect(res.hash).toBeUndefined();
                         expect(res.salt).toBeUndefined();
                         expect(res.acl).toBeDefined();
@@ -621,6 +698,7 @@ describe('Rights', function () {
                             'add': {hasAccess: true},
                             'delete': {hasAccess: true}
                         });
+                        expect(res.rolesAsObjects.length).toBe(0);
 
                         done();
                     });
@@ -660,7 +738,7 @@ describe('Rights', function () {
                     sut.getUser(user.id, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
-                        expect(res.username).toBe('wayne');
+                        expect(res.name).toBe('wayne');
                         expect(res.hash).toBeUndefined();
                         expect(res.salt).toBeUndefined();
                         expect(res.acl).toBeDefined();
@@ -701,7 +779,7 @@ describe('Rights', function () {
                         sut.getUser(user._id, function (err, res) {
                             expect(err).toBeNull();
                             expect(res).toBeDefined();
-                            expect(res.username).toBe('wayne');
+                            expect(res.name).toBe('wayne');
                             expect(res.hash).toBeUndefined();
                             expect(res.salt).toBeUndefined();
                             expect(res.acl).toBeDefined();
@@ -709,6 +787,8 @@ describe('Rights', function () {
                                 'add': {hasAccess: true},
                                 'delete': {hasAccess: true}
                             });
+                            expect(res.rolesAsObjects.length).toBe(1);
+                            expect(res.rolesAsObjects[0].name).toBe('dev');
 
                             done();
                         });
@@ -747,7 +827,7 @@ describe('Rights', function () {
                             sut.getUser(user._id, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
-                                expect(res.username).toBe('wayne');
+                                expect(res.name).toBe('wayne');
                                 expect(res.hash).toBeUndefined();
                                 expect(res.salt).toBeUndefined();
                                 expect(res.acl).toBeDefined();
@@ -755,6 +835,8 @@ describe('Rights', function () {
                                     'add': {hasAccess: true},
                                     'delete': {hasAccess: true}
                                 });
+                                expect(res.rolesAsObjects.length).toBe(1);
+                                expect(res.rolesAsObjects[0].name).toBe('dev');
 
                                 done();
                             });
@@ -796,7 +878,7 @@ describe('Rights', function () {
                             sut.getUser(user._id, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
-                                expect(res.username).toBe('wayne');
+                                expect(res.name).toBe('wayne');
                                 expect(res.hash).toBeUndefined();
                                 expect(res.salt).toBeUndefined();
                                 expect(res.acl).toBeDefined();
@@ -804,6 +886,8 @@ describe('Rights', function () {
                                     'add': {hasAccess: true},
                                     'delete': {hasAccess: true}
                                 });
+                                expect(res.rolesAsObjects.length).toBe(1);
+                                expect(res.rolesAsObjects[0].name).toBe('dev');
 
                                 done();
                             });
@@ -849,7 +933,7 @@ describe('Rights', function () {
                                 sut.getUser(user._id, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
-                                    expect(res.username).toBe('wayne');
+                                    expect(res.name).toBe('wayne');
                                     expect(res.hash).toBeUndefined();
                                     expect(res.salt).toBeUndefined();
                                     expect(res.acl).toBeDefined();
@@ -858,6 +942,8 @@ describe('Rights', function () {
                                         'delete': {hasAccess: true},
                                         'save': {hasAccess: true, resource: 'a'}
                                     });
+                                    expect(res.rolesAsObjects.length).toBe(1);
+                                    expect(res.rolesAsObjects[0].name).toBe('dev');
 
                                     done();
                                 });
@@ -902,7 +988,7 @@ describe('Rights', function () {
                                 sut.getUser(user._id, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
-                                    expect(res.username).toBe('wayne');
+                                    expect(res.name).toBe('wayne');
                                     expect(res.hash).toBeUndefined();
                                     expect(res.salt).toBeUndefined();
                                     expect(res.acl).toBeDefined();
@@ -911,6 +997,7 @@ describe('Rights', function () {
                                         'delete': {hasAccess: true, resource: 'a'},
                                         'save': {hasAccess: true, resource: 'a'}
                                     });
+                                    expect(res.rolesAsObjects.length).toBe(0);
 
                                     done();
                                 });
@@ -925,12 +1012,12 @@ describe('Rights', function () {
     describe('.getExtendedAcl()', function () {
         beforeEach(function (done) {
             user = {
-                username: 'wayne',
+                name: 'wayne',
                 hash: 'hash',
                 salt: 'salt'
             };
 
-            repo.users.remove({username: user.username}, function () {
+            repo.users.remove({name: user.name}, function () {
                 repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
                     repo.roles.remove({name: 'dev'}, function () {
                         repo.groups.remove({name: 'devs'}, function () {
@@ -1072,10 +1159,10 @@ describe('Rights', function () {
         it('should create system users in db if they do not exist', function (done) {
             sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();
-                expect(res).toBe(3);
+                expect(res).toBe(2);
 
                 expect(appMock.logging.syslog.info).toHaveBeenCalled();
-                expect(appMock.logging.syslog.info.calls.length).toBe(3);
+                expect(appMock.logging.syslog.info.calls.length).toBe(5);
 
                 sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                     expect(err).toBeNull();

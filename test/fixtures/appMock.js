@@ -8,6 +8,9 @@ var path = require('path'),
 config.mongo.rights = configFile.params.unitTest.mongo.rights;
 config.mongo.logs = configFile.params.unitTest.mongo.logs;
 
+// set useRightsSystem to true to make rights tests runs
+config.useRightsSystem = true;
+
 module.exports = function () {
     var logging = function (msg) {
         console.log(msg);

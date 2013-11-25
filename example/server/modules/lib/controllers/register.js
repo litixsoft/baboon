@@ -10,7 +10,7 @@ module.exports = function (app) {
     /**
      * Register a new user in database
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Register a new user
      */
     pub.registerUser = function (data, req, callback) {
@@ -27,7 +27,7 @@ module.exports = function (app) {
                     data.timestamp = time; //sets a timestamp to proof if and when a user was created
                     data.status = 'unregistered';
 
-                    repo.create(data, function(error, result){
+                    repo.insert(data, function(error, result){
                         if (error) {
                             callback(new app.Error(error));
                         } else {
@@ -51,12 +51,12 @@ module.exports = function (app) {
     /**
      * Create a new password for user
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Create a new password
      */
     pub.createNewPassword = function (data, req, callback) {
         app.logging.syslog.debug('new create new Password implementation');
-        repo.getAll(function(error, result) {
+        repo.find(function(error, result) {
 
             var response = {};
 

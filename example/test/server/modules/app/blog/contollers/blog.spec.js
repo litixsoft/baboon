@@ -10,9 +10,9 @@ var appMock = require('../../../../../fixtures/serverMock.js')(),
 
 beforeEach(function (done) {
     // clear db
-    repo.posts.delete({}, function () {
-        repo.tags.delete({}, function () {
-            repo.comments.delete({}, function () {done();});
+    repo.posts.remove({}, function () {
+        repo.tags.remove({}, function () {
+            repo.comments.remove({}, function () {done();});
         });
     });
 
@@ -80,7 +80,7 @@ describe('Blog Controller', function () {
         });
 
         it('should update the tag count if the blog post contains some tags', function (done) {
-            repo.tags.create({name: 'angular'}, function (err, res) {
+            repo.tags.insert({name: 'angular'}, function (err, res) {
                 sut.createPost({title: 'pp', content: 'text', tags: [res[0]._id.toHexString()]}, {}, function (err, res) {
                     expect(res).toBeDefined();
                     expect(res.title).toBe('pp');
@@ -92,7 +92,7 @@ describe('Blog Controller', function () {
                     expect(appMock.logging.syslog.error).wasNotCalled();
 
                     setTimeout(function () {
-                        repo.tags.getAll(function (err, res) {
+                        repo.tags.find(function (err, res) {
                             expect(res).toBeDefined();
                             expect(res.length).toBe(1);
                             expect(res[0].name).toBe('angular');

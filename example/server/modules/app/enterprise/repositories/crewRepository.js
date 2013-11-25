@@ -41,7 +41,7 @@ module.exports = function (collection) {
         };
 
         // get query
-        baseRepo.getOne(query, function (err, res) {
+        baseRepo.findOne(query, function (err, res) {
             if (err) {
                 callback(err);
             } else if (res) {

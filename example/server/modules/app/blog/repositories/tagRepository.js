@@ -26,7 +26,7 @@ module.exports = function (collection) {
 
     // validators
     baseRepo.checkTagName = function (tagName, callback) {
-        baseRepo.getOne({name: tagName}, function (err, res) {
+        baseRepo.findOne({name: tagName}, function (err, res) {
             if (err) {
                 callback(err);
             } else if (res) {
