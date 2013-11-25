@@ -56,7 +56,7 @@ describe('commentRepository', function () {
                 expect(res[0].content).toBe('text');
                 expect(typeof res[0]._id).toBe('object');
 
-                sut.validate({username: 'wayne'}, {isUpdate: true}, function(err, res) {
+                sut.validate({name: 'wayne'}, {isUpdate: true}, function(err, res) {
                     expect(res.valid).toBeTruthy();
                     expect(res.errors.length).toBe(0);
 

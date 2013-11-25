@@ -70,7 +70,7 @@ module.exports = function (collection) {
                             }
                         }
                     },
-                    username: {
+                    name: {
                         type: 'string',
                         required: true,
                         maxLength: 100,
@@ -143,10 +143,10 @@ module.exports = function (collection) {
     };
 
     /**
-     * Validation of username.
+     * Validation of name.
      *
      * @param {!Object} doc The document.
-     * @param {string=} doc.username The username.
+     * @param {string=} doc.name The name of the user.
      * @param {(Object|string)=} doc._id The id.
      * @param {!function({}, {})} callback The callback function.
      */
@@ -157,7 +157,7 @@ module.exports = function (collection) {
         }
 
         var query = {
-            username: doc.username,
+            name: doc.name,
             _id: {
                 $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
             }
@@ -173,10 +173,10 @@ module.exports = function (collection) {
                         errors: [
                             {
                                 attribute: 'checkName',
-                                property: 'username',
+                                property: 'name',
                                 expected: false,
                                 actual: true,
-                                message: 'Username already exists.'
+                                message: 'Name already exists.'
                             }
                         ]
                     }

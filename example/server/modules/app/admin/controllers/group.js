@@ -18,7 +18,6 @@ module.exports = function (app) {
     /**
      * Gets all groups and the number of groups from db.
      *
-     * @roles Admin
      * @description Gets all groups and the number of groups from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -46,7 +45,6 @@ module.exports = function (app) {
      * @param {!object} request The request object.
      * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
-     * @roles Admin
      * @description Gets a single group post by id
      */
     pub.getById = function (data, request, callback) {
@@ -58,7 +56,6 @@ module.exports = function (app) {
     /**
      * Creates a new group in the db.
      *
-     * @roles Admin
      * @description Creates a new group in the db
      * @param {object} data The group data.
      * @param {!object} request The request object.
@@ -97,7 +94,6 @@ module.exports = function (app) {
     /**
      * Updates a group in the db.
      *
-     * @roles Admin
      * @description Updates a group in the db
      * @param {object} data The group data.
      * @param {!object} request The request object.

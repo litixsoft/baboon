@@ -18,7 +18,6 @@ module.exports = function (app) {
     /**
      * Gets all rights and the number of rights from db.
      *
-     * @roles Admin
      * @description Gets all rights and the number of rights from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -41,7 +40,6 @@ module.exports = function (app) {
     /**
      * Gets a single right by id.
      *
-     * @roles Admin
      * @description Gets a single right by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -58,7 +56,6 @@ module.exports = function (app) {
     /**
      * Creates a new right in the db.
      *
-     * @roles Admin
      * @description Creates a new right in the db
      * @param {object} data The right data.
      * @param {!object} request The request object.
@@ -97,7 +94,6 @@ module.exports = function (app) {
     /**
      * Updates a right in the db.
      *
-     * @roles Admin
      * @description Updates a right in the db
      * @param {object} data The right data.
      * @param {!object} request The request object.

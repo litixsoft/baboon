@@ -10,7 +10,7 @@ module.exports = function (app) {
     /**
      * Register a new user in database
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Register a new user
      */
     pub.registerUser = function (data, req, callback) {
@@ -51,7 +51,7 @@ module.exports = function (app) {
     /**
      * Create a new password for user
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Create a new password
      */
     pub.createNewPassword = function (data, req, callback) {

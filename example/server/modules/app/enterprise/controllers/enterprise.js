@@ -8,7 +8,7 @@ module.exports = function (app) {
     /**
      * Gets all members from db.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Gets all members from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -22,7 +22,7 @@ module.exports = function (app) {
     /**
      * Gets a single member by id.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Gets a single member by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -39,7 +39,7 @@ module.exports = function (app) {
     /**
      * Creates a new member in the db.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Creates a new member in the db
      * @param {object} data The blog post data.
      * @param {!object} request The request object.
@@ -78,7 +78,7 @@ module.exports = function (app) {
     /**
      * Updates a member in the db.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Updates a member in the db
      * @param {object} data The member data.
      * @param {!object} request The request object.
@@ -120,7 +120,7 @@ module.exports = function (app) {
     /**
      * Deletes a member.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Deletes a member
      * @param {object} data The data.
      * @param {string|object} data.id The id.
@@ -147,7 +147,7 @@ module.exports = function (app) {
     /**
      * Create test members in crew collection.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Create test members in crew collection
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -180,7 +180,7 @@ module.exports = function (app) {
      * Delete all members in crew collection.
      * Generate test crew members in crew collection.
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description Delete all members in crew collection. Generate test crew members in crew collection
      * @param {object} data The query.
      * @param {!object} request The request object.
