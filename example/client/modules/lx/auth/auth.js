@@ -5,32 +5,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         $routeProvider.when('/auth/forget', {templateUrl: 'lx/auth/tpls/forget.html', controller: 'lxAuthForgotCtrl'});
         $routeProvider.when('/login', {templateUrl: 'lx/auth/tpls/auth_view_login.html', controller: 'lxAuthViewLoginCtrl'});
         $routeProvider.when('/auth/activate:userid', {templateUrl: 'lx/auth/tpls/activate.html', controller: 'lxAuthActivateCtrl'});
-    }])
-    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams,$location) {
-
-        var lxAlert = $scope.lxAlert;
-
-        $scope.message= '';
-
-        var str = $routeParams.userid;
-        var n = str.indexOf(":");
-
-        var callback = function (error, result) {
-            if(error){
-//                lxAlert.success('Bei der Aktivierung ihres Accounts ist ein Problem aufgetreten.');
-                $scope.message = error;
-            } else {
-                lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
-                $location.path('/');
-            }
-        };
-
-        if(n>=0){
-            var string = $routeParams.userid;
-            var s = string.substr(1);
-            transport.emit('auth/activateUser', {data: s} , callback);
-        }
-
+        $routeProvider.when('/auth/forget:userid', {templateUrl: 'lx/auth/tpls/reset.html', controller: 'lxAuthResetCtrl'});
     }])
     .controller('lxAuthLoginCtrl', ['$scope', '$window', 'lxAuth', function ($scope, $window, lxAuth) {
         var window = angular.element($window);
@@ -162,23 +137,102 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
             });
         };
     }])
-    .controller('lxAuthForgotCtrl', ['$scope', 'lxAuth', '$log', function ($scope, lxAuth, $log) {
+    .controller('lxAuthActivateCtrl', ['$scope', '$window', 'lxTransport', '$routeParams', '$location', function ($scope, $window, transport, $routeParams,$location) {
+
+        var lxAlert = $scope.lxAlert;
+
+        $scope.message= '';
+
+        var str = $routeParams.userid;
+        var n = str.indexOf(":");
+
+        var callback = function (error, result) {
+            if(error){
+//                lxAlert.success('Bei der Aktivierung ihres Accounts ist ein Problem aufgetreten.');
+                $scope.message = error;
+            } else {
+                lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
+                $location.path('/');
+            }
+        };
+
+        if(n>=0){
+            var string = $routeParams.userid;
+            var s = string.substr(1);
+            transport.emit('auth/activateUser', {data: s} , callback);
+        }
+
+    }])
+    .controller('lxAuthForgotCtrl', ['$scope', 'lxAuth', '$log', 'lxForm','$location', function ($scope, lxAuth, $log, lxForm, $location) {
+
+        var lxAlert = $scope.lxAlert;
+
+        $scope.lxForm = lxForm('newPasswordForm', '_id');
+        $scope.user = {};
+
+        $scope.resetForm = function () {
+            console.log("reset");
+          $scope.newPasswordForm.$setPristine();
+        };
+
+        $scope.serverError = false;
 
         $scope.createNewPassword = function () {
 
+            if ($scope.newPasswordForm) {
+                $scope.newPasswordForm.errors = {};
+            }
+
             var data = {
-                email: $scope.email,
-                forgotPassword: $scope.forgotPassword,
-                forgotUsername: $scope.forgotUsername
+                email: $scope.user.email,
+                forgot: $scope.user.forgot,
+                username: $scope.user.username,
+                password: $scope.user.password
             };
 
-            lxAuth.createNewPassword(data, function (error, result) {
-                if (error) {
-                    $log.error(error);
-                }
-                else {
+//            lxAuth.createNewPassword(data, function (error, result) {
+            lxAuth.forgetPassword(data, function (error, result) {
+
+                if (result) {
                     $log.info(result);
+                    lxAlert.success('Um ihr Passwort zurückzusetzen wurde ihnen eine Bestätigungs-Email zugesand.');
+                    $location.path('/');
+                }
+                else if (error) {
+                    $log.error(error);
+                    if (error.validation) {
+                        $scope.lxForm.populateValidation($scope.newPasswordForm, error.validation);
+                    } else {
+                        $scope.serverError = true;
+                        $scope.errorMsg = 'Fehler: '+error;
+                    }
                 }
             });
+        };
+    }])
+    .controller('lxAuthResetCtrl', ['$scope', 'lxAuth', 'lxForm', '$routeParams', function ($scope, lxAuth, lxForm, $routeParams) {
+
+        $scope.lxForm = lxForm('newPasswordForm', '_id');
+        $scope.user = {};
+
+        $scope.resetPassword = function () {
+
+            if ($scope.registerForm) {
+                $scope.registerForm.errors = {};
+            }
+
+            var data = {
+                _id: $routeParams.userid,
+                password: $scope.user.password,
+                confirmedPassword: $scope.user.confirmedPassword
+            };
+
+            console.log("reset");
+            lxAuth.resetPassword(data, function(error,result){
+                console.log(error);
+                console.log(result);
+//                console.log("reset");
+            });
+
         };
     }]);

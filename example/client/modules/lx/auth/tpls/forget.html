@@ -5,39 +5,81 @@
             <div class="panel-heading">Passwort vergessen</div>
             <div class="panel-body">
 
-                <form class="form-horizontal" ng-submit="createNewPassword()" name="newPasswordForm">
+                <form class="form-horizontal" ng-submit="createNewPassword()" name="newPasswordForm" novalidate>
+                <!--<form class="form-horizontal" name="newPasswordForm" novalidate>-->
 
                     <p>Bitte geben Sie die Email-Adresse ein mit der sie sich registriert haben. Die Email mit dem Passwort bzw. dem Benutzernamen wird dann an diese Adresse geschickt.</p>
                     <hr>
 
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error': ((newPasswordForm.email.$dirty && newPasswordForm.email.$invalid) || newPasswordForm.errors.email)}">
                         <label class="col-md-2 control-label" for="email">{{ 'EMAIL' | translate }}</label>
-                        <div class="col-md-10">
-                            <input type="text" id="email" placeholder="{{ 'ENTER_EMAIL' | translate }}" ng-model="email" class="form-control">
+                        <div class="col-md-10 lxvalidation">
+                            <input type="email" ng-model="user.email" id="email" name="email" ng-keydown="newPasswordForm.errors.email=false;serverError=false;" placeholder="{{ 'ENTER_EMAIL' | translate }}" class="form-control" required ui-reset>
+                            <label ng-show="((newPasswordForm.email.$dirty && newPasswordForm.email.$invalid) || newPasswordForm.errors.email)" style="cursor:pointer;" class="label label-danger">
+                                <div class="glyphicon glyphicon-fire"></div>
+                                <span ng-show="newPasswordForm.email.$error.email" popover="{{ 'EMAIL_WRONG' | translate }}" popover-trigger="mouseenter"></span>
+                                <span ng-show="newPasswordForm.email.$error.required" popover="{{ 'REQUIRED_EMAIL' | translate }}" popover-trigger="mouseenter"></span>
+                                <span ng-show="newPasswordForm.errors.email" popover="{{newPasswordForm.errors.email}}" popover-trigger="mouseenter"></span>
+                            </label>
                         </div>
                     </div>
+                    <!---->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-md-2 control-label" for="email">{{ 'EMAIL' | translate }}</label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input type="text" id="email" name="email" placeholder="{{ 'ENTER_EMAIL' | translate }}" ng-model="email" class="form-control" required>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="forgotPassword" ng-model="forgotPassword" value="forgot">
-                                    Ich habe mein Passwort vergessen.
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="forgotUsername" ng-model="forgotUsername" value="forgot">
+                                    <input type="radio" name="forgot" ng-model="user.forgot" value="forgotUsername">
                                     Ich habe meinen Benutzernamen vergessen.
                                 </label>
                             </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="forgot" ng-model="user.forgot" value="forgotPassword">
+                                    Ich habe mein Passwort vergessen.
+                                </label>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="form-group" ng-show="forgot==='forgotPassword'">
+                        <div class="col-md-10 col-md-offset-2">
+                            <hr>
+                            <span>Um sich zu verifizieren geben Sie bitte ihren Benutzernamen ein.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="forgot==='forgotPassword'">
+                        <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
+                        <div class="col-md-10">
+                            <input type="text" id="username" name="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" ng-model="user.username" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="forgot==='forgotUsername'">
+                        <div class="col-md-10 col-md-offset-2">
+                            <hr>
+                            <span>Um sich zu verifizieren geben Sie bitte ihr Passwort ein.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="forgot==='forgotUsername'">
+                        <label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
+                        <div class="col-md-10">
+                            <input type="text" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-model="user.password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="serverError">
+                        <div class="col-md-10 col-md-offset-2">
+                            <div class="alert alert-danger">{{ errorMsg }}</div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             <a class="btn btn-default" ng-href="/login"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
-                            <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'REGISTER' | translate }}" name="register"> <!-- btn-login -->
+                            <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'REGISTER' | translate }}" name="register" ng-disabled="newPasswordForm.$invalid">
                         </div>
                     </div>
 

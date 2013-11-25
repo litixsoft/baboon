@@ -19,8 +19,13 @@ angular.module('lx.auth.services', [])
             transport.emit('lib/register/registerUser', user, callback);
         };
 
-        pub.createNewPassword = function (data, callback) {
-            transport.emit('lib/register/createNewPassword', data, callback);
+        pub.forgetPassword = function (data, callback) {
+            transport.emit('lib/register/forgetPassword', data, callback);
+        };
+
+        pub.resetPassword = function (data, callback) {
+            console.log("reset service");
+            transport.emit('lib/register/resetPassword', data, callback);
         };
 
         pub.login = function (username, password, callback) {
