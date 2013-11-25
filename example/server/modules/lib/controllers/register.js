@@ -65,7 +65,6 @@ module.exports = function (app) {
                                 email: data.email
                             }
 
-
                             tokenRepo.create(tokenData,function(error,result){
                                 if(error){
                                     callback(error);
@@ -173,15 +172,31 @@ module.exports = function (app) {
                     callback(new app.Error(error));
                 } else {
                     if(result){
-                        app.mail.sendMail({data : result, mongoid: result._id}, 'forget',function(error, result){
+                        var time = new Date();
+
+                        var tokenData = {
+                            guid: createGUID(time,result.email,result._id),
+                            timestamp: time,
+                            type: 'reset',
+                            userid: result._id,
+                            email: result.email
+                        }
+
+                        tokenRepo.create(tokenData,function(error,result){
                             if(error){
                                 callback(error);
                             } else {
-                                callback(null,result);
+                                app.mail.sendMail({data : result, guid: tokenData.guid}, 'forget',function(error, result){
+                                    if(error){
+                                        callback(error);
+                                    } else {
+                                        callback(null,result);
+                                    }
+                                });
                             }
                         });
                     } else {
-                        callback(new app.ClientError('Email konnte nicht gefunden werden.'));
+                        callback(new app.ClientError('Emailaddresse konnte nicht gefunden werden.'));
                     }
                 }
             });

@@ -28,7 +28,6 @@ angular.module('lx.auth.services', [])
         };
 
         pub.resetPassword = function (data, callback) {
-            console.log("reset service");
             transport.emit('lib/register/resetPassword', data, callback);
         };
 

@@ -139,7 +139,6 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
     }])
     .controller('lxAuthActivateCtrl', ['$scope', 'lxAuth', 'lxTransport', '$routeParams', '$location', function ($scope, lxAuth, transport, $routeParams,$location) {
 
-        console.log("Active");
         var lxAlert = $scope.lxAlert;
 
         $scope.message= '';
@@ -147,31 +146,20 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         var str = $routeParams.userid;
         var n = str.indexOf(":");
 
-        var callback = function (error, result) {
-            if(error){
-//                lxAlert.success('Bei der Aktivierung ihres Accounts ist ein Problem aufgetreten.');
-                $scope.message = error;
-            } else {
-                lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
-                $location.path('/');
-            }
-        };
 
         if(n>=0){
             var string = $routeParams.userid;
             var s = string.substr(1);
             lxAuth.activate({guid: s}, function(error, result){
                 if(error){
-                    console.log(error);
+                    $scope.message = error;
                 } else {
                     if(result){
-                        console.log(result);
-                    }else {
-                        console.log("nüschd");
+                        lxAlert.success('Ihr Account wurde erfolgreich aktiviert. Bitte loggen Sie sich nun ein.');
+                        $location.path('/');
                     }
                 }
             });
-            //transport.emit('auth/activateUser', {data: s} , callback);
         }
 
     }])
@@ -239,11 +227,15 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
                 confirmedPassword: $scope.user.confirmedPassword
             };
 
-            console.log("reset");
             lxAuth.resetPassword(data, function(error,result){
-                console.log(error);
-                console.log(result);
-//                console.log("reset");
+                if(error){
+                    $scope.message = error;
+                } else {
+                    if(result){
+                        lxAlert.success('Ihr Passwort wurde erfolgreich geändert. Bitte loggen Sie sich nun ein.');
+                        $location.path('/');
+                    }
+                }
             });
 
         };
