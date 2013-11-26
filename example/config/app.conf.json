@@ -34,9 +34,9 @@
             "logs": "localhost:27017/baboon_logs"
         },
         "nodemail": {
-            "user": "dummyuser",
-            "password": "dummypwd",
-            "host": "dummyhost",
+            "user": "dummyUser",
+            "password": "dummyPwd",
+            "host": "dummyHost",
             "port": 25,
             "senderaddress": "dummy@email.de",
             "receiveraddress": "dummy@email2.de"
