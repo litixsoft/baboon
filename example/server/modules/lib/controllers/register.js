@@ -12,11 +12,10 @@ module.exports = function (app) {
         repo = require('../repositories/usersRepository')(db.users);
 //        tokenRepo = lxDb.BaseRepo(db.token);
 
-
     /**
      * create an unique id as identifier for an register procedure
      */
-    function createGUID(date, email, mongoid){
+    function createGUID (date, email, mongoid) {
 
         var shasum = crypto.createHash('sha1');
         var hashString = (email.toString() || '') + ':' + date.toISOString() + ':' + (mongoid.toString() || '');
@@ -33,10 +32,10 @@ module.exports = function (app) {
     /**
      * check if the guid consists of ":" and if so remove it
      */
-    function checkGUID(guid){
+    function checkGUID (guid) {
         var cleaned = '';
         var n = guid.indexOf(':');
-        if(n>=0){
+        if (n >= 0) {
             cleaned = guid.substr(1);
         } else {
             cleaned = guid;
@@ -51,56 +50,63 @@ module.exports = function (app) {
      * @description Register a new user
      */
     pub.registerUser = function (data, req, callback) {
-
 //        repo.validate(data, { schema: { properties: repo.getSchemaForRegistration() }} , function (error, result) {
-        repo.validate(data, {} , function (error, result) {
-
+        repo.validate(data, {}, function (error, result) {
             if (error) {
                 callback(error);
-            }
-            else {
-                if(result.valid){
-
+            } else {
+                if (result.valid) {
                     data.status = 'unregistered';
                     delete data.confirmedEmail;
 //                    delete data.confirmedPassword;
 //                    console.log(data);
 
 //                    repo.insert(data, function(error, result){
-                    repo.createUser(data, function(error, result){
+
+                    var roleRepo = app.rights.getRepositories().roles;
+
+                    // get id of user role
+                    roleRepo.findOne({id: 1}, {fields: ['_id']}, function (error, result) {
                         if (error) {
-                            callback(error);
-                        } else {
-                            var time = new Date();
-                            var tokenData = {
-                                guid: createGUID(time,data.email,result._id),
-                                timestamp: time,
-                                type: 'register',
-                                userid: result._id,
-                                email: result.email
-                            };
-                            tokenRepo.create(tokenData,function(error,result){
-                                if(error){
-                                    callback(error);
-                                } else {
-                                    if(result){
-                                        app.mail.sendMail({data : data, guid: tokenData.guid}, 'register',function(error, result){
-                                            if(error){
-                                                callback(error);
-                                            } else {
-                                                callback(null,result);
-                                            }
-                                        });
-                                    }
-                                }
-                            });
+                            return callback(error);
                         }
+
+                        data.roles = [result._id];
+
+                        repo.createUser(data, function (error, result) {
+                            if (error) {
+                                callback(error);
+                            } else {
+                                var time = new Date();
+                                var tokenData = {
+                                    guid: createGUID(time, data.email, result._id),
+                                    timestamp: time,
+                                    type: 'register',
+                                    userid: result._id,
+                                    email: result.email
+                                };
+                                tokenRepo.insert(tokenData, function (error, result) {
+                                    if (error) {
+                                        callback(error);
+                                    } else {
+                                        if (result) {
+                                            app.mail.sendMail({data: data, guid: tokenData.guid}, 'register', function (error, result) {
+                                                if (error) {
+                                                    callback(error);
+                                                } else {
+                                                    callback(null, result);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     });
                 } else {
                     callback(new app.ValidationError(result.errors));
                 }
             }
-
         });
     };
 
@@ -113,33 +119,33 @@ module.exports = function (app) {
     pub.activateUser = function (data, req, callback) {
 
         //var guid = {guid : data.guid};
-        var guid = {guid : checkGUID(data.guid)};
+        var guid = {guid: checkGUID(data.guid)};
 
-        tokenRepo.findOne(guid,function(error,result){
-            if(error){
+        tokenRepo.findOne(guid, function (error, result) {
+            if (error) {
                 app.logging.syslog.error('Interner Servererror: database problem.');
                 callback(error);
             } else {
-                if(result){
+                if (result) {
                     var time = new Date();//getTime();
                     var hours = ( Math.abs(time - result.timestamp) / 3600000);
                     var userid = result.userid;
-                    tokenRepo.remove({guid: guid.guid},function(error,result){
-                        if(error){
+                    tokenRepo.remove({guid: guid.guid}, function (error, result) {
+                        if (error) {
                             callback(error);
                         } else {
-                            if(result){
-                                if(hours < 48){
-                                    repo.update({_id: userid}, {$set: { status: 'active'}}, function(error,result){
-                                        if(error){
+                            if (result) {
+                                if (hours < 48) {
+                                    repo.update({_id: userid}, {$set: { status: 'active'}}, function (error, result) {
+                                        if (error) {
                                             callback(error);
                                         } else {
-                                            callback(error,result);
+                                            callback(error, result);
                                         }
                                     });
                                 } else {
-                                    repo.remove({_id: userid},function(error){
-                                        if(error){
+                                    repo.remove({_id: userid}, function (error) {
+                                        if (error) {
                                             callback(error);
                                         } else {
                                             callback(new app.ClientError('Der Aktivierungszeitraum ist abgelaufen, bitte registrieren Sie sich erneut.'));
@@ -181,32 +187,32 @@ module.exports = function (app) {
 
         var result = val.validate(data, schemaForTest);
 
-        if(result.valid){
-            repo.findOne({email: data.email},function(error,result){
-                if(error){
+        if (result.valid) {
+            repo.findOne({email: data.email}, function (error, result) {
+                if (error) {
                     app.logging.syslog.error('Interner Servererror: Email could not be found.');
                     callback(new app.Error(error));
                 } else {
-                    if(result){
+                    if (result) {
                         var time = new Date();
 
                         var tokenData = {
-                            guid: createGUID(time,result.email,result._id),
+                            guid: createGUID(time, result.email, result._id),
                             timestamp: time,
                             type: 'reset',
                             userid: result._id,
                             email: result.email
                         };
 
-                        tokenRepo.create(tokenData,function(error,result){
-                            if(error){
+                        tokenRepo.insert(tokenData, function (error, result) {
+                            if (error) {
                                 callback(error);
                             } else {
-                                app.mail.sendMail({data : result[0], guid: tokenData.guid}, 'forget',function(error, result){
-                                    if(error){
+                                app.mail.sendMail({data: result[0], guid: tokenData.guid}, 'forget', function (error, result) {
+                                    if (error) {
                                         callback(error);
                                     } else {
-                                        callback(null,result);
+                                        callback(null, result);
                                     }
                                 });
                             }
@@ -221,7 +227,6 @@ module.exports = function (app) {
         }
     };
 
-
     /**
      * Create a new password for user
      *
@@ -229,7 +234,6 @@ module.exports = function (app) {
      * @description reset old password to a new password
      */
     pub.resetPassword = function (data, req, callback) {
-
 
         var val = require('lx-valid');
         var schemaForTest = {
@@ -242,7 +246,7 @@ module.exports = function (app) {
                 },
                 'confirmedPassword': {
                     'type': 'string',
-                    'required':true,
+                    'required': true,
                     conform: function (actual, data) {
                         return actual === data.password;
                     }
@@ -252,36 +256,36 @@ module.exports = function (app) {
 
         var result = val.validate(data, schemaForTest);
 
-        if(result.valid){
+        if (result.valid) {
 
-            var guid = {guid : checkGUID(data.guid)};
+            var guid = {guid: checkGUID(data.guid)};
 
-            tokenRepo.findOne(guid,function(error,result){
-                if(error){
+            tokenRepo.findOne(guid, function (error, result) {
+                if (error) {
                     app.logging.syslog.error('Interner Servererror: database problem.');
                     callback(error);
                 } else {
-                    if(result){
+                    if (result) {
                         var time = new Date();//getTime();
                         var hours = ( Math.abs(time - result.timestamp) / 3600000);
 //                        var userid = result.userid;
 
-                        if(hours < 48){
+                        if (hours < 48) {
 
                             var updata = {
-                                '_id' : result.userid,
+                                '_id': result.userid,
                                 'password': data.password
                             };
 
-                            repo.updateUser(updata, function(error, result){
-                                if(error){
+                            repo.updateUser(updata, function (error, result) {
+                                if (error) {
                                     callback(error);
-                                } else if (result){
-                                    tokenRepo.remove({guid: guid.guid},function(error,result){
-                                        if(error){
+                                } else if (result) {
+                                    tokenRepo.remove({guid: guid.guid}, function (error, result) {
+                                        if (error) {
                                             callback(error);
                                         } else {
-                                            callback(error,result);
+                                            callback(error, result);
                                         }
                                     });
                                 }

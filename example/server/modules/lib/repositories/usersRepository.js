@@ -234,7 +234,6 @@ module.exports = function (collection) {
         val.asyncValidate.exec(valResult, callback);
     };
 
-
     /**
      * Creates a user in the db. Convert the password in a hash and salt.
      *
@@ -270,7 +269,6 @@ module.exports = function (collection) {
             }
         });
     };
-
 
     /**
      * updates a user in the db. Convert the password in a hash and salt.
