@@ -56,8 +56,12 @@ module.exports = function (app) {
                 if(result.valid){
 
                     data.status = 'unregistered';
+                    delete data.confirmedEmail;
+                    delete data.confirmedPassword;
+//                    console.log(data);
 
                     repo.insert(data, function(error, result){
+//                    repo.createUser(data, function(error, result){
                         if (error) {
                             callback(error);
                         } else {
