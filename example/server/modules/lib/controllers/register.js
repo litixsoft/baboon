@@ -11,6 +11,10 @@ module.exports = function (app) {
         repo = require('../repositories/usersRepository')(db.users);
 //        tokenRepo = lxDb.BaseRepo(db.token);
 
+
+    /**
+     * create an unique id as identifier for an register procedure
+     */
     function createGUID(date, email, mongoid){
 
         var shasum = crypto.createHash('sha1');
@@ -25,12 +29,13 @@ module.exports = function (app) {
         return guid;
     }
 
+    /**
+     * check if the guid consists of ":" and if so clean it
+     */
     function checkGUID(guid){
-        //var temp = guid;
         var cleaned = '';
         var n = guid.indexOf(':');
         if(n>=0){
-            //var string = $routeParams.userid;
             cleaned = guid.substr(1);
         } else {
             cleaned = guid;
