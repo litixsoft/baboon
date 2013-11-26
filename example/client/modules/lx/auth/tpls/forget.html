@@ -23,54 +23,46 @@
                             </label>
                         </div>
                     </div>
-                    <!---->
                     <!--<div class="form-group">-->
-                        <!--<label class="col-md-2 control-label" for="email">{{ 'EMAIL' | translate }}</label>-->
-                        <!--<div class="col-md-10">-->
-                            <!--<input type="text" id="email" name="email" placeholder="{{ 'ENTER_EMAIL' | translate }}" ng-model="email" class="form-control" required>-->
+                        <!--<div class="col-lg-offset-2 col-lg-10">-->
+                            <!--<div class="radio">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" name="forgot" ng-model="user.forgot" value="forgotUsername">-->
+                                    <!--Ich habe meinen Benutzernamen vergessen.-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="radio">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" name="forgot" ng-model="user.forgot" value="forgotPassword">-->
+                                    <!--Ich habe mein Passwort vergessen.-->
+                                <!--</label>-->
+                            <!--</div>-->
                         <!--</div>-->
                     <!--</div>-->
-
-                    <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="forgot" ng-model="user.forgot" value="forgotUsername">
-                                    Ich habe meinen Benutzernamen vergessen.
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="forgot" ng-model="user.forgot" value="forgotPassword">
-                                    Ich habe mein Passwort vergessen.
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-show="forgot==='forgotPassword'">
-                        <div class="col-md-10 col-md-offset-2">
-                            <hr>
-                            <span>Um sich zu verifizieren geben Sie bitte ihren Benutzernamen ein.</span>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-show="forgot==='forgotPassword'">
-                        <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
-                        <div class="col-md-10">
-                            <input type="text" id="username" name="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" ng-model="user.username" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-show="forgot==='forgotUsername'">
-                        <div class="col-md-10 col-md-offset-2">
-                            <hr>
-                            <span>Um sich zu verifizieren geben Sie bitte ihr Passwort ein.</span>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-show="forgot==='forgotUsername'">
-                        <label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
-                        <div class="col-md-10">
-                            <input type="text" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-model="user.password" class="form-control">
-                        </div>
-                    </div>
+                    <!--<div class="form-group" ng-show="forgot==='forgotPassword'">-->
+                        <!--<div class="col-md-10 col-md-offset-2">-->
+                            <!--<hr>-->
+                            <!--<span>Um sich zu verifizieren geben Sie bitte ihren Benutzernamen ein.</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group" ng-show="forgot==='forgotPassword'">-->
+                        <!--<label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input type="text" id="username" name="username" placeholder="{{ 'ENTER_USERNAME' | translate }}" ng-model="user.username" class="form-control">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group" ng-show="forgot==='forgotUsername'">-->
+                        <!--<div class="col-md-10 col-md-offset-2">-->
+                            <!--<hr>-->
+                            <!--<span>Um sich zu verifizieren geben Sie bitte ihr Passwort ein.</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group" ng-show="forgot==='forgotUsername'">-->
+                        <!--<label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input type="text" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-model="user.password" class="form-control">-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group" ng-show="serverError">
                         <div class="col-md-10 col-md-offset-2">
                             <div class="alert alert-danger">{{ errorMsg }}</div>

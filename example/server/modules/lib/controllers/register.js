@@ -195,7 +195,7 @@ module.exports = function (app) {
                             if(error){
                                 callback(error);
                             } else {
-                                app.mail.sendMail({data : result, guid: tokenData.guid}, 'forget',function(error, result){
+                                app.mail.sendMail({data : result[0], guid: tokenData.guid}, 'forget',function(error, result){
                                     if(error){
                                         callback(error);
                                     } else {
