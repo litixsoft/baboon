@@ -5,7 +5,7 @@
             <div class="panel-heading">Passwort vergessen</div>
             <div class="panel-body">
 
-                <form class="form-horizontal" ng-submit="createNewPassword()" name="newPasswordForm" novalidate>
+                <form class="form-horizontal" name="newPasswordForm" novalidate>
                 <!--<form class="form-horizontal" name="newPasswordForm" novalidate>-->
 
                     <p>Bitte geben Sie die Email-Adresse ein mit der sie sich registriert haben. Die Email mit dem Passwort bzw. dem Benutzernamen wird dann an diese Adresse geschickt.</p>
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             <a class="btn btn-default" ng-href="/login"><i class="icon-arrow-left"></i>&nbsp;Zurück</a>
-                            <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'REGISTER' | translate }}" name="register" ng-disabled="newPasswordForm.$invalid">
+                            <input ng-click="createNewPassword()" type="submit" class="btn btn-primary" value="&nbsp;{{ 'REGISTER' | translate }}" name="register" ng-disabled="newPasswordForm.$invalid">
                         </div>
                     </div>
 

@@ -162,11 +162,6 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         $scope.lxForm = lxForm('newPasswordForm', '_id');
         $scope.user = {};
 
-        $scope.resetForm = function () {
-            console.log("reset");
-          $scope.newPasswordForm.$setPristine();
-        };
-
         $scope.serverError = false;
 
         $scope.createNewPassword = function () {
