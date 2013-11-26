@@ -264,36 +264,31 @@ module.exports = function (app) {
                     if(result){
                         var time = new Date();//getTime();
                         var hours = ( Math.abs(time - result.timestamp) / 3600000);
-                        var userid = result.userid;
+//                        var userid = result.userid;
 
+                        if(hours < 48){
 
-                        tokenRepo.remove({guid: guid.guid},function(error,result){
-                            if(error){
-                                callback(error);
-                            } else {
-                                if(result){
-                                    if(hours < 48){
+                            var updata = {
+                                '_id' : result.userid,
+                                'password': data.password
+                            };
 
-                                        var updata = {
-                                            '_id' : userid,
-                                            'password': data.password
-                                        }
-
-                                        repo.updateUser(updata, function(error, result){
-                                            if(error){
-                                                callback(error);
-                                            } else {
-                                                callback(error,result);
-                                            }
-                                        });
-                                    } else {
-                                        callback(new app.ClientError('Der Änderungszeitraum ist abgelaufen, bitte fordern Sie die Passwortänderung erneut an.'));
-                                    }
+                            repo.updateUser(updata, function(error, result){
+                                if(error){
+                                    callback(error);
                                 } else {
-                                    callback(new app.ClientError('Token konnte nicht gefunden werden'));
+                                    tokenRepo.remove({guid: guid.guid},function(error,result){
+                                        if(error){
+                                            callback(error);
+                                        } else {
+                                            callback(error,result);
+                                        }
+                                    });
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            callback(new app.ClientError('Der Änderungszeitraum ist abgelaufen, bitte fordern Sie die Passwortänderung erneut an.'));
+                        }
                     } else {
                         callback(new app.ClientError('Kein gültiges Token gefunden.'));
                     }
