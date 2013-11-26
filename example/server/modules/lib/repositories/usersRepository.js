@@ -279,7 +279,6 @@ module.exports = function (collection) {
      * @param {!function(err, res)} callback The callback function.
      */
     baseRepo.updateUser = function (data, callback) {
-        console.log("update");
         async.auto({
             createPasswordHash: function (next) {
                 createHash(data, next);

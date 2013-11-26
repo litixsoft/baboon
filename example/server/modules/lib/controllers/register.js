@@ -276,7 +276,7 @@ module.exports = function (app) {
                             repo.updateUser(updata, function(error, result){
                                 if(error){
                                     callback(error);
-                                } else {
+                                } else if (result){
                                     tokenRepo.remove({guid: guid.guid},function(error,result){
                                         if(error){
                                             callback(error);
