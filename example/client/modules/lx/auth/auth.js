@@ -11,7 +11,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
         var window = angular.element($window);
 
         lxAuth.getAuthData(function (result) {
-            $scope.user = result.username;
+            $scope.user = result.name;
             $scope.isAuth = result.isAuth;
         });
 
@@ -122,7 +122,7 @@ angular.module('lx.auth', ['lx.auth.services', 'lx.auth.directives', 'lx/auth/tp
 //
                 if (result) {
                     $log.info(result);
-                    lxAlert.success('User '+$scope.user.username+' erfolgreich registriert. Eine Benachrichtigungs-Email wurde Ihnen zugesendet.');
+                    lxAlert.success('User '+$scope.user.name+' erfolgreich registriert. Eine Benachrichtigungs-Email wurde Ihnen zugesendet.');
                     $location.path('/');
                 }
                 else if (error) {
