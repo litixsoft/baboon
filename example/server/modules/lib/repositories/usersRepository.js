@@ -1,7 +1,28 @@
 'use strict';
 
 var lxDb = require('lx-mongodb'),
-    val = require('lx-valid');
+    async = require('async'),
+    val = require('lx-valid'),
+    pwd = require('pwd'),
+    lxHelpers = require('lx-helpers'),
+    protectedFields = ['hash', 'salt'];
+
+function createHash (user, callback) {
+    if (user.password) {
+        pwd.hash(user.password, function (error, salt, hash) {
+            if (error) {
+                callback(error);
+            }
+
+            user.salt = salt;
+            user.hash = hash;
+
+            callback(null, user);
+        });
+    } else {
+        callback(null, user);
+    }
+}
 
 module.exports = function (collection) {
     var schema = function () {
@@ -211,6 +232,76 @@ module.exports = function (collection) {
 
         // async validate
         val.asyncValidate.exec(valResult, callback);
+    };
+
+
+    /**
+     * Creates a user in the db. Convert the password in a hash and salt.
+     *
+     * @param {!Object} user The user object.
+     * @param {!function(err, res)} callback The callback function.
+     */
+    baseRepo.createUser = function (user, callback) {
+        user = user || {};
+
+        async.auto({
+            createPasswordHash: function (next) {
+                createHash(user, next);
+            },
+            createUser: ['createPasswordHash', function (next) {
+                // do not save password and confirmedPassword
+                delete user.password;
+                delete user.confirmedPassword;
+
+                baseRepo.insert(user, next);
+            }]
+        }, function (error, results) {
+            if (error) {
+                return callback(error);
+            }
+
+            if (results.createUser[0]) {
+                // remove protected fields
+                lxHelpers.forEach(protectedFields, function (field) {
+                    delete results.createUser[0][field];
+                });
+
+                callback(null, results.createUser[0]);
+            }
+        });
+    };
+
+
+    /**
+     * updates a user in the db. Convert the password in a hash and salt.
+     *
+     * @param {!Object} user The user object.
+     * @param {!function(err, res)} callback The callback function.
+     */
+    baseRepo.updateUser = function (data, callback) {
+        console.log("update");
+        async.auto({
+            createPasswordHash: function (next) {
+                createHash(data, next);
+            },
+            updateUser: ['createPasswordHash', function (next) {
+                // do not save password and confirmedPassword
+                delete data.password;
+                delete data.confirmedPassword;
+
+                baseRepo.update({_id: data._id}, {$set: data}, next);
+            }]
+        }, function (error, results) {
+            if (error) {
+                callback(error);
+                return;
+            }
+
+            if (results.updateUser[0]) {
+                //audit.info('Updated user in db: %j', data);
+                callback(null, results.updateUser[0]);
+            }
+        });
     };
 
     return baseRepo;

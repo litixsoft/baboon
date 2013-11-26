@@ -7,6 +7,7 @@ module.exports = function (app) {
         crypto = require('crypto'),
         tokenRepo = app.rights.getRepositories().token,
 //        repo = app.rights.getRepositories().users;
+
         db = lxDb.GetDb(app.config.mongo.rights, ['users']),
         repo = require('../repositories/usersRepository')(db.users);
 //        tokenRepo = lxDb.BaseRepo(db.token);
@@ -30,7 +31,7 @@ module.exports = function (app) {
     }
 
     /**
-     * check if the guid consists of ":" and if so clean it
+     * check if the guid consists of ":" and if so remove it
      */
     function checkGUID(guid){
         var cleaned = '';
@@ -62,25 +63,22 @@ module.exports = function (app) {
 
                     data.status = 'unregistered';
                     delete data.confirmedEmail;
-                    delete data.confirmedPassword;
+//                    delete data.confirmedPassword;
 //                    console.log(data);
 
-                    repo.insert(data, function(error, result){
-//                    repo.createUser(data, function(error, result){
+//                    repo.insert(data, function(error, result){
+                    repo.createUser(data, function(error, result){
                         if (error) {
                             callback(error);
                         } else {
-
                             var time = new Date();
-
                             var tokenData = {
-                                guid: createGUID(time,data.email,result[0]._id),
+                                guid: createGUID(time,data.email,result._id),
                                 timestamp: time,
                                 type: 'register',
-                                userid: result[0]._id,
-                                email: data.email
+                                userid: result._id,
+                                email: result.email
                             };
-
                             tokenRepo.create(tokenData,function(error,result){
                                 if(error){
                                     callback(error);
@@ -109,7 +107,7 @@ module.exports = function (app) {
     /**
      * activate a new user in database
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description activate a new user after registration
      */
     pub.activateUser = function (data, req, callback) {
@@ -227,7 +225,7 @@ module.exports = function (app) {
     /**
      * Create a new password for user
      *
-     * @roles Admin, Guest
+     * @roles Guest
      * @description reset old password to a new password
      */
     pub.resetPassword = function (data, req, callback) {
@@ -267,13 +265,21 @@ module.exports = function (app) {
                         var time = new Date();//getTime();
                         var hours = ( Math.abs(time - result.timestamp) / 3600000);
                         var userid = result.userid;
+
+
                         tokenRepo.remove({guid: guid.guid},function(error,result){
                             if(error){
                                 callback(error);
                             } else {
                                 if(result){
                                     if(hours < 48){
-                                        repo.update({_id: userid}, {$set: { password: data.password, confirmedPassword: data.confirmedPassword}}, function(error,result){
+
+                                        var updata = {
+                                            '_id' : userid,
+                                            'password': data.password
+                                        }
+
+                                        repo.updateUser(updata, function(error, result){
                                             if(error){
                                                 callback(error);
                                             } else {
