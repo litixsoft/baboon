@@ -4,15 +4,15 @@
             <div class="panel-heading">{{ 'REGISTER' | translate }}</div>
             <div class="panel-body">
                 <form class="form-horizontal" ng-submit="register()" name="registerForm" novalidate>
-                    <div class="form-group" ng-class="{'has-error': ((registerForm.username.$dirty && registerForm.username.$invalid) || registerForm.errors.username)}">
-                        <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
+                    <div class="form-group" ng-class="{'has-error': ((registerForm.name.$dirty && registerForm.name.$invalid) || registerForm.errors.name)}">
+                        <label class="col-md-2 control-label" for="name">{{ 'USERNAME' | translate }}</label>
                         <div class="col-md-10 lxvalidation">
-                            <input type="text" ng-model="user.username" id="username" name="username" ng-keydown="registerForm.errors.username=false" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required ui-reset>
-                            <label ng-show="((registerForm.username.$dirty && registerForm.username.$invalid) || registerForm.errors.username)" style="cursor:pointer;" class="label label-danger">
+                            <input type="text" ng-model="user.name" id="name" name="name" ng-keydown="registerForm.errors.name=false" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required ui-reset>
+                            <label ng-show="((registerForm.name.$dirty && registerForm.name.$invalid) || registerForm.errors.name)" style="cursor:pointer;" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
-                                <span ng-show="registerForm.username.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
-                                <!--<span ng-show="registerForm.username.$error.minlength" popover="{{ 'MINLENGTH_NAME' | translate }}" popover-trigger="mouseenter"></span>-->
-                                <span ng-show="registerForm.errors.username" popover="{{registerForm.errors.username}}" popover-trigger="mouseenter"></span>
+                                <span ng-show="registerForm.name.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
+                                <!--<span ng-show="registerForm.name.$error.minlength" popover="{{ 'MINLENGTH_NAME' | translate }}" popover-trigger="mouseenter"></span>-->
+                                <span ng-show="registerForm.errors.name" popover="{{registerForm.errors.name}}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
                     </div>
