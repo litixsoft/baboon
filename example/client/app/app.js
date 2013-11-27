@@ -33,6 +33,9 @@ angular.module('app', [
             $rootScope.lxAlert = lxAlert;
             $rootScope.lxModal = lxModal;
 
+            // responsive: open navmenu when using mobile device
+            $rootScope.mobileMenu = false;
+
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (error) {
                     if (error) {

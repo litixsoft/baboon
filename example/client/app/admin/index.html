@@ -30,8 +30,9 @@
 <div id="singlepageFrame">
 
     <div class="layout-content">
-        <div class="col-left navCol">
-            <span class="trademark-area">baboon</span>
+        <div class="col-left navCol" ng-class="{'visible-lg' : !mobileMenu}">
+            <span class="mobile-menu-btn pull-left hidden-lg" ng-click="mobileMenu=!mobileMenu;"></span>
+            <span class="trademark-area">BABOON<sup>0.3</sup></span>
             <treeview class="navlist" nr-attr="1" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
 
         </div>
@@ -41,6 +42,8 @@
             <!-- login start -->
 
             <div class="dark-header">
+                <span class="mobile-menu-btn pull-left" ng-class="{'hidden-lg' : !mobileMenu}" ng-show="!mobileMenu" ng-click="mobileMenu=!mobileMenu;"></span>
+                <span class="trademark-area pull-left" ng-class="{'hidden-lg' : !mobileMenu}" ng-show="!mobileMenu">BABOON<sup>0.3</sup></span>
                 <lx-auth-popup></lx-auth-popup>
                 <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
 
