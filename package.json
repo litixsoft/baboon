@@ -62,7 +62,7 @@
         "cli-color": "~0.2.3",
         "connect-redis": "~1.4.6",
         "ejs": "~0.8.5",
-        "express": "~3.4.4",
+        "express": "~3.4.5",
         "glob": "~3.2.7",
         "log4js": "~0.6.9",
         "log4js-node-mongodb": "~0.1.0",
@@ -72,6 +72,6 @@
         "pwd": "0.0.2",
         "redis": "~0.9.1",
         "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9",
-        "nodemailer": "~0.5.9"
+        "nodemailer": "~0.5.11"
     }
 }

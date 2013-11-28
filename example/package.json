@@ -66,6 +66,6 @@
         "karma-ng-scenario": "*",
         "load-grunt-tasks": "0.2.0",
         "grunt-contrib-less": "~0.8.2",
-        "grunt-html2js": "~0.2.1"
+        "grunt-html2js": "~0.2.2"
     }
 }
