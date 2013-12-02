@@ -540,6 +540,7 @@ module.exports = function (grunt) {
             projectRoot: '<%= testFolder %>',
             requirejs: false,
             forceExit: true,
+            verbose: false,
             jUnit: {
                 report: true,
                 savePath: '<%= buildReportsFolder %>/tests/server/',
