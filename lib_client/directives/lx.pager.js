@@ -23,6 +23,7 @@ angular.module('lx.pager', [])
             scope: {
                 count: '=',
                 currentPage: '=',
+                pageSize: '=',
                 onPaging: '&'
             },
             link: function (scope, element, attrs) {
@@ -77,7 +78,8 @@ angular.module('lx.pager', [])
                 scope.getOptions = function () {
                     return {
                         limit: scope.pageSize,
-                        skip: scope.skip()
+                        skip: scope.skip(),
+                        currentPage: scope.currentPage
                     };
                 };
 
