@@ -11,9 +11,9 @@ angular.module('lx.pager', [])
                 '<i class="icon-backward"></i></button>' +
                 '<input type="text" ng-model="currentPage" style="width: 30px;">' +
                 '<button class="btn">of {{numberOfPages()}}</button>' +
-                '<button class="btn" ng-click="nextPage()" ng-disabled="currentPage == numberOfPages()">' +
+                '<button class="btn" ng-click="nextPage()" ng-disabled="currentPage >= numberOfPages()">' +
                 '<i class="icon-forward"></i></button>' +
-                '<button class="btn" ng-click="lastPage()" ng-disabled="currentPage == numberOfPages()">' +
+                '<button class="btn" ng-click="lastPage()" ng-disabled="currentPage >= numberOfPages()">' +
                 '<i class="icon-step-forward"></i></button>' +
                 '<select ng-model="pageSize" ng-options="p for p in pageSizeOptions" style="width: 70px;"></select>' +
                 '<button class="btn">{{count}} items</button>' +
@@ -23,6 +23,7 @@ angular.module('lx.pager', [])
             scope: {
                 count: '=',
                 currentPage: '=',
+                pageSize: '=',
                 onPaging: '&'
             },
             link: function (scope, element, attrs) {
@@ -77,7 +78,8 @@ angular.module('lx.pager', [])
                 scope.getOptions = function () {
                     return {
                         limit: scope.pageSize,
-                        skip: scope.skip()
+                        skip: scope.skip(),
+                        currentPage: scope.currentPage
                     };
                 };
 
