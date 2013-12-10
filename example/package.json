@@ -63,6 +63,7 @@
         "karma-detect-browsers": "*",
         "karma-coverage": "*",
         "karma-junit-reporter": "*",
+        "karma-mocha-reporter": "*",
         "karma-ng-scenario": "*",
         "load-grunt-tasks": "0.2.0",
         "grunt-contrib-less": "~0.8.2",

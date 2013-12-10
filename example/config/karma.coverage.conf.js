@@ -30,7 +30,7 @@ module.exports = function (config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['progress', 'coverage'],
+        reporters: ['dots', 'coverage'],
 
         preprocessors: {
             'client/app/**/*.js': 'coverage',
