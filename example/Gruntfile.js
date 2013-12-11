@@ -305,6 +305,7 @@ module.exports = function (grunt) {
                 modules: [
                     'lx.alert',
                     'lx.auth',
+                    'lx.datepicker',
                     'lx.float',
                     'lx.integer',
                     'lx.modal',

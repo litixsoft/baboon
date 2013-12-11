@@ -10,6 +10,7 @@ angular.module('app', [
         'session',
         'translation',
         'modalExample',
+        'datepickerExample',
         'diagrams',
         'hljs'
     ])
