@@ -3,7 +3,7 @@ angular.module('datepickerExample', []).
     config(function ($routeProvider) {
         $routeProvider.when('/datepicker', {templateUrl: 'datepicker/datepicker.html', controller: 'datepickerExampleCtrl'});
     })
-    .controller('datepickerExampleCtrl', ['$scope','lxModal', function ($scope, lxModal) {
+    .controller('datepickerExampleCtrl', ['$scope', function ($scope) {
 
         $scope.datum = '';
         $scope.datum2 = '';
