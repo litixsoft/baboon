@@ -39,9 +39,9 @@
     },
     "dependencies": {
         "async": "~0.2.9",
-        "lx-helpers": "~0.3.0",
+        "lx-helpers": "~0.3.2",
         "lx-mongodb": "~0.5.1",
-        "lx-valid": "~0.2.9"
+        "lx-valid": "~0.2.10"
     },
     "devDependencies": {
         "grunt": "0.4.2",
@@ -52,21 +52,22 @@
         "grunt-contrib-jshint": "~0.7.2",
         "grunt-contrib-uglify": "~0.2.7",
         "grunt-contrib-watch": "~0.5.3",
-        "grunt-express-server": "~0.4.7",
+        "grunt-express-server": "~0.4.9",
+        "grunt-contrib-imagemin": "~0.4.0",
         "grunt-jasmine-node": "~0.1.0",
         "grunt-karma": "~0.6.2",
         "grunt-markdown": "~0.4.0",
         "grunt-ngmin": "0.0.3",
         "grunt-open": "~0.2.2",
-        "grunt-text-replace": "~0.3.9",
-        "istanbul": "~0.1.45",
+        "grunt-text-replace": "~0.3.10",
+        "istanbul": "~0.1.46",
         "karma-detect-browsers": "*",
         "karma-coverage": "*",
         "karma-junit-reporter": "*",
         "karma-mocha-reporter": "*",
         "karma-ng-scenario": "*",
         "load-grunt-tasks": "0.2.0",
-        "grunt-contrib-less": "~0.8.2",
-        "grunt-html2js": "~0.2.2"
+        "grunt-contrib-less": "~0.8.3",
+        "grunt-html2js": "~0.2.3"
     }
 }

@@ -247,6 +247,23 @@ module.exports = function (grunt) {
             }
         },
 
+        // image minification
+        imagemin: {
+            options: {
+                optimizationLevel: 7
+            },
+            dynamic: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= buildDistPublicFolder %>/img/', // Src matches are relative to this path
+                        src: ['**/*.{png,jpg,gif}'],              // Actual patterns to match
+                        dest: '<%= buildDistPublicFolder %>/img/' // Destination path prefix
+                    }
+                ]
+            }
+        },
+
         /**
          * Baboon build
          * The Baboon build process overwrites all configuration settings for concat, html2js,
@@ -603,7 +620,7 @@ module.exports = function (grunt) {
 
         var done = this.async();
 
-        setTimeout(function() {
+        setTimeout(function () {
             grunt.log.writeln('Done waiting!');
             done();
         }, 2000);
@@ -634,6 +651,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'clean:tmp',
         'copy',
+        'imagemin',
         'baboon:release',
         'build:rights',
         'replace:release'
