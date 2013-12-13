@@ -15,7 +15,8 @@ module.exports = [
         {title: 'SESSION', route: '/session'},
         {title: 'DIAGRAMS', route: '/diagrams'},
         {title: 'TRANSLATION', route: '/translation'},
-        {title: 'MODAL', route: '/modal'}
+        {title: 'MODAL', route: '/modal'},
+        {title: 'DATEPICKER', route: '/datepicker'}
     ]},
     {'title': 'ADMINISTRATION', 'route': '/admin', target: '_self', right: 'baboon/admin/user/create', children: [
         {title: 'USERS', route: '/admin/users', right: 'baboon/admin/user/getAll'},
