@@ -54,7 +54,7 @@
         "grunt-contrib-jshint": "~0.7.2",
         "grunt-jasmine-node": "~0.1.0",
         "grunt-open": "~0.2.2",
-        "istanbul": "~0.1.45",
+        "istanbul": "~0.1.46",
         "load-grunt-tasks": "0.2.0"
     },
     "dependencies": {
@@ -62,16 +62,16 @@
         "cli-color": "~0.2.3",
         "connect-redis": "~1.4.6",
         "ejs": "~0.8.5",
-        "express": "~3.4.6",
+        "express": "~3.4.7",
         "glob": "~3.2.7",
         "log4js": "~0.6.9",
         "log4js-node-mongodb": "~0.1.0",
-        "lx-helpers": "~0.3.0",
+        "lx-helpers": "~0.3.2",
         "lx-mongodb": "~0.5.1",
-        "lx-valid": "~0.2.9",
-        "pwd": "0.0.2",
+        "lx-valid": "~0.2.10",
+        "pwd": "0.0.3",
         "redis": "~0.9.1",
         "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9",
-        "nodemailer": "~0.5.12"
+        "nodemailer": "~0.5.15"
     }
 }
