@@ -481,7 +481,7 @@ module.exports = function (grunt) {
             },
             ci: {
                 configFile: '<%= configFolder %>/karma.conf.js',
-                reporters: ['progress', 'junit'],
+                reporters: ['mocha', 'junit'],
                 junitReporter: {
                     outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
                     suite: 'karma'
