@@ -189,10 +189,10 @@ module.exports = function (grunt) {
                     },
                     {
                         // angular-bootstrap  src: ['**/*-tpls.*'],  cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-ui-bootstrap',
-                        src: ['**/*-tpls-0.6.0*'],
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-bootstrap',
+                        src: ['*-tpls*.js'],
                         expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-ui-bootstrap/'
+                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
                     },
                     {
                         // bootstrap assets
@@ -230,14 +230,14 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/highlightjs/'
                     },
                     {
-                        // highlightjs
+                        // chroma-js
                         dest: '<%= buildDistPublicVendorFolder %>/chroma-js',
                         src: ['**/*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/chroma-js/'
                     },
                     {
-                        // highlightjs
+                        // d3
                         dest: '<%= buildDistPublicVendorFolder %>/d3',
                         src: ['**/*.js'],
                         expand: true,
@@ -296,9 +296,7 @@ module.exports = function (grunt) {
                         footer: '<%= module_suffix %>'
                     },
                     src: [
-                        '<%= clientVendorFolder %>/angular-ui-utils/modules/*.js',
-                        '<%= clientVendorFolder %>/angular-ui-utils/modules/**/*.js',
-                        '!<%= clientVendorFolder %>/angular-ui-utils/modules/**/*Spec.js',
+                        '<%= clientVendorFolder %>/angular-ui-utils/ui-utils.js',
                         '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
                         '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
                     ]
