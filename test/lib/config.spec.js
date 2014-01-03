@@ -20,7 +20,7 @@ describe('Config', function () {
         expect(sut.host).toBeDefined();
         expect(sut.port).toBeDefined();
         expect(sut.mongo.blog).toBeDefined();
-        expect(sut.mongo.blog).toContain('/blog?');
+        expect(sut.mongo.blog).toContain('blog');
 
 //        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: development');
     });
