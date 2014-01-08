@@ -22,7 +22,6 @@ module.exports = function (config) {
 
         exclude: [
             'client/public/**/*.js',
-            'client/vendor/angular-ui-utils/modules/**/*Spec.js',
             'client/vendor/baboon-client/modules/**/*.spec.js',
             'client/modules/**/*.spec.js'
         ],
