@@ -89,18 +89,11 @@ Tests will be aborted in case of an error. Use the --force option to skip aborti
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
 
 ## Roadmap for next releases
-* extend admin area
-* remove EJS dependencies on server
-* modularize navigation and locale
-* example for productive config with nginx load balance
-* make server and client independently
-* audit to mongo
-* more tests
+* complete rewrite the core
+* e2e tests with protractor
 
 ## Release publication dates
-* 12/2013 0.3 beta2
-* 02/2013 0.4 release canditate
-* 03/2013 0.5 release stable
+* 03/2013 0.4 stable
 
 ## Author
 [Litixsoft GmbH](http://www.litixsoft.de)
