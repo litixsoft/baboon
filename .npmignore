@@ -1,8 +1,0 @@
-.git*
-.idea
-build
-example/
-test/
-.travis.yml
-Gruntfile.js
-.jshintrc
