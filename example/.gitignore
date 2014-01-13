@@ -1,6 +1,5 @@
 .idea
-node_modules
-public
 .tmp
+dist
+node_modules
 app/bower_components
-views
