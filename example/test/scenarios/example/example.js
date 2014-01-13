@@ -1,3 +1,5 @@
+'use strict';
+
 // activate this test by rename to example.spec.js
 describe('angularjs homepage', function() {
     it('should greet the named user', function() {

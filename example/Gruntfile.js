@@ -91,14 +91,14 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish')
             },
-            all: [
+            client: [
                 '<%= yeoman.app %>/scripts/**/*.js'
             ],
             test: {
                 options: {
                     jshintrc: 'test/.jshintrc'
                 },
-                src: ['test/spec/**/*.js']
+                src: ['test/**/*.js']
             }
         },
 
@@ -319,6 +319,7 @@ module.exports = function (grunt) {
         grunt.task.run(['serve']);
     });
 
+    // all tests
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
@@ -328,12 +329,25 @@ module.exports = function (grunt) {
         'express:dev',
         'shell:protractor'
     ]);
-    grunt.registerTask('test:unit', [
+
+    // all client tests
+    grunt.registerTask('test:client', [
+        'clean:server',
+        'concurrent:test',
+        'autoprefixer',
+        'newer:jshint:client',
+        'karma'
+    ]);
+
+    // all server tests
+    grunt.registerTask('test:server', [
         'clean:server',
         'concurrent:test',
         'autoprefixer',
         'karma'
     ]);
+
+    // test only scenarios
     grunt.registerTask('test:e2e', [
         'clean:server',
         'concurrent:test',
@@ -342,6 +356,7 @@ module.exports = function (grunt) {
         'shell:protractor'
     ]);
 
+    // build productive version
     grunt.registerTask('build', [
         'clean:dist',
         'useminPrepare',
@@ -356,6 +371,7 @@ module.exports = function (grunt) {
         'usemin'
     ]);
 
+    // test all and build productive version
     grunt.registerTask('default', [
         'test',
         'build'
