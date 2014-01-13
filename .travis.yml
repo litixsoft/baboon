@@ -1,7 +1,14 @@
+services:
+  - mongodb
 language: node_js
 node_js:
-  - '0.8'
   - '0.10'
 before_script:
-  - 'npm install -g bower grunt-cli'
-  - 'bower install'
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - cd example
+  - npm install
+  - bower install
+  - cd ..
