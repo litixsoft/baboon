@@ -3,6 +3,23 @@
 
 module.exports = function (grunt) {
 
+    var path = require('path');
+
+    /**
+     * Gets the index.html file from the code coverage folder.
+     *
+     * @param {!string} folder The path to the code coverage folder.
+     */
+    function getCoverageReport (folder) {
+        var reports = grunt.file.expand(folder + '*/index.html');
+
+        if (reports && reports.length > 0) {
+            return reports[0];
+        }
+
+        return '';
+    }
+
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
@@ -15,8 +32,9 @@ module.exports = function (grunt) {
         // Project settings
         yeoman: {
             // configurable paths
-            app: require('./bower.json').appPath || 'app',
-            dist: 'dist'
+            client: 'src/client',
+            dist: 'dist',
+            server: 'src/server'
         },
         express: {
             options: {
@@ -38,11 +56,17 @@ module.exports = function (grunt) {
         open: {
             server: {
                 url: 'http://localhost:<%= express.options.port %>'
+            },
+            coverageClient: {
+                path: path.join(__dirname, getCoverageReport('.reports/coverage/client/'))
+            },
+            coverageServer: {
+                path: path.join(__dirname, getCoverageReport('.reports/coverage/server/'))
             }
         },
         watch: {
             js: {
-                files: ['<%= yeoman.app %>/scripts/**/*.js'],
+                files: ['<%= yeoman.client %>/scripts/**/*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: true
@@ -53,7 +77,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/styles/**/*.css'],
+                files: ['<%= yeoman.client %>/styles/**/*.css'],
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {
@@ -61,10 +85,10 @@ module.exports = function (grunt) {
             },
             livereload: {
                 files: [
-                    '<%= yeoman.app %>/views/**/*.html',
-                    '{.tmp,<%= yeoman.app %>}/styles/**/*.css',
-                    '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
-                    '<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.client %>/views/**/*.html',
+                    '{.tmp,<%= yeoman.client %>}/styles/**/*.css',
+                    '{.tmp,<%= yeoman.client %>}/scripts/**/*.js',
+                    '<%= yeoman.client %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ],
 
                 options: {
@@ -91,7 +115,10 @@ module.exports = function (grunt) {
                 reporter: require('jshint-stylish')
             },
             client: [
-                '<%= yeoman.app %>/scripts/**/*.js'
+                '<%= yeoman.client %>/scripts/**/*.js'
+            ],
+            server: [
+                '<%= yeoman.server %>/controllers/**/*.js'
             ],
             test: {
                 options: {
@@ -115,6 +142,10 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            reports_cover_client: '.reports/coverage/client',
+            reports_cover_server: '.reports/coverage/server',
+            reports_test_server:  '.reports/test/server',
+            reports_test_client:  '.reports/test/client',
             server: '.tmp'
         },
 
@@ -153,7 +184,7 @@ module.exports = function (grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            html: ['<%= yeoman.app %>/views/index.html'],
+            html: ['<%= yeoman.client %>/views/index.html'],
             options: {
                 dest: '<%= yeoman.dist %>/public'
             }
@@ -174,7 +205,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>/images',
+                        cwd: '<%= yeoman.client %>/images',
                         src: '**/*.{png,jpg,jpeg,gif}',
                         dest: '<%= yeoman.dist %>/public/images'
                     }
@@ -186,7 +217,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>/images',
+                        cwd: '<%= yeoman.client %>/images',
                         src: '**/*.svg',
                         dest: '<%= yeoman.dist %>/public/images'
                     }
@@ -204,7 +235,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>/views',
+                        cwd: '<%= yeoman.client %>/views',
                         src: ['*.html', 'partials/**/*.html'],
                         dest: '<%= yeoman.dist %>/views'
                     }
@@ -235,7 +266,7 @@ module.exports = function (grunt) {
 
                         expand: true,
                         dot: true,
-                        cwd: '<%= yeoman.app %>',
+                        cwd: '<%= yeoman.client %>',
                         dest: '<%= yeoman.dist %>/public',
                         src: [
                             '**/*.{ico,png,txt}',
@@ -255,7 +286,7 @@ module.exports = function (grunt) {
             },
             styles: {
                 expand: true,
-                cwd: '<%= yeoman.app %>/styles',
+                cwd: '<%= yeoman.client %>/styles',
                 dest: '.tmp/styles/',
                 src: '**/*.css'
             }
@@ -289,6 +320,44 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'karma.conf.js',
                 singleRun: true
+            },
+            coverage: {
+                configFile: 'karma.coverage.conf.js'
+            },
+            ci: {
+                configFile: 'karma.conf.js',
+                reporters: ['mocha', 'junit'],
+                junitReporter: {
+                    outputFile: '.reports/test/client/karma.xml',
+                    suite: 'karma'
+                }
+            },
+            cobertura: {
+                configFile: 'karma.coverage.conf.js',
+                coverageReporter: {
+                    type: 'cobertura',
+                    dir: '.reports/coverage/client'
+                }
+            }
+        },
+        jasmine_node: {
+            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
+            projectRoot: 'test/server',
+            requirejs: false,
+            forceExit: true,
+            jUnit: {
+                report: true,
+                savePath: './.reports/test/server/',
+                useDotNotation: true,
+                consolidate: true
+            }
+        },
+        bgShell: {
+            coverage: {
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir .reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test/server --forceexit'
+            },
+            cobertura: {
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage/server --dir .reports/coverage/server cobertura'
             }
         }
     });
@@ -299,7 +368,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build', 'express:prod', 'open', 'express-keepalive']);
+            return grunt.task.run(['build', 'express:prod', 'open:server', 'express-keepalive']);
         }
 
         return grunt.task.run([
@@ -307,7 +376,7 @@ module.exports = function (grunt) {
             'concurrent:server',
             'autoprefixer',
             'express:dev',
-            'open',
+            'open:server',
             'watch'
         ]);
     });
@@ -320,27 +389,28 @@ module.exports = function (grunt) {
     // all tests
     grunt.registerTask('test', [
         'clean:server',
+        'clean:reports_test_server',
         'concurrent:test',
         'autoprefixer',
         'newer:jshint',
-        'karma'
+        'karma:unit',
+        'jasmine_node'
     ]);
 
-    // all client tests
+    // client tests
     grunt.registerTask('test:client', [
         'clean:server',
         'concurrent:test',
         'autoprefixer',
         'newer:jshint:client',
-        'karma'
+        'karma:unit'
     ]);
 
-    // all server tests
+    // server tests
     grunt.registerTask('test:server', [
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'karma'
+        'newer:jshint:server',
+        'clean:reports_test_server',
+        'jasmine_node'
     ]);
 
     // test scenarios
@@ -356,6 +426,43 @@ module.exports = function (grunt) {
     grunt.registerTask('test:all', [
         'test',
         'test:e2e'
+    ]);
+
+    // coverage server and client
+    grunt.registerTask('cover', [
+        'clean:reports_cover_client',
+        'clean:reports_cover_server',
+        'karma:coverage',
+        'bgShell:coverage',
+        'open:coverageClient',
+        'open:coverageServer'
+    ]);
+
+    // coverage client
+    grunt.registerTask('cover:client', [
+        'clean:reports_cover_client',
+        'karma:coverage',
+        'open:coverageClient'
+    ]);
+
+    // coverage server
+    grunt.registerTask('cover:server', [
+        'clean:reports_cover_server',
+        'bgShell:coverage',
+        'open:coverageServer'
+    ]);
+
+    grunt.registerTask('ci', [
+        'clean:reports_test_server',
+        'clean:reports_cover_server',
+        'clean:reports_test_client',
+        'clean:reports_cover_client',
+        'jasmine_node',
+        'bgShell:coverage',
+        'bgShell:cobertura',
+        'karma:ci',
+        'karma:coverage',
+        'karma:cobertura'
     ]);
 
     // build productive version

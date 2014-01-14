@@ -4,7 +4,7 @@ var express = require('express'),
     path = require('path');
 
 module.exports = function(app) {
-  var rootPath = path.normalize(__dirname + '/../..');
+  var rootPath = path.normalize(__dirname + '/../../..');
 
   app.configure('development', function(){
     app.use(require('connect-livereload')());
@@ -20,9 +20,9 @@ module.exports = function(app) {
     });
 
     app.use(express.static(path.join(rootPath, '.tmp')));
-    app.use(express.static(path.join(rootPath, 'app')));
+    app.use(express.static(path.join(rootPath, 'src', 'client')));
     app.use(express.errorHandler());
-    app.set('views', rootPath + '/app/views');
+    app.set('views', rootPath + '/src/client/views');
   });
 
   app.configure('production', function(){

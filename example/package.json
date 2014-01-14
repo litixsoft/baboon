@@ -40,7 +40,6 @@
         }
     ],
     "readmeFilename": "README.md",
-
     "dependencies": {
         "express": "~3.4.3",
         "ejs": "~0.8.4"
@@ -88,7 +87,11 @@
         "karma-opera-launcher": "~0.1.0",
         "karma-detect-browsers": "~0.1.2",
         "karma-junit-reporter": "~0.2.1",
-        "grunt-shell": "~0.6.1"
+        "grunt-shell": "~0.6.1",
+        "karma-coverage": "~0.1.4",
+        "grunt-jasmine-node": "~0.1.0",
+        "grunt-bg-shell": "~2.3.0",
+        "istanbul": "~0.1.45"
     },
     "engines": {
         "node": ">=0.10.0"

@@ -7,7 +7,7 @@ module.exports = function (config) {
         basePath: '',
 
         // testing framework to use (jasmine/mocha/qunit/...)
-        frameworks: ['jasmine', 'detectBrowsers'],
+        frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -28,7 +28,16 @@ module.exports = function (config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['mocha'],
+        reporters: ['mocha', 'coverage'],
+
+        preprocessors: {
+            'src/client/scripts/**/*.js': 'coverage'
+        },
+
+        coverageReporter: {
+            type: 'html',
+            dir: '.reports/coverage/client'
+        },
 
         // web server port
         port: 8080,
@@ -70,12 +79,9 @@ module.exports = function (config) {
             'karma-jasmine',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-            'karma-ie-launcher',
-            'karma-safari-launcher',
-            'karma-phantomjs-launcher',
             'karma-junit-reporter',
-            'karma-detect-browsers',
-            'karma-mocha-reporter'
+            'karma-mocha-reporter',
+            'karma-coverage'
         ]
     });
 };

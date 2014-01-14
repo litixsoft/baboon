@@ -7,7 +7,7 @@ module.exports = function (config) {
         basePath: '',
 
         // testing framework to use (jasmine/mocha/qunit/...)
-        frameworks: ['jasmine', 'detectBrowsers'],
+        frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -17,7 +17,6 @@ module.exports = function (config) {
             'src/client/bower_components/angular-cookies/angular-cookies.js',
             'src/client/bower_components/angular-sanitize/angular-sanitize.js',
             'src/client/bower_components/angular-route/angular-route.js',
-            'src/client/scripts/*.js',
             'src/client/scripts/**/*.js',
             'test/client/**/*.js'
         ],
@@ -28,7 +27,16 @@ module.exports = function (config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['mocha'],
+        reporters: ['dots', 'coverage'],
+
+        preprocessors: {
+            'src/client/**/*.js': 'coverage'
+        },
+
+        coverageReporter: {
+            type: 'html',
+            dir: '.reports/reports/coverage/client'
+        },
 
         // web server port
         port: 8080,
@@ -52,7 +60,7 @@ module.exports = function (config) {
         // - Safari (only Mac)
         // - PhantomJS
         // - IE (only Windows)
-        browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
+        browsers: ['Chrome'],
 
         // If browser does not capture in given timeout [ms], kill it
         // CLI --capture-timeout 5000
@@ -69,13 +77,8 @@ module.exports = function (config) {
         plugins: [
             'karma-jasmine',
             'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-ie-launcher',
-            'karma-safari-launcher',
-            'karma-phantomjs-launcher',
-            'karma-junit-reporter',
-            'karma-detect-browsers',
-            'karma-mocha-reporter'
+            'karma-coverage',
+            'karma-junit-reporter'
         ]
     });
 };

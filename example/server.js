@@ -7,11 +7,11 @@ var app = express();
 
 
 // Express Configuration
-require('./server/config/express')(app);
+require('./src/server/config/express')(app);
 
 // Controllers
-var api = require('./server/controllers/api'),
-    index = require('./server/controllers');
+var api = require('./src/server/controllers/api'),
+    index = require('./src/server/controllers');
 
 // Server Routes
 app.get('/api/awesomeThings', api.awesomeThings);
