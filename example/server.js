@@ -7,14 +7,17 @@ var app = express();
 
 
 // Express Configuration
-require('./src/server/config/express')(app);
+require('./server/config/express')(app);
 
 // Controllers
-var api = require('./src/server/controllers/api'),
-    index = require('./src/server/controllers');
+var api = require('./server/controllers/api'),
+    index = require('./server/controllers');
 
-// Server Routes
+// Api Routes
 app.get('/api/awesomeThings', api.awesomeThings);
+
+// Toplevel Routes
+app.get('/admin', index.admin);
 
 // Angular Routes
 app.get('/partials/*', index.partials);
@@ -23,7 +26,7 @@ app.get('/*', index.index);
 // Start server
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
-  console.log('Express server listening on port %d in %s mode', port, app.get('env'));
+    console.log('Express server listening on port %d in %s mode', port, app.get('env'));
 });
 
 // Expose app

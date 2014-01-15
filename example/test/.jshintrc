@@ -19,9 +19,9 @@
     "trailing": true,
     "smarttabs": true,
     "globals": {
+        "angular": false,
         "after": false,
         "afterEach": false,
-        "angular": false,
         "before": false,
         "beforeEach": false,
         "browser": false,
@@ -35,4 +35,3 @@
         "by": false
     }
 }
-

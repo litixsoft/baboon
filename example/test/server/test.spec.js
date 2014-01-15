@@ -3,7 +3,7 @@
 
 describe('test', function() {
 
-    var foo = require('../../src/server/controllers/foo');
+    var foo = require('../../server/controllers/foo');
 
     it('should be true', function () {
         var sut = foo.test('timo');
