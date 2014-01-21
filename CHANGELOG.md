@@ -1,4 +1,10 @@
 # Release History
+## v0.3.1
+* feat: add socket object to session when socket is enabled
+* fix: send correct error code (401) when username and password are empty on login
+* fix(api): fix error in parseError() that the error message was displayed without the data object
+* refactor(scripts): merge grunt scripts to a single grunt.js file
+
 ## v0.3.0
 * add registration an forget password functionality
 * update to angular 1.2.2
