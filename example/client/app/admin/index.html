@@ -30,9 +30,10 @@
 <div id="singlepageFrame">
 
     <div class="layout-content">
-        <div class="col-left navCol">
-            <span class="trademark-area">baboon</span>
-            <treeview class="navlist" nr-attr="1" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
+        <div class="col-left navCol" ng-class="{'visible-lg' : !mobileMenu}">
+            <span class="mobile-menu-btn pull-left hidden-lg" ng-click="mobileMenu=!mobileMenu;"></span>
+            <span class="trademark-area">BABOON<sup>0.3</sup></span>
+            <treeview class="navlist" nr-attr="ADMINISTRATION" label-attr="title" icon-attr="icon" link-attr="route" target-attr="target"></treeview>
 
         </div>
         <div class="col-right">
@@ -41,6 +42,8 @@
             <!-- login start -->
 
             <div class="dark-header">
+                <span class="mobile-menu-btn pull-left" ng-class="{'hidden-lg' : !mobileMenu}" ng-show="!mobileMenu" ng-click="mobileMenu=!mobileMenu;"></span>
+                <span class="trademark-area pull-left" ng-class="{'hidden-lg' : !mobileMenu}" ng-show="!mobileMenu">BABOON<sup>0.3</sup></span>
                 <lx-auth-popup></lx-auth-popup>
                 <bootnav class="navlist pull-right" label-attr="title" icon-attr="icon" type-attr="nav-pills"  link-attr="route" target-attr="target"></bootnav>
 
@@ -93,7 +96,7 @@
 <script type="text/javascript" src="/vendor/angular/angular<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular-animate/angular-animate<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/vendor/angular-route/angular-route<!--@@min-->.js" charset="utf-8"></script>
-<script type="text/javascript" src="/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0<!--@@min-->.js" charset="utf-8"></script>
+<script type="text/javascript" src="/vendor/angular-bootstrap/ui-bootstrap-tpls<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_admin<!--@@min-->.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/app_admin.tpl<!--@@min-->.js" charset="utf-8"></script>
 </body>

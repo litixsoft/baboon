@@ -77,6 +77,7 @@ module.exports = function (grunt) {
             projectRoot: 'test/lib',
             requirejs: false,
             forceExit: true,
+            verbose: false,
             jUnit: {
                 report: true,
                 savePath: './build/reports/tests/',

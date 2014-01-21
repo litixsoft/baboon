@@ -10,6 +10,7 @@ angular.module('app', [
         'session',
         'translation',
         'modalExample',
+        'datepickerExample',
         'diagrams',
         'hljs'
     ])
@@ -32,6 +33,9 @@ angular.module('app', [
             // bind lxAlert service to $rootScope
             $rootScope.lxAlert = lxAlert;
             $rootScope.lxModal = lxModal;
+
+            // responsive: open navmenu when using mobile device
+            $rootScope.mobileMenu = false;
 
             $rootScope.$on('$routeChangeStart', function () {
                 lxSession.setActivity(function (error) {

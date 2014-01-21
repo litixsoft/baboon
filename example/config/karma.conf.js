@@ -10,8 +10,8 @@ module.exports = function (config) {
             'client/vendor/angular/angular.js',
             'client/vendor/angular-route/angular-route.js',
             'client/vendor/angular-mocks/angular-mocks.js',
-            'client/vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.6.0.js',
-            'client/vendor/angular-ui-utils/modules/**/*.js',
+            'client/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+            'client/vendor/angular-ui-utils/ui-utils.js',
             'build/tmp/tpls/**/*js',
             'client/vendor/baboon-client/modules/**/*.js',
             'test/fixtures/mocks.js',
@@ -22,7 +22,6 @@ module.exports = function (config) {
 
         exclude: [
             'client/public/**/*.js',
-            'client/vendor/angular-ui-utils/modules/**/*Spec.js',
             'client/vendor/baboon-client/modules/**/*.spec.js',
             'client/modules/**/*.spec.js'
         ],
@@ -30,7 +29,7 @@ module.exports = function (config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['progress'],
+        reporters: ['mocha'],
 
         // web server port
         // CLI --port 9876
@@ -80,7 +79,8 @@ module.exports = function (config) {
             'karma-safari-launcher',
             'karma-phantomjs-launcher',
             'karma-junit-reporter',
-            'karma-detect-browsers'
+            'karma-detect-browsers',
+            'karma-mocha-reporter'
         ]
     });
 };

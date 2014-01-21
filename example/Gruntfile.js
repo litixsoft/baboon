@@ -189,10 +189,10 @@ module.exports = function (grunt) {
                     },
                     {
                         // angular-bootstrap  src: ['**/*-tpls.*'],  cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-ui-bootstrap',
-                        src: ['**/*-tpls-0.6.0*'],
+                        dest: '<%= buildDistPublicVendorFolder %>/angular-bootstrap',
+                        src: ['*-tpls*.js'],
                         expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-ui-bootstrap/'
+                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
                     },
                     {
                         // bootstrap assets
@@ -230,18 +230,35 @@ module.exports = function (grunt) {
                         cwd: '<%= clientVendorFolder %>/highlightjs/'
                     },
                     {
-                        // highlightjs
+                        // chroma-js
                         dest: '<%= buildDistPublicVendorFolder %>/chroma-js',
                         src: ['**/*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/chroma-js/'
                     },
                     {
-                        // highlightjs
+                        // d3
                         dest: '<%= buildDistPublicVendorFolder %>/d3',
                         src: ['**/*.js'],
                         expand: true,
                         cwd: '<%= clientVendorFolder %>/d3/'
+                    }
+                ]
+            }
+        },
+
+        // image minification
+        imagemin: {
+            options: {
+                optimizationLevel: 7
+            },
+            dynamic: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= buildDistPublicFolder %>/img/', // Src matches are relative to this path
+                        src: ['**/*.{png,jpg,gif}'],              // Actual patterns to match
+                        dest: '<%= buildDistPublicFolder %>/img/' // Destination path prefix
                     }
                 ]
             }
@@ -279,9 +296,7 @@ module.exports = function (grunt) {
                         footer: '<%= module_suffix %>'
                     },
                     src: [
-                        '<%= clientVendorFolder %>/angular-ui-utils/modules/*.js',
-                        '<%= clientVendorFolder %>/angular-ui-utils/modules/**/*.js',
-                        '!<%= clientVendorFolder %>/angular-ui-utils/modules/**/*Spec.js',
+                        '<%= clientVendorFolder %>/angular-ui-utils/ui-utils.js',
                         '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
                         '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
                     ]
@@ -305,6 +320,7 @@ module.exports = function (grunt) {
                 modules: [
                     'lx.alert',
                     'lx.auth',
+                    'lx.datepicker',
                     'lx.float',
                     'lx.integer',
                     'lx.modal',
@@ -463,7 +479,7 @@ module.exports = function (grunt) {
             },
             ci: {
                 configFile: '<%= configFolder %>/karma.conf.js',
-                reporters: ['progress', 'junit'],
+                reporters: ['mocha', 'junit'],
                 junitReporter: {
                     outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
                     suite: 'karma'
@@ -540,6 +556,7 @@ module.exports = function (grunt) {
             projectRoot: '<%= testFolder %>',
             requirejs: false,
             forceExit: true,
+            verbose: false,
             jUnit: {
                 report: true,
                 savePath: '<%= buildReportsFolder %>/tests/server/',
@@ -602,7 +619,7 @@ module.exports = function (grunt) {
 
         var done = this.async();
 
-        setTimeout(function() {
+        setTimeout(function () {
             grunt.log.writeln('Done waiting!');
             done();
         }, 2000);
@@ -633,6 +650,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'clean:tmp',
         'copy',
+        'imagemin',
         'baboon:release',
         'build:rights',
         'replace:release'
