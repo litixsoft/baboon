@@ -22,6 +22,11 @@ angular.module('common.nav', [])
                 'title': 'Admin',
                 'link': '/admin',
                 'target': '_self'
+            },
+            {
+                'title': 'Project1',
+                'link': '/projects/project1',
+                'target': '_self'
             }
         ];
 

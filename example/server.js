@@ -15,12 +15,14 @@ var api = require('./server/controllers/api'),
 
 // Api Routes
 app.get('/api/awesomeThings', api.awesomeThings);
+app.get('/api/ssl/awesomeThings', api.awesomeThings);
 
 // Toplevel Routes
 app.get('/admin', index.admin);
+app.get('/projects/project1', index.projects);
 
 // Angular Routes
-app.get('/partials/*', index.partials);
+app.get('/*.html', index.partials);
 app.get('/*', index.index);
 
 // Start server

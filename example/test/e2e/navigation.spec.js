@@ -9,7 +9,7 @@ describe('Scenario: User navigates the application.', function () {
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
         expect(thingList.count()).toEqual(4);
-        expect(view.getText()).toEqual('main/home/home');
+        expect(view.getText()).toEqual('app/main/home/home.html');
     });
 
     it('should be the correct scope by route /home', function() {
@@ -19,7 +19,7 @@ describe('Scenario: User navigates the application.', function () {
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
         expect(thingList.count()).toEqual(4);
-        expect(view.getText()).toEqual('main/home/home');
+        expect(view.getText()).toEqual('app/main/home/home.html');
     });
 
     it('should be the correct scope by route /about', function() {
@@ -29,7 +29,7 @@ describe('Scenario: User navigates the application.', function () {
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
         expect(thingList.count()).toEqual(4);
-        expect(view.getText()).toEqual('main/about/about');
+        expect(view.getText()).toEqual('app/main/about/about.html');
     });
 
     it('should be the correct scope by route /contact', function() {
@@ -39,7 +39,7 @@ describe('Scenario: User navigates the application.', function () {
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
         expect(thingList.count()).toEqual(4);
-        expect(view.getText()).toEqual('main/contact/contact');
+        expect(view.getText()).toEqual('app/main/contact/contact.html');
     });
 
     it('should be the correct scope by route /admin', function() {
@@ -49,6 +49,6 @@ describe('Scenario: User navigates the application.', function () {
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
         expect(thingList.count()).toEqual(4);
-        expect(view.getText()).toEqual('admin/admin');
+        expect(view.getText()).toEqual('app/admin/admin.html');
     });
 });

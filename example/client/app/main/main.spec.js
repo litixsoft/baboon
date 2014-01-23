@@ -1,9 +1,9 @@
 
 'use strict';
 
-describe('App example', function () {
+describe('App main', function () {
 
-    beforeEach(module('example'));
+    beforeEach(module('main'));
 
     it('should map routes', function () {
 

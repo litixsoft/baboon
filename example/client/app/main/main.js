@@ -1,16 +1,13 @@
 'use strict';
 
-angular.module('example', [
+angular.module('main', [
         'ngRoute',
         'common.nav',
-        'example.home',
-        'example.about',
-        'example.contact'
+        'main.home',
+        'main.about',
+        'main.contact'
     ])
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
-    })
-    .run(function run() {
-        // your code here
     });

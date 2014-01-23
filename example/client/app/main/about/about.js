@@ -1,17 +1,17 @@
 
 'use strict';
 
-angular.module('example.about', [])
+angular.module('main.about', [])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/about', {
                 templateUrl: 'app/main/about/about.html',
-                controller: 'ExampleAboutCtrl'
+                controller: 'MainAboutCtrl'
             });
     })
-    .controller('ExampleAboutCtrl', function ($scope, $http) {
+    .controller('MainAboutCtrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function (awesomeThings) {
             $scope.awesomeThings = awesomeThings;
-            $scope.view = 'main/about/about';
+            $scope.view = 'app/main/about/about.html';
         });
     });

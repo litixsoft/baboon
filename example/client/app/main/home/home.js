@@ -1,22 +1,21 @@
 
 'use strict';
 
-angular.module('example.home', [])
+angular.module('main.home', [])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'app/main/home/home.html',
-                controller: 'ExampleHomeCtrl'
+                controller: 'MainHomeCtrl'
             })
             .when('/home', {
                 templateUrl: 'app/main/home/home.html',
-                controller: 'ExampleHomeCtrl'
+                controller: 'MainHomeCtrl'
             });
     })
-    .controller('ExampleHomeCtrl', function ($scope, $http) {
+    .controller('MainHomeCtrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function (awesomeThings) {
             $scope.awesomeThings = awesomeThings;
-            $scope.view = 'main/home/home';
-            //
+            $scope.view = 'app/main/home/home.html';
         });
     });

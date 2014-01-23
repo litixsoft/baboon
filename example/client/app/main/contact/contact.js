@@ -1,17 +1,17 @@
 
 'use strict';
 
-angular.module('example.contact', [])
+angular.module('main.contact', [])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/contact', {
                 templateUrl: 'app/main/contact/contact.html',
-                controller: 'ExampleContactCtrl'
+                controller: 'MainContactCtrl'
             });
     })
-    .controller('ExampleContactCtrl', function ($scope, $http) {
+    .controller('MainContactCtrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function (awesomeThings) {
             $scope.awesomeThings = awesomeThings;
-            $scope.view = 'main/contact/contact';
+            $scope.view = 'app/main/contact/contact.html';
         });
     });

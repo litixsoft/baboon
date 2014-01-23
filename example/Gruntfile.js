@@ -216,7 +216,7 @@ module.exports = function (grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            html: ['<%= yeoman.client %>/**/index.html', '!<%= yeoman.client %>/assets/*.*'],
+            html: ['<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
             options: {
                 dest: '<%= yeoman.server %>/public'
             }
@@ -224,7 +224,7 @@ module.exports = function (grunt) {
 
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
-            html: ['<%= yeoman.server %>/**/*.html'],
+            html: ['<%= yeoman.server %>/views/**/*.html'],
             css: ['<%= yeoman.server %>/public/styles/**/*.css'],
             options: {
                 assetsDirs: ['<%= yeoman.server %>/public']
@@ -274,7 +274,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%= yeoman.client %>',
-                        src: ['app/**/*.html', 'common/**/*.html'],
+                        src: ['app/**/*.html', '!app/**/index.html', 'common/**/*.html', '!common/**/index.html'],
                         dest: '<%= yeoman.server %>/views/partials'
                     }
                 ]
@@ -331,13 +331,7 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: '<%= yeoman.client %>',
                 dest: '.tmp/views/',
-                src: ['*.html', 'app/**/index.html', 'common/**/index.html']
-            },
-            partials: {
-                expand: true,
-                cwd: '<%= yeoman.client %>',
-                dest: '.tmp/views/partials',
-                src: ['app/**/*.html', 'common/**/*.html']
+                src: ['*.html', '**/index.html', '!assets/**/*']
             }
         },
 
@@ -345,13 +339,11 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'copy:styles',
-                'copy:views',
-                'copy:partials'
+                'copy:views'
             ],
             test: [
                 'copy:styles',
-                'copy:views',
-                'copy:partials'
+                'copy:views'
             ],
             dist: [
                 'copy:styles',

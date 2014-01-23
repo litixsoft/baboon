@@ -21,3 +21,7 @@ exports.index = function (req, res) {
 exports.admin = function(req, res){
     res.render('app/admin/index');
 };
+
+exports.projects = function(req, res){
+    res.render('app/projects/project1/index');
+};

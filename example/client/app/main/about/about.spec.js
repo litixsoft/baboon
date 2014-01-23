@@ -1,19 +1,19 @@
 
 'use strict';
 
-describe('Module: example.about', function () {
+describe('Module: main.about', function () {
 
-    beforeEach(module('example'));
+    beforeEach(module('main'));
 
     it('should map routes', function () {
 
         inject(function ($route) {
-            expect($route.routes['/about'].controller).toBe('ExampleAboutCtrl');
+            expect($route.routes['/about'].controller).toBe('MainAboutCtrl');
             expect($route.routes['/about'].templateUrl).toEqual('app/main/about/about.html');
         });
     });
 
-    describe('Controller: ExampleAboutCtrl', function () {
+    describe('Controller: MainAboutCtrl', function () {
 
         var $httpBackend, $scope, $ctrl;
 
@@ -22,14 +22,14 @@ describe('Module: example.about', function () {
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
             $scope = $rootScope.$new();
-            $ctrl = $controller('ExampleAboutCtrl', {$scope: $scope});
+            $ctrl = $controller('MainAboutCtrl', {$scope: $scope});
         }));
 
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
             $httpBackend.flush();
             expect($scope.awesomeThings.length).toBe(4);
-            expect($scope.view).toBe('main/about/about');
+            expect($scope.view).toBe('app/main/about/about.html');
         });
     });
 });

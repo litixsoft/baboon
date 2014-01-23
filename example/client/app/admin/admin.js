@@ -23,6 +23,6 @@ angular.module('admin', [
     .controller('AdminCtrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function(awesomeThings) {
             $scope.awesomeThings = awesomeThings;
-            $scope.view = 'admin/admin';
+            $scope.view = 'app/admin/admin.html';
         });
     });

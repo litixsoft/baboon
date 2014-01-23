@@ -1,21 +1,21 @@
 
 'use strict';
 
-describe('Module: example.home', function () {
+describe('Module: main.home', function () {
 
-    beforeEach(module('example'));
+    beforeEach(module('main'));
 
     it('should map routes', function () {
 
         inject(function ($route) {
-            expect($route.routes['/'].controller).toBe('ExampleHomeCtrl');
+            expect($route.routes['/'].controller).toBe('MainHomeCtrl');
             expect($route.routes['/'].templateUrl).toEqual('app/main/home/home.html');
-            expect($route.routes['/home'].controller).toBe('ExampleHomeCtrl');
+            expect($route.routes['/home'].controller).toBe('MainHomeCtrl');
             expect($route.routes['/home'].templateUrl).toEqual('app/main/home/home.html');
         });
     });
 
-    describe('Controller: ExampleHomeCtrl', function () {
+    describe('Controller: MainHomeCtrl', function () {
 
         var $httpBackend, $scope, $ctrl;
 
@@ -24,15 +24,14 @@ describe('Module: example.home', function () {
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
             $scope = $rootScope.$new();
-            $ctrl = $controller('ExampleHomeCtrl', {$scope: $scope});
+            $ctrl = $controller('MainHomeCtrl', {$scope: $scope});
         }));
 
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
             $httpBackend.flush();
             expect($scope.awesomeThings.length).toBe(4);
-            expect($scope.view).toBe('main/home/home');
+            expect($scope.view).toBe('app/main/home/home.html');
         });
-
     });
 });
