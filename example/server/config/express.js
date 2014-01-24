@@ -5,6 +5,7 @@ var express = require('express'),
 
 module.exports = function (app) {
     var rootPath = path.normalize(__dirname + '/../..');
+    var oneMonth = 2592000000;
 
     app.configure('development', function () {
         app.use(require('connect-livereload')());
@@ -27,8 +28,21 @@ module.exports = function (app) {
     });
 
     app.configure('production', function () {
-        app.use(express.favicon(path.join(rootPath, 'server', 'public', 'favicon.ico')));
-        app.use(express.static(path.join(rootPath, 'server', 'public')));
+        app.use(express.compress());
+
+        // Disable caching for rest api
+        app.use(function noCache(req, res, next) {
+
+            if (req.url.indexOf('/api/') === 0) {
+                res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+                res.header('Pragma', 'no-cache');
+                res.header('Expires', 0);
+            }
+            next();
+        });
+
+        app.use(express.favicon(path.join(rootPath, 'server', 'public', 'favicon.ico'), {maxAge:oneMonth}));
+        app.use(express.static(path.join(rootPath, 'server', 'public'), {maxAge:oneMonth}));
         app.set('views', rootPath + '/server/views');
     });
 
