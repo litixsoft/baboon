@@ -1,17 +1,68 @@
 'use strict';
 
 // Module dependencies.
+var path = require('path');
 var express = require('express');
 
+var rootPath = __dirname;
+var baboon = require('../lib/baboon')(rootPath);
 var app = express();
+var api = require('./server/routes/api');
+var index = require('./server/routes');
 
+var oneMonth = 2592000000;
+var loggers = baboon.loggers;
 
-// Express Configuration
-require('./server/config/express')(app);
+app.configure('development', function () {
+    app.use(require('connect-livereload')());
 
-// Controllers
-var api = require('./server/controllers/api'),
-    index = require('./server/controllers');
+    // Disable caching of scripts for easier testing
+    app.use(function noCache(req, res, next) {
+
+        if (req.url.indexOf('/assets/') === -1 && req.url.indexOf('/api/') === -1) {
+            res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.header('Pragma', 'no-cache');
+            res.header('Expires', 0);
+        }
+        next();
+    });
+
+    app.use(baboon.getConnectLogger(loggers.express));
+    app.use(express.static(path.join(rootPath, '.tmp')));
+    app.use(express.static(path.join(rootPath, 'client')));
+    app.set('views', rootPath + '/.tmp/views');
+});
+app.configure('production', function () {
+    app.use(express.compress());
+
+    // Disable caching for rest api
+    app.use(function noCache(req, res, next) {
+
+        if (req.url.indexOf('/api/') === 0) {
+            res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.header('Pragma', 'no-cache');
+            res.header('Expires', 0);
+        }
+        next();
+    });
+
+    app.use(baboon.getConnectLogger(loggers.express));
+    app.use(express.favicon(path.join(rootPath, 'server', 'public', 'favicon.ico'), {maxAge:oneMonth}));
+    app.use(express.static(path.join(rootPath, 'server', 'public'), {maxAge:oneMonth}));
+    app.set('views', rootPath + '/server/views');
+});
+
+app.configure(function () {
+    app.engine('html', require('ejs').renderFile);
+    app.set('view engine', 'html');
+    app.use(express.json());
+    app.use(express.urlencoded());
+    app.use(express.methodOverride());
+    app.use(express.cookieParser('your secret here'));
+    app.use(express.session());
+    app.use(app.router);
+    app.use(baboon.errorHandler);
+});
 
 // Api Routes
 app.get('/api/awesomeThings', api.awesomeThings);
@@ -26,10 +77,7 @@ app.get('/*.html', index.partials);
 app.get('/*', index.index);
 
 // Start server
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log('Express server listening on port %d in %s mode', port, app.get('env'));
-});
+baboon.serverListen(app);
 
 // Expose app
 var exports;

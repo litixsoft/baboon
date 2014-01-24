@@ -1,6 +1,7 @@
-/*global describe, it, expect, beforeEach, spyOn */
+'use strict';
+
 describe('Config', function () {
-    'use strict';
+
 
     var path = require('path');
     var config = require(path.resolve(__dirname, '../', 'lib', 'config'));
@@ -15,14 +16,27 @@ describe('Config', function () {
         var func = function () { return config(2, {});};
         expect(func).toThrow();
     });
+
     it('should throw an Error when the param "argv" is of wrong type', function() {
         var func = function () { return config(rootPath, 'test');};
         expect(func).toThrow();
     });
+
     it('should throw an Error when not given params', function() {
         var func = function () { return config();};
         expect(func).toThrow();
     });
+
+    it('should be the correct port in the config', function() {
+        var sut = config(rootPath, {port:9999});
+        expect(sut.port).toBe(9999);
+    });
+
+    it('should be the correct protocol in the config', function() {
+        var sut = config(rootPath, {protocol:'https'});
+        expect(sut.protocol).toBe('https');
+    });
+
     it('should return the production settings when not given option --config', function() {
         var sut = config(rootPath,{});
 

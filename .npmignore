@@ -1,8 +1,9 @@
 .git*
 .idea
-build
+.reports
+.tmp
 example/
 test/
+.jshintrc
 .travis.yml
 Gruntfile.js
-.jshintrc

@@ -1,16 +1,16 @@
-// Generated on 2014-01-11 using generator-angular-fullstack 1.1.1
 'use strict';
 
-module.exports = function (grunt) {
+var path = require('path');
+var config_dev = require('./config')().development();
 
-    var path = require('path');
+module.exports = function (grunt) {
 
     /**
      * Gets the index.html file from the code coverage folder.
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport (folder) {
+    function getCoverageReport(folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
@@ -43,6 +43,7 @@ module.exports = function (grunt) {
                     'client/common/**/*.js',
                     'client/toplevels/**/*.js',
                     'test/**/*.js',
+                    'config.js',
                     'Gruntfile.js',
                     'server.js'
                 ]
@@ -50,24 +51,25 @@ module.exports = function (grunt) {
         },
         express: {
             options: {
-                port: process.env.PORT || 9000
+                port: config_dev.port,
+                host: config_dev.host
             },
             dev: {
                 options: {
+                    args: ['--config', 'development'],
                     script: 'server.js',
                     debug: true
                 }
             },
             prod: {
                 options: {
-                    script: 'server.js',
-                    node_env: 'production'
+                    script: 'server.js'
                 }
             }
         },
         open: {
             server: {
-                url: 'http://localhost:<%= express.options.port %>',
+                url: 'http://<%= express.options.host %>:<%= express.options.port %>',
                 app: 'Google Chrome'
             },
             coverageClient: {
@@ -79,14 +81,14 @@ module.exports = function (grunt) {
         },
         watch: {
             js: {
-                files: ['<%= yeoman.client %>/client/app/**/*.js','<%= yeoman.client %>/client/common/**/*.js'],
+                files: ['<%= yeoman.client %>/client/app/**/*.js', '<%= yeoman.client %>/client/common/**/*.js'],
                 tasks: ['newer:jshint:test'],
                 options: {
                     livereload: true
                 }
             },
             jsTest: {
-                files: ['<%= yeoman.client %>/client/app/**/*.spec.js','<%= yeoman.client %>/client/common/**/*.spec.js'],
+                files: ['<%= yeoman.client %>/client/app/**/*.spec.js', '<%= yeoman.client %>/client/common/**/*.spec.js'],
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
@@ -94,7 +96,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
             views: {
-                files: ['<%= yeoman.client %>/*.html','<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
+                files: ['<%= yeoman.client %>/*.html', '<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
                 tasks: ['newer:copy:views']
             },
             partials: {
@@ -177,7 +179,7 @@ module.exports = function (grunt) {
             coverage_client: '.reports/coverage/client',
             coverage_server: '.reports/coverage/server',
             test: '.reports/test',
-            jshint:  '.reports/jshint',
+            jshint: '.reports/jshint',
             server: '.tmp'
         },
 

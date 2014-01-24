@@ -7,7 +7,7 @@ describe('Logging', function () {
     var fs = require('fs');
     var mockHelper = require('./mocks/mockHelper');
     var rootPath = path.resolve(__dirname, '../');
-    var tmpPath = path.resolve(rootPath, 'build', 'tmp');
+    var tmpPath = path.resolve(rootPath, '.tmp');
     var config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config:'unitTest'});
     config.path.logs = tmpPath;
     var log = require(path.resolve(rootPath, 'lib', 'logging'));

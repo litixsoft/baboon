@@ -26,49 +26,58 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        jshint_files_to_test: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
+
+        // Project settings
+        yeoman: {
+            jshint: {
+                files: [
+                    'lib/**/*.js',
+                    'test/**/*.js',
+                    'Gruntfile.js'
+                ]
+            }
+        },
         clean: {
-            jasmine: ['build/reports/tests', 'build/tmp'],
-            lint: ['build/reports/lint'],
-            coverage: ['build/reports/coverage', 'build/tmp']
+            jasmine: ['.reports/tests', '.tmp'],
+            lint: ['.reports/lint'],
+            coverage: ['.reports/coverage', '.tmp']
         },
         jshint: {
             options: {
-                jshintrc: '.jshintrc',
+                jshintrc: true,
                 reporter: require('jshint-stylish')
             },
-            test: '<%= jshint_files_to_test %>',
+            test: '<%= yeoman.jshint.files %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: 'build/reports/lint/jshint.xml'
+                    reporterOutput: '.reports/lint/jshint.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             },
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: 'build/reports/lint/jshint_checkstyle.xml'
+                    reporterOutput: '.reports/lint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             }
         },
         bgShell: {
             coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir .reports/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/reports/coverage --dir build/reports/coverage cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage --dir .reports/coverage cobertura'
             }
         },
         open: {
             coverage: {
-                path: path.join(__dirname, getCoverageReport('build/reports/coverage/'))
+                path: path.join(__dirname, getCoverageReport('.reports/coverage/'))
             }
         },
         jasmine_node: {
@@ -78,7 +87,7 @@ module.exports = function (grunt) {
             forceExit: true,
             jUnit: {
                 report: true,
-                savePath: './build/reports/tests/',
+                savePath: '.reports/tests/',
                 useDotNotation: true,
                 consolidate: true
             }

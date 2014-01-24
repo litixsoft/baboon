@@ -8,7 +8,7 @@ module.exports = function () {
     var config = {};
 
     /**
-     * The production confuguration
+     * The production configuration
      * This configuration used when no other configuration is specified.
      *
      * @returns {Object} config
@@ -16,7 +16,7 @@ module.exports = function () {
     config.production = function() {
 
         // Contains all settings for this configuration
-        var settings = {
+        return {
             node_env: 'production',
             app_name: 'Baboon Example App',
             protocol: 'http',
@@ -44,13 +44,11 @@ module.exports = function () {
                     express: {
                         active: true,
                         level: 'INFO',
-                        appender: 'console'
+                        appender: 'file'
                     }
                 }
             }
         };
-
-        return settings;
     };
 
     /**
@@ -88,6 +86,7 @@ module.exports = function () {
 
         // Config contains all settings from development.
         var settings = config.production();
+        settings.node_env = 'development';
         settings.logging.appenders.db = 'localhost:27017/test_baboon_logs';
         return settings;
     };

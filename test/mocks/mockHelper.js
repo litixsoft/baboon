@@ -1,3 +1,5 @@
+'use strict';
+
 exports.captureStream = function(stream) {
     var oldWrite = stream.write;
     var buf = '';
