@@ -2,6 +2,7 @@
 
 angular.module('admin', [
         'ngRoute',
+        'ui.bootstrap',
         'common.nav'
     ])
     .config(function ($routeProvider, $locationProvider) {

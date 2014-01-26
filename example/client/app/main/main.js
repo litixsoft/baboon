@@ -2,6 +2,7 @@
 
 angular.module('main', [
         'ngRoute',
+        'ui.bootstrap',
         'common.nav',
         'main.home',
         'main.about',

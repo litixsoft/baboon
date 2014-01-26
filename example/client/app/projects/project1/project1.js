@@ -2,6 +2,7 @@
 
 angular.module('project1', [
         'ngRoute',
+        'ui.bootstrap',
         'common.nav'
     ])
     .config(function ($routeProvider, $locationProvider) {
