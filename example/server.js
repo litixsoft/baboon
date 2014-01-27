@@ -12,9 +12,14 @@ var index = require('./server/routes');
 
 var oneMonth = 2592000000;
 var loggers = baboon.loggers;
+var config = baboon.config;
 
 app.configure('development', function () {
-    app.use(require('connect-livereload')());
+
+    // Enable livereload
+    if (config.livereload) {
+        app.use(require('connect-livereload')());
+    }
 
     // Disable caching of scripts for easier testing
     app.use(function noCache(req, res, next) {

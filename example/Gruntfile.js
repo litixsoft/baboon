@@ -56,7 +56,7 @@ module.exports = function (grunt) {
             },
             dev: {
                 options: {
-                    args: ['--config', 'development'],
+                    args: ['--config', 'development', '--livereload'],
                     script: 'server.js',
                     debug: true
                 }
@@ -69,8 +69,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                url: 'http://<%= express.options.host %>:<%= express.options.port %>',
-                app: 'Google Chrome'
+                url: 'http://<%= express.options.host %>:<%= express.options.port %>'
             },
             coverageClient: {
                 path: path.join(__dirname, getCoverageReport('.reports/coverage/client/'))
@@ -515,6 +514,13 @@ module.exports = function (grunt) {
         'uglify',
         'rev',
         'usemin'
+    ]);
+
+    // build development version
+    grunt.registerTask('build:dev', [
+        'clean:server',
+        'concurrent:server',
+        'autoprefixer'
     ]);
 
     // test all and build productive version
