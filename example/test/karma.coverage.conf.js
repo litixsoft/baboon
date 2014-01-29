@@ -43,7 +43,7 @@ module.exports = function (config) {
         },
 
         // web server port
-        port: 8080,
+        port: 9090,
 
         // enable / disable colors in the output (reporters and logs)
         // CLI --colors --no-colors

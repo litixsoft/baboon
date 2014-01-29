@@ -80,37 +80,35 @@ module.exports = function (grunt) {
         },
         watch: {
             js: {
-                files: ['<%= yeoman.client %>/client/app/**/*.js', '<%= yeoman.client %>/client/common/**/*.js'],
+                files: ['<%= yeoman.client %>/app/**/*.js', '<%= yeoman.client %>/common/**/*.js'],
                 tasks: ['newer:jshint:test'],
                 options: {
                     livereload: true
                 }
             },
             jsTest: {
-                files: ['<%= yeoman.client %>/client/app/**/*.spec.js', '<%= yeoman.client %>/client/common/**/*.spec.js'],
-                tasks: ['newer:jshint:test', 'karma']
+                files: ['<%= yeoman.client %>/app/**/*.spec.js', '<%= yeoman.client %>/common/**/*.spec.js'],
+                tasks: ['newer:jshint:test']
             },
             styles: {
-                files: ['<%= yeoman.assets %>/styles/**/*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
+                files: ['<%= yeoman.client %>/less/**/*.less','<%= yeoman.client %>/app/**/*.less', '<%= yeoman.client %>/common/**/*.less'],
+                tasks: ['less', 'autoprefixer']
             },
             views: {
                 files: ['<%= yeoman.client %>/*.html', '<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
                 tasks: ['newer:copy:views']
             },
             partials: {
-                files: ['<%= yeoman.client %>/app/**/*.html', '<%= yeoman.client %>/common/**/*.html'],
+                files: ['<%= yeoman.client %>/app/**/*.html', '!<%= yeoman.client %>/*.html', '!<%= yeoman.client %>/app/**/index.html','<%= yeoman.client %>/common/**/*.html', '!<%= yeoman.client %>/common/**/index.html'],
                 tasks: ['newer:copy:partials']
-            },
-            gruntfile: {
-                files: ['Gruntfile.js']
             },
             livereload: {
                 files: [
                     '{.tmp,<%= yeoman.client %>}/app/**/*.html',
                     '{.tmp,<%= yeoman.client %>}/common/**/*.html',
-                    '{.tmp,<%= yeoman.assets %>}/styles/**/*.css',
-                    '{.tmp,<%= yeoman.client %>}/**/*.js',
+                    '.tmp/styles/**/*.css',
+                    '<%= yeoman.client %>/app/**/*.js',
+                    '<%= yeoman.client %>/common/**/*.js',
                     '<%= yeoman.assets %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ],
 
@@ -322,12 +320,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            styles: {
-                expand: true,
-                cwd: '<%= yeoman.assets %>/styles',
-                dest: '.tmp/styles/',
-                src: '**/*.css'
-            },
             views: {
                 expand: true,
                 cwd: '<%= yeoman.client %>',
@@ -339,15 +331,15 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
-                'copy:styles',
+                'less',
                 'copy:views'
             ],
             test: [
-                'copy:styles',
+                'less',
                 'copy:views'
             ],
             dist: [
-                'copy:styles',
+                'less',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
@@ -404,6 +396,20 @@ module.exports = function (grunt) {
             },
             cobertura: {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage/server --dir .reports/coverage/server cobertura'
+            }
+        },
+        less: {
+            target: {
+                options: {
+                    paths: ['client/less']
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'client/app',
+                    src: ['**/*.less'],
+                    dest: '.tmp/styles/',
+                    ext: '.css'
+                }]
             }
         }
     });
