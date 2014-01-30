@@ -587,7 +587,7 @@ module.exports = function (grunt) {
         var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
 
         // write include files for app
-        lxHelpers.objectForEach(buildHelper.fileContents, function (key, value) {
+        lxHelpers.objectForEach(buildHelper.fileContents, function (value, key) {
             grunt.file.write('build/tmp/includes/' + key + '.js', value);
         });
 

@@ -54,11 +54,11 @@
         "grunt-contrib-jshint": "~0.8.0",
         "grunt-jasmine-node": "~0.1.0",
         "grunt-open": "~0.2.3",
-        "istanbul": "~0.2.3",
-        "load-grunt-tasks": "0.2.1"
+        "istanbul": "~0.2.4",
+        "load-grunt-tasks": "0.3.0"
     },
     "dependencies": {
-        "async": "~0.2.9",
+        "async": "~0.2.10",
         "cli-color": "~0.2.3",
         "connect-redis": "~1.4.6",
         "ejs": "~0.8.5",
@@ -66,7 +66,7 @@
         "glob": "~3.2.8",
         "log4js": "~0.6.9",
         "log4js-node-mongodb": "~0.1.1",
-        "lx-helpers": "~0.3.3",
+        "lx-helpers": "~0.4.1",
         "lx-mongodb": "~0.5.2",
         "lx-valid": "~0.2.10",
         "pwd": "0.0.3",
