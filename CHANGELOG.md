@@ -1,4 +1,7 @@
 # Release History
+## v0.3.2
+* fix: use session key from config when parsing cookie on server
+
 ## v0.3.1
 * feat: add socket object to session when socket is enabled
 * fix: send correct error code (401) when username and password are empty on login
