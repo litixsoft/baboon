@@ -1,2 +1,0 @@
-# Baboon example app
-

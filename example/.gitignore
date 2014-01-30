@@ -1,8 +1,0 @@
-.idea
-.reports
-.tmp
-client/assets/bower_components
-node_modules
-server/public
-server/views
-*.log
