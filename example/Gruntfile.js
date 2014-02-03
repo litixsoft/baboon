@@ -535,6 +535,8 @@ module.exports = function (grunt) {
         'build'
     ]);
 
+    grunt.registerTask('lint', ['jshint:test']);
+
     // task that simply waits for 1 second, usefull for livereload
     grunt.registerTask('wait', function () {
         grunt.log.ok('Waiting...');
