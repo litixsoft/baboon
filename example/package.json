@@ -78,7 +78,8 @@
         "grunt-jasmine-node": "~0.1.0",
         "grunt-bg-shell": "~2.3.0",
         "istanbul": "~0.1.45",
-        "grunt-contrib-less": "~0.9.0"
+        "grunt-contrib-less": "~0.9.0",
+        "protractor": "~0.17.0"
     },
     "engines": {
         "node": ">=0.10.0"

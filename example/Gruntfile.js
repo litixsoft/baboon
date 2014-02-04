@@ -65,6 +65,12 @@ module.exports = function (grunt) {
                 options: {
                     script: 'server.js'
                 }
+            },
+            e2e: {
+                options: {
+                    args: ['--config', 'e2eTest'],
+                    script: 'server.js'
+                }
             }
         },
         open: {
@@ -396,6 +402,14 @@ module.exports = function (grunt) {
             },
             cobertura: {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage/server --dir .reports/coverage/server cobertura'
+            },
+            update_webdriver: {
+                cmd: 'node_modules/protractor/bin/webdriver-manager update',
+                fail: true
+            },
+            protractor: {
+                cmd: 'node_modules/protractor/bin/protractor test/e2e.conf.js',
+                fail: true
             }
         },
         less: {
@@ -465,11 +479,12 @@ module.exports = function (grunt) {
 
     // test scenarios
     grunt.registerTask('e2e', [
+        'bgShell:update_webdriver',
         'clean:server',
         'concurrent:test',
         'autoprefixer',
-        'express:dev',
-        'shell:protractor'
+        'express:e2e',
+        'bgShell:protractor'
     ]);
 
     // coverage client

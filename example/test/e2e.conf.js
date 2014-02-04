@@ -4,7 +4,7 @@
 exports.config = {
 
     // The address of a running selenium server.
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+//    seleniumAddress: 'http://127.0.0.1:3003/',
 
     // Capabilities to be passed to the webdriver instance.
     capabilities: {
@@ -15,7 +15,7 @@ exports.config = {
     // protractor is called.
     specs: ['e2e/*.spec.js'],
 
-    baseUrl: 'http://127.0.0.1:3000',
+    baseUrl: 'http://127.0.0.1:3003',
 
     // Options to be passed to Jasmine-node.
     jasmineNodeOpts: {
