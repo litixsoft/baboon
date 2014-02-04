@@ -28,7 +28,7 @@ module.exports = function (grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
-
+        bowerrc: grunt.file.readJSON('.bowerrc'),
         // Project settings
         yeoman: {
             // configurable paths
@@ -183,7 +183,9 @@ module.exports = function (grunt) {
             coverage_server: '.reports/coverage/server',
             test: '.reports/test',
             jshint: '.reports/jshint',
-            server: '.tmp'
+            server: '.tmp',
+            bower: ['<%= bowerrc.directory %>'],
+            node_modules: ['node_modules']
         },
 
         // Add vendor prefixed styles
@@ -410,6 +412,14 @@ module.exports = function (grunt) {
             protractor: {
                 cmd: 'node_modules/protractor/bin/protractor test/e2e.conf.js',
                 fail: true
+            },
+            bower: {
+                cmd: 'bower install',
+                fail: true
+            },
+            npm: {
+                cmd: 'npm install',
+                fail: true
             }
         },
         less: {
@@ -563,4 +573,12 @@ module.exports = function (grunt) {
             done();
         }, 1000);
     });
+
+    // Delete node_modules folder and run npm install
+    grunt.registerTask('update', [
+        'clean:bower',
+        'clean:node_modules',
+        'bgShell:npm',
+        'bgShell:bower'
+    ]);
 };
