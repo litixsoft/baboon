@@ -406,11 +406,11 @@ module.exports = function (grunt) {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage/server --dir .reports/coverage/server cobertura'
             },
             update_webdriver: {
-                cmd: 'node_modules/protractor/bin/webdriver-manager update',
+                cmd: 'node node_modules/protractor/bin/webdriver-manager update',
                 fail: true
             },
             protractor: {
-                cmd: 'node_modules/protractor/bin/protractor test/e2e.conf.js',
+                cmd: 'node node_modules/protractor/bin/protractor test/e2e.conf.js',
                 fail: true
             },
             bower: {
