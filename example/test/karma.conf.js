@@ -19,6 +19,11 @@ module.exports = function (config) {
             'client/assets/bower_components/angular-sanitize/angular-sanitize.js',
             'client/assets/bower_components/angular-route/angular-route.js',
             'client/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'client/assets/bower_components//angular-translate//angular-translate.js',
+            'client/assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+            'client/assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js',
+            'client/assets/bower_components/highlightjs/highlight.pack.js',
+            'client/assets/bower_components/angular-highlightjs/angular-highlightjs.js',
             'client/app/**/*.js',
             'client/common/**/*.js'
         ],

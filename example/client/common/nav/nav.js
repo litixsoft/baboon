@@ -11,6 +11,10 @@ angular.module('common.nav', [])
                 'target': '_self'
             },
             {
+                'title': 'Locale',
+                'link': '/localization'
+            },
+            {
                 'title': 'About',
                 'link': '/about'
             },

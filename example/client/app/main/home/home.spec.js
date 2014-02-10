@@ -3,7 +3,8 @@
 
 describe('Module: main.home', function () {
 
-    beforeEach(module('main'));
+    beforeEach(module('ngRoute'));
+    beforeEach(module('main.home'));
 
     it('should map routes', function () {
 

@@ -12,7 +12,7 @@ describe('Common: common.nav', function () {
     }));
 
     it('should attach a list of awesomeThings to the scope', function () {
-        expect($scope.menu.length).toBe(5);
+        expect($scope.menu.length).toBe(6);
     });
 
     it('should active the correct location', function () {
