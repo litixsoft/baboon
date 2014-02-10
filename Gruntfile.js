@@ -41,7 +41,8 @@ module.exports = function (grunt) {
             jasmine: ['.reports/tests', '.tmp'],
             lint: ['.reports/lint'],
             coverage: ['.reports/coverage', '.tmp'],
-            node_modules: ['node_modules']
+            node_modules: ['node_modules'],
+            ci: ['.reports', '.tmp']
         },
         jshint: {
             options: {
@@ -102,7 +103,7 @@ module.exports = function (grunt) {
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
-    grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('update', 'Delete node_modules folder and run npm install', ['clean:node_modules', 'bgShell:npm']);
 
     // Default task.
