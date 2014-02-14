@@ -50,39 +50,41 @@ describe('Logging', function () {
         expect(sut.socket).toBeDefined();
         expect(sut.express).toBeDefined();
 
-        // check folders and files are created
-        expect(fs.existsSync(tmpPath)).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/sys')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/sys/sys.log')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/socket')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/socket/socket.log')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/express')).toBeTruthy();
-        expect(fs.existsSync(tmpPath + '/express/express.log')).toBeTruthy();
+        setTimeout(function () {
+            // check folders and files are created
+            expect(fs.existsSync(tmpPath)).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/sys')).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/sys/sys.log')).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/socket')).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/socket/socket.log')).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/express')).toBeTruthy();
+            expect(fs.existsSync(tmpPath + '/express/express.log')).toBeTruthy();
 
-        // check log4js
-        expect(log4js.appenders.file).toBeDefined();
-        expect(typeof log4js.appenders.file).toBe('function');
+            // check log4js
+            expect(log4js.appenders.file).toBeDefined();
+            expect(typeof log4js.appenders.file).toBe('function');
 
-        expect(log4js.getLogger('syslog').category).toBe('syslog');
-        expect(typeof log4js.getLogger('syslog')._events.log).toBe('function');
-        expect(log4js.getLogger('audit').category).toBe('audit');
-        expect(typeof log4js.getLogger('audit')._events.log).toBe('function');
-        expect(log4js.getLogger('socket').category).toBe('socket');
-        expect(typeof log4js.getLogger('socket')._events.log).toBe('function');
-        expect(log4js.getLogger('express').category).toBe('express');
-        expect(typeof log4js.getLogger('express')._events.log).toBe('function');
+            expect(log4js.getLogger('syslog').category).toBe('syslog');
+            expect(typeof log4js.getLogger('syslog')._events.log).toBe('function');
+            expect(log4js.getLogger('audit').category).toBe('audit');
+            expect(typeof log4js.getLogger('audit')._events.log).toBe('function');
+            expect(log4js.getLogger('socket').category).toBe('socket');
+            expect(typeof log4js.getLogger('socket')._events.log).toBe('function');
+            expect(log4js.getLogger('express').category).toBe('express');
+            expect(typeof log4js.getLogger('express')._events.log).toBe('function');
 
-        setTimeout(function() {
-            var syslog = fs.readFileSync(tmpPath + '/sys/sys.log', {encoding: 'utf8'});
-            expect(syslog.indexOf('[ERROR] syslog - test')).toBeGreaterThan(0);
+            setTimeout(function () {
+                var syslog = fs.readFileSync(tmpPath + '/sys/sys.log', {encoding: 'utf8'});
+                expect(syslog.indexOf('[ERROR] syslog - test')).toBeGreaterThan(0);
 
-            var socket = fs.readFileSync(tmpPath + '/socket/socket.log', {encoding: 'utf8'});
-            expect(socket.indexOf('[WARN] socket - test')).toBeGreaterThan(0);
+                var socket = fs.readFileSync(tmpPath + '/socket/socket.log', {encoding: 'utf8'});
+                expect(socket.indexOf('[WARN] socket - test')).toBeGreaterThan(0);
 
-            var express = fs.readFileSync(tmpPath + '/express/express.log', {encoding: 'utf8'});
-            expect(express.indexOf('[DEBUG] express - test')).toBeGreaterThan(0);
+                var express = fs.readFileSync(tmpPath + '/express/express.log', {encoding: 'utf8'});
+                expect(express.indexOf('[DEBUG] express - test')).toBeGreaterThan(0);
 
-            done();
-        }, 1);
+                done();
+            }, 1);
+        }, 500);
     });
 });
