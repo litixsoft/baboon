@@ -9,6 +9,7 @@ angular.module('app', [
         'home',
         'session',
         'translation',
+        'app.settings',
         'modalExample',
         'datepickerExample',
         'diagrams',

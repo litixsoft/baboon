@@ -88,5 +88,14 @@
     "CANCEL": "Abbrechen",
     "MODAL": "Popups",
     "DIAGRAMS": "Diagramme",
-    "DATEPICKER": "Datepicker"
+    "DATEPICKER": "Datepicker",
+    "SETTINGS": "Einstellungen",
+    "SETTINGS_HEADER": "Benutzer-Einstellungen",
+    "EXAMPLE_GET_SET": "Beispiel für Laden und Speichern",
+    "KEY": "Eigenschaft",
+    "VALUE": "Wert",
+    "SAVE_SETTING": "Einstellung speichern",
+    "GET_ALL_SETTINGS": "Alle Einstellungen laden",
+    "TEST_SETTINGS": "Test Einstellungen generieren",
+    "CLEAR_LOG": "Log löschen"
 }

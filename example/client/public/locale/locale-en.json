@@ -74,7 +74,6 @@
     "REQUIRED_PASSWORD": "Password is required",
     "CONFIRM_PASSWORD": "Confirm password",
     "LANGUAGE": "Language",
-    "LANGUAGE_SELECT": "English",
     "ENTER_LANGUAGE": "Enter language",
     "RIGHT": "Right",
     "HAS_ACCESS": "Has Access",
@@ -86,5 +85,14 @@
     "CANCEL": "Cancel",
     "MODAL": "Popups",
     "DIAGRAMS": "Charts",
-    "DATEPICKER": "Datepicker"
+    "DATEPICKER": "Datepicker",
+    "SETTINGS": "Settings",
+    "SETTINGS_HEADER": "User-Settings",
+    "EXAMPLE_GET_SET": "Example for get/set",
+    "KEY": "Key",
+    "VALUE": "Value",
+    "SAVE_SETTING": "Save setting",
+    "GET_ALL_SETTINGS": "Get all settings",
+    "TEST_SETTINGS": "Generate test settings",
+    "CLEAR_LOG": "Clear log"
 }

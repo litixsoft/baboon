@@ -1,0 +1,44 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>{{ 'SETTINGS_HEADER' | translate }}</h1>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">{{ 'EXAMPLE_GET_SET' | translate }}</div>
+            <div class="panel-body">
+                <form name="form" novalidate class="css-form form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="key">{{ 'KEY' | translate }}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" ng-model="userSetting.key" id="key" name="key" ui-reset />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="value">{{ 'VALUE' | translate }}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" ng-model="userSetting.value" id="value" name="value" ui-reset />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <button class="btn btn-info" ng-click="addUserSetting()">{{ 'SAVE_SETTING' | translate }}</button>
+                            <button class="btn btn-info" ng-click="getUserSettings()">{{ 'GET_ALL_SETTINGS' | translate }}</button>
+                            <button class="btn btn-info" ng-click="addTestSettings()">{{ 'TEST_SETTINGS' | translate }}</button>
+                            <button class="btn btn-danger" ng-click="allUserSettings = {}"><span class="glyphicon glyphicon-trash"></span> {{ 'CLEAR_LOG' | translate }}</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <pre style="border: 2px dotted #808080; min-height: 100px; padding: 0.5em; margin-bottom: 1em">{{ allUserSettings | json }}</pre>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

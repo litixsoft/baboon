@@ -15,6 +15,7 @@ module.exports = [
         {title: 'SESSION', route: '/session'},
         {title: 'DIAGRAMS', route: '/diagrams'},
         {title: 'TRANSLATION', route: '/translation'},
+        {title: 'SETTINGS', route: '/settings'},
         {title: 'MODAL', route: '/modal'},
         {title: 'DATEPICKER', route: '/datepicker'}
     ]},

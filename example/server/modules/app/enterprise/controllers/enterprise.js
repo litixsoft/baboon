@@ -9,7 +9,7 @@ module.exports = function (app) {
      * Gets all members from db.
      *
      *
-     * @roles Guest, User, User
+     * @roles Guest, User
      * @description Gets all members from db
      * @param {object} data The query.
      * @param {!object} request The request object.

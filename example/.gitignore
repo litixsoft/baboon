@@ -4,3 +4,4 @@ node_modules
 server/logs
 client/vendor
 client/app/doc/md/*.html
+server/settings

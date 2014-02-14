@@ -1,5 +1,7 @@
 'use strict';
 var path = require('path'),
+    grunt = require('grunt'),
+    lxHelpers = require('lx-helpers'),
     rootPath = path.resolve('..', 'baboon', 'example'),
     config = require('../../lib/config.js')(rootPath),
     configFile = require(path.join(rootPath, 'config', 'app.conf.json'));
@@ -7,6 +9,11 @@ var path = require('path'),
 // override mongo connection strings
 config.mongo.rights = configFile.params.unitTest.mongo.rights;
 config.mongo.logs = configFile.params.unitTest.mongo.logs;
+
+// override path to settings
+config.path.settings = path.join(path.resolve('..', 'baboon'), 'build', 'tmp', 'settings');
+
+grunt.file.mkdir(config.path.settings);
 
 // set useRightsSystem to true to make rights tests runs
 config.useRightsSystem = true;
@@ -26,9 +33,9 @@ module.exports = function () {
 
     return {
         logging: {
-            syslog: syslog,
-            audit: syslog
+            syslog: lxHelpers.clone(syslog),
+            audit: lxHelpers.clone(syslog)
         },
-        config: config
+        config: lxHelpers.clone(config)
     };
 };
