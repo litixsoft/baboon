@@ -1,4 +1,8 @@
 # Release History
+## v0.3.3
+* feat: add setting handling for users (each user can have his own application settings)
+* fix(rights): now no mongoDB is required when rights system is disabled
+
 ## v0.3.2
 * fix: use session key from config when parsing cookie on server
 
