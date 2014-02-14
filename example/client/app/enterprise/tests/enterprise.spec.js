@@ -102,7 +102,7 @@ describe('enterprise', function () {
 
             runs(function () {
                 expect(scope.crew).toEqual(dataTmp);
-                expect(scope.lxAlert.type).toEqual('error');
+                expect(scope.lxAlert.type).toEqual('danger');
                 expect(scope.lxAlert.msg).toEqual('can\'t create test crew, already exists.');
             });
         });
@@ -135,7 +135,7 @@ describe('enterprise', function () {
 
             runs(function () {
                 expect(scope.crew).toEqual(dataTmp);
-                expect(scope.lxAlert.type).toEqual('error');
+                expect(scope.lxAlert.type).toEqual('danger');
                 expect(scope.lxAlert.msg).toEqual('Could not create test crew!');
             });
         });

@@ -64,7 +64,7 @@
         "ejs": "~0.8.5",
         "express": "~3.4.8",
         "glob": "~3.2.8",
-        "log4js": "~0.6.9",
+        "log4js": "~0.6.10",
         "log4js-node-mongodb": "~0.1.1",
         "lx-helpers": "~0.4.1",
         "lx-mongodb": "~0.5.2",
