@@ -1,3 +1,4 @@
+/* runs */
 'use strict';
 
 describe('Module: main.localization', function () {
