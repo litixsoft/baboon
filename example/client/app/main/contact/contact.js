@@ -6,7 +6,8 @@ angular.module('main.contact', [])
         $routeProvider
             .when('/contact', {
                 templateUrl: 'app/main/contact/contact.html',
-                controller: 'MainContactCtrl'
+                controller: 'MainContactCtrl',
+                app: 'main'
             });
     })
     .controller('MainContactCtrl', function ($scope, $http) {

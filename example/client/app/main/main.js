@@ -8,7 +8,8 @@ angular.module('main', [
         'main.about',
         'main.contact'
     ])
-    .config(function ($routeProvider, $locationProvider) {
+    .config(function ($routeProvider, $locationProvider, navigationProvider) {
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
+        navigationProvider.setCurrentApp('main');
     });

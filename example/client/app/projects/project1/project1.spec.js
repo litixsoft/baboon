@@ -13,7 +13,7 @@ describe('App: project1', function () {
             expect($route.routes['/projects/project1'].templateUrl).toEqual('app/projects/project1/project1.html');
 
             // otherwise redirect to
-            expect($route.routes[null].redirectTo).toEqual('/projects/project1');
+            expect($route.routes[null].redirectTo).toEqual('/');
         });
     });
 

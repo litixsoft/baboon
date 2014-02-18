@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 exports.awesomeThings = function (req, res) {
     res.json([
         {
@@ -24,6 +26,7 @@ exports.awesomeThings = function (req, res) {
         }
     ]);
 };
+
 //exports.nav = function (req, res) {
 //
 //    var toplevel = 'admin';

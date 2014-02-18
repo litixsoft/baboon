@@ -6,7 +6,8 @@ angular.module('main.about', [])
         $routeProvider
             .when('/about', {
                 templateUrl: 'app/main/about/about.html',
-                controller: 'MainAboutCtrl'
+                controller: 'MainAboutCtrl',
+                app: 'main'
             });
     })
     .controller('MainAboutCtrl', function ($scope, $http) {

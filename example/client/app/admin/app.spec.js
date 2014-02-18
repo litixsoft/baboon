@@ -9,9 +9,6 @@ describe('App: admin', function () {
 
         inject(function ($route) {
 
-            expect($route.routes['/'].controller).toBe('AdminCtrl');
-            expect($route.routes['/'].templateUrl).toEqual('app/admin/admin.html');
-
             expect($route.routes['/admin'].controller).toBe('AdminCtrl');
             expect($route.routes['/admin'].templateUrl).toEqual('app/admin/admin.html');
 

@@ -1,8 +1,9 @@
-<div class="header" ng-controller="CommonNavCtrl">
-  <ul class="nav nav-pills pull-right">
-    <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
-        <a ng-href="{{item.link}}" target="{{item.target}}">{{item.title}}</a>
+<div class="header" style="text-align:center" ng-controller="CommonNavCtrl">
+    <h3 class="text-muted">Baboon-Example-App</h3>
+  <ul class="nav nav-pills">
+    <li ng-repeat="item in menu" ng-class="{active: isActive(item.route)}">
+        <a ng-if="item.target" ng-href="{{item.route}}" target="{{item.target}}">{{item.title}}</a>
+        <a ng-if="!item.target" ng-href="{{item.route}}">{{item.title}}</a>
     </li>
   </ul>
-  <h3 class="text-muted">Baboon-Example-App</h3>
 </div>

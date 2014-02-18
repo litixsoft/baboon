@@ -5,11 +5,13 @@ angular.module('main.home', [])
         $routeProvider
             .when('/', {
                 templateUrl: 'app/main/home/home.html',
-                controller: 'MainHomeCtrl'
+                controller: 'MainHomeCtrl',
+                app: 'main'
             })
             .when('/home', {
                 templateUrl: 'app/main/home/home.html',
-                controller: 'MainHomeCtrl'
+                controller: 'MainHomeCtrl',
+                app: 'main'
             });
     })
     .controller('MainHomeCtrl', function ($scope, $http) {

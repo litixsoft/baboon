@@ -13,6 +13,7 @@ var index = require('./server/routes');
 var oneMonth = 2592000000;
 var loggers = baboon.loggers;
 var config = baboon.config;
+var navigation = baboon.navigation;
 
 app.configure('development', function () {
 
@@ -37,6 +38,7 @@ app.configure('development', function () {
     app.use(express.static(path.join(rootPath, 'client')));
     app.set('views', rootPath + '/.tmp/views');
 });
+
 app.configure('production', function () {
     app.use(express.compress());
 
@@ -73,9 +75,16 @@ app.configure(function () {
 app.get('/api/awesomeThings', api.awesomeThings);
 app.get('/api/ssl/awesomeThings', api.awesomeThings);
 
+// navigation api
+app.post('/api/navigation/getSubList', navigation.getSubList);
+app.post('/api/navigation/getSubTree', navigation.getSubTree);
+app.post('/api/navigation/getTopList', navigation.getTopList);
+app.post('/api/navigation/getList', navigation.getList);
+app.post('/api/navigation/getTree', navigation.getTree);
+
 // Toplevel Routes
 app.get('/admin', index.admin);
-app.get('/projects/project1', index.projects);
+app.get('/project1', index.projects);
 
 // Angular Routes
 app.get('/*.html', index.partials);

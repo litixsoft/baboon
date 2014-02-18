@@ -5,18 +5,20 @@ angular.module('project1', [
         'ui.bootstrap',
         'common.nav'
     ])
-    .config(function ($routeProvider, $locationProvider) {
+    .config(function ($routeProvider, $locationProvider, navigationProvider) {
 
         $routeProvider
-            .when('/projects/project1', {
+            .when('/project1', {
                 templateUrl: 'app/projects/project1/project1.html',
-                controller: 'Project1Ctrl'
+                controller: 'Project1Ctrl',
+                app: 'project1'
             })
             .otherwise({
-                redirectTo: '/projects/project1'
+                redirectTo: '/'
             });
 
         $locationProvider.html5Mode(true);
+        navigationProvider.setCurrentApp('project1');
     })
     .controller('Project1Ctrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function(awesomeThings) {
