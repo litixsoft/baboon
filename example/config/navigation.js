@@ -15,6 +15,11 @@ module.exports = function () {
             app: 'main',
             children: [
                 {
+                    title: 'LOCALE',
+                    route: '/localization',
+                    app: 'main'
+                },
+                {
                     title: 'ABOUT',
                     route: '/about',
                     app: 'main'
@@ -30,7 +35,7 @@ module.exports = function () {
             title: 'ADMIN',
             route: '/admin',
             roles: ['admins'],
-            app: 'admin',
+            app: 'admin'
         },
         {
             title: 'PROJECT1',

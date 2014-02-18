@@ -1,4 +1,9 @@
 {
-    "YES": "Yes",
-    "NO": "No"
+    "APP_HEADER": "Baboon-Example-App",
+    "HOME": "Home",
+    "LOCALE": "Localization",
+    "CONTACT": "Contact",
+    "ABOUT": "About",
+    "ADMIN": "Administration",
+    "PROJECT1": "Project 1"
 }

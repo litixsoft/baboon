@@ -3,9 +3,10 @@
 angular.module('project1', [
         'ngRoute',
         'ui.bootstrap',
-        'common.nav'
+        'common.nav',
+        'pascalprecht.translate'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider) {
+    .config(function ($routeProvider, $locationProvider, $translateProvider, navigationProvider) {
 
         $routeProvider
             .when('/project1', {
@@ -19,6 +20,14 @@ angular.module('project1', [
 
         $locationProvider.html5Mode(true);
         navigationProvider.setCurrentApp('project1');
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: '/locale/projects/project1/locale/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('en-us');
+        $translateProvider.fallbackLanguage('en-us');
     })
     .controller('Project1Ctrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function(awesomeThings) {
