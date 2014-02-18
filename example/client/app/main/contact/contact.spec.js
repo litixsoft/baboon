@@ -3,7 +3,8 @@
 
 describe('Module: main.contact', function () {
 
-    beforeEach(module('main'));
+    beforeEach(module('ngRoute'));
+    beforeEach(module('main.contact'));
 
     it('should map routes', function () {
 

@@ -1,0 +1,107 @@
+<div ng-include="'common/nav/nav.html'"></div>
+<div class="beige-noise">
+    <div class="p-wrapper">
+        <div class="page-header">
+            <h1>{{ 'LOCALIZATION_HEADER' | translate }}</h1>
+        </div>
+        <p>
+            <div class="btn-group">
+                <a ng-click="changeLanguage('de-de')" style="cursor: pointer;"><img src="/assets/images/flag-germany.png" alt="german" /></a>
+                <a ng-click="changeLanguage('en-us')" style="cursor: pointer;"><img src="/assets/images/flag-usa.png" alt="english" /></a>
+            </div>
+        </p>
+        <p>{{ 'LOCALIZATION_INTRO' | translate }}</p>
+        <a href="http://pascalprecht.github.io/angular-translate/#/guide">{{ 'LOCALIZATION_LINK' | translate }}</a>
+
+        <br />
+        <h4>{{ 'Q1' | translate }}</h4>
+        <p>{{ 'Q1_TEXT' | translate }}</p>
+
+        <div hljs>angular.module('app', ['pascalprecht.translate']).config(function ($routeProvider, $locationProvider, $translateProvider)
+ {
+    $locationProvider.html5Mode(true);
+    $routeProvider.otherwise({redirectTo: '/'});
+
+    $translateProvider.useStaticFilesLoader({
+        prefix: '/locale/locale-',
+        suffix: '.json'
+    });
+
+    $translateProvider.preferredLanguage('en-us');
+    $translateProvider.fallbackLanguage('en-us');
+}]);</div>
+
+        <br />
+        <h4>{{ 'Q2' | translate }}</h4>
+        <p>{{ 'Q2_TEXT' | translate }}</p>
+
+        <div hljs>$scope.changeLanguage = function (langKey)
+ {
+    // tell angular-translate to use the new language
+    $translate.uses(langKey);
+
+    // save selected language in session
+    session.setData('language', langKey);
+};</div>
+
+        <br />
+        <h4>{{ 'Q3' | translate }}</h4>
+        <p>{{ 'Q3_TEXT' | translate }}</p>
+
+        <div hljs>angular.module('app', ['pascalprecht.translate']).run(function (session, $log, $translate)
+ {
+    // get users preferred language from session
+    session.getData('language', function (error, result) {
+        if (error) {
+            // detect language of browser
+            var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
+            $translate.uses(browserLanguage.substring(0, 2));
+        }
+        else {
+            // use language
+            $translate.uses(result.language);
+        }
+    });
+}]);</div>
+
+        <br />
+        <h4>{{ 'Q4' | translate }}</h4>
+        <p>{{ 'Q4_TEXT' | translate }}</p>
+
+        <ul class="list-unstyled">
+            <li><a href="https://github.com/lgalfaso/angular-dynamic-locale" target="_blank">bower-angular-i18n</a></li>
+            <li><a href="https://github.com/angular/bower-angular-i18n">angular-dynamic-locale</a></li>
+        </ul>
+        <p>{{ 'Q4_TEXT2' | translate }}</p>
+        <div hljs>angular.module('app', ['pascalprecht.translate']).config(function ($routeProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider)
+ {
+    $routeProvider.otherwise({redirectTo: '/'});
+    $locationProvider.html5Mode(true);
+    tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
+
+    $translateProvider.useStaticFilesLoader({
+        prefix: '/locale/locale-',
+        suffix: '.json'
+    });
+    $translateProvider.preferredLanguage('en-us');
+    $translateProvider.fallbackLanguage('en-us');
+})</div>
+
+        <p>{{ 'Q4_TEXT3' | translate }}</p>
+        <div hljs>run(function ($rootScope, $translate, tmhDynamicLocale)
+ {
+    $rootScope.$on('$translateChangeSuccess', function() {
+        tmhDynamicLocale.set($translate.uses());
+    });
+})</div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>{{ 'NUMBER_FORMAT' | translate }}: {{ sampleNumber | number }}</li>
+                    <li>{{ 'CURRENCY_FORMAT' | translate }}: {{ sampleCurrency | currency }}</li>
+                    <li>{{ 'DATE_FORMAT' | translate }}: {{ sampleDate | date:'fullDate' }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
