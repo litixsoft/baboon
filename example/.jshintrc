@@ -31,6 +31,7 @@
         "jasmine": false,
         "spyOn": false,
         "element": false,
-        "by": false
+        "by": false,
+        "runs": false
     }
 }

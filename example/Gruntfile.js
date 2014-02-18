@@ -10,7 +10,7 @@ module.exports = function (grunt) {
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport(folder) {
+    function getCoverageReport (folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test']
             },
             styles: {
-                files: ['<%= yeoman.client %>/less/**/*.less','<%= yeoman.client %>/app/**/*.less', '<%= yeoman.client %>/common/**/*.less'],
+                files: ['<%= yeoman.client %>/less/**/*.less', '<%= yeoman.client %>/app/**/*.less', '<%= yeoman.client %>/common/**/*.less'],
                 tasks: ['less', 'autoprefixer']
             },
             views: {
@@ -105,7 +105,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:copy:views']
             },
             partials: {
-                files: ['<%= yeoman.client %>/app/**/*.html', '!<%= yeoman.client %>/*.html', '!<%= yeoman.client %>/app/**/index.html','<%= yeoman.client %>/common/**/*.html', '!<%= yeoman.client %>/common/**/index.html'],
+                files: ['<%= yeoman.client %>/app/**/*.html', '!<%= yeoman.client %>/*.html', '!<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/*.html', '!<%= yeoman.client %>/common/**/index.html'],
                 tasks: ['newer:copy:partials']
             },
             livereload: {
@@ -333,13 +333,12 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.client %>',
                 dest: '.tmp/views/',
                 src: ['*.html', '**/index.html', '!assets/**/*']
-            }
-            ,
+            },
             locale_dev: {
-                 expand: true,
-                 cwd: './client/app/',
-                 src: '**//*locale*//*.json',
-                 dest: './.tmp/locale/'
+                expand: true,
+                cwd: './client/app/',
+                src: '**//*locale*//*.json',
+                dest: './.tmp/locale/'
             },
             locale_pro: {
                 expand: true,
@@ -440,16 +439,18 @@ module.exports = function (grunt) {
                 options: {
                     paths: ['client/less']
                 },
-                files: [{
-                    expand: true,
-                    cwd: 'client/app',
-                    src: ['**/*.less'],
-                    dest: '.tmp/styles/',
-                    ext: '.css'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'client/app',
+                        src: ['**/*.less'],
+                        dest: '.tmp/styles/',
+                        ext: '.css'
+                    }
+                ]
             }
         },
-        "merge-locale": {
+        'merge-locale': {
             dev: {
                 common: './client/locale*//*.json',
                 src: './.tmp/locale/**//*locale*//*.json'
@@ -461,13 +462,13 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerMultiTask('merge-locale', function() {
+    grunt.registerMultiTask('merge-locale', function () {
         var sourceFiles = grunt.file.expand(this.data.src);
         var commonFiles = grunt.file.expand(this.data.common);
 
-        var sort = function(ar) {
-            ar.sort(function(a, b) {
-                return path.basename(a) >  path.basename(b);
+        var sort = function (ar) {
+            ar.sort(function (a, b) {
+                return path.basename(a) > path.basename(b);
             });
         };
 
@@ -479,13 +480,13 @@ module.exports = function (grunt) {
         // because all languages are sorted there is no need to load the same json from file for every same project locale
         var commonLocaleJSON = null;
 
-        for(var i = 0; i < sourceFiles.length; i++) {
+        for (var i = 0; i < sourceFiles.length; i++) {
             var sourceFile = path.basename(sourceFiles[i]);
 
-            if(commonLocale != sourceFile) {
-                for(var j = 0; j < commonFiles.length; j++) {
+            if (commonLocale !== sourceFile) {
+                for (var j = 0; j < commonFiles.length; j++) {
                     var commonFile = path.basename(commonFiles[j]);
-                    if(commonFile === sourceFile) {
+                    if (commonFile === sourceFile) {
                         commonLocale = commonFile;
                         commonLocaleJSON = grunt.file.readJSON(commonFiles[j]);
                         break;
@@ -543,12 +544,14 @@ module.exports = function (grunt) {
         'clean:server',
         'concurrent:test',
         'autoprefixer',
+        'jshint:test',
         'karma:unit'
     ]);
 
     // server tests
     grunt.registerTask('test:server', [
         'clean:test',
+        'jshint:test',
         'jasmine_node'
     ]);
 
