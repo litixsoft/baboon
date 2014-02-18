@@ -3,20 +3,28 @@
 angular.module('admin', [
         'ngRoute',
         'ui.bootstrap',
-        'common.nav'
+        'common.nav',
+        'pascalprecht.translate'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider) {
+    .config(function ($routeProvider, $locationProvider, $translateProvider, navigationProvider) {
         $routeProvider
             .when('/admin', {
                 templateUrl: 'app/admin/admin.html',
-                controller: 'AdminCtrl',
-                app: 'admin'
+                controller: 'AdminCtrl'
             })
             .otherwise({
                 redirectTo: '/'
             });
 
         $locationProvider.html5Mode(true);
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: '/locale/admin/locale/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('de-de');
+        $translateProvider.fallbackLanguage('de-de');
         navigationProvider.setCurrentApp('admin');
     })
     .controller('AdminCtrl', function ($scope, $http) {

@@ -1,0 +1,20 @@
+{
+    "LANGUAGE_SELECT": "Deutsch",
+    "LOCALIZATION_HEADER": "Beispiel für die Übersetzung in baboon!",
+    "LOCALIZATION_INTRO": "Für die Übersetzung in baboon verwenden wir angular-translate. Es folgen ein paar einfache Beispiele. Eine ausführliche Dokumentation findet man hier:",
+    "LOCALIZATION_LINK": "Angular-Translate Dokumentation",
+    "Q1": "Wie wird die Übersetzung konfiguriert?",
+    "Q1_TEXT": "Im config Bereich der Angular app wird die Übersetzung konfiguriert. Wir verwenden für die Übersetzung statische Dateien. Diese befinden sich im Ordner public/locale. Die einzelnen Dateinen sind nach dem Namens-Schema locale-langKey.json gespeichert. Z.B. locale-de.json === deutsche Sprachdatei, locale-en.json === englische Sprachdatei. Angular-translate lädt dann bei Bedarf die Sprachdatei vom Server. Als Standard- und Fallbacksprache ist Englisch ausgewählt.",
+    "Q2": "Wie kann der Benutzer seine Sprache ändern?",
+    "Q2_TEXT": "Der User kann zur Laufzeit die Sprache ändern (siehe Buttons oben als Beispiel). Dabei wird die ausgewählte Sprache in der Session gespeichert.",
+    "Q3": "Wie wird die Sprache dauerhaft geändert?",
+    "Q3_TEXT": "Im Administrations-Bereich kann die Standard Sprache des Benutzers gespeichert werden. Beim Start der Anwendung wird die gespeicherte Sprache des Benutzers serverseitig in die Session geschrieben. Auf dem Client wird dann die Sprache aus der Session geladen.",
+    "Q4": "Wie werden Datums-, Zahlen- und Währungsformatierungen konfiguriert?",
+    "Q4_TEXT": "Für die Datums-, Zahlen- und Währungsformatierungen verwenden wir das Internationalisierungs- und Lokalisierungs-Feature von AngularJS in Verbindung mit dem Modul angular-dynamic-locale. Benötigte Module:",
+    "Q4_TEXT2": "Im config Bereich der Angular app wird das Suchpattern der Lokalisierungsdateien festgelegt. Der Teil {locale} ist der Platzhalter für die tatsächlich ausgewählte Sprache.",
+    "Q4_TEXT3": "Im run Bereich der Angular app wird auf das $translateChangeSuccess Ereignis reagiert, welches von angular-translate nach dem erfolgreichen ändern der Sprache ausgelöst wird. Dabei übergeben wir angular-dynamic-locale die aktuelle Sprache und diese wird, falls notwendig, vom Server dynamisch nachgeladen.",
+    "LOCALIZATION_GERMANY": "Deutschland",
+    "NUMBER_FORMAT": "Zahlenformat",
+    "CURRENCY_FORMAT": "Währungsformat",
+    "DATE_FORMAT": "Datumsformat"
+}

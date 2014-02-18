@@ -18,7 +18,7 @@ angular.module('main', [
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/locale-',
+            prefix: '/locale/main/locale/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en-us');
