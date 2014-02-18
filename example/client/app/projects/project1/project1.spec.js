@@ -9,8 +9,8 @@ describe('App: project1', function () {
 
         inject(function ($route) {
 
-            expect($route.routes['/projects/project1'].controller).toBe('Project1Ctrl');
-            expect($route.routes['/projects/project1'].templateUrl).toEqual('app/projects/project1/project1.html');
+            expect($route.routes['/project1'].controller).toBe('Project1Ctrl');
+            expect($route.routes['/project1'].templateUrl).toEqual('app/projects/project1/project1.html');
 
             // otherwise redirect to
             expect($route.routes[null].redirectTo).toEqual('/');
