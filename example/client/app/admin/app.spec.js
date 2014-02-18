@@ -1,8 +1,6 @@
-
 'use strict';
 
 describe('App: admin', function () {
-
     beforeEach(module('admin'));
 
     it('should map routes', function () {
@@ -21,7 +19,6 @@ describe('App: admin', function () {
     });
 
     it('should html5 mode', function () {
-
         inject(function ($location) {
             expect($location.$$html5).toEqual(true);
         });
@@ -35,6 +32,9 @@ describe('App: admin', function () {
             $httpBackend = _$httpBackend_;
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+
+            $httpBackend.whenGET('/locale/admin/locale/locale-de-de.json').respond(200);
+
             $scope = $rootScope.$new();
             $ctrl = $controller('AdminCtrl', {$scope: $scope});
         }));

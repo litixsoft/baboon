@@ -324,7 +324,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '.tmp/images',
                         dest: '<%= yeoman.server %>/public/assets/images',
-                        src: ['generated/*']
+                        src: ['generated*//*']
                     }
                 ]
             },
@@ -333,6 +333,19 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.client %>',
                 dest: '.tmp/views/',
                 src: ['*.html', '**/index.html', '!assets/**/*']
+            }
+            ,
+            locale_dev: {
+                 expand: true,
+                 cwd: './client/app/',
+                 src: '**//*locale*//*.json',
+                 dest: './.tmp/locale/'
+            },
+            locale_pro: {
+                expand: true,
+                cwd: './client/app/',
+                src: '**//*locale*//*.json',
+                dest: './server/public/locale/'
             }
         },
 
@@ -435,6 +448,56 @@ module.exports = function (grunt) {
                     ext: '.css'
                 }]
             }
+        },
+        "merge-locale": {
+            dev: {
+                common: './client/locale*//*.json',
+                src: './.tmp/locale/**//*locale*//*.json'
+            },
+            pro: {
+                common: './client/locale*//*.json',
+                src: './server/public/locale/**//*locale*//*.json'
+            }
+        }
+    });
+
+    grunt.registerMultiTask('merge-locale', function() {
+        var sourceFiles = grunt.file.expand(this.data.src);
+        var commonFiles = grunt.file.expand(this.data.common);
+
+        var sort = function(ar) {
+            ar.sort(function(a, b) {
+                return path.basename(a) >  path.basename(b);
+            });
+        };
+
+        sort(sourceFiles);
+        sort(commonFiles);
+
+        var commonLocale = null;
+        // saves the common json
+        // because all languages are sorted there is no need to load the same json from file for every same project locale
+        var commonLocaleJSON = null;
+
+        for(var i = 0; i < sourceFiles.length; i++) {
+            var sourceFile = path.basename(sourceFiles[i]);
+
+            if(commonLocale != sourceFile) {
+                for(var j = 0; j < commonFiles.length; j++) {
+                    var commonFile = path.basename(commonFiles[j]);
+                    if(commonFile === sourceFile) {
+                        commonLocale = commonFile;
+                        commonLocaleJSON = grunt.file.readJSON(commonFiles[j]);
+                        break;
+                    }
+                }
+            }
+
+            var sourceLocaleJSON = grunt.file.readJSON(sourceFiles[i]);
+            // deep copy to keep the common json object
+            var commonTemp = grunt.util._.extend({}, commonLocaleJSON);
+            var json = grunt.util._.extend(commonTemp, sourceLocaleJSON);
+            grunt.file.write(sourceFiles[i], JSON.stringify(json, null, '\t'));
         }
     });
 
@@ -451,6 +514,8 @@ module.exports = function (grunt) {
             'clean:server',
             'concurrent:server',
             'autoprefixer',
+            'copy:locale_dev',
+            'merge-locale:dev',
             'express:dev',
             'open:server',
             'watch'
@@ -544,14 +609,18 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'rev',
-        'usemin'
+        'usemin',
+        'copy:locale_pro',
+        'merge-locale:pro'
     ]);
 
     // build development version
     grunt.registerTask('build:dev', [
         'clean:server',
         'concurrent:server',
-        'autoprefixer'
+        'autoprefixer',
+        'copy:locale_dev',
+        'merge-locale:dev'
     ]);
 
     // test all and build productive version
