@@ -1,0 +1,7 @@
+{
+    "title": "ADMIN",
+    "route": "/admin",
+    "roles": ["admins"],
+    "app": "admin",
+    "order": 4
+}

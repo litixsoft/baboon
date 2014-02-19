@@ -1,0 +1,24 @@
+{
+    "title": "HOME",
+    "route": "/",
+    "roles": ["users"],
+    "app": "main",
+    "children": [
+        {
+           "title": "LOCALE",
+           "route": "/localization",
+           "app": "main"
+        },
+        {
+           "title": "ABOUT",
+           "route": "/about",
+           "app": "main"
+        },
+        {
+           "title": "CONTACT",
+           "route": "/contact",
+           "app": "main"
+        }
+    ],
+    "order": "1"
+}

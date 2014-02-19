@@ -459,7 +459,40 @@ module.exports = function (grunt) {
                 common: './client/locale*//*.json',
                 src: './server/public/locale/**//*locale*//*.json'
             }
+        },
+        'merge-nav': {
+            nav: {
+                src: './client/app/**//navigation.json',
+                dest: './.dist/navigation.js'
+            }
         }
+    });
+
+    grunt.registerMultiTask('merge-nav', function() {
+        var ar = [];
+        this.files.forEach(function(file) {
+            file.src.forEach(function (src) {
+                var nav = grunt.file.readJSON(src);
+                ar.push(nav);
+            });
+        });
+
+        ar.sort(function(a, b) {
+            var ao = parseInt(a.order) || 999;
+            var bo = parseInt(b.order) || 999;
+            return ao > bo;
+        });
+
+        var json = [];
+        ar.forEach(function(a) {
+            json.push(JSON.stringify(a, null, '\t'));
+        });
+
+        var content = '\'use strict\';\nmodule.exports = function () {\nreturn [\n';
+        content += json.join(',');
+        content += '\n];\n};';
+
+        grunt.file.write(this.data.dest, content);
     });
 
     grunt.registerMultiTask('merge-locale', function () {
@@ -517,6 +550,7 @@ module.exports = function (grunt) {
             'autoprefixer',
             'copy:locale_dev',
             'merge-locale:dev',
+            'merge-nav:nav',
             'express:dev',
             'open:server',
             'watch'
@@ -614,7 +648,8 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'copy:locale_pro',
-        'merge-locale:pro'
+        'merge-locale:pro',
+        'merge-nav:nav'
     ]);
 
     // build development version
@@ -623,7 +658,8 @@ module.exports = function (grunt) {
         'concurrent:server',
         'autoprefixer',
         'copy:locale_dev',
-        'merge-locale:dev'
+        'merge-locale:dev',
+        'merge-nav:nav'
     ]);
 
     // test all and build productive version

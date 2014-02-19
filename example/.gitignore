@@ -1,6 +1,7 @@
 .idea
 .reports
 .tmp
+.dist
 client/assets/bower_components
 node_modules
 server/public
