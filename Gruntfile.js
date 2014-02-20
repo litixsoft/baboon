@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            jasmine: ['.reports/tests', '.tmp'],
+            jasmine: ['.reports/test', '.tmp'],
             lint: ['.reports/lint'],
             coverage: ['.reports/coverage', '.tmp'],
             node_modules: ['node_modules'],
@@ -93,7 +93,7 @@ module.exports = function (grunt) {
             forceExit: true,
             jUnit: {
                 report: true,
-                savePath: '.reports/tests/',
+                savePath: '.reports/test/',
                 useDotNotation: true,
                 consolidate: true
             }

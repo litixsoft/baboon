@@ -31,15 +31,14 @@ describe('Module: main.localization', function () {
             expect($scope.sampleCurrency).toBeDefined();
         });
 
-        it('should change the language', function() {
-            runs(function() {
-                expect(translate.uses()).toBe('en-us');
-                $scope.changeLanguage('de-de');
-            });
+        it('should change the language', function(done) {
+            expect(translate.uses()).toBe('en-us');
+            $scope.changeLanguage('de-de');
 
-            runs(function() {
+            setTimeout(function() {
                 expect(translate.uses()).toBe('de-de');
-            });
+                done();
+            }, 200);
         });
     });
 });

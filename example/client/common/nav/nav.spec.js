@@ -71,31 +71,20 @@ describe('Common: common.nav', function () {
                 $navigation = navigation;
             });
 
-
-            runs(function() {
-                $flag = false;
-
-                $navigation.getTree(function (error, result) {
-                    $error = error;
-                    $value = result;
-                    $flag = true;
-                });
+            $navigation.getTree(function (error, result) {
+                $error = error;
+                $value = result;
+                $flag = true;
             });
 
-            waitsFor(function() {
-                $httpBackend.flush();
-                return $flag;
-            }, 'The Value should be array', 750);
+            $httpBackend.flush();
 
-
-            runs(function() {
-                expect($navigation.getCurrentApp()).toBe('test');
-                expect($value.length).toBeGreaterThan(0);
-                expect($value[0].title).toBe('TEST');
-                expect($value[0].route).toBe('/test');
-                expect($value[0].app).toBe('unitTest');
-                expect($error).toBe(null);
-            });
+            expect($navigation.getCurrentApp()).toBe('test');
+            expect($value.length).toBeGreaterThan(0);
+            expect($value[0].title).toBe('TEST');
+            expect($value[0].route).toBe('/test');
+            expect($value[0].app).toBe('unitTest');
+            expect($error).toBe(null);
         });
 
 //        it('getTree should be return an error', function () {
