@@ -29,6 +29,15 @@ angular.module('common.nav', [])
             var pub = {};
 
             /**
+             * Get the current app
+             *
+             * @returns {*}
+             */
+            pub.getCurrentApp = function () {
+                return currentApp;
+            };
+
+            /**
              * Get navigation tree
              *
              * @param callback

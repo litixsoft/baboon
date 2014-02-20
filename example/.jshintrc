@@ -32,6 +32,7 @@
         "spyOn": false,
         "element": false,
         "by": false,
-        "runs": false
+        "runs": false,
+        "waitsFor": false
     }
 }
