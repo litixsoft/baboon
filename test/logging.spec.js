@@ -5,14 +5,14 @@ describe('Logging', function () {
     var path = require('path');
     var log4js = require('log4js');
     var fs = require('fs');
-    var mockHelper = require('./mocks/mockHelper');
+    var appMock = require('./mocks/appMock')();
     var rootPath = path.resolve(__dirname, '../');
     var tmpPath = path.resolve(rootPath, '.tmp');
     var config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config:'unitTest'});
     config.path.logs = tmpPath;
     var log = require(path.resolve(rootPath, 'lib', 'logging'));
-    var captureStream = mockHelper.captureStream;
-    var trim = mockHelper.trimConsole;
+    var captureStream = appMock.captureStream;
+    var trim = appMock.trimConsole;
 
 
     it('should throw an Error when not given params', function () {

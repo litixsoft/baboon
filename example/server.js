@@ -3,9 +3,10 @@
 // Module dependencies.
 var path = require('path');
 var express = require('express');
-
 var rootPath = __dirname;
-var baboon = require('../lib/baboon')(rootPath);
+
+
+var baboon = require('../lib/baboon')(rootPath, argv);
 var app = express();
 var api = require('./server/routes/api');
 var index = require('./server/routes');
