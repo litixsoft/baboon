@@ -37,6 +37,11 @@ describe('Config', function () {
         expect(sut.protocol).toBe('https');
     });
 
+    it('should be the correct livereload settings in the config', function() {
+        var sut = config(rootPath, {livereload:true});
+        expect(sut.livereload).toBe(true);
+    });
+
     it('should return the production settings when not given option --config', function() {
         var sut = config(rootPath,{});
 

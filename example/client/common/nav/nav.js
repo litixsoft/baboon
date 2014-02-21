@@ -49,6 +49,10 @@ angular.module('common.nav', [])
                         .success(function (navigation) {
                             navTree = navigation;
                             callback(null, navigation);
+                        })
+                        .error(function (data, status, headers, config) {
+                            var error = {data: data, status: status, headers: headers, config: config};
+                            callback(error);
                         });
                 }
                 else {
@@ -68,6 +72,10 @@ angular.module('common.nav', [])
                         .success(function (navigation) {
                             navList = navigation;
                             callback(null, navigation);
+                        })
+                        .error(function (data, status, headers, config) {
+                            var error = {data: data, status: status, headers: headers, config: config};
+                            callback(error);
                         });
                 }
                 else {
@@ -87,6 +95,10 @@ angular.module('common.nav', [])
                         .success(function (navigation) {
                             navTop = navigation;
                             callback(null, navigation);
+                        })
+                        .error(function (data, status, headers, config) {
+                            var error = {data: data, status: status, headers: headers, config: config};
+                            callback(error);
                         });
                 }
                 else {
@@ -107,6 +119,10 @@ angular.module('common.nav', [])
                         .success(function (navigation) {
                             navSubTree = navigation;
                             callback(null, navigation);
+                        })
+                        .error(function (data, status, headers, config) {
+                            var error = {data: data, status: status, headers: headers, config: config};
+                            callback(error);
                         });
                 }
                 else {
@@ -127,6 +143,10 @@ angular.module('common.nav', [])
                         .success(function (navigation) {
                             navSubList = navigation;
                             callback(null, navigation);
+                        })
+                        .error(function (data, status, headers, config) {
+                            var error = {data: data, status: status, headers: headers, config: config};
+                            callback(error);
                         });
                 }
                 else {
