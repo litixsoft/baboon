@@ -4,9 +4,7 @@
 var path = require('path');
 var express = require('express');
 var rootPath = __dirname;
-
-
-var baboon = require('../lib/baboon')(rootPath, argv);
+var baboon = require('../lib/baboon')(rootPath);
 var app = express();
 var api = require('./server/routes/api');
 var index = require('./server/routes');
