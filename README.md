@@ -1,4 +1,4 @@
-# baboon [![Build Status](https://travis-ci.org/litixsoft/baboon.png?branch=master)](https://travis-ci.org/litixsoft/baboon) [![david-dm](https://david-dm.org/litixsoft/baboon.png)](https://david-dm.org/litixsoft/baboon/) [![david-dm](https://david-dm.org/litixsoft/baboon/dev-status.png)](https://david-dm.org/litixsoft/baboon#info=devDependencies&view=table)
+# baboon [![Build Status](https://travis-ci.org/litixsoft/baboon.png?branch=0.4)](https://travis-ci.org/litixsoft/baboon) [![david-dm](https://david-dm.org/litixsoft/baboon.png)](https://david-dm.org/litixsoft/baboon/) [![david-dm](https://david-dm.org/litixsoft/baboon/dev-status.png)](https://david-dm.org/litixsoft/baboon#info=devDependencies&view=table)
 
 Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.
 
