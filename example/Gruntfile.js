@@ -78,10 +78,14 @@ module.exports = function (grunt) {
                 url: 'http://<%= express.options.host %>:<%= express.options.port %>'
             },
             coverageClient: {
-                path: path.join(__dirname, getCoverageReport('.reports/coverage/client/'))
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/client/'));
+                }
             },
             coverageServer: {
-                path: path.join(__dirname, getCoverageReport('.reports/coverage/server/'))
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/server/'));
+                }
             }
         },
         watch: {

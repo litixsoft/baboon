@@ -83,7 +83,9 @@ module.exports = function (grunt) {
         },
         open: {
             coverage: {
-                path: path.join(__dirname, getCoverageReport('.reports/coverage/'))
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/'));
+                }
             }
         },
         jasmine_node: {
