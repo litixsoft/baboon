@@ -22,7 +22,7 @@ angular.module('project1', [
         navigationProvider.setCurrentApp('project1');
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/projects/project1/locale/locale-',
+            prefix: '/locale/projects/project1/locale-',
             suffix: '.json'
         });
 

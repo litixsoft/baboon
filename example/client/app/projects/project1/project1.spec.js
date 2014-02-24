@@ -32,7 +32,7 @@ describe('App: project1', function () {
             $httpBackend = _$httpBackend_;
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
-            $httpBackend.whenGET('/locale/projects/project1/locale/locale-en-us.json').respond(200);
+            $httpBackend.whenGET('/locale/projects/project1/locale-en-us.json').respond(200);
             $scope = $rootScope.$new();
             $ctrl = $controller('Project1Ctrl', {$scope: $scope});
         }));

@@ -19,7 +19,7 @@ angular.module('admin', [
         $locationProvider.html5Mode(true);
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/admin/locale/locale-',
+            prefix: '/locale/admin/locale-',
             suffix: '.json'
         });
 

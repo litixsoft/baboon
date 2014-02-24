@@ -341,14 +341,22 @@ module.exports = function (grunt) {
             locale_dev: {
                 expand: true,
                 cwd: './client/app/',
-                src: '**//*locale*//*.json',
-                dest: './.tmp/locale/'
+                src: '**//_locale/*.json',
+                dest: './.tmp/locale/',
+                rename: function(dest, src) {
+                    var modulePath = src.substring(0, src.indexOf('/_locale'));
+                    return path.resolve(dest, modulePath, path.basename(src));
+                }
             },
             locale_pro: {
                 expand: true,
                 cwd: './client/app/',
-                src: '**//*locale*//*.json',
-                dest: './server/public/locale/'
+                src: '**//_locale//*.json',
+                dest: './server/public/locale/',
+                rename: function(dest, src) {
+                    var modulePath = src.substring(0, src.indexOf('/_locale'));
+                    return path.resolve(dest, modulePath, path.basename(src));
+                }
             }
         },
 
@@ -457,11 +465,11 @@ module.exports = function (grunt) {
         'merge-locale': {
             dev: {
                 common: './client/locale*//*.json',
-                src: './.tmp/locale/**//*locale*//*.json'
+                src: './.tmp/locale/**//*.json'
             },
             pro: {
                 common: './client/locale*//*.json',
-                src: './server/public/locale/**//*locale*//*.json'
+                src: './server/public/locale/**//*.json'
             }
         },
         'merge-nav': {

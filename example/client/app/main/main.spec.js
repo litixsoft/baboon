@@ -60,7 +60,7 @@ describe('App main', function () {
                 'pluralCat': 'one'
             }
         );
-        $httpBackend.whenGET('/locale/main/locale/locale-en-us.json').respond(200);
+        $httpBackend.whenGET('/locale/main/locale-en-us.json').respond(200);
     }));
 
     it('should map routes', function () {

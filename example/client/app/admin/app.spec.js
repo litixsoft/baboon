@@ -30,7 +30,7 @@ describe('App: admin', function () {
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
-            $httpBackend.whenGET('/locale/admin/locale/locale-de-de.json').respond(200);
+            $httpBackend.whenGET('/locale/admin/locale-de-de.json').respond(200);
 
             $scope = $rootScope.$new();
             $ctrl = $controller('AdminCtrl', {$scope: $scope});
