@@ -47,6 +47,20 @@ module.exports = function () {
                         appender: 'file'
                     }
                 }
+            },
+            mail: {
+                /*
+                    host - hostname of the SMTP server (defaults to "localhost")
+                    port - port of the SMTP server (defaults to 25, not needed with service)
+                    useSsl - use SSL (default is false). If you're using port 587 then keep secureConnection false, since the connection is started in insecure plain text mode and only later upgraded with STARTTLS
+                    auth - authentication object as {user:"...", pass:"..."} or {XOAuth2: {xoauth2_options}} or {XOAuthToken: "base64data"}
+                    ignoreTLS - ignore server support for STARTTLS (defaults to false)
+                    debug - output client and server messages to console
+                    maxConnections - how many connections to keep in the pool (defaults to 5)
+                    maxMessages - limit the count of messages to send through a single connection (no limit by default)
+                */
+                type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
+                directory: 'C:/Temp/Mail' // required for type PICKUP
             }
         };
     };
@@ -88,6 +102,10 @@ module.exports = function () {
         var settings = config.production();
         settings.node_env = 'development';
         settings.logging.appenders.db = 'localhost:27017/test_baboon_logs';
+
+        settings.mail.directory = 'C:/Temp/Mail';
+        settings.mail.type = 'PICKUP';
+
         return settings;
     };
 
