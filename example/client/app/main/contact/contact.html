@@ -1,25 +1,29 @@
 <div ng-include="'common/nav/nav.html'"></div>
 
-<div class="jumbotron">
-    <h1>'Allo, 'Allo!</h1>
-    <h3>{{view}}</h3>
+<div class="content beige-noise">
+    <div class="p-wrapper">
+        <div class="jumbotron">
+            <h1>'Allo, 'Allo!</h1>
+            <h3>{{view}}</h3>
 
-    <p class="lead">
-        <img src="assets/images/yeoman.png" alt="I'm Yeoman" width="103" height="89"><br>
-        Always a pleasure scaffolding your apps.
-    </p>
+            <p class="lead">
+                <img src="assets/images/yeoman.png" alt="I'm Yeoman" width="103" height="89"><br>
+                Always a pleasure scaffolding your apps.
+            </p>
 
-    <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
+            <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+        </div>
 
-<div class="row marketing">
-    <div ng-repeat="thing in awesomeThings">
-        <h4>{{thing.name}}</h4>
+        <div class="row marketing">
+            <div ng-repeat="thing in awesomeThings">
+                <h4>{{thing.name}}</h4>
 
-        <p>{{thing.info}}</p>
+                <p>{{thing.info}}</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>♥ from the Baboon team</p>
+        </div>
     </div>
-</div>
-
-<div class="footer">
-    <p>♥ from the Baboon team</p>
 </div>

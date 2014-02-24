@@ -24,8 +24,10 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+    <div id="singlepageFrame" class="ng-cloak">
+        <!-- Add your site or application content here -->
+        <div class="container" ng-view=""></div>
+    </div>
 
     <!--[if lt IE 9]>
     <script src="assets/bower_components/es5-shim/es5-shim.js"></script>

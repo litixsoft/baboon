@@ -1,9 +1,11 @@
-<div class="header" style="text-align:center" ng-controller="CommonNavCtrl">
-    <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
-  <ul class="nav nav-pills">
-    <li ng-repeat="item in menu" ng-class="{active: isActive(item.route)}">
-        <a ng-if="item.target" ng-href="{{item.route}}" target="{{item.target}}">{{item.title | translate }}</a>
-        <a ng-if="!item.target" ng-href="{{item.route}}">{{item.title | translate }}</a>
-    </li>
-  </ul>
+<div class="header" ng-controller="CommonNavCtrl">
+    <div class="p-wrapper">
+        <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
+        <ul class="nav nav-pills">
+            <li ng-repeat="item in menu" ng-class="{active: isActive(item.route)}">
+                <a ng-if="item.target" ng-href="{{item.route}}" target="{{item.target}}">{{item.title | translate }}</a>
+                <a ng-if="!item.target" ng-href="{{item.route}}">{{item.title | translate }}</a>
+            </li>
+        </ul>
+    </div>
 </div>
