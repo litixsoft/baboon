@@ -39,7 +39,7 @@
         <div hljs>$scope.changeLanguage = function (langKey)
  {
     // tell angular-translate to use the new language
-    $translate.uses(langKey);
+    $translate.use(langKey);
 
     // save selected language in session
     session.setData('language', langKey);
@@ -56,11 +56,11 @@
         if (error) {
             // detect language of browser
             var browserLanguage = $window.navigator.language || $window.navigator.userLanguage;
-            $translate.uses(browserLanguage.substring(0, 2));
+            $translate.use(browserLanguage.toLowerCase());
         }
         else {
             // use language
-            $translate.uses(result.language);
+            $translate.use(result.language);
         }
     });
 }]);</div>
@@ -92,7 +92,7 @@
         <div hljs>run(function ($rootScope, $translate, tmhDynamicLocale)
  {
     $rootScope.$on('$translateChangeSuccess', function() {
-        tmhDynamicLocale.set($translate.uses());
+        tmhDynamicLocale.set($translate.use());
     });
 })</div>
         <div class="panel panel-default">

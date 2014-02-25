@@ -27,7 +27,6 @@ angular.module('main', [
     })
     .run(function ($rootScope, $translate, tmhDynamicLocale) {
         $rootScope.$on('$translateChangeSuccess', function() {
-            tmhDynamicLocale.set($translate.uses());
+            tmhDynamicLocale.set($translate.use());
         });
-        
     });

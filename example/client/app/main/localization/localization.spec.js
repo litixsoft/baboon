@@ -20,7 +20,7 @@ describe('Module: main.localization', function () {
 
         beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, $translate) {
             translate = $translate;
-            translate.uses('en-us');
+            translate.use('en-us');
             $scope = $rootScope.$new();
             $ctrl = $controller('MainLocalizationCtrl', {$scope: $scope});
         }));
@@ -32,11 +32,11 @@ describe('Module: main.localization', function () {
         });
 
         it('should change the language', function(done) {
-            expect(translate.uses()).toBe('en-us');
+            expect(translate.use()).toBe('en-us');
             $scope.changeLanguage('de-de');
 
             setTimeout(function() {
-                expect(translate.uses()).toBe('de-de');
+                expect(translate.use()).toBe('de-de');
                 done();
             }, 200);
         });
