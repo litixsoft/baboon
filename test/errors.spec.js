@@ -61,4 +61,20 @@ describe('Errors', function () {
         expect(error instanceof NavigationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+    it('should throw an MailError with message', function() {
+        var MailError = errors.MailError;
+        var error = new MailError('MailTestError');
+
+        expect(error.message).toBe('MailTestError');
+        expect(error instanceof MailError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an MailError without message', function() {
+        var MailError = errors.MailError;
+        var error = new MailError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof MailError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
 });
