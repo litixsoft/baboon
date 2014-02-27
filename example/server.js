@@ -15,11 +15,23 @@ var config = baboon.config;
 var navigation = baboon.navigation;
 
 app.configure('development', function () {
+    var fs = require('fs');
 
     // Enable livereload
     if (config.livereload) {
         app.use(require('connect-livereload')());
     }
+
+    app.use('/bbc_modules', function(req, res) {
+        var modulePath = req.url.substring(req.url.indexOf('/bbc_modules/'));
+        var filePath = path.resolve(path.join('../lib/client/bbc_modules',  modulePath));
+        if(!fs.existsSync(filePath)) {
+            res.send(404);
+        }
+        else {
+            res.sendfile(filePath);
+        }
+    });
 
     // Disable caching of scripts for easier testing
     app.use(function noCache(req, res, next) {
