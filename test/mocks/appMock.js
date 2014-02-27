@@ -10,37 +10,75 @@ module.exports = function () {
         info: logging,
         warn: logging,
         error: logging,
-        fatal: logging
+        fatal: logging,
+        isLevelEnabled: function () {
+            return true;
+        }
     };
 
-    var trimConsole = function(msg) {
-        return msg.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ');
+
+    var trimConsole = function (msg) {
+        return msg.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g, '').replace(/\s+/g, ' ');
     };
 
-    var captureStream = function(stream) {
+    var captureStream = function (stream) {
         var oldWrite = stream.write;
         var buf = '';
-        stream.write = function(chunk ){
+        stream.write = function (chunk) {
             buf += chunk.toString(); // chunk is a String or Buffer
             oldWrite.apply(stream, arguments);
         };
 
         return {
-            unhook: function unhook(){
+            unhook: function unhook() {
                 stream.write = oldWrite;
             },
-            captured: function(){
+            captured: function () {
                 return buf.split('\n');
             }
         };
     };
 
+    // result mock object
+    var res = {
+        statusCode: 200,
+        header: '',
+        data: {},
+        setHeader: function (header) {
+            res.header = header;
+        },
+        end: function (value) {
+            res.data = value;
+        },
+        send: function (status, data) {
+            return {
+                status: status,
+                data: data
+            };
+        },
+        json: function (value) {
+            return value;
+        }
+    };
+
+    // request mock object
+    var req = {
+        body: {
+            current: 'main',
+            top: 'main'
+        }
+    };
+
+
     return {
         logging: {
             syslog: syslog,
-            audit: syslog
+            audit: syslog,
+            express: syslog
         },
         trimConsole: trimConsole,
-        captureStream: captureStream
+        captureStream: captureStream,
+        res: res,
+        req: req
     };
 };

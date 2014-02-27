@@ -2,6 +2,7 @@
 
 // Module dependencies.
 var path = require('path');
+var log4js = require('log4js');
 var express = require('express');
 var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath);
@@ -31,7 +32,7 @@ app.configure('development', function () {
         next();
     });
 
-    app.use(baboon.getConnectLogger(loggers.express));
+    app.use(log4js.connectLogger(loggers.express, {level: 'auto', format: ':status :method :url'}));
     app.use(express.static(path.join(rootPath, '.tmp')));
     app.use(express.static(path.join(rootPath, 'client')));
     app.set('views', rootPath + '/.tmp/views');
@@ -51,7 +52,7 @@ app.configure('production', function () {
         next();
     });
 
-    app.use(baboon.getConnectLogger(loggers.express));
+    app.use(log4js.connectLogger(loggers.express, {level: 'auto'}));
     app.use(express.favicon(path.join(rootPath, 'server', 'public', 'favicon.ico'), {maxAge:oneMonth}));
     app.use(express.static(path.join(rootPath, 'server', 'public'), {maxAge:oneMonth}));
     app.set('views', rootPath + '/server/views');
