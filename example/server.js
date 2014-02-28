@@ -1,11 +1,19 @@
 'use strict';
+var stdio = require('stdio');
+
+var argv = stdio.getopt({
+    'config': {key: 'c', args:1, description: 'Use the specified config section'},
+    'port': {args:1, description: 'Use the specified port'},
+    'protocol': {args:1, description: 'Use the specified protocol'},
+    'livereload': {description: 'Use livereload snippet for client'}
+});
 
 // Module dependencies.
 var path = require('path');
 var log4js = require('log4js');
 var express = require('express');
 var rootPath = __dirname;
-var baboon = require('../lib/baboon')(rootPath);
+var baboon = require('../lib/baboon')(rootPath, argv);
 var app = express();
 var api = require('./server/routes/api');
 var index = require('./server/routes');
