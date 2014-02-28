@@ -180,9 +180,12 @@ describe('Middleware/Navigation', function () {
 
             var nav = navArr[1];
             expect(nav.title).toBe('ABOUT');
+
+            nav = navArr[3];
+            expect(nav.title).toBe('EDIT');
         });
 
-        it('should return an empty navigation from a top level which does not exists', function () {
+        it('should return an undefined from a top level which does not exists', function () {
             req = mock.req;
             res = mock.res;
 
@@ -192,7 +195,7 @@ describe('Middleware/Navigation', function () {
             expect(navArr).toBeUndefined();
         });
 
-        it('should return the main sub navigation from a top level with param "req.body.current" = null', function () {
+        it('should return an undefined from a top level with param "req.body.current" = null', function () {
             req = mock.req;
             res = mock.res;
 
