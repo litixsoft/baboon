@@ -35,10 +35,10 @@ describe('Baboon', function () {
             sut = baboon(rootPath, {config: 'development'});
         });
 
-        it('should throw error if wrong transport protocol in config is defined', function () {
+        it('should throw an error if wrong transport protocol in config is defined', function () {
             sut.config.protocol = 'abc';
-            var f = function () {sut.serverListen(null);};
-            expect(f).toThrow();
+            var func = function () {sut.serverListen(null);};
+            expect(func).toThrow();
         });
 
         it('should be startet in http mode', function (done) {
