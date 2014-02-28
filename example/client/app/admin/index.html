@@ -28,16 +28,29 @@
         your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ng-include="'common/nav/nav.html'"></div>
+    <div ng-include="'common/nav/nav.html'" class="top-nav"></div>
 
     <div id="singlepageFrame" class="ng-cloak">
         <!-- Add your site or application content here -->
-        <div class="container" ng-view=""></div>
+        <div class="layout-content">
+            <div class="col-left">
+                Left Column
+            </div>
+            <div class="col-right">
+                Right Column
+            </div>
+            <div class="col-center">
+                <div class="view-container">
+                    <div class="container" ng-view=""></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
         <p>♥ from the Baboon team</p>
     </div>
+
     <!--[if lt IE 9]>
     <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
     <script src="assets/bower_components/json3/lib/json3.min.js"></script>
