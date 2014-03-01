@@ -61,9 +61,9 @@ app.configure('production', function () {
     });
 
     app.use(log4js.connectLogger(loggers.express, {level: 'auto'}));
-    app.use(express.favicon(path.join(rootPath, 'server', 'public', 'favicon.ico'), {maxAge:oneMonth}));
-    app.use(express.static(path.join(rootPath, 'server', 'public'), {maxAge:oneMonth}));
-    app.set('views', rootPath + '/server/views');
+    app.use(express.favicon(path.join(rootPath, '.dist', 'public', 'favicon.ico'), {maxAge:oneMonth}));
+    app.use(express.static(path.join(rootPath, '.dist', 'public'), {maxAge:oneMonth}));
+    app.set('views', rootPath + '/.dist/views');
 });
 
 app.configure(function () {
