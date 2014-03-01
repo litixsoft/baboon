@@ -127,5 +127,24 @@ module.exports = function () {
         return settings;
     };
 
+    /**
+     * The e2eTest production configuration
+     * E2ETest inherits all settings of the development.
+     * These can be changed, overwritten or extended.
+     *
+     * @returns {Object} config
+     */
+    config.e2eProductionTest = function() {
+
+        // Config contains all settings from development.
+        var settings = config.development();
+
+        // overwrite the settings for this configuration
+        settings.port = 3003;
+        settings.node_env = 'production';
+
+        return settings;
+    };
+
     return config;
 };
