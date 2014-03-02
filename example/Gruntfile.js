@@ -195,9 +195,8 @@ module.exports = function (grunt) {
                         dot: true,
                         src: [
                             '.tmp',
-                            '<%= yeoman.server %>/views/*',
-                            '<%= yeoman.server %>/public/*',
-                            '!<%= yeoman.server %>/public/.git*'
+                            '<%= yeoman.dist %>/views/*',
+                            '<%= yeoman.dist %>/public/*'
                         ]
                     }
                 ]
@@ -206,9 +205,7 @@ module.exports = function (grunt) {
             coverage_server: '.reports/coverage/server',
             test: '.reports/test',
             jshint: '.reports/jshint',
-            server: '.tmp',
-            bower: ['<%= bowerrc.directory %>'],
-            node_modules: ['node_modules']
+            server: '.tmp'
         },
 
         // Add vendor prefixed styles
@@ -252,7 +249,7 @@ module.exports = function (grunt) {
             }
         },
 
-        // Performs rewrites based on rev and the useminPrepare configuration
+        // Performs rewrites based on rev and the usemin Prepare configuration
         usemin: {
             html: ['<%= yeoman.dist %>/views/**/*.html'],
             css: ['<%= yeoman.dist %>/public/styles/**/*.css'],

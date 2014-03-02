@@ -146,5 +146,28 @@ module.exports = function () {
         return settings;
     };
 
+    /**
+     * The e2eTest production configuration
+     * E2ETest inherits all settings of the development.
+     * These can be changed, overwritten or extended.
+     *
+     * @returns {Object} config
+     */
+    config.productionLog = function() {
+
+        // Config contains all settings from development.
+        var settings = config.production();
+
+        // overwrite the settings for this configuration
+        settings.logging.loggers.audit.level = 'DEBUG';
+        settings.logging.loggers.audit.appender = 'console';
+        settings.logging.loggers.syslog.level = 'DEBUG';
+        settings.logging.loggers.syslog.appender = 'console';
+        settings.logging.loggers.express.level = 'DEBUG';
+        settings.logging.loggers.express.appender = 'console';
+
+        return settings;
+    };
+
     return config;
 };
