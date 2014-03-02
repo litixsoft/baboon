@@ -11,7 +11,7 @@ describe('App: admin', function () {
             expect($route.routes['/admin'].templateUrl).toEqual('app/admin/admin.html');
 
             // otherwise redirect to
-            expect($route.routes[null].redirectTo).toEqual('/');
+            expect($route.routes[null].redirectTo).toEqual('/admin');
         });
     });
 

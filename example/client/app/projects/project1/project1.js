@@ -15,7 +15,7 @@ angular.module('project1', [
                 app: 'project1'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/project1'
             });
 
         $locationProvider.html5Mode(true);

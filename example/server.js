@@ -16,7 +16,7 @@ var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath, argv);
 var app = express();
 var api = require('./server/routes/api');
-var index = require('./server/routes');
+var routes = require('./server/routes');
 
 var oneMonth = 2592000000;
 var loggers = baboon.loggers;
@@ -89,13 +89,15 @@ app.post('/api/navigation/getTopList', navigation.getTopList);
 app.post('/api/navigation/getList', navigation.getList);
 app.post('/api/navigation/getTree', navigation.getTree);
 
-// Toplevel Routes
-app.get('/admin', index.admin);
-app.get('/project1', index.projects);
+// App routes
+app.get('/admin', routes.admin);
+app.get('/admin/*', routes.admin);
+app.get('/project1', routes.projects);
+app.get('/project1/*', routes.projects);
 
-// Angular Routes
-app.get('/*.html', index.partials);
-app.get('/*', index.index);
+// Angular routes
+app.get('/*.html', routes.partials);
+app.get('/*', routes.index);
 
 // Start server
 baboon.serverListen(app);
