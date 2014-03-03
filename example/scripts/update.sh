@@ -1,7 +1,7 @@
 #!/bin/sh
 
 rm -R node_modules
-rm -R bower_components
+rm -R client/assets/bower_components
 
 npm install
 bower install
