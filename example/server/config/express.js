@@ -27,7 +27,9 @@ module.exports = function(app, baboon) {
         // Disable caching of scripts for easier testing
         app.use(function noCache(req, res, next) {
 
-            if (req.url.indexOf('/assets/') === -1 && req.url.indexOf('/api/') === -1) {
+            if (req.url.indexOf('/app/') === 0 || req.url.indexOf('/common/') === 0 ||
+                req.url.indexOf('/api/') === 0 || req.url.indexOf('/assets/') === 0) {
+
                 res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
                 res.header('Pragma', 'no-cache');
                 res.header('Expires', 0);

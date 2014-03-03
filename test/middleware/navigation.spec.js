@@ -6,7 +6,7 @@ describe('Middleware/Navigation', function () {
     var rootPath = path.resolve(path.join(__dirname, '../../'));
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var navigation = require(path.resolve(path.join(rootPath, 'lib', 'middleware', 'navigation')));
-    var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', '.dist', 'navigation'));
+    var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
     var sut, req, res, mock;
 
     beforeEach(function () {
@@ -124,7 +124,7 @@ describe('Middleware/Navigation', function () {
         });
 
         it('should return a sub navigation from a top level', function () {
-            req.body.top = 'HOME';
+            req.body.top = '/';
 
             var navArr = sut.getSubTree(req, res);
             expect(navArr.length).toBe(3);
@@ -142,7 +142,7 @@ describe('Middleware/Navigation', function () {
 
         it('should return the main sub navigation from a top level with param "req.body.current" = null', function () {
             req.body.current = null;
-            req.body.top = 'HOME';
+            req.body.top = '/';
 
             var navArr = sut.getSubTree(req, res);
             expect(navArr.length).toBe(3);
@@ -166,7 +166,7 @@ describe('Middleware/Navigation', function () {
         });
 
         it('should return a sub navigation from a top level', function () {
-            req.body.top = 'HOME';
+            req.body.top = '/';
 
             var navArr = sut.getSubList(req, res);
             expect(navArr.length).toBe(4);
@@ -178,16 +178,17 @@ describe('Middleware/Navigation', function () {
             expect(nav.title).toBe('EDIT');
         });
 
-        it('should return an undefined from a top level which does not exists', function () {
-            req.body.top = 'ABC';
+        it('should return an empty arr from a top level which does not exists', function () {
+            req.body.top = '/notexists';
 
             var navArr = sut.getSubList(req, res);
-            expect(navArr).toBeUndefined();
+            expect(navArr).toBeDefined();
+            expect(navArr.length).toBe(0);
         });
 
         it('should return the main top level including sublist with param "req.body.current" = null', function () {
             req.body.current = null;
-            req.body.top = 'HOME';
+            req.body.top = '/';
 
             var navArr = sut.getSubList(req, res);
             expect(navArr.length).toBe(4);

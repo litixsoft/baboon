@@ -1,11 +1,26 @@
-
 'use strict';
 
 angular.module('common.nav', [])
     .controller('CommonNavCtrl', function ($scope, $location, navigation) {
 
-        navigation.getList(function(error, navList) {
-            $scope.menu = navList;
+        navigation.getTopList(function (error, navList) {
+
+            if (error || navList.length === 0) {
+                $scope.menuTopList = [];
+            }
+            else {
+                $scope.menuTopList = navList;
+            }
+        });
+
+        navigation.getSubList($location.path(), function (error, navList) {
+
+            if (error || navList.length === 0) {
+                $scope.menuSubList = [];
+            }
+            else {
+                $scope.menuSubList = navList;
+            }
         });
 
         $scope.isActive = function (route) {
@@ -15,17 +30,18 @@ angular.module('common.nav', [])
     .provider('navigation', function () {
 
         var currentApp;
-        var navList;
-        var navTree;
-        var navTop;
-        var navSubList;
-        var navSubTree;
 
-        this.setCurrentApp = function(current) {
+        /**
+         * Set navigation with current app and root title
+         *
+         * @param current
+         * @param root {string} title for route /
+         */
+        this.setCurrentApp = function (current) {
             currentApp = current;
         };
 
-        this.$get = function($http) {
+        this.$get = function ($http) {
             var pub = {};
 
             /**
@@ -44,20 +60,14 @@ angular.module('common.nav', [])
              */
             pub.getTree = function (callback) {
 
-                if (!navTree) {
-                    $http.post('/api/navigation/getTree', {current: currentApp})
-                        .success(function (navigation) {
-                            navTree = navigation;
-                            callback(null, navigation);
-                        })
-                        .error(function (data, status, headers, config) {
-                            var error = {data: data, status: status, headers: headers, config: config};
-                            callback(error);
-                        });
-                }
-                else {
-                    callback(null, navTree);
-                }
+                $http.post('/api/navigation/getTree', {current: currentApp})
+                    .success(function (navigation) {
+                        callback(null, navigation);
+                    })
+                    .error(function (data, status, headers, config) {
+                        var error = {data: data, status: status, headers: headers, config: config};
+                        callback(error);
+                    });
             };
 
             /**
@@ -67,20 +77,14 @@ angular.module('common.nav', [])
              */
             pub.getList = function (callback) {
 
-                if (!navList) {
-                    $http.post('/api/navigation/getList', {current: currentApp})
-                        .success(function (navigation) {
-                            navList = navigation;
-                            callback(null, navigation);
-                        })
-                        .error(function (data, status, headers, config) {
-                            var error = {data: data, status: status, headers: headers, config: config};
-                            callback(error);
-                        });
-                }
-                else {
-                    callback(null, navList);
-                }
+                $http.post('/api/navigation/getList', {current: currentApp})
+                    .success(function (navigation) {
+                        callback(null, navigation);
+                    })
+                    .error(function (data, status, headers, config) {
+                        var error = {data: data, status: status, headers: headers, config: config};
+                        callback(error);
+                    });
             };
 
             /**
@@ -90,20 +94,14 @@ angular.module('common.nav', [])
              */
             pub.getTopList = function (callback) {
 
-                if (!navTop) {
-                    $http.post('/api/navigation/getTopList', {current: currentApp})
-                        .success(function (navigation) {
-                            navTop = navigation;
-                            callback(null, navigation);
-                        })
-                        .error(function (data, status, headers, config) {
-                            var error = {data: data, status: status, headers: headers, config: config};
-                            callback(error);
-                        });
-                }
-                else {
-                    callback(null, navTop);
-                }
+                $http.post('/api/navigation/getTopList', {current: currentApp})
+                    .success(function (navigation) {
+                        callback(null, navigation);
+                    })
+                    .error(function (data, status, headers, config) {
+                        var error = {data: data, status: status, headers: headers, config: config};
+                        callback(error);
+                    });
             };
 
             /**
@@ -114,20 +112,14 @@ angular.module('common.nav', [])
              */
             pub.getSubTree = function (top, callback) {
 
-                if (!navSubTree) {
-                    $http.post('/api/navigation/getSubTree', {current: currentApp, top:top})
-                        .success(function (navigation) {
-                            navSubTree = navigation;
-                            callback(null, navigation);
-                        })
-                        .error(function (data, status, headers, config) {
-                            var error = {data: data, status: status, headers: headers, config: config};
-                            callback(error);
-                        });
-                }
-                else {
-                    callback(null, navSubTree);
-                }
+                $http.post('/api/navigation/getSubTree', {current: currentApp, top: top})
+                    .success(function (navigation) {
+                        callback(null, navigation);
+                    })
+                    .error(function (data, status, headers, config) {
+                        var error = {data: data, status: status, headers: headers, config: config};
+                        callback(error);
+                    });
             };
 
             /**
@@ -138,20 +130,14 @@ angular.module('common.nav', [])
              */
             pub.getSubList = function (top, callback) {
 
-                if (!navSubList) {
-                    $http.post('/api/navigation/getSubList', {current: currentApp, top:top})
-                        .success(function (navigation) {
-                            navSubList = navigation;
-                            callback(null, navigation);
-                        })
-                        .error(function (data, status, headers, config) {
-                            var error = {data: data, status: status, headers: headers, config: config};
-                            callback(error);
-                        });
-                }
-                else {
-                    callback(null, navSubList);
-                }
+                $http.post('/api/navigation/getSubList', {current: currentApp, top: top})
+                    .success(function (navigation) {
+                        callback(null, navigation);
+                    })
+                    .error(function (data, status, headers, config) {
+                        var error = {data: data, status: status, headers: headers, config: config};
+                        callback(error);
+                    });
             };
 
             return pub;

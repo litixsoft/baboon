@@ -16,9 +16,9 @@ describe('Module: main.localization', function () {
 
     describe('Controller: MainLocalizationCtrl', function () {
 
-        var $scope, $ctrl, translate;
+        var $scope,  $ctrl, translate;
 
-        beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, $translate) {
+        beforeEach(inject(function ($controller, $rootScope, $translate) {
             translate = $translate;
             translate.use('en-us');
             $scope = $rootScope.$new();

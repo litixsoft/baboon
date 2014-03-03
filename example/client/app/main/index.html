@@ -25,13 +25,14 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ng-include="'common/nav/nav.html'" class="top-nav"></div>
 
-    <div id="singlepageFrame" class="ng-cloak">
+
+    <div id="singlepageFrame" ng-controller="CommonNavCtrl" class="ng-cloak">
+        <div ng-include="'common/nav/navTopList.html'" class="top-nav"></div>
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
-                Left Column
+                <div ng-include="'common/nav/navSubList.html'" class="top-nav"></div>
             </div>
             <div class="col-right">
                 Right Column

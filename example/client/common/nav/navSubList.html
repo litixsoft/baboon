@@ -1,0 +1,8 @@
+<div>
+    <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="item in menuSubList" ng-class="{active: isActive(item.route)}">
+            <a ng-if="item.target" ng-href="{{item.route}}" target="{{item.target}}">{{item.title | translate }}</a>
+            <a ng-if="!item.target" ng-href="{{item.route}}">{{item.title | translate }}</a>
+        </li>
+    </ul>
+</div>

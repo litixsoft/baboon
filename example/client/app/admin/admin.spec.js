@@ -1,6 +1,7 @@
 'use strict';
 
 describe('App: admin', function () {
+
     beforeEach(module('admin'));
 
     it('should map routes', function () {
@@ -30,7 +31,8 @@ describe('App: admin', function () {
             $httpBackend.expectGET('/api/awesomeThings')
                 .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
-            $httpBackend.whenGET('/locale/admin/locale-de-de.json').respond(200);
+            $httpBackend.whenGET('/locale/admin/locale-en-us.json').respond(200);
+
 
             $scope = $rootScope.$new();
             $ctrl = $controller('AdminCtrl', {$scope: $scope});
@@ -42,5 +44,6 @@ describe('App: admin', function () {
             expect($scope.awesomeThings.length).toBe(4);
             expect($scope.view).toBe('app/admin/admin.html');
         });
+
     });
 });

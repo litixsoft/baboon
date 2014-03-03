@@ -3,6 +3,7 @@ module.exports = function () {
     return [
         {
             title: 'HOME',
+            root: true,
             route: '/',
             roles: [
                 'users'

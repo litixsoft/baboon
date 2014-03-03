@@ -6,7 +6,9 @@ angular.module('admin', [
         'common.nav',
         'pascalprecht.translate'
     ])
-    .config(function ($routeProvider, $locationProvider, $translateProvider, navigationProvider) {
+    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider) {
+
+        // Routing and navigation
         $routeProvider
             .when('/admin', {
                 templateUrl: 'app/admin/admin.html',
@@ -17,15 +19,14 @@ angular.module('admin', [
             });
 
         $locationProvider.html5Mode(true);
+        navigationProvider.setCurrentApp('admin');
 
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/admin/locale-',
             suffix: '.json'
         });
-
-        $translateProvider.preferredLanguage('de-de');
-        $translateProvider.fallbackLanguage('de-de');
-        navigationProvider.setCurrentApp('admin');
+        $translateProvider.preferredLanguage('en-us');
+        $translateProvider.fallbackLanguage('en-us');
     })
     .controller('AdminCtrl', function ($scope, $http) {
         $http.get('/api/awesomeThings').success(function(awesomeThings) {

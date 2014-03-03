@@ -3,9 +3,9 @@
 angular.module('main', [
         'ngRoute',
         'ui.bootstrap',
+        'common.nav',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
-        'common.nav',
         'main.home',
         'main.about',
         'main.contact',
@@ -13,8 +13,13 @@ angular.module('main', [
         'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, tmhDynamicLocaleProvider) {
+
+        // Routing and navigation
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
+        navigationProvider.setCurrentApp('main');
+
+        // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
         $translateProvider.useStaticFilesLoader({
@@ -23,10 +28,10 @@ angular.module('main', [
         });
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
-        navigationProvider.setCurrentApp('main');
     })
     .run(function ($rootScope, $translate, tmhDynamicLocale) {
         $rootScope.$on('$translateChangeSuccess', function() {
             tmhDynamicLocale.set($translate.use());
         });
     });
+
