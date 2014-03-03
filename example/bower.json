@@ -1,24 +1,25 @@
 {
-  "name": "baboonExample",
-  "version": "0.5.0",
-  "dependencies": {
-    "angular": "1.2.13",
-    "json3": "~3.2.6",
-    "es5-shim": "~2.1.0",
-    "bootstrap": "~3.0.3",
-    "angular-route": "1.2.13",
-    "angular-resource": "1.2.13",
-    "angular-cookies": "1.2.13",
-    "angular-sanitize": "1.2.13",
-    "angular-bootstrap": "~0.10.0",
-    "angular-highlightjs": "0.2.1",
-    "angular-translate": "~2.0.0",
-    "angular-translate-loader-static-files": "~2.0.0",
-    "angular-dynamic-locale": "0.1.1",
-    "angular-i18n": "1.2.13"
-  },
-  "devDependencies": {
-    "angular-mocks": "1.2.13",
-    "angular-scenario": "1.2.13"
-  }
+    "name": "baboonExample",
+    "version": "0.5.0",
+    "dependencies": {
+        "angular": "1.2.13",
+        "json3": "~3.2.6",
+        "es5-shim": "~2.1.0",
+        "bootstrap": "~3.0.3",
+        "angular-route": "1.2.13",
+        "angular-resource": "1.2.13",
+        "angular-cookies": "1.2.13",
+        "angular-sanitize": "1.2.13",
+        "angular-bootstrap": "~0.10.0",
+        "angular-highlightjs": "0.2.1",
+        "angular-translate": "~2.0.0",
+        "angular-translate-loader-static-files": "~2.0.0",
+        "angular-dynamic-locale": "0.1.1",
+        "angular-i18n": "1.2.13",
+        "baboon-client": "https://github.com/litixsoft/baboon-client.git#v0.4"
+    },
+    "devDependencies": {
+        "angular-mocks": "1.2.13",
+        "angular-scenario": "1.2.13"
+    }
 }

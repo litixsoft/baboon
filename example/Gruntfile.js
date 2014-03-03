@@ -35,17 +35,24 @@ module.exports = function (grunt) {
             client: 'client',
             assets: 'client/assets',
             server: 'server',
+            dist: '.dist',
             jshint: {
                 files: [
                     'server/controllers/**/*.js',
-                    'server/config/**/*.js',
                     'client/app/**/*.js',
                     'client/common/**/*.js',
-                    'client/toplevels/**/*.js',
                     'test/**/*.js',
                     'config.js',
                     'Gruntfile.js',
                     'server.js'
+                ],
+                client_files: [
+                    'client/app/**/*.js',
+                    'client/common/**/*.js'
+                ],
+                server_files: [
+                    'server/controllers/**/*.js',
+                    'test/server/**/*.js'
                 ]
             }
         },
@@ -69,6 +76,12 @@ module.exports = function (grunt) {
             e2e: {
                 options: {
                     args: ['--config', 'e2eTest'],
+                    script: 'server.js'
+                }
+            },
+            e2e_prod: {
+                options: {
+                    args: ['--config', 'e2eProductionTest'],
                     script: 'server.js'
                 }
             }
@@ -148,6 +161,12 @@ module.exports = function (grunt) {
             test: {
                 src: '<%= yeoman.jshint.files %>'
             },
+            test_client: {
+                src: '<%= yeoman.jshint.client_files %>'
+            },
+            test_server: {
+                src: '<%= yeoman.jshint.server_files %>'
+            },
             jslint: {
                 options: {
                     reporter: 'jslint',
@@ -176,9 +195,8 @@ module.exports = function (grunt) {
                         dot: true,
                         src: [
                             '.tmp',
-                            '<%= yeoman.server %>/views/*',
-                            '<%= yeoman.server %>/public/*',
-                            '!<%= yeoman.server %>/public/.git*'
+                            '<%= yeoman.dist %>/views/*',
+                            '<%= yeoman.dist %>/public/*'
                         ]
                     }
                 ]
@@ -187,9 +205,7 @@ module.exports = function (grunt) {
             coverage_server: '.reports/coverage/server',
             test: '.reports/test',
             jshint: '.reports/jshint',
-            server: '.tmp',
-            bower: ['<%= bowerrc.directory %>'],
-            node_modules: ['node_modules']
+            server: '.tmp'
         },
 
         // Add vendor prefixed styles
@@ -214,10 +230,10 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     src: [
-                        '<%= yeoman.server %>/public/scripts/**/*.js',
-                        '<%= yeoman.server %>/public/styles/**/*.css',
-                        '<%= yeoman.server %>/public/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.server %>/public/styles/fonts/*'
+                        '<%= yeoman.dist %>/public/scripts/**/*.js',
+                        '<%= yeoman.dist %>/public/styles/**/*.css',
+                        '<%= yeoman.dist %>/public/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                        '<%= yeoman.dist %>/public/styles/fonts/*'
                     ]
                 }
             }
@@ -229,16 +245,16 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: ['<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
             options: {
-                dest: '<%= yeoman.server %>/public'
+                dest: '<%= yeoman.dist %>/public'
             }
         },
 
-        // Performs rewrites based on rev and the useminPrepare configuration
+        // Performs rewrites based on rev and the usemin Prepare configuration
         usemin: {
-            html: ['<%= yeoman.server %>/views/**/*.html'],
-            css: ['<%= yeoman.server %>/public/styles/**/*.css'],
+            html: ['<%= yeoman.dist %>/views/**/*.html'],
+            css: ['<%= yeoman.dist %>/public/styles/**/*.css'],
             options: {
-                assetsDirs: ['<%= yeoman.server %>/public']
+                assetsDirs: ['<%= yeoman.dist %>/public']
             }
         },
 
@@ -250,7 +266,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= yeoman.assets %>/images',
                         src: '**/*.{png,jpg,jpeg,gif}',
-                        dest: '<%= yeoman.server %>/public/assets/images'
+                        dest: '<%= yeoman.dist %>/public/assets/images'
                     }
                 ]
             }
@@ -262,7 +278,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= yeoman.assets %>/images',
                         src: '**/*.svg',
-                        dest: '<%= yeoman.server %>/public/assets/images'
+                        dest: '<%= yeoman.dist %>/public/assets/images'
                     }
                 ]
             }
@@ -280,13 +296,13 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= yeoman.client %>',
                         src: ['*.html', 'app/**/index.html', 'common/**/index.html'],
-                        dest: '<%= yeoman.server %>/views'
+                        dest: '<%= yeoman.dist %>/views'
                     },
                     {
                         expand: true,
                         cwd: '<%= yeoman.client %>',
                         src: ['app/**/*.html', '!app/**/index.html', 'common/**/*.html', '!common/**/index.html'],
-                        dest: '<%= yeoman.server %>/views/partials'
+                        dest: '<%= yeoman.dist %>/views/partials'
                     }
                 ]
             }
@@ -316,7 +332,7 @@ module.exports = function (grunt) {
                         expand: true,
                         dot: true,
                         cwd: '<%= yeoman.client %>',
-                        dest: '<%= yeoman.server %>/public',
+                        dest: '<%= yeoman.dist %>/public',
                         src: [
                             '**/*.{ico,png,txt}',
                             'assets/bower_components/**/*',
@@ -327,7 +343,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '.tmp/images',
-                        dest: '<%= yeoman.server %>/public/assets/images',
+                        dest: '<%= yeoman.dist %>/public/assets/images',
                         src: ['generated/*']
                     }
                 ]
@@ -352,7 +368,7 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: './client/app/',
                 src: '**//_locale//*.json',
-                dest: './server/public/locale/',
+                dest: './.dist/public/locale/',
                 rename: function(dest, src) {
                     var modulePath = src.substring(0, src.indexOf('/_locale'));
                     return path.resolve(dest, modulePath, path.basename(src));
@@ -363,10 +379,6 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
-                'less',
-                'copy:views'
-            ],
-            test: [
                 'less',
                 'copy:views'
             ],
@@ -436,14 +448,6 @@ module.exports = function (grunt) {
             protractor: {
                 cmd: 'node node_modules/protractor/bin/protractor test/e2e.conf.js',
                 fail: true
-            },
-            bower: {
-                cmd: 'bower install',
-                fail: true
-            },
-            npm: {
-                cmd: 'npm install',
-                fail: true
             }
         },
         less: {
@@ -469,7 +473,7 @@ module.exports = function (grunt) {
             },
             pro: {
                 common: './client/locale*//*.json',
-                src: './server/public/locale/**//*.json'
+                src: './.dist/public/locale/**//*.json'
             }
         },
         'merge-nav': {
@@ -551,101 +555,6 @@ module.exports = function (grunt) {
         this.async();
     });
 
-    grunt.registerTask('serve', function (target) {
-        if (target === 'dist') {
-            return grunt.task.run(['build', 'express:prod', 'open:server', 'express-keepalive']);
-        }
-
-        return grunt.task.run([
-            'clean:server',
-            'concurrent:server',
-            'autoprefixer',
-            'copy:locale_dev',
-            'merge-locale:dev',
-            'merge-nav:nav',
-            'express:dev',
-            'open:server',
-            'watch'
-        ]);
-    });
-
-    grunt.registerTask('server', function () {
-        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-        grunt.task.run(['serve']);
-    });
-
-    // all tests
-    grunt.registerTask('test', [
-        'clean:server',
-        'clean:test',
-        'concurrent:test',
-        'autoprefixer',
-        'jshint:test',
-        'karma:unit',
-        'jasmine_node'
-    ]);
-
-    // client tests
-    grunt.registerTask('test:client', [
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'jshint:test',
-        'karma:unit'
-    ]);
-
-    // server tests
-    grunt.registerTask('test:server', [
-        'clean:test',
-        'jshint:test',
-        'jasmine_node'
-    ]);
-
-    // test scenarios
-    grunt.registerTask('e2e', [
-        'bgShell:update_webdriver',
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'express:e2e',
-        'bgShell:protractor'
-    ]);
-
-    // coverage client
-    grunt.registerTask('cover:client', [
-        'clean:coverage_client',
-        'karma:coverage',
-        'open:coverageClient'
-    ]);
-
-    // coverage server
-    grunt.registerTask('cover:server', [
-        'clean:coverage_server',
-        'bgShell:coverage',
-        'open:coverageServer'
-    ]);
-
-    // coverage all
-    grunt.registerTask('cover', [
-        'cover:client',
-        'cover:server'
-    ]);
-
-    grunt.registerTask('ci', [
-        'clean:coverage_server',
-        'clean:coverage_client',
-        'clean:test',
-        'clean:jshint',
-        'jshint:jslint',
-        'jshint:checkstyle',
-        'jasmine_node',
-        'bgShell:coverage',
-        'bgShell:cobertura',
-        'karma:ci',
-        'karma:coverage',
-        'karma:cobertura'
-    ]);
-
     // build productive version
     grunt.registerTask('build', [
         'clean:dist',
@@ -674,13 +583,110 @@ module.exports = function (grunt) {
         'merge-nav:nav'
     ]);
 
+    grunt.registerTask('serve', function (target) {
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'express:prod', 'open:server', 'express-keepalive']);
+        }
+
+        return grunt.task.run([
+            'build:dev',
+            'express:dev',
+            'open:server',
+            'watch'
+        ]);
+    });
+
+    grunt.registerTask('server', function () {
+        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+        grunt.task.run(['serve']);
+    });
+
+    // all tests
+    grunt.registerTask('test', [
+        'clean:test',
+        'newer:jshint:test',
+        'karma:unit',
+        'jasmine_node'
+    ]);
+
+    // client tests
+    grunt.registerTask('test:client', [
+        'clean:test',
+        'newer:jshint:test_client',
+        'karma:unit'
+    ]);
+
+    // server tests
+    grunt.registerTask('test:server', [
+        'clean:test',
+        'newer:jshint:test_server',
+        'jasmine_node'
+    ]);
+
+    // coverage all
+    grunt.registerTask('cover', [
+        'clean:test',
+        'clean:coverage_client',
+        'clean:coverage_server',
+        'karma:coverage',
+        'bgShell:coverage',
+        'open:coverageClient',
+        'open:coverageServer'
+    ]);
+
+    // coverage client
+    grunt.registerTask('cover:client', [
+        'clean:test',
+        'clean:coverage_client',
+        'karma:coverage',
+        'open:coverageClient'
+    ]);
+
+    // coverage server
+    grunt.registerTask('cover:server', [
+        'clean:test',
+        'clean:coverage_server',
+        'bgShell:coverage',
+        'open:coverageServer'
+    ]);
+
+    // test and coverage for ci
+    grunt.registerTask('ci', [
+        'clean:test',
+        'clean:coverage_server',
+        'clean:coverage_client',
+        'clean:jshint',
+        'jshint:jslint',
+        'jshint:checkstyle',
+        'jasmine_node',
+        'bgShell:coverage',
+        'bgShell:cobertura',
+        'karma:ci',
+        'karma:coverage',
+        'karma:cobertura'
+    ]);
+
+    // test scenarios
+    grunt.registerTask('e2e', [
+        'bgShell:update_webdriver',
+        'build:dev',
+        'express:e2e',
+        'bgShell:protractor'
+    ]);
+
+    // test scenarios production mode
+    grunt.registerTask('e2e:dist', [
+        'bgShell:update_webdriver',
+        'build',
+        'express:e2e_prod',
+        'bgShell:protractor'
+    ]);
+
     // test all and build productive version
     grunt.registerTask('default', [
         'test',
         'build'
     ]);
-
-    grunt.registerTask('lint', ['jshint:test']);
 
     // task that simply waits for 1 second, usefull for livereload
     grunt.registerTask('wait', function () {
@@ -693,12 +699,4 @@ module.exports = function (grunt) {
             done();
         }, 1000);
     });
-
-    // Delete node_modules folder and run npm install
-    grunt.registerTask('update', [
-        'clean:bower',
-        'clean:node_modules',
-        'bgShell:npm',
-        'bgShell:bower'
-    ]);
 };

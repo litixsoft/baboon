@@ -22,7 +22,14 @@ module.exports = function () {
                 {
                     title: 'CONTACT',
                     route: '/contact',
-                    app: 'main'
+                    app: 'main',
+                    children: [
+                        {
+                            title: 'EDIT',
+                            route: '/contact/edit',
+                            app: 'main'
+                        }
+                    ]
                 }
             ],
             order: '1'

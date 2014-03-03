@@ -1,27 +1,26 @@
 'use strict';
 
-var path = require('path');
+/**
+ * Configure the application routes
+ *
+ * @param app
+ */
+module.exports = function(app) {
 
-exports.partials = function (req, res) {
-    var stripped = req.url.split('.')[0];
-    var requestedView = path.join('./', 'partials', stripped);
-    res.render(requestedView, function (err, html) {
-        if (err) {
-            res.render('404');
-        } else {
-            res.send(html);
-        }
-    });
-};
+    // Admin
+    var admin = function(req, res){
+        res.render('app/admin/index');
+    };
 
-exports.index = function (req, res) {
-    res.render('app/main/index');
-};
+    // project1
+    var project1 = function(req, res){
+        res.render('app/projects/project1/index');
+    };
 
-exports.admin = function(req, res){
-    res.render('app/admin/index');
-};
+    // Application routes
+    app.get('/admin', admin);
+    app.get('/admin/*', admin);
+    app.get('/project1', project1);
+    app.get('/project1/*', project1);
 
-exports.projects = function(req, res){
-    res.render('app/projects/project1/index');
 };

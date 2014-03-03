@@ -41,7 +41,6 @@ module.exports = function (grunt) {
             jasmine: ['.reports/test', '.tmp'],
             lint: ['.reports/lint'],
             coverage: ['.reports/coverage', '.tmp'],
-            node_modules: ['node_modules'],
             ci: ['.reports', '.tmp']
         },
         jshint: {
@@ -75,10 +74,6 @@ module.exports = function (grunt) {
             },
             cobertura: {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage --dir .reports/coverage cobertura'
-            },
-            npm: {
-                cmd: 'npm install',
-                fail: true
             }
         },
         open: {
@@ -106,7 +101,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
     grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
-    grunt.registerTask('update', 'Delete node_modules folder and run npm install', ['clean:node_modules', 'bgShell:npm']);
 
     // Default task.
     grunt.registerTask('default', ['test']);

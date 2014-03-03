@@ -13,7 +13,7 @@ angular.module('admin', [
                 controller: 'AdminCtrl'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/admin'
             });
 
         $locationProvider.html5Mode(true);

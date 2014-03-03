@@ -153,14 +153,16 @@ Example app client unit tests only
 
     $ grunt test:client // directory baboon/example
 
-Example app protractor e2e tests only
-
-    $ grunt e2e // directory baboon/example
-
 ## Running end to end tests
 You can run end to end scenario tests in example app with:
 
+Test in development mode:
+
     $ grunt e2e // directory baboon/example
+
+Test in production mode:
+
+    $ grunt e2e:dist // directory baboon/example
 
 ## Running coverage
 You can run a coverage task for Baboon lib with:
@@ -181,10 +183,6 @@ You can run a coverage task for example app client with:
 
 ## All Baboon lib grunt tasks
 Important: this tasks run inside the baboon directory only.
-
-Run jshint linter
-
-    $ grunt lint
 
 Run baboon unit tests and jshint
 
@@ -217,11 +215,7 @@ Build application in development mode only.
 
 Build application in production mode only.
 
-    $ grunt build:dev
-
-Run jshint linter
-
-    $ grunt lint
+    $ grunt build
 
 Run all unit tests
 
@@ -235,9 +229,13 @@ Run server unit tests
 
     $ grunt test:server
 
-Run e2e protractor tests
+Run e2e protractor tests in development mode
 
     $ grunt e2e
+
+Run e2e protractor tests in production mode
+
+    $ grunt e2e:dist
 
 Run coverage for server and client
 
