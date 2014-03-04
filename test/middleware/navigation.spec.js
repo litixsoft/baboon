@@ -185,7 +185,7 @@ describe('Middleware/Navigation', function () {
             expect(navArr).toBeUndefined();
         });
 
-        it('should return an undefined from a top level with param "req.body.current" = null', function () {
+        it('should return the main top level including sublist with param "req.body.current" = null', function () {
             req.body.current = null;
             req.body.top = 'HOME';
 
