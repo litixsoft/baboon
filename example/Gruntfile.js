@@ -357,20 +357,20 @@ module.exports = function (grunt) {
             locale_dev: {
                 expand: true,
                 cwd: './client/app/',
-                src: '**//_locale/*.json',
+                src: '**//__locale/*.json',
                 dest: './.tmp/locale/',
                 rename: function(dest, src) {
-                    var modulePath = src.substring(0, src.indexOf('/_locale'));
+                    var modulePath = src.substring(0, src.indexOf('/__locale'));
                     return path.resolve(dest, modulePath, path.basename(src));
                 }
             },
             locale_pro: {
                 expand: true,
                 cwd: './client/app/',
-                src: '**//_locale//*.json',
+                src: '**//__locale//*.json',
                 dest: './.dist/public/locale/',
                 rename: function(dest, src) {
-                    var modulePath = src.substring(0, src.indexOf('/_locale'));
+                    var modulePath = src.substring(0, src.indexOf('/__locale'));
                     return path.resolve(dest, modulePath, path.basename(src));
                 }
             }
