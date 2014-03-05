@@ -5,18 +5,18 @@ describe('Mail', function () {
     var fs = require('fs');
     var rootPath = path.resolve(__dirname, '../');
     var emlDir = path.resolve(__dirname, 'eml');
-    var configMock = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config:'unitTest'});
-
+    var configMock = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'});
+    var count = 0;
     // mail init requires the directory
-    if(!fs.existsSync(emlDir) ) {
+    if (!fs.existsSync(emlDir)) {
         fs.mkdirSync(emlDir);
     }
 
     var mail = require(path.resolve(__dirname, '../', 'lib', 'mail'))(configMock.mail); // {type: 'PICKUP', directory: './test/eml', from: 'from@test.com', to: 'to@test.com'}
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
         fs.exists(emlDir, function (exists) {
-            if(!exists) {
+            if (!exists) {
                 fs.mkdir(emlDir, done);
             }
             else {
@@ -25,29 +25,29 @@ describe('Mail', function () {
         });
     });
 
-    it('should throw an initialization error', function(done)  {
-        expect(function() {
+    it('should throw an initialization error', function (done) {
+        expect(function () {
             require(path.resolve(__dirname, '../', 'lib', 'mail'))(1);
         }).toThrow('Parameter config is required!');
         done();
     });
 
-    it('should throw an initialization error with wrong transport type', function(done)  {
-        expect(function() {
+    it('should throw an initialization error with wrong transport type', function (done) {
+        expect(function () {
             return require(path.resolve(__dirname, '../', 'lib', 'mail'))({type: 'SES', directory: './eml'});
         }).toThrow('Only SMTP or PICKUP allowed!');
 
         done();
     });
 
-    it('should set an empty type to SMTP', function(done)  {
+    it('should set an empty type to SMTP', function (done) {
         var obj = {type: '', directory: './eml'};
         require(path.resolve(__dirname, '../', 'lib', 'mail'))(obj);
         expect(obj.type).toBe('SMTP');
         done();
     });
 
-    it('should send a normal mail to file system', function(done) {
+    it('should send a normal mail to file system', function (done) {
         var message = {
             from: 'test@test.com',
             to: 'to@test.com',
@@ -56,125 +56,135 @@ describe('Mail', function () {
             html: '<h1>This is a test.</h1>'
         };
 
-        mail.sendMail(message, function (error, result){
+        mail.sendMail(message, function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
 
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a normal mail, with default values for to and from, to file system', function(done) {
+    it('should send a normal mail, with default values for to and from, to file system', function (done) {
         var message = {
             subject: 'Unit test',
             text: 'This is a test.',
             html: '<h1>This is a test.</h1>'
         };
 
-        mail.sendMail(message, function (error, result){
+        mail.sendMail(message, function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
 
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a mail from template to file system', function(done) {
+    it('should send a mail from template to file system', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates');
 
-        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), [{key: '{DYNAMIC}', value:'Test value'}], function (error, result){
+        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), [
+            {key: '{DYNAMIC}', value: 'Test value'}
+        ], function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a mail from template with missing html template to file system', function(done) {
+    it('should send a mail from template with missing html template to file system', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates', 'mail.txt');
 
-        mail.sendMailFromTemplate(message, null, templatePath, [{key: '{DYNAMIC}', value:'Test value'}], function (error, result){
+        mail.sendMailFromTemplate(message, null, templatePath, [
+            {key: '{DYNAMIC}', value: 'Test value'}
+        ], function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a mail from template with missing html template to file system', function(done) {
+    it('should send a mail from template with missing txt template to file system', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates', 'mail.html');
 
-        mail.sendMailFromTemplate(message, templatePath, null, [{key: '{DYNAMIC}', value:'Test value'}], function (error, result){
+        mail.sendMailFromTemplate(message, templatePath, null, [
+            {key: '{DYNAMIC}', value: 'Test value'}
+        ], function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a mail from template, with missing replace value for an existing key, to file system', function(done) {
+    it('should send a mail from template, with missing replace value for an existing key, to file system', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates');
 
-        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), [{key: '{DYNAMIC}', value:null}], function (error, result){
+        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), [
+            {key: '{DYNAMIC}', value: null}
+        ], function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should send a mail from template, with missing replace values, to file system', function(done) {
+    it('should send a mail from template, with missing replace values, to file system', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates');
 
-        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), null, function (error, result){
+        mail.sendMailFromTemplate(message, path.resolve(templatePath, 'mail.html'), path.resolve(templatePath, 'mail.txt'), null, function (error, result) {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
             var exists = fs.existsSync(result.path);
             expect(exists).toBeTruthy();
-
+            count++;
             done();
         });
     });
 
-    it('should end with an error because template path is invalid', function(done) {
+    it('should end with an error because template path is invalid', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
         var templatePath = path.resolve(rootPath, 'test', 'mocks', 'templates', 'missing.html');
 
-        mail.sendMailFromTemplate(message, templatePath, null, [{key: '{DYNAMIC}', value:'Test value'}], function (error){
+        mail.sendMailFromTemplate(message, templatePath, null, [
+            {key: '{DYNAMIC}', value: 'Test value'}
+        ], function (error) {
             expect(error).toBeDefined();
             done();
         });
     });
 
-    afterEach(function() {
-        if( fs.existsSync(emlDir) ) {
-            fs.readdirSync(emlDir).forEach(function(file){
+    afterEach(function () {
+        if (count === 7 && fs.existsSync(emlDir)) {
+            fs.readdirSync(emlDir).forEach(function (file) {
                 var curPath = path.resolve(emlDir, file);
                 fs.unlinkSync(curPath);
             });
