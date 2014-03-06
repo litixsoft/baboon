@@ -1,4 +1,7 @@
 # Release History
+## v0.3.6
+* disable gzip minification of socket.io in production mode, otherwhis the server will crash in windows
+
 ## v0.3.5
 * only log audit to MongoDB when the connection string is present in the config
 
