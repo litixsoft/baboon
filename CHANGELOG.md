@@ -1,4 +1,7 @@
 # Release History
+## v0.3.5
+* only log audit to MongoDB when the connection string is present in the config
+
 ## v0.3.4
 * remove baboon administration area from navigation when rights system is disabled
 
