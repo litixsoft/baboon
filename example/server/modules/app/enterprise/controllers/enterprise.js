@@ -1,9 +1,11 @@
 'use strict';
 
+var repo;
+
 module.exports = function (app) {
-    var pub = {},
-        repo = require('../repositories')(app.config.mongo.enterprise),
-        audit = app.logging.audit;
+    var pub = {};
+    repo = require('../repositories')(app.config.mongo.enterprise);
+    var audit = app.logging.audit;
 
     /**
      * Gets all members from db.

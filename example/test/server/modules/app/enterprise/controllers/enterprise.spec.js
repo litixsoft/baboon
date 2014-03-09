@@ -44,6 +44,40 @@ describe('Enterprise Controller', function () {
             });
         });
 
+        it('should not insert a member when there is an error in the validation function', function (done) {
+            var rewire = require('rewire'),
+                sutMock = rewire(appMock.config.path.modules + '/app/enterprise/controllers/enterprise.js'),
+                sut = sutMock(appMock);
+
+            sutMock.__set__('repo', {crew: {validate: function (data, o, cb) {cb('error in val function');} }});
+
+            sut.createMember(person, {}, function (err, res) {
+                expect(err).toBe('error in val function');
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should not insert a member when there is a mongo error', function (done) {
+            var rewire = require('rewire'),
+                sutMock = rewire(appMock.config.path.modules + '/app/enterprise/controllers/enterprise.js'),
+                sut = sutMock(appMock);
+
+            sutMock.__set__('repo', {
+                crew: {
+                    validate: function (data, options, cb) {cb(null, {valid: true});},
+                    insert: function (data, cb) {cb('Mongo Error');}
+                }
+            });
+
+            sut.createMember(person, {}, function (err, res) {
+                expect(err).toBe('Mongo Error');
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
 
         it('should create a new crew member', function (done) {
             sut.createMember(person, {}, function (err, res) {
@@ -61,6 +95,7 @@ describe('Enterprise Controller', function () {
     });
 
     describe('has a function updateMember() which', function () {
+
         it('should return errors if the member is not valid', function (done) {
             sut.createMember(person, {}, function (err, res) {
                 res.name = '';
