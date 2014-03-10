@@ -29,6 +29,12 @@ describe('Config', function () {
         expect(logsFolder[logsFolder.length - 2]).toBe('server');
         expect(logsFolder[logsFolder.length - 3]).toBe('example');
 
+        var appFolder = sut.path.appFolder.split(path.sep);
+
+        expect(appFolder[appFolder.length - 1]).toBe('server');
+        expect(appFolder[appFolder.length - 2]).toBe('example');
+        expect(appFolder[appFolder.length - 3]).toBe('baboon');
+
 //        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: development');
     });
 
@@ -87,5 +93,9 @@ describe('Config', function () {
         expect(logsFolder[logsFolder.length - 1]).toBe('logs');
         expect(logsFolder[logsFolder.length - 2]).toBe('.Baboon_Example_App');
         expect(console.log.calls.length).toEqual(2);
+
+        var appFolder = sut.path.appFolder.split(path.sep);
+
+        expect(appFolder[appFolder.length - 1]).toBe('.Baboon_Example_App');
     });
 });
