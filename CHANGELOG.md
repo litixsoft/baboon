@@ -1,4 +1,8 @@
 # Release History
+## v0.3.7
+* add param "localAppMode" to config. When set to true, the app log/settings files will be saved in the current user folder
+* add appFolder to the config.path object
+
 ## v0.3.6
 * disable gzip minification of socket.io in production mode, otherwhis the server will crash in windows
 
