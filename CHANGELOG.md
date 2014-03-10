@@ -1,4 +1,7 @@
 # Release History
+## v0.3.8
+* fix that save user settings could crash when the appFolder does not exists
+
 ## v0.3.7
 * add param "localAppMode" to config. When set to true, the app log/settings files will be saved in the current user folder
 * add appFolder to the config.path object
