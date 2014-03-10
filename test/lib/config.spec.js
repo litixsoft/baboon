@@ -2,9 +2,9 @@
 describe('Config', function () {
     'use strict';
 
-    var path = require('path'),
-        rootPath = path.resolve('..', 'baboon'),
-        config = require(path.resolve(rootPath, 'lib', 'config.js'));
+    var path = require('path');
+    var rootPath = path.resolve('..', 'baboon');
+    var config = require(path.resolve(rootPath, 'lib', 'config.js'));
 
     beforeEach(function() {
         spyOn(console, 'log');
@@ -21,6 +21,13 @@ describe('Config', function () {
         expect(sut.port).toBeDefined();
         expect(sut.mongo.blog).toBeDefined();
         expect(sut.mongo.blog).toContain('blog');
+        expect(sut.path.logs).toContain('logs');
+
+        var logsFolder = sut.path.logs.split(path.sep);
+
+        expect(logsFolder[logsFolder.length - 1]).toBe('logs');
+        expect(logsFolder[logsFolder.length - 2]).toBe('server');
+        expect(logsFolder[logsFolder.length - 3]).toBe('example');
 
 //        expect(console.log).toHaveBeenCalledWith('   info  - setting NODE_ENV environment to: development');
     });
@@ -58,6 +65,27 @@ describe('Config', function () {
 
         expect(console.log).toHaveBeenCalledWith('   info  - setting config.node_env from environment to: unitTest');
         expect(console.log).toHaveBeenCalledWith('   info  - override base config with param: unitTest');
+        expect(console.log.calls.length).toEqual(2);
+    });
+
+    it('should merge the settings from the conf.json file with the NODE_ENV param', function() {
+        process.argv = ['', '', 'local'];
+
+        var sut = config(path.join(rootPath + '/example'));
+
+        expect(sut.path).toBeDefined();
+        expect(sut.logging).toBeDefined();
+        expect(sut.redis).toBeDefined();
+        expect(sut.host).toBeDefined();
+        expect(sut.port).toBeDefined();
+        expect(sut.mongo.blog).toBeDefined();
+        expect(sut.mongo.blog).toContain('blog');
+        expect(sut.path.logs).toContain('logs');
+
+        var logsFolder = sut.path.logs.split(path.sep);
+
+        expect(logsFolder[logsFolder.length - 1]).toBe('logs');
+        expect(logsFolder[logsFolder.length - 2]).toBe('.Baboon_Example_App');
         expect(console.log.calls.length).toEqual(2);
     });
 });

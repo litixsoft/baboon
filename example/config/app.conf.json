@@ -40,7 +40,8 @@
             "port": 25,
             "senderaddress": "dummy@email.de",
             "receiveraddress": "dummy@email2.de"
-        }
+        },
+        "localAppMode": false
     },
     "params": {
         "dev": {
@@ -77,6 +78,9 @@
                 "enterprise": "localhost:27017/test_enterprise?w=1&journal=True&fsync=True",
                 "rights": "localhost:27017/test_baboon_rights?w=1&journal=True&fsync=True"
             }
+        },
+        "local": {
+            "localAppMode": true
         },
         "e2e": {
             "port": 3003,

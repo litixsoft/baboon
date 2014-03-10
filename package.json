@@ -47,7 +47,7 @@
         "test": "grunt test && cd example && grunt test"
     },
     "devDependencies": {
-        "grunt": "0.4.2",
+        "grunt": "0.4.3",
         "grunt-bg-shell": "~2.3.1",
         "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-jshint": "~0.8.0",
@@ -62,7 +62,7 @@
         "cli-color": "~0.2.3",
         "connect-redis": "~1.4.7",
         "ejs": "~0.8.5",
-        "express": "~3.4.8",
+        "express": "~3.5.0",
         "glob": "~3.2.9",
         "log4js": "~0.6.12",
         "log4js-node-mongodb": "~0.1.1",
