@@ -1,8 +1,8 @@
 'use strict';
 
 // must be moved in controller
-var awesomeThings = function (req, res) {
-    res.json([
+var awesomeThings = function (data, request, callback) {
+    callback(null, [
         {
             name: 'HTML5 Boilerplate',
             info: 'HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.',
@@ -32,18 +32,21 @@ var awesomeThings = function (req, res) {
  * @param app
  * @param baboon
  */
-module.exports = function(app, baboon) {
+module.exports = function() {
+    return {
+        awesomeThings: awesomeThings
+    };
 
-    // Middleware navigation
-    var navigation = baboon.navigation;
-
-    // Api Routes
-    app.get('/api/awesomeThings', awesomeThings);
-
-    // Navigation Api
-    app.post('/api/navigation/getSubList', navigation.getSubList);
-    app.post('/api/navigation/getSubTree', navigation.getSubTree);
-    app.post('/api/navigation/getTopList', navigation.getTopList);
-    app.post('/api/navigation/getList', navigation.getList);
-    app.post('/api/navigation/getTree', navigation.getTree);
+//    // Middleware navigation
+//    var navigation = baboon.navigation;
+//
+//    // Api Routes
+//    app.get('/api/awesomeThings', awesomeThings);
+//
+//    // Navigation Api
+//    app.post('/api/navigation/getSubList', navigation.getSubList);
+//    app.post('/api/navigation/getSubTree', navigation.getSubTree);
+//    app.post('/api/navigation/getTopList', navigation.getTopList);
+//    app.post('/api/navigation/getList', navigation.getList);
+//    app.post('/api/navigation/getTree', navigation.getTree);
 };

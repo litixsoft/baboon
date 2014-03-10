@@ -61,7 +61,8 @@ module.exports = function () {
                 */
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
                 directory: 'C:/Temp/Mail' // required for type PICKUP
-            }
+            },
+            useRightSystem: false
         };
     };
 

@@ -28,7 +28,8 @@
     "readmeFilename": "README.md",
     "dependencies": {
         "express": "~3.4.3",
-        "ejs": "~0.8.4"
+        "ejs": "~0.8.4",
+        "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
     },
     "devDependencies": {
         "grunt": "~0.4.2",

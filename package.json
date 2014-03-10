@@ -63,7 +63,7 @@
     "dependencies": {
         "async": "~0.2.10",
         "cli-color": "~0.2.3",
-        "lx-helpers": "~0.3.0",
+        "lx-helpers": "~0.5.0",
         "log4js": "~0.6.9",
         "log4js-node-mongodb": "~0.1.0",
         "stdio": "~0.1.2",

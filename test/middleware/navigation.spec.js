@@ -7,7 +7,7 @@ describe('Middleware/Navigation', function () {
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var navigation = require(path.resolve(path.join(rootPath, 'lib', 'middleware', 'navigation')));
     var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
-    var sut, req, res, mock;
+    var sut, data, request, mock;
 
     beforeEach(function () {
         mock = appMock();
@@ -25,179 +25,239 @@ describe('Middleware/Navigation', function () {
 
     describe('.getTree()', function () {
         beforeEach(function () {
-            req = mock.req;
-            res = mock.res;
+            data = mock.req.body;
+            request = mock.req || {};
         });
 
-        it('should return a navigation', function () {
-            var navArr = sut.getTree(req, res);
-            expect(navArr.length).toBe(3);
+        it('should return a navigation', function (done) {
+            sut.getTree(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[0];
-            expect(nav.title).toBe('HOME');
-            expect(nav.children).toBeDefined();
-            expect(nav.children.length).toBe(3);
-            expect(nav.children[0].title).toBe('LOCALE');
+                expect(navArr.length).toBe(3);
 
-            nav = nav.children[2];
-            expect(nav.title).toBe('CONTACT');
-            expect(nav.children).toBeDefined();
-            expect(nav.children.length).toBe(1);
-            expect(nav.children[0].title).toBe('EDIT');
+                var nav = navArr[0];
+                expect(nav.title).toBe('HOME');
+                expect(nav.children).toBeDefined();
+                expect(nav.children.length).toBe(3);
+                expect(nav.children[0].title).toBe('LOCALE');
+
+                nav = nav.children[2];
+                expect(nav.title).toBe('CONTACT');
+                expect(nav.children).toBeDefined();
+                expect(nav.children.length).toBe(1);
+                expect(nav.children[0].title).toBe('EDIT');
+
+                done();
+            });
         });
 
-        it('should return a navigation with param "req.body.current" = null', function () {
-            req.body.current = null;
+        it('should return a navigation with param "data.current" = null', function (done) {
+            data.current = null;
 
-            var navArr = sut.getTree(req, res);
-            expect(navArr.length).toBe(3);
+            sut.getTree(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[0];
-            expect(nav.title).toBe('HOME');
-            expect(nav.children).toBeDefined();
-            expect(nav.children.length).toBe(3);
-            expect(nav.children[0].title).toBe('LOCALE');
+                expect(navArr.length).toBe(3);
+
+                var nav = navArr[0];
+                expect(nav.title).toBe('HOME');
+                expect(nav.children).toBeDefined();
+                expect(nav.children.length).toBe(3);
+                expect(nav.children[0].title).toBe('LOCALE');
+
+                done();
+            });
         });
     });
 
     describe('.getList()', function () {
         beforeEach(function () {
-            req = mock.req;
-            res = mock.res;
+            data = mock.req.body;
+            request = mock.req || {};
         });
 
-        it('should return a flat navigation', function () {
-            var navArr = sut.getList(req, res);
-            expect(navArr.length).toBe(7);
+        it('should return a flat navigation', function (done) {
+            sut.getList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('LOCALE');
+                expect(navArr.length).toBe(7);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('LOCALE');
+
+                done();
+            });
         });
 
-        it('should return a flat navigation with param "req.body.current" = null', function () {
-            req.body.current = null;
+        it('should return a flat navigation with param "data.current" = null', function (done) {
+            data.current = null;
 
-            var navArr = sut.getList(req, res);
-            expect(navArr.length).toBe(7);
+            sut.getList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('LOCALE');
+                expect(navArr.length).toBe(7);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('LOCALE');
+
+                done();
+            });
         });
     });
 
     describe('.getTopList()', function () {
         beforeEach(function () {
-            req = mock.req;
-            res = mock.res;
+            data = mock.req.body;
+            request = mock.req || {};
         });
 
-        it('should return a navigation only from top level', function () {
-            var navArr = sut.getTopList(req, res);
-            expect(navArr.length).toBe(3);
+        it('should return a navigation only from top level', function (done) {
+            sut.getTopList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('PROJECT1');
+                expect(navArr.length).toBe(3);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('PROJECT1');
+
+                done();
+            });
         });
 
-        it('should return a navigation only from top level with param "req.body.current" = null', function () {
-            req.body.current = null;
+        it('should return a navigation only from top level with param "data.current" = null', function (done) {
+            data.current = null;
 
-            var navArr = sut.getTopList(req, res);
-            expect(navArr.length).toBe(3);
+            sut.getTopList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('PROJECT1');
+                expect(navArr.length).toBe(3);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('PROJECT1');
+
+                done();
+            });
         });
     });
 
     describe('.getSubTree()', function () {
         beforeEach(function () {
-            req = mock.req;
-            res = mock.res;
+            data = mock.req.body;
+            request = mock.req || {};
         });
 
-        it('should throw an error if param "req.body.top" = null', function () {
-            req.body.top = null;
+        it('should throw an error if param "data.top" = null', function () {
+            data.top = null;
 
-            var func = function () {sut.getSubTree(req, res);};
+            var func = function () {sut.getSubTree(data, null);};
             expect(func).toThrow();
         });
 
-        it('should return a sub navigation from a top level', function () {
-            req.body.top = '/';
+        it('should return a sub navigation from a top level', function (done) {
+            data.top = '/';
 
-            var navArr = sut.getSubTree(req, res);
-            expect(navArr.length).toBe(3);
+            sut.getSubTree(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('ABOUT');
+                expect(navArr.length).toBe(3);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('ABOUT');
+
+                done();
+            });
         });
 
-        it('should return an empty navigation from a top level which does not exists', function () {
-            req.body.top = 'ABC';
+        it('should return an empty navigation from a top level which does not exists', function (done) {
+            data.top = 'ABC';
 
-            var navArr = sut.getSubTree(req, res);
-            expect(navArr.length).toBe(0);
+            sut.getSubTree(data, request, function(error, result){
+                var navArr = result;
+
+                expect(navArr.length).toBe(0);
+
+                done();
+            });
         });
 
-        it('should return the main sub navigation from a top level with param "req.body.current" = null', function () {
-            req.body.current = null;
-            req.body.top = '/';
+        it('should return the main sub navigation from a top level with param "req.body.current" = null', function (done) {
+            data.current = null;
+            data.top = '/';
 
-            var navArr = sut.getSubTree(req, res);
-            expect(navArr.length).toBe(3);
+            sut.getSubTree(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('ABOUT');
+                expect(navArr.length).toBe(3);
+
+                var nav = navArr[1];
+                expect(nav.title).toBe('ABOUT');
+
+                done();
+            });
         });
     });
 
     describe('.getSubList()', function () {
         beforeEach(function () {
-            req = mock.req;
-            res = mock.res;
+            data = mock.req.body;
+            request = mock.req || {};
         });
 
-        it('should throw an error if param "req.body.top" = null', function () {
-            req.body.top = null;
+        it('should throw an error if param "data.top" = null', function () {
+            data.top = null;
 
-            var func = function () {sut.getSubList(req, res);};
+            var func = function () {sut.getSubList(data, null);};
             expect(func).toThrow();
         });
 
-        it('should return a sub navigation from a top level', function () {
-            req.body.top = '/';
+        it('should return a sub navigation from a top level', function (done) {
+            data.top = '/';
 
-            var navArr = sut.getSubList(req, res);
-            expect(navArr.length).toBe(4);
+            sut.getSubList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('ABOUT');
+                expect(navArr.length).toBe(4);
 
-            nav = navArr[3];
-            expect(nav.title).toBe('EDIT');
+                var nav = navArr[1];
+                expect(nav.title).toBe('ABOUT');
+
+                nav = navArr[3];
+                expect(nav.title).toBe('EDIT');
+
+                done();
+            });
         });
 
-        it('should return an empty arr from a top level which does not exists', function () {
-            req.body.top = '/notexists';
+        it('should return an undefined from a top level which does not exists', function (done) {
+            data.top = '/notexists';
 
-            var navArr = sut.getSubList(req, res);
-            expect(navArr).toBeDefined();
-            expect(navArr.length).toBe(0);
+            sut.getSubList(data, request, function(error, result){
+                var navArr = result;
+
+                expect(navArr).toBeDefined();
+                expect(navArr.length).toBe(0);
+
+                done();
+            });
         });
 
-        it('should return the main top level including sublist with param "req.body.current" = null', function () {
-            req.body.current = null;
-            req.body.top = '/';
+        it('should return the main top level including sublist with param "data.current" = null', function (done) {
+            data.current = null;
+            data.top = '/';
 
-            var navArr = sut.getSubList(req, res);
-            expect(navArr.length).toBe(4);
+            sut.getSubList(data, request, function(error, result){
+                var navArr = result;
 
-            var nav = navArr[1];
-            expect(nav.title).toBe('ABOUT');
+                expect(navArr.length).toBe(4);
 
-            nav = navArr[3];
-            expect(nav.title).toBe('EDIT');
+                var nav = navArr[1];
+                expect(nav.title).toBe('ABOUT');
+
+                nav = navArr[3];
+                expect(nav.title).toBe('EDIT');
+
+                done();
+            });
         });
     });
 });

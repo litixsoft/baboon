@@ -19,11 +19,16 @@ var app = express();
 // Express Configuration
 require('./server/config/express')(app, baboon);
 
-// Api routing
-require('./server/routes/api')(app, baboon);
+//// Api routing
+//require('./server/routes/api')(app, baboon);
+//
+//// App routing
+//require('./server/routes')(app, baboon);
 
-// App routing
-require('./server/routes')(app, baboon);
+baboon.transport.addController(require('./server/routes/api')(), '');
+
+app.use('/api/', baboon.transport.processRequest);
+app.get('/api/*', baboon.transport.processRequest);
 
 // Catch all other requests as main angular app
 app.get('*', function (req, res) {
@@ -31,7 +36,25 @@ app.get('*', function (req, res) {
 });
 
 // Start server
-baboon.serverListen(app);
+var server = baboon.serverListen(app);
+
+// socket
+var io = require('socket.io').listen(server);
+io.configure(function () {
+    // Transport
+    io.set('transports', ['websocket']);
+});
+
+// socket connection event
+io.sockets.on('connection', function (socket) {
+    console.log('########## socket client connected');
+
+    socket.on('disconnect', function () {
+        console.log('########## socket disconnected: %s', socket.id);
+    });
+
+    baboon.transport.registerSocketEvents(socket);
+});
 
 // Expose app
 var exports;
