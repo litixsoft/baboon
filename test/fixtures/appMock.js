@@ -12,6 +12,7 @@ config.mongo.logs = configFile.params.unitTest.mongo.logs;
 
 // override path to settings
 config.path.settings = path.join(path.resolve('..', 'baboon'), 'build', 'tmp', 'settings');
+config.path.appFolder = path.join(path.resolve('..', 'baboon'), 'build', 'tmp');
 
 grunt.file.mkdir(config.path.settings);
 

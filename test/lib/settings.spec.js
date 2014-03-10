@@ -347,6 +347,33 @@ describe('Settings', function () {
                     });
                 });
             });
+
+            it('should save a user setting in the file system and create the appFolder before', function (done) {
+                var logsPath = path.resolve(rootPath, 'build', 'tmp');
+
+                fs.unlinkSync(path.join(logsPath, 'express', 'express.log'));
+                fs.unlinkSync(path.join(logsPath, 'socket', 'socket.log'));
+                fs.unlinkSync(path.join(logsPath, 'sys', 'sys.log'));
+                fs.rmdirSync(path.join(logsPath, 'express'));
+                fs.rmdirSync(path.join(logsPath, 'socket'));
+                fs.rmdirSync(path.join(logsPath, 'sys'));
+
+                fs.unlinkSync(path.join(appMock.config.path.settings, testUser.name + '.json'));
+                fs.rmdirSync(appMock.config.path.settings);
+                fs.rmdirSync(appMock.config.path.appFolder);
+
+                sut.setUserSetting(testUser, {key: 'test', value: 1}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toBeTruthy();
+
+                    fs.readFile(path.join(appMock.config.path.settings, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
+                        expect(err).toBeNull();
+                        expect(res).toBe(JSON.stringify({test: 1}));
+
+                        done();
+                    });
+                });
+            });
         });
 
         describe('setUserSettings()', function () {
