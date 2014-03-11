@@ -10,7 +10,8 @@ describe('Logging', function () {
         log = require(path.resolve(rootPath, 'lib', 'logging.js')),
         config = {
             path: {
-                logs: tmpPath
+                logs: tmpPath,
+                appFolder: path.resolve(rootPath, 'build')
             },
             node_env: 'development',
             logging: {
