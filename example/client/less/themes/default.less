@@ -4,6 +4,38 @@
 //  padding-bottom: 20px;
 //}
 
+
+h1{
+ &.layout-hint{
+   position:fixed;
+   display:block;
+   text-align: center;
+   bottom:50px;
+   margin:0 10px;
+   color:#ccc;
+   font-size: 12px;
+   background:#eee;
+   padding:5px 10px;
+   text-shadow: 0 0 1px white;
+   border-radius: 5px 5px 0 0;
+   border-top:1px solid #e3e3e3;
+   border-left:1px solid #e3e3e3;
+   border-right:1px solid #e3e3e3;
+ }
+}
+
+#singlepageFrame {
+  .layout-content{
+    .col-left{
+     border-right: 1px solid #E5E5E5;
+    }
+    .col-right{
+      border-left: 1px solid #E5E5E5;
+    }
+  }
+}
+
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,

@@ -32,22 +32,25 @@
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
-                <div ng-include="'common/nav/navSubList.html'" class="top-nav"></div>
+                <h1 class="layout-hint">Left Column</h1>
+                <div ng-include="'common/nav/navSubList.html'" class="side-nav"></div>
             </div>
             <div class="col-right">
-                Right Column
+                <h1 class="layout-hint">Right Column</h1>
             </div>
             <div class="col-center">
+                <h1 class="layout-hint">Center Column</h1>
                 <div class="view-container">
                     <div class="container" ng-view=""></div>
                 </div>
             </div>
         </div>
+        <div class="footer">
+            <p>♥ from the Baboon team</p>
+        </div>
     </div>
 
-    <div class="footer">
-        <p>♥ from the Baboon team</p>
-    </div>
+
 
     <!--[if lt IE 9]>
     <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
