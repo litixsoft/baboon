@@ -28,8 +28,8 @@ describe('App: admin', function () {
 
         beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
             $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/api/awesomeThings')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll')
+                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
 
             $httpBackend.whenGET('/locale/admin/locale-en-us.json').respond(200);
 
@@ -41,7 +41,7 @@ describe('App: admin', function () {
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
             $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(4);
+            expect($scope.awesomeThings.length).toBe(5);
             expect($scope.view).toBe('app/admin/admin.html');
         });
 

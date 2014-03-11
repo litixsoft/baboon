@@ -4,6 +4,7 @@
 describe('Module: main.contact', function () {
 
     beforeEach(module('ngRoute'));
+    beforeEach(module('bbc.transport'));
     beforeEach(module('main.contact'));
 
     it('should map routes', function () {
@@ -20,8 +21,8 @@ describe('Module: main.contact', function () {
 
         beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
             $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/api/awesomeThings')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll')
+                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
             $scope = $rootScope.$new();
             $ctrl = $controller('MainContactCtrl', {$scope: $scope});
         }));
@@ -29,7 +30,7 @@ describe('Module: main.contact', function () {
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
             $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(4);
+            expect($scope.awesomeThings.length).toBe(5);
             expect($scope.view).toBe('app/main/contact/contact.html');
         });
     });

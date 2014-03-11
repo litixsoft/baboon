@@ -3,6 +3,7 @@
 describe('Module: main.about', function () {
 
     beforeEach(module('ngRoute'));
+    beforeEach(module('bbc.transport'));
     beforeEach(module('main.about'));
 
     it('should map routes', function () {
@@ -19,17 +20,17 @@ describe('Module: main.about', function () {
 
         beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
             $httpBackend = _$httpBackend_;
-            $httpBackend.whenGET('/api/awesomeThings')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+            $httpBackend.whenPOST('api/common/awesomeThings/index/getAll')
+                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
             $scope = $rootScope.$new();
             $ctrl = $controller('MainAboutCtrl', {$scope: $scope});
         }));
 
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
-            $httpBackend.expectGET('/api/awesomeThings');
+            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll');
             $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(4);
+            expect($scope.awesomeThings.length).toBe(5);
             expect($scope.view).toBe('app/main/about/about.html');
         });
     });

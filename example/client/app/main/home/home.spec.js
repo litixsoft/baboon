@@ -4,6 +4,7 @@
 describe('Module: main.home', function () {
 
     beforeEach(module('ngRoute'));
+    beforeEach(module('bbc.transport'));
     beforeEach(module('main.home'));
 
     it('should map routes', function () {
@@ -22,8 +23,8 @@ describe('Module: main.home', function () {
 
         beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
             $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/api/awesomeThings')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll')
+                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
             $scope = $rootScope.$new();
             $ctrl = $controller('MainHomeCtrl', {$scope: $scope});
         }));
@@ -31,7 +32,7 @@ describe('Module: main.home', function () {
         it('should attach vars to the scope', function () {
             expect($scope.awesomeThings).toBeUndefined();
             $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(4);
+            expect($scope.awesomeThings.length).toBe(5);
             expect($scope.view).toBe('app/main/home/home.html');
         });
     });
