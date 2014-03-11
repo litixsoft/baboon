@@ -22,8 +22,8 @@ require('./server/config/express')(app, baboon);
 //// Api routing
 //require('./server/routes/api')(app, baboon);
 //
-//// App routing
-//require('./server/routes')(app, baboon);
+// App routing
+require('./server/routes')(app, baboon);
 
 baboon.transport.addController(require('./server/routes/api')(), '');
 
