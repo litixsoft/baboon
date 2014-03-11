@@ -1,48 +1,65 @@
-/* Space out content a bit */
-//body {
-//  padding-top: 20px;
-//  padding-bottom: 20px;
-//}
-
-
-h1{
- &.layout-hint{
-   position:fixed;
-   display:block;
-   text-align: center;
-   bottom:50px;
-   margin:0 10px;
-   color:#ccc;
-   font-size: 12px;
-   background:#eee;
-   padding:5px 10px;
-   text-shadow: 0 0 1px white;
-   border-radius: 5px 5px 0 0;
-   border-top:1px solid #e3e3e3;
-   border-left:1px solid #e3e3e3;
-   border-right:1px solid #e3e3e3;
- }
-}
 
 #singlepageFrame {
   .layout-content{
+    .col-center{
+      border-right: 1px solid #E5E5E5;
+      border-left: 1px solid #E5E5E5;
+      &:before{
+        content: 'Center Column';
+        position:absolute;
+        display:block;
+        text-align: center;
+        margin:0px;
+        color:#ccc;
+        font-size: 11px;
+        background:#f6f6f6;
+        padding:2px 5px;
+        text-shadow: 0 0 1px white;
+        border-radius: 0 0 5px 0;
+        border-bottom:1px solid #eeeeee;
+        border-left:1px solid #eeeeee;
+        border-right:1px solid #eeeeee;
+      }
+    }
     .col-left{
-     border-right: 1px solid #E5E5E5;
+      &:before{
+        content: 'Left Column';
+        position:absolute;
+        display:block;
+        text-align: center;
+        margin:0;
+        color:#ccc;
+        font-size: 11px;
+        background:#f6f6f6;
+        padding:2px 5px;
+        text-shadow: 0 0 1px white;
+        border-radius: 0 0 5px 0;
+        border-bottom:1px solid #eeeeee;
+        border-left:1px solid #eeeeee;
+        border-right:1px solid #eeeeee;
+      }
     }
     .col-right{
-      border-left: 1px solid #E5E5E5;
+      &:before{
+        content: 'Right Column';
+        position:absolute;
+        display:block;
+        text-align: center;
+        margin:0;
+        color:#ccc;
+        font-size: 11px;
+        background:#f6f6f6;
+        padding:2px 5px;
+        text-shadow: 0 0 1px white;
+        border-radius: 0 0 5px 0;
+        border-bottom:1px solid #eeeeee;
+        border-left:1px solid #eeeeee;
+        border-right:1px solid #eeeeee;
+      }
     }
   }
 }
 
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
 
 /* Custom page header */
 .header {
@@ -112,21 +129,3 @@ h1{
   margin-top: 28px;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-//    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
-}
