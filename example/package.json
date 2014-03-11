@@ -63,6 +63,7 @@
         "istanbul": "~0.2.6",
         "karma-detect-browsers": "*",
         "karma-coverage": "*",
+        "karma-jasmine": "*",
         "karma-junit-reporter": "*",
         "karma-mocha-reporter": "*",
         "karma-ng-scenario": "*",

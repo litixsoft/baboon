@@ -1,4 +1,7 @@
 # Release History
+## v0.3.9
+* check if app folder exists before creating the log dir
+
 ## v0.3.8
 * fix that save user settings could crash when the appFolder does not exists
 
