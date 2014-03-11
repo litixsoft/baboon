@@ -10,14 +10,16 @@ angular.module('main', [
         'main.about',
         'main.contact',
         'main.localization',
-        'hljs'
+        'hljs',
+        'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, tmhDynamicLocaleProvider) {
+    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, tmhDynamicLocaleProvider, transportProvider) {
 
         // Routing and navigation
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
         navigationProvider.setCurrentApp('main');
+        transportProvider.set();
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');

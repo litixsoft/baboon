@@ -10,9 +10,12 @@ angular.module('main.contact', [])
                 app: 'main'
             });
     })
-    .controller('MainContactCtrl', function ($scope, $http) {
-        $http.get('/api/awesomeThings').success(function (awesomeThings) {
-            $scope.awesomeThings = awesomeThings;
-            $scope.view = 'app/main/contact/contact.html';
+    .controller('MainContactCtrl', function ($scope, transport) {
+        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+            if (!error && result) {
+                $scope.awesomeThings = result;
+            }
         });
+
+        $scope.view = 'app/main/contact/contact.html';
     });
