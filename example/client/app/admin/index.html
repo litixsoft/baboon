@@ -55,10 +55,13 @@
 
 
 
+
     <!--[if lt IE 9]>
     <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
     <script src="assets/bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
+
+    <script src="/socket.io/socket.io.js"></script>
 
     <!-- build:js(client) scripts/admin/vendor.js -->
     <script src="assets/bower_components/angular/angular.js"></script>
@@ -66,6 +69,9 @@
     <script src="assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="assets/bower_components/angular-translate/angular-translate.js"></script>
     <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+
+    <script src="assets/bower_components/angular-socket-io/socket.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,client}) scripts/admin/scripts.js -->

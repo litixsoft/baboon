@@ -10,9 +10,13 @@ angular.module('main.about', [])
                 app: 'main'
             });
     })
-    .controller('MainAboutCtrl', function ($scope, $http) {
-        $http.get('/api/awesomeThings').success(function (awesomeThings) {
-            $scope.awesomeThings = awesomeThings;
-            $scope.view = 'app/main/about/about.html';
+    .controller('MainAboutCtrl', function ($scope, transport) {
+
+        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+            if (!error && result) {
+                $scope.awesomeThings = result;
+            }
         });
+
+        $scope.view = 'app/main/about/about.html';
     });

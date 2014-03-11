@@ -4,9 +4,10 @@ angular.module('admin', [
         'ngRoute',
         'ui.bootstrap',
         'common.nav',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider) {
+    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, transportProvider) {
 
         // Routing and navigation
         $routeProvider
@@ -20,6 +21,7 @@ angular.module('admin', [
 
         $locationProvider.html5Mode(true);
         navigationProvider.setCurrentApp('admin');
+        transportProvider.set();
 
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/admin/locale-',
@@ -28,9 +30,12 @@ angular.module('admin', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .controller('AdminCtrl', function ($scope, $http) {
-        $http.get('/api/awesomeThings').success(function(awesomeThings) {
-            $scope.awesomeThings = awesomeThings;
-            $scope.view = 'app/admin/admin.html';
+    .controller('AdminCtrl', function ($scope, transport) {
+        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+            if (!error && result) {
+                $scope.awesomeThings = result;
+            }
         });
+
+        $scope.view = 'app/admin/admin.html';
     });
