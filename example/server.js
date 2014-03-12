@@ -18,8 +18,10 @@ var app = express();
 var server = baboon.getServer(app);
 var io = require('socket.io').listen(server);
 
-// Express Configuration
+// Express configuration
 require('./server/config/express')(app, baboon);
+
+// Socket.Io configuration
 require('./server/config/socket-io')(io, baboon);
 
 // App routing
