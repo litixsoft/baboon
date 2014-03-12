@@ -3,6 +3,7 @@
 var express = require('express');
 var log4js = require('log4js');
 var path = require('path');
+var sessionstore = require('sessionstore');
 var oneMonth = 2592000000;
 
 /**
@@ -88,6 +89,9 @@ module.exports = function(app, baboon) {
         app.use(express.methodOverride());
         app.use(express.cookieParser('your secret here'));
         app.use(express.session({
+//            store: sessionstore.createSessionStore(),
+            store: sessionstore.createSessionStore({type: 'tingodb', dbPath: rootPath + '/../.tmp/'}),
+//            store: sessionstore.createSessionStore({type: 'mongodb'}),
             key: config.sessionKey,
             secret: config.sessionSecret,
             cookie: {expires: false}
