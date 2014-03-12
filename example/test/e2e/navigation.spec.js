@@ -8,7 +8,7 @@ describe('Scenario: User navigates the application.', function () {
         var view = element(by.binding('view'));
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
-        expect(thingList.count()).toEqual(4);
+        expect(thingList.count()).toEqual(5);
         expect(view.getText()).toEqual('app/main/home/home.html');
     });
 
@@ -18,7 +18,7 @@ describe('Scenario: User navigates the application.', function () {
         var view = element(by.binding('view'));
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
-        expect(thingList.count()).toEqual(4);
+        expect(thingList.count()).toEqual(5);
         expect(view.getText()).toEqual('app/main/home/home.html');
     });
 
@@ -28,7 +28,7 @@ describe('Scenario: User navigates the application.', function () {
         var view = element(by.binding('view'));
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
-        expect(thingList.count()).toEqual(4);
+        expect(thingList.count()).toEqual(5);
         expect(view.getText()).toEqual('app/main/about/about.html');
     });
 
@@ -38,7 +38,7 @@ describe('Scenario: User navigates the application.', function () {
         var view = element(by.binding('view'));
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
-        expect(thingList.count()).toEqual(4);
+        expect(thingList.count()).toEqual(5);
         expect(view.getText()).toEqual('app/main/contact/contact.html');
     });
 
@@ -48,7 +48,7 @@ describe('Scenario: User navigates the application.', function () {
         var view = element(by.binding('view'));
         var thingList = element.all(by.repeater('thing in awesomeThings'));
 
-        expect(thingList.count()).toEqual(4);
+        expect(thingList.count()).toEqual(5);
         expect(view.getText()).toEqual('app/admin/admin.html');
     });
 });
