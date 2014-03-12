@@ -11,11 +11,12 @@ angular.module('main.contact', [])
             });
     })
     .controller('MainContactCtrl', function ($scope, transport) {
+
+        $scope.title = 'Contact';
+
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
             }
         });
-
-        $scope.view = 'app/main/contact/contact.html';
     });

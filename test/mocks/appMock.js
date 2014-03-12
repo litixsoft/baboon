@@ -69,7 +69,6 @@ module.exports = function () {
         }
     };
 
-
     return {
         logging: {
             syslog: syslog,
@@ -79,6 +78,7 @@ module.exports = function () {
         trimConsole: trimConsole,
         captureStream: captureStream,
         res: res,
-        req: req
+        req: req,
+        transport: transport
     };
 };

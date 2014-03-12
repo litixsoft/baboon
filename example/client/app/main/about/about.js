@@ -12,11 +12,11 @@ angular.module('main.about', [])
     })
     .controller('MainAboutCtrl', function ($scope, transport) {
 
+        $scope.title = 'About';
+
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
             }
         });
-
-        $scope.view = 'app/main/about/about.html';
     });

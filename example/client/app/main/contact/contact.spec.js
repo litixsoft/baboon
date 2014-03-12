@@ -1,4 +1,3 @@
-
 'use strict';
 
 describe('Module: main.contact', function () {
@@ -17,21 +16,26 @@ describe('Module: main.contact', function () {
 
     describe('Controller: MainContactCtrl', function () {
 
-        var $httpBackend, $scope, $ctrl;
+        var $transport, $scope, $ctrl;
 
-        beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
-            $scope = $rootScope.$new();
-            $ctrl = $controller('MainContactCtrl', {$scope: $scope});
-        }));
+        beforeEach(function (done) {
+            inject(function ($controller, $rootScope, $injector) {
+
+                $transport = $injector.get('transport');
+                $transport.emit = function (event, callback) {
+                    event = null;
+                    callback(null, 'test');
+                    done();
+                };
+
+                $scope = $rootScope.$new();
+                $ctrl = $controller('MainContactCtrl', {$scope: $scope});
+            });
+        });
 
         it('should attach vars to the scope', function () {
-            expect($scope.awesomeThings).toBeUndefined();
-            $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(5);
-            expect($scope.view).toBe('app/main/contact/contact.html');
+            expect($scope.awesomeThings).toBe('test');
+            expect($scope.title).toBe('Contact');
         });
     });
 });

@@ -19,6 +19,8 @@ angular.module('main', [
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
         navigationProvider.setCurrentApp('main');
+
+        // transport
         transportProvider.set();
 
         // Translate

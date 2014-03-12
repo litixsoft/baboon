@@ -3,6 +3,7 @@
 describe('App: admin', function () {
 
     beforeEach(module('admin'));
+    beforeEach(module('bbc.transport'));
 
     it('should map routes', function () {
 
@@ -24,26 +25,25 @@ describe('App: admin', function () {
 
     describe('Controller: AdminCtrl', function () {
 
-        var $httpBackend, $scope, $ctrl;
+        var $transport, $scope, $ctrl;
 
-        beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectPOST('api/common/awesomeThings/index/getAll')
-                .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express', 'Grunt']);
+        beforeEach(function (done) {
+            inject(function ($controller, $rootScope, $injector) {
 
-            $httpBackend.whenGET('/locale/admin/locale-en-us.json').respond(200);
+                $transport = $injector.get('transport');
+                $transport.emit = function (event, callback) {
+                    event = null;
+                    callback(null, 'test');
+                    done();
+                };
 
-
-            $scope = $rootScope.$new();
-            $ctrl = $controller('AdminCtrl', {$scope: $scope});
-        }));
-
-        it('should attach vars to the scope', function () {
-            expect($scope.awesomeThings).toBeUndefined();
-            $httpBackend.flush();
-            expect($scope.awesomeThings.length).toBe(5);
-            expect($scope.view).toBe('app/admin/admin.html');
+                $scope = $rootScope.$new();
+                $ctrl = $controller('AdminCtrl', {$scope: $scope});
+            });
         });
 
+        it('should attach vars to the scope', function () {
+            expect($scope.awesomeThings).toBe('test');
+        });
     });
 });
