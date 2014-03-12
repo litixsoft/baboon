@@ -22,6 +22,10 @@ module.exports = function () {
             protocol: 'http',
             host: '127.0.0.1',
             port: 3000,
+            sessionKey: 'baboon.sid',
+            sessionSecret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
+            sessionMaxLife: 804600,
+            sessionInactiveTime: 3600,
             logging: {
                 appenders: {
                     file: {
@@ -42,6 +46,11 @@ module.exports = function () {
                         appender: 'file'
                     },
                     express: {
+                        active: true,
+                        level: 'INFO',
+                        appender: 'file'
+                    },
+                    socket: {
                         active: true,
                         level: 'INFO',
                         appender: 'file'
@@ -86,6 +95,8 @@ module.exports = function () {
         settings.logging.loggers.syslog.appender = 'console';
         settings.logging.loggers.express.level = 'DEBUG';
         settings.logging.loggers.express.appender = 'console';
+        settings.logging.loggers.socket.level = 'DEBUG';
+        settings.logging.loggers.socket.appender = 'console';
 
         return settings;
     };
@@ -166,6 +177,8 @@ module.exports = function () {
         settings.logging.loggers.syslog.appender = 'console';
         settings.logging.loggers.express.level = 'DEBUG';
         settings.logging.loggers.express.appender = 'console';
+        settings.logging.loggers.socket.level = 'DEBUG';
+        settings.logging.loggers.socket.appender = 'console';
 
         return settings;
     };

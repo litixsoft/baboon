@@ -20,6 +20,7 @@ var io = require('socket.io').listen(server);
 
 // Express Configuration
 require('./server/config/express')(app, baboon);
+require('./server/config/socket-io')(io, baboon);
 
 // App routing
 require('./server/routes')(app, baboon);

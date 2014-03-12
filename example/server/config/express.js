@@ -87,7 +87,11 @@ module.exports = function(app, baboon) {
         app.use(express.urlencoded());
         app.use(express.methodOverride());
         app.use(express.cookieParser('your secret here'));
-        app.use(express.session());
+        app.use(express.session({
+            key: config.sessionKey,
+            secret: config.sessionSecret,
+            cookie: {expires: false}
+        }));
         app.use('/api/', baboon.transport.processRequest);
         app.use(app.router);
         app.use(baboon.errorHandler);
