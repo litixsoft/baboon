@@ -12,6 +12,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
+            'test/fixtures/clientAppMocks.js',
             'client/assets/bower_components/angular/angular.js',
             'client/assets/bower_components/angular-mocks/angular-mocks.js',
             'client/assets/bower_components/angular-resource/angular-resource.js',
@@ -19,11 +20,13 @@ module.exports = function (config) {
             'client/assets/bower_components/angular-sanitize/angular-sanitize.js',
             'client/assets/bower_components/angular-route/angular-route.js',
             'client/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            'client/assets/bower_components//angular-translate//angular-translate.js',
+            'client/assets/bower_components/angular-translate/angular-translate.js',
             'client/assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'client/assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js',
             'client/assets/bower_components/highlightjs/highlight.pack.js',
             'client/assets/bower_components/angular-highlightjs/angular-highlightjs.js',
+            'client/assets/bower_components/angular-socket-io/socket.js',
+            'client/assets/bower_components/baboon-client/modules/**/*.js',
             'client/app/**/*.js',
             'client/common/**/*.js'
         ],
