@@ -38,6 +38,22 @@ describe('Errors', function () {
         expect(error instanceof LogError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+    it('should throw an TransportError with message', function() {
+        var TransportError = errors.TransportError;
+        var error = new TransportError('TransportTestError');
+
+        expect(error.message).toBe('TransportTestError');
+        expect(error instanceof TransportError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an TransportError without message', function() {
+        var TransportError = errors.TransportError;
+        var error = new TransportError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof TransportError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
     it('should throw an NavigationError with message, resource and status', function() {
         var NavigationError = errors.NavigationError;
         var error = new NavigationError(400, 'unitTest', 'NavigationTestError');
