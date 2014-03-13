@@ -1,5 +1,7 @@
 'use strict';
 
+var path = require('path');
+
 module.exports = function () {
     var logging = function (msg) {
         console.log(msg);
@@ -15,7 +17,6 @@ module.exports = function () {
             return true;
         }
     };
-
 
     var trimConsole = function (msg) {
         return msg.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g, '').replace(/\s+/g, ' ');
@@ -69,6 +70,24 @@ module.exports = function () {
         }
     };
 
+    // socket
+    var socket = {
+        events:{},
+        on: function (event, func) {
+            socket.events[event] = func;
+        }
+    };
+
+    // baboon object
+    var baboon = {
+        config: {
+            useRightSystem: false,
+            path: {
+                modules: path.join(path.resolve('./test/mocks'), 'server', 'modules')
+            }
+        }
+    };
+
     return {
         logging: {
             syslog: syslog,
@@ -78,6 +97,8 @@ module.exports = function () {
         trimConsole: trimConsole,
         captureStream: captureStream,
         res: res,
-        req: req
+        req: req,
+        socket: socket,
+        baboon: baboon
     };
 };
