@@ -38,4 +38,3 @@ angular.module('main', [
             tmhDynamicLocale.set($translate.use());
         });
     });
-
