@@ -22,10 +22,30 @@ module.exports = function () {
             protocol: 'http',
             host: '127.0.0.1',
             port: 3000,
-            sessionKey: 'baboon.sid',
-            sessionSecret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
-            sessionMaxLife: 804600,
-            sessionInactiveTime: 3600,
+            session:{
+                key: 'baboon.sid',
+                secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
+                maxLife: 804600,
+                inactiveTime: 3600,
+                stores:{
+                    inMemory:{
+                        type: 'inMemory'
+                    },
+                    mongoDb: {
+                        type:'mongoDb',
+                        host: 'localhost',
+                        port: 27017,
+                        dbName: 'sessions',
+                        collectionName: 'sessions'
+                    },
+                    tingoDb: {
+                        type:'tingoDb',
+                        dbPath: '/sessions',
+                        collectionName: 'sessions'
+                    }
+                },
+                activeStore: 'mongoDb'
+            },
             logging: {
                 appenders: {
                     file: {
