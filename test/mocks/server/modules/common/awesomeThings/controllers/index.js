@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function() {
+module.exports = function () {
 
     var pub = {};
 
@@ -34,10 +34,17 @@ module.exports = function() {
         ]);
     };
 
+    pub.raiseError = function (data, request, callback) {
+        callback('Error raised');
+    };
+
     pub.sessionTest = function (data, request, callback) {
-        request.getSession(function(error, session){
+        var session = request.getSession();
+        request.setSession(session);
+
+        request.getSession(function (error, session) {
             var a = 0;
-            if (session){
+            if (session) {
                 a = session.a || 0;
                 a++;
                 session.a = a;
@@ -49,7 +56,9 @@ module.exports = function() {
                 {name: 'c'}
             ];
 
-            callback(null, {items: items, count: items.length, sessionCalls: a});
+            request.setSession(session, function () {
+                callback(null, {items: items, count: items.length, sessionCalls: a});
+            });
         });
     };
 
