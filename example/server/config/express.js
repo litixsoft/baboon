@@ -80,6 +80,8 @@ module.exports = function(app, baboon) {
         app.set('views', rootPath + '/.dist/views');
     });
 
+    baboon.sessionStore = sessionstore.createSessionStore(config.session.stores[config.session.activeStore]);
+
     // Configuration for production and development
     app.configure(function () {
         app.engine('html', require('ejs').renderFile);
@@ -89,11 +91,9 @@ module.exports = function(app, baboon) {
         app.use(express.methodOverride());
         app.use(express.cookieParser('your secret here'));
         app.use(express.session({
-//            store: sessionstore.createSessionStore(),
-            store: sessionstore.createSessionStore({type: 'tingodb', dbPath: rootPath + '/../.tmp/'}),
-//            store: sessionstore.createSessionStore({type: 'mongodb'}),
-            key: config.sessionKey,
-            secret: config.sessionSecret,
+            store: baboon.sessionStore,
+            key: config.session.key,
+            secret: config.session.secret,
             cookie: {expires: false}
         }));
         app.use('/api/', baboon.transport.processRequest);
