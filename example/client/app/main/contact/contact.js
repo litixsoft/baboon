@@ -10,13 +10,17 @@ angular.module('main.contact', [])
                 app: 'main'
             });
     })
-    .controller('MainContactCtrl', function ($scope, transport) {
+    .controller('MainContactCtrl', function ($scope, transport, $log) {
 
         $scope.title = 'Contact';
 
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
+            }
+            else {
+                $scope.awesomeThings = [];
+                $log.error(error);
             }
         });
     });

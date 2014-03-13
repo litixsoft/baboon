@@ -30,10 +30,14 @@ angular.module('admin', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .controller('AdminCtrl', function ($scope, transport) {
+    .controller('AdminCtrl', function ($scope, transport, $log) {
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
+            }
+            else {
+                $scope.awesomeThings = [];
+                $log.error(error);
             }
         });
 

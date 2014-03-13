@@ -10,13 +10,17 @@ angular.module('main.about', [])
                 app: 'main'
             });
     })
-    .controller('MainAboutCtrl', function ($scope, transport) {
+    .controller('MainAboutCtrl', function ($scope, transport, $log) {
 
         $scope.title = 'About';
 
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
+            }
+            else {
+                $scope.awesomeThings = [];
+                $log.error(error);
             }
         });
     });

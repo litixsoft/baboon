@@ -77,6 +77,36 @@ describe('App main', function () {
     });
 
 //    it('should raise the $translateChangeSuccess event', function() {
-//        $httpBackend.flush();
+//
+//        var translate, tmhDynamicLocale, setTmp;
+//
+//        beforeEach(module('pascalprecht.translate'));
+//        beforeEach(module('tmh.dynamicLocale'));
+//
+//        beforeEach(function() {
+//                inject(function ($rootScope, $injector) {
+//
+//                    translate = $injector.get('$translate');
+//                    tmhDynamicLocale = $injector('tmhDynamicLocale');
+//                    translate.use = function() {
+//                        return 'test';
+//                    };
+//                    tmhDynamicLocale.set =function(translate) {
+//                        setTmp = translate;
+//                    };
+//
+//                    spyOn($rootScope, '$emit');
+//
+//                    //expect($location.$$html5).toEqual(true);
+//                });
+//            }
+//        );
+//
+//
+//
+//        //$httpBackend.flush();
+//        //spyOn(scope, "$emit")
+//        //run code to test
+//        //expect(scope.$emit).toHaveBeenCalledWith("MY_EVENT_ID", other, possible, args);
 //    });
 });

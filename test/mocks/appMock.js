@@ -78,7 +78,6 @@ module.exports = function () {
         trimConsole: trimConsole,
         captureStream: captureStream,
         res: res,
-        req: req,
-        transport: transport
+        req: req
     };
 };

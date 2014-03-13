@@ -14,13 +14,17 @@ angular.module('main.home', [])
                 app: 'main'
             });
     })
-    .controller('MainHomeCtrl', function ($scope, transport) {
+    .controller('MainHomeCtrl', function ($scope, transport, $log) {
 
         $scope.title = 'Home';
 
         transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
+            }
+            else {
+                $scope.awesomeThings = [];
+                $log.error(error);
             }
         });
     });
