@@ -77,7 +77,7 @@ describe('Logging', function () {
             expect(syslog.indexOf('[ERROR] syslog - test')).toBeGreaterThan(0);
 
             done();
-        }, 1);
+        }, 300);
     });
 
     it('should write an express error in console', function () {
