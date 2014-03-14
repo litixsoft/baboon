@@ -84,23 +84,55 @@ module.exports = function (grunt) {
             }
         },
         jasmine_node: {
-            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'test',
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: true,
-                savePath: '.reports/test/',
-                useDotNotation: true,
-                consolidate: true
+            options: {
+                specNameMatcher: './*.spec', // load only specs containing specNameMatcher
+                requirejs: false,
+                forceExit: true
+            },
+            test: ['test/'],
+            ci: {
+                options: {
+                    jUnit: {
+                        report: true,
+                        savePath: '.reports/test/',
+                        useDotNotation: true,
+                        consolidate: true
+                    }
+                },
+                src: ['test/']
+            }
+        },
+        changelog: {
+            options: {
+            }
+        },
+        bump: {
+            options: {
+                updateConfigs: ['pkg'],
+                commitFiles: ['-a'],
+                commitMessage: 'chore: release v%VERSION%',
+                push: false
             }
         }
     });
 
+    grunt.registerTask('git:commitHook', 'Install git commit hook', function () {
+        grunt.file.copy('validate-commit-msg.js', '.git/hooks/commit-msg');
+        require('fs').chmodSync('.git/hooks/commit-msg', '0755');
+        grunt.log.ok('Registered git hook: commit-msg');
+    });
+
     grunt.registerTask('lint', ['jshint:test']);
-    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
-    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node:ci', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('release', 'Bump version, update changelog and tag version', function (version) {
+        grunt.task.run([
+            'bump:' + (version || 'patch') + ':bump-only',
+            'changelog',
+            'bump-commit'
+        ]);
+    });
 
     // Default task.
     grunt.registerTask('default', ['test']);

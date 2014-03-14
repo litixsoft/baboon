@@ -55,7 +55,8 @@ If changes are detected, a new build is created, the server is restarted if nece
 Look out for more information in the sample application or check out the documentations on our web site.
 
 # Contributing
-Instead of us handing out a formal style guide, simply stick to the existing programming style.
+Instead of us handing out a formal style guide, simply stick to the existing programming style. Please create descriptive commit messages.
+We use a git hook to validate the commit messages against these [rules](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.uyo6cb12dt6w).
 Easily expand Baboon with your own extensions or changes in the functionality of Baboon itself. Use this workflow:
 
 1. Write your functionality
@@ -255,11 +256,33 @@ Run unit tests, jshint and code coverage for ci systems
 
 This generates xml reports inside the build folder.
 
+## Release a new version
+We use [grunt-bump](https://github.com/vojtajina/grunt-bump) and [grunt-conventional-changelog](https://github.com/btford/grunt-conventional-changelog) internally to manage our releases.
+To handle the workflow, we created a grunt task `release`. This happens:
+
+* Bump version in package.json
+* Update the CHANGELOG.md file
+* Commit in git with message "Release v[`the new version number`]"
+* Create a git tag v[`the new version number`]
+
+### Create a new release
+Release a new patch
+
+    $ grunt release
+
+Release a new minor version
+
+    $ grunt release:minor
+
+Release a new major version
+
+    $ grunt release:major
+
 # Author
 [Litixsoft GmbH](http://www.litixsoft.de)
 
 # License
-Copyright (C) 2013 Litixsoft GmbH <info@litixsoft.de>
+Copyright (C) 2013-2014 Litixsoft GmbH <info@litixsoft.de>
 Licensed under the MIT license.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
