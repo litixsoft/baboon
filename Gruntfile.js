@@ -84,23 +84,30 @@ module.exports = function (grunt) {
             }
         },
         jasmine_node: {
-            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'test',
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: true,
-                savePath: '.reports/test/',
-                useDotNotation: true,
-                consolidate: true
+            options: {
+                specNameMatcher: './*.spec', // load only specs containing specNameMatcher
+                requirejs: false,
+                forceExit: true
+            },
+            test: ['test/'],
+            ci: {
+                options: {
+                    jUnit: {
+                        report: true,
+                        savePath: '.reports/test/',
+                        useDotNotation: true,
+                        consolidate: true
+                    }
+                },
+                src: ['test/']
             }
         }
     });
 
     grunt.registerTask('lint', ['jshint:test']);
-    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
-    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node:ci', 'bgShell:coverage', 'bgShell:cobertura']);
 
     // Default task.
     grunt.registerTask('default', ['test']);
