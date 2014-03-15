@@ -3,7 +3,6 @@
 var express = require('express');
 var log4js = require('log4js');
 var path = require('path');
-var sessionstore = require('sessionstore');
 var oneMonth = 2592000000;
 
 /**
@@ -80,8 +79,6 @@ module.exports = function(app, baboon) {
         app.set('views', rootPath + '/.dist/views');
     });
 
-    baboon.sessionStore = sessionstore.createSessionStore(config.session.stores[config.session.activeStore]);
-
     // Configuration for production and development
     app.configure(function () {
         app.engine('html', require('ejs').renderFile);
@@ -91,12 +88,14 @@ module.exports = function(app, baboon) {
         app.use(express.methodOverride());
         app.use(express.cookieParser('your secret here'));
         app.use(express.session({
-            store: baboon.sessionStore,
+            store: baboon.session.getSessionStore(),
             key: config.session.key,
             secret: config.session.secret,
             cookie: {expires: false}
         }));
+        app.use(baboon.middleware.session.initSession);
         app.use('/api/', baboon.transport.processRequest);
+        app.use(baboon.middleware.session.checkActivitySession);
         app.use(app.router);
         app.use(baboon.errorHandler);
     });

@@ -34,29 +34,5 @@ module.exports = function() {
         ]);
     };
 
-    pub.sessionTest = function (data, request, callback) {
-        request.getSession(function(error, session){
-
-//            console.log(session);
-
-            var a = 0;
-            if (session){
-                a = session.a || 0;
-                a++;
-                session.a = a;
-            }
-
-            var items = [
-                {name: 'a'},
-                {name: 'b'},
-                {name: 'c'}
-            ];
-
-            callback(null, {items: items, count: items.length, sessionCalls: a});
-
-        });
-
-    };
-
     return pub;
 };

@@ -33,8 +33,25 @@ angular.module('main', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .run(function ($rootScope, $translate, tmhDynamicLocale) {
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window) {
+
+        $rootScope.requestNeeded = false;
+
         $rootScope.$on('$translateChangeSuccess', function() {
             tmhDynamicLocale.set($translate.use());
+        });
+
+        $rootScope.$on('$routeChangeStart', function (current, next) {
+
+            // when request needed is true than make a request with next route
+            if ($rootScope.requestNeeded) {
+                $window.location.assign(next.$$route.originalPath);
+            }
+        });
+
+        // session inactive event, triggered when session inactive or lost
+        $rootScope.$on('$sessionInactive', function() {
+            $log.warn('next route change event triggers a server request.');
+            $rootScope.requestNeeded = true;
         });
     });

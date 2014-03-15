@@ -13,7 +13,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.production = function() {
+    config.production = function () {
 
         // Contains all settings for this configuration
         return {
@@ -22,29 +22,34 @@ module.exports = function () {
             protocol: 'http',
             host: '127.0.0.1',
             port: 3000,
-            session:{
+            rights: {
+                enabled: false,
+                masterLoginPage: false
+            },
+            session: {
                 key: 'baboon.sid',
                 secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
                 maxLife: 804600,
-                inactiveTime: 3600,
-                stores:{
-                    inMemory:{
+                inactiveTime: 20,
+                //inactiveTime: 3600,
+                stores: {
+                    inMemory: {
                         type: 'inMemory'
                     },
                     mongoDb: {
-                        type:'mongoDb',
+                        type: 'mongoDb',
                         host: 'localhost',
                         port: 27017,
-                        dbName: 'sessions',
+                        dbName: 'baboon_sessions',
                         collectionName: 'sessions'
                     },
                     tingoDb: {
-                        type:'tingoDb',
-                        dbPath: '/sessions',
+                        type: 'tingoDb',
+                        dbPath: './.tmp',
                         collectionName: 'sessions'
                     }
                 },
-                activeStore: 'mongoDb'
+                activeStore: 'inMemory'
             },
             logging: {
                 appenders: {
@@ -78,20 +83,9 @@ module.exports = function () {
                 }
             },
             mail: {
-                /*
-                    host - hostname of the SMTP server (defaults to "localhost")
-                    port - port of the SMTP server (defaults to 25, not needed with service)
-                    useSsl - use SSL (default is false). If you're using port 587 then keep secureConnection false, since the connection is started in insecure plain text mode and only later upgraded with STARTTLS
-                    auth - authentication object as {user:"...", pass:"..."} or {XOAuth2: {xoauth2_options}} or {XOAuthToken: "base64data"}
-                    ignoreTLS - ignore server support for STARTTLS (defaults to false)
-                    debug - output client and server messages to console
-                    maxConnections - how many connections to keep in the pool (defaults to 5)
-                    maxMessages - limit the count of messages to send through a single connection (no limit by default)
-                */
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
                 directory: 'C:/Temp/Mail' // required for type PICKUP
-            },
-            useRightSystem: false
+            }
         };
     };
 
@@ -102,7 +96,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.development = function() {
+    config.development = function () {
 
         // Config contains all settings from production.
         var settings = config.production();
@@ -128,7 +122,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.unitTest = function() {
+    config.unitTest = function () {
 
         // Config contains all settings from development.
         var settings = config.production();
@@ -148,7 +142,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.e2eTest = function() {
+    config.e2eTest = function () {
 
         // Config contains all settings from development.
         var settings = config.development();
@@ -166,7 +160,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.e2eProductionTest = function() {
+    config.e2eProductionTest = function () {
 
         // Config contains all settings from development.
         var settings = config.development();
@@ -185,7 +179,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.productionLog = function() {
+    config.productionLog = function () {
 
         // Config contains all settings from development.
         var settings = config.production();

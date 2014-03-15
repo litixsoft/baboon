@@ -29,11 +29,14 @@ require('./server/routes')(app, baboon);
 
 // Catch all other requests as main angular app
 app.get('*', function (req, res) {
+
     res.render('app/main/index');
 });
 
 // socket connection event
 io.sockets.on('connection', function (socket) {
+//    console.log(socket.id);
+//    console.log(io.handshaken[socket.id].headers.cookie);
     baboon.transport.registerSocketEvents(socket);
 });
 
