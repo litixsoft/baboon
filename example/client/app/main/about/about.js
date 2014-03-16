@@ -10,11 +10,11 @@ angular.module('main.about', [])
                 app: 'main'
             });
     })
-    .controller('MainAboutCtrl', function ($scope, transport, $log) {
+    .controller('MainAboutCtrl', function ($scope, $bbcTransport, $log) {
 
         $scope.title = 'About';
 
-        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
             }

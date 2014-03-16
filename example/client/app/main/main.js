@@ -13,7 +13,7 @@ angular.module('main', [
         'hljs',
         'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, transportProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
 
         // Routing and navigation
         $routeProvider.otherwise({redirectTo: '/'});
@@ -24,7 +24,7 @@ angular.module('main', [
         });
 
         // transport
-        transportProvider.set();
+        $bbcTransportProvider.set();
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');

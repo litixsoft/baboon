@@ -7,7 +7,7 @@ angular.module('admin', [
         'pascalprecht.translate',
         'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, transportProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider) {
 
         // Routing and navigation
         $routeProvider
@@ -24,7 +24,7 @@ angular.module('admin', [
             app: 'admin',
             route: '/admin'
         });
-        transportProvider.set();
+        $bbcTransportProvider.set();
 
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/admin/locale-',
@@ -33,8 +33,8 @@ angular.module('admin', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .controller('AdminCtrl', function ($scope, transport, $log) {
-        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+    .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
+        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
             }

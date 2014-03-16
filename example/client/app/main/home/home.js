@@ -14,11 +14,11 @@ angular.module('main.home', [])
                 app: 'main'
             });
     })
-    .controller('MainHomeCtrl', function ($scope, transport, $log) {
+    .controller('MainHomeCtrl', function ($scope, $bbcTransport, $log) {
 
         $scope.title = 'Home';
 
-        transport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
             }
