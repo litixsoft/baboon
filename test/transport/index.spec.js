@@ -145,25 +145,6 @@ describe('Transport/Index', function () {
             sut.processRequest(req, res);
         });
 
-//        it('should process the request and return access denied when right system is enabled and user has no access', function (done) {
-//            var req = appMock.req;
-//            var res = {
-//                json: function(code, value){
-//                    expect(code).toBe(403);
-//                    expect(value).toBe('Access denied.');
-//
-//                    done();
-//                }
-//            };
-//
-//            req.originalUrl = '/api/common/awesomeThings/index/getAll';
-//
-//            baboon.config.useRightSystem = true;
-//            sut = transport(baboon);
-//            sut.processRequest(req, res);
-//            baboon.config.useRightSystem = false;
-//        });
-
         it('should process the request and return wrong url', function (done) {
             var req = appMock.req;
             var res = {
@@ -234,17 +215,5 @@ describe('Transport/Index', function () {
                 done();
             });
         });
-
-//        it('should not register events on socket if right system is enabled and user has no access', function () {
-//            var socket = appMock.socket;
-//            socket.events = {};
-//
-//            baboon.config.useRightSystem = true;
-//            sut = transport(baboon);
-//            sut.registerSocketEvents(socket);
-//            baboon.config.useRightSystem = false;
-//
-//            expect(Object.keys(socket.events).length).toBe(0);
-//        });
     });
 });
