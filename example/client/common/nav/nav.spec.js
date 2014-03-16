@@ -27,13 +27,15 @@ describe('Common: common.nav', function () {
         beforeEach(function (done) {
             inject(function ($controller, $rootScope, $injector, $location) {
 
-                $navigation = $injector.get('navigation');
+                $navigation = $injector.get('$bbcNavigation');
                 location = $location;
+                $navigation.getRoute = function() {
+                    return('/test');
+                };
                 $navigation.getTopList = function(callback) {
                     callback(null, navigationMockTop);
                 };
-                $navigation.getSubList = function(path, callback) {
-                    path = null;
+                $navigation.getSubList = function(callback) {
                     callback(null, navigationMockSub);
                 };
 
@@ -46,9 +48,9 @@ describe('Common: common.nav', function () {
         it('should active the correct location', function () {
 
             location.path('/test/path');
-
-            expect($scope.isActive('/test/path').isTrue);
-            expect($scope.isActive('/test/').isFalse);
+            expect($scope.isActive('/test')).toBe(true);
+            expect($scope.isActive('/test/path')).toBe(true);
+            expect($scope.isActive('/test/foo')).toBe(false);
         });
 
         it('should attach menus to the scope', function () {
@@ -68,12 +70,11 @@ describe('Common: common.nav', function () {
             beforeEach(function (done) {
                 inject(function ($controller, $rootScope, $injector) {
 
-                    $navigation = $injector.get('navigation');
+                    $navigation = $injector.get('$bbcNavigation');
                     $navigation.getTopList = function(callback) {
                         callback('error');
                     };
-                    $navigation.getSubList = function(path, callback) {
-                        path = null;
+                    $navigation.getSubList = function(callback) {
                         callback(null, navigationMockSub);
                     };
 
@@ -99,12 +100,11 @@ describe('Common: common.nav', function () {
             beforeEach(function (done) {
                 inject(function ($controller, $rootScope, $injector) {
 
-                    $navigation = $injector.get('navigation');
+                    $navigation = $injector.get('$bbcNavigation');
                     $navigation.getTopList = function(callback) {
                         callback(null, navigationMockTop);
                     };
-                    $navigation.getSubList = function(path, callback) {
-                        path = null;
+                    $navigation.getSubList = function(callback) {
                         callback('error');
                     };
 
