@@ -84,7 +84,7 @@ module.exports = function () {
             useRightSystem: false,
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
-                lib_controller: path.join(path.resolve('./test/mocks'), 'controller')
+                lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
             }
         }
     };
