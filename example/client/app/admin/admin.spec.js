@@ -30,7 +30,7 @@ describe('App: admin', function () {
         beforeEach(function (done) {
             inject(function ($controller, $rootScope, $injector) {
 
-                $transport = $injector.get('transport');
+                $transport = $injector.get('$bbcTransport');
                 $transport.emit = function (event, callback) {
                     event = null;
                     callback(null, 'test');
@@ -56,7 +56,7 @@ describe('App: admin', function () {
                     $log.error = function(msg){
                         error = msg;
                     };
-                    $transport = $injector.get('transport');
+                    $transport = $injector.get('$bbcTransport');
                     $transport.emit = function (event, callback) {
                         event = null;
                         callback('awesomeThings error');

@@ -21,7 +21,7 @@ describe('Module: main.contact', function () {
         beforeEach(function (done) {
             inject(function ($controller, $rootScope, $injector) {
 
-                $transport = $injector.get('transport');
+                $transport = $injector.get('$bbcTransport');
                 $transport.emit = function (event, callback) {
                     event = null;
                     callback(null, 'test');
@@ -48,7 +48,7 @@ describe('Module: main.contact', function () {
                     $log.error = function(msg){
                         error = msg;
                     };
-                    $transport = $injector.get('transport');
+                    $transport = $injector.get('$bbcTransport');
                     $transport.emit = function (event, callback) {
                         event = null;
                         callback('awesomeThings error');
