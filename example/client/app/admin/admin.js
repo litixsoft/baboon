@@ -3,11 +3,12 @@
 angular.module('admin', [
         'ngRoute',
         'ui.bootstrap',
-        'common.nav',
+        'bbc.transport',
+        'common.navigation',
         'pascalprecht.translate',
-        'bbc.transport'
+        'tmh.dynamicLocale'
     ])
-    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
         // Routing and navigation
         $routeProvider
@@ -20,11 +21,17 @@ angular.module('admin', [
             });
 
         $locationProvider.html5Mode(true);
+
         $bbcNavigationProvider.set({
             app: 'admin',
             route: '/admin'
         });
+
+        // Transport
         $bbcTransportProvider.set();
+
+        // Translate
+        tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/admin/locale-',
@@ -32,6 +39,31 @@ angular.module('admin', [
         });
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
+    })
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window) {
+
+        // flag for needed request by next route change event
+        $rootScope.requestNeeded = false;
+
+        // route change event
+        $rootScope.$on('$routeChangeStart', function (current, next) {
+
+            // when request needed is true than make a request with next route
+            if ($rootScope.requestNeeded) {
+                $window.location.assign(next.$$route.originalPath);
+            }
+        });
+
+        // session inactive event, triggered when session inactive or lost
+        $rootScope.$on('$sessionInactive', function() {
+            $log.warn('next route change event triggers a server request.');
+            $rootScope.requestNeeded = true;
+        });
+
+        // translate
+        $rootScope.$on('$translateChangeSuccess', function() {
+            tmhDynamicLocale.set($translate.use());
+        });
     })
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){

@@ -3,15 +3,15 @@
 angular.module('main', [
         'ngRoute',
         'ui.bootstrap',
-        'common.nav',
+        'bbc.transport',
+        'common.navigation',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'main.home',
         'main.about',
         'main.contact',
         'main.localization',
-        'hljs',
-        'bbc.transport'
+        'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
 
@@ -40,10 +40,6 @@ angular.module('main', [
 
         $rootScope.requestNeeded = false;
 
-        $rootScope.$on('$translateChangeSuccess', function() {
-            tmhDynamicLocale.set($translate.use());
-        });
-
         $rootScope.$on('$routeChangeStart', function (current, next) {
 
             // when request needed is true than make a request with next route
@@ -56,5 +52,10 @@ angular.module('main', [
         $rootScope.$on('$sessionInactive', function() {
             $log.warn('next route change event triggers a server request.');
             $rootScope.requestNeeded = true;
+        });
+
+        // translate
+        $rootScope.$on('$translateChangeSuccess', function() {
+            tmhDynamicLocale.set($translate.use());
         });
     });

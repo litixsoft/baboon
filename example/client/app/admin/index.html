@@ -30,8 +30,8 @@
 
 
 
-    <div id="singlepageFrame" ng-controller="CommonNavCtrl" class="ng-cloak">
-        <div ng-include="'common/nav/navTopList.html'" class="top-nav"></div>
+    <div id="singlepageFrame" ng-controller="CommonNavigationCtrl" class="ng-cloak">
+        <div ng-include="'common/navigation/navTopList.html'" class="top-nav"></div>
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
@@ -66,6 +66,7 @@
     <script src="assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="assets/bower_components/angular-translate/angular-translate.js"></script>
     <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js"></script>
 
     <script src="assets/bower_components/angular-socket-io/socket.js"></script>
     <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
@@ -74,7 +75,7 @@
 
     <!-- build:js({.tmp,client}) scripts/admin/scripts.js -->
     <script src="app/admin/admin.js"></script>
-    <script src="common/nav/nav.js"></script>
+    <script src="common/navigation/navigation.js"></script>
     <!-- endbuild -->
 </body>
 </html>

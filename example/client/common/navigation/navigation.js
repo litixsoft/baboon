@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('common.nav', ['bbc.navigation'])
-    .controller('CommonNavCtrl', function ($scope, $location, $bbcNavigation) {
+angular.module('common.navigation', ['bbc.navigation'])
+    .controller('CommonNavigationCtrl', function ($scope, $location, $bbcNavigation) {
 
         var appRoute = $bbcNavigation.getRoute();
 

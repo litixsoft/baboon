@@ -2,10 +2,10 @@
 
 describe('Common: common.nav', function () {
 
-    describe('Controller: CommonNavCtrl', function () {
+    describe('Controller: CommonNavigationCtrl', function () {
 
         beforeEach(module('bbc.transport'));
-        beforeEach(module('common.nav'));
+        beforeEach(module('common.navigation'));
 
         var $navigation, $scope, $ctrl, location;
 
@@ -40,7 +40,7 @@ describe('Common: common.nav', function () {
                 };
 
                 $scope = $rootScope.$new();
-                $ctrl = $controller('CommonNavCtrl', {$scope: $scope});
+                $ctrl = $controller('CommonNavigationCtrl', {$scope: $scope});
                 done();
             });
         });
@@ -79,7 +79,7 @@ describe('Common: common.nav', function () {
                     };
 
                     $scope = $rootScope.$new();
-                    $ctrl = $controller('CommonNavCtrl', {$scope: $scope});
+                    $ctrl = $controller('CommonNavigationCtrl', {$scope: $scope});
                     done();
                 });
             });
@@ -109,7 +109,7 @@ describe('Common: common.nav', function () {
                     };
 
                     $scope = $rootScope.$new();
-                    $ctrl = $controller('CommonNavCtrl', {$scope: $scope});
+                    $ctrl = $controller('CommonNavigationCtrl', {$scope: $scope});
                     done();
                 });
             });

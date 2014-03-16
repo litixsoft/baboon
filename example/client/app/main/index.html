@@ -25,13 +25,13 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div id="singlepageFrame" ng-controller="CommonNavCtrl" class="ng-cloak">
-        <div ng-include="'common/nav/navTopList.html'" class="top-nav"></div>
+    <div id="singlepageFrame" ng-controller="CommonNavigationCtrl" class="ng-cloak">
+        <div ng-include="'common/navigation/navTopList.html'" class="top-nav"></div>
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
                 <div class="container">
-                    <div ng-include="'common/nav/navSubList.html'" class="side-nav"></div>
+                    <div ng-include="'common/navigation/navSubList.html'" class="side-nav"></div>
                 </div>
             </div>
             <div class="col-right">
@@ -73,7 +73,7 @@
 
         <!-- build:js({.tmp,client}) scripts/main/scripts.js -->
         <script src="app/main/main.js"></script>
-        <script src="common/nav/nav.js"></script>
+        <script src="common/navigation/navigation.js"></script>
         <script src="app/main/about/about.js"></script>
         <script src="app/main/contact/contact.js"></script>
         <script src="app/main/home/home.js"></script>
