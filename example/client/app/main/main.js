@@ -13,12 +13,15 @@ angular.module('main', [
         'hljs',
         'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, tmhDynamicLocaleProvider, transportProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, transportProvider) {
 
         // Routing and navigation
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
-        navigationProvider.setCurrentApp('main');
+        $bbcNavigationProvider.set({
+            app: 'main',
+            route: '/'
+        });
 
         // transport
         transportProvider.set();

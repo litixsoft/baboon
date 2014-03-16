@@ -7,7 +7,7 @@ angular.module('admin', [
         'pascalprecht.translate',
         'bbc.transport'
     ])
-    .config(function ($routeProvider, $locationProvider, navigationProvider, $translateProvider, transportProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, transportProvider) {
 
         // Routing and navigation
         $routeProvider
@@ -20,7 +20,10 @@ angular.module('admin', [
             });
 
         $locationProvider.html5Mode(true);
-        navigationProvider.setCurrentApp('admin');
+        $bbcNavigationProvider.set({
+            app: 'admin',
+            route: '/admin'
+        });
         transportProvider.set();
 
         $translateProvider.useStaticFilesLoader({

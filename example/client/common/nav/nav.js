@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('common.nav', ['bbc.nav'])
-    .controller('CommonNavCtrl', function ($scope, $location, navigation) {
+angular.module('common.nav', ['bbc.navigation'])
+    .controller('CommonNavCtrl', function ($scope, $location, $bbcNavigation) {
 
-        navigation.getTopList(function (error, navList) {
+        $bbcNavigation.getTopList(function (error, navList) {
 
             if (error || navList.length === 0) {
                 $scope.menuTopList = [];
@@ -13,7 +13,7 @@ angular.module('common.nav', ['bbc.nav'])
             }
         });
 
-        navigation.getSubList($location.path(), function (error, navList) {
+        $bbcNavigation.getSubList(function (error, navList) {
 
             if (error || navList.length === 0) {
                 $scope.menuSubList = [];
