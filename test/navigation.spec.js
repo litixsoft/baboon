@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Middleware/Navigation', function () {
+describe('Navigation', function () {
 
     var path = require('path');
-    var rootPath = path.resolve(path.join(__dirname, '../../'));
+    var rootPath = path.resolve(path.join(__dirname, '../'));
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
-    var navigation = require(path.resolve(path.join(rootPath, 'lib', 'middleware', 'navigation')));
+    var navigation = require(path.resolve(path.join(rootPath, 'lib', 'navigation')));
     var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
-    var sut, data, request, mock;
+    var sut, data, request, mock, nav, navArr;
 
     beforeEach(function () {
         mock = appMock();
@@ -24,18 +24,19 @@ describe('Middleware/Navigation', function () {
     });
 
     describe('.getTree()', function () {
+
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
         });
 
         it('should return a navigation', function (done) {
-            sut.getTree(data, request, function(error, result){
-                var navArr = result;
+            sut.getTree(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[0];
+                nav = navArr[0];
                 expect(nav.title).toBe('HOME');
                 expect(nav.children).toBeDefined();
                 expect(nav.children.length).toBe(3);
@@ -54,12 +55,12 @@ describe('Middleware/Navigation', function () {
         it('should return a navigation with param "data.current" = null', function (done) {
             data.current = null;
 
-            sut.getTree(data, request, function(error, result){
-                var navArr = result;
+            sut.getTree(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[0];
+                nav = navArr[0];
                 expect(nav.title).toBe('HOME');
                 expect(nav.children).toBeDefined();
                 expect(nav.children.length).toBe(3);
@@ -77,12 +78,12 @@ describe('Middleware/Navigation', function () {
         });
 
         it('should return a flat navigation', function (done) {
-            sut.getList(data, request, function(error, result){
-                var navArr = result;
+            sut.getList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(7);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('LOCALE');
 
                 done();
@@ -92,12 +93,12 @@ describe('Middleware/Navigation', function () {
         it('should return a flat navigation with param "data.current" = null', function (done) {
             data.current = null;
 
-            sut.getList(data, request, function(error, result){
-                var navArr = result;
+            sut.getList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(7);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('LOCALE');
 
                 done();
@@ -112,12 +113,12 @@ describe('Middleware/Navigation', function () {
         });
 
         it('should return a navigation only from top level', function (done) {
-            sut.getTopList(data, request, function(error, result){
-                var navArr = result;
+            sut.getTopList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('PROJECT1');
 
                 done();
@@ -127,12 +128,12 @@ describe('Middleware/Navigation', function () {
         it('should return a navigation only from top level with param "data.current" = null', function (done) {
             data.current = null;
 
-            sut.getTopList(data, request, function(error, result){
-                var navArr = result;
+            sut.getTopList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('PROJECT1');
 
                 done();
@@ -149,19 +150,21 @@ describe('Middleware/Navigation', function () {
         it('should throw an error if param "data.top" = null', function () {
             data.top = null;
 
-            var func = function () {sut.getSubTree(data, null);};
+            var func = function () {
+                sut.getSubTree(data, null);
+            };
             expect(func).toThrow();
         });
 
         it('should return a sub navigation from a top level', function (done) {
             data.top = '/';
 
-            sut.getSubTree(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubTree(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 done();
@@ -171,8 +174,8 @@ describe('Middleware/Navigation', function () {
         it('should return an empty navigation from a top level which does not exists', function (done) {
             data.top = 'ABC';
 
-            sut.getSubTree(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubTree(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(0);
 
@@ -184,12 +187,12 @@ describe('Middleware/Navigation', function () {
             data.current = null;
             data.top = '/';
 
-            sut.getSubTree(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubTree(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(3);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 done();
@@ -206,19 +209,21 @@ describe('Middleware/Navigation', function () {
         it('should throw an error if param "data.top" = null', function () {
             data.top = null;
 
-            var func = function () {sut.getSubList(data, null);};
+            var func = function () {
+                sut.getSubList(data, null);
+            };
             expect(func).toThrow();
         });
 
         it('should return a sub navigation from a top level', function (done) {
             data.top = '/';
 
-            sut.getSubList(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(4);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 nav = navArr[3];
@@ -231,8 +236,8 @@ describe('Middleware/Navigation', function () {
         it('should return an undefined from a top level which does not exists', function (done) {
             data.top = '/notexists';
 
-            sut.getSubList(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr).toBeDefined();
                 expect(navArr.length).toBe(0);
@@ -245,12 +250,12 @@ describe('Middleware/Navigation', function () {
             data.current = null;
             data.top = '/';
 
-            sut.getSubList(data, request, function(error, result){
-                var navArr = result;
+            sut.getSubList(data, request, function (error, result) {
+                navArr = result;
 
                 expect(navArr.length).toBe(4);
 
-                var nav = navArr[1];
+                nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 nav = navArr[3];

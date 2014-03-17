@@ -1,6 +1,7 @@
-/* global describe, it, expect*/
+'use strict';
+
 describe('Errors', function () {
-    'use strict';
+
 
     var path = require('path');
     var errors = require(path.resolve(__dirname, '../', 'lib', 'errors'));
