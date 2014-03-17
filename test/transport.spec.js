@@ -1,12 +1,12 @@
 /*global describe, it, expect*/
-describe('Transport/Index', function () {
+describe('Transport', function () {
     'use strict';
 
     var path = require('path');
-    var rootPath = path.resolve(__dirname, '../', '../', 'lib');
-    var appMock = require('../mocks/appMock')();
+    var rootPath = path.resolve(__dirname, '../');
+    var appMock = require('./mocks/appMock')();
     var baboon = appMock.baboon;
-    var transport = require(path.resolve(rootPath, 'transport', 'index'));
+    var transport = require(path.resolve(rootPath, 'lib', 'transport'));
     var sut;
 
     it('should throw an Error when not given params', function () {
@@ -55,7 +55,7 @@ describe('Transport/Index', function () {
         it('should return object of controllers and their actions', function () {
             var controllers = sut.getControllers();
 
-            expect(Object.keys(controllers).length).toBe(2);
+            expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
             expect(Object.keys(actions).length).toBe(3);
@@ -79,7 +79,7 @@ describe('Transport/Index', function () {
 
             sut.addController(controllerNotOk, 'user/rights/', null);
             var controllers = sut.getControllers();
-            expect(Object.keys(controllers).length).toBe(2);
+            expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
             expect(Object.keys(actions).length).toBe(3);
@@ -95,9 +95,9 @@ describe('Transport/Index', function () {
             sut.addController(controllerOk, 'user/rights', null);
 
             var controllers = sut.getControllers();
-            expect(Object.keys(controllers).length).toBe(3);
+            expect(Object.keys(controllers).length).toBe(2);
 
-            var actions = controllers[Object.keys(controllers)[2]];
+            var actions = controllers[Object.keys(controllers)[1]];
             expect(Object.keys(actions).length).toBe(3);
         });
 
@@ -107,19 +107,19 @@ describe('Transport/Index', function () {
             sut.addController(file, 'user/rights', null);
 
             var controllers = sut.getControllers();
-            expect(Object.keys(controllers).length).toBe(2);
+            expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
             expect(Object.keys(actions).length).toBe(3);
         });
 
         it('should add a controller file with actions', function () {
-            var file = path.resolve(__dirname, '..', 'mocks', 'server', 'employees.js');
+            var file = path.resolve(__dirname, '..', 'test', 'mocks', 'server', 'employees.js');
 
             sut.addController(file, 'user/rights', null);
 
             var controllers = sut.getControllers();
-            expect(Object.keys(controllers).length).toBe(3);
+            expect(Object.keys(controllers).length).toBe(2);
 
             var actions = controllers[Object.keys(controllers)[1]];
             expect(Object.keys(actions).length).toBe(1);
@@ -205,7 +205,7 @@ describe('Transport/Index', function () {
             sut = transport(baboon);
             sut.registerSocketEvents(socket);
 
-            expect(Object.keys(socket.events).length).toBe(4);
+            expect(Object.keys(socket.events).length).toBe(3);
 
             socket.events['api/common/awesomeThings/index/getAll']({}, function(error, result){
                 expect(error).toBeNull();
