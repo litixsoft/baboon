@@ -7,8 +7,12 @@ describe('Common: common.nav', function () {
     var navigationMockSub = [
         { title: 'TEST-SUB', route: '/test-sub', app: 'unitTest' }
     ];
+    var navigationMockList = [
+        { title: 'TEST', route: '/test', app: 'unitTest', level: 0 },
+        { title: 'TEST-SUB', route: '/test-sub', app: 'unitTest', level: 1 }
+    ];
 
-    describe('navigationTop', function(){
+    describe('navigationList type="top"', function() {
         beforeEach(module('bbc.transport'));
         beforeEach(module('common.navigation'));
         beforeEach(module('pascalprecht.translate'));
@@ -28,7 +32,7 @@ describe('Common: common.nav', function () {
                 };
 
                 $scope = $rootScope.$new();
-                element = angular.element('<navigation-top></navigation-top>');
+                element = angular.element('<navigation-list type="top"></navigation-list>');
                 compile(element)($scope);
                 done();
             });
@@ -37,17 +41,17 @@ describe('Common: common.nav', function () {
         it('should be correct initialized', function () {
             var elementScope = element.isolateScope();
 
-            expect(elementScope.menuTopList).toBeDefined();
-            expect(elementScope.menuTopList.length).toBe(1);
+            expect(elementScope.navList).toBeDefined();
+            expect(elementScope.navList.length).toBe(1);
         });
 
         it('should attach menus to the scope', function () {
             var elementScope = element.isolateScope();
 
-            expect(elementScope.menuTopList.length).toBeGreaterThan(0);
-            expect(elementScope.menuTopList[0].title).toBe('TEST');
-            expect(elementScope.menuTopList[0].route).toBe('/test');
-            expect(elementScope.menuTopList[0].app).toBe('unitTest');
+            expect(elementScope.navList.length).toBeGreaterThan(0);
+            expect(elementScope.navList[0].title).toBe('TEST');
+            expect(elementScope.navList[0].route).toBe('/test');
+            expect(elementScope.navList[0].app).toBe('unitTest');
         });
 
         it('should active the correct location', function () {
@@ -63,42 +67,19 @@ describe('Common: common.nav', function () {
             expect(element.hasClass('nav-stacked')).toBe(false);
         });
 
+        it('should not add a class by orientation', function() {
+            compile(element)($scope);
+            expect(element.hasClass('nav-stacked')).toBe(false);
+        });
+
         it('should add a class by orientation', function() {
-            element = angular.element('<navigation-top orientation="vertical"></navigation-top>');
+            element = angular.element('<navigation-list type="top" orientation="vertical"></navigation-list>');
             compile(element)($scope);
             expect(element.hasClass('nav-stacked')).toBe(true);
         });
     });
 
-    describe('navigationTop with error', function() {
-        beforeEach(module('bbc.transport'));
-        beforeEach(module('common.navigation'));
-        beforeEach(module('pascalprecht.translate'));
-
-        var $navigation, $scope, element;
-
-        beforeEach(function (done) {
-            inject(function ($compile, $rootScope, $injector) {
-                $navigation = $injector.get('$bbcNavigation');
-                $navigation.getTopList = function(callback) {
-                    callback('error');
-                };
-
-                $scope = $rootScope.$new();
-                element = angular.element('<navigation-top></navigation-top>');
-                $compile(element)($scope);
-                done();
-            });
-        });
-
-        it('should be attach a empty menuTopList', function () {
-            var elementScope = element.isolateScope();
-
-            expect(elementScope.menuTopList.length).toBe(0);
-        });
-    });
-
-    describe('navigationSub', function(){
+    describe('navigationList type="sub"', function() {
         beforeEach(module('bbc.transport'));
         beforeEach(module('common.navigation'));
         beforeEach(module('pascalprecht.translate'));
@@ -118,7 +99,7 @@ describe('Common: common.nav', function () {
                 };
 
                 $scope = $rootScope.$new();
-                element = angular.element('<navigation-sub></navigation-sub>');
+                element = angular.element('<navigation-list type="sub"></navigation-list>');
                 compile(element)($scope);
                 done();
             });
@@ -127,17 +108,17 @@ describe('Common: common.nav', function () {
         it('should be correct initialized', function () {
             var elementScope = element.isolateScope();
 
-            expect(elementScope.menuSubList).toBeDefined();
-            expect(elementScope.menuSubList.length).toBe(1);
+            expect(elementScope.navList).toBeDefined();
+            expect(elementScope.navList.length).toBe(1);
         });
 
         it('should attach menus to the scope', function () {
             var elementScope = element.isolateScope();
 
-            expect(elementScope.menuSubList.length).toBeGreaterThan(0);
-            expect(elementScope.menuSubList[0].title).toBe('TEST-SUB');
-            expect(elementScope.menuSubList[0].route).toBe('/test-sub');
-            expect(elementScope.menuSubList[0].app).toBe('unitTest');
+            expect(elementScope.navList.length).toBeGreaterThan(0);
+            expect(elementScope.navList[0].title).toBe('TEST-SUB');
+            expect(elementScope.navList[0].route).toBe('/test-sub');
+            expect(elementScope.navList[0].app).toBe('unitTest');
         });
 
         it('should active the correct location', function () {
@@ -154,36 +135,113 @@ describe('Common: common.nav', function () {
         });
 
         it('should remove a class by orientation', function() {
-            element = angular.element('<navigation-sub orientation="horizontal"></navigation-sub>');
+            element = angular.element('<navigation-list type="sub" orientation="horizontal"></navigation-list>');
             compile(element)($scope);
             expect(element.hasClass('nav-stacked')).toBe(false);
         });
     });
 
-    describe('navigationSub with error', function() {
+    describe('navigationList type="list"', function() {
         beforeEach(module('bbc.transport'));
         beforeEach(module('common.navigation'));
         beforeEach(module('pascalprecht.translate'));
 
-        var $navigation, $scope, element;
+        var $navigation, $scope, location, element, compile;
 
         beforeEach(function (done) {
-            inject(function ($compile, $rootScope, $injector) {
+            inject(function ($compile, $rootScope, $injector, $location) {
+                compile = $compile;
                 $navigation = $injector.get('$bbcNavigation');
-                $navigation.getSubList = function(callback) {
-                    callback('error');
+                location = $location;
+                $navigation.getRoute = function() {
+                    return('/test');
+                };
+                $navigation.getList = function(callback) {
+                    callback(null, navigationMockList);
                 };
 
                 $scope = $rootScope.$new();
-                element = angular.element('<navigation-sub></navigation-sub>');
-                $compile(element)($scope);
+                element = angular.element('<navigation-list type="list"></navigation-list>');
+                compile(element)($scope);
                 done();
             });
         });
 
-        it('should be attach a empty menuSubList', function () {
+        it('should be correct initialized', function () {
             var elementScope = element.isolateScope();
-            expect(elementScope.menuSubList.length).toBe(0);
+
+            expect(elementScope.navList).toBeDefined();
+            expect(elementScope.navList.length).toBe(2);
         });
+
+        it('should attach menus to the scope', function () {
+            var elementScope = element.isolateScope();
+
+            expect(elementScope.navList.length).toBeGreaterThan(0);
+
+            expect(elementScope.navList[0].title).toBe('TEST');
+            expect(elementScope.navList[0].route).toBe('/test');
+            expect(elementScope.navList[0].app).toBe('unitTest');
+            expect(elementScope.navList[0].level).toBe(0);
+
+            expect(elementScope.navList[1].title).toBe('TEST-SUB');
+            expect(elementScope.navList[1].route).toBe('/test-sub');
+            expect(elementScope.navList[1].app).toBe('unitTest');
+            expect(elementScope.navList[1].level).toBe(1);
+        });
+
+        it('should active the correct location', function () {
+            var elementScope = element.isolateScope();
+
+            location.path('/test/path');
+            expect(elementScope.isActive('/test')).toBe(true);
+            expect(elementScope.isActive('/test/path')).toBe(true);
+            expect(elementScope.isActive('/test/foo')).toBe(false);
+        });
+
+        it('should have a class nav-stacked', function() {
+            expect(element.hasClass('nav-stacked')).toBe(true);
+        });
+
+        it('should remove a class by orientation', function() {
+            element = angular.element('<navigation-list type="list" orientation="horizontal"></navigation-list>');
+            compile(element)($scope);
+            expect(element.hasClass('nav-stacked')).toBe(false);
+        });
+    });
+
+    describe('navigationList with error', function() {
+        beforeEach(module('bbc.transport'));
+        beforeEach(module('common.navigation'));
+        beforeEach(module('pascalprecht.translate'));
+
+        var $scope, element, compile;
+
+        beforeEach(function (done) {
+            inject(function ($compile, $rootScope, $injector) {
+                compile = $compile;
+                var $navigation = $injector.get('$bbcNavigation');
+                $navigation.getTopList = function(callback) {
+                    callback('error');
+                };
+
+                $scope = $rootScope.$new();
+                element = angular.element('<navigation-list type="top"></navigation-list>');
+                compile(element)($scope);
+                done();
+            });
+        });
+
+        it('should be attach a empty menuTopList', function () {
+            var elementScope = element.isolateScope();
+            expect(elementScope.navList.length).toBe(0);
+        });
+
+        it('should throw an error with missing type', function() {
+            element = angular.element('<navigation-list></navigation-list>');
+            expect(function () {
+                compile(element)($scope);
+            }).toThrow(new Error('Type must be top, sub or list.'));
+        })
     });
 });
