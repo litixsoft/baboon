@@ -28,14 +28,14 @@
         <div class="header">
             <div class="p-wrapper">
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
-                <navigation-list type="top"></navigation-list>
+                <bbc-navigation type="top"></bbc-navigation>
             </div>
         </div>
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
                 <div class="container">
-                    <navigation-list type="sub"></navigation-list>
+                    <bbc-navigation type="sub"></bbc-navigation>
                 </div>
             </div>
             <div class="col-right">
@@ -73,11 +73,11 @@
     <script src="assets/bower_components/angular-socket-io/socket.js"></script>
     <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,client}) scripts/main/scripts.js -->
         <script src="app/main/main.js"></script>
-        <script src="common/navigation/navigation.js"></script>
         <script src="app/main/about/about.js"></script>
         <script src="app/main/contact/contact.js"></script>
         <script src="app/main/home/home.js"></script>

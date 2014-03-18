@@ -26,9 +26,9 @@ module.exports = function (config) {
             'client/assets/bower_components/highlightjs/highlight.pack.js',
             'client/assets/bower_components/angular-highlightjs/angular-highlightjs.js',
             'client/assets/bower_components/angular-socket-io/socket.js',
+            'client/assets/bower_components/baboon-client/modules/navigation/navigation.js',
             'client/assets/bower_components/baboon-client/modules/**/*.js',
-            'client/app/**/*.js',
-            'client/common/**/*.js'
+            'client/app/**/*.js'
         ],
 
         // list of files / patterns to exclude

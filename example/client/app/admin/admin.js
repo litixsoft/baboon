@@ -4,7 +4,7 @@ angular.module('admin', [
         'ngRoute',
         'ui.bootstrap',
         'bbc.transport',
-        'common.navigation',
+        'bbc.navigation',
         'pascalprecht.translate',
         'tmh.dynamicLocale'
     ])

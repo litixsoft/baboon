@@ -32,7 +32,7 @@
         <div class="header top-nav">
             <div class="p-wrapper">
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
-                <navigation-list type="top"></navigation-list>
+                <bbc-navigation type="top"></bbc-navigation>
             </div>
         </div>
 
@@ -75,11 +75,11 @@
     <script src="assets/bower_components/angular-socket-io/socket.js"></script>
     <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,client}) scripts/admin/scripts.js -->
     <script src="app/admin/admin.js"></script>
-    <script src="common/navigation/navigation.js"></script>
     <!-- endbuild -->
 </body>
 </html>
