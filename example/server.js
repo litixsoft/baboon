@@ -1,19 +1,10 @@
 'use strict';
 
-// Module dependencies.
-var stdio = require('stdio');
 
-// Set command line arguments
-var argv = stdio.getopt({
-    'config': {key: 'c', args:1, description: 'Use the specified config section'},
-    'port': {args:1, description: 'Use the specified port'},
-    'protocol': {args:1, description: 'Use the specified protocol'},
-    'livereload': {description: 'Use livereload snippet for client'}
-});
 
 var express = require('express');
 var rootPath = __dirname;
-var baboon = require('../lib/baboon')(rootPath, argv);
+var baboon = require('../lib/baboon')(rootPath);
 var app = express();
 var server = baboon.getServer(app);
 var io = require('socket.io').listen(server);

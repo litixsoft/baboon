@@ -94,4 +94,20 @@ describe('Errors', function () {
         expect(error instanceof MailError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+    it('should throw an SessionError with message', function() {
+        var SessionError = errors.SessionError;
+        var error = new SessionError('SessionTestError');
+
+        expect(error.message).toBe('SessionTestError');
+        expect(error instanceof SessionError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an SessionError without message', function() {
+        var SessionError = errors.SessionError;
+        var error = new SessionError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof SessionError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
 });
