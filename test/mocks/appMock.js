@@ -72,7 +72,7 @@ module.exports = function () {
 
     // socket
     var socket = {
-        events:{},
+        events: {},
         on: function (event, func) {
             socket.events[event] = func;
         }
@@ -89,6 +89,12 @@ module.exports = function () {
         }
     };
 
+    var sessionstore = {
+        createSessionStore: function (activeStore) {
+            return activeStore;
+        }
+    };
+
     return {
         logging: {
             syslog: syslog,
@@ -100,6 +106,7 @@ module.exports = function () {
         res: res,
         req: req,
         socket: socket,
-        baboon: baboon
+        baboon: baboon,
+        sessionstore: sessionstore
     };
 };
