@@ -1,4 +1,7 @@
 # Release History
+## v0.3.10
+* add multipart middleware
+
 ## v0.3.9
 * check if app folder exists before creating the log dir
 
