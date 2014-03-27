@@ -36,6 +36,11 @@ module.exports = function () {
                     inMemory: {
                         type: 'inMemory'
                     },
+                    redis: {
+                        type: 'redis',
+                        host: 'localhost',
+                        port: 6379
+                    },
                     mongoDb: {
                         type: 'mongoDb',
                         host: 'localhost',
@@ -49,7 +54,7 @@ module.exports = function () {
                         collectionName: 'sessions'
                     }
                 },
-                activeStore: 'inMemory'
+                activeStore: 'redis'
             },
             logging: {
                 appenders: {
