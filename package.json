@@ -6,7 +6,7 @@
     "author": "Litixsoft GmbH <info@litixsoft.de> (http://www.litixsoft.de)",
     "maintainers": [
         "Timo Liebetrau <t.liebetrau@litixsoft.de>",
-        "Marco Kannenberg <m.kannenberg@litixsoft.de@litixsoft.de>",
+        "Marco Kannenberg <m.kannenberg@litixsoft.de>",
         "Sven Bernstein <s.bernstein@litixsoft.de>",
         "Dominic Sachs <d.sachs@litixsoft.de>",
         "Thomas Scheibe <th.scheibe@litixsoft.de>",
@@ -51,9 +51,10 @@
         "lx-helpers": "~0.5.0",
         "nodemailer": "~0.6.1",
         "stdio": "~0.1.5",
-        "sessionstore": "0.2.7",
+        "sessionstore": "~0.3.0",
         "tingodb": "0.2.1",
-        "mongodb": "1.3.19"
+        "mongodb": "1.3.19",
+        "redis": "~0.10.1"
     },
     "devDependencies": {
         "grunt": "0.4.4",
