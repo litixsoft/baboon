@@ -31,7 +31,7 @@ Stack with:
 Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
 
 ## NodeJS global dependencies
-Whithout using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
+Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
 
 Linux / Mac:
 
@@ -84,7 +84,7 @@ Stack with:
 Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
 
 ## NodeJS global dependencies
-Whithout using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
+Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
 
 Linux / Mac:
 
@@ -168,19 +168,19 @@ Test in production mode:
 ## Running coverage
 You can run a coverage task for Baboon lib with:
 
-    $ grunt coverage // directory baboon
+    $ grunt cover // directory baboon
 
 You can run a coverage task for example app server and client with:
 
-    $ grunt coverage // directory baboon/example
+    $ grunt cover // directory baboon/example
 
 You can run a coverage task for example app server with:
 
-    $ grunt coverage:server // directory baboon/example
+    $ grunt cover:server // directory baboon/example
 
 You can run a coverage task for example app client with:
 
-    $ grunt coverage:client // directory baboon/example
+    $ grunt cover:client // directory baboon/example
 
 ## All Baboon lib grunt tasks
 Important: this tasks run inside the baboon directory only.
