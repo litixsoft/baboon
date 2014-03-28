@@ -54,7 +54,7 @@ module.exports = function () {
                         collectionName: 'sessions'
                     }
                 },
-                activeStore: 'redis'
+                activeStore: 'inMemory'
             },
             logging: {
                 appenders: {

@@ -51,7 +51,7 @@
         "lx-helpers": "~0.5.0",
         "nodemailer": "~0.6.1",
         "stdio": "~0.1.5",
-        "sessionstore": "git+https://github.com/litixsoft/sessionstore.git",
+        "sessionstore": "~0.3.0",
         "tingodb": "0.2.1",
         "mongodb": "1.3.19",
         "redis": "~0.10.1"
