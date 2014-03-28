@@ -39,8 +39,8 @@ module.exports = function () {
     };
 
     pub.sessionTest = function (data, request, callback) {
-        var session = request.getSession();
-        request.setSession(session);
+        request.getSession();
+        request.setSession();
 
         request.getSession(function (error, session) {
             var a = 0;

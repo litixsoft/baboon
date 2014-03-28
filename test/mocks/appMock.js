@@ -75,6 +75,11 @@ module.exports = function () {
         events: {},
         on: function (event, func) {
             socket.events[event] = func;
+        },
+        handshake: {
+            headers: {
+                cookie: 'baboon.sid=s%3AyhADldmaayce2fUGBWReoA99.zeZdfybnDY0iJwKEbuhZdtfJ2PlwcXI97QxtqY4y428'
+            }
         }
     };
 
@@ -85,6 +90,18 @@ module.exports = function () {
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
                 lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
+            }
+        },
+        session: {
+            getSession: function(cookie, callback){
+                if(callback) {
+                    callback(null, {});
+                }
+            },
+            setSession: function(session, callback){
+                if(callback) {
+                    callback(null, {});
+                }
             }
         }
     };

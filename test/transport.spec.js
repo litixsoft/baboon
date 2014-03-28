@@ -216,4 +216,26 @@ describe('Transport', function () {
             });
         });
     });
+
+    describe('emit socket event', function () {
+        it('should process the request and process the session', function (done) {
+            var socket = appMock.socket;
+            socket.events = {};
+
+            sut = transport(baboon);
+            sut.registerSocketEvents(socket);
+
+            expect(Object.keys(socket.events).length).toBe(3);
+
+            socket.events['api/common/awesomeThings/index/sessionTest']({}, function(error, result){
+                expect(error).toBeNull();
+                expect(result).toBeDefined();
+                expect(result.items).toBeDefined();
+                expect(result.count).toBeDefined();
+                expect(result.sessionCalls).toBeDefined();
+
+                done();
+            });
+        });
+    });
 });
