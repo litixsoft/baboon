@@ -168,19 +168,19 @@ Test in production mode:
 ## Running coverage
 You can run a coverage task for Baboon lib with:
 
-    $ grunt coverage // directory baboon
+    $ grunt cover // directory baboon
 
 You can run a coverage task for example app server and client with:
 
-    $ grunt coverage // directory baboon/example
+    $ grunt cover // directory baboon/example
 
 You can run a coverage task for example app server with:
 
-    $ grunt coverage:server // directory baboon/example
+    $ grunt cover:server // directory baboon/example
 
 You can run a coverage task for example app client with:
 
-    $ grunt coverage:client // directory baboon/example
+    $ grunt cover:client // directory baboon/example
 
 ## All Baboon lib grunt tasks
 Important: this tasks run inside the baboon directory only.
