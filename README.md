@@ -31,7 +31,7 @@ Stack with:
 Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
 
 ## NodeJS global dependencies
-Whithout using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
+Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
 
 Linux / Mac:
 
@@ -84,7 +84,7 @@ Stack with:
 Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
 
 ## NodeJS global dependencies
-Whithout using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
+Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
 
 Linux / Mac:
 
