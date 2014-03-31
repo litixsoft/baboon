@@ -113,6 +113,16 @@ module.exports = function (grunt) {
                 commitMessage: 'chore: release v%VERSION%',
                 push: false
             }
+        },
+
+        dox: {
+            options: {
+                title: "Baboon"
+            },
+            files: {
+                src: ['lib/'],
+                dest: 'docs'
+            }
         }
     });
 
