@@ -41,7 +41,8 @@ module.exports = function (grunt) {
             jasmine: ['.reports/test', '.tmp'],
             lint: ['.reports/lint'],
             coverage: ['.reports/coverage', '.tmp'],
-            ci: ['.reports', '.tmp']
+            ci: ['.reports', '.tmp'],
+            dox: ['.tmp/docs']
         },
         jshint: {
             options: {
@@ -114,14 +115,14 @@ module.exports = function (grunt) {
                 push: false
             }
         },
-
         dox: {
             options: {
-                title: "Baboon"
+                title: 'Baboon'
+                //template: 'docs/template.jade'
             },
             files: {
                 src: ['lib/'],
-                dest: 'docs'
+                dest: '.tmp/docs'
             }
         }
     });
@@ -131,7 +132,7 @@ module.exports = function (grunt) {
         require('fs').chmodSync('.git/hooks/commit-msg', '0755');
         grunt.log.ok('Registered git hook: commit-msg');
     });
-
+    grunt.registerTask('doc', ['clean:dox', 'dox']);
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
