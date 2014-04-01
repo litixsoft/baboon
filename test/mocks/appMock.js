@@ -67,7 +67,8 @@ module.exports = function () {
         body: {
             current: 'main',
             top: 'main'
-        }
+        },
+        session: {}
     };
 
     // socket
@@ -86,7 +87,9 @@ module.exports = function () {
     // baboon object
     var baboon = {
         config: {
-            useRightSystem: false,
+            rights: {
+                enabled: false
+            },
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
                 lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
