@@ -32,9 +32,9 @@ angular.module('main.session', [])
             });
         };
 
-        $scope.setActivity = function () {
+        $scope.setActivity = function (now) {
 
-            var now = new Date();
+            now = now || new Date();
             $scope.activityMessages.push({class: 'sent', message: 'SENT: ' + 'set activity to ' + now});
 
             $bbcSession.setActivity(function (error) {
@@ -43,11 +43,6 @@ angular.module('main.session', [])
                 }
                 else {
                     $scope.activityMessages.push({class: 'response', message: 'RESPONSE: true'});
-
-                    $scope.apply = function () {
-                        $scope.data.key = '';
-                        $scope.data.value = '';
-                    };
                 }
             });
         };
@@ -100,11 +95,11 @@ angular.module('main.session', [])
             }
             else {
 
-                $scope.dataMessages.push({class: 'sent', message: 'SENT: ' + 'setData' + 'key:' + $scope.data.key + ' value:' + $scope.data.value});
+                $scope.dataMessages.push({class: 'sent', message: 'SENT: ' + 'setData ' + 'key:' + $scope.data.key + ' value:' + $scope.data.value});
 
                 $bbcSession.setData($scope.data.key, $scope.data.value, function (error, result) {
                     if (error) {
-                        $scope.activityMessages.push({class: 'error', message: error});
+                        $scope.dataMessages.push({class: 'error', message: error});
                     }
                     else {
                         $scope.dataMessages.push({class: 'response', message: 'RESPONSE: ' + result});
@@ -121,7 +116,7 @@ angular.module('main.session', [])
 
                 $bbcSession.deleteData(function (error, result) {
                     if (error) {
-                        $scope.activityMessages.push({class: 'error', message: error});
+                        $scope.dataMessages.push({class: 'error', message: error});
                     }
                     else {
                         $scope.dataMessages.push({class: 'response', message: 'RESPONSE: ' + result});
@@ -134,7 +129,7 @@ angular.module('main.session', [])
 
                 $bbcSession.deleteData($scope.data.key, function (error, result) {
                     if (error) {
-                        $scope.activityMessages.push({class: 'error', message: error});
+                        $scope.dataMessages.push({class: 'error', message: error});
                     }
                     else {
                         $scope.dataMessages.push({class: 'response', message: 'RESPONSE: ' + result});
