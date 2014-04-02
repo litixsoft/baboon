@@ -1,5 +1,7 @@
 'use strict';
 
+var Session = require('express').session;
+
 module.exports = function(io, baboon) {
 
     // config for all

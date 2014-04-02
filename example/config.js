@@ -31,8 +31,7 @@ module.exports = function () {
                 key: 'baboon.sid',
                 secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
                 maxLife: 804600,
-                inactiveTime: 20,
-                //inactiveTime: 3600,
+                inactiveTime: 3600,
                 stores: {
                     inMemory: {
                         type: 'inMemory'

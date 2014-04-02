@@ -5,12 +5,14 @@ angular.module('main', [
         'ui.bootstrap',
         'bbc.transport',
         'bbc.navigation',
+        'bbc.session',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'main.home',
         'main.about',
         'main.contact',
         'main.localization',
+        'main.session',
         'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
@@ -36,11 +38,21 @@ angular.module('main', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window) {
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
         $rootScope.requestNeeded = false;
 
         $rootScope.$on('$routeChangeStart', function (current, next) {
+
+            // set activity and check session
+            $bbcSession.setActivity(function (error) {
+
+                // check session activity error
+                if (error) {
+                    $log.warn(error.data.message);
+                    $rootScope.$emit('$sessionInactive');
+                }
+            });
 
             // when request needed is true than make a request with next route
             if ($rootScope.requestNeeded) {
