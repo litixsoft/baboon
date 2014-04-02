@@ -166,7 +166,7 @@ describe('Transport', function () {
             var req = appMock.req;
             var res = {
                 json: function(code, value){
-                    expect(code).toBe(401);
+                    expect(code).toBe(400);
                     expect(value).toBe('Error raised');
 
                     done();
