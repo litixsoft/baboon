@@ -3,9 +3,11 @@
 module.exports = function () {
     /**
      * Contains all configuration functions.
-     * @type {{production: object, development: object, unitTest: object, e2eTest: object}}
+     * @type {{filesPath: string, production: object, development: object, unitTest: object, e2eTest: object}}
      */
     var config = {};
+
+    config.filesPath = './server/var/';
 
     /**
      * The production configuration
@@ -50,11 +52,11 @@ module.exports = function () {
                     },
                     tingoDb: {
                         type: 'tingoDb',
-                        dbPath: './.tmp',
+                        dbPath: config.filesPath + 'db',
                         collectionName: 'sessions'
                     }
                 },
-                activeStore: 'inMemory'
+                activeStore: 'tingoDb'
             },
             logging: {
                 appenders: {
