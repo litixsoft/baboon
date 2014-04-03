@@ -3,5 +3,6 @@
 .tmp
 .dist
 client/assets/bower_components
+example/server/var
 node_modules
 *.log

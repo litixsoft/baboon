@@ -56,7 +56,7 @@ module.exports = function () {
                         collectionName: 'sessions'
                     }
                 },
-                activeStore: 'tingoDb'
+                activeStore: 'inMemory'
             },
             logging: {
                 appenders: {
