@@ -7,6 +7,8 @@ module.exports = function () {
      */
     var config = {};
 
+    config.filesPath = '../.tmp/';
+
     /**
      * The production confuguration
      * This configuration used when no other configuration is specified.
