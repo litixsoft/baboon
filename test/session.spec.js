@@ -893,6 +893,227 @@ describe('Session', function () {
                     done();
                 });
             });
+
+            it('should be setData return error when not given key', function (done) {
+                sut.setData({}, request, function(error, result) {
+                    expect(error.message).toBe('Parameter key is required');
+                    expect(result).toBeUndefined();
+                    done();
+                });
+            });
+
+            it('should be setData return error when not given value', function (done) {
+                sut.setData({key:'testKey'}, request, function(error, result) {
+                    expect(error.message).toBe('Parameter value is required');
+                    expect(result).toBeUndefined();
+                    done();
+                });
+            });
+
+            it('should be setData successfully', function (done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    expect(error).toBeNull();
+                    expect(result).toEqual('testKey is saved in session');
+                    done();
+                });
+            });
+
+            it('should be setData successfully without session.data', function (done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+
+                                if (session.hasOwnProperty('data')) {
+                                    delete session.data;
+                                }
+
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    expect(error).toBeNull();
+                    expect(result).toEqual('testKey is saved in session');
+                    done();
+                });
+            });
+
+            it('should be setData return error by request.session error', function (done) {
+
+                request = {
+                    getSession: function(callback) {
+                        callback(null, null);
+                    }
+                };
+
+                sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    expect(error.message).toBe('Unknown error, request.getSession returned no valid session');
+                    expect(result).toBeUndefined();
+                    done();
+                });
+            });
+
+            it('should be deleteData successfully with key', function(done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+
+                                session.data = {
+                                    testKey: 'testValue'
+                                };
+
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.deleteData({key:'testKey'}, request, function(error, result) {
+                    expect(error).toBeNull();
+                    expect(result).toBe('testKey is deleted in session');
+                    done();
+                });
+            });
+
+            it('should be deleteData successfully without session.data', function(done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+
+                                if (session.hasOwnProperty('data')) {
+                                    delete session.data;
+                                }
+
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.deleteData({key:'testKey'}, request, function(error, result) {
+                    expect(error).toBeNull();
+                    expect(result).toBe('container session.data deleted');
+                    done();
+                });
+            });
+
+            it('should be deleteData successfully without key', function(done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+
+                                session.data = {
+                                    testKey: 'testValue'
+                                };
+
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.deleteData({}, request, function(error, result) {
+                    expect(error).toBeNull();
+                    expect(result).toBe('container session.data deleted');
+                    done();
+                });
+            });
+
+            it('should be deleteData return error when key not found', function(done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                request = {
+                    getSession: function(callback) {
+                        sut.getSession(cookie, function(error, session) {
+                            if (!error && session) {
+
+                                session.data = {
+                                    testKey: 'testValue'
+                                };
+
+                                callback(null, session);
+                            }
+                            else {
+                                callback(error);
+                            }
+                        });
+                    }
+                };
+
+                sut.deleteData({key:'testKey2'}, request, function(error, result) {
+                    expect(error.message).toBe('Key: testKey2 not found in session container');
+                    expect(result).toBeUndefined();
+                    done();
+                });
+            });
+
+            it('should be deleteData return error by request.session error', function (done) {
+
+                request = {
+                    getSession: function(callback) {
+                        callback(null, null);
+                    }
+                };
+
+                sut.deleteData({key:'testKey'}, request, function(error, result) {
+                    expect(error.message).toBe('Unknown error, request.getSession returned no valid session');
+                    expect(result).toBeUndefined();
+                    done();
+                });
+            });
         });
     });
 });

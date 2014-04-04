@@ -105,6 +105,18 @@ module.exports = function () {
                 if(callback) {
                     callback(null, {});
                 }
+            },
+            checkActivitySession: function(session, callback) {
+                session = null;
+                callback(null, true);
+            }
+        },
+        loggers: {
+            syslog: syslog
+        },
+        rights: {
+            getUser: function(id, callback) {
+                callback(null, {id: id, name: 'guest'});
             }
         }
     };
