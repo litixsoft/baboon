@@ -139,7 +139,7 @@ describe('Config', function () {
 
         var stubs = {};
         stubs.fs = {
-            existsSync: function(path){throw new Error();}
+            existsSync: function(path){throw new Error(path);}
         };
 
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
