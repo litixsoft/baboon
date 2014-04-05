@@ -73,6 +73,7 @@
         "load-grunt-tasks": "~0.4.0",
         "lx-mongodb": "~0.6.0",
         "time-grunt": "~0.2.10",
-        "grunt-dox": "git+https://github.com/punkave/grunt-dox.git#master"
+        "grunt-dox": "git+https://github.com/punkave/grunt-dox.git#master",
+        "proxyquire": "~0.6.0"
     }
 }
