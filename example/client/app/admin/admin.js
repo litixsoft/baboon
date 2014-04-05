@@ -5,6 +5,7 @@ angular.module('admin', [
         'ui.bootstrap',
         'bbc.transport',
         'bbc.navigation',
+        'bbc.session',
         'pascalprecht.translate',
         'tmh.dynamicLocale'
     ])
@@ -40,7 +41,7 @@ angular.module('admin', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window) {
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
         // flag for needed request by next route change event
         $rootScope.requestNeeded = false;
@@ -48,9 +49,22 @@ angular.module('admin', [
         // route change event
         $rootScope.$on('$routeChangeStart', function (current, next) {
 
+            // set activity and check session
+            $bbcSession.setActivity(function (error) {
+
+                // check session activity error
+                if (error) {
+                    $log.warn(error);
+                    $rootScope.$emit('$sessionInactive');
+                }
+            });
+
             // when request needed is true than make a request with next route
             if ($rootScope.requestNeeded) {
                 $window.location.assign(next.$$route.originalPath);
+            }
+            else {
+                return;
             }
         });
 

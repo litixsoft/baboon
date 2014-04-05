@@ -49,7 +49,7 @@ angular.module('main', [
 
                 // check session activity error
                 if (error) {
-                    $log.warn(error.data.message);
+                    $log.warn(error);
                     $rootScope.$emit('$sessionInactive');
                 }
             });
@@ -57,6 +57,9 @@ angular.module('main', [
             // when request needed is true than make a request with next route
             if ($rootScope.requestNeeded) {
                 $window.location.assign(next.$$route.originalPath);
+            }
+            else {
+                return;
             }
         });
 
