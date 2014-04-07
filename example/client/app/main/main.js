@@ -58,9 +58,6 @@ angular.module('main', [
             if ($rootScope.requestNeeded) {
                 $window.location.assign(next.$$route.originalPath);
             }
-            else {
-                return;
-            }
         });
 
         // session inactive event, triggered when session inactive or lost

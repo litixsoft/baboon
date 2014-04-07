@@ -149,7 +149,7 @@ describe('Transport', function () {
             var req = appMock.req;
             var res = {
                 json: function (code, value) {
-                    expect(code).toBe(403);
+                    expect(code).toBe(404);
                     expect(value).toBe('Wrong url');
 
                     done();
@@ -166,7 +166,7 @@ describe('Transport', function () {
             var req = appMock.req;
             var res = {
                 json: function (code, value) {
-                    expect(code).toBe(400);
+                    expect(code).toBe(500);
                     expect(value).toBe('Error raised');
 
                     done();
@@ -223,7 +223,7 @@ describe('Transport', function () {
             var res = {
                 json: function (code, value) {
                     expect(code).toBe(403);
-                    expect(value).toBe('Access denied.');
+                    expect(value).toBe('Access denied');
 
                     baboon.config.rights.enabled = false;
 
