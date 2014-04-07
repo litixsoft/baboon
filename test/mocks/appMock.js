@@ -96,17 +96,19 @@ module.exports = function () {
             }
         },
         session: {
-            getSession: function(cookie, callback){
-                if(callback) {
+            getSession: function (cookie, callback) {
+                if (cookie === '12345' && callback) {
+                    callback(null, {user: {acl: []}});
+                } else if (callback) {
                     callback(null, {});
                 }
             },
-            setSession: function(session, callback){
-                if(callback) {
+            setSession: function (session, callback) {
+                if (callback) {
                     callback(null, {});
                 }
             },
-            checkActivitySession: function(session, callback) {
+            checkActivitySession: function (session, callback) {
                 session = null;
                 callback(null, true);
             }
@@ -115,8 +117,13 @@ module.exports = function () {
             syslog: syslog
         },
         rights: {
-            getUser: function(id, callback) {
+            getUser: function (id, callback) {
                 callback(null, {id: id, name: 'guest'});
+            },
+            userHasAccessTo: function (user, route) {
+                if (route === '/userHasNoAccessToFunction') {
+                    return false;
+                }
             }
         }
     };
