@@ -9,7 +9,7 @@ angular.module('demo.enterprise', [])
                 controller: 'DemoEnterpriseCtrl'
             });
     })
-    .controller('DemoEnterpriseCtrl', function ($scope, $bbcTransport, $log) {
+    .controller('DemoEnterpriseCtrl', function ($scope) {
 
         $scope.title = 'Enterprise';
 
