@@ -139,6 +139,8 @@ module.exports = function () {
         settings.mail.directory = 'C:/Temp/Mail';
         settings.mail.type = 'PICKUP';
 
+        settings.rights.database = 'localhost:27017/test_baboon_rights?w=1&journal=True&fsync=True';
+
         return settings;
     };
 

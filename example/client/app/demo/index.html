@@ -1,0 +1,85 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title>Baboon example app - index</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) styles/main/vendor.css -->
+    <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/bower_components/highlightjs/styles/github.css" />
+    <!-- endbuild -->
+    <!-- build:css({.tmp,client}) styles/main/main.css -->
+    <link rel="stylesheet" href="styles/demo/demo.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="demo">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div id="singlepageFrame" class="ng-cloak">
+        <div class="header">
+            <div class="p-wrapper">
+                <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
+                <bbc-navigation type="top"></bbc-navigation>
+            </div>
+        </div>
+        <!-- Add your site or application content here -->
+        <div class="layout-content">
+            <div class="col-left">
+                <div class="container">
+                    <bbc-navigation type="sub"></bbc-navigation>
+                </div>
+            </div>
+            <div class="col-right">
+                <div class="container">
+                </div>
+            </div>
+            <div class="col-center">
+                <div class="view-container">
+                    <div class="container" ng-view=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>♥ from the Baboon team</p>
+        </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
+    <script src="assets/bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- build:js(client) scripts/main/vendor.js -->
+    <script src="assets/bower_components/angular/angular.js"></script>
+    <script src="assets/bower_components/angular-route/angular-route.js"></script>
+    <script src="assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="assets/bower_components/angular-translate/angular-translate.js"></script>
+    <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js"></script>
+    <script src="assets/bower_components/highlightjs/highlight.pack.js"></script>
+    <script src="assets/bower_components/angular-highlightjs/angular-highlightjs.js"></script>
+
+    <script src="assets/bower_components/angular-socket-io/socket.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/session/session.js"></script>
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,client}) scripts/main/scripts.js -->
+        <script src="app/demo/demo.js"></script>
+        <script src="app/demo/enterprise/enterprise.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
