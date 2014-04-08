@@ -127,6 +127,11 @@ describe('Transport', function () {
     });
 
     describe('.processRequest()', function () {
+
+        beforeEach(function() {
+            spyOn(console, 'log');
+        });
+
         it('should process the request and call the corresponding action with rightsystem disabled', function (done) {
             var req = appMock.req;
             var res = {
