@@ -27,9 +27,18 @@
     <div id="singlepageFrame" class="ng-cloak">
         <div class="header">
             <div class="p-wrapper">
-                <div class="btn-group pull-right">
-                    <a ng-click="switchLocale('de-de')" style="cursor: pointer;"><img src="assets/images/flag-germany48.png" alt="german" /></a>
-                    <a ng-click="switchLocale('en-us')" style="cursor: pointer;"><img src="assets/images/flag-usa48.png" alt="english" /></a>
+                <div class="pull-right flag-area">
+                    <div class="btn-group dark-select">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            {{ 'LANGUAGE_SELECT' | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                <a href="#" ng-click="switchLocale('en-en')"><img src="assets/images/flag-usa48.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
                 <bbc-navigation type="top"></bbc-navigation>
