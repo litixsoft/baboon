@@ -7,7 +7,16 @@ describe('Navigation', function () {
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var navigation = require(path.resolve(path.join(rootPath, 'lib', 'navigation')));
     var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
+    var NavigationError = require(path.resolve(path.join(rootPath, 'lib', 'errors'))).NavigationError;
     var sut, data, request, mock, nav, navArr;
+
+    it('should throw an Error when not given parameter navigationFilePath', function () {
+
+        var func = function () {
+            return navigation();
+        };
+        expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
+    });
 
     beforeEach(function () {
         mock = appMock();
@@ -147,13 +156,17 @@ describe('Navigation', function () {
             request = mock.req || {};
         });
 
-        it('should throw an error if param "data.top" = null', function () {
+        it('should throw an error if param "data.top" = null', function (done) {
             data.top = null;
 
-            var func = function () {
-                sut.getSubTree(data, null);
-            };
-            expect(func).toThrow();
+            sut.getSubTree(data, null, function(error, result) {
+
+                expect(error).toBeDefined();
+                expect(error).toEqual(new NavigationError(400, 'getSubTree', 'Parameter top in body is required!'));
+                expect(result).toBeUndefined();
+
+                done();
+            });
         });
 
         it('should return a sub navigation from a top level', function (done) {
@@ -206,13 +219,17 @@ describe('Navigation', function () {
             request = mock.req || {};
         });
 
-        it('should throw an error if param "data.top" = null', function () {
+        it('should throw an error if param "data.top" = null', function (done) {
             data.top = null;
 
-            var func = function () {
-                sut.getSubList(data, null);
-            };
-            expect(func).toThrow();
+            sut.getSubList(data, null, function(error, result) {
+
+                expect(error).toBeDefined();
+                expect(error).toEqual(new NavigationError(400, 'getSubList', 'Parameter top in body is required!'));
+                expect(result).toBeUndefined();
+
+                done();
+            });
         });
 
         it('should return a sub navigation from a top level', function (done) {

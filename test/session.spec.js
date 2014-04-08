@@ -173,6 +173,7 @@ describe('Session', function () {
         describe('Test getSessionID', function () {
 
             it('should throw an Error when not given parameter cookie', function () {
+
                 var func = function () {
                     return sut.getSessionId();
                 };
@@ -180,6 +181,7 @@ describe('Session', function () {
             });
 
             it('should throw an Error when parameter cookie is wrong type', function () {
+
                 var func = function () {
                     return sut.getSessionId({});
                 };
@@ -227,6 +229,7 @@ describe('Session', function () {
             });
 
             it('should throw an Error when not given parameter cookie', function () {
+
                 var func = function () {
                     return sut.getSession();
                 };
@@ -234,13 +237,15 @@ describe('Session', function () {
             });
 
             it('should throw an Error when parameter cookie is wrong type', function () {
+
                 var func = function () {
-                    return sut.getSession({});
+                    return sut.getSession();
                 };
                 expect(func).toThrow(new SessionError('Parameter cookie is required and must be a string type!'));
             });
 
             it('should throw an Error when not given parameter callback', function () {
+
                 var func = function () {
                     return sut.getSession('string');
                 };
