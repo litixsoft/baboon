@@ -105,4 +105,55 @@ describe('Repositories/GroupsRepositiory', function () {
             });
         });
     });
+
+    describe('.checkName()', function () {
+        it('should return valid = true when param "doc" is empty', function (done) {
+            sut.checkName(null, function(err, res){
+                expect(err).toBeNull();
+                expect(res.valid).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should check the name', function (done) {
+            var doc = {
+                name:'Admins',
+                _id:'5204cf825dd46a6c15000003'
+            };
+
+            sut.checkName(doc, function(err, res){
+                expect(err).toBeNull();
+                expect(res.valid).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error', function (done) {
+            var findOne = function(query, options, callback){return callback('error');};
+            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
+
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['lx-mongodb'] = {
+                BaseRepo: function(){return baseRepo;}
+            };
+
+            var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'groupsRepository'), stubs)({});
+
+
+            var doc = {
+                name:'Admins',
+                _id:'5204cf825dd46a6c15000003'
+            };
+
+            repo.checkName(doc, function(err){
+                expect(err).toBeDefined();
+
+                done();
+            });
+        });
+    });
 });

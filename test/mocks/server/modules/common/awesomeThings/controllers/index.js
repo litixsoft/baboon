@@ -35,7 +35,11 @@ module.exports = function () {
     };
 
     pub.raiseError = function (data, request, callback) {
-        callback('Error raised');
+        callback({message:'Error raised', stack:'Error stack'});
+    };
+
+    pub.raiseErrorWithStatus = function (data, request, callback) {
+        callback({status: 300, message:'Error raised', stack:'Error stack'});
     };
 
     pub.sessionTest = function (data, request, callback) {

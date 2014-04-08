@@ -72,7 +72,7 @@ describe('Repositories/UsersRepositiory', function () {
             });
         });
 
-        it('should valid to false when no data is given', function (done) {
+        it('should validate to false when no data is given', function (done) {
             sut.validate(null, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
                 expect(res.errors.length).toBe(2);
@@ -81,7 +81,7 @@ describe('Repositories/UsersRepositiory', function () {
             });
         });
 
-        it('should valid to false when the data is not valid', function (done) {
+        it('should validate to false when the data is not valid', function (done) {
             sut.validate({roles: ['1', '2']}, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
                 expect(res.errors.length).toBe(4);
@@ -131,8 +131,59 @@ describe('Repositories/UsersRepositiory', function () {
         });
     });
 
+    describe('.checkName()', function () {
+        it('should return valid = true when param "doc" is empty', function (done) {
+            sut.checkName(null, function(err, res){
+                expect(err).toBeNull();
+                expect(res.valid).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should check the name', function (done) {
+            var doc = {
+                name:'wayne',
+                _id:'5204cf825dd46a6c15000003'
+            };
+
+            sut.checkName(doc, function(err, res){
+                expect(err).toBeNull();
+                expect(res.valid).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error', function (done) {
+            var findOne = function(query, options, callback){return callback('error');};
+            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
+
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['lx-mongodb'] = {
+                BaseRepo: function(){return baseRepo;}
+            };
+
+            var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({});
+
+
+            var doc = {
+                name:'wayne',
+                _id:'5204cf825dd46a6c15000003'
+            };
+
+            repo.checkName(doc, function(err){
+                expect(err).toBeDefined();
+
+                done();
+            });
+        });
+    });
+
     describe('.createUser()', function () {
-        it('should create a user', function (done) {
+        it('should create a user with password hash and salt', function (done) {
             var user = {
                 name: 'wayne',
                 password: 'a',
@@ -142,6 +193,39 @@ describe('Repositories/UsersRepositiory', function () {
             sut.createUser(user, function (err, res) {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
+                done();
+            });
+        });
+
+        it('should create a user without any data', function (done) {
+            sut.createUser(null, function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBeDefined();
+
+                sut.remove({_id: res._id}, function () {
+                    done();
+                });
+            });
+        });
+
+        it('should throw an error in pwd', function (done) {
+            var user = {
+                name: 'wayne',
+                password: 'a',
+                confirmedPassword: 'a'
+            };
+
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.pwd = {
+                hash: function(password, callback){callback('error');}
+            };
+
+            var sut = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({insert:function(query, callback){callback(null, [query]);}});
+
+            sut.createUser(user, function (err) {
+                expect(err).toBeDefined();
                 done();
             });
         });
