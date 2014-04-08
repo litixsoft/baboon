@@ -40,6 +40,13 @@ angular.module('main', [
     })
     .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
+        $rootScope.currentLang = $translate.preferredLanguage();
+
+        $rootScope.switchLocale = function(locale) {
+            $translate.use(locale);
+            $rootScope.currentLang = locale;
+        };
+
         $rootScope.requestNeeded = false;
 
         $rootScope.$on('$routeChangeStart', function (current, next) {
