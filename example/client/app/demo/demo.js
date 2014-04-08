@@ -1,41 +1,34 @@
 'use strict';
 
-angular.module('admin', [
+angular.module('demo', [
         'ngRoute',
         'ui.bootstrap',
         'bbc.transport',
         'bbc.navigation',
         'bbc.session',
         'pascalprecht.translate',
-        'tmh.dynamicLocale'
+        'tmh.dynamicLocale',
+        'demo.enterprise',
+        'hljs'
     ])
-    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
+    .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
 
         // Routing and navigation
-        $routeProvider
-            .when('/admin', {
-                templateUrl: 'app/admin/admin.html',
-                controller: 'AdminCtrl'
-            })
-            .otherwise({
-                redirectTo: '/admin'
-            });
-
+        $routeProvider.otherwise({redirectTo: '/demo/enterprise'});
         $locationProvider.html5Mode(true);
-
         $bbcNavigationProvider.set({
-            app: 'admin',
-            route: '/admin'
+            app: 'demo',
+            route: '/demo'
         });
 
-        // Transport
+        // transport
         $bbcTransportProvider.set();
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/admin/locale-',
+            prefix: '/locale/demo/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en-us');
@@ -43,10 +36,8 @@ angular.module('admin', [
     })
     .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
-        // flag for needed request by next route change event
         $rootScope.requestNeeded = false;
 
-        // route change event
         $rootScope.$on('$routeChangeStart', function (current, next) {
 
             // set activity and check session
@@ -75,17 +66,4 @@ angular.module('admin', [
         $rootScope.$on('$translateChangeSuccess', function() {
             tmhDynamicLocale.set($translate.use());
         });
-    })
-    .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
-        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
-            if (!error && result) {
-                $scope.awesomeThings = result;
-            }
-            else {
-                $scope.awesomeThings = [];
-                $log.error(error);
-            }
-        });
-
-        $scope.view = 'app/admin/admin.html';
     });

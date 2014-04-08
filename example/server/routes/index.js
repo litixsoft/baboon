@@ -12,7 +12,14 @@ module.exports = function(app) {
         res.render('app/admin/index');
     };
 
+    // Demo
+    var demo = function(req, res){
+        res.render('app/demo/index');
+    };
+
     // Application routes
     app.get('/admin', admin);
     app.get('/admin/*', admin);
+    app.get('/demo', demo);
+    app.get('/demo/*', demo);
 };

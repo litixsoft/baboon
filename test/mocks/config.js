@@ -7,6 +7,8 @@ module.exports = function () {
      */
     var config = {};
 
+    config.filesPath = '../.tmp/';
+
     /**
      * The production confuguration
      * This configuration used when no other configuration is specified.
@@ -22,6 +24,11 @@ module.exports = function () {
             protocol: 'http',
             host: '127.0.0.1',
             port: 3000,
+            rights: {
+                enabled: false,
+                masterLoginPage: false,
+                database: 'localhost:27017/baboon_rights'
+            },
             logging: {
                 appenders: {
                     file: {
@@ -106,6 +113,8 @@ module.exports = function () {
 
         settings.mail.directory = './test/eml';
         settings.mail.type = 'PICKUP';
+
+        settings.rights.database = 'localhost:27017/test_baboon_rights?w=1&journal=True&fsync=True';
 
         return settings;
     };

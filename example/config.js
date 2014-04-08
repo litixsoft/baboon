@@ -3,9 +3,11 @@
 module.exports = function () {
     /**
      * Contains all configuration functions.
-     * @type {{production: object, development: object, unitTest: object, e2eTest: object}}
+     * @type {{filesPath: string, production: object, development: object, unitTest: object, e2eTest: object}}
      */
     var config = {};
+
+    config.filesPath = './server/var/';
 
     /**
      * The production configuration
@@ -24,17 +26,22 @@ module.exports = function () {
             port: 3000,
             rights: {
                 enabled: false,
-                masterLoginPage: false
+                masterLoginPage: false,
+                database: 'localhost:27017/baboon_rights?w=1&journal=True&fsync=True'
             },
             session: {
                 key: 'baboon.sid',
                 secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
                 maxLife: 804600,
-                inactiveTime: 20,
-                //inactiveTime: 3600,
+                inactiveTime: 3600,
                 stores: {
                     inMemory: {
                         type: 'inMemory'
+                    },
+                    redis: {
+                        type: 'redis',
+                        host: 'localhost',
+                        port: 6379
                     },
                     mongoDb: {
                         type: 'mongoDb',
@@ -45,7 +52,7 @@ module.exports = function () {
                     },
                     tingoDb: {
                         type: 'tingoDb',
-                        dbPath: './.tmp',
+                        dbPath: config.filesPath + 'db',
                         collectionName: 'sessions'
                     }
                 },
@@ -131,6 +138,8 @@ module.exports = function () {
 
         settings.mail.directory = 'C:/Temp/Mail';
         settings.mail.type = 'PICKUP';
+
+        settings.rights.database = 'localhost:27017/test_baboon_rights?w=1&journal=True&fsync=True';
 
         return settings;
     };

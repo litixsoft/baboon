@@ -3,7 +3,11 @@
     "HOME": "Home",
     "LOCALE": "Localization",
     "CONTACT": "Contact",
+    "SESSION": "Session",
     "ABOUT": "About",
     "ADMIN": "Administration",
-    "PROJECT1": "Project 1"
+    "PROJECT1": "Project 1",
+    "EXAMPLE": "Example",
+    "DEMO": "Demo",
+    "ENTERPRISE": "Enterprise"
 }

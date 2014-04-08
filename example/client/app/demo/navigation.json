@@ -1,0 +1,14 @@
+{
+    "title": "DEMO",
+    "route": "/demo",
+    "roles": ["users"],
+    "app": "demo",
+    "children": [
+        {
+           "title": "ENTERPRISE",
+           "route": "/demo/enterprise",
+           "app": "demo"
+        }
+    ],
+    "order": "2"
+}

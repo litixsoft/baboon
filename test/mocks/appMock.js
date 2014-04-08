@@ -67,7 +67,8 @@ module.exports = function () {
         body: {
             current: 'main',
             top: 'main'
-        }
+        },
+        session: {}
     };
 
     // socket
@@ -75,16 +76,54 @@ module.exports = function () {
         events: {},
         on: function (event, func) {
             socket.events[event] = func;
+        },
+        handshake: {
+            headers: {
+                cookie: 'baboon.sid=s%3AyhADldmaayce2fUGBWReoA99.zeZdfybnDY0iJwKEbuhZdtfJ2PlwcXI97QxtqY4y428'
+            }
         }
     };
 
     // baboon object
     var baboon = {
         config: {
-            useRightSystem: false,
+            rights: {
+                enabled: false
+            },
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
                 lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
+            }
+        },
+        session: {
+            getSession: function (cookie, callback) {
+                if (cookie === '12345' && callback) {
+                    callback(null, {user: {acl: []}});
+                } else if (callback) {
+                    callback(null, {});
+                }
+            },
+            setSession: function (session, callback) {
+                if (callback) {
+                    callback(null, {});
+                }
+            },
+            checkActivitySession: function (session, callback) {
+                session = null;
+                callback(null, true);
+            }
+        },
+        loggers: {
+            syslog: syslog
+        },
+        rights: {
+            getUser: function (id, callback) {
+                callback(null, {id: id, name: 'guest'});
+            },
+            userHasAccessTo: function (user, route) {
+                if (route === '/userHasNoAccessToFunction') {
+                    return false;
+                }
             }
         }
     };

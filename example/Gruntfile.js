@@ -591,6 +591,7 @@ module.exports = function (grunt) {
         return grunt.task.run([
             'build:dev',
             'express:dev',
+            'wait',
             'open:server',
             'watch'
         ]);

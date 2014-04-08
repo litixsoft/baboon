@@ -26,8 +26,6 @@ app.get('*', function (req, res) {
 
 // socket connection event
 io.sockets.on('connection', function (socket) {
-//    console.log(socket.id);
-//    console.log(io.handshaken[socket.id].headers.cookie);
     baboon.transport.registerSocketEvents(socket);
 });
 

@@ -18,6 +18,11 @@
            "title": "CONTACT",
            "route": "/contact",
            "app": "main"
+        },
+        {
+            "title": "SESSION",
+            "route": "/session",
+            "app": "main"
         }
     ],
     "order": "1"

@@ -1,0 +1,94 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+        <div class="page-header">
+            <h1>{{ 'SESSION_HEADER' | translate }}</h1>
+        </div>
+
+        <p>{{ 'SESSION_INTRO' | translate }}</p>
+
+        <h3>setActivity: {{ 'SESSION_SETACTIVITY_HEADER' | translate }}</h3>
+
+        <p>
+            {{ 'SESSION_SETACTIVITY_TEXT' | translate }}
+        </p>
+
+        <h3>getLastActivity: {{ 'SESSION_GETLASTACTIVITY_HEADER' | translate }}</h3>
+
+        <p>
+            {{ 'SESSION_GETLASTACTIVITY_TEXT' | translate }}
+        </p>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Demo</div>
+            <div class="panel-body">
+
+                <ul style="min-height: 100px; padding: 0.5em; margin: 1em; list-style: none">
+                    <li ng-repeat="item in activityMessages">
+                        <span class="{{item.class}}">{{ item.message }}</span>
+                    </li>
+                </ul>
+                <div class="col-md-12" style="margin-top: 1em">
+                    <div class="btn-group">
+                        <button class="btn btn-default" ng-click="setActivity()">Set activity</button>
+                        <button class="btn btn-default" ng-click="getLastActivity()">Get last activity</button>
+                        <button class="btn btn-default" ng-click="clearActivity()"><span
+                                class="glyphicon glyphicon-trash"></span> Clear log
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>setData: {{ 'SESSION_SETDATA_HEADER' | translate }}</h3>
+        <p>
+            {{ 'SESSION_SETDATA_TEXT' | translate }}
+        </p>
+
+        <h3>getData: {{ 'SESSION_GETDATA_HEADER' | translate }}</h3>
+        <p>
+            {{ 'SESSION_GETDATA_TEXT' | translate }}
+        </p>
+
+        <p>
+            {{ 'SESSION_GETDATA_TEXT2' | translate }}
+        </p>
+
+        <h3>deleteData: {{ 'SESSION_DELETEDATA_HEADER' | translate }}</h3>
+        <p>
+            {{ 'SESSION_DELETEDATA_TEXT' | translate }}
+        </p>
+
+        <p>
+            {{ 'SESSION_DELETEDATA_TEXT2' | translate }}
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-heading">Demo</div>
+            <div class="panel-body">
+
+                <ul style="min-height: 100px; padding: 0.5em; margin: 1em; list-style: none">
+                    <li ng-repeat="item in dataMessages">
+                        <span class="{{item.class}}">{{ item.message }}</span>
+                    </li>
+                </ul>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input ng-model="data.key" class="form-control" placeholder="session key">
+                        <input ng-model="data.value" class="form-control" placeholder="session value">
+
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 1em">
+                    <div class="btn-group">
+                        <button class="btn btn-default" ng-click="setData()">Set To Session</button>
+                        <button class="btn btn-default" ng-click="getData()">Get SessionData</button>
+                        <button class="btn btn-default" ng-click="deleteData()">Delete SessionData</button>
+                        <button class="btn btn-default" ng-click="clearData()"><span
+                                class="glyphicon glyphicon-trash"></span> Clear Log
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

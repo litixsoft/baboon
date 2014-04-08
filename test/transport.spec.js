@@ -130,7 +130,7 @@ describe('Transport', function () {
         it('should process the request and call the corresponding action with rightsystem disabled', function (done) {
             var req = appMock.req;
             var res = {
-                json: function(code, value){
+                json: function (code, value) {
                     expect(code).toBe(200);
                     expect(value).toBeDefined();
                     expect(value.length).toBe(5);
@@ -148,8 +148,8 @@ describe('Transport', function () {
         it('should process the request and return wrong url', function (done) {
             var req = appMock.req;
             var res = {
-                json: function(code, value){
-                    expect(code).toBe(403);
+                json: function (code, value) {
+                    expect(code).toBe(404);
                     expect(value).toBe('Wrong url');
 
                     done();
@@ -165,8 +165,8 @@ describe('Transport', function () {
         it('should process the request and return raised error', function (done) {
             var req = appMock.req;
             var res = {
-                json: function(code, value){
-                    expect(code).toBe(401);
+                json: function (code, value) {
+                    expect(code).toBe(500);
                     expect(value).toBe('Error raised');
 
                     done();
@@ -182,7 +182,7 @@ describe('Transport', function () {
         it('should process the request and process the session', function (done) {
             var req = appMock.req;
             var res = {
-                json: function(code, value){
+                json: function (code, value) {
                     expect(code).toBe(200);
                     expect(value).toBeDefined();
 
@@ -191,6 +191,48 @@ describe('Transport', function () {
             };
 
             req.originalUrl = '/api/common/awesomeThings/index/sessionTest';
+
+            sut = transport(baboon);
+            sut.processRequest(req, res);
+        });
+
+        it('should process the request with right system enabled but user has no access to function', function (done) {
+            var req = appMock.req;
+            var res = {
+                json: function (code, value) {
+                    expect(code).toBe(403);
+                    expect(value).toBeDefined();
+
+                    baboon.config.rights.enabled = false;
+                    req.session = {};
+
+                    done();
+                }
+            };
+
+            req.originalUrl = '/api/userHasNoAccessToFunction';
+            baboon.config.rights.enabled = true;
+            req.session.user = {};
+
+            sut = transport(baboon);
+            sut.processRequest(req, res);
+        });
+
+        it('should not process the request with right system enabled and user has no access to', function (done) {
+            var req = appMock.req;
+            var res = {
+                json: function (code, value) {
+                    expect(code).toBe(403);
+                    expect(value).toBe('Access denied');
+
+                    baboon.config.rights.enabled = false;
+
+                    done();
+                }
+            };
+
+            req.originalUrl = '/api/common/awesomeThings/index/noAccessTo';
+            baboon.config.rights.enabled = true;
 
             sut = transport(baboon);
             sut.processRequest(req, res);
@@ -207,13 +249,66 @@ describe('Transport', function () {
 
             expect(Object.keys(socket.events).length).toBe(3);
 
-            socket.events['api/common/awesomeThings/index/getAll']({}, function(error, result){
+            socket.events['api/common/awesomeThings/index/getAll']({}, function (error, result) {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
                 expect(result.length).toBe(5);
 
                 done();
             });
+        });
+    });
+
+    describe('emit socket event', function () {
+        it('should process the request and process the session', function (done) {
+            var socket = appMock.socket;
+            socket.events = {};
+
+            sut = transport(baboon);
+            sut.registerSocketEvents(socket);
+
+            expect(Object.keys(socket.events).length).toBe(3);
+
+            socket.events['api/common/awesomeThings/index/sessionTest']({}, function (error, result) {
+                expect(error).toBeNull();
+                expect(result).toBeDefined();
+                expect(result.items).toBeDefined();
+                expect(result.count).toBeDefined();
+                expect(result.sessionCalls).toBeDefined();
+
+                done();
+            });
+        });
+
+        it('should not process the request when rights system is enabled and user has no acl', function (done) {
+            var socket = appMock.socket;
+            socket.events = {};
+
+            baboon.config.rights.enabled = true;
+
+            sut = transport(baboon);
+            sut.registerSocketEvents(socket);
+
+            expect(Object.keys(socket.events).length).toBe(0);
+
+            baboon.config.rights.enabled = false;
+            done();
+        });
+
+        it('should not process the request when rights system is enabled and user has acl but no access to functions', function (done) {
+            var socket = appMock.socket;
+            socket.events = {};
+            socket.handshake.headers.cookie = '12345';
+
+            baboon.config.rights.enabled = true;
+
+            sut = transport(baboon);
+            sut.registerSocketEvents(socket);
+
+            expect(Object.keys(socket.events).length).toBe(0);
+
+            baboon.config.rights.enabled = false;
+            done();
         });
     });
 });
