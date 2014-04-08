@@ -229,28 +229,5 @@ describe('Repositories/UsersRepositiory', function () {
                 done();
             });
         });
-
-//        it('should return an empty array in insert', function (done) {
-//            var user = {
-//                name: 'wayne',
-//                password: 'a',
-//                confirmedPassword: 'a'
-//            };
-//
-//            var proxyquire = require('proxyquire');
-//
-//            var stubs = {};
-////            stubs.pwd = {
-////                hash: function(password, callback){callback('error');}
-////            };
-//
-//            var sut = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({insert:function(query, callback){callback(null, []);}});
-//
-//            sut.createUser(user, function (err) {
-//                expect(err).toBeNull();
-//                done();
-//            });
-//        });
     });
-
 });
