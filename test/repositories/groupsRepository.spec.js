@@ -151,7 +151,6 @@ describe('Repositories/GroupsRepositiory', function () {
 
             repo.checkName(doc, function(err){
                 expect(err).toBeDefined();
-//                expect(res.valid).toBeTruthy();
 
                 done();
             });
