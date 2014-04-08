@@ -58,7 +58,7 @@ describe('Transport', function () {
             expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
-            expect(Object.keys(actions).length).toBe(3);
+            expect(Object.keys(actions).length).toBe(4);
         });
     });
 
@@ -82,7 +82,7 @@ describe('Transport', function () {
             expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
-            expect(Object.keys(actions).length).toBe(3);
+            expect(Object.keys(actions).length).toBe(4);
         });
 
         it('should add a controller with actions', function () {
@@ -110,7 +110,7 @@ describe('Transport', function () {
             expect(Object.keys(controllers).length).toBe(1);
 
             var actions = controllers[Object.keys(controllers)[0]];
-            expect(Object.keys(actions).length).toBe(3);
+            expect(Object.keys(actions).length).toBe(4);
         });
 
         it('should add a controller file with actions', function () {
@@ -162,18 +162,37 @@ describe('Transport', function () {
             sut.processRequest(req, res);
         });
 
-        it('should process the request and return raised error', function (done) {
+        it('should process the request and return an raised error', function (done) {
             var req = appMock.req;
             var res = {
                 json: function (code, value) {
                     expect(code).toBe(500);
-                    expect(value).toBe('Error raised');
+                    expect(value.message).toBe('Error raised');
+                    expect(value.stack).toBe('Error stack');
 
                     done();
                 }
             };
 
             req.originalUrl = '/api/common/awesomeThings/index/raiseError';
+
+            sut = transport(baboon);
+            sut.processRequest(req, res);
+        });
+
+        it('should process the request and return an raised error with status code', function (done) {
+            var req = appMock.req;
+            var res = {
+                json: function (code, value) {
+                    expect(code).toBe(500);
+                    expect(value.message).toBe('Error raised');
+                    expect(value.stack).toBe('Error stack');
+
+                    done();
+                }
+            };
+
+            req.originalUrl = '/api/common/awesomeThings/index/raiseErrorWithStatus';
 
             sut = transport(baboon);
             sut.processRequest(req, res);
@@ -247,7 +266,7 @@ describe('Transport', function () {
             sut = transport(baboon);
             sut.registerSocketEvents(socket);
 
-            expect(Object.keys(socket.events).length).toBe(3);
+            expect(Object.keys(socket.events).length).toBe(4);
 
             socket.events['api/common/awesomeThings/index/getAll']({}, function (error, result) {
                 expect(error).toBeNull();
@@ -267,7 +286,7 @@ describe('Transport', function () {
             sut = transport(baboon);
             sut.registerSocketEvents(socket);
 
-            expect(Object.keys(socket.events).length).toBe(3);
+            expect(Object.keys(socket.events).length).toBe(4);
 
             socket.events['api/common/awesomeThings/index/sessionTest']({}, function (error, result) {
                 expect(error).toBeNull();
