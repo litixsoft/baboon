@@ -7,7 +7,7 @@ module.exports = function () {
      */
     var config = {};
 
-    config.filesPath = '../.tmp/';
+    config.filesPath = '../.tmp';
 
     /**
      * The production confuguration

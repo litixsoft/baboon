@@ -4,15 +4,10 @@ describe('Settings', function () {
     var path = require('path');
     var fs = require('fs');
     var rootPath = path.resolve(path.join(__dirname, '../'));
-    var config = require(path.join(rootPath, 'lib', 'config'))(path.join(rootPath, 'test', 'mocks'), {config:'unitTest'});
-
-
-
-
-
-    var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
-    appMock.rights = require(path.resolve(rootPath, 'lib', 'rights'))(appMock.config, appMock.logging);
-    var userRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(appMock.config.mongo.rights).users;
+    var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')))();
+    var config = require(path.join(rootPath, 'lib', 'config'))(path.join(rootPath, 'test', 'mocks'), {config: 'unitTest'});
+    var rights = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
+    var userRepo = require(path.join(rootPath, 'lib', 'repositories'))(config.rights.database).users;
     var testUser = {
         id: 77,
         name: 'wayne'
@@ -23,7 +18,8 @@ describe('Settings', function () {
         }
     };
 
-    var sut = require(path.join(rootPath, 'lib', 'settings'))(appMock.config, appMock.logging, appMock.rights);
+    var sut = require(path.join(rootPath, 'lib', 'settings'))(config, appMock.logging, rights);
+    var settingsFolder = path.join(config.path.appFolder, 'settings');
 
     beforeEach(function () {
         spyOn(appMock.logging.syslog, 'warn');
@@ -31,7 +27,7 @@ describe('Settings', function () {
 
     describe('with rights system enabled', function () {
         beforeEach(function (done) {
-            appMock.config.useRightsSystem = true;
+            config.rights.enabled = true;
             userRepo.remove({id: testUser.id}, done);
         });
 
@@ -60,6 +56,28 @@ describe('Settings', function () {
                 sut.setUserSetting(testUser, {a: 1, value: 4}, function (err, res) {
                     expect(err instanceof TypeError).toBeTruthy();
                     expect(err.message).toBe('Param setting is missing or has no/wrong property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error there is a database error', function (done) {
+                var rightsMock = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
+                rightsMock.getRepositories = function () {
+                    return {
+                        users: {
+                            findOneById: function (id, options, ccc) {
+                                ccc('error');
+                            }
+                        }
+                    };
+                };
+
+                var sut2 = require(path.join(rootPath, 'lib', 'settings'))(config, appMock.logging, rightsMock);
+
+                sut2.setUserSetting(testUser, {key: '1', value: 4}, function (err, res) {
+                    expect(err).toBe('error');
                     expect(res).toBeUndefined();
 
                     done();
@@ -333,9 +351,16 @@ describe('Settings', function () {
     });
 
     describe('with rights system disabled', function () {
+        beforeEach(function (done) {
+            config.rights.enabled = false;
 
-        beforeEach(function () {
-            appMock.config.useRightsSystem = false;
+            fs.exists(config.path.appFolder, function (result) {
+                if (!result) {
+                    fs.mkdir(config.path.appFolder, done);
+                } else {
+                    done();
+                }
+            });
         });
 
         describe('setUserSetting()', function () {
@@ -344,34 +369,7 @@ describe('Settings', function () {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
 
-                    fs.readFile(path.join(appMock.config.path.settings, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
-                        expect(err).toBeNull();
-                        expect(res).toBe(JSON.stringify({test: 1}));
-
-                        done();
-                    });
-                });
-            });
-
-            it('should save a user setting in the file system and create the appFolder before', function (done) {
-                var logsPath = path.resolve(rootPath, 'build', 'tmp');
-
-                fs.unlinkSync(path.join(logsPath, 'express', 'express.log'));
-                fs.unlinkSync(path.join(logsPath, 'socket', 'socket.log'));
-                fs.unlinkSync(path.join(logsPath, 'sys', 'sys.log'));
-                fs.rmdirSync(path.join(logsPath, 'express'));
-                fs.rmdirSync(path.join(logsPath, 'socket'));
-                fs.rmdirSync(path.join(logsPath, 'sys'));
-
-                fs.unlinkSync(path.join(appMock.config.path.settings, testUser.name + '.json'));
-                fs.rmdirSync(appMock.config.path.settings);
-                fs.rmdirSync(appMock.config.path.appFolder);
-
-                sut.setUserSetting(testUser, {key: 'test', value: 1}, function (err, res) {
-                    expect(err).toBeNull();
-                    expect(res).toBeTruthy();
-
-                    fs.readFile(path.join(appMock.config.path.settings, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
+                    fs.readFile(path.join(settingsFolder, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBe(JSON.stringify({test: 1}));
 
@@ -387,7 +385,7 @@ describe('Settings', function () {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
 
-                    fs.readFile(path.join(appMock.config.path.settings, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
+                    fs.readFile(path.join(settingsFolder, testUser.name + '.json'), {encoding: 'utf-8'}, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toEqual(JSON.stringify({test: 1, wat: 'aa'}));
 
@@ -397,9 +395,9 @@ describe('Settings', function () {
             });
 
             it('should create the settings directory before saving a user settings in the file system', function (done) {
-                var settingsFile = path.join(appMock.config.path.settings, testUser.name + '.json');
+                var settingsFile = path.join(settingsFolder, testUser.name + '.json');
                 fs.unlinkSync(settingsFile);
-                fs.rmdirSync(appMock.config.path.settings);
+                fs.rmdirSync(settingsFolder);
 
                 sut.setUserSettings(testUser, {test: 1, wat: 'aa'}, function (err, res) {
                     expect(err).toBeNull();
@@ -416,10 +414,10 @@ describe('Settings', function () {
         });
 
         describe('getUserSettings()', function () {
-            it('should return an empty object when the setting files does not exists', function (done) {
-                var settingsFile = path.join(appMock.config.path.settings, testUser.name + '.json');
+            it('should return an error when the setting files does not exists', function (done) {
+                var settingsFile = path.join(settingsFolder, testUser.name + '.json');
                 fs.unlinkSync(settingsFile);
-                fs.rmdirSync(appMock.config.path.settings);
+                fs.rmdirSync(settingsFolder);
 
                 sut.getUserSettings(testUser, function (err, res) {
                     expect(err).toBeNull();
@@ -430,7 +428,7 @@ describe('Settings', function () {
             });
 
             it('should return an empty object and log an error when the setting files cannot be parsed', function (done) {
-                var settingsFile = path.join(appMock.config.path.settings, testUser.name + '.json');
+                var settingsFile = path.join(settingsFolder, testUser.name + '.json');
                 sut.setUserSettings(testUser, {test: 1}, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();

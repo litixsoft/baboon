@@ -7,7 +7,7 @@ module.exports = function () {
      */
     var config = {};
 
-    config.filesPath = './server/var/';
+    config.filesPath = './server/var';
 
     /**
      * The production configuration
@@ -52,7 +52,7 @@ module.exports = function () {
                     },
                     tingoDb: {
                         type: 'tingoDb',
-                        dbPath: config.filesPath + 'db',
+                        dbPath: require('path').join(config.filesPath, 'db'),
                         collectionName: 'sessions'
                     }
                 },
