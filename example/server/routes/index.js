@@ -8,8 +8,7 @@
 module.exports = function(app) {
 
     // Admin
-    var admin = function(req, res, next){
-        throw new Error('Ein ganz schlimmer Fehler....');
+    var admin = function(req, res) {
         res.render('app/admin/index');
     };
 
