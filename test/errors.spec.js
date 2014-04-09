@@ -2,10 +2,8 @@
 
 describe('Errors', function () {
 
-
     var path = require('path');
     var errors = require(path.resolve(__dirname, '../', 'lib', 'errors'));
-
 
     it('should throw an ConfigError with message', function() {
         var ConfigError = errors.ConfigError;
@@ -23,6 +21,7 @@ describe('Errors', function () {
         expect(error instanceof ConfigError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+
     it('should throw an LogError with message', function() {
         var LogError = errors.LogError;
         var error = new LogError('LogTestError');
@@ -39,11 +38,15 @@ describe('Errors', function () {
         expect(error instanceof LogError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+
     it('should throw an TransportError with message', function() {
         var TransportError = errors.TransportError;
-        var error = new TransportError('TransportTestError');
+        var error = new TransportError(400, 'unitTest', 'TransportTestError');
 
+        expect(error.name).toBe('TransportError');
         expect(error.message).toBe('TransportTestError');
+        expect(error.status).toBe(400);
+        expect(error.resource).toBe('unitTest');
         expect(error instanceof TransportError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
@@ -51,10 +54,12 @@ describe('Errors', function () {
         var TransportError = errors.TransportError;
         var error = new TransportError();
 
-        expect(error.message).toBe('');
-        expect(error instanceof TransportError).toBe(true);
-        expect(error instanceof Error).toBe(true);
+        expect(error.name).toBe('TransportError');
+        expect(error.message).toBe('Internal Server Error');
+        expect(error.status).toBe(500);
+        expect(error.resource).toBe('undefined');
     });
+
     it('should throw an NavigationError with message, resource and status', function() {
         var NavigationError = errors.NavigationError;
         var error = new NavigationError(400, 'unitTest', 'NavigationTestError');
@@ -78,6 +83,7 @@ describe('Errors', function () {
         expect(error instanceof NavigationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+
     it('should throw an MailError with message', function() {
         var MailError = errors.MailError;
         var error = new MailError('MailTestError');
@@ -94,6 +100,7 @@ describe('Errors', function () {
         expect(error instanceof MailError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+
     it('should throw an SessionError with message', function() {
         var SessionError = errors.SessionError;
         var error = new SessionError('SessionTestError');
@@ -108,6 +115,23 @@ describe('Errors', function () {
 
         expect(error.message).toBe('');
         expect(error instanceof SessionError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+
+    it('should throw an RightsError with message', function() {
+        var RightsError = errors.RightsError;
+        var error = new RightsError('RightsTestError');
+
+        expect(error.message).toBe('RightsTestError');
+        expect(error instanceof RightsError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an RightsError without message', function() {
+        var RightsError = errors.RightsError;
+        var error = new RightsError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof RightsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
 });
