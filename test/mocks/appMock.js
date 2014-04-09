@@ -88,7 +88,8 @@ module.exports = function () {
     var baboon = {
         config: {
             rights: {
-                enabled: false
+                enabled: false,
+                database: 'localhost:27017/baboon_rights'
             },
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
