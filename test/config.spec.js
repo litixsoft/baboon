@@ -67,6 +67,7 @@ describe('Config', function () {
 
         expect(sut.path.root).toBeDefined();
         expect(sut.path.logs).toBeDefined();
+        expect(sut.path.appFolder).toBeDefined();
         expect(sut.node_env).toBe('production');
         expect(process.env.NODE_ENV).toBe(sut.node_env);
         expect(sut.app_name).toBe('Baboon Example App');
@@ -86,10 +87,12 @@ describe('Config', function () {
         expect(sut.logging.loggers.express.level).toBe('INFO');
         expect(sut.logging.loggers.express.appender).toBe('console');
     });
+
     it('should return the production settings when option --config is production', function () {
         var sut = config(path.join(rootPath), {config: 'production'});
         expect(sut.path.root).toBeDefined();
         expect(sut.path.logs).toBeDefined();
+        expect(sut.path.appFolder).toBeDefined();
         expect(sut.node_env).toBe('production');
         expect(process.env.NODE_ENV).toBe(sut.node_env);
         expect(sut.app_name).toBe('Baboon Example App');
@@ -109,10 +112,12 @@ describe('Config', function () {
         expect(sut.logging.loggers.express.level).toBe('INFO');
         expect(sut.logging.loggers.express.appender).toBe('console');
     });
+
     it('should return the development settings when option --config is development.', function () {
         var sut = config(path.join(rootPath), {config: 'development'});
         expect(sut.path.root).toBeDefined();
         expect(sut.path.logs).toBeDefined();
+        expect(sut.path.appFolder).toBeDefined();
         expect(sut.node_env).toBe('development');
         expect(process.env.NODE_ENV).toBe(sut.node_env);
         expect(sut.app_name).toBe('Baboon Example App');
@@ -138,7 +143,7 @@ describe('Config', function () {
 
         var stubs = {};
         stubs.fs = {
-            existsSync: function(path){throw new Error(path);}
+            existsSync: function (path) {throw new Error(path);}
         };
 
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);

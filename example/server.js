@@ -20,7 +20,6 @@ require('./server/routes')(app, baboon);
 
 // Catch all other requests as main angular app
 app.get('*', function (req, res) {
-
     res.render('app/main/index');
 });
 

@@ -8,7 +8,7 @@
 module.exports = function(app) {
 
     // Admin
-    var admin = function(req, res){
+    var admin = function(req, res) {
         res.render('app/admin/index');
     };
 
