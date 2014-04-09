@@ -143,11 +143,26 @@ describe('Rights', function () {
         expect(func).toThrow();
     });
 
+    it('should not throw an Error when given params are of correct type', function () {
+        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({}, {});
+        expect(sut).toBeDefined();
+    });
+
     it('should be initialized correctly', function () {
+        expect(typeof sut.getRepositories).toBe('function');
+        expect(typeof sut.userHasAccessTo).toBe('function');
+        expect(typeof sut.userIsInRole).toBe('function');
         expect(typeof sut.getUserRights).toBe('function');
         expect(typeof sut.getUserAcl).toBe('function');
-        expect(typeof sut.userHasAccessTo).toBe('function');
         expect(typeof sut.getAclObj).toBe('function');
+        expect(typeof sut.secureNavigation).toBe('function');
+        expect(typeof sut.getUserForLogin).toBe('function');
+        expect(typeof sut.getUser).toBe('function');
+        expect(typeof sut.getExtendedAcl).toBe('function');
+        expect(typeof sut.addResourceRight).toBe('function');
+        expect(typeof sut.getPublicFunctionsFromControllers).toBe('function');
+        expect(typeof sut.refreshRightsIdDb).toBe('function');
+        expect(typeof sut.ensureThatDefaultSystemUsersExists).toBe('function');
     });
 
     describe('.getRepositories()', function () {
@@ -367,6 +382,16 @@ describe('Rights', function () {
             expect(res[0]).toEqual({_id: 1, hasAccess: true});
             expect(res[1]).toEqual({_id: 4, hasAccess: true, resource: 'baboon'});
             expect(res[2]).toEqual({_id: 5, hasAccess: true, resource: 'baboon'});
+        });
+
+        it('should add no rights', function () {
+            var user = users[0];
+            user.rights = [{name:'noAccess'}];
+            user.roles = [5]; // Manager
+
+            var res = sut.getUserRights(user, [], [], ['noRole']);
+
+            expect(res.length).toBe(0);
         });
     });
 
@@ -642,6 +667,8 @@ describe('Rights', function () {
             };
 
             repo.users.remove({name: user.name}, function () {done();});
+
+            spyOn(console, 'log');
         });
 
         it('should return the user with minimal data', function (done) {
@@ -655,6 +682,30 @@ describe('Rights', function () {
 
                     done();
                 });
+            });
+        });
+
+        it('should mongodb to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return {
+                    users:{
+                        findOne: function(a,b,callback){
+                            callback('error');
+                        }
+                    }
+                };
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.getUserForLogin(user.name, function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeNull();
+
+                done();
             });
         });
     });
@@ -1023,6 +1074,66 @@ describe('Rights', function () {
                 });
             });
         });
+
+
+        it('should mongodb to throw error', function (done) {
+            spyOn(console, 'log');
+
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOneById = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            repo.rights.insert([
+                {name: 'add'},
+                {name: 'save'},
+                {name: 'delete'}
+            ], function (err, rights) {
+                expect(err).toBeNull();
+                expect(rights.length).toBe(3);
+
+                user.rights = [
+                    {_id: rights[1]._id, hasAccess: false}
+                ];
+
+                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                    expect(err).toBeNull();
+                    expect(roles).toBeDefined();
+
+                    repo.groups.insert({name: 'devs'}, function (err, groups) {
+                        expect(err).toBeNull();
+                        expect(groups).toBeDefined();
+
+                        user.groups = [groups[0]._id];
+
+                        repo.users.insert(user, function (err, users) {
+                            expect(err).toBeNull();
+                            expect(users).toBeDefined();
+
+                            mock.addResourceRight('a', {group_id: groups[0]._id, role_id: roles[0]._id}, function (err) {
+                                expect(err).toBeNull();
+                                expect(users).toBeDefined();
+
+                                mock.getUser(user._id, function (err, res) {
+                                    expect(err).toBeDefined();
+                                    expect(res).toBeUndefined();
+
+                                    done();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 
     describe('.getExtendedAcl()', function () {
@@ -1032,6 +1143,8 @@ describe('Rights', function () {
                 hash: 'hash',
                 salt: 'salt'
             };
+
+            spyOn(console, 'log');
 
             repo.users.remove({name: user.name}, function () {
                 repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
@@ -1085,11 +1198,71 @@ describe('Rights', function () {
                 done();
             });
         });
+
+        it('should return an empty result when param "additionalRoles" has empty roles', function (done) {
+            sut.getExtendedAcl(user, [1], function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBeDefined();
+
+                done();
+            });
+        });
+
+        it('should return an empty result when param "additionalRoles" has empty roles but user has groups', function (done) {
+            repo.groups.insert({name: 'devs'}, function (err, res) {
+                user.rights = [1];
+                user.roles = [1];
+                user.groups = [res[0]._id];
+
+                sut.getExtendedAcl(user, ['role'], function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toBeDefined();
+
+                    done();
+                });
+            });
+        });
+
+        it('should mongodb to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return {
+                    roles:{
+                        find: function(a,callback){
+                            callback('error');
+                        }
+                    },
+                    rights:{
+                        find: function(a,callback){
+                            callback('error');
+                        }
+                    },
+                    groups:{
+                        find: function(a,callback){
+                            callback('error');
+                        }
+                    }
+                };
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.getExtendedAcl(user, ['role'], function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
     });
 
     describe('.addResourceRight()', function () {
         beforeEach(function (done) {
             repo.resourceRights.remove({resource: 'projectA'}, function () {done();});
+
+            spyOn(console, 'log');
         });
 
         it('should throw an error when the params are missing', function () {
@@ -1126,6 +1299,53 @@ describe('Rights', function () {
             });
         });
 
+        it('should mongodb to return null', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return {
+                    resourceRights:{
+                        insert: function(a,callback){
+                            callback(null, null);
+                        }
+                    }
+                };
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBeNull();
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return {
+                    resourceRights:{
+                        insert: function(a,callback){
+                            callback('error');
+                        }
+                    }
+                };
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
     });
 
     describe('.getPublicFunctionsFromControllers()', function () {
@@ -1136,6 +1356,46 @@ describe('Rights', function () {
                 expect(res.length).toBeGreaterThan(0);
             });
         });
+
+        it('should glob to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.glob = function(a, callback){
+                callback('error');
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.getPublicFunctionsFromControllers(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should fs to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.fs = {
+                readFile: function (a, b, callback) {
+                    callback('error');
+                }
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.getPublicFunctionsFromControllers(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toEqual([]);
+
+                done();
+            });
+        });
+
+
     });
 
     describe('.refreshRightsIdDb()', function () {
