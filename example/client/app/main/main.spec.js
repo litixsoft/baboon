@@ -18,6 +18,14 @@ describe('App main', function () {
         });
     });
 
+    it('should call $translate switch the locale', function () {
+        inject(function ($rootScope) {
+
+            $rootScope.switchLocale('de-de');
+            expect($rootScope.currentLang).toBe('de-de');
+        });
+    });
+
     it('should raise the $translateChangeSuccess event', function () {
 
         var setTmp;
