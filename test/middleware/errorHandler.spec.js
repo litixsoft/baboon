@@ -7,13 +7,12 @@ describe('Middleware/ErrorHandler', function () {
     var errorHandler = require(path.resolve(rootPath, 'lib', 'middleware', 'errorHandler'));
     var appMock = require(path.resolve(rootPath, 'test', 'mocks', 'appMock'));
     var NavigationError = require(path.resolve(rootPath, 'lib', 'errors')).NavigationError;
-    var ConfigError = require(path.resolve(rootPath, 'lib', 'errors')).ConfigError;
     var mock, sut;
 
     beforeEach(function() {
         spyOn(console, 'log');
         mock = appMock();
-        sut = errorHandler(mock.logging.syslog);
+        sut = errorHandler(mock.baboon.config, mock.baboon.loggers.syslog);
     });
 
     it('should be defined errorHandler', function() {
@@ -21,61 +20,120 @@ describe('Middleware/ErrorHandler', function () {
         expect(sut.errorHandler).toBeDefined();
     });
 
-    it('should be set status 500 when error status undefined ', function() {
+    it('should be return correct error html', function() {
+
+        var errorTitle = 'Error: ' + mock.baboon.config.app_name;
+        var appName = mock.baboon.config.app_name;
+
+        var errorCode = 400;
+        var errorMessage = 'unit test error';
+
+        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        var errorStack = error.stack;
+
+        var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +
+            '<style>*{margin:0;padding:0;outline:0}body{padding:80px 100px;font:13px "Helvetica Neue","Lucida Grande","Arial";' +
+            'background:#ece9e9 -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ece9e9));' +
+            'background:#ece9e9 -moz-linear-gradient(top,#fff,#ece9e9);background-repeat:no-repeat;color:#555;' +
+            '-webkit-font-smoothing:antialiased}h1,h2,h3{font-size:22px;color:#343434}h1 em,h2 em{padding:0 5px;' +
+            'font-weight:normal}h1{font-size:60px}h2{margin-top:10px}h3{margin:5px 0 10px 0;padding-bottom:5px;' +
+            'border-bottom:1px solid #eee;font-size:18px}ul li{list-style:none}ul li:hover{cursor:pointer;' +
+            'color:#2e2e2e}p{line-height:1.5}a{color:#555;text-decoration:none}a:hover{color:#303030}#stacktrace{margin-top:15px}@media(max-width:768px){body{font-size:13px;' +
+            'line-height:16px;padding:0}}</style></head><body><div id="wrapper"> <h1>' + appName + '</h1> ' +
+            '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
+
         var res = mock.res;
+        sut.errorHandler(error, {}, res, function(){});
+        expect(html).toBe(res.data);
+    });
+
+    it('should be return correct error html with displayClient parameter', function() {
+
+        // overwrite sut
+        mock.baboon.config.node_env = 'production';
+        sut = errorHandler(mock.baboon.config, mock.baboon.loggers.syslog);
+
+        var errorTitle = 'Error: ' + mock.baboon.config.app_name;
+        var appName = mock.baboon.config.app_name;
+
+        var errorCode = 400;
+        var errorMessage = 'unit test error';
+
+        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        error.displayClient = true;
+        var errorStack = [];
+
+        var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +
+            '<style>*{margin:0;padding:0;outline:0}body{padding:80px 100px;font:13px "Helvetica Neue","Lucida Grande","Arial";' +
+            'background:#ece9e9 -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ece9e9));' +
+            'background:#ece9e9 -moz-linear-gradient(top,#fff,#ece9e9);background-repeat:no-repeat;color:#555;' +
+            '-webkit-font-smoothing:antialiased}h1,h2,h3{font-size:22px;color:#343434}h1 em,h2 em{padding:0 5px;' +
+            'font-weight:normal}h1{font-size:60px}h2{margin-top:10px}h3{margin:5px 0 10px 0;padding-bottom:5px;' +
+            'border-bottom:1px solid #eee;font-size:18px}ul li{list-style:none}ul li:hover{cursor:pointer;' +
+            'color:#2e2e2e}p{line-height:1.5}a{color:#555;text-decoration:none}a:hover{color:#303030}#stacktrace{margin-top:15px}@media(max-width:768px){body{font-size:13px;' +
+            'line-height:16px;padding:0}}</style></head><body><div id="wrapper"> <h1>' + appName + '</h1> ' +
+            '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
+
+        var res = mock.res;
+        sut.errorHandler(error, {}, res, function(){});
+        expect(html).toBe(res.data);
+    });
+
+    it('should be return correct error html without status code', function() {
+
+        var errorTitle = 'Error: ' + mock.baboon.config.app_name;
+        var appName = mock.baboon.config.app_name;
+
+        var errorCode = 500;
+        var errorMessage = 'Internal server error';
+
         var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
         delete error.status;
-        sut.errorHandler(error, {}, res);
+        var errorStack = error.stack;
 
-        var data = JSON.parse(res.data);
+        var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +
+            '<style>*{margin:0;padding:0;outline:0}body{padding:80px 100px;font:13px "Helvetica Neue","Lucida Grande","Arial";' +
+            'background:#ece9e9 -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ece9e9));' +
+            'background:#ece9e9 -moz-linear-gradient(top,#fff,#ece9e9);background-repeat:no-repeat;color:#555;' +
+            '-webkit-font-smoothing:antialiased}h1,h2,h3{font-size:22px;color:#343434}h1 em,h2 em{padding:0 5px;' +
+            'font-weight:normal}h1{font-size:60px}h2{margin-top:10px}h3{margin:5px 0 10px 0;padding-bottom:5px;' +
+            'border-bottom:1px solid #eee;font-size:18px}ul li{list-style:none}ul li:hover{cursor:pointer;' +
+            'color:#2e2e2e}p{line-height:1.5}a{color:#555;text-decoration:none}a:hover{color:#303030}#stacktrace{margin-top:15px}@media(max-width:768px){body{font-size:13px;' +
+            'line-height:16px;padding:0}}</style></head><body><div id="wrapper"> <h1>' + appName + '</h1> ' +
+            '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
-        expect(res.statusCode).toBe(500);
-
-        expect(data.error.name).toBe('NavigationError');
-        expect(data.error.resource).toBe('errorHandlerTest');
-        expect(data.error.statusCode).toBe(500);
-        expect(data.error.message).toBe('unit test error');
+        var res = mock.res;
+        sut.errorHandler(error, {}, res, function(){});
+        expect(html).toBe(res.data);
     });
 
-    it('should be set status 500 when error status less than 400 ', function() {
-        var res = mock.res;
-        var error = new NavigationError(399, 'errorHandlerTest', 'unit test error');
-        sut.errorHandler(error, {}, res);
+    it('should be return correct error html in production mode', function() {
 
-        var data = JSON.parse(res.data);
+        // overwrite sut
+        mock.baboon.config.node_env = 'production';
+        sut = errorHandler(mock.baboon.config, mock.baboon.loggers.syslog);
 
-        expect(res.statusCode).toBe(500);
+        var errorTitle = 'Error: ' + mock.baboon.config.app_name;
+        var appName = mock.baboon.config.app_name;
 
-        expect(data.error.name).toBe('NavigationError');
-        expect(data.error.resource).toBe('errorHandlerTest');
-        expect(data.error.statusCode).toBe(500);
-        expect(data.error.message).toBe('unit test error');
-    });
-    it('should be return navigation error', function() {
-        var res = mock.res;
+        var errorCode = 500;
+        var errorMessage = 'Internal server error';
         var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
-        sut.errorHandler(error, {}, res);
+        var errorStack = [];
 
-        var data = JSON.parse(res.data);
+        var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +
+            '<style>*{margin:0;padding:0;outline:0}body{padding:80px 100px;font:13px "Helvetica Neue","Lucida Grande","Arial";' +
+            'background:#ece9e9 -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ece9e9));' +
+            'background:#ece9e9 -moz-linear-gradient(top,#fff,#ece9e9);background-repeat:no-repeat;color:#555;' +
+            '-webkit-font-smoothing:antialiased}h1,h2,h3{font-size:22px;color:#343434}h1 em,h2 em{padding:0 5px;' +
+            'font-weight:normal}h1{font-size:60px}h2{margin-top:10px}h3{margin:5px 0 10px 0;padding-bottom:5px;' +
+            'border-bottom:1px solid #eee;font-size:18px}ul li{list-style:none}ul li:hover{cursor:pointer;' +
+            'color:#2e2e2e}p{line-height:1.5}a{color:#555;text-decoration:none}a:hover{color:#303030}#stacktrace{margin-top:15px}@media(max-width:768px){body{font-size:13px;' +
+            'line-height:16px;padding:0}}</style></head><body><div id="wrapper"> <h1>' + appName + '</h1> ' +
+            '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
-        expect(res.statusCode).toBe(400);
-
-        expect(data.error.name).toBe('NavigationError');
-        expect(data.error.resource).toBe('errorHandlerTest');
-        expect(data.error.statusCode).toBe(400);
-        expect(data.error.message).toBe('unit test error');
-    });
-
-    it('should be when unknown error call next() function', function(done) {
         var res = mock.res;
-        var error = new ConfigError('ConfigTestError');
-        var isNextCall = false;
-
-        sut.errorHandler(error, {}, res, function() {
-            isNextCall = true;
-            done();
-        });
-
-        expect(isNextCall).toBe(true);
+        sut.errorHandler(error, {}, res, function(){});
+        expect(html).toBe(res.data);
     });
 });
