@@ -43,6 +43,13 @@ angular.module('admin', [
     })
     .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
+        $rootScope.currentLang = $translate.preferredLanguage();
+
+        $rootScope.switchLocale = function(locale) {
+            $translate.use(locale);
+            $rootScope.currentLang = locale;
+        };
+
         // flag for needed request by next route change event
         $rootScope.requestNeeded = false;
 
