@@ -1075,7 +1075,6 @@ describe('Rights', function () {
             });
         });
 
-
         it('should mongodb to throw error', function (done) {
             spyOn(console, 'log');
 
@@ -1425,11 +1424,277 @@ describe('Rights', function () {
                 });
             });
         });
+
+        it('should getPublicFunctionsFromControllers to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.glob = function(a, callback){
+                callback('error');
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            sut.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on rights.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.rights.findOne = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on rights.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.rights.insert = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should mongodb to return null on rights.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.rights.insert = function(a, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeUndefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on rights.update', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.rights.findOne = function(a, callback){
+                callback(null, {_id:1, description:'a'});
+            };
+            repos.rights.update = function(a, b, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBeUndefined();
+
+                done();
+            });
+        });
+
+        it('should mongodb to return null on rights.update', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.rights.findOne = function(a, callback){
+                callback(null, {_id:1, description:'a'});
+            };
+            repos.rights.update = function(a, b, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeUndefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on roles.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOne = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(5);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on roles.update', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOne = function(a, callback){
+                callback(null, {_id:1});
+            };
+            repos.roles.update = function(a, b, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(5);
+
+                done();
+            });
+        });
+
+        it('should mongodb to return null on roles.update', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOne = function(a, callback){
+                callback(null, {_id:1});
+            };
+            repos.roles.update = function(a, b, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeUndefined();
+                expect(res).toBe(5);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on roles.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.insert = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(5);
+
+                done();
+            });
+        });
+
+        it('should mongodb to return null on roles.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.insert = function(a, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.refreshRightsIdDb(function (err, res) {
+                expect(err).toBeUndefined();
+                expect(res).toBe(5);
+
+                done();
+            });
+        });
     });
 
     describe('.ensureThatDefaultSystemUsersExists()', function () {
         beforeEach(function (done) {
-            repo.users.remove({locked: true}, function () {done();});
+            repo.users.remove({locked: true}, function () {
+                done();
+            });
+        });
+
+        it('should do nothing when rights system is disabled', function (done) {
+            config.rights.enabled = false;
+            var sut = require(path.resolve(rootPath, 'lib', 'rights'))(config, appMock.logging);
+
+            sut.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBe(0);
+
+                config.rights.enabled = true;
+
+                done();
+            });
         });
 
         it('should create system users in db if they do not exist', function (done) {
@@ -1446,6 +1711,112 @@ describe('Rights', function () {
 
                     done();
                 });
+            });
+        });
+
+        it('should mongodb to throw error on roles.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOne = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on users.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.users.findOne = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should pwd to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.pwd = {
+                hash: function(password, callback){callback('error');}
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should mongodb to throw error on users.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.users.insert = function(a, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should mongodb to return null on users.insert', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.users.insert = function(a, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeNull();
+                expect(res).toBe(0);
+
+                done();
             });
         });
     });

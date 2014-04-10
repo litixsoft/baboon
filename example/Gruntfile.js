@@ -448,6 +448,9 @@ module.exports = function (grunt) {
             protractor: {
                 cmd: 'node node_modules/protractor/bin/protractor test/e2e.conf.js',
                 fail: true
+            },
+            setup: {
+                cmd: 'node scripts/setup.js'
             }
         },
         less: {
