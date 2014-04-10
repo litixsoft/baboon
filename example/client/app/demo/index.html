@@ -27,19 +27,47 @@
     <div id="singlepageFrame" class="ng-cloak">
         <div class="header">
             <div class="p-wrapper">
+                <div class="action-area">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-danger">Username</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-href="">Messages</a></li>
+                            <li><a ng-href="">Preferences</a></li>
+                            <li class="divider"></li>
+                            <li><a ng-href="">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="flag-area pull-right">
+                        <div class="btn-group dark-select">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ 'LANGUAGE_SELECT' | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                    <a ng-href="" ng-click="switchLocale('en-en')"><img src="assets/images/flag-usa48.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
-                <bbc-navigation type="top"></bbc-navigation>
             </div>
         </div>
         <!-- Add your site or application content here -->
         <div class="layout-content">
             <div class="col-left">
                 <div class="container">
-                    <bbc-navigation type="sub"></bbc-navigation>
+                    <bbc-navigation-tree></bbc-navigation-tree>
                 </div>
             </div>
             <div class="col-right">
                 <div class="container">
+                    <bbc-navigation type="sub"></bbc-navigation>
                 </div>
             </div>
             <div class="col-center">
