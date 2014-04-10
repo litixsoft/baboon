@@ -4,6 +4,15 @@ module.exports = function () {
 
     var pub = {};
 
+    /**
+     * Gets all goodies
+     *
+     * @roles Guest, User
+     * @description Gets the settings of the current user.
+     * @param {Object} data The data object
+     * @param {Object} request The request object
+     * @param {function(err,res)} callback The callback function.
+     */
     pub.getAll = function (data, request, callback) {
         callback(null, [
             {
@@ -34,6 +43,13 @@ module.exports = function () {
         ]);
     };
 
+    /**
+     * Function to return an error
+     *
+     * @param {Object} data The data object
+     * @param {Object} request The request object
+     * @param {function(err,res)} callback The callback function.
+     */
     pub.raiseError = function (data, request, callback) {
         callback({message:'Error raised', stack:'Error stack'});
     };
