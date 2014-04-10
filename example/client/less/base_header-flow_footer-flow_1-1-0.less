@@ -46,9 +46,34 @@ html, body {
     .col-center{
       padding-top:0px;
       padding-bottom:0px;
+
+      .page-header{
+        margin-top:0;
+        h1{
+          margin-top:0;
+        }
+      }
     }
   }
 
+  .header{
+    .p-wrapper{
+      position: relative;
+      .action-area{
+        display: inline-block;
+        position:absolute;
+        right:0;
+
+        &> div {
+          margin-left: 5px;
+        }
+      }
+      h3{
+        padding-bottom:0;
+        line-height:35px;
+      }
+    }
+  }
   .footer{
     z-index:10;
     position:relative;
