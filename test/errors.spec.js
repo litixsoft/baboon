@@ -136,4 +136,30 @@ describe('Errors', function () {
         expect(error instanceof RightsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+    it('should throw an ControllerError with message, status, displayClient, controller and resource', function() {
+        var ControllerError = errors.ControllerError;
+        var error = new ControllerError('ControllerTestError', 400, true, 'TestController', 'TestResource');
+
+        expect(error.name).toBe('ControllerError');
+        expect(error.message).toBe('ControllerTestError');
+        expect(error.status).toBe(400);
+        expect(error.displayClient).toBe(true);
+        expect(error.controller).toBe('TestController');
+        expect(error.resource).toBe('TestResource');
+        expect(error instanceof ControllerError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an ControllerError without parameters', function() {
+        var ControllerError = errors.ControllerError;
+        var error = new ControllerError();
+
+        expect(error.name).toBe('ControllerError');
+        expect(error.message).toBe('Internal Server Error');
+        expect(error.status).toBe(500);
+        expect(error.displayClient).toBe(false);
+        expect(error.controller).toBe('empty');
+        expect(error.resource).toBe('empty');
+        expect(error instanceof ControllerError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
 });
