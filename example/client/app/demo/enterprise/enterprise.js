@@ -1,13 +1,9 @@
-
 'use strict';
 
 angular.module('demo.enterprise', [])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/demo/enterprise', {
-                templateUrl: 'app/demo/enterprise/enterprise.html',
-                controller: 'DemoEnterpriseCtrl'
-            });
+            .when('/demo/enterprise', {templateUrl: 'app/demo/enterprise/enterprise.html', controller: 'DemoEnterpriseCtrl'});
     })
     .controller('DemoEnterpriseCtrl', function ($scope) {
 
