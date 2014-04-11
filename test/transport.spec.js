@@ -7,13 +7,14 @@ describe('Transport', function () {
     var appMock = require('./mocks/appMock')();
     var baboon = appMock.baboon;
     var transport = require(path.resolve(rootPath, 'lib', 'transport'));
+    var TransportError = require(path.resolve(path.join(__dirname, '../', 'lib', 'errors'))).TransportError;
     var sut;
 
     it('should throw an Error when not given params', function () {
         var func = function () {
             return transport();
         };
-        expect(func).toThrow();
+        expect(func).toThrow(new TransportError(400, '', 'Parameter baboon with baboon.config is required!'));
     });
 
     it('should throw an Error when not given param.config', function () {

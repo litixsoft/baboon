@@ -133,14 +133,14 @@ describe('Rights', function () {
         var func = function () {
             return require(path.resolve(rootPath, 'lib', 'rights'))();
         };
-        expect(func).toThrow();
+        expect(func).toThrow(new RightsError('Parameter config is required and must be a object type!'));
     });
 
     it('should throw an Error when not given param "logging"', function () {
         var func = function () {
             return require(path.resolve(rootPath, 'lib', 'rights'))({});
         };
-        expect(func).toThrow();
+        expect(func).toThrow(new RightsError('Parameter logging is required and must be a object type!'));
     });
 
     it('should not throw an Error when given params are of correct type', function () {
@@ -182,7 +182,7 @@ describe('Rights', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
             var func = function () { return sut.userHasAccessTo('user', '123');};
 
-            expect(func).toThrow();
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
 
         it('should return false when the user has no acl', function () {
@@ -267,7 +267,7 @@ describe('Rights', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
             var func = function () { return sut.userIsInRole('user', '123');};
 
-            expect(func).toThrow();
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
 
         it('should return false when the user has no roles', function () {
@@ -326,7 +326,7 @@ describe('Rights', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
             var func = function () { return sut.getUserRights('user', '123');};
 
-            expect(func).toThrow();
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
 
         it('should add all rights from the groups of the user', function () {
@@ -399,7 +399,7 @@ describe('Rights', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
             var func = function () { return sut.getUserAcl('user', '123');};
 
-            expect(func).toThrow();
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
 
         it('should return an empty object when the param "allRights" is empty', function () {
@@ -576,11 +576,11 @@ describe('Rights', function () {
             var func3 = function () { return sut.secureNavigation(undefined);};
             var func4 = function () { return sut.secureNavigation(123);};
 
-            expect(func).toThrow();
-            expect(func1).toThrow();
-            expect(func2).toThrow();
-            expect(func3).toThrow();
-            expect(func4).toThrow();
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
+            expect(func1).toThrow(new RightsError('param "user" is not an object'));
+            expect(func2).toThrow(new RightsError('param "user" is not an object'));
+            expect(func3).toThrow(new RightsError('param "user" is not an object'));
+            expect(func4).toThrow(new RightsError('param "user" is not an object'));
         });
 
         it('should throw an Exception when the param "navigation" is not of type array', function () {
@@ -590,11 +590,11 @@ describe('Rights', function () {
             var func3 = function () { return sut.secureNavigation(users[0], '');};
             var func4 = function () { return sut.secureNavigation(users[0], 123);};
 
-            expect(func).toThrow();
-            expect(func1).toThrow();
-            expect(func2).toThrow();
-            expect(func3).toThrow();
-            expect(func4).toThrow();
+            expect(func).toThrow(new RightsError('param "navigation" is not an array'));
+            expect(func1).toThrow(new RightsError('param "navigation" is not an array'));
+            expect(func2).toThrow(new RightsError('param "navigation" is not an array'));
+            expect(func3).toThrow(new RightsError('param "navigation" is not an array'));
+            expect(func4).toThrow(new RightsError('param "navigation" is not an array'));
         });
 
         it('should return the navigation array with the items the user has access to', function () {
@@ -732,7 +732,7 @@ describe('Rights', function () {
         });
 
         it('should throw an error when the param "callback" is not of type "function"', function () {
-            expect(function () { return sut.getUser(1); }).toThrow();
+            expect(function () { return sut.getUser(1); }).toThrow(new RightsError('param "callback" is not a function'));
         });
 
         it('should return the user with his rights as acl', function (done) {
@@ -1159,14 +1159,14 @@ describe('Rights', function () {
         });
 
         it('should throw an error when the param "callback" is not of type "function"', function () {
-            expect(function () { return sut.getExtendedAcl({}, []); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], 1); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], '1'); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], null); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], undefined); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], true); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], {}); }).toThrow();
-            expect(function () { return sut.getExtendedAcl({}, [], []); }).toThrow();
+            expect(function () { return sut.getExtendedAcl({}, []); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], 1); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], '1'); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], null); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], undefined); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], true); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], {}); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getExtendedAcl({}, [], []); }).toThrow(new RightsError('param "callback" is not a function'));
         });
 
         it('should throw an error when the param "user" is not of type "object"', function (done) {
@@ -1264,26 +1264,54 @@ describe('Rights', function () {
             spyOn(console, 'log');
         });
 
-        it('should throw an error when the params are missing', function () {
+        it('should throw an error when callback is not a function', function () {
             var func = function () { return sut.addResourceRight();};
             var func1 = function () { return sut.addResourceRight(1);};
             var func2 = function () { return sut.addResourceRight(1, {});};
-            var func3 = function () { return sut.addResourceRight(null, {}, function () {});};
-            var func4 = function () { return sut.addResourceRight(1, {}, function () {});};
-            var func5 = function () { return sut.addResourceRight(1, {group_id: 1}, function () {});};
-            var func6 = function () { return sut.addResourceRight(1, {role_id: 1}, function () {});};
-            var func7 = function () { return sut.addResourceRight(1, {user_id: 1}, function () {});};
-            var func8 = function () { return sut.addResourceRight(1, {right_id: 1}, function () {});};
 
-            expect(func).toThrow();
-            expect(func1).toThrow();
-            expect(func2).toThrow();
-            expect(func3).toThrow();
-            expect(func4).toThrow();
-            expect(func5).toThrow();
-            expect(func6).toThrow();
-            expect(func7).toThrow();
-            expect(func8).toThrow();
+            expect(func).toThrow(new RightsError('param "callback" is not a function'));
+            expect(func1).toThrow(new RightsError('param "callback" is not a function'));
+            expect(func2).toThrow(new RightsError('param "callback" is not a function'));
+        });
+
+        it('should return an error when options is not an object', function (done) {
+            sut.addResourceRight(null, null, function (err) {
+                expect(err).toBeDefined();
+                expect(err instanceof RightsError).toBeTruthy();
+                expect(err.message).toContain('param "options" is not an object');
+
+                done();
+            });
+        });
+
+        it('should return an error when not resource or options is empty', function (done) {
+            sut.addResourceRight(null, {}, function (err) {
+                expect(err).toBeDefined();
+                expect(err instanceof RightsError).toBeTruthy();
+                expect(err.message).toContain('missing param "resource" or param "options" is empty');
+
+                done();
+            });
+        });
+
+        it('should return an error when group_id and user_id are not in options', function (done) {
+            sut.addResourceRight({}, {role_id: 1}, function (err) {
+                expect(err).toBeDefined();
+                expect(err instanceof RightsError).toBeTruthy();
+                expect(err.message).toContain('missing param "options.group_id" or missing param "options.user_id"');
+
+                done();
+            });
+        });
+
+        it('should return an error when role_id and right_id are not in options', function (done) {
+            sut.addResourceRight({}, {group_id:1}, function (err) {
+                expect(err).toBeDefined();
+                expect(err instanceof RightsError).toBeTruthy();
+                expect(err.message).toContain('missing param "options.role_id" or missing param "options.right_id"');
+
+                done();
+            });
         });
 
         it('should add an resource right', function (done) {
