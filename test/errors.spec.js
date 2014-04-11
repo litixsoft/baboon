@@ -60,14 +60,13 @@ describe('Errors', function () {
         expect(error.resource).toBe('undefined');
     });
 
-    it('should throw an NavigationError with message, resource and status', function() {
+    it('should throw an NavigationError with message and status', function() {
         var NavigationError = errors.NavigationError;
-        var error = new NavigationError(400, 'unitTest', 'NavigationTestError');
+        var error = new NavigationError('NavigationTestError', 400);
 
         expect(error.name).toBe('NavigationError');
         expect(error.message).toBe('NavigationTestError');
         expect(error.status).toBe(400);
-        expect(error.resource).toBe('unitTest');
         expect(error instanceof NavigationError).toBe(true);
         expect(error instanceof Error).toBe(true);
 
@@ -79,7 +78,6 @@ describe('Errors', function () {
         expect(error.name).toBe('NavigationError');
         expect(error.message).toBe('Internal Server Error');
         expect(error.status).toBe(500);
-        expect(error.resource).toBe('undefined');
         expect(error instanceof NavigationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
@@ -101,19 +99,23 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an SessionError with message', function() {
+    it('should throw an SessionError with message and status', function() {
         var SessionError = errors.SessionError;
-        var error = new SessionError('SessionTestError');
+        var error = new SessionError('SessionTestError', 400);
 
+        expect(error.name).toBe('SessionError');
         expect(error.message).toBe('SessionTestError');
+        expect(error.status).toBe(400);
         expect(error instanceof SessionError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an SessionError without message', function() {
+    it('should throw an SessionError without parameters', function() {
         var SessionError = errors.SessionError;
         var error = new SessionError();
 
-        expect(error.message).toBe('');
+        expect(error.name).toBe('SessionError');
+        expect(error.message).toBe('Internal Server Error');
+        expect(error.status).toBe(500);
         expect(error instanceof SessionError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });

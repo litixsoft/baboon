@@ -59,17 +59,15 @@ describe('App main', function () {
 
     describe('App main - $routeChangeStart event ', function () {
 
-        var $window, $rootScope, $log, $bbcSession, $location;
+        var $window, $rootScope, $log, $bbcSession;
 
         beforeEach(module('bbc.session'));
 
         beforeEach(function () {
             $window = {location: { assign: jasmine.createSpy()} };
-            $location = {url: jasmine.createSpy()};
 
             module(function ($provide) {
                 $provide.value('$window', $window);
-//                $provide.value('$location', $location);
             });
 
             inject(function($injector) {
@@ -80,7 +78,6 @@ describe('App main', function () {
                 $bbcSession.setActivity = function (callback) {
                     callback(null);
                 };
-                $location = $injector.get('$location');
             });
         });
 

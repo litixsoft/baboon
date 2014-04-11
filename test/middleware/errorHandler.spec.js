@@ -28,7 +28,7 @@ describe('Middleware/ErrorHandler', function () {
         var errorCode = 400;
         var errorMessage = 'unit test error';
 
-        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        var error = new NavigationError('unit test error', 400);
         var errorStack = error.stack;
 
         var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +
@@ -59,7 +59,7 @@ describe('Middleware/ErrorHandler', function () {
         var errorCode = 400;
         var errorMessage = 'unit test error';
 
-        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        var error = new NavigationError('unit test error', 400);
         error.displayClient = true;
         var errorStack = [];
 
@@ -87,7 +87,7 @@ describe('Middleware/ErrorHandler', function () {
         var errorCode = 500;
         var errorMessage = 'Internal server error';
 
-        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        var error = new NavigationError('unit test error', 400);
         delete error.status;
         var errorStack = error.stack;
 
@@ -118,7 +118,7 @@ describe('Middleware/ErrorHandler', function () {
 
         var errorCode = 500;
         var errorMessage = 'Internal server error';
-        var error = new NavigationError(400, 'errorHandlerTest', 'unit test error');
+        var error = new NavigationError('unit test error', 400);
         var errorStack = [];
 
         var html = '<html><head><meta charset=\'utf-8\'><title>' + errorTitle + '</title>' +

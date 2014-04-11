@@ -162,7 +162,7 @@ describe('Navigation', function () {
             sut.getSubTree(data, null, function(error, result) {
 
                 expect(error).toBeDefined();
-                expect(error).toEqual(new NavigationError(400, 'getSubTree', 'Parameter top in body is required!'));
+                expect(error).toEqual(new NavigationError('Parameter top in body is required!', 400));
                 expect(result).toBeUndefined();
 
                 done();
@@ -225,7 +225,7 @@ describe('Navigation', function () {
             sut.getSubList(data, null, function(error, result) {
 
                 expect(error).toBeDefined();
-                expect(error).toEqual(new NavigationError(400, 'getSubList', 'Parameter top in body is required!'));
+                expect(error).toEqual(new NavigationError('Parameter top in body is required!', 400));
                 expect(result).toBeUndefined();
 
                 done();
