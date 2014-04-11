@@ -45,7 +45,7 @@
     "dependencies": {
         "async": "^0.7.0",
         "cli-color": "^0.2.3",
-        "express": "^3.5.1",
+        "express": "3.4.8",
         "glob": "^3.2.9",
         "log4js": "^0.6.13",
         "log4js-node-mongodb": "^0.1.1",
