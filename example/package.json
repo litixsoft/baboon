@@ -71,7 +71,8 @@
     "grunt-bg-shell": "~2.3.0",
     "istanbul": "~0.1.45",
     "grunt-contrib-less": "~0.9.0",
-    "protractor": "~0.17.0"
+    "protractor": "~0.17.0",
+    "connect-livereload": "~0.3.0"
   },
   "engines": {
     "node": ">=0.10.0"

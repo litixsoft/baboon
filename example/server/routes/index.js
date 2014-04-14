@@ -23,9 +23,11 @@ module.exports = function(app) {
     };
 
     // Application routes
-    app.get('*', allOther);
     app.get('/admin', admin);
     app.get('/admin/*', admin);
     app.get('/demo', demo);
     app.get('/demo/*', demo);
+
+    // Angular main app route
+    app.get('*', allOther);
 };
