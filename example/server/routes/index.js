@@ -17,7 +17,13 @@ module.exports = function(app) {
         res.render('app/demo/index');
     };
 
+    // All other routes to main angular app
+    var allOther = function(req, res) {
+        res.render('app/main/index');
+    };
+
     // Application routes
+    app.get('*', allOther);
     app.get('/admin', admin);
     app.get('/admin/*', admin);
     app.get('/demo', demo);

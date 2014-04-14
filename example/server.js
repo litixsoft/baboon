@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var express = require('express');
 var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath);
@@ -10,23 +8,13 @@ var server = baboon.getServer(app);
 var io = require('socket.io').listen(server);
 
 // Express configuration
-require('./server/config/express')(app, baboon);
+require('../lib/config/express')(app, baboon);
 
 // Socket.Io configuration
-require('./server/config/socket-io')(io, baboon);
+require('../lib/config/socket-io')(io, baboon);
 
 // App routing
 require('./server/routes')(app, baboon);
-
-// Catch all other requests as main angular app
-app.get('*', function (req, res) {
-    res.render('app/main/index');
-});
-
-// socket connection event
-io.sockets.on('connection', function (socket) {
-    baboon.transport.registerSocketEvents(socket);
-});
 
 // Start server
 baboon.serverListen(server);

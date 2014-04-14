@@ -45,7 +45,6 @@
     "dependencies": {
         "async": "^0.7.0",
         "cli-color": "^0.2.3",
-        "express": "3.4.8",
         "glob": "^3.2.9",
         "log4js": "^0.6.13",
         "log4js-node-mongodb": "^0.1.1",
@@ -58,7 +57,9 @@
         "redis": "^0.10.1",
         "sessionstore": "^0.4.2",
         "stdio": "^0.1.5",
-        "tingodb": "0.2.1"
+        "tingodb": "0.2.1",
+        "ejs": "~0.8.4",
+        "express": "3.4.8"
     },
     "devDependencies": {
         "grunt": "0.4.4",
@@ -74,6 +75,7 @@
         "jshint-stylish": "^0.1.5",
         "load-grunt-tasks": "^0.4.0",
         "proxyquire": "^0.6.0",
-        "time-grunt": "^0.3.1"
+        "time-grunt": "^0.3.1",
+        "connect-livereload": "~0.3.0"
     }
 }
