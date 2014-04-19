@@ -3,21 +3,22 @@
 var express = require('express');
 var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath);
+var routes = require('./server/routes');
+
+// Express
 var app = express();
-var server = baboon.getServer(app);
-var io = require('socket.io').listen(server);
 
 // Express configuration
-require('../lib/config/express')(app, baboon);
+require('../lib/config/express')(app, routes, baboon);
+
+// Express server
+var server = baboon.appListen(app);
+
+// Socket.Io server
+var io = require('socket.io').listen(server);
 
 // Socket.Io configuration
 require('../lib/config/socket-io')(io, baboon);
-
-// App routing
-require('./server/routes')(app, baboon);
-
-// Start server
-baboon.serverListen(server);
 
 // Expose app
 var exports;

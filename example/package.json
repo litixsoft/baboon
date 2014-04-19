@@ -27,7 +27,7 @@
   ],
   "readmeFilename": "README.md",
   "dependencies": {
-    "express": "3.4.8",
+    "express": "^4.0.0",
     "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
   },
   "devDependencies": {
@@ -71,8 +71,7 @@
     "grunt-bg-shell": "~2.3.0",
     "istanbul": "~0.1.45",
     "grunt-contrib-less": "~0.9.0",
-    "protractor": "~0.17.0",
-    "connect-livereload": "~0.3.0"
+    "protractor": "~0.17.0"
   },
   "engines": {
     "node": ">=0.10.0"
