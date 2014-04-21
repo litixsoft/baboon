@@ -9,4 +9,5 @@ if [ -d "client/assets/bower_components" ]; then
 fi
 
 npm install
+bower cache clean
 bower install
