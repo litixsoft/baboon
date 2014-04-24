@@ -13,20 +13,21 @@ describe('Logging', function () {
     var log = require(path.resolve(rootPath, 'lib', 'logging'));
     var captureStream = appMock.captureStream;
     var trim = appMock.trimConsole;
+    var LogError = require(path.resolve(path.join(__dirname, '../', 'lib', 'errors'))).LogError;
 
 
     it('should throw an Error when not given params', function () {
         var func = function () {
             return log();
         };
-        expect(func).toThrow();
+        expect(func).toThrow(new LogError('Parameter config is required and must be a string type!'));
     });
 
     it('should throw an Error when the param "config" is of wrong type', function () {
         var func = function () {
             return log('test');
         };
-        expect(func).toThrow();
+        expect(func).toThrow(new LogError('Parameter config is required and must be a string type!'));
     });
 
     it('should returns all loggers with different appenders', function () {
@@ -128,7 +129,6 @@ describe('Logging', function () {
 
     describe('Logging Db-Test', function () {
 
-
         var lxDb = require('lx-mongodb');
         var db = lxDb.GetDb(config.logging.appenders.db, ['audit']);
         var repo = lxDb.BaseRepo(db.audit);
@@ -158,6 +158,7 @@ describe('Logging', function () {
                 });
             }, 100);
         });
+
         it('should write an audit info in log db', function (done) {
 
             // write to log

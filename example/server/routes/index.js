@@ -1,32 +1,30 @@
 'use strict';
+var express = require('express');
+var router = express.Router();
 
 /**
  * Configure the application routes
- *
- * @param app
+ * Use always on end the catch all route with * for the angular main app
  */
-module.exports = function(app) {
 
-    // Admin
-    var admin = function(req, res) {
-        res.render('app/admin/index');
-    };
+router.get('/admin', function(req, res) {
+    res.render('app/admin/index');
+});
 
-    // Guide
-    var guide = function(req, res){
-        res.render('app/guide/index');
-    };
+router.get('/admin/*', function(req, res) {
+    res.render('app/admin/index');
+});
 
-    // Demo
-    var demo = function(req, res){
-        res.render('app/demo/index');
-    };
+router.get('/demo', function(req, res) {
+    res.render('app/demo/index');
+});
 
-    // Application routes
-    app.get('/admin', admin);
-    app.get('/admin/*', admin);
-    app.get('/demo', demo);
-    app.get('/demo/*', demo);
-    app.get('/guide', guide);
-    app.get('/guide/*', guide);
-};
+router.get('/demo/*', function(req, res) {
+    res.render('app/demo/index');
+});
+
+router.get('*', function(req, res) {
+    res.render('app/main/index');
+});
+
+module.exports = router;

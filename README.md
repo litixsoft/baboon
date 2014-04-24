@@ -22,13 +22,16 @@ it also includes the complete implementation of a websocket transport for the re
 The installation of a Baboon project is very simple. However, some preparatory work is needed.
 
 ## System requirements
-Stack with:
 
- * RedisIo 2.6.12 or newer
- * MongoDb 2.4.5 or newer
- * NodeJs 10.22 or newer
+Baboon need only NodeJS on the respective system.
+In production mode on server with activated rights system following stack is desirable:
 
-Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
+* RedisIo 2.6.12 or newer
+* MongoDb 2.4.5 or newer
+* NodeJs 10.22 or newer
+
+Such a stack including NodeJS version management, RedisIO, MongoDb and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
+The baboon-stack is suitable with the NodeJS version management also ideal for development.
 
 ## NodeJS global dependencies
 Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
@@ -36,12 +39,10 @@ Without using baboon-stack, you need install Baboon's global dependencies. Skip 
 Linux / Mac:
 
     $ sudo npm install -g karma bower grunt-cli yo generator-baboon protractor
-    $ webdriver-manager update
 
 Windows:
 
     $ npm install -g karma bower grunt-cli yo generator-baboon protractor
-    $ webdriver-manager update
 
 ## Create and start your baboon project
 You can simply create a Baboon project with a yeoman generator-baboon and start with grunt serve.
@@ -75,13 +76,16 @@ We will check the tests, the example and test coverage. In case your changes are
 This section describes how to set up your development environment to build and test Baboon with the example app.
 
 ## System requirements
-Stack with:
 
- * RedisIo 2.6.12 or newer
- * MongoDb 2.4.5 or newer
- * NodeJs 10.22 or newer
+Baboon need only NodeJS on the respective system.
+In production mode on server with activated rights system following stack is desirable:
 
-Baboon needs this stack as a base on the respective system. Such a stack including NodeJS version management and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
+* RedisIo 2.6.12 or newer
+* MongoDb 2.4.5 or newer
+* NodeJs 10.22 or newer
+
+Such a stack including NodeJS version management, RedisIO, MongoDb and other tools can be found here: the [baboon-stack](https://github.com/litixsoft/baboon-stack) covers an easy-to-use one-click setup for Windows, Linux and Mac.
+The baboon-stack is suitable with the NodeJS version management also ideal for development.
 
 ## NodeJS global dependencies
 Without using baboon-stack, you need install Baboon's global dependencies. Skip this section when using Baboon-stack.
@@ -89,12 +93,10 @@ Without using baboon-stack, you need install Baboon's global dependencies. Skip 
 Linux / Mac:
 
     $ sudo npm install -g karma bower grunt-cli yo generator-baboon protractor
-    $ webdriver-manager update
 
 Windows:
 
     $ npm install -g karma bower grunt-cli yo generator-baboon protractor
-    $ webdriver-manager update
 
 ## Install Baboon and example app
 The example application is also the reference implementation of Baboon.
@@ -118,8 +120,9 @@ we built an example application with a fully functional web-server on ExpressJs 
     $ cd baboon/example
     $ grunt serve
 
-The `grunt serve` command builds the example application in development mode, starts the server and opens the application in a browser. It then monitors changes inside the directories. When a change to files is detected,
-grunt rebuilds the app and reloads the site in the browser.
+The `grunt serve` command builds the example application in development mode, starts the server and opens the application in a browser.
+It then monitors changes inside the directories. When a change to files is detected, grunt rebuilds the app and
+reloads the site in the browser.
 
 You can also manually start the `server.js` in development mode. This is sometimes needed for debugging.
 You have to trigger the build by yourself then. After each change do a:

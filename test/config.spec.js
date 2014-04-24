@@ -5,6 +5,7 @@ describe('Config', function () {
     var path = require('path');
     var config = require(path.resolve(__dirname, '../', 'lib', 'config'));
     var rootPath = path.resolve(__dirname, 'mocks');
+    var ConfigError = require(path.resolve(path.join(__dirname, '../', 'lib', 'errors'))).ConfigError;
 
     beforeEach(function () {
         spyOn(console, 'log');
@@ -34,17 +35,17 @@ describe('Config', function () {
 
     it('should throw an Error when the param "rootPath" is of wrong type', function () {
         var func = function () { return config(2, {});};
-        expect(func).toThrow();
+        expect(func).toThrow(new ConfigError('Parameter rootPath must be a string type!'));
     });
 
     it('should throw an Error when the param "argv" is of wrong type', function () {
         var func = function () { return config(rootPath, 'test');};
-        expect(func).toThrow();
+        expect(func).toThrow(new ConfigError('Parameter argv must be of type object!'));
     });
 
     it('should throw an Error when not given params', function () {
         var func = function () { return config();};
-        expect(func).toThrow();
+        expect(func).toThrow(new ConfigError('Parameter missing, rootPath and argv are required!'));
     });
 
     it('should be the correct port in the config', function () {
