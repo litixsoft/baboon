@@ -23,6 +23,13 @@ router.get('/demo/*', function(req, res) {
     res.render('app/demo/index');
 });
 
+router.get('/guide', function(req, res) {
+    res.render('app/guide/index');
+});
+
+router.get('/guide/*', function(req, res) {
+    res.render('app/guide/index');
+});
 router.get('*', function(req, res) {
     res.render('app/main/index');
 });

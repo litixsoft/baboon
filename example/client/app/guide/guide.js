@@ -7,6 +7,7 @@ angular.module('guide', [
         'bbc.navigation',
         'bbc.session',
         'bbc.alert',
+        'bbc.markdown',
         'hljs',
         'pascalprecht.translate',
         'tmh.dynamicLocale'
@@ -94,6 +95,7 @@ angular.module('guide', [
         });
     })
     .controller('GuideCtrl', function ($scope, $bbcTransport, $log) {
+
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
             if (!error && result) {
                 $scope.awesomeThings = result;
