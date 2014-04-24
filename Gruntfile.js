@@ -117,8 +117,8 @@ module.exports = function (grunt) {
         },
         dox: {
             options: {
-                title: 'Baboon'
-                //template: 'docs/template.jade'
+                title: 'Baboon',
+                template: 'docs/template.jade'
             },
             files: {
                 src: ['lib/'],
@@ -127,12 +127,17 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.registerTask('move-dox', function () {
+        grunt.file.copy('./.tmp/docs/index.html', 'example/client/app/doc/index.html');
+//        grunt.file.delete('./.dist/docs/index.html');
+    });
+
     grunt.registerTask('git:commitHook', 'Install git commit hook', function () {
         grunt.file.copy('validate-commit-msg.js', '.git/hooks/commit-msg');
         require('fs').chmodSync('.git/hooks/commit-msg', '0755');
         grunt.log.ok('Registered git hook: commit-msg');
     });
-    grunt.registerTask('doc', ['clean:dox', 'dox']);
+    grunt.registerTask('doc', ['clean:dox', 'dox', 'move-dox']);
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);

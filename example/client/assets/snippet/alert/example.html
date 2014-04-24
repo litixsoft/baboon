@@ -1,0 +1,10 @@
+<div ng-controller="NgAppDemoCtrl" class="panel panel-info">
+    <div class="panel-heading">Example</div>
+    <div class="panel-body">
+        <bbc-alert service="bbcAlert" on-show="showAlert()"></bbc-alert>
+        <button class='btn btn-default' ng-click="showAlert('info')">Info-Alert</button>
+        <button class='btn btn-default' ng-click="showAlert('success')">Success-Alert</button>
+        <button class='btn btn-default' ng-click="showAlert('warning')">Warning-Alert</button>
+        <button class='btn btn-default' ng-click="showAlert('danger')">Danger-Alert</button>
+    </div>
+</div>

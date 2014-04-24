@@ -3,6 +3,7 @@
 angular.module('main.localization', [])
     .config(function ($routeProvider) {
         $routeProvider.when('/localization', { templateUrl: 'app/main/localization/localization.html', controller: 'MainLocalizationCtrl' });
+        $routeProvider.when('/localization/edit', { templateUrl: 'app/main/localization/localization.html', controller: 'MainLocalizationCtrl' });
     })
     .controller('MainLocalizationCtrl', function ($scope, $translate) {
         $scope.sampleDate = new Date();

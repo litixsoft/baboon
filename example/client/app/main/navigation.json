@@ -7,7 +7,14 @@
         {
            "title": "LOCALE",
            "route": "/localization",
-           "app": "main"
+           "app": "main",
+            "children": [
+                {
+                    "title": "EDIT",
+                    "route": "/localization/edit",
+                    "app": "main"
+                }
+            ]
         },
         {
            "title": "ABOUT",
