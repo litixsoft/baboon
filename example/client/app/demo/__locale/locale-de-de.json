@@ -1,3 +1,5 @@
 {
-    "LANGUAGE_SELECT": "Deutsch"
+    "LANGUAGE_SELECT": "Deutsch",
+    "ENTERPRISE_EXAMPLE": "Enterprise Beispiel",
+    "ENTERPRISE_ADMIN": "Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon."
 }

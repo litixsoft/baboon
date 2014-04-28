@@ -20,11 +20,6 @@ function finalCallback (error) {
 
 rights.ensureThatDefaultSystemUsersExists(function () {
     rights.refreshRightsIdDb(function () {
-        var repos = rights.getRepositories();
-        repos.rights.findOne({name: 'common/awesomeThings/index/getAll'}, function (error, right) {
-            repos.users.update({name: 'guest'}, {$set: {rights: [{_id: right._id, hasAccess: true}]}}, function (error) {
-                finalCallback(error);
-            });
-        });
+        finalCallback(null);
     });
 });

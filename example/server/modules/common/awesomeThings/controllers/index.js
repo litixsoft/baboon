@@ -4,6 +4,15 @@ module.exports = function() {
 
     var pub = {};
 
+    /**
+     * Gets all awesome things.
+     *
+     * @roles Guest, User
+     * @description Gets all awesome things
+     * @param {!Object} data The query.
+     * @param {!Object} request The request object.
+     * @param {!function(error, result)} callback The callback.
+     */
     pub.getAll = function (data, request, callback) {
         callback(null, [
             {
