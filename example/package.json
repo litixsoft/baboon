@@ -31,6 +31,7 @@
     "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
   },
   "devDependencies": {
+    "connect-livereload": "^0.4.0",
     "grunt": "~0.4.3",
     "grunt-autoprefixer": "~0.4.0",
     "grunt-concurrent": "~0.4.1",
