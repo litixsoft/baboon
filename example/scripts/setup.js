@@ -7,6 +7,7 @@ var rights = require('../../lib/rights.js')(config, loggers);
 var grunt = require('grunt');
 
 grunt.log.ok('Start setup script for baboon example app.');
+grunt.log.ok('config.rights.enabled: ' + config.rights.enabled);
 
 function finalCallback (error) {
     if (error) {

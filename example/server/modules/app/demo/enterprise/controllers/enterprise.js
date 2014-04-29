@@ -133,9 +133,6 @@ module.exports = function (app) {
      * @param {!function(result)} callback The callback.
      */
     pub.deleteMember = function (data, request, callback) {
-        console.log('deleteMember');
-
-
         data = data || {};
 
         repo.crew.remove({_id: data.id}, function (error, result) {
