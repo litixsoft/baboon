@@ -1,16 +1,60 @@
-<div class="content beige-noise">
+<div class="beige-noise">
     <div class="p-wrapper">
+
+        <style>
+            .alert h4 {
+                margin-top: 30px;
+                margin-bottom: 10px;
+            }
+
+            .notCollapsed.collapse {
+                overflow: visible;
+            }
+
+        </style>
+
         <div class="page-header">
-            <h1>{{title}}</h1>
-        </div>
-        <div class="jumbotron">
-            <h1>'Allo, 'Allo!</h1>
-            <p class="lead">
-                <img src="assets/images/yeoman.png" alt="I'm Yeoman" width="103" height="89"><br>
-                Always a pleasure scaffolding your apps.
-            </p>
-            <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+            <h1>{{ 'ENTERPRISE_EXAMPLE' | translate }}<br><small>{{ 'ENTERPRISE_ADMIN' | translate }}</small></h1>
         </div>
 
+        <div class="panel panel-default">
+            <div class="panel-heading">Enterprise-Crew</div>
+            <div class="panel-body">
+
+                <div class="btn-group" style="margin:10px 0;">
+                    <a class="btn btn-default" name="newCrewMember" href="/enterprise/new"><span class="glyphicon glyphicon-plus-sign"></span> Add new crew member</a>
+                </div>
+
+                <table class="table table-striped"  ng-class="{'load-content' : isLoading}">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="person in crew">
+                        <td>{{person.name}}</td>
+                        <td>{{person.description}}</td>
+                        <td style="text-align: right">
+                            <a href="/enterprise/edit/{{person._id}}" title="Bearbeiten"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
+                            <span ng-click="deleteMember(person._id, person.name)" title="Löschen"><span class="glyphicon glyphicon-trash"></span></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <p ng-if="visible.reset">
+                    <button class="btn btn-primary" ng-click="resetDb()"><i class="icon-repeat"></i>&nbsp;Db-Reset</button>
+                </p>
+                <p ng-if="visible.create">
+                    <button class="btn btn-default" ng-click="createTestMembers()"><i class="icon-arrow-up"></i>&nbsp;Crew erstellen</button>
+                </p>
+
+                <bbc-alert service="bbcAlert" ></bbc-alert>
+            </div>
+        </div>
     </div>
 </div>

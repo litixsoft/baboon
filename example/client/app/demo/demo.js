@@ -3,9 +3,11 @@
 angular.module('demo', [
         'ngRoute',
         'ui.bootstrap',
-        'bbc.transport',
+        'bbc.alert',
+        'bbc.modal',
         'bbc.navigation',
         'bbc.session',
+        'bbc.transport',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'demo.enterprise',

@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="styles/admin/admin.css">
     <!-- endbuild -->
 </head>
-<body ng-app="admin">
+<body ng-app="admin" translate-cloak>
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
         your browser</a> to improve your experience.</p>
@@ -52,8 +52,8 @@
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
-                                    <a ng-href="" ng-click="switchLocale('en-en')"><img src="assets/images/flag-usa48.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                    <a ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" width="48px" height="48px" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                    <a ng-href="" ng-click="switchLocale('en-us')"><img src="assets/images/flag-usa48.png" width="48px" height="48px" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
                                 </li>
                             </ul>
                         </div>
@@ -105,6 +105,9 @@
     <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/form/form.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/cache/cache.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/pager/pager.js"></script>
     <script src="assets/bower_components/baboon-client/modules/session/session.js"></script>
     <!-- endbuild -->
 
