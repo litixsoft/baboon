@@ -80,7 +80,8 @@ module.exports = function () {
         handshake: {
             headers: {
                 cookie: 'baboon.sid=s%3AyhADldmaayce2fUGBWReoA99.zeZdfybnDY0iJwKEbuhZdtfJ2PlwcXI97QxtqY4y428'
-            }
+            },
+            session: {}
         }
     };
 

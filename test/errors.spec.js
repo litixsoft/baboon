@@ -120,6 +120,27 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
+    it('should throw an ValidationError with message and status', function() {
+        var ValidationError = errors.ValidationError;
+        var error = new ValidationError('ValidationTestError', 400);
+
+        expect(error.name).toBe('ValidationError');
+        expect(error.message).toBe('ValidationTestError');
+        expect(error.status).toBe(400);
+        expect(error instanceof ValidationError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an ValidationError without parameters', function() {
+        var ValidationError = errors.ValidationError;
+        var error = new ValidationError();
+
+        expect(error.name).toBe('ValidationError');
+        expect(error.message).toBe('Internal Server Error');
+        expect(error.status).toBe(500);
+        expect(error instanceof ValidationError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+
     it('should throw an RightsError with message', function() {
         var RightsError = errors.RightsError;
         var error = new RightsError('RightsTestError');
