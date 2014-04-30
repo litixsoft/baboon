@@ -156,7 +156,6 @@ describe('Rights', function () {
         expect(typeof sut.getUserAcl).toBe('function');
         expect(typeof sut.getAclObj).toBe('function');
         expect(typeof sut.secureNavigation).toBe('function');
-        expect(typeof sut.getUserForLogin).toBe('function');
         expect(typeof sut.getUser).toBe('function');
         expect(typeof sut.getExtendedAcl).toBe('function');
         expect(typeof sut.addResourceRight).toBe('function');
@@ -655,58 +654,6 @@ describe('Rights', function () {
                     {title: 'LIST', route: '/admin/groups'}
                 ]}
             ]);
-        });
-    });
-
-    describe('.getUserForLogin()', function () {
-        beforeEach(function (done) {
-            user = {
-                name: 'wayne',
-                hash: 'hash',
-                salt: 'salt'
-            };
-
-            repo.users.remove({name: user.name}, function () {done();});
-
-            spyOn(console, 'log');
-        });
-
-        it('should return the user with minimal data', function (done) {
-            repo.users.insert(user, function (err, res) {
-                expect(err).toBeNull();
-                expect(res).toBeDefined();
-
-                sut.getUserForLogin(user.name, function (err, res) {
-                    expect(err).toBeNull();
-                    expect(res).toEqual(user);
-
-                    done();
-                });
-            });
-        });
-
-        it('should mongodb to throw error', function (done) {
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs['./repositories'] = function(){
-                return {
-                    users:{
-                        findOne: function(a,b,callback){
-                            callback('error');
-                        }
-                    }
-                };
-            };
-
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
-
-            sut.getUserForLogin(user.name, function (err, res) {
-                expect(err).toBeDefined();
-                expect(res).toBeNull();
-
-                done();
-            });
         });
     });
 
