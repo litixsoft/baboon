@@ -72,6 +72,7 @@
     "grunt-bg-shell": "^2.3.1",
     "grunt-bump": "^0.0.13",
     "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-conventional-changelog": "^1.1.0",
     "grunt-dox": "git+https://github.com/punkave/grunt-dox.git#master",

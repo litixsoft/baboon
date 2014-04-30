@@ -3,12 +3,5 @@
     "route": "/guide",
     "roles": ["users"],
     "app": "guide",
-    "order": 3,
-    "children": [
-        {
-            "title": "bbc.alert",
-            "route": "/guide/alert",
-            "app": "guide"
-        }
-    ]
+    "order": 2
 }
