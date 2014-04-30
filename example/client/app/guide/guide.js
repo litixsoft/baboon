@@ -100,13 +100,7 @@ angular.module('guide', [
     })
     .controller('NavigationCtrl', function ($scope, $location) {
         $scope.menu = [
-            { 'title': 'bbc.alert', 'link': '/guide/alert' },
-            { 'title': 'bbc.cache', 'link': '/guide/cache' },
-            { 'title': 'bbc.float', 'link': '/guide/float' },
-            { 'title': 'bbc.integer', 'link': '/guide/integer' },
-            { 'title': 'bbc.navigation', 'link': '/guide/nav-home' },
-            { 'title': 'bbc.session', 'link': '/guide/session' },
-            { 'title': 'bbc.transport', 'link': '/guide/transport' }
+            { 'title': 'bbc.alert', 'link': '/guide/alert' }
         ];
 
         $scope.isActive = function (route) {
