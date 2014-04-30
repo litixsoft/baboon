@@ -1,0 +1,202 @@
+<div>
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>{{ 'USERS' | translate}}</h1>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'CREATE_EDIT_USER' | translate }}</div>
+            <div class="panel-body">
+                <form name="form" class="form-horizontal" novalidate>
+                    <fieldset>
+                        {{ getRightName('ff') }}
+                        <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
+                            <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
+                            <div class="col-lg-10 lxvalidation">
+                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name"  ui-event="{keydown: 'form.errors.name=false;'}" placeholder="{{ 'ENTER_NAME' | translate }}" required />
+
+                                <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.name.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.name" popover="{{form.errors.name}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email)}">
+                            <label class="col-lg-2 control-label" for="email">{{ 'MAIL' | translate }}</label>
+                                <div class="col-lg-10 lxvalidation">
+                                <input type="text" class="form-control" ng-model="lxForm.model.email" id="email" name="email" ui-event="{keydown: 'form.errors.email=false;'}" placeholder="{{ 'ENTER_MAIL' | translate }}" required />
+
+                                <label ng-show="((form.email.$dirty && form.email.$invalid) || form.errors.email)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.email.$error.required" popover="{{ 'REQUIRED_MAIL' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.email" popover="{{form.errors.email}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password)}">
+                            <label class="col-lg-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
+                            <div class="col-lg-10 lxvalidation">
+                                <input type="password" class="form-control" ng-model="lxForm.model.password" id="password" name="password" ui-event="{keydown: 'form.errors.password=false;'}" placeholder="{{ 'ENTER_PASSWORD' | translate }}" />
+
+                                <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.password.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.password" popover="{{form.errors.password}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())}">
+                            <label class="col-lg-2 control-label" for="confirmedPassword">{{ 'CONFIRM_PASSWORD' | translate }}</label>
+                            <div class="col-lg-10 lxvalidation">
+                                <input type="password" class="form-control" ng-model="lxForm.model.confirmedPassword" id="confirmedPassword" name="confirmedPassword" ui-event="{keydown: 'form.errors.confirmedPassword=false;'}" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
+
+                                <label ng-show="((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.confirmedPassword.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.confirmedPassword" popover="{{form.errors.confirmedPassword}}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="!isPasswordConfirmed()" popover="{{ 'CONFIRM_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.language.$dirty && form.language.$invalid) || form.errors.language)}">
+                            <label class="col-lg-2 control-label" for="language">{{ 'LANGUAGE' | translate }}</label>
+                                <div class="col-lg-10 lxvalidation">
+                                <input type="text" class="form-control" ng-model="lxForm.model.language" id="language" name="language" ui-event="{keydown: 'form.errors.language=false;'}" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" />
+
+                                <label ng-show="((form.language.$dirty && form.language.$invalid) || form.errors.language)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.errors.language" popover="{{form.errors.language}}" popover-trigger="mouseenter"></span>
+                                </label>
+                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">{{ 'GROUPS' | translate }}</label>
+                            <div class="col-lg-10">
+                                <div class="checkbox" ng-repeat="group in groups">
+                                    <label>
+                                        <input type="checkbox" ng-click="setGroup(group)" ng-model="group.isSelected">
+                                        {{ group.name }}
+                                        <span ng-if="group.description" class="glyphicon glyphicon-question-sign" popover="{{ group.description }}" popover-trigger="mouseenter"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">{{ 'ROLES' | translate }}</label>
+                            <div class="col-lg-10">
+                                <div class="checkbox" ng-repeat="role in roles">
+                                    <label>
+                                        <input type="checkbox" ng-click="setRole(role)" ng-model="role.isSelected">
+                                        {{ role.name }}
+                                        <span ng-if="role.description" class="glyphicon glyphicon-question-sign" popover="{{ role.description }}" popover-trigger="mouseenter"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-lg-2 control-label">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="addingRight = true" ng-disabled="addingRight">-->
+                                    <!--<span class="icon-plus-sign"></span> {{ 'ADD_RIGHT' | translate }}-->
+                                <!--</button>-->
+                            <!--</label>-->
+
+                            <!--<div class="col-lg-10" ng-show="addingRight">-->
+                                <!--<select name="right" class="form-control" ng-model="addedRight._id" ng-options="right._id as right.name for right in rights">-->
+                                    <!--<option value="">-- {{ 'SELECT_RIGHT' | translate }} --</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group" ng-show="addingRight">-->
+                            <!--<div class="col-lg-offset-2 col-lg-10">-->
+                                <!--<div class="checkbox">-->
+                                    <!--<label>-->
+                                      <!--<input type="checkbox" ng-model="addedRight.hasAccess"> {{ 'HAS_ACCESS' | translate }}?-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group" ng-show="addingRight">-->
+                            <!--<div class="col-lg-offset-2 col-lg-10">-->
+                                <!--<button class="btn btn-info" ng-click="addRight(addedRight)" ng-disabled="!addedRight._id">{{ 'SAVE_RIGHT' | translate }}</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    {{ 'RIGHTS' | translate }}
+                                </h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">
+                                        <button type="button" class="btn btn-default" ng-click="addingRight = true" ng-disabled="addingRight">
+                                            <span class="icon-plus-sign"></span> {{ 'ADD_RIGHT' | translate }}
+                                        </button>
+                                    </label>
+
+                                    <div class="col-lg-10" ng-show="addingRight">
+                                        <select name="right" ng-model="addedRight._id" ng-options="right._id as right.name for right in rights">
+                                            <option value="">-- {{ 'SELECT_RIGHT' | translate }} --</option>
+                                        </select>
+
+                                        <label>
+                                            <input type="checkbox" ng-model="addedRight.hasAccess"> {{ 'HAS_ACCESS' | translate }}?
+                                        </label>
+
+                                        <button class="btn btn-info" ng-click="addRight(addedRight)" ng-disabled="!addedRight._id">{{ 'SAVE_RIGHT' | translate }}</button>
+                                        <button class="btn btn-default" ng-click="cancelAddRight()">{{ 'CANCEL' | translate }}</button>
+                                        <span class="glyphicon glyphicon-fire" ng-show="addRightMsg">{{ addRightMsg | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'RIGHT' | translate }}</th>
+                                        <th>{{ 'HAS_ACCESS' | translate }}</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="right in lxForm.model.rights">
+                                        <td>{{ getRightName(right._id) | translate }}</td>
+                                        <td>
+                                            <input type="checkbox" ng-model="right.hasAccess" ng-disabled="true">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default" ng-click="removeRight(right)">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

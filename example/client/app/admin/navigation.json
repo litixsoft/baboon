@@ -3,5 +3,27 @@
     "route": "/admin",
     "roles": ["admins"],
     "app": "admin",
-    "order": 4
+    "order": 4,
+    "children": [
+        {
+            "title": "GROUPS",
+            "route": "/admin/groups",
+            "app": "main"
+        },
+        {
+            "title": "RIGHTS",
+            "route": "/admin/rights",
+            "app": "main"
+        },
+        {
+            "title": "ROLES",
+            "route": "/admin/roles",
+            "app": "main"
+        },
+        {
+            "title": "USERS",
+            "route": "/admin/users",
+            "app": "main"
+        }
+    ]
 }

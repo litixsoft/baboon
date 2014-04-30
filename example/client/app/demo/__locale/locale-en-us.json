@@ -1,3 +1,5 @@
 {
-    "LANGUAGE_SELECT": "English"
+    "LANGUAGE_SELECT": "English",
+    "ENTERPRISE_EXAMPLE": "Enterprise example",
+    "ENTERPRISE_ADMIN": "The administration of enterprise crew is a simple example using baboon."
 }
