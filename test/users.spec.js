@@ -1,6 +1,6 @@
 'use strict';
 
-/*global describe, it, expect, beforeEach, spyOn */
+/*  global describe, it, expect, beforeEach, spyOn */
 describe('User', function () {
     var path = require('path'),
         rootPath = path.resolve(__dirname, '..'),
@@ -68,29 +68,5 @@ describe('User', function () {
                 done();
             });
         });
-
-/*        it('should mongodb to throw error', function (done) {
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs['./repositories'] = function(){
-                return {
-                    users:{
-                        findOne: function(a,b,callback){
-                            callback('error');
-                        }
-                    }
-                };
-            };
-
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'user'), stubs)(config, appMock.logging);
-
-            sut.getUserForLogin(user.name, function (err, res) {
-                expect(err).toBeDefined();
-                expect(res).toBeNull();
-
-                done();
-            });
-        });*/
     });
 });
