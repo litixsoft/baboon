@@ -132,35 +132,8 @@ module.exports = function (app) {
 
             if (result.valid) {
                 repo.users.createUser(data, callback);
-//                async.auto({
-//                    createPasswordHash: function (next) {
-//                        createHash(data, next);
-//                    },
-//                    createUser: ['createPasswordHash', function (next) {
-//                        // do not save password and confirmedPassword
-//                        delete data.password;
-//                        delete data.confirmedPassword;
-//
-//                        repo.users.insert(data, next);
-//                    }]
-//                }, function (error, results) {
-//                    if (error) {
-//                        callback(error);
-//                        return;
-//                    }
-//
-//                    if (results.createUser[0]) {
-//                        // remove protected fields
-//                        lxHelpers.forEach(protectedFields, function (field) {
-//                            delete results.createUser[0][field];
-//                        });
-//
-//                        audit.info('Created user in db: %j', data);
-//                        callback(null, results.createUser[0]);
-//                    }
-//                });
             } else {
-                callback(new app.errors.ValidationError(result.errors));
+                callback(new app.errors.ValidationError(result.errors, 500, true));
             }
         });
     };
