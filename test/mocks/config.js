@@ -66,6 +66,7 @@ module.exports = function () {
                  maxConnections - how many connections to keep in the pool (defaults to 5)
                  maxMessages - limit the count of messages to send through a single connection (no limit by default)
                  */
+                templatePath: './test/mocks/templates',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
                 directory: 'C:/Temp/Mail' // required for type PICKUP
             }

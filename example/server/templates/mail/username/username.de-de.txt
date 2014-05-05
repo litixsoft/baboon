@@ -1,0 +1,7 @@
+Sie haben Ihren Benutzername angefordert.
+
+Name: {DISPLAYNAME}
+
+
+Mit freundlichen Grüßen
+Ihr Litixsoft Team
