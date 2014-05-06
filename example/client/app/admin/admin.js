@@ -22,7 +22,7 @@ angular.module('admin', [
         $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'adminRightListCtrl'});
         $routeProvider.when('/admin/rights/edit/:id', {templateUrl: 'app/admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
         $routeProvider.when('/admin/rights/new', {templateUrl: 'app/admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
-//        $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'adminGroupListCtrl'});
+        $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'adminGroupListCtrl'});
 //        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
 //        $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
 //        $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'adminRoleListCtrl'});
@@ -171,8 +171,8 @@ angular.module('admin', [
                     // $scope.lxForm.setModel(result || model, true);
                     $location.path('/admin/users');
                 } else if (error) {
-                    if (error.validation) {
-                        $scope.lxForm.populateValidation($scope.form, error.validation);
+                    if (error.name === 'ValidationError') {
+                        $scope.lxForm.populateValidation($scope.form, error.message);
                     } else {
                         $log.log(error);
                     }
@@ -388,5 +388,43 @@ angular.module('admin', [
                 $bbcTransport.emit(adminModulePath + 'right/create', model, callback);
             }
         };
+    })
+
+    .controller('adminGroupListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = {name: 1};
+
+        $scope.getData = function (sortingOptions, pagingOptions) {
+            var query = {
+                params: {},
+                options: {
+                    fields: ['name', 'id']
+                }
+            };
+
+            if (pagingOptions) {
+                $scope.pagingOptions = pagingOptions;
+            }
+
+            if (sortingOptions) {
+                $scope.sortOpts = sortingOptions;
+            }
+
+            query.options.sort = $scope.sortOpts;
+            query.options.skip = $scope.pagingOptions.skip;
+            query.options.limit = $scope.pagingOptions.limit;
+
+            $bbcTransport.emit(adminModulePath + 'group/getAll', query, function (error, result) {
+                if (result) {
+                    $scope.groups = result.items;
+                    $scope.count = result.count;
+                } else {
+                    $log.log(error);
+                }
+            });
+        };
+
+        $scope.getData();
     })
 ;

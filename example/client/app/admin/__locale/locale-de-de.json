@@ -1,4 +1,6 @@
 {
 	"ADMIN_HEADER": "Willkommen im Administrationsbereich",
-    "LANGUAGE_SELECT": "Deutsch"
+    "LANGUAGE_SELECT": "Deutsch",
+    "NAME": "Name",
+    "DESCRIPTION": "Beschreibung"
 }

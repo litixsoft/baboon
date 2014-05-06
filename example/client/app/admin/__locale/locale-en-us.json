@@ -1,4 +1,6 @@
 {
 	"ADMIN_HEADER": "Welcome to the admin section",
-    "LANGUAGE_SELECT": "English"
+    "LANGUAGE_SELECT": "English",
+    "NAME": "Name",
+    "DESCRIPTION": "Description"
 }
