@@ -95,7 +95,7 @@ module.exports = function () {
                 directory: 'C:/Temp/Mail' // required for type PICKUP
             },
             mongo: {
-                enterprise: "localhost:27017/enterprise?w=1&journal=True&fsync=True"
+                enterprise: 'localhost:27017/enterprise?w=1&journal=True&fsync=True'
             }
         };
     };
