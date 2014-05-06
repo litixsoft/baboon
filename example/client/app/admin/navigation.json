@@ -8,22 +8,22 @@
         {
             "title": "GROUPS",
             "route": "/admin/groups",
-            "app": "main"
+            "app": "admin"
         },
         {
             "title": "RIGHTS",
             "route": "/admin/rights",
-            "app": "main"
+            "app": "admin"
         },
         {
             "title": "ROLES",
             "route": "/admin/roles",
-            "app": "main"
+            "app": "admin"
         },
         {
             "title": "USERS",
             "route": "/admin/users",
-            "app": "main"
+            "app": "admin"
         }
     ]
 }

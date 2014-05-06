@@ -48,7 +48,7 @@ module.exports = function () {
      *
      * @param {Object} data The data object
      * @param {Object} request The request object
-     * @param {function(err,res)} callback The callback function.
+     * @param {function(Object)} callback The callback function.
      */
     pub.raiseError = function (data, request, callback) {
         callback({message:'Error raised', stack:'Error stack'});
@@ -59,26 +59,21 @@ module.exports = function () {
     };
 
     pub.sessionTest = function (data, request, callback) {
-        request.getSession();
-        request.setSession();
+        // get session
+        var session = request.session || {};
 
-        request.getSession(function (error, session) {
-            var a = 0;
-            if (session) {
-                a = session.a || 0;
-                a++;
-                session.a = a;
-            }
+        session.a = session.a || 0;
+        session.a++;
 
-            var items = [
-                {name: 'a'},
-                {name: 'b'},
-                {name: 'c'}
-            ];
+        var items = [
+            {name: 'a'},
+            {name: 'b'},
+            {name: 'c'}
+        ];
 
-            request.setSession(session, function () {
-                callback(null, {items: items, count: items.length, sessionCalls: a});
-            });
+        // set session
+        request.setSession(function () {
+            callback(null, {items: items, count: items.length, sessionCalls: session.a});
         });
     };
 
