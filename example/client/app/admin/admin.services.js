@@ -1,3 +1,5 @@
+'use strict';
+
 /*global angular*/
 angular.module('admin.services', [])
     .factory('adminRights', function () {

@@ -1,3 +1,5 @@
+'use strict';
+
 /*global angular*/
 angular.module('admin.directives', ['template/lxRights/outer.html', 'template/lxRights/inner.html'])
     .directive('lxRights', function () {
