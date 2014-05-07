@@ -17,7 +17,7 @@ angular.module('demo.enterprise', [])
 
         var buttonTextValues = { yes: 'Yes', no: 'No', close: 'Close', ok: 'Ok' };
         var options = { id: 'uniqueId', headline: 'Title bar', message: 'The message text.',
-            backdrop: false, buttonTextValues: buttonTextValues }
+            backdrop: false, buttonTextValues: buttonTextValues };
 
         $scope.headline = 'Überschrift';
         $scope.message = 'Hallo Herr/Frau User(in), was soll ich nun machen?';
@@ -63,22 +63,22 @@ angular.module('demo.enterprise', [])
             if ($scope.crew.length === 0) {
                 $bbcTransport.emit(enterpriseModulePath + 'enterprise/createTestMembers', {}, function (error, result) {
                     if (error) {
-                        lxAlert.error(error);
+//                        lxAlert.error(error);
                         getAllMembers();
                     }
                     else if (result) {
                         $scope.crew = result;
 
                         if (reset) {
-                            $scope.bbcAlert['success']('db reset.');
+                            $scope.bbcAlert.success('db reset.');
                         } else {
-                            $scope.bbcAlert['success']('crew created.');
+                            $scope.bbcAlert.success('crew created.');
                         }
                     }
                 });
             }
             else {
-                $scope.bbcAlert['danger']('can\'t create test crew, already exists.');
+                $scope.bbcAlert.danger('can\'t create test crew, already exists.');
             }
         };
 
@@ -87,7 +87,7 @@ angular.module('demo.enterprise', [])
             if (!$scope.crew || $scope.crew.length > 0) {
                 $bbcTransport.emit(enterpriseModulePath + 'enterprise/deleteAllMembers', {}, function (error, result) {
                     if (error) {
-                        $scope.bbcAlert['danger'](error);
+                        $scope.bbcAlert.danger(error);
                     }
                     else if (result) {
                         $scope.crew = [];
@@ -96,7 +96,7 @@ angular.module('demo.enterprise', [])
                 });
             }
             else {
-                $scope.bbcAlert['danger']('can\'t reset db, find no data.');
+                $scope.bbcAlert.danger('can\'t reset db, find no data.');
             }
         };
 
@@ -107,11 +107,11 @@ angular.module('demo.enterprise', [])
                 cbYes: function () {
                     $bbcTransport.emit(enterpriseModulePath + 'enterprise/deleteMember', {id: id}, function (error, result) {
                         if (result) {
-                            $scope.bbcAlert['success']('crew member ' + name + ' deleted.');
+                            $scope.bbcAlert.success('crew member ' + name + ' deleted.');
                             getAllMembers();
                         }
                         else if (error) {
-                            $scope.bbcAlert['danger'](error);
+                            $scope.bbcAlert.danger(error);
                         }
                     });
                 },
