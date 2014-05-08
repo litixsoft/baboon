@@ -20,10 +20,10 @@
     <link rel="stylesheet" href="assets/bower_components/highlightjs/styles/github.css"/>
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) styles/main/main.css -->
-    <link rel="stylesheet" href="styles/guide/guide.css">
+    <link rel="stylesheet" href="styles/apidoc/apidoc.css">
     <!-- endbuild -->
 </head>
-<body ng-app="guide">
+<body ng-app="apidoc">
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
         your browser</a> to improve your experience.</p>
@@ -73,13 +73,22 @@
             </div>
             <div class="col-right">
                 <div class="container">
-                    <!--<div ng-controller="NavigationCtrl">-->
-                        <ul class="navigation nav nav-pills nav-stacked">
-                            <li ng-repeat="item in menu" ng-class="{active: isLinkActive(item.link)}">
-                                <a ng-href="{{item.link}}">{{item.title}}</a>
-                            </li>
-                        </ul>
-                    <!--</div>-->
+                    <div ng-controller="NavigationCtrl">
+
+                        <div class="form-search">
+                            <ul class="nav well ng-scope" ng-repeat="groups in menu">
+                                <li class="nav-header module">
+                                    <span style="color:rgba(0,0,0,0.4);cursor:pointer;font-size:16px;margin-top: 8px;margin-right: 4px;" class="glyphicon pull-right" ng-class="{'glyphicon-plus-sign': !groups.vis,'glyphicon-minus-sign': groups.vis}" ng-click="groups.vis = !groups.vis"></span>
+                                    <a style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-right: 20px;" class="code ng-binding" ng-click="groups.vis = true" href="/apidoc/{{groups.link}}" title="{{groups.title}}">{{groups.title}}</a>
+
+                                </li>
+                                <li ng-show="groups.vis" class="api-list-item expand ng-scope first last" ng-repeat="subs in groups.children">
+                                    <a style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"  href="/apidoc/{{subs.link}}" tabindex="2" title="{{subs.title}}">{{subs.title}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <div class="col-center">
@@ -87,6 +96,7 @@
                     <div class="container" ng-view=""></div>
                 </div>
             </div>
+            <div class="clearfix"></div>
         </div>
         <div class="footer">
             <p>♥ from the Baboon team</p>
@@ -97,6 +107,9 @@
     <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
     <script src="assets/bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
+
+    <!-- is auto generated, holds the whole navigation for api-documentation -->
+    <script src="app/apidoc/parts/docNavigation.js"></script>
 
     <script src="/socket.io/socket.io.js"></script>
 
@@ -123,8 +136,10 @@
     <script src="assets/bower_components/baboon-client/modules/markdown/markdown.js"></script>
     <!-- endbuild -->
 
+
+
     <!-- build:js({.tmp,client}) scripts/main/scripts.js -->
-    <script src="app/guide/guide.js"></script>
+    <script src="app/apidoc/apidoc.js"></script>
     <!-- endbuild -->
     <script type="text/javascript">
         hljs.configure({tabReplace: '    '}); // 4 spaces

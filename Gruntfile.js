@@ -24,6 +24,8 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
+
+
     // Project configuration.
     grunt.initConfig({
 
@@ -118,26 +120,82 @@ module.exports = function (grunt) {
         dox: {
             options: {
                 title: 'Baboon',
-                template: 'docs/template.jade'
+                template: 'docu_template/baboon_api.jade'
             },
             files: {
                 src: ['lib/'],
                 dest: '.tmp/docs'
             }
+        },
+        copy: {
+            dox: {
+                files: [{
+                    expand: true,
+                    src: ['**/*.html','*.js'],
+                    dest: 'example/client/app/apidoc/parts',
+                    cwd: '.tmp/docs/'
+                    }]
+            }
         }
     });
 
-    grunt.registerTask('move-dox', function () {
-        grunt.file.copy('./.tmp/docs/index.html', 'example/client/app/doc/index.html');
-//        grunt.file.delete('./.dist/docs/index.html');
-    });
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('git:commitHook', 'Install git commit hook', function () {
         grunt.file.copy('validate-commit-msg.js', '.git/hooks/commit-msg');
         require('fs').chmodSync('.git/hooks/commit-msg', '0755');
         grunt.log.ok('Registered git hook: commit-msg');
     });
-    grunt.registerTask('doc', ['clean:dox', 'dox', 'move-dox']);
+
+    /**
+     * Gets a file and read`s it to fetch the id`s of the different api methods in one api-doc file.
+     *
+     * @param {!string} folder The path to the current api-doc file.
+     */
+    function getDocNavIds(folder){
+        var nav = grunt.file.read(folder.filepath);//'.tmp/docs/lib/baboon.js.html');
+        var matches = nav.match(/<h2 id="([^"]*?)".*?>(.+?)<\/h2>/gi);
+        var file = folder.filename.replace('.js.html','');
+        var sub = '';
+        if(folder.subdir){
+            sub = folder.subdir+'/';
+        }
+        var results = { title: 'lib/'+sub+''+file+'.js', link: sub+''+file, vis: false, children: [] };
+
+        for (var i in matches) {
+            var parts = matches[i].split('"');
+            var sublink = { title: parts[1], link: sub+''+file+'#'+parts[1] };
+            results.children.push(sublink);
+        }
+        return results;
+    }
+
+    grunt.registerTask('getDocNav', function(){
+
+        var docRootPath = '.tmp/docs/lib/';
+        var rootFolder = [];
+        var subFolder = [];
+        var navObj = [];
+        grunt.file.recurse(docRootPath, function(abspath, rootdir, subdir, filename){
+            if(subdir){
+                var objR = {filepath: abspath, filename: filename, subdir: subdir};
+                subFolder.push(objR);
+            } else {
+                var objS = {filepath: abspath, filename: filename};
+                rootFolder.push(objS);
+            }
+        });
+
+        for (var j=0;j< rootFolder.length; j++) {
+            navObj.push(getDocNavIds(rootFolder[j]));
+        }
+        for (var k=0;k< subFolder.length; k++) {
+            navObj.push(getDocNavIds(subFolder[k]));
+        }
+
+        grunt.file.write('.tmp/docs/docNavigation.js', 'var apiNav = '+JSON.stringify(navObj)+';');
+    });
+    grunt.registerTask('doc', ['clean:dox', 'dox','getDocNav', 'copy:dox']);
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);

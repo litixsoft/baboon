@@ -1,20 +1,18 @@
 'use strict';
 
-describe('App: guide', function () {
+describe('App: apidoc', function () {
 
-    beforeEach(module('guide'));
+    beforeEach(module('apidoc'));
     beforeEach(module('bbc.transport'));
-    beforeEach(module('bbc.alert'));
 
     it('should map routes', function () {
 
         inject(function ($route) {
 
-//            expect($route.routes['/guide'].controller).toBe('GuideCtrl');
-            expect($route.routes['/guide'].templateUrl).toEqual('app/guide/guide.html');
+            expect($route.routes['/apidoc'].templateUrl).toEqual('app/apidoc/apidoc.html');
 
             // otherwise redirect to
-            expect($route.routes[null].redirectTo).toEqual('/guide');
+            expect($route.routes[null].redirectTo).toEqual('/apidoc');
         });
     });
 
@@ -29,9 +27,6 @@ describe('App: guide', function () {
 
             $rootScope.switchLocale('de-de');
             expect($rootScope.currentLang).toBe('de-de');
-
-            $rootScope.switchLocale('en-en');
-            expect($rootScope.currentLang).toBe('en-en');
         });
     });
 
@@ -63,25 +58,6 @@ describe('App: guide', function () {
             $rootScope.$emit('$sessionInactive');
             expect($rootScope.requestNeeded).toBe(true);
             expect($log.warn).toHaveBeenCalledWith('next route change event triggers a server request.');
-        });
-    });
-
-    it('should attach vars to the scope', function () {
-        inject(function ($rootScope) {
-            expect($rootScope.menu[0].title).toBe('bbc.alert');
-        });
-    });
-
-    it('should set active correctly', function () {
-        inject(function ($rootScope, $location) {
-            $location.path('/test');
-            var active = $rootScope.isLinkActive('/test');
-
-            expect($location.path()).toEqual('/test');
-            expect(active).toBeTruthy();
-
-            active = $rootScope.isLinkActive('/test2');
-            expect(active).toBeFalsy();
         });
     });
 
@@ -134,22 +110,20 @@ describe('App: guide', function () {
         });
     });
 
-    describe('Controller: AlertCtrl', function () {
+    describe('Controller: NavigationCtrl', function () {
 
-        var $scope,service, $ctrl;
+        var $scope, $ctrl;
 
         beforeEach(function (done) {
             inject(function ($controller, $injector, $rootScope) {
                 $scope = $rootScope.$new();
-                service = $injector.get('$bbcAlert');
-                $ctrl = $controller('AlertCtrl', {$scope: $scope});
+                $ctrl = $controller('NavigationCtrl', {$scope: $scope});
                 done();
             });
         });
 
         it('should attach vars to the scope', function () {
-            $scope.showAlert('info');
-            expect(service.type).toBe('info');
+            expect($scope.menu.length).toBeGreaterThan(0);
         });
 
     });
