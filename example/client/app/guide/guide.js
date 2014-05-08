@@ -16,7 +16,7 @@ angular.module('guide', [
 
         // Routing and navigation
         $routeProvider
-            .when('/guide', { templateUrl: 'app/guide/guide.html', controller: 'GuideCtrl' })
+            .when('/guide', { templateUrl: 'app/guide/guide.html' })
             .when('/guide/alert', { templateUrl: 'app/guide/alert/alert.html', controller: 'AlertCtrl' })
             .otherwise({
                 redirectTo: '/guide'
@@ -42,7 +42,7 @@ angular.module('guide', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession, $location) {
 
         $rootScope.currentLang = $translate.preferredLanguage();
 
@@ -83,28 +83,13 @@ angular.module('guide', [
         $rootScope.$on('$translateChangeSuccess', function() {
             tmhDynamicLocale.set($translate.use());
         });
-    })
-    .controller('GuideCtrl', function ($scope, $bbcTransport, $log) {
 
-        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
-            if (!error && result) {
-                $scope.awesomeThings = result;
-            }
-            else {
-                $scope.awesomeThings = [];
-                $log.error(error);
-            }
-        });
-
-        $scope.view = 'app/guide/guide.html';
-    })
-    .controller('NavigationCtrl', function ($scope, $location) {
-        $scope.menu = [
+        $rootScope.menu = [
             { 'title': 'bbc.alert', 'link': '/guide/alert' }
         ];
 
-        $scope.isActive = function (route) {
-            return route === $location.path();
+        $rootScope.isLinkActive = function (route) {
+            return route === $location.path() || false;
         };
     })
     .controller('AlertCtrl', function ($scope, $bbcAlert) {

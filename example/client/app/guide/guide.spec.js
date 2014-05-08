@@ -1,19 +1,20 @@
 'use strict';
 
-describe('App: admin', function () {
+describe('App: guide', function () {
 
-    beforeEach(module('admin'));
+    beforeEach(module('guide'));
     beforeEach(module('bbc.transport'));
+    beforeEach(module('bbc.alert'));
 
     it('should map routes', function () {
 
         inject(function ($route) {
 
-            expect($route.routes['/admin'].controller).toBe('AdminCtrl');
-            expect($route.routes['/admin'].templateUrl).toEqual('app/admin/admin.html');
+//            expect($route.routes['/guide'].controller).toBe('GuideCtrl');
+            expect($route.routes['/guide'].templateUrl).toEqual('app/guide/guide.html');
 
             // otherwise redirect to
-            expect($route.routes[null].redirectTo).toEqual('/admin');
+            expect($route.routes[null].redirectTo).toEqual('/guide');
         });
     });
 
@@ -28,6 +29,9 @@ describe('App: admin', function () {
 
             $rootScope.switchLocale('de-de');
             expect($rootScope.currentLang).toBe('de-de');
+
+            $rootScope.switchLocale('en-en');
+            expect($rootScope.currentLang).toBe('en-en');
         });
     });
 
@@ -59,6 +63,25 @@ describe('App: admin', function () {
             $rootScope.$emit('$sessionInactive');
             expect($rootScope.requestNeeded).toBe(true);
             expect($log.warn).toHaveBeenCalledWith('next route change event triggers a server request.');
+        });
+    });
+
+    it('should attach vars to the scope', function () {
+        inject(function ($rootScope) {
+            expect($rootScope.menu[0].title).toBe('bbc.alert');
+        });
+    });
+
+    it('should set active correctly', function () {
+        inject(function ($rootScope, $location) {
+            $location.path('/test');
+            var active = $rootScope.isLinkActive('/test');
+
+            expect($location.path()).toEqual('/test');
+            expect(active).toBeTruthy();
+
+            active = $rootScope.isLinkActive('/test2');
+            expect(active).toBeFalsy();
         });
     });
 
@@ -111,55 +134,23 @@ describe('App: admin', function () {
         });
     });
 
-    describe('Controller: AdminCtrl', function () {
+    describe('Controller: AlertCtrl', function () {
 
-        var $transport, $scope, $ctrl;
+        var $scope,service, $ctrl;
 
         beforeEach(function (done) {
-            inject(function ($controller, $rootScope, $injector) {
-
-                $transport = $injector.get('$bbcTransport');
-                $transport.emit = function (event, callback) {
-                    event = null;
-                    callback(null, 'test');
-                    done();
-                };
-
+            inject(function ($controller, $injector, $rootScope) {
                 $scope = $rootScope.$new();
-                $ctrl = $controller('AdminCtrl', {$scope: $scope});
+                service = $injector.get('$bbcAlert');
+                $ctrl = $controller('AlertCtrl', {$scope: $scope});
+                done();
             });
         });
 
         it('should attach vars to the scope', function () {
-            expect($scope.awesomeThings).toBe('test');
+            $scope.showAlert('info');
+            expect(service.type).toBe('info');
         });
 
-        describe('test error in awesomeThings', function(){
-
-            var error;
-
-            beforeEach(function (done) {
-                inject(function ($controller, $rootScope, $injector, $log) {
-
-                    $log.error = function(msg){
-                        error = msg;
-                    };
-                    $transport = $injector.get('$bbcTransport');
-                    $transport.emit = function (event, callback) {
-                        event = null;
-                        callback('awesomeThings error');
-                        done();
-                    };
-
-                    $scope = $rootScope.$new();
-                    $ctrl = $controller('AdminCtrl', {$scope: $scope});
-                });
-            });
-
-            it('should attach empty vars to the scope and log error', function () {
-                expect($scope.awesomeThings.length).toBe(0);
-                expect(error).toBe('awesomeThings error');
-            });
-        });
     });
 });

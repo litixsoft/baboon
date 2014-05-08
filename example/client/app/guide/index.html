@@ -72,13 +72,13 @@
             </div>
             <div class="col-right">
                 <div class="container">
-                    <div ng-controller="NavigationCtrl">
+                    <!--<div ng-controller="NavigationCtrl">-->
                         <ul class="navigation nav nav-pills nav-stacked">
-                            <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+                            <li ng-repeat="item in menu" ng-class="{active: isLinkActive(item.link)}">
                                 <a ng-href="{{item.link}}">{{item.title}}</a>
                             </li>
                         </ul>
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
             <div class="col-center">
