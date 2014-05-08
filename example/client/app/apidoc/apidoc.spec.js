@@ -1,19 +1,18 @@
 'use strict';
 
-describe('App: admin', function () {
+describe('App: apidoc', function () {
 
-    beforeEach(module('admin'));
+    beforeEach(module('apidoc'));
     beforeEach(module('bbc.transport'));
 
     it('should map routes', function () {
 
         inject(function ($route) {
 
-            expect($route.routes['/admin'].controller).toBe('AdminCtrl');
-            expect($route.routes['/admin'].templateUrl).toEqual('app/admin/admin.html');
+            expect($route.routes['/apidoc'].templateUrl).toEqual('app/apidoc/apidoc.html');
 
             // otherwise redirect to
-            expect($route.routes[null].redirectTo).toEqual('/admin');
+            expect($route.routes[null].redirectTo).toEqual('/apidoc');
         });
     });
 
@@ -111,55 +110,21 @@ describe('App: admin', function () {
         });
     });
 
-    describe('Controller: AdminCtrl', function () {
+    describe('Controller: NavigationCtrl', function () {
 
-        var $transport, $scope, $ctrl;
+        var $scope, $ctrl;
 
         beforeEach(function (done) {
-            inject(function ($controller, $rootScope, $injector) {
-
-                $transport = $injector.get('$bbcTransport');
-                $transport.emit = function (event, callback) {
-                    event = null;
-                    callback(null, 'test');
-                    done();
-                };
-
+            inject(function ($controller, $injector, $rootScope) {
                 $scope = $rootScope.$new();
-                $ctrl = $controller('AdminCtrl', {$scope: $scope});
+                $ctrl = $controller('NavigationCtrl', {$scope: $scope});
+                done();
             });
         });
 
         it('should attach vars to the scope', function () {
-            expect($scope.awesomeThings).toBe('test');
+            expect($scope.menu.length).toBeGreaterThan(0);
         });
 
-        describe('test error in awesomeThings', function(){
-
-            var error;
-
-            beforeEach(function (done) {
-                inject(function ($controller, $rootScope, $injector, $log) {
-
-                    $log.error = function(msg){
-                        error = msg;
-                    };
-                    $transport = $injector.get('$bbcTransport');
-                    $transport.emit = function (event, callback) {
-                        event = null;
-                        callback('awesomeThings error');
-                        done();
-                    };
-
-                    $scope = $rootScope.$new();
-                    $ctrl = $controller('AdminCtrl', {$scope: $scope});
-                });
-            });
-
-            it('should attach empty vars to the scope and log error', function () {
-                expect($scope.awesomeThings.length).toBe(0);
-                expect(error).toBe('awesomeThings error');
-            });
-        });
     });
 });
