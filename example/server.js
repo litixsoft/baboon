@@ -3,7 +3,7 @@
 var express = require('express');
 var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath);
-var routes = require('./server/routes');
+var routes = require('./server/routes')(baboon);
 
 // Express
 var app = express();

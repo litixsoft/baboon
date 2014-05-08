@@ -1,0 +1,58 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+
+        <div class="page-header">
+            <h1>{{ 'LOGIN' | translate }}</h1>
+            <p>{{ 'LOGIN_DESCRIPTION' | translate }}</p>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'LOGIN' | translate }}</div>
+            <div class="panel-body">
+                <form class="form-horizontal" ng-submit="login()" name="form" novalidate>
+                    <fieldset>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)}">
+                            <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
+                            <div class="col-md-10 lxvalidation">
+                                <input type="text" ng-model="user.username" id="username" name="username" ng-keydown="form.errors.username=false;authFailed=false;serverError=false;" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
+                                <label ng-show="((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.username.$error.required" popover="{{ 'REQUIRED_USERNAME' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.username" popover="{{form.errors.username}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)}">
+                            <label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
+                            <div class="col-md-10 lxvalidation">
+                                <input type="password" ng-model="user.password" id="password" name="password" ng-keydown="form.errors.password=false" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
+                                <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
+                                    <div class="glyphicon glyphicon-fire"></div>
+                                    <span ng-show="form.password.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.password" popover="{{form.errors.password}}" popover-trigger="mouseenter"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="( authFailed || serverError)">
+                            <div class="col-md-10 col-md-offset-2">
+                                <div class="alert alert-danger">{{ errorMsg }}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <input type="submit" class="btn btn-primary" value="&nbsp;{{ 'LOGIN' | translate }}"  ng-disabled="form.$invalid" name="login">
+                                <a href="/auth/register" class="btn btn-default">{{ 'REGISTER' | translate }}</a>
+                                <a href="/auth/forget" class="btn btn-default">{{ 'FORGET_PASSWORD' | translate }}</a>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

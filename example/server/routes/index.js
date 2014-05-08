@@ -1,27 +1,20 @@
 'use strict';
 var express = require('express');
-var router = express.Router();
 
-/**
- * Configure the application routes
- * Use always on end the catch all route with * for the angular main app
- */
 
-router.get('/admin', function(req, res) {
-    res.render('app/admin/index');
-});
+module.exports = function (baboon) {
 
-router.get('/admin/*', function(req, res) {
-    res.render('app/admin/index');
-});
+    console.log(baboon);
+    var router = express.Router();
+    var auth = baboon.middleware.auth;
 
-router.get('/demo', function(req, res) {
-    res.render('app/demo/index');
-});
+    router.get('/demo', auth.restrictedUser, function(req, res) {
+        res.render('app/demo/index');
+    });
 
-router.get('/demo/*', function(req, res) {
-    res.render('app/demo/index');
-});
+    router.get('/demo/*', auth.restrictedUser, function(req, res) {
+        res.render('app/demo/index');
+    });
 
 router.get('/apidoc', function(req, res) {
     res.render('app/apidoc/index');
@@ -35,11 +28,25 @@ router.get('/guide', function(req, res) {
     res.render('app/guide/index');
 });
 
-router.get('/guide/*', function(req, res) {
-    res.render('app/guide/index');
-});
-router.get('*', function(req, res) {
-    res.render('app/main/index');
-});
+    router.get('/guide/*', auth.restrictedUser, function(req, res) {
+        res.render('app/guide/index');
+    });
 
-module.exports = router;
+    router.get('/admin', auth.restrictedAdmin, function(req, res) {
+        res.render('app/admin/index');
+    });
+
+    router.get('/admin/*', auth.restrictedAdmin, function(req, res) {
+        res.render('app/admin/index');
+    });
+
+    router.get('/auth/*', auth.restrictedAdmin, function(req, res) {
+        res.render('app/auth/index');
+    });
+
+    router.get('*', auth.restrictedUser, function(req, res) {
+        res.render('app/main/index');
+    });
+
+    return router;
+};

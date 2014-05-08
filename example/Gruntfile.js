@@ -558,6 +558,10 @@ module.exports = function (grunt) {
         this.async();
     });
 
+    grunt.registerTask('setup', [
+        'bgShell:setup'
+    ]);
+
     // build productive version
     grunt.registerTask('build', [
         'clean:dist',
@@ -573,7 +577,8 @@ module.exports = function (grunt) {
         'usemin',
         'copy:locale_pro',
         'merge-locale:pro',
-        'merge-nav:nav'
+        'merge-nav:nav',
+        'setup'
     ]);
 
     // build development version

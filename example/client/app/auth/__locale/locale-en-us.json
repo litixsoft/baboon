@@ -1,0 +1,12 @@
+{
+    "LOGIN": "Login",
+    "LOGIN_DESCRIPTION": "Log in with your username and password.",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "ENTER_PASSWORD": "Enter password",
+    "ENTER_USERNAME": "Enter username",
+    "REGISTER": "Register",
+    "FORGET_PASSWORD": "Forgot password or username",
+    "REQUIRED_USERNAME": "Username is required",
+    "REQUIRED_PASSWORD": "Password is required"
+}
