@@ -173,6 +173,7 @@ angular.module('admin', [
                 } else if (error) {
                     if (error.name === 'ValidationError') {
                         $scope.lxForm.populateValidation($scope.form, error.message);
+                        console.log(error.message);
                     } else {
                         $log.log(error);
                     }

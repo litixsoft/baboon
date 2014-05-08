@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('auth', [
-        'ngRoute',
-        'ui.bootstrap',
-        'bbc.transport',
-        'bbc.session',
-        'pascalprecht.translate',
-        'tmh.dynamicLocale',
-        'bbc.cache',
-        'bbc.form'
-    ])
+    'ngRoute',
+    'ui.bootstrap',
+    'bbc.transport',
+    'bbc.session',
+    'pascalprecht.translate',
+    'tmh.dynamicLocale',
+    'bbc.cache',
+    'bbc.form'
+])
     .config(function ($routeProvider, $locationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
         // Routing and navigation
-        $routeProvider.when('/auth/login', {templateUrl: 'app/auth/login.html',controller: 'AuthLoginCtrl'});
+        $routeProvider.when('/auth/login', {templateUrl: 'app/auth/login.html', controller: 'AuthLoginCtrl'});
         $routeProvider.otherwise({redirectTo: '/auth/login'});
 
         $locationProvider.html5Mode(true);
@@ -36,7 +36,7 @@ angular.module('auth', [
 
         $rootScope.currentLang = $translate.preferredLanguage();
 
-        $rootScope.switchLocale = function(locale) {
+        $rootScope.switchLocale = function (locale) {
             $translate.use(locale);
             $rootScope.currentLang = locale;
         };
@@ -64,23 +64,33 @@ angular.module('auth', [
         });
 
         // session inactive event, triggered when session inactive or lost
-        $rootScope.$on('$sessionInactive', function() {
+        $rootScope.$on('$sessionInactive', function () {
             $log.warn('next route change event triggers a server request.');
             $rootScope.requestNeeded = true;
         });
 
         // translate
-        $rootScope.$on('$translateChangeSuccess', function() {
+        $rootScope.$on('$translateChangeSuccess', function () {
             tmhDynamicLocale.set($translate.use());
         });
     })
-    .controller('AuthLoginCtrl', function ($scope, $bbcForm) {
+    .controller('AuthLoginCtrl', function ($scope, $bbcForm, $timeout) {
 
         $scope.$bbcForm = $bbcForm('authLoginCtrl', '_id');
         $scope.user = {};
         $scope.authFailed = false;
         $scope.serverError = false;
 
-        $scope.$bbcForm.populateValidation($scope.form, [{ property: 'lastname', message: 'Lastname must be Doe.' }]);
+
+        $timeout(function () {
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.$bbcForm.populateValidation($scope.form, [
+                { property: 'username', message: 'Lastname must be Doe.' }
+            ]);
+
+        }, 100);
 
     });
