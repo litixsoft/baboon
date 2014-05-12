@@ -67,6 +67,7 @@ module.exports = function () {
                  maxMessages - limit the count of messages to send through a single connection (no limit by default)
                  */
                 templatePath: './test/mocks/templates',
+                senderAddress: 'support@litixsoft.de',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
                 directory: 'C:/Temp/Mail' // required for type PICKUP
             }

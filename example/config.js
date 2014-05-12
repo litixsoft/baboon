@@ -90,6 +90,7 @@ module.exports = function () {
                 }
             },
             mail: {
+                senderAddress: 'support@litixsoft.de',
                 templatePath: './server/templates/mail',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
                 directory: 'C:/Temp/Mail' // required for type PICKUP

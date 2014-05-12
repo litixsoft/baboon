@@ -178,7 +178,7 @@ describe('Mail', function () {
     });
 
     afterEach(function () {
-        if (count === 7 && fs.existsSync(emlDir)) {
+        if (count === 6 && fs.existsSync(emlDir)) {
             fs.readdirSync(emlDir).forEach(function (file) {
                 var curPath = path.resolve(emlDir, file);
                 fs.unlinkSync(curPath);
