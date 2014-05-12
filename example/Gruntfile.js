@@ -44,7 +44,8 @@ module.exports = function (grunt) {
                     'test/**/*.js',
                     'config.js',
                     'Gruntfile.js',
-                    'server.js'
+                    'server.js',
+                    '!client/app/apidoc/parts/docNavigation.js'
                 ],
                 client_files: [
                     'client/app/**/*.js',
