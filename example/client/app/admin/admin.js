@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('admin', [
-        'ngRoute',
-        'ui.bootstrap',
-        'bbc.transport',
-        'bbc.navigation',
-        'bbc.cache',
-        'bbc.form',
-        'bbc.pager',
-        'bbc.sort',
-        'bbc.session',
-        'pascalprecht.translate',
-        'tmh.dynamicLocale'
-    ])
+    'ngRoute',
+    'ui.bootstrap',
+    'bbc.transport',
+    'bbc.navigation',
+    'bbc.cache',
+    'bbc.form',
+    'bbc.pager',
+    'bbc.sort',
+    'bbc.session',
+    'pascalprecht.translate',
+    'tmh.dynamicLocale'
+])
 
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
         // Routing and navigation
-        $routeProvider.when('/admin', {templateUrl: 'app/admin/admin.html',controller: 'AdminCtrl'});
+        $routeProvider.when('/admin', {templateUrl: 'app/admin/admin.html', controller: 'AdminCtrl'});
         $routeProvider.when('/admin/users', {templateUrl: 'app/admin/tpls/users.html', controller: 'adminUserListCtrl'});
         $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
         $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
@@ -59,7 +59,7 @@ angular.module('admin', [
 
         $rootScope.currentLang = $translate.preferredLanguage();
 
-        $rootScope.switchLocale = function(locale) {
+        $rootScope.switchLocale = function (locale) {
             $translate.use(locale);
             $rootScope.currentLang = locale;
         };
@@ -87,19 +87,19 @@ angular.module('admin', [
         });
 
         // session inactive event, triggered when session inactive or lost
-        $rootScope.$on('$sessionInactive', function() {
+        $rootScope.$on('$sessionInactive', function () {
             $log.warn('next route change event triggers a server request.');
             $rootScope.requestNeeded = true;
         });
 
         // translate
-        $rootScope.$on('$translateChangeSuccess', function() {
+        $rootScope.$on('$translateChangeSuccess', function () {
             tmhDynamicLocale.set($translate.use());
         });
     })
 
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
-        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result){
+        $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result) {
             if (!error && result) {
                 $scope.awesomeThings = result;
             }
@@ -326,11 +326,11 @@ angular.module('admin', [
 
         var initial = false;
 
-        if(!$bbcCache.pagingOptions){
-            $bbcCache.pagingOptions = {skip:0, limit:10};
+        if (!$bbcCache.pagingOptions) {
+            $bbcCache.pagingOptions = {skip: 0, limit: 10};
         }
 
-        if(!$bbcCache.sortOpts){
+        if (!$bbcCache.sortOpts) {
             $bbcCache.sortOpts = {name: 1};
         }
 
@@ -353,7 +353,7 @@ angular.module('admin', [
                 $bbcCache.sortOpts = sortingOptions;
             }
 
-            initial=false;
+            initial = false;
 
             query.options.sort = $scope.sortOpts;
             query.options.skip = $scope.pagingOptions.skip;
@@ -381,11 +381,11 @@ angular.module('admin', [
             $scope.getData($scope.sortOpts, $scope.pagingOptions);
         } else {
             initial = true;
-            setTimeout(function() {
-                $scope.$apply(function() {
+            setTimeout(function () {
+                $scope.$apply(function () {
                     $scope.currentPage = $bbcCache.currentPage;
-                })
-            },50)
+                });
+            }, 50);
         }
 
     })
@@ -621,7 +621,7 @@ angular.module('admin', [
             }
         };
 
-        var convertRightStringToObject = function(selectedRights, rightObj, right, path) {
+        var convertRightStringToObject = function (selectedRights, rightObj, right, path) {
             var s = right.name.split('/');
             var mod = s.shift();
             path = path || '';
@@ -637,7 +637,7 @@ angular.module('admin', [
                 rightObj[mod] = rightObj[mod] || {children: {}};
                 convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/'), description: right.description}, path);
             }
-        }
+        };
 
         var convertToRightsObject = function (rights, selectedRights) {
             var res = {};
@@ -682,4 +682,3 @@ angular.module('admin', [
             $scope.rightsObj = convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
         };
     });
-;
