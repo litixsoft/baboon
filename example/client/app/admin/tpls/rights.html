@@ -10,8 +10,8 @@
                         <th style="width: 20px;">
                             <a name="newRight" href="/admin/rights/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                         </th>
-                        <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
-                        <th><lx-sort sort-opts="sortOpts" field-name="description" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
+                        <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                        <th><bbc-sort sort-opts="sortOpts" field-name="description" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,7 +24,7 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <bbc-pager count="count" current-page="currentPage" page-sizes="[5, 10, 25]" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></bbc-pager>
+                <bbc-pager count="count" current-page="currentPage" page-size="{{ pageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></bbc-pager>
             </div>
         </div>
     </div>

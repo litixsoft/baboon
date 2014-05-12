@@ -10,9 +10,9 @@
                             <th style="width: 20px;">
                                 <a name="newUser" href="/admin/users/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                             </th>
-                            <th><lx-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
-                            <th><lx-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
-                            <th><lx-sort sort-opts="sortOpts" field-name="email" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
+                            <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                            <th><bbc-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
+                            <th><bbc-sort sort-opts="sortOpts" field-name="email" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,7 +26,7 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <lx-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></lx-Pager>
+                <bbc-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></bbc-Pager>
             </div>
         </div>
     </div>
