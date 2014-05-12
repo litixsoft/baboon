@@ -64,7 +64,7 @@ module.exports = function (app) {
     /**
      * Gets all users and the number of users from db.
      *
-     * @roles Admin
+     * @roles
      * @description Gets all users and the number of users from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -92,7 +92,7 @@ module.exports = function (app) {
     /**
      * Gets a single user by id.
      *
-     * @roles Admin
+     * @roles
      * @description Gets a single user by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -113,7 +113,7 @@ module.exports = function (app) {
     /**
      * Creates a new user in the db.
      *
-     * @roles Admin
+     * @roles
      * @description Creates a new user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.
@@ -141,7 +141,7 @@ module.exports = function (app) {
     /**
      * Updates a user in the db.
      *
-     * @roles Admin
+     * @roles
      * @description Updates a user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.

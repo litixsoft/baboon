@@ -42,7 +42,7 @@
                             <div class="col-lg-10">
                                 <div class="checkbox" ng-repeat="role in roles">
                                     <label>
-                                        <input type="checkbox" ng-click="setRole(role)" ng-model="role.isSelected">
+                                        <input type="checkbox" ng-change="setRole(role)" ng-model="role.isSelected">
                                         {{ role.name }}
                                         <span ng-if="role.description" class="glyphicon glyphicon-question-sign" popover="{{ role.description }}" popover-trigger="mouseenter"></span>
                                     </label>
@@ -52,6 +52,7 @@
 
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
+                                <a class="btn btn-default" ng-href="/admin/groups" name="back" >{{ 'BACK' | translate }}</a>
                                 <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
                                 <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
                             </div>
