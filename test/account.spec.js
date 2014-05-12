@@ -3,12 +3,13 @@
 /* global describe, it, expect, beforeEach, spyOn */
 describe('Account', function () {
     var path = require('path'),
-        //fs = require('fs'),
+        fs = require('fs'),
         rootPath = path.resolve(__dirname, '..'),
         appMock = require('./mocks/appMock')(),
         config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'}),
         account = require(path.resolve(rootPath, 'lib', 'account'))(config, appMock.logging),
-        userRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).users;
+        userRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).users,
+        AccountError = require(path.resolve(__dirname, '../', 'lib', 'errors')).AccountError;
 
     beforeEach(function () {
         spyOn(appMock.logging.syslog, 'info');
@@ -16,8 +17,7 @@ describe('Account', function () {
 
     it('should be initialized correctly', function () {
         expect(typeof account.register).toBe('function');
-        expect(typeof account.login).toBe('function');
-        //expect(typeof account.forgotUsername).toBe('function');
+        expect(typeof account.forgotUsername).toBe('function');
         /*expect(typeof sut.resetPassword).toBe('function');*/
     });
 
@@ -65,6 +65,7 @@ describe('Account', function () {
         });
     });
 
+/*
     describe('has a function login which', function () {
         it('should return an error with missing data', function(done) {
             account.login(null, function(error, result) {
@@ -126,8 +127,9 @@ describe('Account', function () {
             });
         });
     });
+*/
 
-    describe('has a getUsername login which', function () {
+    /*describe('has a getUsername login which', function () {
         var user = { name: 'wayne', hash: 'hash', salt: 'salt', email: 'test@test.com' };
 
         beforeEach(function (done) {
@@ -153,18 +155,7 @@ describe('Account', function () {
                 expect(error).toBeDefined();
                 expect(result).not.toBeDefined();
                 expect(error.message).toBe('Username not found.');
-                //expect(typeof error).toBe('AccountError');
-
-                done();
-            });
-        });
-
-        it('should return an mongodb error', function (done) {
-            account.getUsername({ $set: {_id: 1 }}, function (error, result) {
-                expect(error).toBeDefined();
-                expect(error.name).toBe('MongoError');
-                expect(error.message).toBe('invalid operator: $set');
-                expect(result).not.toBeDefined();
+                expect(error instanceof AccountError).toBeTruthy();
 
                 done();
             });
@@ -179,9 +170,9 @@ describe('Account', function () {
                 done();
             });
         });
-    });
+    });*/
 
-/*    describe('has a forgotUsername login which', function () {
+    describe('has a forgotUsername login which', function () {
         var user = { name: 'wayne', hash: 'hash', salt: 'salt', email: 'test@test.com' };
         var request = { };
 
@@ -204,5 +195,38 @@ describe('Account', function () {
                 done();
             });
         });
-    });*/
+
+        it('should return an error with missing data', function(done) {
+            account.forgotUsername(null, request, function(error, result) {
+                expect(error).toBeDefined();
+                expect(result).not.toBeDefined();
+                expect(error.message).toBe('Email is required.');
+                expect(error instanceof AccountError).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should return an error error', function (done) {
+            account.forgotUsername({ $set: {_id: 1 }}, request, function (error, result) {
+                expect(error).toBeDefined();
+                expect(error.message).toBe('Could not get username.');
+                expect(result).not.toBeDefined();
+                expect(error instanceof AccountError).toBeTruthy();
+
+                done();
+            });
+        });
+
+        it('should return an error if user not found', function(done) {
+            account.forgotUsername('notfound@test.com', request, function(error, result) {
+                expect(error).toBeDefined();
+                expect(result).not.toBeDefined();
+                expect(error.message).toBe('Username not found.');
+                expect(error instanceof AccountError).toBeTruthy();
+
+                done();
+            });
+        });
+    });
 });
