@@ -120,13 +120,13 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an ValidationError with message and status', function() {
+    it('should throw an ValidationError with errors and status', function() {
         var ValidationError = errors.ValidationError;
-        var error = new ValidationError('ValidationTestError', 400);
+        var error = new ValidationError([{property:'test', error:'test'}], 401);
 
         expect(error.name).toBe('ValidationError');
-        expect(error.message).toBe('ValidationTestError');
-        expect(error.status).toBe(400);
+        expect(error.errors[0].property).toBe('test');
+        expect(error.status).toBe(401);
         expect(error instanceof ValidationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
@@ -135,8 +135,8 @@ describe('Errors', function () {
         var error = new ValidationError();
 
         expect(error.name).toBe('ValidationError');
-        expect(error.message).toBe('Internal Server Error');
-        expect(error.status).toBe(500);
+        expect(error.status).toBe(200);
+        expect(error.errors.length).toBe(0);
         expect(error instanceof ValidationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });

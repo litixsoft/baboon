@@ -5,15 +5,15 @@ var async = require('async');
 /**
  * The role api.
  *
- * @param {!object} app The baboon app.
- * @param {!object} app.config The baboon app config.
- * @param {!object} app.logging.syslog The baboon app syslog.
- * @param {!object} app.logging.audit The baboon app audit log.
+ * @param {!object} baboon The baboon baboon.
+ * @param {!object} baboon.config The baboon baboon config.
+ * @param {!object} baboon.logging.syslog The baboon baboon syslog.
+ * @param {!object} baboon.logging.audit The baboon baboon audit log.
  */
-module.exports = function (app) {
+module.exports = function (baboon) {
     var pub = {},
-        repo = app.rights.getRepositories(),
-        audit = app.loggers.audit;
+        repo = baboon.rights.getRepositories(),
+        audit = baboon.loggers.audit;
 
     /**
      * Gets all roles and the number of roles from db.
@@ -89,7 +89,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };
@@ -131,7 +131,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };

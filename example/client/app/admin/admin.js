@@ -177,8 +177,8 @@ angular.module('admin', [
                     $location.path('/admin/users');
                 } else if (error) {
                     if (error.name === 'ValidationError') {
-                        $scope.lxForm.populateValidation($scope.form, error.message);
-                        console.log(error.message);
+                        $scope.lxForm.populateValidation($scope.form, error.errors);
+                        console.log(error.errors);
                     } else {
                         $log.log(error);
                     }

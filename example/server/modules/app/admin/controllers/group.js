@@ -10,10 +10,10 @@ var async = require('async');
  * @param {!object} app.logging.syslog The baboon app syslog.
  * @param {!object} app.logging.audit The baboon app audit log.
  */
-module.exports = function (app) {
+module.exports = function (baboon) {
     var pub = {},
-        repo = app.rights.getRepositories(),
-        audit = app.loggers.audit;
+        repo = baboon.rights.getRepositories(),
+        audit = baboon.loggers.audit;
 
     /**
      * Gets all groups and the number of groups from db.
@@ -89,7 +89,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };
@@ -131,7 +131,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };

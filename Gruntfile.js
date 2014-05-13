@@ -8,7 +8,7 @@ module.exports = function (grunt) {
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport (folder) {
+    function getCoverageReport(folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
@@ -23,7 +23,6 @@ module.exports = function (grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
-
 
 
     // Project configuration.
@@ -129,12 +128,14 @@ module.exports = function (grunt) {
         },
         copy: {
             dox: {
-                files: [{
-                    expand: true,
-                    src: ['**/*.html','*.js'],
-                    dest: 'example/client/app/apidoc/parts',
-                    cwd: '.tmp/docs/'
-                    }]
+                files: [
+                    {
+                        expand: true,
+                        src: ['**/*.html', '*.js'],
+                        dest: 'example/client/app/apidoc/parts',
+                        cwd: '.tmp/docs/'
+                    }
+                ]
             }
         }
     });
@@ -152,32 +153,32 @@ module.exports = function (grunt) {
      *
      * @param {!string} folder The path to the current api-doc file.
      */
-    function getDocNavIds(folder){
+    function getDocNavIds(folder) {
         var nav = grunt.file.read(folder.filepath);//'.tmp/docs/lib/baboon.js.html');
         var matches = nav.match(/<h2 id="([^"]*?)".*?>(.+?)<\/h2>/gi);
-        var file = folder.filename.replace('.js.html','');
+        var file = folder.filename.replace('.js.html', '');
         var sub = '';
-        if(folder.subdir){
-            sub = folder.subdir+'/';
+        if (folder.subdir) {
+            sub = folder.subdir + '/';
         }
-        var results = { title: 'lib/'+sub+''+file+'.js', link: sub+''+file, vis: false, children: [] };
+        var results = { title: 'lib/' + sub + '' + file + '.js', link: sub + '' + file, vis: false, children: [] };
 
         for (var i in matches) {
             var parts = matches[i].split('"');
-            var sublink = { title: parts[1], link: sub+''+file+'#'+parts[1] };
+            var sublink = { title: parts[1], link: sub + '' + file + '#' + parts[1] };
             results.children.push(sublink);
         }
         return results;
     }
 
-    grunt.registerTask('getDocNav', function(){
+    grunt.registerTask('getDocNav', function () {
 
         var docRootPath = '.tmp/docs/lib/';
         var rootFolder = [];
         var subFolder = [];
         var navObj = [];
-        grunt.file.recurse(docRootPath, function(abspath, rootdir, subdir, filename){
-            if(subdir){
+        grunt.file.recurse(docRootPath, function (abspath, rootdir, subdir, filename) {
+            if (subdir) {
                 var objR = {filepath: abspath, filename: filename, subdir: subdir};
                 subFolder.push(objR);
             } else {
@@ -186,14 +187,14 @@ module.exports = function (grunt) {
             }
         });
 
-        for (var j=0;j< rootFolder.length; j++) {
+        for (var j = 0; j < rootFolder.length; j++) {
             navObj.push(getDocNavIds(rootFolder[j]));
         }
-        for (var k=0;k< subFolder.length; k++) {
+        for (var k = 0; k < subFolder.length; k++) {
             navObj.push(getDocNavIds(subFolder[k]));
         }
 
-        grunt.file.write('.tmp/docs/docNavigation.js', 'var apiNav = '+JSON.stringify(navObj)+';');
+        grunt.file.write('.tmp/docs/docNavigation.js', 'var apiNav = ' + JSON.stringify(navObj) + ';');
     });
     grunt.registerTask('doc', ['clean:dox', 'dox','getDocNav', 'copy:dox']);
     grunt.registerTask('lint', ['jshint:test']);
@@ -202,7 +203,7 @@ module.exports = function (grunt) {
     grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node:ci', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('release', 'Bump version, update changelog and tag version', function (version) {
         grunt.task.run([
-            'bump:' + (version || 'patch') + ':bump-only',
+                'bump:' + (version || 'patch') + ':bump-only',
             'changelog',
             'bump-commit'
         ]);
