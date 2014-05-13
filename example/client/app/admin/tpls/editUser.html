@@ -51,15 +51,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group" ng-class="{'has-error': ((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())}">
-                            <label class="col-lg-2 control-label" for="confirmedPassword">{{ 'CONFIRM_PASSWORD' | translate }}</label>
+                        <div class="form-group" ng-class="{'has-error': ((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())}">
+                            <label class="col-lg-2 control-label" for="confirmed_password">{{ 'CONFIRM_PASSWORD' | translate }}</label>
                             <div class="col-lg-10 lxvalidation">
-                                <input type="password" class="form-control" ng-model="lxForm.model.confirmedPassword" id="confirmedPassword" name="confirmedPassword" ui-event="{keydown: 'form.errors.confirmedPassword=false;'}" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
+                                <input type="password" class="form-control" ng-model="lxForm.model.confirmed_password" id="confirmed_password" name="confirmed_password" ui-event="{keydown: 'form.errors.confirmed_password=false;'}" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
 
-                                <label ng-show="((form.confirmedPassword.$dirty && form.confirmedPassword.$invalid) || form.errors.confirmedPassword || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
+                                <label ng-show="((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
-                                    <span ng-show="form.confirmedPassword.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
-                                    <span ng-show="form.errors.confirmedPassword" popover="{{form.errors.confirmedPassword}}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.confirmed_password.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
+                                    <span ng-show="form.errors.confirmed_password" popover="{{form.errors.confirmed_password}}" popover-trigger="mouseenter"></span>
                                     <span ng-show="!isPasswordConfirmed()" popover="{{ 'CONFIRM_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
                                 </label>
                             </div>

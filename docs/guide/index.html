@@ -1,0 +1,97 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title>Baboon Client example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/baboon_04/example/client/assets/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="highlightjs/styles/github.css"/>-->
+    <!--<link rel="stylesheet" href="css/style.css">-->
+
+</head>
+<body ng-app="example">
+<header class="header">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!--<img class="pull-left" src="../public/yeoman.png">-->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">baboon client</a>
+                <ul class="nav navbar-nav">
+                    <li><a href="/doc" target="_self"><i class="glyphicon glyphicon-book"></i> API Reference</a></li>
+                    <li class="active"><a href="/" target="_self"><i class="glyphicon glyphicon-tag"></i> Guide</a></li>
+                </ul>
+            </div>
+            <!--<div class="btn-group pull-right">-->
+                <!--<a ng-click="switchLocale('de-de')" style="cursor: pointer;"><img src="/img/flag-germany48.png" alt="german" /></a>-->
+                <!--<a ng-click="switchLocale('en-us')" style="cursor: pointer;"><img src="/img/flag-usa48.png" alt="english" /></a>-->
+            <!--</div>-->
+        </div>
+    </div>
+</header>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="container">
+    <div class="row ng-cloak">
+        <div class="col-md-3" ng-include="'/baboon_04/docs/guide/navigation.html'"></div>
+        <div id="singlepageFrame" class="col-md-9">
+            <!-- Add your site or application content here -->
+            <div ng-view=""></div>
+        </div>
+    </div>
+</div>
+
+<!--[if lt IE 9]>
+<!--<script src="es5-shim/es5-shim.js"></script>-->
+<!--<script src="json3/lib/json3.min.js"></script>-->
+<![endif]-->
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<script src="/baboon_04/example/client/assets/bower_components/angular/angular.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-route/angular-route.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-translate/angular-translate.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/showdown/src/showdown.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/showdown/src/extensions/table.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-highlightjs/angular-highlightjs.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/highlightjs/highlight.pack.js"></script>
+
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/alert/alert.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/cache/cache.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/checkbox/checkbox.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/radio/radio.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/markdown/markdown.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/sort/sort.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/inline/edit.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/reset/reset.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/datepicker/datepicker.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/datepicker/datepicker.tpl.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/modal/modal.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/modal/msgBox.tpl.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/angular-socket-io/socket.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/transport/transport.js"></script>
+<script src="/baboon_04/docs/guide/example.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/integer/integer.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/float/float.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/form/form.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/pager/pager.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
+<script src="/baboon_04/example/client/assets/bower_components/baboon-client/modules/session/session.js"></script>
+<script type="text/javascript">
+    hljs.configure({tabReplace: '    '}); // 4 spaces
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>

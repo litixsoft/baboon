@@ -1,7 +1,0 @@
-{
-    "title": "APIDOC",
-    "route": "/apidoc",
-    "roles": ["users"],
-    "app": "apidoc",
-    "order": 3
-}

@@ -2,10 +2,10 @@
 
 var repo;
 
-module.exports = function (app) {
+module.exports = function (baboon) {
     var pub = {};
-    repo = require('../repositories')(app.config.mongo.enterprise);
-    var audit = app.loggers.audit;
+    repo = require('../repositories')(baboon.config.mongo.enterprise);
+    var audit = baboon.loggers.audit;
 
     /**
      * Gets all members from db.
@@ -74,7 +74,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };
@@ -116,7 +116,7 @@ module.exports = function (app) {
                     }
                 });
             } else {
-                callback(new app.ValidationError(result.errors));
+                callback(new baboon.ValidationError(result.errors));
             }
         });
     };

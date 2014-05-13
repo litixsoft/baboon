@@ -12,7 +12,7 @@ angular.module('admin.services', [])
 
             if (s.length === 1) {
                 rightObj[mod] = rightObj[mod] || [];
-                right.displayName = s.shift();
+                right.display_name = s.shift();
                 right.isSelected = selectedRights.indexOf(right._id) > -1 ? true : false;
                 right.name = path + right.name;
                 right.description = right.description;

@@ -8,5 +8,7 @@
     "REGISTER": "Registrieren",
     "FORGET_PASSWORD": "Passwort oder Benutzername vergessen",
     "REQUIRED_USERNAME": "Benutzername ist ein Pflichtfeld",
-    "REQUIRED_PASSWORD": "Passwort ist ein Pflichtfeld"
+    "REQUIRED_PASSWORD": "Passwort ist ein Pflichtfeld",
+    "AUTH_FAILED": "Benutzername oder Passwort falsch",
+    "AUTH_ERROR": "500: Interner Serverfehler"
 }
