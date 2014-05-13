@@ -1,0 +1,7 @@
+<div ng-controller="NavigationCtrl">
+    <ul class="navigation nav nav-pills nav-stacked">
+        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+            <a ng-href="{{item.link}}">{{item.title}}</a>
+        </li>
+    </ul>
+</div>

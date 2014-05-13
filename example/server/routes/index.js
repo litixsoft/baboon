@@ -16,14 +16,6 @@ module.exports = function (baboon) {
         res.render('app/demo/index');
     });
 
-    router.get('/apidoc', function (req, res) {
-        res.render('app/apidoc/index');
-    });
-
-    router.get('/apidoc/*', function (req, res) {
-        res.render('app/apidoc/index');
-    });
-
     router.get('/guide', function (req, res) {
         res.render('app/guide/index');
     });
