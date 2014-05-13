@@ -8,7 +8,7 @@ module.exports = function (grunt) {
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport (folder) {
+    function getCoverageReport(folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
@@ -23,7 +23,6 @@ module.exports = function (grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
-
 
 
     // Project configuration.
@@ -129,12 +128,14 @@ module.exports = function (grunt) {
         },
         copy: {
             dox: {
-                files: [{
-                    expand: true,
-                    src: ['**/*.html','*.js'],
-                    dest: 'example/client/app/apidoc/parts',
-                    cwd: '.tmp/docs/'
-                    }]
+                files: [
+                    {
+                        expand: true,
+                        src: ['**/*.html', '*.js'],
+                        dest: 'example/client/app/apidoc/parts',
+                        cwd: '.tmp/docs/'
+                    }
+                ]
             }
         }
     });
@@ -203,7 +204,7 @@ module.exports = function (grunt) {
     grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node:ci', 'bgShell:coverage', 'bgShell:cobertura']);
     grunt.registerTask('release', 'Bump version, update changelog and tag version', function (version) {
         grunt.task.run([
-            'bump:' + (version || 'patch') + ':bump-only',
+                'bump:' + (version || 'patch') + ':bump-only',
             'changelog',
             'bump-commit'
         ]);

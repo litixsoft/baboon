@@ -49,7 +49,7 @@ angular.module('template/lxRights/inner.html', []).run(['$templateCache', functi
             '<ul>' +
             '<li ng-repeat="right in data">' +
             '<input type="checkbox" ng-model="right.isSelected" ng-click="onSetRight({right: right})">' +
-            '<span>{{ right.displayName }}</span>' +
+            '<span>{{ right.display_name }}</span>' +
             '</li>' +
             '</ul>' +
             '</div>' +

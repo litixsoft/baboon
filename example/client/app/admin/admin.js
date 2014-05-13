@@ -153,7 +153,7 @@ angular.module('admin', [
         $scope.lxForm = $bbcForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
-            return $scope.lxForm.model.password === $scope.lxForm.model.confirmedPassword;
+            return $scope.lxForm.model.password === $scope.lxForm.model.confirmed_password;
         };
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
@@ -177,8 +177,8 @@ angular.module('admin', [
                     $location.path('/admin/users');
                 } else if (error) {
                     if (error.name === 'ValidationError') {
-                        $scope.lxForm.populateValidation($scope.form, error.message);
-                        console.log(error.message);
+                        $scope.lxForm.populateValidation($scope.form, error.errors);
+                        console.log(error.errors);
                     } else {
                         $log.log(error);
                     }
@@ -628,7 +628,7 @@ angular.module('admin', [
 
             if (s.length === 1) {
                 rightObj[mod] = rightObj[mod] || [];
-                right.displayName = mod;
+                right.display_name = mod;
                 right.isSelected = selectedRights.indexOf(right._id) > -1;
                 right.name = path + right.name;
                 rightObj[mod].push(right);
