@@ -167,9 +167,9 @@ module.exports = function (baboon) {
                         createHash(data, next);
                     },
                     updateUser: ['createPasswordHash', function (next) {
-                        // do not save password and confirmedPassword
+                        // do not save password and confirmed_password
                         delete data.password;
-                        delete data.confirmedPassword;
+                        delete data.confirmed_password;
 
                         repo.users.update({_id: data._id}, {$set: data}, next);
                     }]

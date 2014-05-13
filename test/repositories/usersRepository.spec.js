@@ -26,7 +26,7 @@ beforeEach(function (done) {
             }
         ],
         password: 'a',
-        confirmedPassword: 'a'
+        confirmed_password: 'a'
     };
 
     sut.remove({name: data.name}, function () {done();});
@@ -184,11 +184,7 @@ describe('Repositories/UsersRepositiory', function () {
 
     describe('.createUser()', function () {
         it('should create a user with password hash and salt', function (done) {
-            var user = {
-                name: 'wayne',
-                password: 'a',
-                confirmedPassword: 'a'
-            };
+            var user = { name: 'wayne', password: 'a', salt: 'a' };
 
             sut.createUser(user, function (err, res) {
                 expect(err).toBeNull();
@@ -208,24 +204,45 @@ describe('Repositories/UsersRepositiory', function () {
             });
         });
 
-        it('should throw an error in pwd', function (done) {
-            var user = {
-                name: 'wayne',
-                password: 'a',
-                confirmedPassword: 'a'
-            };
+        it('should throw an error', function (done) {
+            sut.createUser({ $set: {_id: 1 }}, function (error, result) {
+                expect(error).toBeDefined();
+                expect(result).not.toBeDefined();
 
-            var proxyquire = require('proxyquire');
+                done();
+            });
+        });
+    });
 
-            var stubs = {};
-            stubs.pwd = {
-                hash: function(password, callback){callback('error');}
-            };
+    describe('has a function getUserForLogin which', function () {
+        var user = { name: 'wayne', password: 'hash', salt: 'salt' };
 
-            var sut = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({insert:function(query, callback){callback(null, [query]);}});
+        beforeEach(function (done) {
+            repo.users.insert(user, function() { done(); });
+        });
 
-            sut.createUser(user, function (err) {
-                expect(err).toBeDefined();
+        afterEach(function(done) {
+            repo.users.remove({name: user.name}, function () {done();});
+        });
+
+        it('should return the user with minimal data', function (done) {
+            sut.getUserForLogin(user.name, function (error, result) {
+                expect(error).toBeNull();
+                expect(result.name).toBe('wayne');
+                expect(result.password).toBe('hash');
+                expect(result.salt).toBe('salt');
+
+                done();
+            });
+        });
+
+        it('should return an mongodb error', function (done) {
+            sut.getUserForLogin({ $set: {_id: 1 }}, function (error, result) {
+                expect(error).toBeDefined();
+                expect(error.name).toBe('MongoError');
+                expect(error.message).toBe('invalid operator: $set');
+                expect(result).not.toBeDefined();
+
                 done();
             });
         });

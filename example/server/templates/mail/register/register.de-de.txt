@@ -1,14 +1,13 @@
 Vielen Dank für Ihre Registrierung.
 
 Ihr Zugang wurde mit folgenden Daten angelegt:
-Benutzername: {USERNAME}
+Benutzername: {NAME}
 Name: {DISPLAYNAME}
 E-Mail: {EMAIL}
 
 Bitte bestätigen Sie ihre Registrierung, indem Sie den folgenden Link in Ihren Browser kopieren und ausführen:
-http://127.0.0.1:3000/auth/activate/{GUID}
+{URL}
 
-Falls Sie sich nicht unter http://www.litixsoft.de registriert haben, können Sie diese Nachricht einfach ignorieren, es wird dann kein Nutzeraccount angelegt.
 Bitte bewahren Sie ihre Zugangsdaten sicher auf.
 
 
