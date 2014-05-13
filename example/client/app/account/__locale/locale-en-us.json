@@ -8,5 +8,7 @@
     "REGISTER": "Register",
     "FORGET_PASSWORD": "Forgot password or username",
     "REQUIRED_USERNAME": "Username is required",
-    "REQUIRED_PASSWORD": "Password is required"
+    "REQUIRED_PASSWORD": "Password is required",
+    "AUTH_FAILED": "Username or password incorrect",
+    "AUTH_ERROR": "500: Internal Server Error"
 }

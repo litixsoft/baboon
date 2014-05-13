@@ -9,14 +9,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'LOGIN' | translate }}</div>
             <div class="panel-body">
-                <form class="form-horizontal" name="form" novalidate>
+                <form class="form-horizontal" ng-submit="login()" name="form" novalidate>
                     <!--ng-submit="login()"-->
                     <fieldset>
                         <span>{{ errors }}</span>
                         <div class="form-group" ng-class="{'has-error': ((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)}">
                             <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
                             <div class="col-md-10 lxvalidation">
-                                <input type="text" ng-model="$bbcForm.username" id="username" name="username" ng-keydown="form.errors.username=false;authFailed=false;serverError=false;" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
+                                <input type="text" ng-model="user.username" id="username" name="username" ng-keydown="form.errors.username=false;authFailed=false;serverError=false;" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
                                 <label ng-show="((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.username.$error.required" popover="{{ 'REQUIRED_USERNAME' | translate }}" popover-trigger="mouseenter"></span>
@@ -28,7 +28,7 @@
                         <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)}">
                             <label class="col-md-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
                             <div class="col-md-10 lxvalidation">
-                                <input type="password" ng-model="$bbcForm.password" id="password" name="password" ng-keydown="form.errors.password=false" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
+                                <input type="password" ng-model="user.password" id="password" name="password" ng-keydown="form.errors.password=false" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
                                 <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)" style="cursor:pointer;" class="label label-danger">
                                     <div class="glyphicon glyphicon-fire"></div>
                                     <span ng-show="form.password.$error.required" popover="{{ 'REQUIRED_PASSWORD' | translate }}" popover-trigger="mouseenter"></span>
@@ -37,9 +37,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group" ng-show="( authFailed || serverError)">
+                        <div class="form-group" ng-show="( authFailed )">
                             <div class="col-md-10 col-md-offset-2">
-                                <div class="alert alert-danger">{{ errorMsg }}</div>
+                                <div class="alert alert-danger">{{ 'AUTH_FAILED' | translate }}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="( authError )">
+                            <div class="col-md-10 col-md-offset-2">
+                                <div class="alert alert-danger">{{ 'AUTH_ERROR' | translate }}</div>
                             </div>
                         </div>
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('auth', [
+angular.module('account', [
     'ngRoute',
     'ui.bootstrap',
     'bbc.transport',
@@ -13,8 +13,8 @@ angular.module('auth', [
     .config(function ($routeProvider, $locationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
         // Routing and navigation
-        $routeProvider.when('/auth/login', {templateUrl: 'app/auth/login.html', controller: 'AuthLoginCtrl'});
-        $routeProvider.otherwise({redirectTo: '/auth/login'});
+        $routeProvider.when('/account/login', {templateUrl: 'app/account/login.html', controller: 'AccountLoginCtrl'});
+        $routeProvider.otherwise({redirectTo: '/account/login'});
 
         $locationProvider.html5Mode(true);
 
@@ -25,13 +25,12 @@ angular.module('auth', [
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/auth/locale-',
+            prefix: '/locale/account/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .constant('adminModulePath', 'api/app/auth/')
     .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
         $rootScope.currentLang = $translate.preferredLanguage();
@@ -74,23 +73,35 @@ angular.module('auth', [
             tmhDynamicLocale.set($translate.use());
         });
     })
-    .controller('AuthLoginCtrl', function ($scope, $bbcForm, $timeout) {
+    .controller('AccountLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window) {
 
-        $scope.$bbcForm = $bbcForm('authLoginCtrl', '_id');
+        $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id');
         $scope.user = {};
         $scope.authFailed = false;
-        $scope.serverError = false;
+        $scope.authError = false;
 
+        $scope.login = function() {
 
-        $timeout(function () {
             if ($scope.form) {
                 $scope.form.errors = {};
             }
 
-            $scope.$bbcForm.populateValidation($scope.form, [
-                { property: 'username', message: 'Lastname must be Doe.' }
-            ]);
+            $bbcTransport.emit('api/account/login',{user: $scope.user}, function(error, result) {
 
-        }, 100);
+                if (!error && result) {
+                    $window.location.href = '/';
+                }
+                else {
 
+                    if (error.status === 403) {
+                        $scope.authFailed = true;
+                    }
+                    else {
+                        $scope.authError = true;
+                    }
+
+                    $log.error(error);
+                }
+            });
+        };
     });
