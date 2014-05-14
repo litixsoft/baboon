@@ -93,7 +93,7 @@ module.exports = function () {
                 senderAddress: 'support@litixsoft.de',
                 templatePath: './server/templates/mail',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
-                directory: 'C:/Temp/Mail' // required for type PICKUP
+                directory: './.tmp' // required for type PICKUP
             },
             mongo: {
                 enterprise: 'localhost:27017/enterprise?w=1&journal=True&fsync=True'

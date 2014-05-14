@@ -4,7 +4,6 @@ var express = require('express');
 
 module.exports = function (baboon) {
 
-    console.log(baboon);
     var router = express.Router();
     var auth = baboon.middleware.auth;
 
