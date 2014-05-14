@@ -1,0 +1,25 @@
+<div class="beige-noise">
+    <div class="p-wrapper">
+        <div class="page-header">
+            <h1>{{ 'REGISTER' | translate }}</h1>
+            <p>{{ 'REGISTER_DESCRIPTION' | translate }}</p>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'REGISTER' | translate }}</div>
+            <div class="panel-body">
+                <form class="form-horizontal" ng-submit="register()" name="form" novalidate>
+                    <div class="form-group" ng-class="{'has-error': ((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)}">
+                        <label class="col-md-2 control-label" for="username">{{ 'USERNAME' | translate }}</label>
+                        <div class="col-md-10 lxvalidation">
+                            <input type="text" ng-model="user.username" id="username" name="username" ng-keydown="form.errors.username=false;authFailed=false;serverError=false;" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
+                            <label ng-show="((form.username.$dirty && form.username.$invalid))" style="cursor:pointer;" class="label label-danger">
+                                <div class="glyphicon glyphicon-fire"></div>
+                                <span ng-show="form.username.$error.required">{{ 'REQUIRED_USERNAME' | translate }}</span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

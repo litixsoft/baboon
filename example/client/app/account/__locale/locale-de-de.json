@@ -1,6 +1,8 @@
 {
     "LOGIN": "Anmelden",
     "LOGIN_DESCRIPTION": "Melden Sie sich mit Ihrem Benutzernamen und Passwort an.",
+    "REGISTER": "Registrieren",
+    "REGISTER_DESCRIPTION": "Erstellen Sie Ihren Benutzeraccount.",
     "USERNAME": "Benutzername",
     "PASSWORD": "Passwort",
     "ENTER_PASSWORD": "Passwort eingeben",

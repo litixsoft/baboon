@@ -1,6 +1,8 @@
 {
     "LOGIN": "Login",
     "LOGIN_DESCRIPTION": "Log in with your username and password.",
+    "REGISTER": "Register",
+    "REGISTER_DESCRIPTION": "Create your user account.",
     "USERNAME": "Username",
     "PASSWORD": "Password",
     "ENTER_PASSWORD": "Enter password",

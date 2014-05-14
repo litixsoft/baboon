@@ -14,6 +14,7 @@ angular.module('account', [
 
         // Routing and navigation
         $routeProvider.when('/account/login', {templateUrl: 'app/account/login.html', controller: 'AccountLoginCtrl'});
+        $routeProvider.when('/account/register', {templateUrl: 'app/account/register.html', controller: 'AccountRegisterCtrl'});
         $routeProvider.otherwise({redirectTo: '/account/login'});
 
         $locationProvider.html5Mode(true);
@@ -104,4 +105,6 @@ angular.module('account', [
                 }
             });
         };
+    })
+    .controller('AccountRegisterCtrl', function ($scope) {
     });
