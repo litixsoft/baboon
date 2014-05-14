@@ -5,12 +5,18 @@
     "REGISTER_DESCRIPTION": "Create your user account.",
     "USERNAME": "Username",
     "PASSWORD": "Password",
+    "DISPLAYNAME": "Display name",
+    "EMAIL": "E-Mail",
     "ENTER_PASSWORD": "Enter password",
     "ENTER_USERNAME": "Enter username",
+    "ENTER_DISPLAYNAME": "Enter display name",
+    "ENTER_EMAIL": "Enter e-mail",
     "REGISTER": "Register",
     "FORGET_PASSWORD": "Forgot password or username",
     "REQUIRED_USERNAME": "Username is required",
     "REQUIRED_PASSWORD": "Password is required",
+    "REQUIRED_DISPLAYNAME": "Display name is required",
+    "REQUIRED_EMAIL": "E-Mail is required",
     "AUTH_FAILED": "Username or password incorrect",
     "AUTH_ERROR": "500: Internal Server Error"
 }
