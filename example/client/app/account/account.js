@@ -81,13 +81,13 @@ angular.module('account', [
         $scope.authFailed = false;
         $scope.authError = false;
 
-        $scope.login = function() {
+        $scope.login = function () {
 
             if ($scope.form) {
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.emit('api/account/login',{user: $scope.user}, function(error, result) {
+            $bbcTransport.emit('api/account/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -106,5 +106,4 @@ angular.module('account', [
             });
         };
     })
-    .controller('AccountRegisterCtrl', function ($scope) {
-    });
+    .controller('AccountRegisterCtrl', function () {});
