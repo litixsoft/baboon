@@ -106,4 +106,42 @@ angular.module('account', [
             });
         };
     })
-    .controller('AccountRegisterCtrl', function () {});
+    .controller('AccountRegisterCtrl', function ($scope, $bbcTransport, $translate) {
+        $scope.alerts = [];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        $scope.register = function() {
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.user.language = $translate.use();
+
+            $bbcTransport.emit('api/account/register', $scope.user, function (error, result) {
+                if (!error && result) {
+                    $scope.alerts.push({ type: 'success', msg: 'Sie erhalten in Kürze eine E-Mail von uns, mit den weiteren Schritten.' });
+                    $scope.user = {};
+                    $scope.form.$setPristine();
+                    console.log(result);
+                }
+                else {
+                    console.log(error.validation);
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            // set form errors
+                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                        }
+                    }
+                    /*if (error.status === 403) {
+                        $scope.authFailed = true;
+                    }
+                    else {
+                        $scope.authError = true;
+                    }*/
+                }
+            });
+        };
+    });
