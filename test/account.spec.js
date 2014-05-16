@@ -54,7 +54,7 @@ describe('Account', function () {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
 
-                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john@doe.com'}, request, function (error, result) {
+                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john2@doe.com'}, request, function (error, result) {
                     expect(error).toBeDefined();
                     expect(result).not.toBeDefined();
                     expect(error.validation.length).toBe(1);
@@ -209,11 +209,11 @@ describe('Account', function () {
         });
 
         it('should return an error', function (done) {
-            account.forgotUsername({ email: { $set: {_id: 1 } } }, request, function (error, result) {
+            account.forgotUsername({ email: 'abcde' }, request, function (error, result) {
                 expect(error).toBeDefined();
-                expect(error.message).toBe('Could not get username.');
+                expect(error.validation).toBeDefined();
+                expect(error.validation[0].message).toBe('is not a valid email');
                 expect(result).not.toBeDefined();
-                expect(error instanceof AccountError).toBeTruthy();
 
                 done();
             });

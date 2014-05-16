@@ -98,6 +98,46 @@ angular.module('admin', [
         });
     })
 
+    .service('compareService', function () {
+        var pub = {};
+
+        // compare functions for array.sort()
+
+        // compares two numbers
+        pub.compareNumbers = function (a, b) {
+            return a - b;
+        };
+
+        // compares two values
+        pub.compareValues = function (a, b) {
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        };
+
+        // compares two number fields from objects
+        pub.compareByNumberField = function (a, b, field) {
+            return a[field] - b[field];
+        };
+
+        // compares two fields from objects
+        pub.compareByField = function (a, b, field) {
+            if (a[field] > b[field]) {
+                return 1;
+            } else if (a[field] < b[field]) {
+                return -1;
+            } else {
+                return 0;
+            }
+        };
+
+        return pub;
+    })
+
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result) {
             if (!error && result) {
@@ -149,7 +189,7 @@ angular.module('admin', [
 
         $scope.getData();
     })
-    .controller('adminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
+    .controller('adminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
         $scope.lxForm = $bbcForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
@@ -159,6 +199,16 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
+                    result.groups.sort(function (a, b) {
+                        return compareService.compareValues(a, b);
+                    });
+                    result.roles.sort(function (a, b) {
+                        return compareService.compareValues(a, b);
+                    });
+                    result.rights.sort(function (a, b) {
+                        return compareService.compareByField(a, b, '_id');
+                    });
+
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.log(error);
@@ -207,6 +257,9 @@ angular.module('admin', [
             }
 
             $scope.lxForm.model.rights.push(rightToAdd);
+            $scope.lxForm.model.rights.sort(function (a, b) {
+                return compareService.compareByField(a, b, '_id');
+            });
 
             $scope.addingRight = false;
             $scope.addedRight = {};
@@ -270,6 +323,9 @@ angular.module('admin', [
 
             if (group.isSelected && indexOfGroup === -1) {
                 $scope.lxForm.model.groups.push(group._id);
+                $scope.lxForm.model.groups.sort(function (a, b) {
+                    return compareService.compareValues(a, b);
+                });
             } else if (!group.isSelected && indexOfGroup !== -1) {
                 $scope.lxForm.model.groups.splice(indexOfGroup, 1);
             }
@@ -298,6 +354,9 @@ angular.module('admin', [
 
             if (role.isSelected && indexOfRole === -1) {
                 $scope.lxForm.model.roles.push(role._id);
+                $scope.lxForm.model.roles.sort(function (a, b) {
+                    return compareService.compareValues(a, b);
+                });
             } else if (!role.isSelected && indexOfRole !== -1) {
                 $scope.lxForm.model.roles.splice(indexOfRole, 1);
             }
@@ -385,7 +444,7 @@ angular.module('admin', [
                 $scope.$apply(function () {
                     $scope.currentPage = $bbcCache.currentPage;
                 });
-            }, 50);
+            },50);
         }
 
     })
@@ -467,12 +526,15 @@ angular.module('admin', [
         $scope.getData();
     })
 
-    .controller('adminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
+    .controller('adminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
         $scope.lxForm = $bbcForm('baboon_group', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'group/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
+                    result.roles.sort(function (a, b) {
+                        return compareService.compareValues(a, b);
+                    });
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.log(error);
@@ -528,6 +590,9 @@ angular.module('admin', [
 
             if (role.isSelected && indexOfRole === -1) {
                 $scope.lxForm.model.roles.push(role._id);
+                $scope.lxForm.model.roles.sort(function (a, b) {
+                    return compareService.compareValues(a, b);
+                });
             } else if (!role.isSelected && indexOfRole !== -1) {
                 $scope.lxForm.model.roles.splice(indexOfRole, 1);
             }
@@ -583,12 +648,15 @@ angular.module('admin', [
         $scope.getData();
     })
 
-    .controller('adminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
+    .controller('adminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
         $scope.lxForm = $bbcForm('baboon_role', '_id');
 
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'role/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
+                    result.rights = result.rights.sort(function (a, b) {
+                        return compareService.compareValues(a, b);
+                    });
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.error(error);
@@ -667,10 +735,13 @@ angular.module('admin', [
 
             if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
                 $scope.lxForm.model.rights.push(right._id);
+                $scope.lxForm.model.rights.sort(function (a, b) {
+                    return compareService.compareValues(a, b);
+                });
             } else if (!right.isSelected) {
                 var index = $scope.lxForm.model.rights.indexOf(right._id);
-
-                if (index > 0) {
+                
+                if (index >= 0) {
                     $scope.lxForm.model.rights.splice(index, 1);
                 }
             }
