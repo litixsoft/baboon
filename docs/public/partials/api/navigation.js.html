@@ -1,0 +1,481 @@
+
+<div class="beige-noise">
+  <div class="p-wrapper">
+    <div class="container"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="exports">
+          <h1>exports</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>module.exports()</span><span title="return value" class="glyphicon glyphicon-arrow-right"></span><span>object</span>
+          </p>
+        </section>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get navigation for site</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">module.exports = function (navigationFilePath) {
+
+    // check parameters
+    if (typeof navigationFilePath !== 'string') {
+        throw new NavigationError('Parameter navigationFilePath is required and must be a string type!');
+    }
+
+    // Load navigation from config folder
+    var nav = require(navigationFilePath);
+    var navList;
+    var pub = {};
+
+    var NAV_TYPE_LIST = 'list';
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="addNavObj">
+          <h1>addNavObj</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">function</span><span>addNavObj()</span><span title="return value" class="glyphicon glyphicon-arrow-right"></span><span>object</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>value</td>
+                <td>object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Helper for create navigation object</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">var addNavObj = function (value) {
+
+        return {
+            title: value.title,
+            route: value.route,
+            target: value.target,
+            level: value.level,
+            app: value.app
+        };
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="checkNav">
+          <h1>checkNav</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">function</span><span>checkNav()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>tmpNav</td>
+                <td>object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>current</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>type</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>level</td>
+                <td>number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>check and optimize navigation tree</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">var checkNav = function (tmpNav, current, type, level) {
+
+        level += 1;
+
+        lxHelpers.forEach(tmpNav, function (value) {
+
+            // add deep level of tree
+            value.level = level;
+
+            // check is current app
+            if (value.app !== current) {
+
+                // when not current set target to _self
+                value.target = '_self';
+            }
+
+            // when list push in flat list
+            if (type === NAV_TYPE_LIST) {
+                navList.push(addNavObj(value));
+            }
+
+            // when children call recursive function
+            if (value.children) {
+                checkNav(value.children, current, type, level);
+            }
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getTree">
+          <h1>getTree</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getTree()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td>The data object</td>
+              </tr>
+              <tr>
+                <td>request</td>
+                <td>object</td>
+                <td>The request object</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>function=</td>
+                <td>The callback function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get navigation tree</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getTree = function(data, request, callback) {
+
+        var current = data.current || 'main';
+
+        var tmpNav = nav();
+
+        checkNav(tmpNav, current, null, -1);
+
+        callback(null, tmpNav);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getList">
+          <h1>getList</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getList()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td>The data object</td>
+              </tr>
+              <tr>
+                <td>request</td>
+                <td>object</td>
+                <td>The request object</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>function=</td>
+                <td>The callback function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get navigation flat list</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getList = function(data, request, callback) {
+
+        var current = data.current || 'main';
+
+        var tmpNav = nav();
+        navList = [];
+
+        checkNav(tmpNav, current, NAV_TYPE_LIST, -1);
+
+        callback(null, navList);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getTopList">
+          <h1>getTopList</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getTopList()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td>The data object</td>
+              </tr>
+              <tr>
+                <td>request</td>
+                <td>object</td>
+                <td>The request object</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>function=</td>
+                <td>The callback function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get toplevel of navigation</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getTopList = function(data, request, callback) {
+
+        var current = data.current || 'main';
+
+        var tmpNav = nav();
+        navList = [];
+
+        lxHelpers.forEach(tmpNav, function (value) {
+
+            value.level = 0;
+
+            if (value.app !== current) {
+                value.target = '_self';
+            }
+            else {
+                value.target = '';
+            }
+
+            navList.push(addNavObj(value));
+        });
+
+        callback(null, navList);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getSubTree">
+          <h1>getSubTree</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getSubTree()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td>The data object</td>
+              </tr>
+              <tr>
+                <td>request</td>
+                <td>object</td>
+                <td>The request object</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>function=</td>
+                <td>The callback function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get all sub links from a top as tree</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getSubTree = function(data, request, callback) {
+
+        if (!data.top) {
+            return callback(new NavigationError('Parameter top in body is required!', 400));
+        }
+
+        var current = data.current || 'main';
+        var top = data.top;
+
+        var tmpNav = nav();
+        var subNav = [];
+
+        lxHelpers.forEach(tmpNav, function (value) {
+
+            if (value.route === top &amp;&amp; value.children) {
+                subNav = value.children;
+                checkNav(subNav, current, null, 0);
+            }
+        });
+
+        return callback(null, subNav);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getSubList">
+          <h1>getSubList</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getSubList()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td>The data object</td>
+              </tr>
+              <tr>
+                <td>request</td>
+                <td>object</td>
+                <td>The request object</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>function=</td>
+                <td>The callback function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Get all sub links from a top as flat list</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getSubList = function(data, request, callback) {
+
+        if (!data.top) {
+            new NavigationError('fgd', 400);
+            return callback(new NavigationError('Parameter top in body is required!', 400));
+        }
+
+        var current = data.current || 'main';
+        var top = data.top;
+
+        var tmpNav = nav();
+        var subNav = [];
+
+        navList = [];
+
+        lxHelpers.forEach(tmpNav, function (value) {
+
+            if (value.route === top &amp;&amp; value.children) {
+                subNav = value.children;
+                checkNav(subNav, current, NAV_TYPE_LIST, 0);
+            }
+        });
+
+        return callback(null, navList);
+    };
+
+    return pub;
+};
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>

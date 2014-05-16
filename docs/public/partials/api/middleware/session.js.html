@@ -1,0 +1,182 @@
+
+<div class="beige-noise">
+  <div class="p-wrapper">
+    <div class="container"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="exports">
+          <h1>exports</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>module.exports()</span>
+          </p>
+        </section>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>@param {!Object} baboon</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">module.exports = function(baboon) {
+
+    var pub = {};
+    var syslog = baboon.loggers.syslog;
+    var rights = baboon.config.rights;
+    var USER_ID_GUEST = -1;
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="initSession">
+          <h1>initSession</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.initSession()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>req</td>
+                <td>!Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>res</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>next</td>
+                <td>!Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Middleware init session</p>
+
+<p>When session.user not exists then create in session:<br />user = {id: -1, name: 'guest'}<br />activity = new Date();<br />start = new Date();</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.initSession = function(req, res, next) {
+
+        // check if session exists
+        if (!req.session.user) {
+
+            req.session.activity = new Date();
+            req.session.start = new Date();
+            req.session.data = {};
+
+            if(rights.enabled){
+                baboon.rights.getUser(USER_ID_GUEST, function(error, user){
+                    if (error) {
+                        return next(error);
+                    }
+
+                    req.session.user = user;
+                    syslog.debug('session is newly, add guest and set new start + activity time.');
+
+                    return next();
+                });
+            }
+            else {
+                req.session.user = {id: USER_ID_GUEST, name: 'guest'};
+                syslog.debug('session is newly, add guest and set new start + activity time.');
+
+                return next();
+            }
+        }
+        else {
+            return next();
+        }
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="checkActivitySession">
+          <h1>checkActivitySession</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.checkActivitySession()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>req</td>
+                <td>!Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>res</td>
+                <td>!Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>next</td>
+                <td>!Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Middleware check session activity<br />Checks the inactive and max life time of session.<br />Is the time exceeded then regenerated the session and make a new session init.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.checkActivitySession = function(req, res, next) {
+
+        baboon.session.checkActivitySession(req.session, function(error, active) {
+
+            if (error) {
+                return next(error);
+            }
+
+            // check session active
+            if (!active) {
+
+                // session to long inactive or max lifetime is over
+                // session was regenerated
+                // new init session
+                return pub.initSession(req, res, next);
+            }
+            else {
+                // session ok
+                return next();
+            }
+        });
+    };
+
+    return pub;
+};
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>

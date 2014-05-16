@@ -15,14 +15,6 @@ module.exports = function (baboon) {
         res.render('app/demo/index');
     });
 
-    router.get('/guide', function (req, res) {
-        res.render('app/guide/index');
-    });
-
-    router.get('/guide/*', auth.restrictedUser, function (req, res) {
-        res.render('app/guide/index');
-    });
-
     router.get('/admin', auth.restrictedAdmin, function (req, res) {
         res.render('app/admin/index');
     });

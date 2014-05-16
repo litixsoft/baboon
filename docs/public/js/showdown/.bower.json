@@ -1,0 +1,13 @@
+{
+  "name": "showdown",
+  "homepage": "https://github.com/zwirn1981/showdown",
+  "_release": "42faf8b386",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "42faf8b386fdb05ce06bad7802047ab602fd9d44"
+  },
+  "_source": "https://github.com/zwirn1981/showdown.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/zwirn1981/showdown.git"
+}

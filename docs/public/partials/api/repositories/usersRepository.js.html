@@ -1,0 +1,355 @@
+
+<div class="beige-noise">
+  <div class="p-wrapper">
+    <div class="container"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="exports">
+          <h1>exports</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>module.exports()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>collection</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>usersRepository</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">module.exports = function (collection) {
+    var schema = function () {
+            return {
+                properties: {
+                    _id: {
+                        type: 'string',
+                        format: 'mongo-id',
+                        key: true
+                    },
+                    email: {
+                        type: 'string',
+                        format: 'email',
+                        required: true
+                    },
+                    language: {
+                        type: 'string',
+                        maxLength: 10
+                    },
+                    password: {
+                        type: 'string',
+                        dependencies: 'confirmed_password'
+                    },
+                    salt: {
+                        type: 'string'
+                    },
+                    is_approved: {
+                        type: 'boolean'
+                    },
+                    register_date: {
+                        type: 'date'
+                    },
+                    confirmed_password: {
+                        type: 'string',
+                        conform: function (actual, data) {
+                            return actual === data.password;
+                        }
+                    },
+                    groups: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            format: 'mongo-id'
+                        }
+                    },
+                    roles: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            format: 'mongo-id'
+                        }
+                    },
+                    rights: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                _id: {
+                                    type: 'string',
+                                    format: 'mongo-id',
+                                    required: true
+                                },
+                                hasAccess: {
+                                    type: 'boolean',
+                                    required: true
+                                }
+                            }
+                        }
+                    },
+                    name: {
+                        type: 'string',
+                        required: true,
+                        maxLength: 100,
+                        minLength: 4
+                    },
+                    display_name: {
+                        type: 'string',
+                        maxLength: 100,
+                        minLength: 4
+                    },
+                    settings: {
+                        type: 'any'
+                    }
+                }
+            };
+        },
+        baseRepo = lxDb.BaseRepo(collection, schema),
+        validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="checkName">
+          <h1>checkName</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>baseRepo.checkName()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>doc</td>
+                <td>!Object</td>
+                <td>The document.</td>
+              </tr>
+              <tr>
+                <td>doc.name</td>
+                <td>string=</td>
+                <td>The name of the user.</td>
+              </tr>
+              <tr>
+                <td>doc._id</td>
+                <td>(Object,string)=</td>
+                <td>The id.</td>
+              </tr>
+              <tr>
+                <td>{})}</td>
+                <td>!function(,</td>
+                <td>callback The callback function.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Validation of name.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">baseRepo.checkName = function (doc, callback) {
+        if (!doc) {
+            callback(null, {valid: true});
+            return;
+        }
+
+        var query = {
+            name: doc.name,
+            _id: {
+                $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
+            }
+        };
+
+        baseRepo.findOne(query, function (err, res) {
+            if (err) {
+                callback(err);
+            } else if (res) {
+                callback(null,
+                    {
+                        valid: false,
+                        errors: [
+                            {
+                                attribute: 'checkName',
+                                property: 'name',
+                                expected: false,
+                                actual: true,
+                                message: 'already exists'
+                            }
+                        ]
+                    }
+                );
+            } else {
+                callback(null, {valid: true});
+            }
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="validate">
+          <h1>validate</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>baseRepo.validate()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>doc</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>options</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>callback</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>validate</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">baseRepo.validate = function (doc, options, callback) {
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
+
+        options = options || {};
+
+        // schema validation
+        var valResult = validationFunction(doc, options.schema || schema(), options);
+
+        // register async validator
+        val.asyncValidate.register(baseRepo.checkName, doc);
+
+        // async validate
+        val.asyncValidate.exec(valResult, callback);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="createUser">
+          <h1>createUser</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>baseRepo.createUser()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>res)}</td>
+                <td>!function(err,</td>
+                <td>callback The callback function.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Creates a user in the db. Convert the password in a hash and salt.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">baseRepo.createUser = function (user, callback) {
+        user = user || {};
+        user.is_approved = false;
+        user.register_date = new Date();
+        delete user.confirmed_password;
+
+        baseRepo.insert(user, function (error, results) {
+            if (error) {
+                return callback(error);
+            }
+
+            // remove protected fields
+            delete results[0].password;
+            delete results[0].salt;
+            delete results[0].is_approved;
+            delete results[0].register_date;
+
+            callback(null, results[0]);
+        });
+    };
+
+    baseRepo.getUserForLogin = function (name, callback) {
+        baseRepo.findOne({name: name}, {fields: ['name', 'password', 'salt']}, function (error, result) {
+            if (error) {
+                //logging.syslog.error('%s! getting user from db: %j', error.toString(), name);
+                callback(error);
+                return;
+            }
+
+            callback(null, result);
+        });
+    };
+
+    return baseRepo;
+};
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>

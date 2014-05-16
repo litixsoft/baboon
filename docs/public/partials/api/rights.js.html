@@ -1,0 +1,1487 @@
+
+<div class="beige-noise">
+  <div class="p-wrapper">
+    <div class="container"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="exports">
+          <h1>exports</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>module.exports()</span><span title="return value" class="glyphicon glyphicon-arrow-right"></span><span>Object</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>config</td>
+                <td>Object</td>
+                <td>The config.</td>
+              </tr>
+              <tr>
+                <td>config.rights</td>
+                <td>Object</td>
+                <td>The rights object with options and db connection string.</td>
+              </tr>
+              <tr>
+                <td>config.path</td>
+                <td>Object</td>
+                <td>The path object with all app paths.</td>
+              </tr>
+              <tr>
+                <td>logging</td>
+                <td>Object</td>
+                <td>The logging object.</td>
+              </tr>
+              <tr>
+                <td>logging.syslog</td>
+                <td>Object</td>
+                <td>The syslogger.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the rights module.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">module.exports = function (config, logging) {
+    // check parameters
+    if (typeof config !== 'object') {
+        throw new RightsError('Parameter config is required and must be a object type!');
+    }
+
+    if (typeof logging !== 'object') {
+        throw new RightsError('Parameter logging is required and must be a object type!');
+    }
+
+    var pub = {};
+
+    config.rights = config.rights || {};
+
+    function createHash(user, callback) {
+        if (user.password) {
+            pwd.hash(user.password, function (error, salt, hash) {
+                if (error) {
+                    callback(error);
+                    return;
+                }
+
+                user.salt = salt;
+                user.hash = hash;
+                delete user.password;
+
+                callback(null, user);
+            });
+        } else {
+            callback(null, user);
+        }
+    }
+
+    function addRoleRights(roles, allRoles, result) {
+        // add user roles rights
+        lxHelpers.forEach(roles, function (roleId) {
+            var role = lxHelpers.arrayFirst(allRoles, function (item) {
+                return item._id.toString() === roleId.toString();
+            });
+
+            if (role) {
+                lxHelpers.forEach(role.rights, function (right) {
+                    // add group rights
+                    result[right.toString()] = {_id: right, hasAccess: true};
+                });
+            }
+        });
+    }
+
+    function getInfoFromComment(comment, type) {
+        comment = comment.substring(comment.lastIndexOf('
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getUserRights">
+          <h1>getUserRights</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getUserRights()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>user.groups</td>
+                <td>Array.&lt;ObjectID&gt;=</td>
+                <td>The mongo ids () of the groups of the user.</td>
+              </tr>
+              <tr>
+                <td>user.roles</td>
+                <td>Array.&lt;ObjectID&gt;=</td>
+                <td>The mongo ids of the roles of the user.</td>
+              </tr>
+              <tr>
+                <td>user.rights</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The rights of the user. ({_id: ObjectID, hasAccess: Boolean})</td>
+              </tr>
+              <tr>
+                <td>allRoles</td>
+                <td>!Array</td>
+                <td>All roles of the user.</td>
+              </tr>
+              <tr>
+                <td>allGroups</td>
+                <td>!Array</td>
+                <td>All groups of the user.</td>
+              </tr>
+              <tr>
+                <td>additionalRoles</td>
+                <td>Array=</td>
+                <td>Additional roles added at runtime.</td>
+              </tr>
+              <tr>
+                <td>resourceRights</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The resource rights of the user. ([{right_id: ObjectID, resource: *}])</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>'));</p>
+
+<pre><code>    var splittedComment = comment.split('@' + type);
+
+    if (splittedComment.length === 1) {
+        return null;
+    }
+
+    var result = splittedComment[1].substring(0, splittedComment[1].indexOf(os.EOL));
+
+    return result.trim();
+}
+
+/**
+</code></pre>
+
+<p>Returns all the user rights.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getUserRights = function (user, allRoles, allGroups, additionalRoles, resourceRights) {
+        var tmp = {},
+            result = [];
+
+        // check params
+        if (!lxHelpers.isObject(user)) {
+            throw new RightsError('param &quot;user&quot; is not an object');
+        }
+
+        // add user group rights
+        if (lxHelpers.isArray(allGroups) &amp;&amp; !lxHelpers.isEmpty(user.groups)) {
+            lxHelpers.forEach(user.groups, function (groupId) {
+                // get group
+                var group = lxHelpers.arrayFirst(allGroups, function (item) {
+                    return item._id.toString() === groupId.toString();
+                });
+
+                if (lxHelpers.isObject(group)) {
+                    addRoleRights(group.roles, allRoles, tmp);
+                }
+            });
+        }
+
+        // add user roles rights
+        addRoleRights(user.roles, allRoles, tmp);
+
+        // add additional role rights
+        if (lxHelpers.isArray(additionalRoles)) {
+            lxHelpers.forEach(additionalRoles, function (role) {
+                if (lxHelpers.isObject(role)) {
+                    lxHelpers.forEach(role.rights, function (right) {
+                        // add group rights
+                        tmp[right.toString()] = {_id: right, hasAccess: true};
+                    });
+                }
+            });
+        }
+
+        // add user rights
+        lxHelpers.forEach(user.rights || [], function (right) {
+            if (typeof right.hasAccess === 'boolean') {
+                // set or override right
+                tmp[right._id.toString()] = {_id: right._id, hasAccess: right.hasAccess};
+            }
+        });
+
+        // resourceRights loaded from db
+        // format
+        // [{right_id: id, resource: {}}]
+
+        // add resource rights
+        lxHelpers.forEach(resourceRights, function (resource) {
+            tmp[resource.right_id.toString()] = {_id: resource.right_id, hasAccess: true, resource: resource.resource};
+        });
+
+        // merge rights to result
+        lxHelpers.forEach(tmp, function (right) {
+            result.push(right);
+        });
+
+        return result;
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getUserAcl">
+          <h1>getUserAcl</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getUserAcl()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>user.id</td>
+                <td>Array.&lt;number&gt;=</td>
+                <td>The internal id of the user.</td>
+              </tr>
+              <tr>
+                <td>user.groups</td>
+                <td>Array.&lt;ObjectID&gt;=</td>
+                <td>The mongo ids () of the groups of the user.</td>
+              </tr>
+              <tr>
+                <td>user.roles</td>
+                <td>Array.&lt;ObjectID&gt;=</td>
+                <td>The mongo ids of the roles of the user.</td>
+              </tr>
+              <tr>
+                <td>user.rights</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The rights of the user. ({_id: ObjectID, hasAccess: Boolean})</td>
+              </tr>
+              <tr>
+                <td>allRights</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The mongo ids () of the groups of the user.</td>
+              </tr>
+              <tr>
+                <td>allRoles</td>
+                <td>!Array</td>
+                <td>All roles of the user.</td>
+              </tr>
+              <tr>
+                <td>allGroups</td>
+                <td>!Array</td>
+                <td>All groups of the user.</td>
+              </tr>
+              <tr>
+                <td>additionalRoles</td>
+                <td>Array=</td>
+                <td>Additional roles added at runtime.</td>
+              </tr>
+              <tr>
+                <td>resourceRights</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The resource rights of the user. ([{right_id: ObjectID, resource: *}])</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the user rights to which the user has access.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getUserAcl = function (user, allRights, allRoles, allGroups, additionalRoles, resourceRights) {
+        // check params
+        if (!lxHelpers.isObject(user)) {
+            throw new RightsError('param &quot;user&quot; is not an object');
+        }
+
+        var result = {};
+
+        // admin role has access to all rights
+        if (pub.userIsInRole(user, 'Admin')) {
+            lxHelpers.forEach(allRights, function (right) {
+                result[right.name] = {
+                    hasAccess: true
+                };
+            });
+
+            return result;
+        }
+
+        if (!allRights || (lxHelpers.isEmpty(user.rights) &amp;&amp; lxHelpers.isEmpty(user.groups) &amp;&amp; lxHelpers.isEmpty(user.roles))) {
+            return result;
+        }
+
+        var userRights = pub.getUserRights(user, allRoles, allGroups, additionalRoles, resourceRights);
+
+        if (lxHelpers.isEmpty(userRights)) {
+            return result;
+        }
+
+        lxHelpers.forEach(userRights, function (userRight) {
+            // get right
+            var right = lxHelpers.arrayFirst(allRights, function (item) {
+                return item._id.toString() === userRight._id.toString();
+            });
+
+            // add right name to result if the user has access
+            if (lxHelpers.isObject(right) &amp;&amp; userRight.hasAccess) {
+                result[right.name] = {
+                    hasAccess: true
+                };
+
+                if (userRight.resource) {
+                    result[right.name].resource = userRight.resource;
+                }
+            }
+        });
+
+        return result;
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="userHasAccessTo">
+          <h1>userHasAccessTo</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.userHasAccessTo()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>user.id</td>
+                <td>Array.&lt;number&gt;=</td>
+                <td>The internal id of the user.</td>
+              </tr>
+              <tr>
+                <td>user.acl</td>
+                <td>Array.&lt;Object&gt;=</td>
+                <td>The acl of the user.</td>
+              </tr>
+              <tr>
+                <td>right</td>
+                <td>!String</td>
+                <td>The name of the right.</td>
+              </tr>
+              <tr>
+                <td>resource</td>
+                <td>*=</td>
+                <td>The resource.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns if the user has access to the right/resource.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.userHasAccessTo = function (user, right, resource) {
+        // check params
+        if (!lxHelpers.isObject(user)) {
+            throw new RightsError('param &quot;user&quot; is not an object');
+        }
+
+        // return true when rights system is disabled
+        if (config.rights.enabled === false) {
+            return true;
+        }
+
+        // always true for admin role
+        if (pub.userIsInRole(user, 'Admin')) {
+            return true;
+        }
+
+        // check by acl
+        if (user.acl) {
+            if (resource) {
+                return user.acl[right] &amp;&amp; user.acl[right].hasAccess &amp;&amp; user.acl[right].resource === resource;
+            }
+
+            return user.acl[right] &amp;&amp; user.acl[right].hasAccess;
+        }
+
+        return false;
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="userIsInRole">
+          <h1>userIsInRole</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.userIsInRole()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>role</td>
+                <td>!Object,string</td>
+                <td>The name or id of the role.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns if the user has a given role.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.userIsInRole = function (user, role) {
+        // check params
+        if (!lxHelpers.isObject(user)) {
+            throw new RightsError('param &quot;user&quot; is not an object');
+        }
+
+        // always return true when the rights system is disabled
+        if (config.rights.enabled === false) {
+            return true;
+        }
+
+        if (typeof role !== 'string') {
+            role = role.toString();
+        }
+
+        var roleFound = lxHelpers.arrayFirst(user.rolesAsObjects, function (roleObj) {
+            return roleObj._id.toString() === role || roleObj.name === role;
+        });
+
+        return !!roleFound;
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getAclObj">
+          <h1>getAclObj</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getAclObj()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>acl</td>
+                <td>!Object</td>
+                <td>The users acl object.</td>
+              </tr>
+              <tr>
+                <td>?Object=)}</td>
+                <td>function(?Object=,</td>
+                <td>callback The callback.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the acl of the user as object.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getAclObj = function (acl, callback) {
+        var processAcl = function (acl) {
+            var result = {};
+
+            lxHelpers.forEach(acl, function (value, right) {
+                var parts = right.split('/'),
+                    action = parts.pop(),
+                    controller = parts.pop(),
+                    modulePath = parts.join('/');
+
+                result[modulePath] = result[modulePath] || {};
+                result[modulePath][controller] = result[modulePath][controller] || [];
+                result[modulePath][controller].push(action);
+            });
+
+            return result;
+        };
+
+        if (config.rights.enabled === false) {
+            // get all rights automatically
+            pub.getPublicFunctionsFromControllers(function (error, result) {
+                var acl = {};
+
+                lxHelpers.forEach(result, function (right) {
+                    acl[right.name] = true;
+                });
+
+                callback(error, processAcl(acl));
+            });
+        } else {
+            callback(null, processAcl(acl));
+        }
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="secureNavigation">
+          <h1>secureNavigation</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.secureNavigation()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>navigation</td>
+                <td>!Array</td>
+                <td>The navigation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the navigation with only the links the user has access to.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.secureNavigation = function (user, navigation) {
+        // check params
+        if (!lxHelpers.isObject(user)) {
+            throw new RightsError('param &quot;user&quot; is not an object');
+        }
+
+        if (!lxHelpers.isArray(navigation)) {
+            throw new RightsError('param &quot;navigation&quot; is not an array');
+        }
+
+        var result = [];
+
+        lxHelpers.forEach(navigation, function (item) {
+            var navItem = lxHelpers.clone(item);
+
+            // process child navigation items
+            if (item.children) {
+                navItem.children = pub.secureNavigation(user, item.children);
+            }
+
+            // check if navigation item needs a right/resource to be visible and check if the user has that right/resource
+            if (!item.hasOwnProperty('right') || pub.userHasAccessTo(user, item.right)) {
+                // delete rigth from navigation item
+                if (navItem.right) {
+                    delete navItem.right;
+                }
+
+                result.push(navItem);
+            }
+        });
+
+        return result;
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getRepositories">
+          <h1>getRepositories</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getRepositories()</span>
+          </p>
+        </section>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the rights repositories.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getRepositories = function () {
+        return require('./repositories')(config.rights.database);
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getUser">
+          <h1>getUser</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getUser()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>Object,number</td>
+                <td>The user id.</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback. (?Object=, ?Object=).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Gets the user with his acl object.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getUser = function (id, callback) {
+        var rightsRepo = pub.getRepositories();
+
+        // check params
+        if (!lxHelpers.isFunction(callback)) {
+            throw new RightsError('param &quot;callback&quot; is not a function');
+        }
+
+        async.auto({
+            getUser: function (next) {
+                if (typeof id === 'number') {
+                    rightsRepo.users.findOne({id: id}, next);
+                } else {
+                    rightsRepo.users.findOneById(id, next);
+                }
+            },
+            getAllRights: function (next) {
+                rightsRepo.rights.find(next);
+            },
+            getUserGroups: ['getUser', function (next, results) {
+                if (!results.getUser || lxHelpers.isEmpty(results.getUser.groups)) {
+                    next(null, []);
+                } else {
+                    rightsRepo.groups.find({_id: {$in: results.getUser.groups}}, next);
+                }
+            }],
+            getUserRoles: ['getUser', 'getUserGroups', function (next, results) {
+                if (!results.getUser) {
+                    next(null, []);
+                } else {
+                    var roles = results.getUser.roles || [],
+                        groups = results.getUserGroups;
+
+                    lxHelpers.forEach(groups, function (group) {
+                        lxHelpers.forEach(group.roles, function (role) {
+                            roles.push(role);
+                        });
+                    });
+
+                    rightsRepo.roles.find({_id: {$in: roles}}, next);
+                }
+            }],
+            getUserResourceRights: ['getUser', 'getUserGroups', 'getUserRoles', function (next, results) {
+                if (!results.getUser) {
+                    next(null, []);
+                } else {
+                    var roles = results.getUser.roles || [],
+                        groups = results.getUserGroups,
+                        roleIds = [],
+                        groupIds = [];
+
+                    lxHelpers.forEach(groups, function (group) {
+                        groupIds.push(group._id);
+                    });
+
+                    lxHelpers.forEach(roles, function (role) {
+                        roleIds.push(role._id);
+                    });
+
+                    var query = {
+                        $or: [
+                            {user_id: results.getUser._id},
+                            {group_id: {$in: groupIds}},
+                            {role_id: {$in: roleIds}}
+                        ]
+                    };
+
+                    rightsRepo.resourceRights.find(query, next);
+                }
+            }],
+            normalizeResourceRights: ['getUserResourceRights', function (next, results) {
+                var resourceRights = results.getUserResourceRights,
+                    result = [];
+
+                async.each(resourceRights, function (resourceRight, innerCallback) {
+                    if (resourceRight.right_id) {
+                        result.push(resourceRight);
+                        innerCallback();
+                    } else {
+                        rightsRepo.roles.findOneById(resourceRight.role_id, function (error, role) {
+                            if (error) {
+                                innerCallback(error);
+                                return;
+                            }
+
+                            lxHelpers.forEach(role.rights, function (rightId) {
+                                result.push({right_id: rightId, resource: resourceRight.resource});
+                            });
+
+                            innerCallback();
+                        });
+                    }
+                }, function (error) {
+                    next(error, result);
+                });
+            }],
+            getUserAcl: ['getAllRights', 'getUserRoles', 'normalizeResourceRights', function (next, results) {
+                var user = results.getUser;
+                var userRoles = results.getUserRoles;
+
+                if (!user) {
+                    next(null, {});
+                    return;
+                }
+
+                // save user roles in extra property
+                user.rolesAsObjects = [];
+
+                lxHelpers.forEach(userRoles, function (role) {
+                    user.rolesAsObjects.push({_id: role._id, name: role.name});
+                });
+
+                user.acl = pub.getUserAcl(user, results.getAllRights, results.getUserRoles, results.getUserGroups, [], results.normalizeResourceRights);
+
+                // delete protected properties
+                delete user.hash;
+                delete user.salt;
+
+                next(null, user);
+            }]
+        }, function (error, results) {
+            if (error) {
+                logging.syslog.error('%s! getting user from db: %j', error, id);
+                callback(new RightsError('Error loading user from db!'));
+                return;
+            }
+
+            callback(null, results.getUserAcl);
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getExtendedAcl">
+          <h1>getExtendedAcl</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getExtendedAcl()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user</td>
+                <td>!Object</td>
+                <td>The user object.</td>
+              </tr>
+              <tr>
+                <td>additionalRoles</td>
+                <td>!Array</td>
+                <td>The additional roles for the user.</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback(?Object=, ?Object=).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Extends the acl of the user with the rights of the specified additional roles.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getExtendedAcl = function (user, additionalRoles, callback) {
+        var rightsRepo = pub.getRepositories();
+
+        // check params
+        if (!lxHelpers.isFunction(callback)) {
+            throw new RightsError('param &quot;callback&quot; is not a function');
+        }
+
+        if (lxHelpers.isEmpty(additionalRoles) || lxHelpers.isEmpty(user)) {
+            callback();
+            return;
+        }
+
+        if (!lxHelpers.isObject(user)) {
+            callback(new RightsError('param &quot;user&quot; is not an object'));
+            return;
+        }
+
+        if (!lxHelpers.isArray(additionalRoles)) {
+            callback(new RightsError('param &quot;additionalRoles&quot; is not an array'));
+            return;
+        }
+
+        async.auto({
+            getRoles: function (next) {
+                var rolesQuery = (typeof additionalRoles[0] === 'string') ? {name: {$in: additionalRoles}} : {_id: {$in: additionalRoles}};
+                rightsRepo.roles.find(rolesQuery, next);
+            },
+            getAllRights: function (next) {
+                if (lxHelpers.isEmpty(user.rights)) {
+                    next(null, []);
+                } else {
+                    rightsRepo.rights.find({_id: {$in: user.rights}}, next);
+                }
+
+            },
+            getUserRoles: function (next) {
+                if (lxHelpers.isEmpty(user.roles)) {
+                    next(null, []);
+                } else {
+                    rightsRepo.roles.find({_id: {$in: user.roles}}, next);
+                }
+            },
+            getUserGroups: function (next) {
+                if (lxHelpers.isEmpty(user.groups)) {
+                    next(null, []);
+                } else {
+                    rightsRepo.groups.find({_id: {$in: user.groups}}, next);
+                }
+            },
+            getAcl: ['getRoles', 'getAllRights', 'getUserRoles', 'getUserGroups', function (next, results) {
+                var acl = {};
+
+                if (results.getUserGroups &amp;&amp; !lxHelpers.isEmpty(results.getUserGroups)) {
+                    acl = pub.getUserAcl(user, results.getAllRights, results.getUserRoles, results.getUserGroups, results.getRoles);
+                }
+
+                next(null, acl);
+            }]
+        }, function (err, results) {
+            if (err) {
+                logging.syslog.error(err);
+                callback(err);
+                return;
+            }
+
+            callback(null, results.getAcl);
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="addResourceRight">
+          <h1>addResourceRight</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.addResourceRight()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>resource</td>
+                <td>*</td>
+                <td>The resource.</td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>!Object</td>
+                <td>The options.</td>
+              </tr>
+              <tr>
+                <td>options.group_id</td>
+                <td>Object=</td>
+                <td>The id of the group.</td>
+              </tr>
+              <tr>
+                <td>options.user_id</td>
+                <td>Object=</td>
+                <td>The id of the user.</td>
+              </tr>
+              <tr>
+                <td>options.role_id</td>
+                <td>Object=</td>
+                <td>The id of the role.</td>
+              </tr>
+              <tr>
+                <td>options.right_id</td>
+                <td>Object=</td>
+                <td>The id of the right.</td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback. (?Object=, ?Object=)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Adds a resource right in db.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.addResourceRight = function (resource, options, callback) {
+        var rightsRepo = pub.getRepositories();
+
+        // check params
+        if (!lxHelpers.isFunction(callback)) {
+            throw new RightsError('param &quot;callback&quot; is not a function');
+        }
+
+        if (!lxHelpers.isObject(options)) {
+            callback(new RightsError('param &quot;options&quot; is not an object'));
+            return;
+        }
+
+        if (!resource || lxHelpers.isEmpty(options)) {
+            callback(new RightsError('missing param &quot;resource&quot; or param &quot;options&quot; is empty'));
+            return;
+        }
+
+        if (!options.group_id &amp;&amp; !options.user_id) {
+            callback(new RightsError('missing param &quot;options.group_id&quot; or missing param &quot;options.user_id&quot;'));
+            return;
+        }
+
+        if (!options.role_id &amp;&amp; !options.right_id) {
+            callback(new RightsError('missing param &quot;options.role_id&quot; or missing param &quot;options.right_id&quot;'));
+            return;
+        }
+
+        options.resource = resource;
+
+        rightsRepo.resourceRights.insert(options, function (error, result) {
+            if (error) {
+                logging.syslog.error('rights: Error creating resource right %j', options);
+                callback(error);
+                return;
+            }
+
+            if (result) {
+                logging.syslog.info('rights: Creating resource right %j', options);
+            }
+
+            callback(null, result);
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="getPublicFunctionsFromControllers">
+          <h1>getPublicFunctionsFromControllers</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.getPublicFunctionsFromControllers()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback. (?Object=, ?Object=)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Returns the public functions from the controllers of the app.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.getPublicFunctionsFromControllers = function (callback) {
+        var glob = require('glob'),
+            fs = require('fs'),
+            pattern = config.path.modules + '
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="refreshRightsIdDb">
+          <h1>refreshRightsIdDb</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.refreshRightsIdDb()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback. (?Object=, ?Object=)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>/controllers/*.js',<br />            result = {};</p>
+
+<pre><code>    // get all contoller files
+    glob(pattern, function (error, controllers) {
+        if (error) {
+            callback(error);
+            return;
+        }
+
+        async.eachSeries(controllers, function (controllerFile, next) {
+            var modulePath = '';
+
+            fs.readFile(controllerFile, {encoding: 'utf8'}, function (error, file) {
+                if (error) {
+                    next(error);
+                    return;
+                }
+
+                var splittedFileName = controllerFile.split('/');
+                var contollerName = splittedFileName.pop().replace('.js', '');
+                splittedFileName.pop();
+                var moduleName = splittedFileName.pop();
+
+                var i = splittedFileName.length - 1;
+
+                if (lxHelpers.arrayHasItem(splittedFileName, 'modules')) {
+                    while (splittedFileName[i] !== 'modules') {
+                        modulePath = splittedFileName[i] + '/' + modulePath;
+                        i--;
+                    }
+                }
+
+                var splittedFile = file.split('pub.');
+                var length = splittedFile.length;
+
+                for (i = 1; i &lt; length; i++) {
+                    var functionName = splittedFile[i].split('=');
+                    var fullPathToRight = modulePath + moduleName + '/' + contollerName + '/' + functionName[0].trim();
+                    var roles = getInfoFromComment(splittedFile[i - 1], 'roles');
+                    var description = getInfoFromComment(splittedFile[i - 1], 'description');
+                    var right = {
+                        name: fullPathToRight
+                    };
+
+                    if (description) {
+                        right.description = description;
+                    }
+
+                    if (roles) {
+                        right.roles = roles.split(',');
+                    }
+
+                    result[right.name] = right;
+                }
+
+                next();
+            });
+        }, function (error) {
+            var resultArray = [];
+
+            lxHelpers.forEach(result, function (value) {
+                resultArray.push(value);
+            });
+
+            callback(error, resultArray);
+        });
+    });
+};
+
+/**
+</code></pre>
+
+<p>Reads the rights from the contollers and saves them in db.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.refreshRightsIdDb = function (callback) {
+        var repo = pub.getRepositories(),
+            rightsCreated = 0;
+
+        pub.getPublicFunctionsFromControllers(function (error, rights) {
+            if (error) {
+                callback(error);
+                return;
+            }
+
+            var roles = {};
+
+            function addRightToRoles(rightRoles, rightId) {
+                lxHelpers.forEach(rightRoles, function (role) {
+                    role = role.trim();
+                    roles[role] = roles[role] || {};
+                    roles[role].rights = roles[role].rights || [];
+                    roles[role].rights.push(rightId);
+                });
+            }
+
+            async.each(rights, function (right, next) {
+                repo.rights.findOne({name: right.name}, function (error, result) {
+                    if (error) {
+                        next(error);
+                        return;
+                    }
+
+                    if (!result) {
+                        repo.rights.insert({name: right.name, description: right.description}, function (error, result) {
+                            if (error) {
+                                next(error);
+                                return;
+                            }
+
+                            if (result) {
+                                logging.syslog.info('rights: Created right %j', right);
+                                rightsCreated++;
+                                addRightToRoles(right.roles, result[0]._id);
+                            }
+
+                            next();
+                        });
+                    } else {
+                        addRightToRoles(right.roles, result._id);
+
+                        right.description = right.description || '';
+
+                        if (result.description !== right.description) {
+                            repo.rights.update({_id: result._id}, {$set: {description: right.description}}, function (error, result) {
+                                if (error) {
+                                    next(error);
+                                    return;
+                                }
+
+                                if (result) {
+                                    logging.syslog.info('rights: Updated right %j', right);
+                                    rightsCreated++;
+                                }
+
+                                next();
+                            });
+                        } else {
+                            next();
+                        }
+                    }
+                });
+            }, function (error) {
+                if (error) {
+                    callback(error);
+                    return;
+                }
+
+                if (!lxHelpers.isEmpty(roles)) {
+                    var roleKeys = Object.keys(roles);
+
+                    async.each(roleKeys, function (roleName, next) {
+                        repo.roles.findOne({name: roleName}, function (error, result) {
+                            if (error) {
+                                next(error);
+                                return;
+                            }
+
+                            if (result) {
+                                repo.roles.update({_id: result._id}, {$set: {rights: roles[roleName].rights}}, function (error, result) {
+                                    if (error) {
+                                        next(error);
+                                        return;
+                                    }
+
+                                    if (result) {
+                                        logging.syslog.info('rights: Updated rights of role %s', roleName);
+                                    }
+
+                                    next();
+                                });
+                            } else {
+                                repo.roles.insert({name: roleName, rights: roles[roleName].rights}, function (error, result) {
+                                    if (error) {
+                                        next(error);
+                                        return;
+                                    }
+
+                                    if (result) {
+                                        logging.syslog.info('rights: Created role %s', roleName);
+                                    }
+
+                                    next();
+                                });
+                            }
+                        });
+                    }, function (error) {
+                        callback(error, rightsCreated);
+                    });
+                } else {
+                    callback(error, rightsCreated);
+                }
+            });
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="ensureThatDefaultSystemUsersExists">
+          <h1>ensureThatDefaultSystemUsersExists</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>pub.ensureThatDefaultSystemUsersExists()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td>The callback. (?Object=, ?Object=)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Creates the system users in db if they do not exist.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">pub.ensureThatDefaultSystemUsersExists = function (callback) {
+        if (config.rights.enabled === false) {
+            return callback(null, 0);
+        }
+
+        var userRepo = pub.getRepositories().users,
+            roleRepo = pub.getRepositories().roles,
+            systemRoles = [
+                {id: -1, name: 'Guest', description: 'The default guest role.'},
+                {id: 1, name: 'User', description: 'The default user role.'},
+                {id: 2, name: 'Admin', description: 'The default admin role. This role has access to all rights.'}
+            ],
+            systemUsers = [
+                {id: -1, name: 'guest', locked: true},
+                {id: 2, name: 'admin', locked: true, password: 'a'}
+            ],
+            usersCreated = 0;
+
+        async.auto({
+            createSystemRoles: function (next) {
+                var roles = {};
+
+                async.each(systemRoles, function (role, innerNext) {
+                    roleRepo.findOne({id: role.id}, function (error, result) {
+                        if (error) {
+                            return innerNext(error);
+                        }
+
+                        if (result) {
+                            roles[result.name] = result._id;
+                            innerNext();
+                        } else {
+                            roleRepo.insert(role, function (error, result) {
+                                roles[result[0].name] = result[0]._id;
+                                logging.syslog.info('rights: Created new role in db: %j', role);
+
+                                innerNext(error);
+                            });
+                        }
+                    });
+                }, function (error) {
+                    next(error, roles);
+                });
+            },
+            createSystemUsers: ['createSystemRoles', function (next, results) {
+                async.each(systemUsers, function (user, innerNext) {
+                    userRepo.findOne({id: user.id, locked: true}, function (error, result) {
+                        if (error) {
+                            return innerNext(error);
+                        }
+
+                        if (result) {
+                            innerNext();
+                        } else {
+                            createHash(user, function (error, userWithPasswordHash) {
+                                if (error) {
+                                    return innerNext(error);
+                                }
+
+                                if (userWithPasswordHash.name === 'guest') {
+                                    userWithPasswordHash.roles = [results.createSystemRoles.Guest];
+                                }
+
+                                if (userWithPasswordHash.name === 'admin') {
+                                    userWithPasswordHash.roles = [results.createSystemRoles.Admin];
+                                }
+
+                                userRepo.insert(userWithPasswordHash, function (error, result) {
+                                    if (error) {
+                                        return innerNext(error);
+                                    }
+
+                                    if (result) {
+                                        logging.syslog.info('rights: Created new user in db: %j', result);
+                                        usersCreated++;
+                                    }
+
+                                    innerNext();
+                                });
+                            });
+                        }
+                    });
+                }, next);
+            }]
+        }, function (error) {
+            callback(error, usersCreated);
+        });
+    };
+ 
+    return pub;
+};
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>

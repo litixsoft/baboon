@@ -1,7 +1,0 @@
-{
-    "title": "GUIDE",
-    "route": "/guide",
-    "roles": ["users"],
-    "app": "guide",
-    "order": 2
-}

@@ -1,0 +1,226 @@
+
+<div class="beige-noise">
+  <div class="p-wrapper">
+    <div class="container"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="exports">
+          <h1>exports</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>module.exports()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>collection</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>rolesRepository</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">module.exports = function (collection) {
+    var schema = function () {
+            return {
+                properties: {
+                    _id: {
+                        type: 'string',
+                        format: 'mongo-id',
+                        key: true
+                    },
+                    name: {
+                        type: 'string',
+                        required: true,
+                        maxLength: 100
+                    },
+                    description: {
+                        type: 'string',
+                        maxLength: 5000
+                    },
+                    rights: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            format: 'mongo-id'
+                        }
+                    }
+                }
+            };
+        },
+        baseRepo = lxDb.BaseRepo(collection, schema),
+        validationFunction = val.getValidationFunction(baseRepo.getValidationOptions());
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="checkName">
+          <h1>checkName</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>baseRepo.checkName()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>doc</td>
+                <td>!Object</td>
+                <td>The document.</td>
+              </tr>
+              <tr>
+                <td>doc.name</td>
+                <td>string=</td>
+                <td>The name.</td>
+              </tr>
+              <tr>
+                <td>doc._id</td>
+                <td>(Object,string)=</td>
+                <td>The id.</td>
+              </tr>
+              <tr>
+                <td>{})}</td>
+                <td>!function(,</td>
+                <td>callback The callback function.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Validation of role name.</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">baseRepo.checkName = function (doc, callback) {
+        if (!doc) {
+            callback(null, {valid: true});
+            return;
+        }
+
+        var query = {
+            name: doc.name,
+            _id: {
+                $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
+            }
+        };
+
+        baseRepo.findOne(query, function (err, res) {
+            if (err) {
+                callback(err);
+            } else if (res) {
+                callback(null,
+                    {
+                        valid: false,
+                        errors: [
+                            {
+                                attribute: 'Name',
+                                property: 'name',
+                                expected: false,
+                                actual: true,
+                                message: 'already exists'
+                            }
+                        ]
+                    }
+                );
+            } else {
+                callback(null, {valid: true});
+            }
+        });
+    };
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+        <section id="validate">
+          <h1>validate</h1>
+          <h5 class="subheader"></h5>
+          <p>
+            <!--mixin labelForSymbolType(symbol)--><span class="label label-info radius ctx-type">method</span><span>baseRepo.validate()</span>
+          </p>
+        </section>
+        <div class="bs-example">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>doc</td>
+                <td>!Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>?Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <tabset>
+          <tab heading="Description">
+            <div class="well"><p>Validate</p>
+            </div>
+          </tab>
+          <tab heading="Source">
+            <div hljs="hljs">baseRepo.validate = function (doc, options, callback) {
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
+
+        options = options || {};
+
+        // schema validation
+        var valResult = validationFunction(doc, options.schema || schema(), options);
+
+        // register async validator
+        val.asyncValidate.register(baseRepo.checkName, doc);
+
+        // async validate
+        val.asyncValidate.exec(valResult, callback);
+    };
+
+    return baseRepo;
+};
+            </div>
+          </tab>
+        </tabset>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>
