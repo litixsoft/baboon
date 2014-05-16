@@ -8,7 +8,8 @@ angular.module('account', [
     'pascalprecht.translate',
     'tmh.dynamicLocale',
     'bbc.cache',
-    'bbc.form'
+    'bbc.form',
+    'bbc.match'
 ])
     .config(function ($routeProvider, $locationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
@@ -106,4 +107,37 @@ angular.module('account', [
             });
         };
     })
-    .controller('AccountRegisterCtrl', function () {});
+    .controller('AccountRegisterCtrl', function ($scope, $bbcTransport, $translate) {
+        $scope.alerts = [];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        $scope.register = function() {
+            if($scope.form && !$scope.form.$valid) {
+                return;
+            }
+
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.user.language = $translate.use();
+
+            $bbcTransport.emit('api/account/register', $scope.user, function (error, result) {
+                if (!error && result) {
+                    $scope.alerts.push({ type: 'success', msg: 'REGISTER_MSG' });
+                    $scope.user = {};
+                    $scope.form.$setPristine();
+                }
+                else {
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                        }
+                    }
+                }
+            });
+        };
+    });

@@ -7,51 +7,65 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'REGISTER' | translate }}</div>
             <div class="panel-body">
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg | translate }}</alert>
                 <form class="form-horizontal" ng-submit="register()" name="form" novalidate>
                     <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
-                        <label class="col-md-3 control-label" for="name">{{ 'USERNAME' | translate }}</label>
+                        <label class="col-md-3 control-label" for="name">{{ 'USERNAME' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
-                            <input type="text" ng-model="user.name" id="name" name="name" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required>
-                            <label ng-show="((form.name.$dirty && form.name.$invalid))" class="label label-danger">
+                            <input type="text" ng-model="user.name" id="name" name="name" placeholder="{{ 'ENTER_USERNAME' | translate }}" class="form-control" required maxlength="100">
+                            <label ng-show="(form.name.$dirty && form.name.$invalid) || form.errors.name" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.name.$error.required">{{ 'REQUIRED_USERNAME' | translate }}</span>
+                                <span ng-show="form.errors.name">{{ form.errors.name | translate:'{ length: "4" }' }}</span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': ((form.display_name.$dirty && form.display_name.$invalid) || form.errors.display_name )}">
-                        <label class="col-md-3 control-label" for="display_name">{{ 'DISPLAYNAME' | translate }}</label>
+                        <label class="col-md-3 control-label" for="display_name">{{ 'DISPLAYNAME' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
-                            <input type="text" ng-model="user.display_name" id="display_name" name="display_name" placeholder="{{ 'ENTER_DISPLAYNAME' | translate }}" class="form-control" required>
-                            <label ng-show="((form.display_name.$dirty && form.display_name.$invalid))" class="label label-danger">
+                            <input type="text" ng-model="user.display_name" id="display_name" name="display_name" placeholder="{{ 'ENTER_DISPLAYNAME' | translate }}" class="form-control" required maxlength="100">
+                            <label ng-show="(form.display_name.$dirty && form.display_name.$invalid) || form.errors.display_name" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.display_name.$error.required">{{ 'REQUIRED_DISPLAYNAME' | translate }}</span>
+                                <span ng-show="form.errors.display_name">{{ form.errors.display_name | translate:'{ length: "4" }' }}</span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email )}">
-                        <label class="col-md-3 control-label" for="email">{{ 'EMAIL' | translate }}</label>
+                        <label class="col-md-3 control-label" for="email">{{ 'EMAIL' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
                             <input type="text" ng-model="user.email" id="email" name="email" placeholder="{{ 'ENTER_EMAIL' | translate }}" class="form-control" required>
-                            <label ng-show="((form.email.$dirty && form.email.$invalid))" class="label label-danger">
+                            <label ng-show="(form.email.$dirty && form.email.$invalid)|| form.errors.email" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.email.$error.required">{{ 'REQUIRED_EMAIL' | translate }}</span>
+                                <span ng-show="form.errors.email">{{ form.errors.email | translate }}</span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.password.email )}">
-                        <label class="col-md-3 control-label" for="email">{{ 'PASSWORD' | translate }}</label>
+                    <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password )}">
+                        <label class="col-md-3 control-label" for="password">{{ 'PASSWORD' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
                             <input type="password" ng-model="user.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
-                            <label ng-show="((form.password.$dirty && form.password.$invalid))" class="label label-danger">
+                            <label ng-show="form.password.$dirty && form.password.$invalid" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
                             </label>
                         </div>
                     </div>
-
+                    <div class="form-group" ng-class="{'has-error': ((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password )}">
+                        <label class="col-md-3 control-label" for="confirmed_password">{{ 'PASSWORD_CONFIRM' | translate }}*</label>
+                        <div class="col-md-9 lxvalidation">
+                            <input type="password" ng-model="user.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required bbc-match="user.password">
+                            <label ng-show="form.confirmed_password.$dirty && form.confirmed_password.$invalid" class="label label-danger">
+                                <div class="glyphicon glyphicon-fire"></div>
+                                <span ng-show="form.confirmed_password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
+                                <span ng-show="form.confirmed_password.$error.match">{{ 'MATCH_PASSWORD' | translate }}</span>
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-lg-offset-3 col-lg-9">
-                            <input type="submit" class="btn btn-primary" value="{{ 'REGISTER' | translate }}" ng-disabled="form.$invalid">
+                            <input type="submit" class="btn btn-primary" value="{{ 'REGISTER' | translate }}" ng-disabled="form.$invalid" />
                         </div>
                     </div>
                 </form>

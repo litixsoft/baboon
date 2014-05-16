@@ -54,7 +54,7 @@ describe('Account', function () {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
 
-                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john@doe.com'}, request, function (error, result) {
+                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john2@doe.com'}, request, function (error, result) {
                     expect(error).toBeDefined();
                     expect(result).not.toBeDefined();
                     expect(error.validation.length).toBe(1);

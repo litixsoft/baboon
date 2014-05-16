@@ -5,6 +5,7 @@
     "REGISTER_DESCRIPTION": "Create your user account.",
     "USERNAME": "Username",
     "PASSWORD": "Password",
+    "PASSWORD_CONFIRM": "Retype password",
     "DISPLAYNAME": "Display name",
     "EMAIL": "E-Mail",
     "ENTER_PASSWORD": "Enter password",
@@ -18,5 +19,11 @@
     "REQUIRED_DISPLAYNAME": "Display name is required",
     "REQUIRED_EMAIL": "E-Mail is required",
     "AUTH_FAILED": "Username or password incorrect",
-    "AUTH_ERROR": "500: Internal Server Error"
+    "AUTH_ERROR": "500: Internal Server Error",
+    "CHECKNAME": "Username already exists",
+    "CHECKMAIL": "E-Mail already exists",
+    "MINLENGTH": "You need at least {{length}} characters.",
+    "MATCH_PASSWORD": "The password does not match",
+    "REGISTER_MSG": "You will soon receive an e-mail with further steps.",
+    "FORMAT": "The format is invalid."
 }
