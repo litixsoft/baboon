@@ -16,6 +16,7 @@ angular.module('account', [
         // Routing and navigation
         $routeProvider.when('/account/login', {templateUrl: 'app/account/login.html', controller: 'AccountLoginCtrl'});
         $routeProvider.when('/account/register', {templateUrl: 'app/account/register.html', controller: 'AccountRegisterCtrl'});
+        $routeProvider.when('/account/username', {templateUrl: 'app/account/username.html', controller: 'AccountUsernameCtrl'});
         $routeProvider.otherwise({redirectTo: '/account/login'});
 
         $locationProvider.html5Mode(true);
@@ -136,6 +137,48 @@ angular.module('account', [
                         for (var i = 0; i < error.validation.length; i++) {
                             $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
                         }
+                    }
+                    else if(error) {
+                        $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
+                    }
+                }
+            });
+        };
+    })
+    .controller('AccountUsernameCtrl', function ($scope, $bbcTransport, $translate) {
+        $scope.alerts = [];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        $scope.send = function() {
+            if($scope.form && !$scope.form.$valid) {
+                return;
+            }
+
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.user.language = $translate.use();
+
+            $bbcTransport.emit('api/account/forgotUsername', $scope.user, function (error, result) {
+                if (!error && result) {
+                    $scope.alerts.push({ type: 'success', msg: 'USERNAME_MSG' });
+                    $scope.user = {};
+                    $scope.form.$setPristine();
+                }
+                else {
+                    console.log(error);
+
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                        }
+                    }
+                    else if(error) {
+                        $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
             });
