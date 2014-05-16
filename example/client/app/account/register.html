@@ -7,7 +7,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'REGISTER' | translate }}</div>
             <div class="panel-body">
-                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg }}</alert>
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg | translate }}</alert>
                 <form class="form-horizontal" ng-submit="register()" name="form" novalidate>
                     <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                         <label class="col-md-3 control-label" for="name">{{ 'USERNAME' | translate }}*</label>
@@ -46,7 +46,7 @@
                         <label class="col-md-3 control-label" for="password">{{ 'PASSWORD' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
                             <input type="password" ng-model="user.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
-                            <label ng-show="((form.password.$dirty && form.password.$invalid))" class="label label-danger">
+                            <label ng-show="form.password.$dirty && form.password.$invalid" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
                             </label>
@@ -55,16 +55,17 @@
                     <div class="form-group" ng-class="{'has-error': ((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password )}">
                         <label class="col-md-3 control-label" for="confirmed_password">{{ 'PASSWORD_CONFIRM' | translate }}*</label>
                         <div class="col-md-9 lxvalidation">
-                            <input type="password" ng-model="user.confirmed_password" id="confirmed_password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required>
-                            <label ng-show="((form.confirmed_password.$dirty && form.confirmed_password.$invalid))" class="label label-danger">
+                            <input type="password" ng-model="user.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" class="form-control" required bbc-match="user.password">
+                            <label ng-show="form.confirmed_password.$dirty && form.confirmed_password.$invalid" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
                                 <span ng-show="form.confirmed_password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
+                                <span ng-show="form.confirmed_password.$error.match">{{ 'MATCH_PASSWORD' | translate }}</span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-offset-3 col-lg-9">
-                            <input type="submit" class="btn btn-primary" value="{{ 'REGISTER' | translate }}" ng-disabled="form.$invalid">
+                            <input type="submit" class="btn btn-primary" value="{{ 'REGISTER' | translate }}" ng-disabled="form.$invalid" />
                         </div>
                     </div>
                 </form>

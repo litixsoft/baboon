@@ -22,5 +22,8 @@
     "AUTH_ERROR": "500: Internal Server Error",
     "CHECKNAME": "Username already exists",
     "CHECKMAIL": "E-Mail already exists",
-    "MINLENGTH": "You need at least {{length}} characters."
+    "MINLENGTH": "You need at least {{length}} characters.",
+    "MATCH_PASSWORD": "The password does not match",
+    "REGISTER_MSG": "You will soon receive an e-mail with further steps.",
+    "FORMAT": "The format is invalid."
 }
