@@ -1031,7 +1031,10 @@ describe('Session', function () {
 
                     request = {
                         sessionID: sess.id,
-                        session: sess
+                        session: sess,
+                        setSession: function (callback) {
+                            callback(null, true);
+                        }
                     };
 
                     sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
@@ -1059,7 +1062,10 @@ describe('Session', function () {
 
                     request = {
                         sessionID: sess.id,
-                        session: sess
+                        session: sess,
+                        setSession: function (callback) {
+                            callback(null, true);
+                        }
                     };
 
                     sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
