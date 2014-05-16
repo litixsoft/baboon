@@ -11,7 +11,9 @@ describe('Mail', function () {
     var mail = null; // require(path.resolve(__dirname, '../', 'lib', 'mail'))(configMock.mail);  // {type: 'PICKUP', directory: './test/eml', from: 'from@test.com', to: 'to@test.com'}
 
     beforeEach(function (done) {
+
         if(!fs.existsSync(emlDir)) {
+
             fs.mkdirSync(emlDir);
         }
 
