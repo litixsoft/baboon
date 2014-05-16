@@ -12,5 +12,6 @@
     "REQUIRED_USERNAME": "Username is required",
     "REQUIRED_PASSWORD": "Password is required",
     "AUTH_FAILED": "Username or password incorrect",
-    "AUTH_ERROR": "500: Internal Server Error"
+    "AUTH_ERROR": "500: Internal Server Error",
+    "GUEST_ERROR": "Guest is a reserved name and can not be used for the login."
 }
