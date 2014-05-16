@@ -13,7 +13,8 @@
     "ENTER_DISPLAYNAME": "Enter display name",
     "ENTER_EMAIL": "Enter e-mail",
     "REGISTER": "Register",
-    "FORGET_PASSWORD": "Forgot password or username",
+    "FORGET_PASSWORD": "Forgot password",
+    "FORGOT_USERNAME": "Forgot username",
     "REQUIRED_USERNAME": "Username is required",
     "REQUIRED_PASSWORD": "Password is required",
     "REQUIRED_DISPLAYNAME": "Display name is required",
@@ -25,5 +26,10 @@
     "MINLENGTH": "You need at least {{length}} characters.",
     "MATCH_PASSWORD": "The password does not match",
     "REGISTER_MSG": "You will soon receive an e-mail with further steps.",
-    "FORMAT": "The format is invalid."
+    "FORMAT": "The format is invalid.",
+    "FORGOT_USERNAME": "Forgot username",
+    "FORGOT_USERNAME_DESCRIPTION": "Enter your e-mail to get your username",
+    "USERNAME_MSG": "The username was sent to you by e-mail.",
+    "REQUEST": "Request",
+    "GENERIC_ERROR": "Sorry, something went wrong."
 }
