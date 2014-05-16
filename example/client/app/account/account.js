@@ -82,6 +82,7 @@ angular.module('account', [
         $scope.user = {};
         $scope.authFailed = false;
         $scope.authError = false;
+        $scope.guestError = false;
 
         $scope.login = function () {
 
@@ -89,7 +90,7 @@ angular.module('account', [
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.emit('api/account/login', {user: $scope.user}, function (error, result) {
+            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -98,6 +99,9 @@ angular.module('account', [
 
                     if (error.status === 403) {
                         $scope.authFailed = true;
+                    }
+                    else if (error.status === 400) {
+                        $scope.guestError = true;
                     }
                     else {
                         $scope.authError = true;

@@ -21,6 +21,7 @@
     "REQUIRED_EMAIL": "E-Mail is required",
     "AUTH_FAILED": "Username or password incorrect",
     "AUTH_ERROR": "500: Internal Server Error",
+    "GUEST_ERROR": "Guest is a reserved name and can not be used for the login.",
     "CHECKNAME": "Username already exists",
     "CHECKMAIL": "E-Mail already exists",
     "MINLENGTH": "You need at least {{length}} characters.",
