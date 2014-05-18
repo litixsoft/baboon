@@ -22,7 +22,7 @@ angular.module('account', [
         $locationProvider.html5Mode(true);
 
         // Transport
-        $bbcTransportProvider.set();
+        $bbcTransportProvider.set({useSocket:false});
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
