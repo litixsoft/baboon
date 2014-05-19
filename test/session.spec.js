@@ -1,3 +1,4 @@
+/*global describe, it, expect*/
 'use strict';
 
 describe('Session', function () {
@@ -7,151 +8,26 @@ describe('Session', function () {
 
     var rootPath = path.resolve(path.join(__dirname, '../'));
     var SessionError = require(path.resolve(path.join(rootPath, 'lib', 'errors'))).SessionError;
-    var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
+    var appMock = require('./mocks/appMock');
     var session = require(path.resolve(path.join(rootPath, 'lib', 'session')));
-    var config, sut, mock;
+    var mock, sut;
 
     describe('Test errors in lib', function () {
-
-        beforeEach(function () {
-
-            config = {
-                stores: {
-                    inMemory: {
-                        type: 'inMemory'
-                    }
-                },
-                activeStore: 'inMemory',
-                key: 'baboon.sid',
-                secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f'
-            };
-            mock = appMock();
-        });
-
         it('should throw an Error when not given params', function () {
             var func = function () {
                 return session();
             };
-            expect(func).toThrow(new SessionError('Parameter config is required and must be a object type!'));
-        });
-
-        it('should throw an Error when not given syslog', function () {
-            var func = function () {
-                return session(config);
-            };
-            expect(func).toThrow(new SessionError('Parameter syslog is required and must be a object type!'));
-        });
-
-        it('should throw an Error when syslog wrong type', function () {
-            var func = function () {
-                return session(config, 'string');
-            };
-            expect(func).toThrow(new SessionError('Parameter syslog is required and must be a object type!'));
-        });
-
-        it('should throw an Error when config wrong type', function () {
-            var func = function () {
-                return session('string');
-            };
-            expect(func).toThrow(new SessionError('Parameter config is required and must be a object type!'));
-        });
-
-        it('should throw an Error when not given config.stores', function () {
-            delete config.stores;
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.stores is required and must be a object type!'));
-        });
-
-        it('should throw an Error when config.stores wrong type', function () {
-            config.stores = 'string';
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.stores is required and must be a object type!'));
-        });
-
-        it('should throw an Error when not given config.activeStore', function () {
-            delete config.activeStore;
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.activeStore is required and must be a object type!'));
-        });
-
-        it('should throw an Error when config.stores wrong type', function () {
-            config.activeStore = {};
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.activeStore is required and must be a object type!'));
-        });
-
-        it('should throw an Error when not given config.secret', function () {
-            delete config.secret;
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.secret is required and must be a object type!'));
-        });
-
-        it('should throw an Error when config.secret wrong type', function () {
-            config.secret = {};
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.secret is required and must be a object type!'));
-        });
-
-        it('should throw an Error when not given config.key', function () {
-            delete config.key;
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.key is required and must be a object type!'));
-        });
-
-        it('should throw an Error when config.key wrong type', function () {
-            config.key = {};
-            var func = function () {
-                return session(config, mock.logging.syslog);
-            };
-            expect(func).toThrow(new SessionError('Parameter config.key is required and must be a object type!'));
+            expect(func).toThrow(new SessionError('Parameter baboon is required and must be a object type!'));
         });
     });
 
     describe('Test functions in lib', function () {
         beforeEach(function () {
-
-            config = {
-                stores: {
-                    inMemory: {
-                        type: 'inMemory'
-                    },
-                    mongoDb: {
-                        type: 'mongoDb',
-                        host: 'localhost',
-                        port: 27017,
-                        dbName: 'test_baboon_sessions',
-                        collectionName: 'sessions'
-                    },
-                    tingoDb: {
-                        type: 'tingoDb',
-                        dbPath: './.tmp',
-                        collectionName: 'sessions'
-                    }
-                },
-                activeStore: 'inMemory',
-                key: 'baboon.sid',
-                secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f'
-            };
             mock = appMock();
-            sut = session(config, mock.logging.syslog);
+            sut = session(mock.baboon);
         });
 
         it('should be correct defined lib', function () {
-
             expect(sut).toBeDefined();
             expect(sut.getSessionStore).toBeDefined();
             expect(sut.getSessionId).toBeDefined();
@@ -166,7 +42,6 @@ describe('Session', function () {
         });
 
         it('should be return inMemory sessionstore', function () {
-
             expect(typeof sut.getSessionStore()).toBe('object');
             expect(typeof sut.getSessionStore().sessions).toBe('object');
         });
@@ -202,31 +77,8 @@ describe('Session', function () {
         describe('Test getSession', function () {
 
             beforeEach(function () {
-
-                config = {
-                    stores: {
-                        inMemory: {
-                            type: 'inMemory'
-                        },
-                        mongoDb: {
-                            type: 'mongoDb',
-                            host: 'localhost',
-                            port: 27017,
-                            dbName: 'test_baboon_sessions',
-                            collectionName: 'sessions'
-                        },
-                        tingoDb: {
-                            type: 'tingoDb',
-                            dbPath: './.tmp',
-                            collectionName: 'sessions'
-                        }
-                    },
-                    activeStore: 'inMemory',
-                    key: 'baboon.sid',
-                    secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f'
-                };
                 mock = appMock();
-                sut = session(config, mock.logging.syslog);
+                sut = session(mock.baboon);
             });
 
             it('should throw an Error when not given parameter cookie', function () {
@@ -302,31 +154,8 @@ describe('Session', function () {
         describe('Test getSessionById', function () {
 
             beforeEach(function () {
-
-                config = {
-                    stores: {
-                        inMemory: {
-                            type: 'inMemory'
-                        },
-                        mongoDb: {
-                            type: 'mongoDb',
-                            host: 'localhost',
-                            port: 27017,
-                            dbName: 'test_baboon_sessions',
-                            collectionName: 'sessions'
-                        },
-                        tingoDb: {
-                            type: 'tingoDb',
-                            dbPath: './.tmp',
-                            collectionName: 'sessions'
-                        }
-                    },
-                    activeStore: 'inMemory',
-                    key: 'baboon.sid',
-                    secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f'
-                };
                 mock = appMock();
-                sut = session(config, mock.logging.syslog);
+                sut = session(mock.baboon);
             });
 
             it('should throw an Error when not given parameter sid', function () {
@@ -400,31 +229,8 @@ describe('Session', function () {
         describe('Test setSession', function () {
 
             beforeEach(function () {
-
-                config = {
-                    stores: {
-                        inMemory: {
-                            type: 'inMemory'
-                        },
-                        mongoDb: {
-                            type: 'mongoDb',
-                            host: 'localhost',
-                            port: 27017,
-                            dbName: 'test_baboon_sessions',
-                            collectionName: 'sessions'
-                        },
-                        tingoDb: {
-                            type: 'tingoDb',
-                            dbPath: './.tmp',
-                            collectionName: 'sessions'
-                        }
-                    },
-                    activeStore: 'inMemory',
-                    key: 'baboon.sid',
-                    secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f'
-                };
                 mock = appMock();
-                sut = session(config, mock.logging.syslog);
+                sut = session(mock.baboon);
             });
 
             it('should throw an Error when not given parameter session', function () {
@@ -524,34 +330,8 @@ describe('Session', function () {
             var sessionStore, startDate, activityDate, cookie;
 
             beforeEach(function () {
-
-                config = {
-                    stores: {
-                        inMemory: {
-                            type: 'inMemory'
-                        },
-                        mongoDb: {
-                            type: 'mongoDb',
-                            host: 'localhost',
-                            port: 27017,
-                            dbName: 'test_baboon_sessions',
-                            collectionName: 'sessions'
-                        },
-                        tingoDb: {
-                            type: 'tingoDb',
-                            dbPath: './.tmp',
-                            collectionName: 'sessions'
-                        }
-                    },
-                    activeStore: 'inMemory',
-                    key: 'baboon.sid',
-                    secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
-                    maxLife: 36000,
-                    inactiveTime: 3600
-
-                };
                 mock = appMock();
-                sut = session(config, mock.logging.syslog);
+                sut = session(mock.baboon);
 
                 sessionStore = sut.getSessionStore();
                 startDate = new Date();
@@ -685,33 +465,8 @@ describe('Session', function () {
 
             beforeEach(function () {
 
-                config = {
-                    stores: {
-                        inMemory: {
-                            type: 'inMemory'
-                        },
-                        mongoDb: {
-                            type: 'mongoDb',
-                            host: 'localhost',
-                            port: 27017,
-                            dbName: 'test_baboon_sessions',
-                            collectionName: 'sessions'
-                        },
-                        tingoDb: {
-                            type: 'tingoDb',
-                            dbPath: './.tmp',
-                            collectionName: 'sessions'
-                        }
-                    },
-                    activeStore: 'inMemory',
-                    key: 'baboon.sid',
-                    secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
-                    maxLife: 36000,
-                    inactiveTime: 3600
-
-                };
                 mock = appMock();
-                sut = session(config, mock.logging.syslog);
+                sut = session(mock.baboon);
 
                 sessionStore = sut.getSessionStore();
                 startDate = new Date();

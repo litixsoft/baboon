@@ -28,19 +28,23 @@
         <div class="header">
             <div class="p-wrapper">
                 <div class="action-area">
+
+
                     <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-danger">Username</button>
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                        <button type="button" class="btn btn-success">Username</button>
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a ng-href="">Messages</a></li>
                             <li><a ng-href="">Preferences</a></li>
                             <li class="divider"></li>
-                            <li><a ng-href="">Logout</a></li>
+                            <li><a ng-href="/api/auth/logout" target="_self">Logout</a></li>
                         </ul>
                     </div>
+
+
+
                     <div class="flag-area pull-right">
                         <div class="btn-group dark-select">
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -52,6 +56,92 @@
                                     <a ng-href="" ng-click="switchLocale('en-us')"><img src="assets/images/flag-usa48.png" width="48px" height="48px" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <style>
+                        .auth-popup .dropdown-menu{
+                            min-width:350px;
+                            padding:10px;
+                            box-sizing:border-box;
+                            -moz-box-sizing:border-box; /* Firefox */
+                            text-align: left;
+                        }
+                        .auth-popup .dropdown-menu h1{
+                            font-weight:bold;
+                            color:#777;
+                        }
+                        .auth-popup .dropdown-menu input[type="text"]{
+                            /*max-width:100px;*/
+                        }
+                        .register-forget{
+                            color:#aaa;
+                        }
+                        .register-forget a{
+                            font-size:12px;
+                            color:#aaa;
+                        }
+                    </style>
+
+                    <div class="pull-right auth-popup" ng-class="{open: openMenu}" ng-show="!isAuth">
+                        <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
+                        <div class="dropdown-menu login pull-right">
+                            <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
+                            <div>
+                                    <!--ng-controller="AccountLoginCtrl">-->
+                                <form class="form-horizontal" ng-submit="login()" name="loginForm" novalidate>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <h1>Login</h1>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-class="{'has-error': ((form.username.$dirty && form.username.$invalid) || form.errors.username || authFailed || serverError)}">
+                                        <label for="username" class="col-sm-2 control-label"><span class="glyphicon glyphicon-user"></span></label>
+                                        <div class="col-sm-10 lxvalidation">
+                                            <input type="text" class="form-control" name="username" id="username" ng-model="user.username" placeholder="{{ 'ENTER_USERNAME' | translate }}" required  ui-reset autocomplete='off' autofocus>
+                                            <label ng-show="((form.username.$dirty && form.username.$invalid))" style="cursor:pointer;" class="label label-danger">
+                                                <div class="glyphicon glyphicon-fire"></div>
+                                                <span ng-show="form.username.$error.required">{{ 'REQUIRED_USERNAME' | translate }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password || authFailed || serverError)}">
+                                        <label for="password" class="col-sm-2 control-label"><span class="glyphicon glyphicon-lock"></span></label>
+                                        <div class="col-sm-10 lxvalidation">
+                                            <input class="form-control" type="password" name="password" id="password" ng-model="user.password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" required  ui-reset autocomplete='off'>
+                                            <label ng-show="((form.password.$dirty && form.password.$invalid))" style="cursor:pointer;" class="label label-danger">
+                                                <div class="glyphicon glyphicon-fire"></div>
+                                                <span ng-show="form.password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="authFailed">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="alert alert-danger">
+                                                <span style="white-space:normal;">{{ 'AUTH_FAILED' | translate }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="serverError">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="alert alert-danger">
+                                                <span style="white-space:normal;">{{ 'SERVER_ERROR' | translate }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2">
+                                            <input type="submit" class="btn btn-block btn-info" value="&nbsp;{{ 'LOGIN' | translate }}" name="login">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 register-forget">
+                                            <a href="/auth/register" ng-click="closePopupOnAction()">{{ 'REGISTER' | translate }}</a> -
+                                            <a href="/auth/forget" ng-click="closePopupOnAction()">{{ 'FORGET_PASSWORD' | translate }}</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +194,8 @@
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.js"></script>
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
     <script src="assets/bower_components/baboon-client/modules/session/session.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/form/form.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/cache/cache.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,client}) scripts/main/scripts.js -->

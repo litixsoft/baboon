@@ -31,7 +31,7 @@ describe('Account', function () {
             account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john@doe.com'}, request, function (error, result) {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
-                //expect(result._id).toBeDefined();
+                expect(result.success).toBeTruthy();
 
                 done();
             });
@@ -53,6 +53,7 @@ describe('Account', function () {
             account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john@doe.com'}, request, function (error, result) {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
+                expect(result.success).toBeTruthy();
 
                 account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john2@doe.com'}, request, function (error, result) {
                     expect(error).toBeDefined();
@@ -189,9 +190,7 @@ describe('Account', function () {
             account.forgotUsername({ email: 'test@test.com' }, request, function (error, result) {
                 expect(error).toBe(null);
                 expect(result).toBeDefined();
-                expect(result.path).toBeDefined();
-                var exists = fs.existsSync(result.path);
-                expect(exists).toBeTruthy();
+                expect(result.success).toBeTruthy();
 
                 done();
             });

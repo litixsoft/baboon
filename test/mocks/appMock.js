@@ -97,6 +97,30 @@ module.exports = function () {
             path: {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
                 lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
+            },
+            session:{
+                stores: {
+                    inMemory: {
+                        type: 'inMemory'
+                    },
+                    mongoDb: {
+                        type: 'mongoDb',
+                        host: 'localhost',
+                        port: 27017,
+                        dbName: 'test_baboon_sessions',
+                        collectionName: 'sessions'
+                    },
+                    tingoDb: {
+                        type: 'tingoDb',
+                        dbPath: './.tmp',
+                        collectionName: 'sessions'
+                    }
+                },
+                activeStore: 'inMemory',
+                key: 'baboon.sid',
+                secret: 'a7f4eb39-744e-43e3-a30b-3ffea846030f',
+                maxLife: 36000,
+                inactiveTime: 3600
             }
         },
         session: {
