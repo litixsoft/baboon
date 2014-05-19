@@ -1737,23 +1737,49 @@ describe('Rights', function () {
             });
         });
 
-//        it('should pwd to throw error', function (done) {
-//            var proxyquire = require('proxyquire');
-//
-//            var stubs = {};
-//            stubs.pwd = {
-//                hash: function(password, callback){callback('error');}
-//            };
-//
-//            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
-//
-//            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
-//                expect(err).toBeDefined();
-//                expect(res).toBe(0);
-//
-//                done();
-//            });
-//        });
+        it('should crypto to throw error', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./crypto'] = function(){
+                return{
+                    hashWithRandomSalt: function (password, callback) {
+                        callback('error');
+                    }
+                };
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
+
+        it('should crypto to return null on data', function (done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs['./crypto'] = function(){
+                return{
+                    hashWithRandomSalt: function (password, callback) {
+                        callback(null, null);
+                    }
+                };
+            };
+
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+                expect(err).toBeDefined();
+                expect(res).toBe(0);
+
+                done();
+            });
+        });
 
         it('should mongodb to throw error on users.insert', function (done) {
             var proxyquire = require('proxyquire');
