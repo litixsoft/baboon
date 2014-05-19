@@ -84,7 +84,7 @@ describe('Repositories/UsersRepositiory', function () {
         it('should validate to false when the data is not valid', function (done) {
             sut.validate({roles: ['1', '2']}, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
-                expect(res.errors.length).toBe(4);
+                expect(res.errors.length).toBe(5);
                 expect(res.errors[0].property).toBe('email');
                 expect(res.errors[0].attribute).toBe('required');
                 expect(res.errors[1].property).toBe('roles');
@@ -242,60 +242,6 @@ describe('Repositories/UsersRepositiory', function () {
                 expect(error.name).toBe('MongoError');
                 expect(error.message).toBe('invalid operator: $set');
                 expect(result).not.toBeDefined();
-
-                done();
-            });
-        });
-    });
-
-    describe('has a function checkMail', function () {
-        it('should return valid = true when param "doc" is empty', function (done) {
-            sut.checkMail(null, function(err, res){
-                expect(err).toBeNull();
-                expect(res.valid).toBeTruthy();
-
-                done();
-            });
-        });
-
-        it('should return valid = true when param email has an invalid format', function (done) {
-            sut.createUser(data, function () {
-                sut.checkMail({ email: 'wayne@wat.com', _id: '1104cf825dd46a6c15000003' }, function(err, res){
-                    expect(err).toBeNull();
-                    expect(res.valid).toBeFalsy();
-
-                    done();
-                });
-            });
-        });
-
-        it('should check the mail', function (done) {
-            var doc = { email: 'test@test.com', _id: '5204cf825dd46a6c15000003' };
-
-            sut.checkName(doc, function(err, res){
-                expect(err).toBeNull();
-                expect(res.valid).toBeTruthy();
-
-                done();
-            });
-        });
-
-        it('should mongodb to throw error', function (done) {
-            var findOne = function(query, options, callback){return callback('error');};
-            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
-
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs['lx-mongodb'] = {
-                BaseRepo: function(){return baseRepo;}
-            };
-
-            var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({});
-            var doc = { email: 'wayne@wat.com', _id: '5204cf825dd46a6c15000003' };
-
-            repo.checkMail(doc, function(err){
-                expect(err).toBeDefined();
 
                 done();
             });
