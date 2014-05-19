@@ -17,9 +17,9 @@ describe('Crypto', function () {
             crypto.hashWithRandomSalt(password, function(error, result) {
                 expect(error).not.toBeDefined();
                 expect(result).not.toBe(null);
-                expect(result.hash).toBeDefined();
+                expect(result.password).toBeDefined();
                 expect(result.salt).toBeDefined();
-                expect(result.hash.length).toBeDefined(256);
+                expect(result.password.length).toBeDefined(256);
                 expect(result.salt.length).toBe(128);
 
                 done();

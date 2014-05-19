@@ -40,7 +40,7 @@ angular.module('main', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession, $bbcTransport) {
+    .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
         $rootScope.currentLang = $translate.preferredLanguage();
 
@@ -79,57 +79,4 @@ angular.module('main', [
         $rootScope.$on('$translateChangeSuccess', function() {
             tmhDynamicLocale.set($translate.use());
         });
-
-
-//        $rootScope.login = function(){
-//            console.log("LOGIN");
-//        };
-//        $bbcSession.setData('config',{name: 'toll'},function(error,result){
-//            console.log(error);
-//            console.log(result);
-//        });
-//        $bbcSession.getData('config',function(error,result){
-//            console.log(error);
-//            console.log(result.config.name);
-//        });
-
-        $bbcSession.getUserDataForClient(function(error,result){
-            console.log("result: ",result);
-        });
     });
-//.controller('AccountLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window) {
-//
-//        $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id');
-//        $scope.user = {};
-//        $scope.authFailed = false;
-//        $scope.authError = false;
-//        $scope.guestError = false;
-//
-//        $scope.login = function () {
-////
-////            if ($scope.form) {
-////                $scope.form.errors = {};
-////            }
-////
-////            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
-////
-////                if (!error && result) {
-////                    $window.location.href = '/';
-////                }
-////                else {
-////
-////                    if (error.status === 403) {
-////                        $scope.authFailed = true;
-////                    }
-////                    else if (error.status === 400) {
-////                        $scope.guestError = true;
-////                    }
-////                    else {
-////                        $scope.authError = true;
-////                    }
-////
-////                    $log.error(error);
-////                }
-////            });
-//        };
-//    })
