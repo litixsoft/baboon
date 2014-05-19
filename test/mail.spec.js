@@ -6,15 +6,6 @@ describe('Mail', function () {
     var fs = require('fs');
     var rootPath = path.resolve(__dirname, '../');
     var emlDir = path.resolve(__dirname, 'eml');
-
-    console.log('emlDir');
-    console.log(emlDir);
-
-    console.log('fs.existsSync(emlDir)');
-    console.log(fs.existsSync(emlDir));
-
-
-
     var configMock = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'});
     var file = '';
     var mail = null; // require(path.resolve(__dirname, '../', 'lib', 'mail'))(configMock.mail);  // {type: 'PICKUP', directory: './test/eml', from: 'from@test.com', to: 'to@test.com'}
