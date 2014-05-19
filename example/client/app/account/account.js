@@ -174,8 +174,6 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    console.log(error);
-
                     if (error.validation) {
                         for (var i = 0; i < error.validation.length; i++) {
                             $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
