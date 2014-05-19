@@ -327,7 +327,7 @@ describe('Rights', function () {
         beforeEach(function (done) {
             user = {
                 name: 'wayne',
-                hash: 'hash',
+                password: 'password',
                 salt: 'salt',
                 roles: [],
                 rolesAsObjects: []
@@ -696,7 +696,7 @@ describe('Rights', function () {
         beforeEach(function (done) {
             user = {
                 name: 'wayne',
-                hash: 'hash',
+                password: 'password',
                 salt: 'salt'
             };
 
@@ -744,7 +744,7 @@ describe('Rights', function () {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
                         expect(res.name).toBe('wayne');
-                        expect(res.hash).toBeDefined();
+                        expect(res.password).toBeDefined();
                         expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
@@ -792,7 +792,7 @@ describe('Rights', function () {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
                         expect(res.name).toBe('wayne');
-                        expect(res.hash).toBeDefined();
+                        expect(res.password).toBeDefined();
                         expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
@@ -833,7 +833,7 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(res).toBeDefined();
                             expect(res.name).toBe('wayne');
-                            expect(res.hash).toBeDefined();
+                            expect(res.password).toBeDefined();
                             expect(res.salt).toBeDefined();
                             expect(res.acl).toBeDefined();
                             expect(res.acl).toEqual({
@@ -881,7 +881,7 @@ describe('Rights', function () {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
                                 expect(res.name).toBe('wayne');
-                                expect(res.hash).toBeDefined();
+                                expect(res.password).toBeDefined();
                                 expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
@@ -932,7 +932,7 @@ describe('Rights', function () {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
                                 expect(res.name).toBe('wayne');
-                                expect(res.hash).toBeDefined();
+                                expect(res.password).toBeDefined();
                                 expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
@@ -987,7 +987,7 @@ describe('Rights', function () {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
                                     expect(res.name).toBe('wayne');
-                                    expect(res.hash).toBeDefined();
+                                    expect(res.password).toBeDefined();
                                     expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
@@ -1042,7 +1042,7 @@ describe('Rights', function () {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
                                     expect(res.name).toBe('wayne');
-                                    expect(res.hash).toBeDefined();
+                                    expect(res.password).toBeDefined();
                                     expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
@@ -1125,7 +1125,7 @@ describe('Rights', function () {
         beforeEach(function (done) {
             user = {
                 name: 'wayne',
-                hash: 'hash',
+                password: 'password',
                 salt: 'salt'
             };
 
