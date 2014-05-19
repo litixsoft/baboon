@@ -16,5 +16,12 @@
     "ENTERPRISE": "Enterprise",
     "GUIDE": "Guide",
     "APIDOC": "API Reference",
-    "LANGUAGE_SELECT": "English"
+    "LANGUAGE_SELECT": "English",
+    "ENTER_USERNAME": "username",
+    "ENTER_PASSWORD": "password",
+    "LOGIN": "login",
+    "AUTH_FAILED": "Login failed, please check your username and password.",
+    "SERVER_ERROR": "500: Internal Server Error",
+    "REGISTER": "register",
+    "FORGET_PASSWORD": "forget password"
 }
