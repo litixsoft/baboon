@@ -1076,6 +1076,72 @@ describe('Session', function () {
                 });
             });
 
+            it('should be setData return error in setSession', function (done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                sut.getSession(cookie, function (error, session) {
+
+                    var data = {
+                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionStore: sessionStore
+                    };
+
+                    var sess = new Session(data, session);
+
+                    request = {
+                        sessionID: sess.id,
+                        session: sess,
+                        setSession: function (callback) {
+                            callback(new SessionError('TestError', 400));
+                        }
+                    };
+
+                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                        expect(error).toBeDefined();
+                        expect(error instanceof SessionError).toBe(true);
+                        expect(error.status).toBe(400);
+                        expect(error.message).toBe('TestError');
+                        expect(result).toBeUndefined();
+                        done();
+                    });
+                });
+            });
+
+            it('should be setData return unknown error in setSession', function (done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                sut.getSession(cookie, function (error, session) {
+
+                    var data = {
+                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionStore: sessionStore
+                    };
+
+                    var sess = new Session(data, session);
+
+                    request = {
+                        sessionID: sess.id,
+                        session: sess,
+                        setSession: function (callback) {
+                            callback(null);
+                        }
+                    };
+
+                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                        expect(error).toBeDefined();
+                        expect(error instanceof SessionError).toBe(true);
+                        expect(error.status).toBe(400);
+                        expect(error.message).toBe('Unknown session error in setSession');
+                        expect(result).toBeUndefined();
+                        done();
+                    });
+                });
+            });
+
             it('should be deleteData successfully with key', function(done) {
 
                 // overwrite sessionStore
@@ -1183,6 +1249,38 @@ describe('Session', function () {
                     sut.deleteData({key:'testKey2'}, request, function(error, result) {
                         expect(error.message).toBe('Key: testKey2 not found in session container');
                         expect(result).toBeUndefined();
+                        done();
+                    });
+                });
+            });
+
+            it('should be return correct user data', function(done) {
+
+                // overwrite sessionStore
+                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+
+                sut.getSession(cookie, function (error, session) {
+
+                    var data = {
+                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionStore: sessionStore
+                    };
+
+                    var sess = new Session(data, session);
+                    sess.user = {
+                        name: 'testUser'
+                    };
+                    sess.isLoggedIn = true;
+
+                    request = {
+                        sessionID: sess.id,
+                        session: sess
+                    };
+
+                    sut.getUserDataForClient (null, request, function(error, result) {
+                        expect(error).toBeNull();
+                        expect(result.isLoggedIn).toBe(true);
+                        expect(result.username).toBe('testUser');
                         done();
                     });
                 });
