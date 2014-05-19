@@ -678,8 +678,12 @@ describe('Rights', function () {
             });
         });
 
+        it('should throw an error when the param "name" is not of type "string"', function () {
+            expect(function () { return sut.getUser(1); }).toThrow(new RightsError('param "name" is not a string'));
+        });
+
         it('should throw an error when the param "callback" is not of type "function"', function () {
-            expect(function () { return sut.getUser(1); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () { return sut.getUser('Wayne'); }).toThrow(new RightsError('param "callback" is not a function'));
         });
 
         it('should return the user with his rights as acl', function (done) {
@@ -701,12 +705,12 @@ describe('Rights', function () {
                     expect(err).toBeNull();
                     expect(res).toBeDefined();
 
-                    sut.getUser(user._id, function (err, res) {
+                    sut.getUser(user.name, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
                         expect(res.name).toBe('wayne');
-                        expect(res.hash).toBeUndefined();
-                        expect(res.salt).toBeUndefined();
+                        expect(res.hash).toBeDefined();
+                        expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
                             'add': {hasAccess: true},
@@ -721,7 +725,7 @@ describe('Rights', function () {
         });
 
         it('should return the an empty user object if the user does not exits', function (done) {
-            sut.getUser(123, function (err, res) {
+            sut.getUser('123', function (err, res) {
                 expect(err).toBeNull();
                 expect(res).toEqual({});
 
@@ -749,12 +753,12 @@ describe('Rights', function () {
                     expect(err).toBeNull();
                     expect(res).toBeDefined();
 
-                    sut.getUser(user.id, function (err, res) {
+                    sut.getUser(user.name, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeDefined();
                         expect(res.name).toBe('wayne');
-                        expect(res.hash).toBeUndefined();
-                        expect(res.salt).toBeUndefined();
+                        expect(res.hash).toBeDefined();
+                        expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
                             'add': {hasAccess: true},
@@ -790,12 +794,12 @@ describe('Rights', function () {
                         expect(err).toBeNull();
                         expect(users).toBeDefined();
 
-                        sut.getUser(user._id, function (err, res) {
+                        sut.getUser(user.name, function (err, res) {
                             expect(err).toBeNull();
                             expect(res).toBeDefined();
                             expect(res.name).toBe('wayne');
-                            expect(res.hash).toBeUndefined();
-                            expect(res.salt).toBeUndefined();
+                            expect(res.hash).toBeDefined();
+                            expect(res.salt).toBeDefined();
                             expect(res.acl).toBeDefined();
                             expect(res.acl).toEqual({
                                 'add': {hasAccess: true},
@@ -838,12 +842,12 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
-                            sut.getUser(user._id, function (err, res) {
+                            sut.getUser(user.name, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
                                 expect(res.name).toBe('wayne');
-                                expect(res.hash).toBeUndefined();
-                                expect(res.salt).toBeUndefined();
+                                expect(res.hash).toBeDefined();
+                                expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
                                     'add': {hasAccess: true},
@@ -889,12 +893,12 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
-                            sut.getUser(user._id, function (err, res) {
+                            sut.getUser(user.name, function (err, res) {
                                 expect(err).toBeNull();
                                 expect(res).toBeDefined();
                                 expect(res.name).toBe('wayne');
-                                expect(res.hash).toBeUndefined();
-                                expect(res.salt).toBeUndefined();
+                                expect(res.hash).toBeDefined();
+                                expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
                                     'add': {hasAccess: true},
@@ -944,12 +948,12 @@ describe('Rights', function () {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
-                                sut.getUser(user._id, function (err, res) {
+                                sut.getUser(user.name, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
                                     expect(res.name).toBe('wayne');
-                                    expect(res.hash).toBeUndefined();
-                                    expect(res.salt).toBeUndefined();
+                                    expect(res.hash).toBeDefined();
+                                    expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
                                         'add': {hasAccess: true},
@@ -999,12 +1003,12 @@ describe('Rights', function () {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
-                                sut.getUser(user._id, function (err, res) {
+                                sut.getUser(user.name, function (err, res) {
                                     expect(err).toBeNull();
                                     expect(res).toBeDefined();
                                     expect(res.name).toBe('wayne');
-                                    expect(res.hash).toBeUndefined();
-                                    expect(res.salt).toBeUndefined();
+                                    expect(res.hash).toBeDefined();
+                                    expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
                                         'add': {hasAccess: true, resource: 'a'},
@@ -1068,7 +1072,7 @@ describe('Rights', function () {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
-                                mock.getUser(user._id, function (err, res) {
+                                mock.getUser(user.name, function (err, res) {
                                     expect(err).toBeDefined();
                                     expect(res).toBeUndefined();
 
@@ -1733,23 +1737,23 @@ describe('Rights', function () {
             });
         });
 
-        it('should pwd to throw error', function (done) {
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs.pwd = {
-                hash: function(password, callback){callback('error');}
-            };
-
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
-
-            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
-                expect(err).toBeDefined();
-                expect(res).toBe(0);
-
-                done();
-            });
-        });
+//        it('should pwd to throw error', function (done) {
+//            var proxyquire = require('proxyquire');
+//
+//            var stubs = {};
+//            stubs.pwd = {
+//                hash: function(password, callback){callback('error');}
+//            };
+//
+//            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+//
+//            mock.ensureThatDefaultSystemUsersExists(function (err, res) {
+//                expect(err).toBeDefined();
+//                expect(res).toBe(0);
+//
+//                done();
+//            });
+//        });
 
         it('should mongodb to throw error on users.insert', function (done) {
             var proxyquire = require('proxyquire');

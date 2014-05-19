@@ -133,7 +133,7 @@ module.exports = function (baboon) {
             if (result.valid) {
                 repo.users.createUser(data, callback);
             } else {
-                callback(new baboon.errors.ValidationError(result.errors, 500, true));
+                callback(new baboon.ValidationError(result.errors, 500, true));
             }
         });
     };

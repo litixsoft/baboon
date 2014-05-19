@@ -8,7 +8,6 @@ describe('Middleware/Session', function () {
     //var SessionError = require(path.resolve(path.join(rootPath, 'lib', 'errors'))).SessionError;
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var session = require(path.resolve(path.join(rootPath, 'lib', 'middleware', 'session')));
-    var USER_ID_GUEST = -1;
     var sut, mock;
 
     beforeEach(function() {
@@ -25,7 +24,7 @@ describe('Middleware/Session', function () {
 
     it('should be correct initSession with session.user', function(done) {
 
-        mock.req.session.user = {id: USER_ID_GUEST, name: 'guest'};
+        mock.req.session.user = {name: 'guest'};
 
         sut.initSession(mock.req, {}, function() {
             done();
@@ -35,7 +34,7 @@ describe('Middleware/Session', function () {
     it('should be correct initSession without session.user and rights disabled', function(done) {
 
         sut.initSession(mock.req, {}, function() {
-            expect(mock.req.session.user).toEqual({id: USER_ID_GUEST, name: 'guest'});
+            expect(mock.req.session.user).toEqual({name: 'guest', loggedIn: false});
             expect(mock.req.session.data).toBeDefined();
             expect(console.log).toHaveBeenCalledWith('session is newly, add guest and set new start + activity time.');
             done();
@@ -48,7 +47,7 @@ describe('Middleware/Session', function () {
         sut = session(mock.baboon);
 
         sut.initSession(mock.req, {}, function() {
-            expect(mock.req.session.user).toEqual({id: USER_ID_GUEST, name: 'guest'});
+            expect(mock.req.session.user).toEqual({id: 'guest', name: 'guest'});
             expect(mock.req.session.data).toBeDefined();
             expect(console.log).toHaveBeenCalledWith('session is newly, add guest and set new start + activity time.');
             done();
@@ -104,7 +103,7 @@ describe('Middleware/Session', function () {
         sut = session(mock.baboon);
 
         sut.checkActivitySession(mock.req, {}, function() {
-            expect(mock.req.session.user).toEqual({id: USER_ID_GUEST, name: 'guest'});
+            expect(mock.req.session.user).toEqual({name: 'guest', loggedIn: false});
             expect(mock.req.session.data).toBeDefined();
             expect(console.log).toHaveBeenCalledWith('session is newly, add guest and set new start + activity time.');
             done();

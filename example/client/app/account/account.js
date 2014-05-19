@@ -8,18 +8,21 @@ angular.module('account', [
     'pascalprecht.translate',
     'tmh.dynamicLocale',
     'bbc.cache',
-    'bbc.form'
+    'bbc.form',
+    'bbc.match'
 ])
     .config(function ($routeProvider, $locationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
         // Routing and navigation
         $routeProvider.when('/account/login', {templateUrl: 'app/account/login.html', controller: 'AccountLoginCtrl'});
+        $routeProvider.when('/account/register', {templateUrl: 'app/account/register.html', controller: 'AccountRegisterCtrl'});
+        $routeProvider.when('/account/username', {templateUrl: 'app/account/username.html', controller: 'AccountUsernameCtrl'});
         $routeProvider.otherwise({redirectTo: '/account/login'});
 
         $locationProvider.html5Mode(true);
 
         // Transport
-        $bbcTransportProvider.set();
+        $bbcTransportProvider.set({useSocket:false});
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
@@ -79,14 +82,15 @@ angular.module('account', [
         $scope.user = {};
         $scope.authFailed = false;
         $scope.authError = false;
+        $scope.guestError = false;
 
-        $scope.login = function() {
+        $scope.login = function () {
 
             if ($scope.form) {
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.emit('api/account/login',{user: $scope.user}, function(error, result) {
+            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -96,11 +100,90 @@ angular.module('account', [
                     if (error.status === 403) {
                         $scope.authFailed = true;
                     }
+                    else if (error.status === 400) {
+                        $scope.guestError = true;
+                    }
                     else {
                         $scope.authError = true;
                     }
 
                     $log.error(error);
+                }
+            });
+        };
+    })
+    .controller('AccountRegisterCtrl', function ($scope, $bbcTransport, $translate) {
+        $scope.alerts = [];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        $scope.register = function() {
+            if($scope.form && !$scope.form.$valid) {
+                return;
+            }
+
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.user.language = $translate.use();
+
+            $bbcTransport.emit('api/account/register', $scope.user, function (error, result) {
+                if (!error && result) {
+                    $scope.alerts.push({ type: 'success', msg: 'REGISTER_MSG' });
+                    $scope.user = {};
+                    $scope.form.$setPristine();
+                }
+                else {
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                        }
+                    }
+                    else if(error) {
+                        $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
+                    }
+                }
+            });
+        };
+    })
+    .controller('AccountUsernameCtrl', function ($scope, $bbcTransport, $translate) {
+        $scope.alerts = [];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        $scope.send = function() {
+            if($scope.form && !$scope.form.$valid) {
+                return;
+            }
+
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            $scope.user.language = $translate.use();
+
+            $bbcTransport.emit('api/account/forgotUsername', $scope.user, function (error, result) {
+                if (!error && result) {
+                    $scope.alerts.push({ type: 'success', msg: 'USERNAME_MSG' });
+                    $scope.user = {};
+                    $scope.form.$setPristine();
+                }
+                else {
+                    console.log(error);
+
+                    if (error.validation) {
+                        for (var i = 0; i < error.validation.length; i++) {
+                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                        }
+                    }
+                    else if(error) {
+                        $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
+                    }
                 }
             });
         };

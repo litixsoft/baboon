@@ -1,0 +1,44 @@
+{
+    "name": "baboon-docs",
+    "description": "Documentation and Reference for the Baboon Webtoolkit.",
+    "version": "0.4.0",
+    "homepage": "https://github.com/litixsoft/baboon-doc",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/baboon-doc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/litixsoft/baboon-doc/issues"
+    },
+    "keywords": [
+        "single-page",
+        "baboon"
+    ],
+    "license": "The MIT License (MIT)",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/litixsoft/baboon-example/blob/master/LICENSE"
+        }
+    ],
+    "dependencies": {
+        "express": "^4.0.0",
+        "body-parser": "~1.0.0",
+        "cookie-parser": "~1.0.1",
+        "debug": "~0.7.4",
+        "ejs": "~0.8.5",
+        "morgan": "~1.0.1",
+        "static-favicon": "~1.0.2"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.3"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+
+    }
+}

@@ -54,7 +54,7 @@ describe('Account', function () {
                 expect(error).toBeNull();
                 expect(result).toBeDefined();
 
-                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john@doe.com'}, request, function (error, result) {
+                account.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john2@doe.com'}, request, function (error, result) {
                     expect(error).toBeDefined();
                     expect(result).not.toBeDefined();
                     expect(error.validation.length).toBe(1);
@@ -186,7 +186,7 @@ describe('Account', function () {
         });
 
         it('should return a valid username', function (done) {
-            account.forgotUsername('test@test.com', request, function (error, result) {
+            account.forgotUsername({ email: 'test@test.com' }, request, function (error, result) {
                 expect(error).toBe(null);
                 expect(result).toBeDefined();
                 expect(result.path).toBeDefined();
@@ -208,19 +208,19 @@ describe('Account', function () {
             });
         });
 
-        it('should return an error error', function (done) {
-            account.forgotUsername({ $set: {_id: 1 }}, request, function (error, result) {
+        it('should return an error', function (done) {
+            account.forgotUsername({ email: 'abcde' }, request, function (error, result) {
                 expect(error).toBeDefined();
-                expect(error.message).toBe('Could not get username.');
+                expect(error.validation).toBeDefined();
+                expect(error.validation[0].message).toBe('is not a valid email');
                 expect(result).not.toBeDefined();
-                expect(error instanceof AccountError).toBeTruthy();
 
                 done();
             });
         });
 
         it('should return an error if user not found', function (done) {
-            account.forgotUsername('notfound@test.com', request, function (error, result) {
+            account.forgotUsername({ email: 'notfound@test.com' }, request, function (error, result) {
                 expect(error).toBeDefined();
                 expect(result).not.toBeDefined();
                 expect(error.message).toBe('Username not found.');
@@ -229,5 +229,14 @@ describe('Account', function () {
                 done();
             });
         });
+    });
+
+    afterEach(function (done) {
+        fs.readdirSync(config.mail.directory).forEach(function (file) {
+            var curPath = path.resolve(config.mail.directory, file);
+            fs.unlinkSync(curPath);
+        });
+
+        done();
     });
 });

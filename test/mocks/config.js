@@ -69,7 +69,7 @@ module.exports = function () {
                 templatePath: './test/mocks/templates',
                 senderAddress: 'support@litixsoft.de',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
-                directory: 'C:/Temp/Mail' // required for type PICKUP
+                directory: './test/eml' // required for type PICKUP
             }
         };
 
