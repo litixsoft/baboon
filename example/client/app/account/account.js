@@ -90,7 +90,7 @@ angular.module('account', [
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
+            $bbcTransport.rest('api/lib/auth/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -130,7 +130,7 @@ angular.module('account', [
 
             $scope.user.language = $translate.use();
 
-            $bbcTransport.emit('api/account/register', $scope.user, function (error, result) {
+            $bbcTransport.emit('api/lib/account/register', $scope.user, function (error, result) {
                 if (!error && result) {
                     $scope.alerts.push({ type: 'success', msg: 'REGISTER_MSG' });
                     $scope.user = {};
@@ -167,7 +167,7 @@ angular.module('account', [
 
             $scope.user.language = $translate.use();
 
-            $bbcTransport.emit('api/account/forgotUsername', $scope.user, function (error, result) {
+            $bbcTransport.emit('api/lib/account/forgotUsername', $scope.user, function (error, result) {
                 if (!error && result) {
                     $scope.alerts.push({ type: 'success', msg: 'USERNAME_MSG' });
                     $scope.user = {};
