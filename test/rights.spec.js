@@ -152,6 +152,7 @@ describe('Rights', function () {
         expect(typeof sut.getRepositories).toBe('function');
         expect(typeof sut.userHasAccessTo).toBe('function');
         expect(typeof sut.userIsInRole).toBe('function');
+        expect(typeof sut.addRoleToUser).toBe('function');
         expect(typeof sut.getUserRights).toBe('function');
         expect(typeof sut.getUserAcl).toBe('function');
         expect(typeof sut.getAclObj).toBe('function');
@@ -318,6 +319,40 @@ describe('Rights', function () {
             expect(sut.userIsInRole(user, 'wayne')).toBeTruthy();
 
             config.rights.enabled = true;
+        });
+    });
+
+    describe('.addRoleToUser()', function () {
+        var role;
+        beforeEach(function (done) {
+            user = {
+                name: 'wayne',
+                hash: 'hash',
+                salt: 'salt',
+                roles: [],
+                rolesAsObjects: []
+            };
+
+            role = {
+                name: 'reporter'
+            };
+
+            repo.users.remove({name: user.name}, function () {
+                repo.roles.remove({name: 'reporter'}, function () {
+                    done();
+                });
+            });
+        });
+
+        it('', function (done) {
+            repo.users.insert(user, function (error, userObj) {
+                repo.roles.insert(role, function (error, roleObj) {
+                    sut.addRoleToUser(userObj[0], roleObj[0].name, function(error, result){
+                        expect(result.roles.length).toBe(1);
+                        done();
+                    });
+                });
+            });
         });
     });
 
