@@ -87,7 +87,8 @@
                         <button class="btn btn-success" ng-click="openMenu = !openMenu;" style="border-radius: 0 4px 4px 0">Login</button>
                         <div class="dropdown-menu login pull-right">
                             <button type="button" class="close" ng-click="openMenu = !openMenu">×</button>
-                            <div ng-controller="AccountLoginCtrl">
+                            <div>
+                                    <!--ng-controller="AccountLoginCtrl">-->
                                 <form class="form-horizontal" ng-submit="login()" name="loginForm" novalidate>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
