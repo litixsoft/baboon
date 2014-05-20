@@ -14,8 +14,6 @@ angular.module('main', [
         'main.home',
         'main.about',
         'main.contact',
-        'main.localization',
-        'main.session',
         'common.auth',
         'hljs'
     ])

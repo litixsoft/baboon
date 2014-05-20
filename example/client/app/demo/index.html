@@ -28,19 +28,9 @@
         <div class="header">
             <div class="p-wrapper">
                 <div class="action-area">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-danger">Username</button>
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a ng-href="">Messages</a></li>
-                            <li><a ng-href="">Preferences</a></li>
-                            <li class="divider"></li>
-                            <li><a ng-href="">Logout</a></li>
-                        </ul>
-                    </div>
+
+                    <div class="pull-right" ng-include="'common/popup_login/popup_login.html'"></div>
+
                     <div class="flag-area pull-right">
                         <div class="btn-group dark-select">
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -54,6 +44,7 @@
                             </ul>
                         </div>
                     </div>
+
                 </div>
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
             </div>
@@ -107,6 +98,11 @@
     <script src="assets/bower_components/baboon-client/modules/navigation/navigation.directives.js"></script>
     <script src="assets/bower_components/baboon-client/modules/session/session.js"></script>
     <script src="assets/bower_components/baboon-client/modules/transport/transport.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/form/form.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/cache/cache.js"></script>
+    <script src="assets/bower_components/baboon-client/modules/reset/reset.js"></script>
+
+    <script src="common/popup_login/popup_login.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,client}) scripts/main/scripts.js -->

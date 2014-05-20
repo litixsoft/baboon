@@ -10,6 +10,8 @@ angular.module('admin', [
     'bbc.pager',
     'bbc.sort',
     'bbc.session',
+    'common.auth',
+
     'pascalprecht.translate',
     'tmh.dynamicLocale'
 ])
