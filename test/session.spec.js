@@ -1025,7 +1025,7 @@ describe('Session', function () {
                     sess.user = {
                         name: 'testUser'
                     };
-                    sess.isLoggedIn = true;
+                    sess.loggedIn = true;
 
                     request = {
                         sessionID: sess.id,
@@ -1033,6 +1033,7 @@ describe('Session', function () {
                     };
 
                     sut.getUserDataForClient (null, request, function(error, result) {
+
                         expect(error).toBeNull();
                         expect(result.isLoggedIn).toBe(true);
                         expect(result.username).toBe('testUser');
