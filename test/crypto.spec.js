@@ -39,6 +39,18 @@ describe('Crypto', function () {
         });
     });
 
+    describe('has a function randomString which', function () {
+        it('should return a string', function(done) {
+            crypto.randomString(6, function(error, value) {
+                expect(error).toBe(null);
+                expect(value).toBeDefined();
+                expect(value.length).toBe(8);
+
+                done();
+            });
+        });
+    });
+
     describe('has a function compare which', function () {
         it('should compare a string with a salt and a hash and return true', function(done) {
             var hash = '41f3b174d3025c4cb3cb2b8632f65bad7a9f1eb2c8e5b7c9c1340be050731162978dac8e777e0b8c23e3b60ef78052e30f0f4bf85297d016b4627f41dbdd95a101ccda2631a857eb051059a468717bb35f264b3d8b2a77893b78e99cf049c8b83a6ab3c7c0d0ae888c954d2cff4e4992560ae4da28df78fa8cf22fd7920e967d';
