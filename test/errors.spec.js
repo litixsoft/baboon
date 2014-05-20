@@ -120,6 +120,27 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
+    it('should throw an AuthError with message and status', function() {
+        var AuthError = errors.AuthError;
+        var error = new AuthError('AuthTestError', 400);
+
+        expect(error.name).toBe('AuthError');
+        expect(error.message).toBe('AuthTestError');
+        expect(error.status).toBe(400);
+        expect(error instanceof AuthError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an AuthError without parameters', function() {
+        var AuthError = errors.AuthError;
+        var error = new AuthError();
+
+        expect(error.name).toBe('AuthError');
+        expect(error.message).toBe('Internal Server Error');
+        expect(error.status).toBe(500);
+        expect(error instanceof AuthError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+
     it('should throw an ValidationError with errors and status', function() {
         var ValidationError = errors.ValidationError;
         var error = new ValidationError([{property:'test', error:'test'}], 401);

@@ -57,8 +57,9 @@ module.exports = function () {
                 data: data
             };
         },
-        json: function (value) {
-            return value;
+        json: function (status, value) {
+            res.statusCode = status;
+            res.data = value;
         }
     };
 
