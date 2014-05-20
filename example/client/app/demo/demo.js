@@ -7,10 +7,14 @@ angular.module('demo', [
         'bbc.modal',
         'bbc.navigation',
         'bbc.session',
+        'bbc.form',
+        'bbc.cache',
         'bbc.transport',
+        'common.auth',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'demo.enterprise',
+
         'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {

@@ -16,5 +16,15 @@
     "ENTERPRISE": "Enterprise",
     "GUIDE": "Guide",
     "APIDOC": "API Referenz",
-    "LANGUAGE_SELECT": "Deutsch"
+    "LANGUAGE_SELECT": "Deutsch",
+    "ENTER_USERNAME": "Benutzername",
+    "ENTER_PASSWORD": "Passwort",
+    "LOGIN": "Einloggen",
+    "AUTH_FAILED": "Anmeldung fehlgeschlagen, überprüfen Sie bitte Ihren Benutzernamen und Ihr Passwort.",
+    "SERVER_ERROR": "500: Internal Server Error",
+    "GUEST_ERROR": "Gast ist ein reservierter Name und kann nicht für den Login verwendet werden.",
+    "REGISTER": "Registrieren",
+    "FORGET_PASSWORD": "Passwort vergessen",
+    "FORGET_USERNAME": "Username vergessen",
+    "SETTINGS": "Einstellungen"
 }

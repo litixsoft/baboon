@@ -6,13 +6,15 @@ angular.module('main', [
         'bbc.transport',
         'bbc.navigation',
         'bbc.session',
+        'bbc.form',
+        'bbc.cache',
+        'bbc.reset',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'main.home',
         'main.about',
         'main.contact',
-        'main.localization',
-        'main.session',
+        'common.auth',
         'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {

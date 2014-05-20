@@ -6,7 +6,9 @@ describe('Middleware/ErrorHandler', function () {
     var rootPath = path.resolve(__dirname, '../../');
     var errorHandler = require(path.resolve(rootPath, 'lib', 'middleware', 'errorHandler'));
     var appMock = require(path.resolve(rootPath, 'test', 'mocks', 'appMock'));
-    var NavigationError = require(path.resolve(rootPath, 'lib', 'errors')).NavigationError;
+    var Error = require(path.resolve(rootPath, 'lib', 'errors'));
+    var NavigationError = Error.NavigationError;
+    var AuthError = Error.AuthError;
     var mock, sut;
 
     beforeEach(function() {
@@ -135,5 +137,38 @@ describe('Middleware/ErrorHandler', function () {
         var res = mock.res;
         sut.errorHandler(error, {}, res, function(){});
         expect(html).toBe(res.data);
+    });
+
+    it('should be return correct error json', function() {
+
+        var error = new AuthError('unit test error', 400);
+
+        var json = {
+            name: 'AuthError',
+            message: 'unit test error',
+            status: 400,
+            displayClient: false
+        };
+
+        var res = mock.res;
+        sut.errorHandler(error, {}, res, function(){});
+        expect(json).toEqual(res.data);
+    });
+
+    it('should be return correct error json when status < 400', function() {
+
+        var error = new AuthError('unit test error', 200);
+
+        var json = {
+            name: 'AuthError',
+            message: 'unit test error',
+            status: 200,
+            displayClient: false
+        };
+
+        var res = mock.res;
+        sut.errorHandler(error, {}, res, function(){});
+        expect(json).toEqual(res.data);
+        expect(500).toBe(res.statusCode);
     });
 });

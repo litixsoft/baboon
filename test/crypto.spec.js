@@ -17,9 +17,9 @@ describe('Crypto', function () {
             crypto.hashWithRandomSalt(password, function(error, result) {
                 expect(error).not.toBeDefined();
                 expect(result).not.toBe(null);
-                expect(result.hash).toBeDefined();
+                expect(result.password).toBeDefined();
                 expect(result.salt).toBeDefined();
-                expect(result.hash.length).toBeDefined(256);
+                expect(result.password.length).toBeDefined(256);
                 expect(result.salt.length).toBe(128);
 
                 done();
@@ -33,6 +33,18 @@ describe('Crypto', function () {
                 expect(error).toBe(null);
                 expect(buffer).toBeDefined();
                 expect(buffer.length).toBe(48);
+
+                done();
+            });
+        });
+    });
+
+    describe('has a function randomString which', function () {
+        it('should return a string', function(done) {
+            crypto.randomString(6, function(error, value) {
+                expect(error).toBe(null);
+                expect(value).toBeDefined();
+                expect(value.length).toBe(8);
 
                 done();
             });

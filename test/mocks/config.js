@@ -69,7 +69,7 @@ module.exports = function () {
                 templatePath: './test/mocks/templates',
                 senderAddress: 'support@litixsoft.de',
                 type: 'PICKUP', // only SMTP and PICKUP are allowed (default: 'SMTP')
-                directory: './test/eml' // required for type PICKUP
+                directory: './test/.tmp/eml' // required for type PICKUP
             }
         };
 
@@ -113,7 +113,7 @@ module.exports = function () {
         var settings = config.production();
         settings.logging.appenders.db = 'localhost:27017/test_baboon_logs';
 
-        settings.mail.directory = './test/eml';
+        settings.mail.directory = './test/.tmp/eml';
         settings.mail.type = 'PICKUP';
 
         settings.rights.database = 'localhost:27017/test_baboon_rights?w=1&journal=True&fsync=True';

@@ -32,5 +32,8 @@
     "FORGOT_USERNAME_DESCRIPTION": "Enter your e-mail to get your username",
     "USERNAME_MSG": "The username was sent to you by e-mail.",
     "REQUEST": "Request",
-    "GENERIC_ERROR": "Sorry, something went wrong."
+    "GENERIC_ERROR": "Sorry, something went wrong.",
+    "RESET_PASSWORD": "Reset password",
+    "RESET_PASSWORD_DESCRIPTION": "Enter your user name and your e-mail to reset your password.",
+    "RESET_PASSWORD_MSG": "Your password has been reset and sent to you by e-mail."
 }
