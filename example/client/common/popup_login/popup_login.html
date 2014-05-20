@@ -1,5 +1,5 @@
 <div ng-controller="CommonAuthLoginCtrl">
-    <div class="btn-group pull-right" ng-if="isLoggedIn && rightSystem">
+    <div class="btn-group pull-right" ng-if="isLoggedIn || !rightSystem">
         <button type="button" class="btn btn-success">{{ userName }}</button>
         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
