@@ -8,6 +8,7 @@ angular.module('main', [
         'bbc.session',
         'bbc.form',
         'bbc.cache',
+        'bbc.reset',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
         'main.home',
@@ -15,6 +16,7 @@ angular.module('main', [
         'main.contact',
         'main.localization',
         'main.session',
+        'common.auth',
         'hljs'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {

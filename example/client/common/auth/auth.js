@@ -1,12 +1,26 @@
 'use strict';
 angular.module('common.auth', [])
-    .controller('CommonAuthLoginCtrl', function ($scope, lxForm, lxAuth, $window, $log) {
+    .controller('CommonAuthLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window, $bbcSession) {
 
-        $scope.lxForm = lxForm('authViewLoginCtrl', '_id');
+
+
+        $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id');
         $scope.user = {};
-
         $scope.authFailed = false;
-        $scope.serverError = false;
+        $scope.authError = false;
+        $scope.guestError = false;
+
+        $bbcSession.getUserDataForClient(function(error,result){
+            if(error){
+                $log.warn(error);
+            }
+            if(result){
+                $scope.userName = result.username;
+                $scope.isLoggedIn = result.isLoggedIn;
+                $scope.rightSystem = result.rightssystem;
+            }
+        });
+
 
         $scope.login = function () {
 
@@ -14,27 +28,24 @@ angular.module('common.auth', [])
                 $scope.form.errors = {};
             }
 
-            lxAuth.login($scope.user.username, $scope.user.password, function (error, result) {
-                if (result && !error) {
-//                        lxAlert.success('User '+$scope.user.username+' erfolgreich registriert.');
+            $bbcTransport.rest('api/lib/auth/login', {user: $scope.user}, function (error, result) {
+
+                if (!error && result) {
                     $window.location.href = '/';
                 }
                 else {
-                    if (error === 403 || error === 401) {
-                        $log.error('Error ' + error + ' auth Failed!');
-                        $scope.errorMsg = 'Error ' + error + ' auth Failed!';
+
+                    if (error.status === 403) {
                         $scope.authFailed = true;
                     }
-                    else {
-                        if (error.validation) {
-                            $scope.lxForm.populateValidation($scope.form, error.validation);
-                            $scope.authFailed = true;
-                        } else {
-                            $scope.serverError = false;
-                            $scope.errorMsg = 'Error ' + error + ' internal server error!';
-                            $log.error('Error ' + error + ' internal server error!');
-                        }
+                    else if (error.status === 400) {
+                        $scope.guestError = true;
                     }
+                    else {
+                        $scope.authError = true;
+                    }
+
+                    $log.error(error);
                 }
             });
         };
