@@ -84,7 +84,7 @@ describe('Repositories/UsersRepositiory', function () {
         it('should validate to false when the data is not valid', function (done) {
             sut.validate({roles: ['1', '2']}, null, function (err, res) {
                 expect(res.valid).toBeFalsy();
-                expect(res.errors.length).toBe(5);
+                expect(res.errors.length).toBe(4);
                 expect(res.errors[0].property).toBe('email');
                 expect(res.errors[0].attribute).toBe('required');
                 expect(res.errors[1].property).toBe('roles');
