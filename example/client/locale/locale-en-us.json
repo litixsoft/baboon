@@ -22,6 +22,8 @@
     "LOGIN": "login",
     "AUTH_FAILED": "Login failed, please check your username and password.",
     "SERVER_ERROR": "500: Internal Server Error",
+    "GUEST_ERROR": "Guest is a reserved name and can not be used for the login.",
     "REGISTER": "register",
-    "FORGET_PASSWORD": "forget password"
+    "FORGET_PASSWORD": "forget password",
+    "FORGET_USERNAME": "forget username"
 }
