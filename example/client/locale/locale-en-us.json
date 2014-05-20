@@ -25,5 +25,6 @@
     "GUEST_ERROR": "Guest is a reserved name and can not be used for the login.",
     "REGISTER": "register",
     "FORGET_PASSWORD": "forget password",
-    "FORGET_USERNAME": "forget username"
+    "FORGET_USERNAME": "forget username",
+    "SETTINGS": "Settings"
 }
