@@ -12,7 +12,8 @@ angular.module('admin', [
     'bbc.session',
     'common.auth',
     'pascalprecht.translate',
-    'tmh.dynamicLocale'
+    'tmh.dynamicLocale',
+    'common.checklist'
 ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
@@ -22,8 +23,8 @@ angular.module('admin', [
         $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
         $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'AdminRightListCtrl'});
         $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
-        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
-        $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
+        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
+        $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
         $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'adminRoleListCtrl'});
         $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
         $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
@@ -438,21 +439,13 @@ angular.module('admin', [
 
         getData();
     })
+    .controller('AdminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, adminModulePath) {
+        $scope.bbcForm = $bbcForm('baboon_group', '_id');
 
-    .controller('adminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
-        $scope.lxForm = $bbcForm('baboon_group', '_id');
-
-        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
+        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'group/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    if (result.roles) {
-                        result.roles.sort(function (a, b) {
-                            return compareService.compareValues(a, b);
-                        });
-                    }
-                    $scope.lxForm.setModel(result);
-                } else {
-                    $log.log(error);
+                    $scope.bbcForm.setModel(result);
                 }
             });
         }
@@ -462,67 +455,28 @@ angular.module('admin', [
                 $scope.form.errors = {};
             }
 
-            var callback = function (error, result) {
+            var method =  model._id ?  'group/update' : 'group/create';
+
+            $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
+                console.log('error', error);
+                console.log('result', result);
                 if (result) {
-                    $scope.lxForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
+                    $scope.bbcForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
                     $location.path('/admin/groups');
-                } else if (error) {
-                    if (error.validation) {
-                        $scope.lxForm.populateValidation($scope.form, error.validation);
-                    } else {
-                        $log.error(error);
+                }
+                else if (error) {
+                    if (error.name === 'ValidationError') {
+                        $scope.bbcForm.populateValidation($scope.form, error.errors);
                     }
                 }
-            };
-
-            if (model._id) {
-                $bbcTransport.emit(adminModulePath + 'group/update', model, callback);
-            } else {
-                $bbcTransport.emit(adminModulePath + 'group/create', model, callback);
-            }
-        };
-
-        $bbcTransport.emit(adminModulePath + 'role/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
-            if (result) {
-                $scope.roles = result.items;
-
-                if ($scope.lxForm.model.roles) {
-                    angular.forEach($scope.lxForm.model.roles, function (roleId) {
-                        angular.forEach($scope.roles, function (role) {
-                            if (role._id === roleId) {
-                                role.isSelected = true;
-                            }
-                        });
-                    });
-                }
-            }
-        });
-
-        $scope.setRole = function (role) {
-            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
-
-            var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
-
-            if (role.isSelected && indexOfRole === -1) {
-                $scope.lxForm.model.roles.push(role._id);
-                $scope.lxForm.model.roles.sort(function (a, b) {
-                    return compareService.compareValues(a, b);
-                });
-            } else if (!role.isSelected && indexOfRole !== -1) {
-                $scope.lxForm.model.roles.splice(indexOfRole, 1);
-            }
-        };
-
-        $scope.reset = function (form) {
-            $scope.lxForm.reset(form);
-            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
-
-            angular.forEach($scope.roles, function (role) {
-                var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
-
-                role.isSelected = indexOfRole !== -1;
             });
         };
+
+        $bbcTransport.emit(adminModulePath + 'role/getAll', { options: { sort: { name: 1 }, fields: ['name', 'description'] } }, function (error, result) {
+            if (result) {
+                $scope.roles = result.items;
+            }
+        });
     })
 
     .controller('adminRoleListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
