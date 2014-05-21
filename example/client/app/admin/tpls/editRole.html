@@ -33,8 +33,8 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" checklist-model="bbcForm.model.rights" checklist-value="r._id" /> {{ r.name }}
-                                        <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
-                                    </label>
+                                        </label>
+                                    <div class="small"><em>{{ r.description }}</em></div>
                                 </div>
                             </li>
                         </ul>
