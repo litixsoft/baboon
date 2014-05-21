@@ -26,7 +26,7 @@ module.exports = function () {
             port: 3000,
             rights: {
                 enabled: true,
-                masterLoginPage: true,
+                masterLoginPage: false,
                 database: 'localhost:27017/baboon_rights?w=1&journal=True&fsync=True'
             },
             session: {
