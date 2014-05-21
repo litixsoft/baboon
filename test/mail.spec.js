@@ -1,20 +1,17 @@
 'use strict';
 
-/* global describe, it, expect, beforeEach, afterEach */
+/* global describe, it, expect, beforeEach */
 describe('Mail', function () {
     var path = require('path');
-    var fs = require('fs');
+    var grunt = require('grunt');
     var rootPath = path.resolve(__dirname, '../');
-    var emlDir = path.resolve(__dirname, 'eml');
     var configMock = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'});
-    var file = '';
+    var emlDir = path.resolve(configMock.mail.directory);
     var mail = null; // require(path.resolve(__dirname, '../', 'lib', 'mail'))(configMock.mail);  // {type: 'PICKUP', directory: './test/eml', from: 'from@test.com', to: 'to@test.com'}
 
     beforeEach(function (done) {
-
-        if(!fs.existsSync(emlDir)) {
-
-            fs.mkdirSync(emlDir);
+        if(!grunt.file.exists(emlDir)) {
+            grunt.file.mkdir(emlDir);
         }
 
         if(mail === null) {
@@ -62,9 +59,8 @@ describe('Mail', function () {
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
 
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -82,9 +78,8 @@ describe('Mail', function () {
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
 
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -97,9 +92,8 @@ describe('Mail', function () {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -114,9 +108,8 @@ describe('Mail', function () {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -131,9 +124,8 @@ describe('Mail', function () {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -148,9 +140,8 @@ describe('Mail', function () {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
@@ -163,38 +154,21 @@ describe('Mail', function () {
             expect(error).toBe(null);
             expect(result).toBeDefined();
             expect(result.path).toBeDefined();
-            var exists = fs.existsSync(result.path);
+            var exists = grunt.file.exists(result.path);
             expect(exists).toBeTruthy();
-            file = result.path;
 
             done();
         });
     });
 
-/*    it('should end with an error because template path is invalid', function (done) {
+    it('should end with an error because template path is invalid', function (done) {
         var message = { from: 'test@test.com', to: 'to@test.com', subject: 'Unit test' };
 
-        expect(function () {
-            mail.sendMailFromTemplate(message, 'missing.html', null, [
-                {key: '{DYNAMIC}', value: 'Test value'}
-            ], function (error) {
-                expect(error).toBeDefined();
-                done();
-            });
-        }).toThrow();
-        *//*mail.sendMailFromTemplate(message, 'missing.html', null, [
-            {key: '{DYNAMIC}', value: 'Test value'}
-        ], function (error) {
+        mail.sendMailFromTemplate(message, 'missing.html', null, [{ key: '{DYNAMIC}', value: 'Test value' }], function (error) {
             expect(error).toBeDefined();
             done();
-        });*//*
+        });
 
         done();
-    });*/
-
-    afterEach(function () {
-        if(fs.existsSync(file)) {
-            fs.unlinkSync(file);
-        }
     });
 });

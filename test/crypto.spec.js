@@ -30,9 +30,22 @@ describe('Crypto', function () {
     describe('has a function randomBytes which', function () {
         it('should return a buffer with valid data', function(done) {
             crypto.randomBytes(48, function(error, buffer) {
+                console.log(error);
                 expect(error).toBe(null);
                 expect(buffer).toBeDefined();
                 expect(buffer.length).toBe(48);
+
+                done();
+            });
+        });
+    });
+
+    describe('has a function randomString which', function () {
+        it('should return a string', function(done) {
+            crypto.randomString(6, function(error, value) {
+                expect(error).toBe(null);
+                expect(value).toBeDefined();
+                expect(value.length).toBe(8);
 
                 done();
             });

@@ -32,5 +32,8 @@
     "FORGOT_USERNAME_DESCRIPTION": "Geben Sie Ihre E-Mail an um Ihren Benutzernamen zu erhalten",
     "USERNAME_MSG": "Der Benutzername wurde Ihnen per E-Mail zugeschickt.",
     "REQUEST": "Anfordern",
-    "GENERIC_ERROR": "Es ist ein Fehler aufgetreten."
+    "GENERIC_ERROR": "Es ist ein Fehler aufgetreten.",
+    "RESET_PASSWORD": "Passwort zurücksetzen",
+    "RESET_PASSWORD_DESCRIPTION": "Geben Sie Ihren Benutzername und Ihre E-Mail an um Ihr Passwort zurückzusetzen.",
+    "RESET_PASSWORD_MSG": "Ihr Passwort wurde zurückgesetzt und Ihnen per E-Mail zugeschickt."
 }
