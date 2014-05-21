@@ -2,13 +2,41 @@
 angular.module('common.auth', [])
     .controller('CommonAuthLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window, $bbcSession, $modal) {
 
-
-
-        $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id');
+        $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id'); //login popup form
         $scope.user = {};
         $scope.authFailed = false;
         $scope.authError = false;
         $scope.guestError = false;
+
+
+        $scope.getUserSettings = function(){
+            $bbcTransport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
+                if (error) {
+                    $scope.item.error = error;
+                } else if (result) {
+                    if(result.language){ //setLanguage on app start
+                        $scope.switchLocale(result.language);
+                    }
+                }
+            });
+        };
+
+        $scope.getUserSettings();
+
+
+        /**
+         * watch for language changes and save them instantly to the user setting
+         */
+        $scope.$watch('currentLang',function(newVal,oldValue){
+            if(newVal!==oldValue){
+                $bbcTransport.emit('api/lib/settings/setUserSetting', {key: 'language', value: newVal}, function (error) {
+                    if (error) {
+                        $log.warn(error);
+                    }
+                });
+            }
+        });
+
 
         $bbcSession.getUserDataForClient(function(error,result){
             if(error){
@@ -22,22 +50,8 @@ angular.module('common.auth', [])
         });
 
         /**
-         * Open the settings modal.
+         * user login from popup form
          */
-        $scope.editSettings = function () {
-            $scope.modalEditSettings = $modal.open({
-                backdrop: true, //static, true, false
-                modalFade: true,
-                controller: 'MainModalsSettingsCtrl',
-                keyboard: false,
-                templateUrl: 'common/popup_login/popup_settings.html'
-            });
-
-//            $scope.modalEditSettings.result.then(function (settings) {
-//                setUserSettings(settings);
-//            }, angular.noop);
-        };
-
         $scope.login = function () {
 
             if ($scope.form) {
@@ -65,8 +79,26 @@ angular.module('common.auth', [])
                 }
             });
         };
+
+        /**
+         * Open the settings modal.
+         */
+        $scope.editSettings = function () {
+            $scope.modalEditSettings = $modal.open({
+                backdrop: true, //static, true, false
+                modalFade: true,
+                controller: 'CommonUserSettingsCtrl',
+                keyboard: false,
+                templateUrl: 'common/popup_login/popup_settings.html'
+            });
+
+            $scope.modalEditSettings.result.then(function () {
+                $scope.getUserSettings();
+            }, angular.noop);
+        };
+
     })
-    .controller('MainModalsSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
+    .controller('CommonUserSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
 
             $scope.lxForm = lxForm('settings', '_id');
             $scope.languages = [{
@@ -83,9 +115,7 @@ angular.module('common.auth', [])
             $scope.test = [0,1,2,3,4,5,6];
             $scope.item = {};
 
-
             transport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
-
                 if (error) {
                     $scope.item.error = error;
                 } else if (result) {
@@ -94,7 +124,6 @@ angular.module('common.auth', [])
                         result.setIsEnabled = true;
                     }
 
-//                    $scope.switchLocale('de-de');
                     $scope.lxForm.setModel(result);
                 }
             });
