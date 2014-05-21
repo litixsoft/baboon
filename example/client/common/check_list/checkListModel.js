@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('common.checklist', [])
     .directive('checklistModel', ['$parse', '$compile', function($parse, $compile) {
         function contains(arr, item) {
@@ -60,7 +62,7 @@ angular.module('common.checklist', [])
             });
 
             // watch original model change
-            scope.$parent.$watch(attrs.checklistModel, function(newArr, oldArr) {
+            scope.$parent.$watch(attrs.checklistModel, function(newArr) {
                 scope.checked = contains(newArr, value);
             }, true);
         }

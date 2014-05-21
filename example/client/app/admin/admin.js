@@ -419,7 +419,7 @@ angular.module('admin', [
         var getData = function () {
             var options = { options: $scope.pagingOptions };
             options.options.sort = $scope.sortOpts;
-            options.options.fields = ['_id', 'name', 'description']
+            options.options.fields = ['_id', 'name', 'description'];
 
             $bbcTransport.emit(adminModulePath + 'group/getAll', options, function (error, result) {
                 if (result) {
