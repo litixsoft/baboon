@@ -116,7 +116,7 @@ describe('Settings', function () {
             it('should return an error when the user is not found in the db', function (done) {
                 sut.setUserSetting({key: 'aaa', value: 1}, {session: {user: {_id: '5280d688f9ce892133000001'}}}, function (err, res) {
                     expect(err instanceof SettingsError).toBeTruthy();
-                    expect(err.message).toBe('Cannot save settings. User not found: {"_id":"5280d688f9ce892133000001"}');
+                    expect(err.message).toBe('Cannot save settings. User not found: {"_id":"5280d688f9ce892133000001","settings":{"language":"de-de","test":1}}');
                     expect(res).toBeUndefined();
 
                     done();
@@ -136,7 +136,7 @@ describe('Settings', function () {
 
                         userRepo.findOneById(user._id, function (err, res) {
                             expect(err).toBeNull();
-                            expect(res.settings).toEqual({language: 'de-de', test: 1, demo: true});
+                            expect(res.settings).toEqual({language: 'fr-fr', demo: true});
 
                             done();
                         });
@@ -169,7 +169,7 @@ describe('Settings', function () {
             it('should update nothing when the user is not found', function (done) {
                 sut.setUserSettings({key: 'test', value: 1}, {session: {user: {_id: '5280d688f9ce892133000001'}}}, function (err, res) {
                     expect(err instanceof SettingsError).toBeTruthy();
-                    expect(err.message).toBe('Cannot save settings. User not found: {"_id":"5280d688f9ce892133000001"}');
+                    expect(err.message).toBe('Cannot save settings. User not found: {"_id":"5280d688f9ce892133000001","settings":{}}');
                     expect(res).toBeUndefined();
 
                     done();
@@ -223,7 +223,7 @@ describe('Settings', function () {
                 sut.setUserSettings({language: ' 123 '}, request, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
-                    expect(request.session.settings).toEqual({language: '123'});
+                    expect(request.session.user.settings).toEqual({language: '123'});
 
                     done();
                 });
@@ -241,17 +241,17 @@ describe('Settings', function () {
                 sut.setUserSettings({start: '2013-01-09'}, request, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
-                    expect(lxHelpers.isDate(request.session.settings.start)).toBeTruthy();
+                    expect(lxHelpers.isDate(request.session.user.settings.start)).toBeTruthy();
 
                     sut.setUserSettings({mail: 'test@gmail.com'}, request, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toBeTruthy();
-                        expect(request.session.settings.mail).toBe('test@gmail.com');
+                        expect(request.session.user.settings.mail).toBe('test@gmail.com');
 
                         sut.setUserSettings({pages: 10}, request, function (err, res) {
                             expect(err).toBeNull();
                             expect(res).toBeTruthy();
-                            expect(request.session.settings.pages).toBe(10);
+                            expect(request.session.user.settings.pages).toBe(10);
 
                             done();
                         });
@@ -271,7 +271,7 @@ describe('Settings', function () {
                 sut.setUserSettings({language: 'en-en', wayne: 'ee'}, request, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
-                    expect(request.session.settings).toEqual({language: 'en-en'});
+                    expect(request.session.user.settings).toEqual({language: 'en-en'});
 
                     done();
                 });
@@ -344,7 +344,7 @@ describe('Settings', function () {
             it('should return the settings already in the session', function (done) {
                 sut.getUserSettings(null, {session: {user: testUser, settings: {test: 99}}}, function (err, res) {
                     expect(err).toBeNull();
-                    expect(res).toEqual({test: 99});
+                    expect(res).toEqual({test: 1, demo: true});
 
                     done();
                 });

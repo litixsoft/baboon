@@ -1,6 +1,6 @@
 'use strict';
 angular.module('common.auth', [])
-    .controller('CommonAuthLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window, $bbcSession) {
+    .controller('CommonAuthLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window, $bbcSession, $modal) {
 
 
 
@@ -21,6 +21,22 @@ angular.module('common.auth', [])
             }
         });
 
+        /**
+         * Open the settings modal.
+         */
+        $scope.editSettings = function () {
+            $scope.modalEditSettings = $modal.open({
+                backdrop: true, //static, true, false
+                modalFade: true,
+                controller: 'MainModalsSettingsCtrl',
+                keyboard: false,
+                templateUrl: 'common/popup_login/popup_settings.html'
+            });
+
+//            $scope.modalEditSettings.result.then(function (settings) {
+//                setUserSettings(settings);
+//            }, angular.noop);
+        };
 
         $scope.login = function () {
 
@@ -49,4 +65,49 @@ angular.module('common.auth', [])
                 }
             });
         };
-    });
+    })
+    .controller('MainModalsSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
+
+        console.log("Modalcontroller");
+
+            $scope.lxForm = lxForm('settings', '_id');
+//            $scope.languages = LANGUAGES;
+//            $scope.themes = THEMES;
+//            $scope.views = VIEWS;
+//            $scope.pageSizes = PAGESIZES;
+            $scope.item = {};
+
+            // load settings
+//            transport.emit('app/mongoadmin/settings/getUserSettings', {}, function (error, result) {
+
+            transport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
+                console.log("Error: ",error);
+                console.log("Result: ",result);
+                if (error) {
+                    $scope.item.error = error;
+                } else if (result) {
+
+                    if (result.setIsEnabled === undefined) {
+                        result.setIsEnabled = true;
+                    }
+
+                    $scope.lxForm.setModel(result);
+                }
+            });
+
+            $scope.save = function () {
+                transport.emit('app/mongoadmin/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
+                    if (error) {
+                        $scope.item.error = error;
+                    } else if (result) {
+                        $modalInstance.close($scope.lxForm.model);
+                    }
+                });
+            };
+
+            $scope.cancel = function () {
+                if ($modalInstance) {
+                    $modalInstance.dismiss('cancel');
+                }
+            };
+        }]);

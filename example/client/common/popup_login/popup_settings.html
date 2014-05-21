@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <h3>{{ 'SETTINGS' | translate }}</h3>
+</div>
+<div class="modal-body">
+    <form name="form" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">{{ 'LANGUAGE' | translate }}</label>
+            <div class="col-lg-9">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img style="height: 20px;" ng-src="{{ lxForm.model.language.flagURL }}"/> {{ lxForm.model.language.name | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-class="{active: lxForm.model.language.name === lang.name}" ng-repeat="lang in languages track by lang.code">
+                            <a href="#" ng-click="lxForm.model.language = lang"><img style="width: 30px;" ng-src="{{ lang.flagURL }}"/>&nbsp;&nbsp;{{ lang.name | translate}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">{{ 'DEFAULT_VIEW' | translate }}</label>
+            <div class="col-lg-9">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <i ng-class="lxForm.model.default_view.cssClass"></i>&nbsp;&nbsp; {{ lxForm.model.default_view.name | translate }}&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-class="{active: lxForm.model.default_view.name === view.name}" ng-repeat="view in views track by view.name">
+                            <a href="#" ng-click="lxForm.model.default_view = view"><i class="{{ view.cssClass }}"></i>&nbsp;&nbsp; {{ view.name | translate }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="theme_find">{{ 'THEME_FIND' | translate }}</label>
+            <div class="col-lg-9">
+                <select id="theme_find" name="theme_find" ng-model="lxForm.model.theme_find" ng-options="t for t in themes" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="theme_find">{{ 'THEME_AGGREGATE' | translate }}</label>
+            <div class="col-lg-9">
+                <select id="theme_aggregate" name="theme_aggregate" ng-model="lxForm.model.theme_aggregate" ng-options="t for t in themes" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="theme_console">{{ 'THEME_CONSOLE' | translate }}</label>
+            <div class="col-lg-9">
+                <select id="theme_console" name="theme_console" ng-model="lxForm.model.theme_console" ng-options="t for t in themes" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="setIsEnabled">{{ 'SAVE_WITH_$SET' | translate }}</label>
+            <div class="col-lg-9">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="setIsEnabled" name="setIsEnabled" ng-model="lxForm.model.setIsEnabled" lx-checkbox>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="json_schema_validation">{{ 'JSON_SCHEMA_VALIDATION' | translate }}</label>
+            <div class="col-lg-9">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="json_schema_validation" name="json_schema_validation" ng-model="lxForm.model.json_schema_validation" lx-checkbox>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="schema_delete_unknown_properties">{{ 'SCHEMA_DELETE_UNKNOWN_PROPERTIES' | translate }}</label>
+            <div class="col-lg-9">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="schema_delete_unknown_properties" name="schema_delete_unknown_properties" ng-model="lxForm.model.schema_delete_unknown_properties" lx-checkbox />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="default_page_size">{{ 'DEFAULT_PAGE_SIZE' | translate }}</label>
+            <div class="col-lg-9">
+                <select id="default_page_size" name="default_page_size" ng-model="lxForm.model.default_page_size" ng-options="p for p in pageSizes" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="default_mongodb_port">{{ 'DEFAULT_MONGODB_PORT' | translate }}</label>
+            <div class="col-lg-9">
+                <input type="number" id="default_mongodb_port" name="default_mongodb_port" ng-model="lxForm.model.default_mongodb_port" class="form-control" min="1025" max="65535" placeholder="27017"/>
+            </div>
+        </div>
+    </form>
+
+    <div class="alert alert-danger alert-dismissable" ng-show="item.error">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="item.error = null">&times;</button>
+        {{ item.error }}
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-default btn-equal" ng-click="lxForm.reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+    <button class="btn btn-primary btn-equal" type="submit" ng-click="save()" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+</div>
