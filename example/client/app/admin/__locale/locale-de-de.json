@@ -23,5 +23,6 @@
     "SAVE_RIGHT": "Recht speichern",
     "SELECT_RIGHT": "-- Recht auswählen --",
     "CREATE_EDIT_ROLE": "Rolle erstellen/bearbeiten",
-    "MODULE": "Modul"
+    "MODULE": "Modul",
+    "IS_ACTIVE": "Ist aktiviert?"
 }

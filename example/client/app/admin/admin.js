@@ -158,7 +158,7 @@ angular.module('admin', [
             var query = {
                 params: {},
                 options: {
-                    fields: ['name', 'email', 'id']
+                    fields: ['name', 'email', 'id', 'is_active']
                 }
             };
 
@@ -196,15 +196,22 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.groups.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
-                    result.roles.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
-                    result.rights.sort(function (a, b) {
-                        return compareService.compareByField(a, b, '_id');
-                    });
+                    if (result.groups) {
+                        result.groups.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
+                    if (result.roles) {
+                        result.roles.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
+                    if (result.rights) {
+                        result.rights.sort(function (a, b) {
+                            return compareService.compareByField(a, b, '_id');
+                        });
+                    }
+                    result.confirmed_password = result.password;
 
                     $scope.lxForm.setModel(result);
                 } else {
@@ -438,9 +445,11 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'group/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.roles.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
+                    if (result.roles) {
+                        result.roles.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.log(error);
@@ -560,9 +569,11 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'role/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.rights = result.rights.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
+                    if (result.rights) {
+                        result.rights = result.rights.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.error(error);
