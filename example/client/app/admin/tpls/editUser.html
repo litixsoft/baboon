@@ -24,6 +24,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">{{ 'IS_ACTIVE' | translate }}</label>
+                            <div class="col-lg-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="lxForm.model.is_active">
+
+                                        <span ng-if="group.description" class="glyphicon glyphicon-question-sign" popover="{{ group.description }}" popover-trigger="mouseenter"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email)}">
                             <label class="col-lg-2 control-label" for="email">{{ 'MAIL' | translate }}</label>
                                 <div class="col-lg-10 lxvalidation">

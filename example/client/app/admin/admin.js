@@ -11,22 +11,17 @@ angular.module('admin', [
     'bbc.sort',
     'bbc.session',
     'common.auth',
-
     'pascalprecht.translate',
     'tmh.dynamicLocale'
 ])
-
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
-
         // Routing and navigation
         $routeProvider.when('/admin', {templateUrl: 'app/admin/admin.html', controller: 'AdminCtrl'});
         $routeProvider.when('/admin/users', {templateUrl: 'app/admin/tpls/users.html', controller: 'adminUserListCtrl'});
         $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
         $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
-        $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'adminRightListCtrl'});
-        $routeProvider.when('/admin/rights/edit/:id', {templateUrl: 'app/admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
-        $routeProvider.when('/admin/rights/new', {templateUrl: 'app/admin/tpls/editRight.html', controller: 'adminEditRightCtrl'});
-        $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'adminGroupListCtrl'});
+        $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'AdminRightListCtrl'});
+        $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
         $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
         $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'adminEditGroupCtrl'});
         $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'adminRoleListCtrl'});
@@ -163,7 +158,7 @@ angular.module('admin', [
             var query = {
                 params: {},
                 options: {
-                    fields: ['name', 'email', 'id']
+                    fields: ['name', 'email', 'id', 'is_active']
                 }
             };
 
@@ -201,15 +196,22 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.groups.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
-                    result.roles.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
-                    result.rights.sort(function (a, b) {
-                        return compareService.compareByField(a, b, '_id');
-                    });
+                    if (result.groups) {
+                        result.groups.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
+                    if (result.roles) {
+                        result.roles.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
+                    if (result.rights) {
+                        result.rights.sort(function (a, b) {
+                            return compareService.compareByField(a, b, '_id');
+                        });
+                    }
+                    result.confirmed_password = result.password;
 
                     $scope.lxForm.setModel(result);
                 } else {
@@ -383,149 +385,58 @@ angular.module('admin', [
         };
     })
 
-    .controller('adminRightListCtrl', function ($scope, $log, $bbcTransport, adminModulePath, $bbcCache) {
+    .controller('AdminRightListCtrl', function ($scope, $bbcTransport, adminModulePath) {
+        $scope.initialPageSize = 10;
+        $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = { name: 1 };
 
-        var initial = false;
+        var getData = function () {
+            var options = { options: $scope.pagingOptions };
+            options.options.sort = $scope.sortOpts;
 
-        if (!$bbcCache.pagingOptions) {
-            $bbcCache.pagingOptions = {skip: 0, limit: 10};
-        }
-
-        if (!$bbcCache.sortOpts) {
-            $bbcCache.sortOpts = {name: 1};
-        }
-
-        $scope.pagingOptions = $bbcCache.pagingOptions;
-        $scope.sortOpts = $bbcCache.sortOpts;
-
-        $scope.getData = function (sortingOptions, pagingOptions) {
-            var query = {
-                params: {},
-                options: {}
-            };
-
-            if (pagingOptions && !initial) {
-                $scope.pagingOptions = pagingOptions;
-                $bbcCache.pagingOptions = pagingOptions;
-            }
-
-            if (sortingOptions) {
-                $scope.sortOpts = sortingOptions;
-                $bbcCache.sortOpts = sortingOptions;
-            }
-
-            initial = false;
-
-            query.options.sort = $scope.sortOpts;
-            query.options.skip = $scope.pagingOptions.skip;
-            query.options.limit = $scope.pagingOptions.limit;
-
-            $bbcTransport.emit(adminModulePath + 'right/getAll', query, function (error, result) {
+            $bbcTransport.emit(adminModulePath + 'right/getAll', options, function (error, result) {
                 if (result) {
                     $scope.rights = result.items;
                     $scope.count = result.count;
-                } else {
-                    $log.error(error);
-                }
-
-                if ($scope.pagingOptions.limit && $scope.pageSize !== $scope.pagingOptions.limit) {
-                    $scope.pageSize = $scope.pagingOptions.limit;
-                }
-
-                if ($scope.currentPage && $bbcCache.currentPage !== $scope.currentPage) {
-                    $bbcCache.currentPage = $scope.currentPage;
                 }
             });
         };
 
-        if (!$bbcCache.currentPage) {
-            $scope.getData($scope.sortOpts, $scope.pagingOptions);
-        } else {
-            initial = true;
-            setTimeout(function () {
-                $scope.$apply(function () {
-                    $scope.currentPage = $bbcCache.currentPage;
-                });
-            },50);
-        }
-
-    })
-
-    .controller('adminEditRightCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, adminModulePath, $log) {
-        $scope.lxForm = $bbcForm('baboon_right', '_id');
-
-        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            $bbcTransport.emit(adminModulePath + 'right/getById', {id: $routeParams.id}, function (error, result) {
-                if (result) {
-                    $scope.lxForm.setModel(result);
-                } else {
-                    $log.error(error);
-                }
-            });
-        }
-
-        $scope.save = function (model) {
-            if ($scope.form) {
-                $scope.form.errors = {};
-            }
-
-            var callback = function (error, result) {
-                if (result) {
-                    $scope.lxForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
-                    $location.path('/admin/rights');
-                } else if (error) {
-                    if (error.validation) {
-                        $scope.lxForm.populateValidation($scope.form, error.validation);
-                    } else {
-                        $log.error(error);
-                    }
-                }
-            };
-
-            if (model._id) {
-                $bbcTransport.emit(adminModulePath + 'right/update', model, callback);
-            } else {
-                $bbcTransport.emit(adminModulePath + 'right/create', model, callback);
-            }
+        $scope.load = function (sort, page) {
+            $scope.pagingOptions = page;
+            $scope.sortOpts = sort;
+            getData();
         };
-    })
 
-    .controller('adminGroupListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
+        getData();
+    })
+    .controller('AdminGroupListCtrl', function ($scope, $bbcTransport, adminModulePath) {
         $scope.initialPageSize = 10;
-        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
-        $scope.sortOpts = {name: 1};
+        $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = { name: 1 };
 
-        $scope.getData = function (sortingOptions, pagingOptions) {
-            var query = {
-                params: {},
-                options: {
-                    fields: ['name', 'id']
-                }
-            };
+        var getData = function () {
+            var options = { options: $scope.pagingOptions };
+            options.options.sort = $scope.sortOpts;
+            options.options.fields = ['_id', 'name', 'description']
 
-            if (pagingOptions) {
-                $scope.pagingOptions = pagingOptions;
-            }
-
-            if (sortingOptions) {
-                $scope.sortOpts = sortingOptions;
-            }
-
-            query.options.sort = $scope.sortOpts;
-            query.options.skip = $scope.pagingOptions.skip;
-            query.options.limit = $scope.pagingOptions.limit;
-
-            $bbcTransport.emit(adminModulePath + 'group/getAll', query, function (error, result) {
+            $bbcTransport.emit(adminModulePath + 'group/getAll', options, function (error, result) {
                 if (result) {
+                    console.log(result.items);
                     $scope.groups = result.items;
                     $scope.count = result.count;
-                } else {
-                    $log.log(error);
                 }
             });
         };
 
-        $scope.getData();
+        $scope.load = function (sort, page) {
+            console.log(sort);
+            $scope.pagingOptions = page;
+            $scope.sortOpts = sort;
+            getData();
+        };
+
+        getData();
     })
 
     .controller('adminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
@@ -534,9 +445,11 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'group/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.roles.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
+                    if (result.roles) {
+                        result.roles.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.log(error);
@@ -656,9 +569,11 @@ angular.module('admin', [
         if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'role/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    result.rights = result.rights.sort(function (a, b) {
-                        return compareService.compareValues(a, b);
-                    });
+                    if (result.rights) {
+                        result.rights = result.rights.sort(function (a, b) {
+                            return compareService.compareValues(a, b);
+                        });
+                    }
                     $scope.lxForm.setModel(result);
                 } else {
                     $log.error(error);
@@ -742,7 +657,7 @@ angular.module('admin', [
                 });
             } else if (!right.isSelected) {
                 var index = $scope.lxForm.model.rights.indexOf(right._id);
-                
+
                 if (index >= 0) {
                     $scope.lxForm.model.rights.splice(index, 1);
                 }

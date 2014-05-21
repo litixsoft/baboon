@@ -23,5 +23,6 @@
     "SAVE_RIGHT": "Save right",
     "SELECT_RIGHT": "-- Select right --",
     "CREATE_EDIT_ROLE": "Create/Edit role",
-    "MODULE": "Module"
+    "MODULE": "Module",
+    "IS_ACTIVE": "Is Active?"
 }

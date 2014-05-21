@@ -1,26 +1,9 @@
 'use strict';
 
 var async = require('async'),
-    pwd = require('pwd'),
     lxHelpers = require('lx-helpers'),
-    protectedFields = ['hash', 'salt'];
-
-function createHash (user, callback) {
-    if (user.password) {
-        pwd.hash(user.password, function (error, salt, hash) {
-            if (error) {
-                callback(error);
-            }
-
-            user.salt = salt;
-            user.hash = hash;
-
-            callback(null, user);
-        });
-    } else {
-        callback(null, user);
-    }
-}
+    protectedFields = ['hash', 'salt'],
+    crypto = require('crypto');
 
 function removeProtectedFields (options) {
     if (!options.fields || lxHelpers.isEmpty(options.fields)) {
@@ -164,7 +147,7 @@ module.exports = function (baboon) {
             if (result.valid) {
                 async.auto({
                     createPasswordHash: function (next) {
-                        createHash(data, next);
+                        crypto.hashWithRandomSalt( data.password, next);
                     },
                     updateUser: ['createPasswordHash', function (next) {
                         // do not save password and confirmed_password
