@@ -25,9 +25,9 @@ angular.module('admin', [
         $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
         $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
         $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
-        $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'adminRoleListCtrl'});
-        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
-        $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'adminEditRoleCtrl'});
+        $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'AdminRoleListCtrl'});
+        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
+        $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $locationProvider.html5Mode(true);
@@ -411,7 +411,7 @@ angular.module('admin', [
 
         getData();
     })
-    .controller('AdminGroupListCtrl', function ($scope, $bbcTransport, adminModulePath) {
+    .controller('AdminGroupListCtrl', function ($scope, adminModulePath, $bbcTransport) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = { name: 1 };
@@ -478,59 +478,39 @@ angular.module('admin', [
             }
         });
     })
-
-    .controller('adminRoleListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
+    .controller('AdminRoleListCtrl', function ($scope, adminModulePath, $bbcTransport) {
         $scope.initialPageSize = 10;
-        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
-        $scope.sortOpts = {name: 1};
+        $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
+        $scope.sortOpts = { name: 1 };
 
-        $scope.getData = function (sortingOptions, pagingOptions) {
-            var query = {
-                params: {},
-                options: {
-                    fields: ['name', 'description']
-                }
-            };
+        var getData = function () {
+            var options = { options: $scope.pagingOptions };
+            options.options.sort = $scope.sortOpts;
+            options.options.fields = ['name', 'description'];
 
-            if (pagingOptions) {
-                $scope.pagingOptions = pagingOptions;
-            }
-
-            if (sortingOptions) {
-                $scope.sortOpts = sortingOptions;
-            }
-
-            query.options.sort = $scope.sortOpts;
-            query.options.skip = $scope.pagingOptions.skip;
-            query.options.limit = $scope.pagingOptions.limit;
-
-            $bbcTransport.emit(adminModulePath + 'role/getAll', query, function (error, result) {
+            $bbcTransport.emit(adminModulePath + 'role/getAll', options, function (error, result) {
                 if (result) {
                     $scope.roles = result.items;
                     $scope.count = result.count;
-                } else {
-                    $log.error(error);
                 }
             });
         };
 
-        $scope.getData();
+        $scope.load = function (sort, page) {
+            $scope.pagingOptions = page;
+            $scope.sortOpts = sort;
+            getData();
+        };
+
+        getData();
     })
+    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, adminModulePath) {
+        $scope.bbcForm = $bbcForm('baboon_role', '_id');
 
-    .controller('adminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
-        $scope.lxForm = $bbcForm('baboon_role', '_id');
-
-        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            $bbcTransport.emit(adminModulePath + 'role/getById', {id: $routeParams.id}, function (error, result) {
+        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+            $bbcTransport.emit(adminModulePath + 'role/getById', { id: $routeParams.id }, function (error, result) {
                 if (result) {
-                    if (result.rights) {
-                        result.rights = result.rights.sort(function (a, b) {
-                            return compareService.compareValues(a, b);
-                        });
-                    }
-                    $scope.lxForm.setModel(result);
-                } else {
-                    $log.error(error);
+                    $scope.bbcForm.setModel(result);
                 }
             });
         }
@@ -540,87 +520,23 @@ angular.module('admin', [
                 $scope.form.errors = {};
             }
 
-            var callback = function (error, result) {
+            var method = model._id ? 'role/update' : 'role/create';
+
+            $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
                 if (result) {
-                    $scope.lxForm.setModel(typeof(result) === 'object' ? result : model, true);
+                    $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
                     $location.path('/admin/roles');
                 } else if (error) {
                     if (error.validation) {
-                        $scope.lxForm.populateValidation($scope.form, error.validation);
-                    } else {
-                        $log.error(error);
+                        $scope.bbcForm.populateValidation($scope.form, error.validation);
                     }
                 }
-            };
-
-            if (model._id) {
-                $bbcTransport.emit(adminModulePath + 'role/update', model, callback);
-            } else {
-                $bbcTransport.emit(adminModulePath + 'role/create', model, callback);
-            }
-        };
-
-        var convertRightStringToObject = function (selectedRights, rightObj, right, path) {
-            var s = right.name.split('/');
-            var mod = s.shift();
-            path = path || '';
-
-            if (s.length === 1) {
-                rightObj[mod] = rightObj[mod] || [];
-                right.display_name = mod;
-                right.isSelected = selectedRights.indexOf(right._id) > -1;
-                right.name = path + right.name;
-                rightObj[mod].push(right);
-            } else {
-                path += mod + '/';
-                rightObj[mod] = rightObj[mod] || {children: {}};
-                convertRightStringToObject(selectedRights, rightObj[mod].children, {_id: right._id, name: s.join('/'), description: right.description}, path);
-            }
-        };
-
-        var convertToRightsObject = function (rights, selectedRights) {
-            var res = {};
-            selectedRights = selectedRights || [];
-
-            var i;
-            var length = rights.length;
-
-            for (i = 0; i < length; i++) {
-                convertRightStringToObject(selectedRights, res, rights[i]);
-            }
-
-            return res;
+            });
         };
 
         $bbcTransport.emit(adminModulePath + 'right/getAll', function (error, result) {
             if (result) {
                 $scope.rights = result.items;
-                $scope.rightsObj = convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
             }
         });
-
-        $scope.setRight = function (right) {
-            if (!$scope.lxForm.model.rights) {
-                $scope.lxForm.model.rights = [];
-            }
-
-            if (right.isSelected && $scope.lxForm.model.rights.indexOf(right._id) < 0) {
-                $scope.lxForm.model.rights.push(right._id);
-                $scope.lxForm.model.rights.sort(function (a, b) {
-                    return compareService.compareValues(a, b);
-                });
-            } else if (!right.isSelected) {
-                var index = $scope.lxForm.model.rights.indexOf(right._id);
-
-                if (index >= 0) {
-                    $scope.lxForm.model.rights.splice(index, 1);
-                }
-            }
-        };
-
-        $scope.reset = function (form) {
-            $scope.lxForm.reset(form);
-
-            $scope.rightsObj = convertToRightsObject($scope.rights, $scope.lxForm.model.rights);
-        };
     });
