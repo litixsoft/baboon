@@ -18,9 +18,9 @@ angular.module('admin', [
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
         $routeProvider.when('/admin', {templateUrl: 'app/admin/admin.html', controller: 'AdminCtrl'});
-        $routeProvider.when('/admin/users', {templateUrl: 'app/admin/tpls/users.html', controller: 'adminUserListCtrl'});
-        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
-        $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'adminEditUserCtrl'});
+        $routeProvider.when('/admin/users', {templateUrl: 'app/admin/tpls/users.html', controller: 'AdminUserListCtrl'});
+        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
+        $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
         $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'AdminRightListCtrl'});
         $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
         $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
@@ -150,7 +150,7 @@ angular.module('admin', [
         $scope.view = 'app/admin/admin.html';
     })
 
-    .controller('adminUserListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
+    .controller('AdminUserListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = {name: 1};
@@ -159,7 +159,7 @@ angular.module('admin', [
             var query = {
                 params: {},
                 options: {
-                    fields: ['name', 'email', 'id', 'is_active']
+                    fields: ['name', 'email', 'is_active']
                 }
             };
 
@@ -187,34 +187,19 @@ angular.module('admin', [
 
         $scope.getData();
     })
-    .controller('adminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
-        $scope.lxForm = $bbcForm('baboon_right', '_id');
+    .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
+        $scope.bbcForm = $bbcForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
-            return $scope.lxForm.model.password === $scope.lxForm.model.confirmed_password;
+            return $scope.bbcForm.model.password === $scope.bbcForm.model.confirmed_password;
         };
 
-        if (!$scope.lxForm.hasLoadedModelFromCache($routeParams.id)) {
-            $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
+        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+                $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
-                    if (result.groups) {
-                        result.groups.sort(function (a, b) {
-                            return compareService.compareValues(a, b);
-                        });
-                    }
-                    if (result.roles) {
-                        result.roles.sort(function (a, b) {
-                            return compareService.compareValues(a, b);
-                        });
-                    }
-                    if (result.rights) {
-                        result.rights.sort(function (a, b) {
-                            return compareService.compareByField(a, b, '_id');
-                        });
-                    }
-                    result.confirmed_password = result.password;
+                    delete result.register_date;
 
-                    $scope.lxForm.setModel(result);
+                    $scope.bbcForm.setModel(result);
                 } else {
                     $log.log(error);
                 }
@@ -228,11 +213,11 @@ angular.module('admin', [
 
             var callback = function (error, result) {
                 if (result) {
-                    $scope.lxForm.setModel(typeof(result) === 'object' ? result : model, true);
+                    $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
                     $location.path('/admin/users');
                 } else if (error) {
                     if (error.name === 'ValidationError') {
-                        $scope.lxForm.populateValidation($scope.form, error.errors);
+                        $scope.bbcForm.populateValidation($scope.form, error.errors);
                         console.log(error.errors);
                     } else {
                         $log.log(error);
@@ -249,20 +234,20 @@ angular.module('admin', [
 
         $scope.addRight = function (rightToAdd) {
             rightToAdd.hasAccess = rightToAdd.hasAccess || false;
-            $scope.lxForm.model.rights = $scope.lxForm.model.rights || [];
+            $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
 
             var i;
-            var length = $scope.lxForm.model.rights.length;
+            var length = $scope.bbcForm.model.rights.length;
 
             for (i = 0; i < length; i++) {
-                if ($scope.lxForm.model.rights[i]._id === rightToAdd._id) {
+                if ($scope.bbcForm.model.rights[i]._id === rightToAdd._id) {
                     $scope.addRightMsg = 'Right was already added';
                     return;
                 }
             }
 
-            $scope.lxForm.model.rights.push(rightToAdd);
-            $scope.lxForm.model.rights.sort(function (a, b) {
+            $scope.bbcForm.model.rights.push(rightToAdd);
+            $scope.bbcForm.model.rights.sort(function (a, b) {
                 return compareService.compareByField(a, b, '_id');
             });
 
@@ -292,10 +277,10 @@ angular.module('admin', [
         };
 
         $scope.removeRight = function (right) {
-            var index = $scope.lxForm.model.rights.indexOf(right);
+            var index = $scope.bbcForm.model.rights.indexOf(right);
 
             if (index > -1) {
-                $scope.lxForm.model.rights.splice(index, 1);
+                $scope.bbcForm.model.rights.splice(index, 1);
             }
         };
 
@@ -309,8 +294,8 @@ angular.module('admin', [
             if (result) {
                 $scope.groups = result.items;
 
-                if ($scope.lxForm.model.groups) {
-                    angular.forEach($scope.lxForm.model.groups, function (groupId) {
+                if ($scope.bbcForm.model.groups) {
+                    angular.forEach($scope.bbcForm.model.groups, function (groupId) {
                         angular.forEach($scope.groups, function (group) {
                             if (group._id === groupId) {
                                 group.isSelected = true;
@@ -321,27 +306,12 @@ angular.module('admin', [
             }
         });
 
-        $scope.setGroup = function (group) {
-            $scope.lxForm.model.groups = $scope.lxForm.model.groups || [];
-
-            var indexOfGroup = $scope.lxForm.model.groups.indexOf(group._id);
-
-            if (group.isSelected && indexOfGroup === -1) {
-                $scope.lxForm.model.groups.push(group._id);
-                $scope.lxForm.model.groups.sort(function (a, b) {
-                    return compareService.compareValues(a, b);
-                });
-            } else if (!group.isSelected && indexOfGroup !== -1) {
-                $scope.lxForm.model.groups.splice(indexOfGroup, 1);
-            }
-        };
-
         $bbcTransport.emit(adminModulePath + 'role/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
             if (result) {
                 $scope.roles = result.items;
 
-                if ($scope.lxForm.model.roles) {
-                    angular.forEach($scope.lxForm.model.roles, function (roleId) {
+                if ($scope.bbcForm.model.roles) {
+                    angular.forEach($scope.bbcForm.model.roles, function (roleId) {
                         angular.forEach($scope.roles, function (role) {
                             if (role._id === roleId) {
                                 role.isSelected = true;
@@ -352,34 +322,19 @@ angular.module('admin', [
             }
         });
 
-        $scope.setRole = function (role) {
-            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
-
-            var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
-
-            if (role.isSelected && indexOfRole === -1) {
-                $scope.lxForm.model.roles.push(role._id);
-                $scope.lxForm.model.roles.sort(function (a, b) {
-                    return compareService.compareValues(a, b);
-                });
-            } else if (!role.isSelected && indexOfRole !== -1) {
-                $scope.lxForm.model.roles.splice(indexOfRole, 1);
-            }
-        };
-
         $scope.reset = function (form) {
-            $scope.lxForm.reset(form);
-            $scope.lxForm.model.roles = $scope.lxForm.model.roles || [];
-            $scope.lxForm.model.groups = $scope.lxForm.model.groups || [];
+            $scope.bbcForm.reset(form);
+            $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
+            $scope.bbcForm.model.groups = $scope.bbcForm.model.groups || [];
 
             angular.forEach($scope.roles, function (role) {
-                var indexOfRole = $scope.lxForm.model.roles.indexOf(role._id);
+                var indexOfRole = $scope.bbcForm.model.roles.indexOf(role._id);
 
                 role.isSelected = indexOfRole !== -1;
             });
 
             angular.forEach($scope.groups, function (group) {
-                var indexOfGroup = $scope.lxForm.model.groups.indexOf(group._id);
+                var indexOfGroup = $scope.bbcForm.model.groups.indexOf(group._id);
 
                 group.isSelected = indexOfGroup !== -1;
             });

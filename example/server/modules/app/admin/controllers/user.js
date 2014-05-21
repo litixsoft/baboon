@@ -2,8 +2,8 @@
 
 var async = require('async'),
     lxHelpers = require('lx-helpers'),
-    protectedFields = ['hash', 'salt'],
-    crypto = require('crypto');
+    protectedFields = ['password', 'salt'],
+    crypto = require('../../../../../../lib/crypto')();
 
 function removeProtectedFields (options) {
     if (!options.fields || lxHelpers.isEmpty(options.fields)) {
@@ -114,7 +114,12 @@ module.exports = function (baboon) {
             }
 
             if (result.valid) {
-                repo.users.createUser(data, callback);
+                crypto.hashWithRandomSalt(data.password, function (error, result) {
+                    data.password = result.password;
+                    data.salt = result.salt;
+
+                    repo.users.createUser(data, callback);
+                });
             } else {
                 callback(new baboon.ValidationError(result.errors, 500, true));
             }
@@ -146,10 +151,10 @@ module.exports = function (baboon) {
 
             if (result.valid) {
                 async.auto({
-                    createPasswordHash: function (next) {
-                        crypto.hashWithRandomSalt( data.password, next);
-                    },
-                    updateUser: ['createPasswordHash', function (next) {
+//                    createPasswordHash: function (next) {
+//                        crypto.hashWithRandomSalt( data.password, next);
+//                    },
+                    updateUser: [/*'createPasswordHash'*/, function (next) {
                         // do not save password and confirmed_password
                         delete data.password;
                         delete data.confirmed_password;
