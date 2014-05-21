@@ -30,6 +30,7 @@ describe('Crypto', function () {
     describe('has a function randomBytes which', function () {
         it('should return a buffer with valid data', function(done) {
             crypto.randomBytes(48, function(error, buffer) {
+                console.log(error);
                 expect(error).toBe(null);
                 expect(buffer).toBeDefined();
                 expect(buffer.length).toBe(48);

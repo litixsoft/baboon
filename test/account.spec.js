@@ -237,5 +237,16 @@ describe('Account', function () {
                 done();
             });
         });
+
+        it('should return an error with invalid data', function (done) {
+            sut.resetPassword({ email: 'test@test.com', name: { $set: { name: 'test' } } }, request, function (error, result) {
+                expect(error).toBeDefined();
+                expect(result).not.toBeDefined();
+                expect(error.message).toBe('Could not get username.');
+                expect(error instanceof AccountError).toBeTruthy();
+
+                done();
+            });
+        });
     });
 });
