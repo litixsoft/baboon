@@ -1,4 +1,7 @@
 {
+    "CANCEL": "cancel",
+    "SAVE": "save",
+    "RESET": "reset",
     "APP_HEADER": "Baboon-Example-App",
     "HOME": "Home",
     "LOCALE": "Localization",
@@ -26,5 +29,8 @@
     "REGISTER": "register",
     "FORGET_PASSWORD": "forget password",
     "FORGET_USERNAME": "forget username",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "LANGUAGE": "Language",
+    "GERMAN":"german",
+    "ENGLISH":"english"
 }

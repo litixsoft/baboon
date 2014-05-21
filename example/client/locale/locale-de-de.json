@@ -1,4 +1,7 @@
 {
+    "CANCEL": "abbrechen",
+    "SAVE": "speichern",
+    "RESET": "zurücksetzen",
     "APP_HEADER": "Baboon-Beispiel-Anwendung",
     "HOME": "Start",
     "LOCALE": "Lokalisierung",
@@ -26,5 +29,9 @@
     "REGISTER": "Registrieren",
     "FORGET_PASSWORD": "Passwort vergessen",
     "FORGET_USERNAME": "Username vergessen",
-    "SETTINGS": "Einstellungen"
+    "SETTINGS": "Einstellungen",
+    "LANGUAGE": "Sprache",
+    "GERMAN":"deutsch",
+    "ENGLISH":"englisch"
+
 }

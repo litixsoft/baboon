@@ -68,21 +68,24 @@ angular.module('common.auth', [])
     })
     .controller('MainModalsSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
 
-        console.log("Modalcontroller");
-
             $scope.lxForm = lxForm('settings', '_id');
-//            $scope.languages = LANGUAGES;
-//            $scope.themes = THEMES;
-//            $scope.views = VIEWS;
-//            $scope.pageSizes = PAGESIZES;
+            $scope.languages = [{
+                                    name: 'ENGLISH',
+                                    code: 'en-us',
+                                    flagURL: 'assets/images/flag-usa48.png'
+                                },
+                                {
+                                    name: 'GERMAN',
+                                    code: 'de-de',
+                                    flagURL: 'assets/images/flag-germany48.png'
+                                }];
+
+            $scope.test = [0,1,2,3,4,5,6];
             $scope.item = {};
 
-            // load settings
-//            transport.emit('app/mongoadmin/settings/getUserSettings', {}, function (error, result) {
 
             transport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
-                console.log("Error: ",error);
-                console.log("Result: ",result);
+
                 if (error) {
                     $scope.item.error = error;
                 } else if (result) {
@@ -91,12 +94,13 @@ angular.module('common.auth', [])
                         result.setIsEnabled = true;
                     }
 
+//                    $scope.switchLocale('de-de');
                     $scope.lxForm.setModel(result);
                 }
             });
 
             $scope.save = function () {
-                transport.emit('app/mongoadmin/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
+                transport.emit('api/lib/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
                     if (error) {
                         $scope.item.error = error;
                     } else if (result) {
