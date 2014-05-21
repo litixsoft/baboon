@@ -11,16 +11,16 @@
                                 <a name="newUser" href="/admin/users/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                             </th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
-                            <th><bbc-sort sort-opts="sortOpts" field-name="id" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'ID' | translate }}</th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="email" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
+                            <th><bbc-sort sort-opts="sortOpts" field-name="is_active" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'IS_ACTIVE' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="user in users">
                             <td><a href="/admin/users/edit/{{user._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.id}}</td>
-                            <td>{{user.email}}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td><i ng-if="user.is_active" class="glyphicon glyphicon-ok"></i></td>
                         </tr>
                     </tbody>
                 </table>

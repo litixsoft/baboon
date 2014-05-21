@@ -19,9 +19,12 @@
     "RESET": "Reset",
     "SAVE": "Save",
     "ID": "ID",
-    "CREATE_EDIT_GROUP": "Create/Edit group",
+    "EDIT_GROUP": "Edit group",
+    "CREATE_GROUP": "Create group",
     "SAVE_RIGHT": "Save right",
     "SELECT_RIGHT": "-- Select right --",
     "CREATE_EDIT_ROLE": "Create/Edit role",
-    "MODULE": "Module"
+    "MODULE": "Module",
+    "GROUP_ALREADY_EXISTS": "Group already exists.",
+    "IS_ACTIVE": "Is Active?"
 }

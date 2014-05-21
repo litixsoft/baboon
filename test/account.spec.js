@@ -10,6 +10,7 @@ describe('Account', function () {
         emlDir = path.resolve(config.mail.directory),
         sut = null,
         userRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).users,
+        rolesRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).roles,
         AccountError = require(path.resolve(__dirname, '../', 'lib', 'errors')).AccountError;
 
     beforeEach(function () {
@@ -33,7 +34,11 @@ describe('Account', function () {
     describe('has a function register which', function () {
         var request = { };
         beforeEach(function (done) {
-            userRepo.remove({name: 'JohnDoe_accounttest'}, done);
+            userRepo.remove({name: 'JohnDoe_accounttest'}, function(){
+                rolesRepo.remove({name: 'User'}, function(){
+                    rolesRepo.insert({name: 'User'}, done);
+                });
+            });
         });
 
         it('should create an user', function (done) {
@@ -233,6 +238,17 @@ describe('Account', function () {
                 expect(error instanceof AccountError).toBeTruthy();
                 expect(error.message).toBe('User not found.');
                 expect(error.status).toBe(404);
+
+                done();
+            });
+        });
+
+        it('should return an error with invalid data', function (done) {
+            sut.resetPassword({ email: 'test@test.com', name: { $set: { name: 'test' } } }, request, function (error, result) {
+                expect(error).toBeDefined();
+                expect(result).not.toBeDefined();
+                expect(error.message).toBe('Could not get username.');
+                expect(error instanceof AccountError).toBeTruthy();
 
                 done();
             });

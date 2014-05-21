@@ -19,9 +19,12 @@
     "RESET": "Zurücksetzen",
     "SAVE": "Speichern",
     "ID": "ID",
-    "CREATE_EDIT_GROUP": "Gruppe erstellen/bearbeiten",
+    "EDIT_GROUP": "Gruppe bearbeiten",
+    "CREATE_GROUP": "Gruppe erstellen",
     "SAVE_RIGHT": "Recht speichern",
     "SELECT_RIGHT": "-- Recht auswählen --",
     "CREATE_EDIT_ROLE": "Rolle erstellen/bearbeiten",
-    "MODULE": "Modul"
+    "MODULE": "Modul",
+    "GROUP_ALREADY_EXISTS": "Diese Gruppe existiert bereits.",
+    "IS_ACTIVE": "Ist aktiviert?"
 }

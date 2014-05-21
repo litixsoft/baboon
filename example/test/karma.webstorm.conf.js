@@ -29,6 +29,7 @@ module.exports = function (config) {
             'client/assets/bower_components/baboon-client/modules/navigation/navigation.js',
             'client/assets/bower_components/baboon-client/modules/**/*.js',
             'client/common/popup_login/popup_login.js',
+            'client/common/check_list/checkListModel.js',
             'client/app/**/*.js'
         ],
 
