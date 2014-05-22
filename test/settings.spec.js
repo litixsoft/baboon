@@ -91,7 +91,7 @@ describe('Settings', function () {
                 });
             });
 
-            it('should return an error there is a database error', function (done) {
+            it('should return an error when there is a database error', function (done) {
                 var rightsMock = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
                 rightsMock.getRepositories = function () {
                     return {
@@ -102,6 +102,8 @@ describe('Settings', function () {
                         }
                     };
                 };
+
+                testUser.settings = null;
 
                 var sut2 = require(path.join(rootPath, 'lib', 'settings'))({config: config, loggers: appMock.logging, rights: rightsMock});
 
@@ -124,6 +126,7 @@ describe('Settings', function () {
             });
 
             it('should save a user setting in the db', function (done) {
+                testUser.settings = null;
                 userRepo.insert(testUser, function (err, res) {
                     var user = res[0];
 
@@ -136,7 +139,7 @@ describe('Settings', function () {
 
                         userRepo.findOneById(user._id, function (err, res) {
                             expect(err).toBeNull();
-                            expect(res.settings).toEqual({language: 'fr-fr', demo: true});
+                            expect(res.settings).toEqual({language: 'de-de', test: 1, demo: true});
 
                             done();
                         });
@@ -311,6 +314,7 @@ describe('Settings', function () {
             });
 
             it('should return the default client settings when the user does not exists', function (done) {
+                testUser.settings = null;
                 sut.getUserSettings(null, {session: {user: testUser}}, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toEqual({language: 'de-de', test: 1});
@@ -342,9 +346,10 @@ describe('Settings', function () {
             });
 
             it('should return the settings already in the session', function (done) {
-                sut.getUserSettings(null, {session: {user: testUser, settings: {test: 99}}}, function (err, res) {
+                testUser.settings = {test: 99};
+                sut.getUserSettings(null, {session: {user: testUser}}, function (err, res) {
                     expect(err).toBeNull();
-                    expect(res).toEqual({test: 1, demo: true});
+                    expect(res).toEqual({test: 99});
 
                     done();
                 });
