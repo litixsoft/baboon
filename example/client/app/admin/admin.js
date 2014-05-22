@@ -50,9 +50,7 @@ angular.module('admin', [
         $translateProvider.preferredLanguage('en-us');
         $translateProvider.fallbackLanguage('en-us');
     })
-
     .constant('adminModulePath', 'api/app/admin/')
-
     .run(function ($rootScope, $translate, tmhDynamicLocale, $log, $window, $bbcSession) {
 
         $rootScope.currentLang = $translate.preferredLanguage();
@@ -95,7 +93,6 @@ angular.module('admin', [
             tmhDynamicLocale.set($translate.use());
         });
     })
-
     .service('compareService', function () {
         var pub = {};
 
@@ -135,7 +132,6 @@ angular.module('admin', [
 
         return pub;
     })
-
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result) {
             if (!error && result) {
@@ -149,43 +145,32 @@ angular.module('admin', [
 
         $scope.view = 'app/admin/admin.html';
     })
-
-    .controller('AdminUserListCtrl', function ($scope, $log, $bbcTransport, adminModulePath) {
+    .controller('AdminUserListCtrl', function ($scope, adminModulePath, $bbcTransport) {
         $scope.initialPageSize = 10;
-        $scope.pagingOptions = {skip: 0, limit: $scope.initialPageSize};
-        $scope.sortOpts = {name: 1};
+        $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize };
+        $scope.sortOpts = { name: 1 };
 
-        $scope.getData = function (sortingOptions, pagingOptions) {
-            var query = {
-                params: {},
-                options: {
-                    fields: ['name', 'email', 'is_active']
-                }
-            };
+        var getData = function () {
+            var options = { options: $scope.pagingOptions };
+            options.options.sort = $scope.sortOpts;
+            options.options.fields = ['name', 'email', 'is_active'];
 
-            if (pagingOptions) {
-                $scope.pagingOptions = pagingOptions;
-            }
-
-            if (sortingOptions) {
-                $scope.sortOpts = sortingOptions;
-            }
-
-            query.options.sort = $scope.sortOpts;
-            query.options.skip = $scope.pagingOptions.skip;
-            query.options.limit = $scope.pagingOptions.limit;
-
-            $bbcTransport.emit(adminModulePath + 'user/getAll', query, function (error, result) {
+            $bbcTransport.emit(adminModulePath + 'user/getAll', options, function (error, result) {
                 if (result) {
+                    console.log(result.items);
                     $scope.users = result.items;
                     $scope.count = result.count;
-                } else {
-                    $log.log(error);
                 }
             });
         };
 
-        $scope.getData();
+        $scope.load = function (sort, page) {
+            $scope.pagingOptions = page;
+            $scope.sortOpts = sort;
+            getData();
+        };
+
+        getData();
     })
     .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
@@ -341,7 +326,7 @@ angular.module('admin', [
         };
     })
 
-    .controller('AdminRightListCtrl', function ($scope, $bbcTransport, adminModulePath) {
+    .controller('AdminRightListCtrl', function ($scope, adminModulePath, $bbcTransport) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = { name: 1 };
@@ -378,7 +363,6 @@ angular.module('admin', [
 
             $bbcTransport.emit(adminModulePath + 'group/getAll', options, function (error, result) {
                 if (result) {
-                    console.log(result.items);
                     $scope.groups = result.items;
                     $scope.count = result.count;
                 }
@@ -386,7 +370,6 @@ angular.module('admin', [
         };
 
         $scope.load = function (sort, page) {
-            console.log(sort);
             $scope.pagingOptions = page;
             $scope.sortOpts = sort;
             getData();
@@ -394,7 +377,7 @@ angular.module('admin', [
 
         getData();
     })
-    .controller('AdminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, adminModulePath) {
+    .controller('AdminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
         $scope.bbcForm = $bbcForm('baboon_group', '_id');
 
         if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
@@ -459,7 +442,7 @@ angular.module('admin', [
 
         getData();
     })
-    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, adminModulePath) {
+    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
         $scope.bbcForm = $bbcForm('baboon_role', '_id');
 
         if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {

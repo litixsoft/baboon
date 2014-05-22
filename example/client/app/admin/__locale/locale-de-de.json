@@ -4,7 +4,8 @@
     "NAME": "Name",
     "ENTER_NAME": "Namen eingeben",
     "DESCRIPTION": "Beschreibung",
-    "CREATE_EDIT_USER": "Erstelle oder bearbeite Benutzer",
+    "CREATE_USER": "Benutzer anlegen",
+    "EDIT_USER": "Benutzer bearbeiten",
     "MAIL": "Mail",
     "ENTER_MAIL": "Mail eingeben",
     "PASSWORD": "Passwort",
@@ -27,6 +28,6 @@
     "EDIT_ROLE": "Rolle bearbeiten",
     "MODULE": "Modul",
     "GROUP_ALREADY_EXISTS": "Diese Gruppe existiert bereits.",
-    "IS_ACTIVE": "Ist aktiviert?",
+    "IS_ACTIVE": "Aktiviert",
     "SEARCH_TEXT_PLACEHOLDER": "Suchtext eingeben..."
 }
