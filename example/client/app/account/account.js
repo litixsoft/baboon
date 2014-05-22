@@ -23,7 +23,7 @@ angular.module('account', [
         $locationProvider.html5Mode(true);
 
         // Transport
-        $bbcTransportProvider.set({useSocket:false});
+        $bbcTransportProvider.set({useSocket: false});
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
@@ -116,12 +116,12 @@ angular.module('account', [
     .controller('AccountRegisterCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.register = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.register = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -145,7 +145,7 @@ angular.module('account', [
                             $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else { //if (error) {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -155,12 +155,12 @@ angular.module('account', [
     .controller('AccountUsernameCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.send = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.send = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -184,7 +184,7 @@ angular.module('account', [
                             $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else { //if (error) {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -194,12 +194,12 @@ angular.module('account', [
     .controller('AccountPasswordCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.send = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.send = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -223,7 +223,7 @@ angular.module('account', [
                             $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else { //if (error) {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
