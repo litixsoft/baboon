@@ -37,7 +37,7 @@ describe('Settings', function () {
 
         expect(appMock.logging.syslog.warn).toHaveBeenCalled();
         expect(appMock.logging.syslog.warn.calls.length).toBe(1);
-        expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: Cannot parse default application settings file: %s');
+        expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: Cannot parse default client settings file: %s');
         expect(appMock.logging.syslog.warn.mostRecentCall.args[1]).toEqual(path.join(configMock.path.root, 'client_settings.js'));
     });
 
@@ -414,7 +414,7 @@ describe('Settings', function () {
                 });
             });
 
-            it('should return default application settings and log an error when the setting files cannot be parsed', function (done) {
+            it('should return default client settings and log an error when the setting files cannot be parsed', function (done) {
                 var settingsFile = path.join(settingsFolder, testUser.name + '.json');
                 sut.setUserSettings({test: 1}, {session: {user: testUser}}, function (err, res) {
                     expect(err).toBeNull();
