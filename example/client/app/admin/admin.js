@@ -180,7 +180,7 @@ angular.module('admin', [
         };
 
         if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
-                $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
+            $bbcTransport.emit(adminModulePath + 'user/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
                     delete result.register_date;
 
@@ -393,7 +393,7 @@ angular.module('admin', [
                 $scope.form.errors = {};
             }
 
-            var method =  model._id ?  'group/update' : 'group/create';
+            var method = model._id ? 'group/update' : 'group/create';
 
             $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
                 console.log('error', error);

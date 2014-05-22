@@ -8,13 +8,12 @@ angular.module('common.auth', [])
         $scope.authError = false;
         $scope.guestError = false;
 
-
-        $scope.getUserSettings = function(){
-            $bbcTransport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
+        $scope.getUserSettings = function () {
+            $bbcTransport.emit('api/settings/getUserSettings', {}, function (error, result) {
                 if (error) {
                     $scope.item.error = error;
                 } else if (result) {
-                    if(result.language){ //setLanguage on app start
+                    if (result.language) { //setLanguage on app start
                         $scope.switchLocale(result.language);
                     }
                 }
@@ -23,13 +22,12 @@ angular.module('common.auth', [])
 
         $scope.getUserSettings();
 
-
         /**
          * watch for language changes and save them instantly to the user setting
          */
-        $scope.$watch('currentLang',function(newVal,oldValue){
-            if(newVal!==oldValue){
-                $bbcTransport.emit('api/lib/settings/setUserSetting', {key: 'language', value: newVal}, function (error) {
+        $scope.$watch('currentLang', function (newVal, oldValue) {
+            if (newVal !== oldValue) {
+                $bbcTransport.emit('api/settings/setUserSetting', {key: 'language', value: newVal}, function (error) {
                     if (error) {
                         $log.warn(error);
                     }
@@ -37,12 +35,11 @@ angular.module('common.auth', [])
             }
         });
 
-
-        $bbcSession.getUserDataForClient(function(error,result){
-            if(error){
+        $bbcSession.getUserDataForClient(function (error, result) {
+            if (error) {
                 $log.warn(error);
             }
-            if(result){
+            if (result) {
                 $scope.userName = result.username;
                 $scope.isLoggedIn = result.isLoggedIn;
                 $scope.rightSystem = result.rightssystem;
@@ -58,7 +55,7 @@ angular.module('common.auth', [])
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.rest('api/lib/auth/login', {user: $scope.user}, function (error, result) {
+            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -100,47 +97,49 @@ angular.module('common.auth', [])
     })
     .controller('CommonUserSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
 
-            $scope.lxForm = lxForm('settings', '_id');
-            $scope.languages = [{
-                                    name: 'ENGLISH',
-                                    code: 'en-us',
-                                    flagURL: 'assets/images/flag-usa48.png'
-                                },
-                                {
-                                    name: 'GERMAN',
-                                    code: 'de-de',
-                                    flagURL: 'assets/images/flag-germany48.png'
-                                }];
+        $scope.lxForm = lxForm('settings', '_id');
+        $scope.languages = [
+            {
+                name: 'ENGLISH',
+                code: 'en-us',
+                flagURL: 'assets/images/flag-usa48.png'
+            },
+            {
+                name: 'GERMAN',
+                code: 'de-de',
+                flagURL: 'assets/images/flag-germany48.png'
+            }
+        ];
 
-            $scope.test = [0,1,2,3,4,5,6];
-            $scope.item = {};
+        $scope.test = [0, 1, 2, 3, 4, 5, 6];
+        $scope.item = {};
 
-            transport.emit('api/lib/settings/getUserSettings', {}, function (error, result) {
+        transport.emit('api/settings/getUserSettings', {}, function (error, result) {
+            if (error) {
+                $scope.item.error = error;
+            } else if (result) {
+
+                if (result.setIsEnabled === undefined) {
+                    result.setIsEnabled = true;
+                }
+
+                $scope.lxForm.setModel(result);
+            }
+        });
+
+        $scope.save = function () {
+            transport.emit('api/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
                 if (error) {
                     $scope.item.error = error;
                 } else if (result) {
-
-                    if (result.setIsEnabled === undefined) {
-                        result.setIsEnabled = true;
-                    }
-
-                    $scope.lxForm.setModel(result);
+                    $modalInstance.close($scope.lxForm.model);
                 }
             });
+        };
 
-            $scope.save = function () {
-                transport.emit('api/lib/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
-                    if (error) {
-                        $scope.item.error = error;
-                    } else if (result) {
-                        $modalInstance.close($scope.lxForm.model);
-                    }
-                });
-            };
-
-            $scope.cancel = function () {
-                if ($modalInstance) {
-                    $modalInstance.dismiss('cancel');
-                }
-            };
-        }]);
+        $scope.cancel = function () {
+            if ($modalInstance) {
+                $modalInstance.dismiss('cancel');
+            }
+        };
+    }]);
