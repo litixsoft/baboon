@@ -7,6 +7,7 @@ describe('Navigation', function () {
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var navigation = require(path.resolve(path.join(rootPath, 'lib', 'navigation')));
     var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
+    var config = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'config')));
     var NavigationError = require(path.resolve(path.join(rootPath, 'lib', 'errors'))).NavigationError;
     var sut, data, request, mock, nav, navArr;
 
@@ -15,12 +16,13 @@ describe('Navigation', function () {
         var func = function () {
             return navigation();
         };
-        expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
+        expect(func).toThrow(new NavigationError('Cannot read property \'rights\' of undefined'));
+//        expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
     });
 
     beforeEach(function () {
         mock = appMock();
-        sut = navigation(navigationFilePath);
+        sut = navigation(navigationFilePath, config().production());
     });
 
     it('should be defined', function () {
@@ -90,10 +92,10 @@ describe('Navigation', function () {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(7);
+                expect(navArr.length).toBe(3);
 
                 nav = navArr[1];
-                expect(nav.title).toBe('LOCALE');
+                expect(nav.title).toBe('PROJECT1');
 
                 done();
             });
@@ -105,10 +107,10 @@ describe('Navigation', function () {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(7);
+                expect(navArr.length).toBe(3);
 
                 nav = navArr[1];
-                expect(nav.title).toBe('LOCALE');
+                expect(nav.title).toBe('PROJECT1');
 
                 done();
             });
@@ -238,13 +240,13 @@ describe('Navigation', function () {
             sut.getSubList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(4);
+                expect(navArr.length).toBe(3);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 nav = navArr[3];
-                expect(nav.title).toBe('EDIT');
+                expect(nav).toBeUndefined();
 
                 done();
             });
@@ -270,13 +272,13 @@ describe('Navigation', function () {
             sut.getSubList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(4);
+                expect(navArr.length).toBe(3);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
                 nav = navArr[3];
-                expect(nav.title).toBe('EDIT');
+                expect(nav).toBeUndefined();
 
                 done();
             });
