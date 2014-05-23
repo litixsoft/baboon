@@ -13,7 +13,7 @@ angular.module('admin', [
     'common.auth',
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    'common.checklist'
+    'checklist-model'
 ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
