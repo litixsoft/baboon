@@ -444,14 +444,52 @@ angular.module('admin', [
     })
     .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
         $scope.bbcForm = $bbcForm('baboon_role', '_id');
+        $scope.isReadOnly = false;
+        $scope.isPartialReadOnly = false;
 
         if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'role/getById', { id: $routeParams.id }, function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(result);
+                    checkEditState();
                 }
             });
         }
+        else {
+            checkEditState();
+        }
+
+        function checkEditState() {
+            $scope.isReadOnly = $scope.bbcForm.model.name === 'Admin' || $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest';
+            $scope.isAdmin = $scope.bbcForm.model.name === 'Admin';
+        }
+
+        /*var userRightObj = null;
+
+        $scope.setStyle = function(r) {
+            if(!userRightObj) {
+                userRightObj = {};
+                for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                    var right = $scope.bbcForm.model.rights[i];
+                    userRightObj[right] = right;
+                }
+            }
+
+            if(userRightObj[r._id]) {
+                return { 'border-left': "3px solid green" };
+            }
+
+            return null;
+        };*/
+        $scope.setStyle = function(r) {
+            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                if($scope.bbcForm.model.rights[i] === r._id) {
+                    return { 'border-left': "3px solid green" };
+                }
+            }
+
+            return null;
+        };
 
         $scope.save = function (model) {
             if ($scope.form) {
@@ -465,8 +503,8 @@ angular.module('admin', [
                     $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
                     $location.path('/admin/roles');
                 } else if (error) {
-                    if (error.validation) {
-                        $scope.bbcForm.populateValidation($scope.form, error.validation);
+                    if (error.name === 'ValidationError') {
+                        $scope.bbcForm.populateValidation($scope.form, error.errors);
                     }
                 }
             });

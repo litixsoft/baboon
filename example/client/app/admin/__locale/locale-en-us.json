@@ -29,5 +29,6 @@
     "MODULE": "Module",
     "GROUP_ALREADY_EXISTS": "Group already exists.",
     "IS_ACTIVE": "Active",
-    "SEARCH_TEXT_PLACEHOLDER": "Insert search text..."
+    "SEARCH_TEXT_PLACEHOLDER": "Insert search text...",
+    "ROLE_ALREADY_EXISTS": "Role already exists."
 }
