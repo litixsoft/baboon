@@ -13,7 +13,8 @@ angular.module('admin', [
     'common.auth',
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    'checklist-model'
+    'checklist-model',
+    'bbc.radio'
 ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
@@ -157,7 +158,6 @@ angular.module('admin', [
 
             $bbcTransport.emit(adminModulePath + 'user/getAll', options, function (error, result) {
                 if (result) {
-                    console.log(result.items);
                     $scope.users = result.items;
                     $scope.count = result.count;
                 }
@@ -184,6 +184,15 @@ angular.module('admin', [
                 if (result) {
                     delete result.register_date;
 
+                    if (result.name === 'guest') {
+                        result.editIsLocked = true;
+                    }
+
+                    if (result.name === 'admin') {
+                        result.editIsLocked = true;
+                        result.rightIsLocked = true;
+                    }
+
                     $scope.bbcForm.setModel(result);
                 } else {
                     $log.log(error);
@@ -203,7 +212,7 @@ angular.module('admin', [
                 } else if (error) {
                     if (error.name === 'ValidationError') {
                         $scope.bbcForm.populateValidation($scope.form, error.errors);
-                        console.log(error.errors);
+                        //console.log(error.errors);
                     } else {
                         $log.log(error);
                     }
@@ -216,6 +225,8 @@ angular.module('admin', [
                 $bbcTransport.emit(adminModulePath + 'user/create', model, callback);
             }
         };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $scope.addRight = function (rightToAdd) {
             rightToAdd.hasAccess = rightToAdd.hasAccess || false;
@@ -269,6 +280,8 @@ angular.module('admin', [
             }
         };
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         $bbcTransport.emit(adminModulePath + 'right/getAll', function (error, result) {
             if (result) {
                 $scope.rights = result.items;
@@ -306,24 +319,6 @@ angular.module('admin', [
                 }
             }
         });
-
-        $scope.reset = function (form) {
-            $scope.bbcForm.reset(form);
-            $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
-            $scope.bbcForm.model.groups = $scope.bbcForm.model.groups || [];
-
-            angular.forEach($scope.roles, function (role) {
-                var indexOfRole = $scope.bbcForm.model.roles.indexOf(role._id);
-
-                role.isSelected = indexOfRole !== -1;
-            });
-
-            angular.forEach($scope.groups, function (group) {
-                var indexOfGroup = $scope.bbcForm.model.groups.indexOf(group._id);
-
-                group.isSelected = indexOfGroup !== -1;
-            });
-        };
     })
 
     .controller('AdminRightListCtrl', function ($scope, adminModulePath, $bbcTransport) {
@@ -396,8 +391,6 @@ angular.module('admin', [
             var method = model._id ? 'group/update' : 'group/create';
 
             $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
-                console.log('error', error);
-                console.log('result', result);
                 if (result) {
                     $scope.bbcForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
                     $location.path('/admin/groups');
