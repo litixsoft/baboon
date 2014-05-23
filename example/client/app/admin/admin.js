@@ -226,67 +226,112 @@ angular.module('admin', [
             }
         };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        $scope.addRight = function (rightToAdd) {
-            rightToAdd.hasAccess = rightToAdd.hasAccess || false;
-            $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
-
-            var i;
-            var length = $scope.bbcForm.model.rights.length;
-
-            for (i = 0; i < length; i++) {
-                if ($scope.bbcForm.model.rights[i]._id === rightToAdd._id) {
-                    $scope.addRightMsg = 'Right was already added';
-                    return;
-                }
-            }
-
-            $scope.bbcForm.model.rights.push(rightToAdd);
-            $scope.bbcForm.model.rights.sort(function (a, b) {
-                return compareService.compareByField(a, b, '_id');
-            });
-
-            $scope.addingRight = false;
-            $scope.addedRight = {};
-            $scope.addRightMsg = '';
-        };
-
-        $scope.cancelAddRight = function () {
-            $scope.addingRight = false;
-            $scope.addedRight = {};
-            $scope.addRightMsg = '';
-        };
-
-        $scope.getRightName = function (rightId) {
-            var i, name;
-            var length = ($scope.rights || []).length;
-
-            for (i = 0; i < length; i++) {
-                if ($scope.rights[i]._id === rightId) {
-                    name = $scope.rights[i].name;
-                    return name;
-                }
-            }
-
-            return name;
-        };
-
-        $scope.removeRight = function (right) {
-            var index = $scope.bbcForm.model.rights.indexOf(right);
-
-            if (index > -1) {
-                $scope.bbcForm.model.rights.splice(index, 1);
-            }
-        };
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        $scope.addRight = function (rightToAdd) {
+//            rightToAdd.hasAccess = rightToAdd.hasAccess || false;
+//            $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
+//
+//            var i;
+//            var length = $scope.bbcForm.model.rights.length;
+//
+//            for (i = 0; i < length; i++) {
+//                if ($scope.bbcForm.model.rights[i]._id === rightToAdd._id) {
+//                    $scope.addRightMsg = 'Right was already added';
+//                    return;
+//                }
+//            }
+//
+//            $scope.bbcForm.model.rights.push(rightToAdd);
+//            $scope.bbcForm.model.rights.sort(function (a, b) {
+//                return compareService.compareByField(a, b, '_id');
+//            });
+//
+//            $scope.addingRight = false;
+//            $scope.addedRight = {};
+//            $scope.addRightMsg = '';
+//        };
+//
+//        $scope.cancelAddRight = function () {
+//            $scope.addingRight = false;
+//            $scope.addedRight = {};
+//            $scope.addRightMsg = '';
+//        };
+//
+//        $scope.getRightName = function (rightId) {
+//            var i, name;
+//            var length = ($scope.rights || []).length;
+//
+//            for (i = 0; i < length; i++) {
+//                if ($scope.rights[i]._id === rightId) {
+//                    name = $scope.rights[i].name;
+//                    return name;
+//                }
+//            }
+//
+//            return name;
+//        };
+//
+//        $scope.removeRight = function (right) {
+//            var index = $scope.bbcForm.model.rights.indexOf(right);
+//
+//            if (index > -1) {
+//                $scope.bbcForm.model.rights.splice(index, 1);
+//            }
+//        };
 
         $bbcTransport.emit(adminModulePath + 'right/getAll', function (error, result) {
             if (result) {
+                $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
+
+                var extractHasAccessId = function (e) {
+                    return e.hasAccess ? e._id : null;
+                };
+
+                var extractForbiddenAccessId = function (e) {
+                    return e.hasAccess ? null : e._id;
+                };
+
+                if (angular.isArray(result.items)) {
+                    for (var i = 0; i < result.items.length; i++) {
+                        var hasAccess = $scope.bbcForm.model.rights.map(extractHasAccessId).indexOf(result.items[i]._id) > -1 ? true : false;
+                        var forbiddenAccess = $scope.bbcForm.model.rights.map(extractForbiddenAccessId).indexOf(result.items[i]._id) > -1 ? true : false;
+
+                        if (forbiddenAccess) {
+                            result.items[i].state = 'forbidden';
+                        } else if (hasAccess) {
+                            result.items[i].state = 'allow';
+                        } else {
+                            result.items[i].state = 'ignore';
+                        }
+                    }
+                }
+
                 $scope.rights = result.items;
             }
         });
+
+        $scope.changeRight = function (right) {
+            var extractId = function (e) {
+                return e._id;
+            };
+
+            var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);
+
+            if (right.state === 'ignore') {
+                //delete from $scope.bbcForm.model.rights
+                if (index > -1) {
+                    $scope.bbcForm.model.rights.splice(index, 1);
+                }
+            } else if (right.state === 'allow' || right.state === 'forbidden') {
+                //insert in $scope.bbcForm.model.rights or change state
+                var hasAccess = right.state === 'allow';
+
+                if (index > -1) {
+                    $scope.bbcForm.model.rights[index].hasAccess = hasAccess;
+                } else {
+                    $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: hasAccess});
+                }
+            }
+        };
 
         $bbcTransport.emit(adminModulePath + 'group/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
             if (result) {
