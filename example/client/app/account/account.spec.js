@@ -187,6 +187,9 @@ describe('App: account', function () {
                 if(!user.name && !user.display_name && !user.email) {
                     callback({valid: false});
                 }
+                else if(user.email === 'bad') {
+                    callback({name: 'ValidationError', errors: [{ actual: 'bad', attribute: 'format', expected: 'email', message: 'is not a valid email', property: 'email' }]});
+                }
                 else {
                     callback(null, user);
                 }
@@ -236,6 +239,16 @@ describe('App: account', function () {
                 expect($scope.alerts.length).toBe(1);
                 expect($scope.alerts[0].type).toBe('danger');
             });
+
+            it('should return validation errors', function() {
+                $scope.form =  { $valid: true };
+                $scope.alerts = [];
+                $scope.user = { name: 'Test', display_name: 'Tina Test', email: 'bad' };
+                $scope.register();
+
+                expect($scope.form.errors).toBeDefined();
+                expect($scope.form.errors.email).toBeDefined();
+            });
         });
     });
 
@@ -249,6 +262,9 @@ describe('App: account', function () {
             $transport.emit = function (event, user, callback) {
                 if(!user.email) {
                     callback({valid: false});
+                }
+                else if(user.email === 'bad') {
+                    callback({name: 'ValidationError', errors: [{ actual: 'bad', attribute: 'format', expected: 'email', message: 'is not a valid email', property: 'email' }]});
                 }
                 else {
                     callback(null, user);
@@ -298,6 +314,16 @@ describe('App: account', function () {
                 expect($scope.alerts.length).toBe(1);
                 expect($scope.alerts[0].type).toBe('danger');
             });
+
+            it('should return validation errors', function() {
+                $scope.form =  { $valid: true };
+                $scope.alerts = [];
+                $scope.user = { email: 'bad' };
+                $scope.send();
+
+                expect($scope.form.errors).toBeDefined();
+                expect($scope.form.errors.email).toBeDefined();
+            });
         });
     });
 
@@ -311,6 +337,9 @@ describe('App: account', function () {
             $transport.emit = function (event, user, callback) {
                 if(!user.email) {
                     callback({valid: false});
+                }
+                else if(user.email === 'bad') {
+                    callback({name: 'ValidationError', errors: [{ actual: 'bad', attribute: 'format', expected: 'email', message: 'is not a valid email', property: 'email' }]});
                 }
                 else {
                     callback(null, user);
@@ -359,6 +388,16 @@ describe('App: account', function () {
 
                 expect($scope.alerts.length).toBe(1);
                 expect($scope.alerts[0].type).toBe('danger');
+            });
+
+            it('should return validation errors', function() {
+                $scope.form =  { $valid: true };
+                $scope.alerts = [];
+                $scope.user = { name: 'Tina', email: 'bad' };
+                $scope.send();
+
+                expect($scope.form.errors).toBeDefined();
+                expect($scope.form.errors.email).toBeDefined();
             });
         });
     });

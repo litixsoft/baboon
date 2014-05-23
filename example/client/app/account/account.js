@@ -140,12 +140,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else { //if (error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -179,12 +179,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else { //if (error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -218,12 +218,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else { //if (error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
