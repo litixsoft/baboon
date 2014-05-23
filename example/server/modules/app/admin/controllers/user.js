@@ -60,7 +60,6 @@ module.exports = function (baboon) {
         // remove protected fields from options.fields
         removeProtectedFields(options);
 
-        console.log(options);
         async.auto({
             getAll: function (callback) {
                 repo.users.find(data.params || {}, options, callback);
