@@ -104,61 +104,6 @@
                     </div>
                 </div>
 
-                <!--<div class="panel panel-info">-->
-                    <!--<div class="panel-heading">-->
-                        <!--<h3 class="panel-title">-->
-                            <!--{{ 'RIGHTS' | translate }}-->
-                        <!--</h3>-->
-                    <!--</div>-->
-
-                    <!--<div class="panel-body">-->
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-lg-2 control-label">-->
-                                <!--<button type="button" class="btn btn-default" ng-click="addingRight = true" ng-disabled="addingRight || bbcForm.model.rightIsLocked">-->
-                                    <!--<span class="icon-plus-sign"></span> {{ 'ADD_RIGHT' | translate }}-->
-                                <!--</button>-->
-                            <!--</label>-->
-
-                            <!--<div class="col-lg-10" ng-show="addingRight">-->
-                                <!--<select name="right" ng-model="addedRight._id" ng-options="right._id as right.name for right in rights">-->
-                                    <!--<option value="">-- {{ 'SELECT_RIGHT' | translate }} --</option>-->
-                                <!--</select>-->
-
-                                <!--<label>-->
-                                    <!--<input type="checkbox" ng-model="addedRight.hasAccess"> {{ 'HAS_ACCESS' | translate }}?-->
-                                <!--</label>-->
-
-                                <!--<button class="btn btn-info" ng-click="addRight(addedRight)" ng-disabled="!addedRight._id || bbcForm.model.rightIsLocked">{{ 'SAVE_RIGHT' | translate }}</button>-->
-                                <!--<button class="btn btn-default" ng-click="cancelAddRight()" ng-disabled="bbcForm.model.rightIsLocked">{{ 'CANCEL' | translate }}</button>-->
-                                <!--<span class="glyphicon glyphicon-fire" ng-show="addRightMsg">{{ addRightMsg | translate }}</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<table class="table">-->
-                        <!--<thead>-->
-                            <!--<tr>-->
-                                <!--<th>{{ 'RIGHT' | translate }}</th>-->
-                                <!--<th>{{ 'HAS_ACCESS' | translate }}</th>-->
-                                <!--<th></th>-->
-                            <!--</tr>-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                            <!--<tr ng-repeat="right in bbcForm.model.rights">-->
-                                <!--<td>{{ getRightName(right._id) | translate }}</td>-->
-                                <!--<td>-->
-                                    <!--<input type="checkbox" ng-model="right.hasAccess" ng-disabled="true">-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--<a href="" ng-click="removeRight(right)">-->
-                                        <!--<i class="glyphicon glyphicon-remove"></i>-->
-                                    <!--</a>-->
-                                <!--</td>-->
-                            <!--</tr>-->
-                        <!--</tbody>-->
-                    <!--</table>-->
-                <!--</div>-->
-
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{ 'RIGHTS' | translate }}</label>
                     <div class="col-lg-10">
@@ -182,7 +127,7 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-primary" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
-                        <button type="button" class="btn btn-default" ng-click="bbcForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                        <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
                         <a class="btn btn-default" ng-href="/admin/users" name="back" >{{ 'BACK' | translate }}</a>
                     </div>
                 </div>

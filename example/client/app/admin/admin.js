@@ -94,45 +94,7 @@ angular.module('admin', [
             tmhDynamicLocale.set($translate.use());
         });
     })
-    .service('compareService', function () {
-        var pub = {};
 
-        // compare functions for array.sort()
-
-        // compares two numbers
-        pub.compareNumbers = function (a, b) {
-            return a - b;
-        };
-
-        // compares two values
-        pub.compareValues = function (a, b) {
-            if (a > b) {
-                return 1;
-            } else if (a < b) {
-                return -1;
-            } else {
-                return 0;
-            }
-        };
-
-        // compares two number fields from objects
-        pub.compareByNumberField = function (a, b, field) {
-            return a[field] - b[field];
-        };
-
-        // compares two fields from objects
-        pub.compareByField = function (a, b, field) {
-            if (a[field] > b[field]) {
-                return 1;
-            } else if (a[field] < b[field]) {
-                return -1;
-            } else {
-                return 0;
-            }
-        };
-
-        return pub;
-    })
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result) {
             if (!error && result) {
@@ -172,7 +134,7 @@ angular.module('admin', [
 
         getData();
     })
-    .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, compareService) {
+    .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
 
         $scope.isPasswordConfirmed = function () {
@@ -226,84 +188,36 @@ angular.module('admin', [
             }
         };
 
-//        $scope.addRight = function (rightToAdd) {
-//            rightToAdd.hasAccess = rightToAdd.hasAccess || false;
-//            $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
-//
-//            var i;
-//            var length = $scope.bbcForm.model.rights.length;
-//
-//            for (i = 0; i < length; i++) {
-//                if ($scope.bbcForm.model.rights[i]._id === rightToAdd._id) {
-//                    $scope.addRightMsg = 'Right was already added';
-//                    return;
-//                }
-//            }
-//
-//            $scope.bbcForm.model.rights.push(rightToAdd);
-//            $scope.bbcForm.model.rights.sort(function (a, b) {
-//                return compareService.compareByField(a, b, '_id');
-//            });
-//
-//            $scope.addingRight = false;
-//            $scope.addedRight = {};
-//            $scope.addRightMsg = '';
-//        };
-//
-//        $scope.cancelAddRight = function () {
-//            $scope.addingRight = false;
-//            $scope.addedRight = {};
-//            $scope.addRightMsg = '';
-//        };
-//
-//        $scope.getRightName = function (rightId) {
-//            var i, name;
-//            var length = ($scope.rights || []).length;
-//
-//            for (i = 0; i < length; i++) {
-//                if ($scope.rights[i]._id === rightId) {
-//                    name = $scope.rights[i].name;
-//                    return name;
-//                }
-//            }
-//
-//            return name;
-//        };
-//
-//        $scope.removeRight = function (right) {
-//            var index = $scope.bbcForm.model.rights.indexOf(right);
-//
-//            if (index > -1) {
-//                $scope.bbcForm.model.rights.splice(index, 1);
-//            }
-//        };
+        var setRights = function(allRights, selectedRights) {
+            var extractHasAccessId = function (e) {
+                return e.hasAccess ? e._id : null;
+            };
+
+            var extractForbiddenAccessId = function (e) {
+                return e.hasAccess ? null : e._id;
+            };
+
+            if (angular.isArray(allRights)) {
+                for (var i = 0; i < allRights.length; i++) {
+                    var hasAccess = selectedRights.map(extractHasAccessId).indexOf(allRights[i]._id) > -1;
+                    var forbiddenAccess = selectedRights.map(extractForbiddenAccessId).indexOf(allRights[i]._id) > -1;
+
+                    if (forbiddenAccess) {
+                        allRights[i].state = 'forbidden';
+                    } else if (hasAccess) {
+                        allRights[i].state = 'allow';
+                    } else {
+                        allRights[i].state = 'ignore';
+                    }
+                }
+            }
+        };
 
         $bbcTransport.emit(adminModulePath + 'right/getAll', function (error, result) {
             if (result) {
                 $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
 
-                var extractHasAccessId = function (e) {
-                    return e.hasAccess ? e._id : null;
-                };
-
-                var extractForbiddenAccessId = function (e) {
-                    return e.hasAccess ? null : e._id;
-                };
-
-                if (angular.isArray(result.items)) {
-                    for (var i = 0; i < result.items.length; i++) {
-                        var hasAccess = $scope.bbcForm.model.rights.map(extractHasAccessId).indexOf(result.items[i]._id) > -1 ? true : false;
-                        var forbiddenAccess = $scope.bbcForm.model.rights.map(extractForbiddenAccessId).indexOf(result.items[i]._id) > -1 ? true : false;
-
-                        if (forbiddenAccess) {
-                            result.items[i].state = 'forbidden';
-                        } else if (hasAccess) {
-                            result.items[i].state = 'allow';
-                        } else {
-                            result.items[i].state = 'ignore';
-                        }
-                    }
-                }
+                setRights(result.items, $scope.bbcForm.model.rights);
 
                 $scope.rights = result.items;
             }
@@ -331,6 +245,11 @@ angular.module('admin', [
                     $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: hasAccess});
                 }
             }
+        };
+
+        $scope.reset = function(form) {
+            $scope.bbcForm.reset(form);
+            setRights($scope.rights, $scope.bbcForm.model.rights);
         };
 
         $bbcTransport.emit(adminModulePath + 'group/getAll', {options: {fields: ['name', 'description']}}, function (error, result) {
@@ -485,6 +404,11 @@ angular.module('admin', [
         $scope.isReadOnly = false;
         $scope.isPartialReadOnly = false;
 
+        function checkEditState() {
+            $scope.isReadOnly = $scope.bbcForm.model.name === 'Admin' || $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest';
+            $scope.isAdmin = $scope.bbcForm.model.name === 'Admin';
+        }
+
         if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'role/getById', { id: $routeParams.id }, function (error, result) {
                 if (result) {
@@ -497,10 +421,7 @@ angular.module('admin', [
             checkEditState();
         }
 
-        function checkEditState() {
-            $scope.isReadOnly = $scope.bbcForm.model.name === 'Admin' || $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest';
-            $scope.isAdmin = $scope.bbcForm.model.name === 'Admin';
-        }
+
 
         /*var userRightObj = null;
 
@@ -522,7 +443,7 @@ angular.module('admin', [
         $scope.setStyle = function(r) {
             for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
                 if($scope.bbcForm.model.rights[i] === r._id) {
-                    return { 'border-left': "3px solid green" };
+                    return { 'border-left': '3px solid green' };
                 }
             }
 
