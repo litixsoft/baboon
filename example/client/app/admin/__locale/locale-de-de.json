@@ -30,5 +30,9 @@
     "GROUP_ALREADY_EXISTS": "Diese Gruppe existiert bereits.",
     "IS_ACTIVE": "Aktiviert",
     "SEARCH_TEXT_PLACEHOLDER": "Suchtext eingeben...",
-    "ROLE_ALREADY_EXISTS": "Diese Rolle existiert bereits."
+    "ROLE_ALREADY_EXISTS": "Diese Rolle existiert bereits.",
+    "SHOW_ALL": "Zeige alle Rechte",
+    "SHOW_IGNORE": "nicht gewählte Rechte",
+    "SHOW_ALLOW": "zugewiesene Rechte",
+    "SHOW_FORBIDDEN": "verbotene Rechte"
 }

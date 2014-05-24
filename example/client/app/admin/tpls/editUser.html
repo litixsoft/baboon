@@ -108,15 +108,21 @@
                     <label class="col-lg-2 control-label">{{ 'RIGHTS' | translate }}</label>
                     <div class="col-lg-10">
                         <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
+                        <select class="form-control" ng-model="filterState">
+                            <option value="">{{ 'SHOW_ALL' | translate }}</option>
+                            <option value="ignore">{{ 'SHOW_IGNORE' | translate }}</option>
+                            <option value="allow">{{ 'SHOW_ALLOW' | translate }}</option>
+                            <option value="forbidden">{{ 'SHOW_FORBIDDEN' | translate }}</option>
+                        </select>
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText }">
+                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText, state: filterState }">
                                 <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="ignore"    label="i" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
                                 <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="allow"     label="a" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
                                 <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="forbidden" label="p" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
-                                <input type="radio" name="right{{$index}}" ng-model="r.state" value="ignore"    ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
-                                <input type="radio" name="right{{$index}}" ng-model="r.state" value="allow"     ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
-                                <input type="radio" name="right{{$index}}" ng-model="r.state" value="forbidden" ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="ignore"    ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="allow"     ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="forbidden" ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
                                 {{ r.name }}
                                 <div class="small"><em>{{ r.description }}</em></div>
                             </li>

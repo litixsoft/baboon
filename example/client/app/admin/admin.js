@@ -136,6 +136,7 @@ angular.module('admin', [
     })
     .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
+        $scope.filterState = '';
 
         $scope.isPasswordConfirmed = function () {
             return $scope.bbcForm.model.password === $scope.bbcForm.model.confirmed_password;
