@@ -12,7 +12,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <a name="newGroup" href="/admin/groups/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                                <a name="newGroup" href="/admin/group/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                             </th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="description" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
@@ -20,7 +20,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="g in groups">
-                        <td><a href="/admin/groups/edit/{{ g._id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td><a href="/admin/group/edit/{{ g._id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
                         <td>{{ g.name }}</td>
                         <td>{{ g.description }}</td>
                     </tr>

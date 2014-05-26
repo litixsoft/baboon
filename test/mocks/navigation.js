@@ -6,7 +6,7 @@ module.exports = function () {
             root: true,
             route: '/',
             roles: [
-                'users'
+                'Admin','Guest','User'
             ],
             app: 'main',
             children: [
@@ -45,7 +45,7 @@ module.exports = function () {
             title: 'ADMIN',
             route: '/admin',
             roles: [
-                'admins'
+                'Admin'
             ],
             app: 'admin',
             order: 4

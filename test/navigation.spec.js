@@ -34,11 +34,28 @@ describe('Navigation', function () {
         expect(sut.getSubList).toBeDefined();
     });
 
+//    describe('checkAcl()', function () {
+//
+//        beforeEach(function () {
+//            data = mock.req.body;
+//            request = mock.req || {};
+//            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
+//        });
+//
+//        it('should return a navigation', function () {
+//            var routeRoles = ['Admin','Guest','User'];
+//            var routeAllowed = checkAcl(request.session.user, routeRoles);
+//
+//            expect(routeAllowed).toBeTruthy();
+//        });
+//    });
+
     describe('.getTree()', function () {
 
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should return a navigation', function (done) {
@@ -86,16 +103,17 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should return a flat navigation', function (done) {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(3);
+                expect(navArr.length).toBe(7);
 
                 nav = navArr[1];
-                expect(nav.title).toBe('PROJECT1');
+                expect(nav.title).toBe('LOCALE');
 
                 done();
             });
@@ -107,10 +125,10 @@ describe('Navigation', function () {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(3);
+                expect(navArr.length).toBe(7);
 
                 nav = navArr[1];
-                expect(nav.title).toBe('PROJECT1');
+                expect(nav.title).toBe('LOCALE');
 
                 done();
             });
@@ -121,6 +139,8 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
+//            console.log('#####config ',config().production());
         });
 
         it('should return a navigation only from top level', function (done) {
@@ -150,12 +170,38 @@ describe('Navigation', function () {
                 done();
             });
         });
+
+        describe('.getTopList() no user', function () {
+            beforeEach(function () {
+                data = mock.req.body;
+                request = mock.req || {};
+                request.session = {};
+            });
+
+            it('should return a navigation only from top level', function (done) {
+                sut.getTopList(data, request, function (error, result) {
+                    navArr = result;
+
+                    expect(navArr.length).toBe(3);
+
+                    nav = navArr[1];
+                    expect(nav.title).toBe('PROJECT1');
+
+                    done();
+                });
+            });
+        });
     });
+
+
+//    request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
+
 
     describe('.getSubTree()', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should throw an error if param "data.top" = null', function (done) {
@@ -219,6 +265,7 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should throw an error if param "data.top" = null', function (done) {
@@ -240,12 +287,12 @@ describe('Navigation', function () {
             sut.getSubList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(3);
+                expect(navArr.length).toBe(4);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
-                nav = navArr[3];
+                nav = navArr[4];
                 expect(nav).toBeUndefined();
 
                 done();
@@ -272,12 +319,12 @@ describe('Navigation', function () {
             sut.getSubList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(3);
+                expect(navArr.length).toBe(4);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
-                nav = navArr[3];
+                nav = navArr[4];
                 expect(nav).toBeUndefined();
 
                 done();
