@@ -19,16 +19,16 @@ angular.module('admin', [
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
         $routeProvider.when('/admin', {templateUrl: 'app/admin/admin.html', controller: 'AdminCtrl'});
-        $routeProvider.when('/admin/users', {templateUrl: 'app/admin/tpls/users.html', controller: 'AdminUserListCtrl'});
-        $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
-        $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
-        $routeProvider.when('/admin/rights', {templateUrl: 'app/admin/tpls/rights.html', controller: 'AdminRightListCtrl'});
-        $routeProvider.when('/admin/groups', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
-        $routeProvider.when('/admin/groups/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
-        $routeProvider.when('/admin/groups/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
-        $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/tpls/roles.html', controller: 'AdminRoleListCtrl'});
-        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
-        $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
+        $routeProvider.when('/admin/user', {templateUrl: 'app/admin/tpls/users.html', controller: 'AdminUserListCtrl'});
+        $routeProvider.when('/admin/user/edit/:id', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
+        $routeProvider.when('/admin/user/new', {templateUrl: 'app/admin/tpls/editUser.html', controller: 'AdminEditUserCtrl'});
+        $routeProvider.when('/admin/right', {templateUrl: 'app/admin/tpls/rights.html', controller: 'AdminRightListCtrl'});
+        $routeProvider.when('/admin/group', {templateUrl: 'app/admin/tpls/groups.html', controller: 'AdminGroupListCtrl'});
+        $routeProvider.when('/admin/group/edit/:id', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
+        $routeProvider.when('/admin/group/new', {templateUrl: 'app/admin/tpls/editGroup.html', controller: 'AdminEditGroupCtrl'});
+        $routeProvider.when('/admin/role', {templateUrl: 'app/admin/tpls/roles.html', controller: 'AdminRoleListCtrl'});
+        $routeProvider.when('/admin/role/edit/:id', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
+        $routeProvider.when('/admin/role/new', {templateUrl: 'app/admin/tpls/editRole.html', controller: 'AdminEditRoleCtrl'});
         $routeProvider.otherwise({redirectTo: '/admin'});
 
         $locationProvider.html5Mode(true);
@@ -171,7 +171,7 @@ angular.module('admin', [
             var callback = function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
-                    $location.path('/admin/users');
+                    $location.path('/admin/user');
                 } else if (error) {
                     if (error.name === 'ValidationError') {
                         $scope.bbcForm.populateValidation($scope.form, error.errors);
@@ -358,7 +358,7 @@ angular.module('admin', [
             $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
-                    $location.path('/admin/groups');
+                    $location.path('/admin/group');
                 }
                 else if (error) {
                     if (error.name === 'ValidationError') {
@@ -461,7 +461,7 @@ angular.module('admin', [
             $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
-                    $location.path('/admin/roles');
+                    $location.path('/admin/role');
                 } else if (error) {
                     if (error.name === 'ValidationError') {
                         $scope.bbcForm.populateValidation($scope.form, error.errors);

@@ -7,20 +7,23 @@ describe('Navigation', function () {
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')));
     var navigation = require(path.resolve(path.join(rootPath, 'lib', 'navigation')));
     var navigationFilePath = path.resolve(path.join(rootPath, 'test', 'mocks', 'navigation'));
+    var config = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'config')));
+    var conf =  config().production();
     var NavigationError = require(path.resolve(path.join(rootPath, 'lib', 'errors'))).NavigationError;
-    var sut, data, request, mock, nav, navArr;
+    var sut, data, request, mock, nav, navArr, sut2;
 
     it('should throw an Error when not given parameter navigationFilePath', function () {
-
+        conf.rights.enabled= true;
         var func = function () {
-            return navigation();
+            return navigation({},conf);
         };
         expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
     });
 
     beforeEach(function () {
         mock = appMock();
-        sut = navigation(navigationFilePath);
+        conf.rights.enabled= true;
+        sut = navigation(navigationFilePath, conf);
     });
 
     it('should be defined', function () {
@@ -37,6 +40,7 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should return a navigation', function (done) {
@@ -84,13 +88,14 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should return a flat navigation', function (done) {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(7);
+                expect(navArr.length).toBe(8);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('LOCALE');
@@ -105,7 +110,7 @@ describe('Navigation', function () {
             sut.getList(data, request, function (error, result) {
                 navArr = result;
 
-                expect(navArr.length).toBe(7);
+                expect(navArr.length).toBe(8);
 
                 nav = navArr[1];
                 expect(nav.title).toBe('LOCALE');
@@ -119,6 +124,7 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should return a navigation only from top level', function (done) {
@@ -148,12 +154,93 @@ describe('Navigation', function () {
                 done();
             });
         });
+
+        describe('.getTopList() with not existing role: Test', function () {
+            beforeEach(function () {
+
+                conf.rights.enabled= true;
+                sut2 = navigation(navigationFilePath, conf);
+                data = mock.req.body;
+                request = mock.req || {};
+                request.session = {
+                    user: {
+                        rolesAsObjects: [{ name: 'Test'}]
+                    }
+                };
+            });
+
+            it('should return a navigation only from top level', function (done) {
+
+                sut2.getTopList(data, request, function (error, result) {
+                    navArr = result;
+                    expect(navArr.length).toBe(1);
+                    nav = navArr[1];
+                    expect(nav).toBeUndefined();
+
+                    done();
+                });
+            });
+        });
+
+        describe('.getTopList() with rights disabled', function () {
+            beforeEach(function () {
+
+                conf.rights.enabled= false;
+                sut2 = navigation(navigationFilePath, conf);
+                data = mock.req.body;
+                request = mock.req || {};
+                request.session = {};
+            });
+
+            it('should return a navigation only from top level', function (done) {
+
+                sut2.getTopList(data, request, function (error, result) {
+                    navArr = result;
+                    expect(navArr.length).toBe(3);
+                    nav = navArr[1];
+                    expect(nav.title).toBe('PROJECT1');
+
+                    done();
+                });
+            });
+        });
+
+        describe('.getTopList() with rights disabled', function () {
+            beforeEach(function () {
+
+                conf.rights.enabled= true;
+                sut2 = navigation(navigationFilePath, conf);
+                data = mock.req.body;
+                data.current = 'admin';
+                request = mock.req || {};
+                request.session = {
+                    user: {
+                        rolesAsObjects: [{ name: 'Test'}]
+                    }
+                };
+            });
+
+            it('should return a navigation only from top level', function (done) {
+
+                sut2.getTree(data, request, function (error, result) {
+                    navArr = result;
+                    expect(navArr.length).toBe(1);
+                    nav = navArr[1];
+                    expect(nav).toBeUndefined();
+
+                    done();
+                });
+            });
+        });
+
     });
+
 
     describe('.getSubTree()', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should throw an error if param "data.top" = null', function (done) {
@@ -217,6 +304,7 @@ describe('Navigation', function () {
         beforeEach(function () {
             data = mock.req.body;
             request = mock.req || {};
+            request.session = {user: { rolesAsObjects : [{ name: 'Admin' }]}};
         });
 
         it('should throw an error if param "data.top" = null', function (done) {
@@ -243,8 +331,8 @@ describe('Navigation', function () {
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
-                nav = navArr[3];
-                expect(nav.title).toBe('EDIT');
+                nav = navArr[4];
+                expect(nav).toBeUndefined();
 
                 done();
             });
@@ -275,8 +363,8 @@ describe('Navigation', function () {
                 nav = navArr[1];
                 expect(nav.title).toBe('ABOUT');
 
-                nav = navArr[3];
-                expect(nav.title).toBe('EDIT');
+                nav = navArr[4];
+                expect(nav).toBeUndefined();
 
                 done();
             });
