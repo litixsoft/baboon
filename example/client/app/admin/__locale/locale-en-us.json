@@ -4,7 +4,8 @@
     "NAME": "Name",
     "ENTER_NAME": "Enter name",
     "DESCRIPTION": "Description",
-    "CREATE_EDIT_USER": "Create or edit user",
+    "CREATE_USER": "Create user",
+    "EDIT_USER": "Edit user",
     "MAIL": "Mail",
     "ENTER_MAIL": "Enter mail",
     "PASSWORD": "Password",
@@ -23,8 +24,15 @@
     "CREATE_GROUP": "Create group",
     "SAVE_RIGHT": "Save right",
     "SELECT_RIGHT": "-- Select right --",
-    "CREATE_EDIT_ROLE": "Create/Edit role",
+    "CREATE_ROLE": "Create Role",
+    "EDIT_ROLE": "Edit Role",
     "MODULE": "Module",
     "GROUP_ALREADY_EXISTS": "Group already exists.",
-    "IS_ACTIVE": "Is Active?"
+    "IS_ACTIVE": "Active",
+    "SEARCH_TEXT_PLACEHOLDER": "Insert search text...",
+    "ROLE_ALREADY_EXISTS": "Role already exists.",
+    "SHOW_ALL": "Show all rights",
+    "SHOW_IGNORE": "ignored rights",
+    "SHOW_ALLOW": "allowed rights",
+    "SHOW_FORBIDDEN": "forbidden rights"
 }

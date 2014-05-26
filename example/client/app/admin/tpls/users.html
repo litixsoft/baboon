@@ -1,35 +1,37 @@
 <div class="beige-noise">
     <div class="p-wrapper">
-
         <div class="panel panel-default">
             <div class="panel-heading">{{ 'USERS' | translate }}</div>
             <div class="panel-body">
-                <table name="users" class="table table-hover"  ng-class="{'load-content' : isLoading}">
+                <table name="rights" class="table table-hover">
+                    <colgroup>
+                        <col style="width:20px;" />
+                        <col style="width:250px;" />
+                        <col />
+                        <col style="width:110px;" />
+                    </colgroup>
                     <thead>
-                        <tr>
-                            <th style="width: 20px;">
-                                <a name="newUser" href="/admin/users/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                            </th>
-                            <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
-                            <th><bbc-sort sort-opts="sortOpts" field-name="email" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
-                            <th><bbc-sort sort-opts="sortOpts" field-name="is_active" on-sorting="getData(sortingOptions, pagingOptions)" />{{ 'IS_ACTIVE' | translate }}</th>
-                        </tr>
+                    <tr>
+                        <th><a href="/admin/users/new"><span class="glyphicon glyphicon-plus-sign"></span></a></th>
+                        <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
+                        <th><bbc-sort sort-opts="sortOpts" field-name="email" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'MAIL' | translate }}</th>
+                        <th><bbc-sort sort-opts="sortOpts" field-name="is_active" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'IS_ACTIVE' | translate }}</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="user in users">
-                            <td><a href="/admin/users/edit/{{user._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td><i ng-if="user.is_active" class="glyphicon glyphicon-ok"></i></td>
-                        </tr>
+                    <tr ng-repeat="u in users">
+                        <td><a href="/admin/users/edit/{{u._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td>{{ u.name }}</td>
+                        <td>{{ u.email }}</td>
+                        <td><i ng-class="{'glyphicon glyphicon-ok': u.is_active}"></i></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="panel-footer">
-                <bbc-pager count="count" current-page="currentPage" page-size="{{ initialPageSize }}" on-paging="getData(sortingOptions, pagingOptions)"></bbc-Pager>
+                <bbc-pager count="count" current-page="currentPage" page-sizes="[1, 5, 10, 25]" page-size="{{ initialPageSize }}" on-paging="load(sortOpts, pagingOptions)"></bbc-pager>
             </div>
         </div>
     </div>
 </div>
-
 

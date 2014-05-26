@@ -162,4 +162,42 @@ describe('App: admin', function () {
             });
         });
     });
+
+    describe('AdminRoleListCtrl', function() {
+        var $transport, $scope, $ctrl;
+        var data = [
+            { _id: '1', description: 'The description for Role 1', name: 'Role 1' },
+            { _id: '2', description: 'The description for Role 2', name: 'Role 2' },
+            { _id: '3', description: 'The description for Role 3', name: 'Role 3' },
+            { _id: '4', description: 'The description for Role 4', name: 'Role 4' }
+        ];
+
+        beforeEach(function (done) {
+            inject(function ($controller, $rootScope, $injector) {
+
+                $transport = $injector.get('$bbcTransport');
+                $transport.emit = function (event, options, callback) {
+                    event = null;
+                    callback(null, { items: data, count: data.length });
+                    done();
+                };
+
+                $scope = $rootScope.$new();
+                $ctrl = $controller('AdminRoleListCtrl', { $scope: $scope });
+            });
+        });
+
+        it('should be initialized correctly', function () {
+            expect($scope.roles.length).toBe(4);
+            expect($scope.count).toBe(4);
+        });
+
+/*        describe('has a function load() which', function () {
+            it('should find all items with sorting and paging options', function () {
+                $scope.load({ name: 1 }, { skip: 1, limit: 1 });
+                expect($scope.roles.length).toBe(4);
+                expect($scope.count).toBe(4);
+            });
+        });*/
+    });
 });

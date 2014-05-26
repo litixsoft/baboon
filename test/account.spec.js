@@ -76,9 +76,9 @@ describe('Account', function () {
             sut.register({name: 'JohnDoe_accounttest'}, request, function (error, result) {
                 expect(error).toBeDefined();
                 expect(result).not.toBeDefined();
-                expect(error.validation.length).toBe(1);
-                expect(error.validation[0].attribute).toBe('required');
-                expect(error.validation[0].property).toBe('email');
+                expect(error.errors.length).toBe(1);
+                expect(error.errors[0].attribute).toBe('required');
+                expect(error.errors[0].property).toBe('email');
 
                 done();
             });
@@ -102,8 +102,8 @@ describe('Account', function () {
                 sut.register({name: 'JohnDoe_accounttest', password: 'test', confirmed_password: 'test', display_name: 'John Doe', email: 'john2@doe.com'}, request, function (error, result) {
                     expect(error).toBeDefined();
                     expect(result).not.toBeDefined();
-                    expect(error.validation.length).toBe(1);
-                    expect(error.validation[0].attribute).toBe('checkName');
+                    expect(error.errors.length).toBe(1);
+                    expect(error.errors[0].attribute).toBe('checkName');
 
                     done();
                 });
@@ -157,8 +157,8 @@ describe('Account', function () {
         it('should return an error', function (done) {
             sut.forgotUsername({ email: 'abcde' }, request, function (error, result) {
                 expect(error).toBeDefined();
-                expect(error.validation).toBeDefined();
-                expect(error.validation[0].message).toBe('is not a valid email');
+                expect(error.errors).toBeDefined();
+                expect(error.errors[0].message).toBe('is not a valid email');
                 expect(result).not.toBeDefined();
 
                 done();
@@ -223,8 +223,8 @@ describe('Account', function () {
         it('should return an error', function (done) {
             sut.resetPassword({ name: 'test', email: 'abcde' }, request, function (error, result) {
                 expect(error).toBeDefined();
-                expect(error.validation).toBeDefined();
-                expect(error.validation[0].message).toBe('is not a valid email');
+                expect(error.errors).toBeDefined();
+                expect(error.errors[0].message).toBe('is not a valid email');
                 expect(result).not.toBeDefined();
 
                 done();

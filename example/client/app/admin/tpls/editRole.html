@@ -1,88 +1,55 @@
-<div>
-    <div class="p-wrapper">
-
-        <div class="page-header">
-            <h1>{{ 'ROLES' | translate}}</h1>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">{{ 'CREATE_EDIT_ROLE' | translate }}</div>
-            <div class="panel-body">
-                <form name="form" class="form-horizontal" novalidate>
-                    <fieldset>
-                        <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
-                            <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
-                            <div class="col-lg-10 lxvalidation">
-                                <input type="text" class="form-control" ng-model="lxForm.model.name" id="name" name="name" ui-event="{keydown: 'form.errors.name=false;'}" placeholder="{{ 'ENTER_NAME' | translate }}" required />
-
-                                <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" style="cursor:pointer;" class="label label-danger">
-                                    <div class="glyphicon glyphicon-fire"></div>
-                                    <span ng-show="form.name.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
-                                    <span ng-show="form.errors.name" popover="Error: {{form.errors.name}}" popover-trigger="mouseenter"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
-                            <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
-                            <div class="col-lg-10 lxvalidation">
-                                <textarea rows="6" type="text" class="form-control" id="description" name="description" ui-event="{keydown: 'form.errors.description=false;'}" ng-model="lxForm.model.description"></textarea>
-
-                                <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" style="cursor:pointer;" class="label label-danger">
-                                    <div class="glyphicon glyphicon-fire"></div>
-                                    <span ng-show="form.description.$error.required" popover="{{ 'REQUIRED_NAME' | translate }}" popover-trigger="mouseenter"></span>
-                                    <span ng-show="form.errors.description" popover="Error: {{form.errors.description}}" popover-trigger="mouseenter"></span>
-                                </label>
-
-                            </div>
-                        </div>
-
-                        <blockquote>
-                            <p>{{ 'RIGHTS' | translate }}</p>
-                        </blockquote>
-
-                        <div ng-repeat="(module, data) in rightsObj" class="panel panel-info">
-                            <div class="panel-heading">
-                                <h2 class="panel-title">{{ 'MODULE' | translate }} - {{ module }}</h2>
-                            </div>
-
-                            <div ng-repeat="(module1, data) in data.children" class="panel-body">
-                                <legend>{{ 'MODULE' | translate }} - {{ module1 | translate }}</legend>
-
-                                <ul class="list-group">
-                                    <li class="list-group-item" ng-repeat="(controller, data) in data.children">
-                                        <div class="row">
-                                            <div class="col-md-2">{{ controller | translate }}</div>
-                                            <div class="col-md-10">
-                                                <ul style="list-style-type: none;">
-                                                    <li ng-repeat="right in data">
-                                                        <div class="checkbox">
-                                                            <label>
-                                                                <input type="checkbox" ng-model="right.isSelected" ng-change="setRight(right)">
-                                                                {{ right.name | translate }}
-                                                                <span ng-if="right.description" class="glyphicon glyphicon-question-sign" popover="{{ right.description }}" popover-trigger="mouseenter"></span>
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <a class="btn btn-default" ng-href="/admin/roles" name="back" >{{ 'BACK' | translate }}</a>
-                                <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="lxForm.isUnchanged()">{{ 'RESET' | translate }}</button>
-                                <button type="submit" class="btn btn-primary" ng-click="save(lxForm.model)" name="save" ng-disabled="form.$invalid || lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
-                            </div>
-                        </div>
-
-                    </fieldset>
-                </form>
-            </div>
+<div class="p-wrapper">
+    <div class="page-header">
+        <h1>{{ 'ROLES' | translate}}</h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ bbcForm.model._id ? 'EDIT_ROLE' : 'CREATE_ROLE' | translate }}</div>
+        <div class="panel-body">
+            <form name="form" class="form-horizontal" novalidate>
+                <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
+                    <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
+                    <div class="col-lg-10 lxvalidation">
+                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required maxlength="100" ng-readonly="isReadOnly" />
+                        <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
+                            <div class="glyphicon glyphicon-fire"></div>
+                            <span ng-show="form.name.$error.required">{{ 'REQUIRED_NAME' | translate }}</span>
+                            <span ng-show="form.errors.name">{{ form.errors.name | translate }}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
+                    <div class="col-lg-10">
+                        <textarea rows="6" type="text" class="form-control" id="description" name="description" ng-model="bbcForm.model.description" maxlength="5000" ng-readonly="isReadOnly"></textarea>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="!isAdmin">
+                    <label class="col-lg-2 control-label" for="description">{{ 'RIGHTS' | translate }}</label>
+                    <div class="col-lg-10">
+                        <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
+                        <hr />
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText }" ng-style="setStyle(r);">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" checklist-model="bbcForm.model.rights" checklist-value="r._id" /> {{ r.name }}
+                                        </label>
+                                    <div class="small"><em>{{ r.description }}</em></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-primary" ng-if="!isAdmin" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+                        <button type="button" class="btn btn-default" ng-if="!isAdmin" ng-click="lxForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                        <button type="submit" class="btn btn-primary" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+                        <button type="button" class="btn btn-default" ng-click="bbcForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                        <a class="btn btn-default" ng-href="/admin/roles" name="back" >{{ 'BACK' | translate }}</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

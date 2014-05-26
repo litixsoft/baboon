@@ -23,7 +23,7 @@ angular.module('account', [
         $locationProvider.html5Mode(true);
 
         // Transport
-        $bbcTransportProvider.set({useSocket:false});
+        $bbcTransportProvider.set({useSocket: false});
 
         // Translate
         tmhDynamicLocaleProvider.localeLocationPattern('assets/bower_components/angular-i18n/angular-locale_{{locale}}.js');
@@ -91,7 +91,7 @@ angular.module('account', [
                 $scope.form.errors = {};
             }
 
-            $bbcTransport.rest('api/lib/auth/login', {user: $scope.user}, function (error, result) {
+            $bbcTransport.rest('api/auth/login', {user: $scope.user}, function (error, result) {
 
                 if (!error && result) {
                     $window.location.href = '/';
@@ -116,12 +116,12 @@ angular.module('account', [
     .controller('AccountRegisterCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.register = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.register = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -131,7 +131,7 @@ angular.module('account', [
 
             $scope.user.language = $translate.use();
 
-            $bbcTransport.emit('api/lib/account/register', $scope.user, function (error, result) {
+            $bbcTransport.emit('api/account/register', $scope.user, function (error, result) {
                 $scope.alerts.length = 0;
 
                 if (!error && result) {
@@ -140,12 +140,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -155,12 +155,12 @@ angular.module('account', [
     .controller('AccountUsernameCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.send = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.send = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -170,7 +170,7 @@ angular.module('account', [
 
             $scope.user.language = $translate.use();
 
-            $bbcTransport.emit('api/lib/account/forgotUsername', $scope.user, function (error, result) {
+            $bbcTransport.emit('api/account/forgotUsername', $scope.user, function (error, result) {
                 $scope.alerts.length = 0;
 
                 if (!error && result) {
@@ -179,12 +179,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
@@ -194,12 +194,12 @@ angular.module('account', [
     .controller('AccountPasswordCtrl', function ($scope, $bbcTransport, $translate) {
         $scope.alerts = [];
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.send = function() {
-            if($scope.form && !$scope.form.$valid) {
+        $scope.send = function () {
+            if ($scope.form && !$scope.form.$valid) {
                 return;
             }
 
@@ -209,7 +209,7 @@ angular.module('account', [
 
             $scope.user.language = $translate.use();
 
-            $bbcTransport.emit('api/lib/account/resetPassword', $scope.user, function (error, result) {
+            $bbcTransport.emit('api/account/resetPassword', $scope.user, function (error, result) {
                 $scope.alerts.length = 0;
 
                 if (!error && result) {
@@ -218,12 +218,12 @@ angular.module('account', [
                     $scope.form.$setPristine();
                 }
                 else {
-                    if (error.validation) {
-                        for (var i = 0; i < error.validation.length; i++) {
-                            $scope.form.errors[error.validation[i].property] = error.validation[i].attribute.toUpperCase();
+                    if (error.name === 'ValidationError') {
+                        for (var i = 0; i < error.errors.length; i++) {
+                            $scope.form.errors[error.errors[i].property] = error.errors[i].attribute.toUpperCase();
                         }
                     }
-                    else if(error) {
+                    else {
                         $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
                     }
                 }
