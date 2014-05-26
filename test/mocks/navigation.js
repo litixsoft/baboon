@@ -18,6 +18,7 @@ module.exports = function () {
                 {
                     title: 'ABOUT',
                     route: '/about',
+                    roles: ['Admin'],
                     app: 'main'
                 },
                 {
@@ -48,7 +49,15 @@ module.exports = function () {
                 'Admin'
             ],
             app: 'admin',
-            order: 4
+            order: 4,
+            children: [
+                {
+                    title: 'EDIT',
+                    route: '/admin/edit',
+                    roles: ['Admin'],
+                    app: 'admin'
+                }
+            ]
         }
     ];
 };
