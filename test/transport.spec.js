@@ -136,10 +136,14 @@ describe('Transport', function () {
         it('should process the request and call the corresponding action with rightsystem disabled', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(200);
-                    expect(value).toBeDefined();
-                    expect(value.length).toBe(5);
+                set: function(){},
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(200);
+                    expect(result).toBeDefined();
+                    expect(result.length).toBe(5);
 
                     done();
                 }
@@ -154,9 +158,13 @@ describe('Transport', function () {
         it('should process the request and return wrong url', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(404);
-                    expect(value).toBe('Wrong url');
+                set: function(){},
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(404);
+                    expect(result).toBe('Wrong url');
 
                     done();
                 }
@@ -171,10 +179,14 @@ describe('Transport', function () {
         it('should process the request and return an raised error', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(500);
-                    expect(value.message).toBe('Error raised');
-                    expect(value.stack).toBe('Error stack');
+                set: function(){},
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(500);
+                    expect(result.message).toBe('Error raised');
+                    expect(result.stack).toBe('Error stack');
 
                     done();
                 }
@@ -189,10 +201,15 @@ describe('Transport', function () {
         it('should process the request and return an raised error with status code', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(500);
-                    expect(value.message).toBe('Error raised');
-                    expect(value.stack).toBe('Error stack');
+                set: function () {
+                },
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(500);
+                    expect(result.message).toBe('Error raised');
+                    expect(result.stack).toBe('Error stack');
 
                     done();
                 }
@@ -207,9 +224,14 @@ describe('Transport', function () {
         it('should process the request and process the session', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(200);
-                    expect(value).toBeDefined();
+                set: function () {
+                },
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(200);
+                    expect(result).toBeDefined();
 
                     done();
                 }
@@ -224,9 +246,14 @@ describe('Transport', function () {
         it('should process the request with right system enabled but user has no access to function', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(403);
-                    expect(value).toBeDefined();
+                set: function () {
+                },
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(403);
+                    expect(result).toBeDefined();
 
                     baboon.config.rights.enabled = false;
                     req.session = {};
@@ -245,9 +272,14 @@ describe('Transport', function () {
         it('should not process the request with right system enabled and user has no access to', function (done) {
             var req = appMock.req;
             var res = {
-                json: function (code, value) {
-                    expect(code).toBe(403);
-                    expect(value).toBe('Access denied');
+                set: function () {
+                },
+                send: function (status, json) {
+
+                    var result = JSON.parse(json);
+
+                    expect(status).toBe(403);
+                    expect(result).toBe('Access denied');
 
                     baboon.config.rights.enabled = false;
 

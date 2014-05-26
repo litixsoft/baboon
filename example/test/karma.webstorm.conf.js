@@ -28,8 +28,8 @@ module.exports = function (config) {
             'client/assets/bower_components/angular-socket-io/socket.js',
             'client/assets/bower_components/baboon-client/modules/navigation/navigation.js',
             'client/assets/bower_components/baboon-client/modules/**/*.js',
+            'client/assets/bower_components/checklist-model/checklist-model.js',
             'client/common/popup_login/popup_login.js',
-            'client/common/check_list/checkListModel.js',
             'client/app/**/*.js'
         ],
 

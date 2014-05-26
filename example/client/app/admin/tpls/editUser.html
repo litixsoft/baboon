@@ -7,32 +7,34 @@
         <div class="panel-body">
             <form name="form" class="form-horizontal" novalidate>
                 {{ getRightName('ff') }}
+
                 <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                     <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required ng-disabled="bbcForm.model.editIsLocked" />
                         <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.name.$error.required">{{ 'REQUIRED_NAME' | translate }}</span>
-                            <span ng-show="form.errors.name" popover="{{form.errors.name}}" popover-trigger="mouseenter"></span>
+                            <span ng-show="form.errors.name">{{form.errors.name}}</span>
                         </label>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{ 'IS_ACTIVE' | translate }}</label>
                     <div class="col-lg-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="bbcForm.model.is_active">
-                                <span ng-if="group.description" class="glyphicon glyphicon-question-sign" popover="{{ group.description }}" popover-trigger="mouseenter"></span>
+                                <input type="checkbox" ng-model="bbcForm.model.is_active"  ng-disabled="bbcForm.model.editIsLocked">
                             </label>
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email)}">
                     <label class="col-lg-2 control-label" for="email">{{ 'MAIL' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.email" id="email" name="email" placeholder="{{ 'ENTER_MAIL' | translate }}" required />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.email" id="email" name="email" placeholder="{{ 'ENTER_MAIL' | translate }}" required ng-disabled="bbcForm.model.editIsLocked" />
                         <label ng-show="((form.email.$dirty && form.email.$invalid) || form.errors.email)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.email.$error.required">{{ 'REQUIRED_MAIL' | translate }}</span>
@@ -41,10 +43,11 @@
                         </label>
                     </div>
                 </div>
+
                 <div ng-if="!bbcForm.model._id" class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password)}">
                     <label class="col-lg-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="password" class="form-control" ng-model="bbcForm.model.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" />
+                        <input type="password" class="form-control" ng-model="bbcForm.model.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
                         <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
@@ -52,10 +55,11 @@
                         </label>
                     </div>
                 </div>
+
                 <div ng-if="!bbcForm.model._id"  class="form-group" ng-class="{'has-error': ((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())}">
                     <label class="col-lg-2 control-label" for="confirmed_password">{{ 'CONFIRM_PASSWORD' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="password" class="form-control" ng-model="bbcForm.model.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" />
+                        <input type="password" class="form-control" ng-model="bbcForm.model.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
                         <label ng-show="((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.confirmed_password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
@@ -64,22 +68,24 @@
                         </label>
                     </div>
                 </div>
+
                 <div class="form-group" ng-class="{'has-error': ((form.language.$dirty && form.language.$invalid) || form.errors.language)}">
                     <label class="col-lg-2 control-label" for="language">{{ 'LANGUAGE' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
                         <label ng-show="((form.language.$dirty && form.language.$invalid) || form.errors.language)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.errors.language">{{form.errors.language}}</span>
                         </label>
                      </div>
                 </div>
+
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{ 'GROUPS' | translate }}</label>
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="g in groups">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.groups" checklist-value="g._id" /> {{g.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.groups" checklist-value="g._id" ng-disabled="bbcForm.model.rightIsLocked" /> {{g.name}}
                                 <span ng-if="g.description" class="glyphicon glyphicon-question-sign" popover="{{ g.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
@@ -91,66 +97,37 @@
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="r in roles">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" /> {{r.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.rightIsLocked" /> {{r.name}}
                                 <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            {{ 'RIGHTS' | translate }}
-                        </h3>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">{{ 'RIGHTS' | translate }}</label>
+                    <div class="col-lg-10">
+                        <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
+                        <select class="form-control" ng-model="filterState">
+                            <option value="">{{ 'SHOW_ALL' | translate }}</option>
+                            <option value="ignore">{{ 'SHOW_IGNORE' | translate }}</option>
+                            <option value="allow">{{ 'SHOW_ALLOW' | translate }}</option>
+                            <option value="forbidden">{{ 'SHOW_FORBIDDEN' | translate }}</option>
+                        </select>
+                        <hr />
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText, state: filterState }">
+                                <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="ignore"    label="i" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
+                                <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="allow"     label="a" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
+                                <!--<bbc-radio name="right{{$index}}" ng-model="r.state" value="forbidden" label="p" ng-change="stateChange(r)" ng-disabled="bbcForm.model.rightIsLocked"></bbc-radio>-->
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="ignore"    ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="allow"     ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                <input type="radio" name="rightState{{$index}}" ng-model="r.state" value="forbidden" ng-change="changeRight(r)" ng-disabled="bbcForm.model.rightIsLocked" />
+                                {{ r.name }}
+                                <div class="small"><em>{{ r.description }}</em></div>
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">
-                                <button type="button" class="btn btn-default" ng-click="addingRight = true" ng-disabled="addingRight">
-                                    <span class="icon-plus-sign"></span> {{ 'ADD_RIGHT' | translate }}
-                                </button>
-                            </label>
-
-                            <div class="col-lg-10" ng-show="addingRight">
-                                <select name="right" ng-model="addedRight._id" ng-options="right._id as right.name for right in rights">
-                                    <option value="">-- {{ 'SELECT_RIGHT' | translate }} --</option>
-                                </select>
-
-                                <label>
-                                    <input type="checkbox" ng-model="addedRight.hasAccess"> {{ 'HAS_ACCESS' | translate }}?
-                                </label>
-
-                                <button class="btn btn-info" ng-click="addRight(addedRight)" ng-disabled="!addedRight._id">{{ 'SAVE_RIGHT' | translate }}</button>
-                                <button class="btn btn-default" ng-click="cancelAddRight()">{{ 'CANCEL' | translate }}</button>
-                                <span class="glyphicon glyphicon-fire" ng-show="addRightMsg">{{ addRightMsg | translate }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>{{ 'RIGHT' | translate }}</th>
-                                <th>{{ 'HAS_ACCESS' | translate }}</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="right in bbcForm.model.rights">
-                                <td>{{ getRightName(right._id) | translate }}</td>
-                                <td>
-                                    <input type="checkbox" ng-model="right.hasAccess" ng-disabled="true">
-                                </td>
-                                <td>
-                                    <a href="" ng-click="removeRight(right)">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
 
                 <div class="form-group">

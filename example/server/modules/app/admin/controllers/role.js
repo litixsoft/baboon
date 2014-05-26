@@ -110,29 +110,41 @@ module.exports = function (baboon) {
             return;
         }
 
-        // validate client data
-        repo.roles.validate(data, {}, function (error, result) {
-            if (error) {
-                callback(error);
+        repo.roles.findOneById(data._id, { fields: ['name'] }, function(error, result) {
+            var originalUser = result.name.toLowerCase();
+            if(originalUser === 'admin') {
+                callback(new baboon.ControllerError('Editing disabled', 403, false));
                 return;
             }
 
-            if (result.valid) {
-                // save in repo
-                repo.roles.update({_id: data._id}, {$set: data}, function (error, result) {
-                    if (error || result === 0) {
-                        callback(error);
-                        return;
+            repo.roles.validate(data, {}, function (error, result) {
+                if (error) {
+                    callback(error);
+                    return;
+                }
+
+                if (result.valid) {
+                    var query = { $set: data };
+
+                    if(originalUser === 'user' || originalUser === 'guest') {
+                        query = { $set: { rights: data.rights } };
                     }
 
-                    if (result) {
-                        audit.info('Updated role in db: %j', data);
-                        callback(null, result);
-                    }
-                });
-            } else {
-                callback(new baboon.ValidationError(result.errors));
-            }
+                    repo.roles.update({_id: data._id}, query, function (error, result) {
+                        if (error || result === 0) {
+                            callback(error);
+                            return;
+                        }
+
+                        if (result) {
+                            audit.info('Updated role in db: %j', data);
+                            callback(null, result);
+                        }
+                    });
+                } else {
+                    callback(new baboon.ValidationError(result.errors));
+                }
+            });
         });
     };
 
