@@ -154,10 +154,10 @@ angular.module('admin', [
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
 
         $scope.filterStates = [
-            {name: 'all', filter: {}},
-            {name: 'ignored', filter: {isAllowed: false, isForbidden: false}},
-            {name: 'allowed', filter: {isAllowed: true, isForbidden: false}},
-            {name: 'forbidden', filter: {isAllowed: false, isForbidden: true}}
+            {key: 'SHOW_ALL', filter: {}},
+            {key: 'SHOW_IGNORE', filter: {isAllowed: false, isForbidden: false}},
+            {key: 'SHOW_ALLOW', filter: {isAllowed: true, isForbidden: false}},
+            {key: 'SHOW_FORBIDDEN', filter: {isAllowed: false, isForbidden: true}}
         ];
         $scope.filterState = $scope.filterStates[0];
 
@@ -198,7 +198,6 @@ angular.module('admin', [
                 } else if (error) {
                     if (error.name === 'ValidationError') {
                         $scope.bbcForm.populateValidation($scope.form, error.errors);
-                        //console.log(error.errors);
                     } else {
                         $log.log(error);
                     }
@@ -246,31 +245,42 @@ angular.module('admin', [
             return e._id;
         };
 
-        $scope.setRight = function (whichIsClicked, right) {
+        $scope.setRight = function (right) {
             var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);
-            var clicked, hasAccess;
 
-            if (whichIsClicked === 'allow') {
-                clicked = right.isAllowed;
-                hasAccess = true;
-                right.isForbidden = false;
-            } else if (whichIsClicked === 'forbidden') {
-                clicked = right.isForbidden;
-                hasAccess = false;
-                right.isAllowed = false;
-            }
-
-            if (clicked) {
+            if (right.isAllowed && right.isForbidden) {
                 if (index > -1) {
-                    $scope.bbcForm.model.rights[index].hasAccess = hasAccess;
+                    $scope.bbcForm.model.rights[index].hasAccess = !$scope.bbcForm.model.rights[index].hasAccess;
+                    right.isAllowed = $scope.bbcForm.model.rights[index].hasAccess;
+                    right.isForbidden = !$scope.bbcForm.model.rights[index].hasAccess;
                 } else {
-                    $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: hasAccess});
+                    right.isAllowed = false;
+                    right.isForbidden = false;
                 }
-            } else {
+            } else if (right.isAllowed !== right.isForbidden) {
+                if (index > -1) {
+                    $scope.bbcForm.model.rights[index].hasAccess = right.isAllowed;
+                } else {
+                    $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: right.isAllowed});
+                }
+            } else /*if (!right.isAllowed && !right.isForbidden)*/ {
                 if (index > -1) {
                     $scope.bbcForm.model.rights.splice(index, 1);
                 }
             }
+        };
+
+        $scope.setStyle = function (r) {
+            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                if ($scope.bbcForm.model.rights[i]._id === r._id) {
+                    if (r.isAllowed) {
+                        return { 'border-left': '3px solid green' };
+                    } else if (r.isForbidden) {
+                        return { 'border-left': '3px solid red' };
+                    }
+                }
+            }
+            return null;
         };
 
         $scope.reset = function (form) {

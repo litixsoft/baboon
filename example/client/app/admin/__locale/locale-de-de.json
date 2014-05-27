@@ -32,7 +32,7 @@
     "SEARCH_TEXT_PLACEHOLDER": "Suchtext eingeben...",
     "ROLE_ALREADY_EXISTS": "Diese Rolle existiert bereits.",
     "SHOW_ALL": "Zeige alle Rechte",
-    "SHOW_IGNORE": "nicht gewählte Rechte",
-    "SHOW_ALLOW": "zugewiesene Rechte",
-    "SHOW_FORBIDDEN": "verbotene Rechte"
+    "SHOW_IGNORE": "Zeige nicht gewählte Rechte",
+    "SHOW_ALLOW": "Zeige zugewiesene Rechte",
+    "SHOW_FORBIDDEN": "Zeige verbotene Rechte"
 }

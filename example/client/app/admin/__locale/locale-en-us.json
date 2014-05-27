@@ -32,7 +32,7 @@
     "SEARCH_TEXT_PLACEHOLDER": "Insert search text...",
     "ROLE_ALREADY_EXISTS": "Role already exists.",
     "SHOW_ALL": "Show all rights",
-    "SHOW_IGNORE": "ignored rights",
-    "SHOW_ALLOW": "allowed rights",
-    "SHOW_FORBIDDEN": "forbidden rights"
+    "SHOW_IGNORE": "Show ignored rights",
+    "SHOW_ALLOW": "Show allowed rights",
+    "SHOW_FORBIDDEN": "Show forbidden rights"
 }
