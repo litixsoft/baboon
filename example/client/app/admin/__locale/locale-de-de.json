@@ -34,5 +34,9 @@
     "SHOW_ALL": "Zeige alle Rechte",
     "SHOW_IGNORE": "Zeige nicht gewählte Rechte",
     "SHOW_ALLOW": "Zeige zugewiesene Rechte",
-    "SHOW_FORBIDDEN": "Zeige verbotene Rechte"
+    "SHOW_FORBIDDEN": "Zeige verbotene Rechte",
+    "SET_ALLOW_RIGHT": "Click um Recht zu erlauben",
+    "UNSET_ALLOW_RIGHT": "Click um Erlaubnis zu entziehen",
+    "SET_FORBIDDEN_RIGHT": "Click um Recht zu verbieten",
+    "UNSET_FORBIDDEN_RIGHT": "Click um Verbot zu entziehen"
 }

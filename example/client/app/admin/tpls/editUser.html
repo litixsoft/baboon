@@ -111,17 +111,34 @@
                         <select class="form-control" ng-model="filterState" ng-options="fs.key | translate for fs in filterStates"></select>
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="r in rights | matchRightsFilter:searchText:filterState.filter.isAllowed:filterState.filter.isForbidden" ng-style="setStyle(r);">
-                                <label>
-                                    <input type="checkbox" ng-change="setRight(r)" ng-model="r.isAllowed">
-                                    <span class="glyphicon glyphicon-ok" popover="textAllow" popover-trigger="mouseenter"></span>
-                                </label>
-                                <label>
-                                    <input type="checkbox" ng-change="setRight(r)" ng-model="r.isForbidden"/>
-                                    <span class="glyphicon glyphicon-remove" popover="textForbidden" popover-trigger="mouseenter"></span>
-                                </label>
-                                {{ r.name }}
-                                <div class="small"><em>{{ r.description }}</em></div>
+
+                            <li class="list-group-item" ng-repeat="r in rights | matchRightsFilter:searchText:filterState.filter.isAllowed:filterState.filter.isForbidden" ng-style="setListItemStyle(r);">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" ng-change="setRight(r)" ng-model="r.isAllowed" ng-show="false">
+                                            <span ng-if="r.isAllowed" class="glyphicon glyphicon-ok-circle"
+                                                  popover="{{ 'UNSET_ALLOW_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
+                                            <span ng-if="!r.isAllowed" class="glyphicon glyphicon-ok"
+                                                  popover="{{ 'SET_ALLOW_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" ng-change="setRight(r)" ng-model="r.isForbidden" ng-show="false"/>
+                                            <span ng-if="r.isForbidden" class="glyphicon glyphicon-remove-circle"
+                                                  popover="{{ 'UNSET_FORBIDDEN_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
+                                            <span ng-if="!r.isForbidden" class="glyphicon glyphicon-remove"
+                                                  popover="{{ 'SET_FORBIDDEN_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    {{ r.name }}
+                                    <div class="small"><em>{{ r.description }}</em></div>
+                                </div>
+                            </div>
                             </li>
                         </ul>
                     </div>
