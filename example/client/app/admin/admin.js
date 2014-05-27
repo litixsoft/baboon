@@ -94,7 +94,23 @@ angular.module('admin', [
             tmhDynamicLocale.set($translate.use());
         });
     })
+    .filter('matchRightsFilter', function () {
+        return function (rights, searchFilter, isAllowedFilter, isForbiddenFilter) {
+            var r = [];
 
+            if (rights) {
+                for (var i = 0; i < rights.length; i++) {
+                    if ((typeof searchFilter === 'undefined' || rights[i].name.indexOf(searchFilter) > -1) &&
+                        (typeof isAllowedFilter === 'undefined' || rights[i].isAllowed === isAllowedFilter) &&
+                        (typeof isForbiddenFilter === 'undefined' || rights[i].isForbidden === isForbiddenFilter)) {
+                        r.push(rights[i]);
+                    }
+                }
+            }
+
+            return r;
+        };
+    })
     .controller('AdminCtrl', function ($scope, $bbcTransport, $log) {
         $bbcTransport.emit('api/common/awesomeThings/index/getAll', function (error, result) {
             if (!error && result) {
@@ -134,25 +150,6 @@ angular.module('admin', [
 
         getData();
     })
-
-    .filter('matchRightsFilter', function () {
-            return function(rights, searchFilter, isAllowedFilter, isForbiddenFilter) {
-                var r = [];
-
-                if (rights) {
-                    for (var i = 0; i < rights.length; i++) {
-                        if ((typeof searchFilter === 'undefined' || rights[i].name.indexOf(searchFilter) > -1) &&
-                            (typeof isAllowedFilter === 'undefined' || rights[i].isAllowed === isAllowedFilter) &&
-                            (typeof isForbiddenFilter === 'undefined' || rights[i].isForbidden === isForbiddenFilter)) {
-                            r.push(rights[i]);
-                        }
-                    }
-                }
-
-                return r;
-            };
-        })
-
     .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
 
@@ -215,7 +212,7 @@ angular.module('admin', [
             }
         };
 
-        var setRights = function(allRights, selectedRights) {
+        var setRights = function (allRights, selectedRights) {
             var extractHasAccessId = function (e) {
                 return e.hasAccess ? e._id : null;
             };
@@ -276,7 +273,7 @@ angular.module('admin', [
             }
         };
 
-        $scope.reset = function(form) {
+        $scope.reset = function (form) {
             $scope.bbcForm.reset(form);
             setRights($scope.rights, $scope.bbcForm.model.rights);
         };
@@ -293,7 +290,6 @@ angular.module('admin', [
             }
         });
     })
-
     .controller('AdminRightListCtrl', function ($scope, adminModulePath, $bbcTransport) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
@@ -413,7 +409,7 @@ angular.module('admin', [
         $scope.isReadOnly = false;
         $scope.isPartialReadOnly = false;
 
-        function checkEditState() {
+        function checkEditState () {
             $scope.isReadOnly = $scope.bbcForm.model.name === 'Admin' || $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest';
             $scope.isAdmin = $scope.bbcForm.model.name === 'Admin';
         }
@@ -430,28 +426,9 @@ angular.module('admin', [
             checkEditState();
         }
 
-
-
-        /*var userRightObj = null;
-
-        $scope.setStyle = function(r) {
-            if(!userRightObj) {
-                userRightObj = {};
-                for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
-                    var right = $scope.bbcForm.model.rights[i];
-                    userRightObj[right] = right;
-                }
-            }
-
-            if(userRightObj[r._id]) {
-                return { 'border-left': "3px solid green" };
-            }
-
-            return null;
-        };*/
-        $scope.setStyle = function(r) {
+        $scope.setStyle = function (r) {
             for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
-                if($scope.bbcForm.model.rights[i] === r._id) {
+                if ($scope.bbcForm.model.rights[i] === r._id) {
                     return { 'border-left': '3px solid green' };
                 }
             }
