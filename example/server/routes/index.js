@@ -21,10 +21,10 @@ function getRouteFiles (pathName) {
         if (fsStat.isDirectory()) {
             getRouteFiles(fullName).forEach(function(a) {
                 files.push(a);
-            })
+            });
         } else if (fsStat.isFile() && itemName === 'routes.js') {
             // routes.js found, append to list
-            files.push(fullName)
+            files.push(fullName);
         }
     });
 
