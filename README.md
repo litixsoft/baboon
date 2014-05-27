@@ -49,8 +49,8 @@ You can simply create a Baboon project with a yeoman generator-baboon and start 
 The application starts in development mode with live reload functionality that monitors the directories for any changes.
 If changes are detected, a new build is created, the server is restarted if necessary, and the browser is updated.
 
-    $ yo baboon myProject
-    $ cd myProject
+    $ mkdir my-new-project && cd $_
+    $ yo baboon [app-name]
     $ grunt serve
 
 Look out for more information in the sample application or check out the documentations on our web site.
