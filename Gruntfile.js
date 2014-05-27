@@ -118,7 +118,11 @@ module.exports = function (grunt) {
         subgrunt: {
             docs: {
                 projects: {
-                    // Paths to sub-projects' gruntfiles
+                    'docs/': 'build'
+                }
+            },
+            docsserve: {
+                projects: {
                     'docs/': 'serve'
                 }
             }
@@ -134,6 +138,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('doc', ['subgrunt:docs']);
+    grunt.registerTask('doc:serve', ['subgrunt:docsserve']);
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);

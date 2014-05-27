@@ -18,15 +18,41 @@ Windows:
 
     $ npm install -g doxx
 
+#Usage
 
-## Create and start your documentation
-Navigate in the root of your project. And type:
+There are two possible ways:
+
+ * create and view the docu in the docs folder
+ * create and view the docu from inside the baboon root folder
+
+The docu application runs on port 3060.
+
+##In the docs folder:
+
+####Create the api documentation
+
+    $ grunt build
+
+
+####Create the api documentation and start docu-application
+A browser window and go to http://localhost:3060
+
+    $ grunt serve
+
+##In the baboon root folder:
+
+####Create the api documentation
 
     $ grunt doc
 
-If the documentation was build correct you could start the documentation app. Navigate into the docs/bin folder and:
 
-    $ node server
+####Create the api documentation and start docu-application
+A browser window and go to http://localhost:3060
 
+    $ grunt doc:serve
 
-Open a browser window and go to http://localhost:3000
+#Webstorm
+
+You could also use a configuration to start the task in the docs folder.
+Just add a new node configuration and point to the grunt.js file in the scripts subfolder.
+As parameter use 'serve'
