@@ -42,8 +42,7 @@ module.exports = function (grunt) {
             jasmine: ['.reports/test', '.tmp'],
             lint: ['.reports/lint'],
             coverage: ['.reports/coverage', '.tmp'],
-            ci: ['.reports', '.tmp'],
-            dox: ['docs/api','.tmp/docs']
+            ci: ['.reports', '.tmp']
         },
         jshint: {
             options: {
@@ -76,9 +75,6 @@ module.exports = function (grunt) {
             },
             cobertura: {
                 cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage --dir .reports/coverage cobertura'
-            },
-            createdoxx: {
-                cmd: 'doxx --source ./lib --template ./docs/_templates/templatesmall.jade --target ./docs/public/partials/api'
             }
         },
         open: {
@@ -118,8 +114,18 @@ module.exports = function (grunt) {
                 commitMessage: 'chore: release v%VERSION%',
                 push: false
             }
+        },
+        subgrunt: {
+            docs: {
+                projects: {
+                    // Paths to sub-projects' gruntfiles
+                    'docs/': 'serve'
+                }
+            }
         }
     });
+
+    grunt.loadNpmTasks('grunt-subgrunt');
 
     grunt.registerTask('git:commitHook', 'Install git commit hook', function () {
         grunt.file.copy('validate-commit-msg.js', '.git/hooks/commit-msg');
@@ -127,62 +133,7 @@ module.exports = function (grunt) {
         grunt.log.ok('Registered git hook: commit-msg');
     });
 
-    /**
-     * Gets a file and read`s it to fetch the id`s of the different api methods in one api-doc file.
-     *
-     * @param {!string} folder The path to the current api-doc file.
-     */
-    function getDocNavIds(folder){
-
-        var nav = grunt.file.read(folder.filepath);//'.tmp/docs/lib/baboon.js.html');
-
-//        var matches = nav.match(/<h2 id="([^"]*?)".*?>(.+?)<\/h2>/gi);
-        var matches = nav.match(/<section id="([^"]*?)".*?>/gi);
-        var file = folder.filename.replace('.js.html','');
-        var sub = '';
-        if(folder.subdir){
-            sub = folder.subdir+'/';
-        }
-        var results = { title: sub+''+file+'.js', link: sub+''+file, vis: false, children: [] };
-
-        for (var i in matches) {
-            var parts = matches[i].split('"');
-            var sublink = { title: parts[1], link: sub+''+file+'#'+parts[1] };
-            results.children.push(sublink);
-        }
-        return results;
-    }
-
-    grunt.registerTask('getDocNav', function(){
-
-//        var docRootPath = '.tmp/docs/lib/';
-        var docRootPath = 'docs/public/partials/api/';
-        var rootFolder = [];
-        var subFolder = [];
-        var navObj = [];
-        grunt.file.recurse(docRootPath, function(abspath, rootdir, subdir, filename){
-            if(filename!=='index.html') {
-                if(subdir){
-                    var objR = {filepath: abspath, filename: filename, subdir: subdir};
-                    subFolder.push(objR);
-                } else {
-                    var objS = {filepath: abspath, filename: filename};
-                    rootFolder.push(objS);
-                }
-            }
-        });
-
-        for (var j=0;j< rootFolder.length; j++) {
-            navObj.push(getDocNavIds(rootFolder[j]));
-        }
-        for (var k=0;k< subFolder.length; k++) {
-            navObj.push(getDocNavIds(subFolder[k]));
-        }
-
-        grunt.file.write('docs/public/partials/apiNavigation.js', 'var apiNav = '+JSON.stringify(navObj)+';');
-    });
-
-    grunt.registerTask('doc', ['clean:dox', 'bgShell:createdoxx','getDocNav']);
+    grunt.registerTask('doc', ['subgrunt:docs']);
     grunt.registerTask('lint', ['jshint:test']);
     grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
