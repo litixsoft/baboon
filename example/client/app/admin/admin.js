@@ -13,8 +13,7 @@ angular.module('admin', [
     'common.auth',
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    'checklist-model',
-    'bbc.radio'
+    'checklist-model'
 ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
         // Routing and navigation
@@ -94,10 +93,19 @@ angular.module('admin', [
             tmhDynamicLocale.set($translate.use());
         });
     })
-    .filter('matchRightsFilter', function () {
+    .service('countFilter', function() {
+        var pub = {};
+        var count = 0;
+        pub.countFilter = function() {
+            count++;
+            console.log('Filtercount: ', count);
+        };
+        return pub;
+    })
+    .filter('matchRightsFilter', function (countFilter) {
         return function (rights, searchFilter, isAllowedFilter, isForbiddenFilter) {
             var r = [];
-
+            countFilter.countFilter();
             if (rights) {
                 for (var i = 0; i < rights.length; i++) {
                     if ((typeof searchFilter === 'undefined' || rights[i].name.indexOf(searchFilter) > -1) &&
@@ -152,6 +160,8 @@ angular.module('admin', [
     })
     .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
+
+        $scope.popupDelay = 800;
 
         $scope.filterStates = [
             {key: 'SHOW_ALL', filter: {}},
@@ -270,13 +280,35 @@ angular.module('admin', [
             }
         };
 
-        $scope.setStyle = function (r) {
+        $scope.setListItemStyle = function (r) {
             for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
                 if ($scope.bbcForm.model.rights[i]._id === r._id) {
                     if (r.isAllowed) {
                         return { 'border-left': '3px solid green' };
                     } else if (r.isForbidden) {
                         return { 'border-left': '3px solid red' };
+                    }
+                }
+            }
+            return null;
+        };
+
+        $scope.setAllowIconStyle = function (r) {
+            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                if ($scope.bbcForm.model.rights[i]._id === r._id) {
+                    if (r.isAllowed) {
+                        return { 'border': '3px solid green' };
+                    }
+                }
+            }
+            return null;
+        };
+
+        $scope.setForbiddenIconStyle = function (r) {
+            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                if ($scope.bbcForm.model.rights[i]._id === r._id) {
+                    if (r.isForbidden) {
+                        return { 'border': '3px solid red' };
                     }
                 }
             }
