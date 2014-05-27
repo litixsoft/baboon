@@ -99,7 +99,7 @@ module.exports = function (grunt) {
         grunt.file.write('public/partials/apiNavigation.js', 'var apiNav = '+JSON.stringify(navObj)+';');
     });
 
-    grunt.registerTask('doc', ['clean:dox', 'bgShell:createdoxx','getDocNav']);
+    grunt.registerTask('build', ['clean:dox', 'bgShell:createdoxx','getDocNav']);
 
     grunt.registerTask('express-keepalive', 'Keep grunt running', function () {
         this.async();
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
     grunt.registerTask('serve', function (target) {
 //        return grunt.task.run(['doc', 'express:prod', 'open:server', 'express-keepalive']);
         return grunt.task.run([
-            'doc',
+            'build',
             'express:prod',
             'wait',
             'open:server',

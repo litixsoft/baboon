@@ -108,18 +108,17 @@
                     <label class="col-lg-2 control-label">{{ 'RIGHTS' | translate }}</label>
                     <div class="col-lg-10">
                         <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
-                        <select class="form-control" ng-model="filterState" ng-options="fs.name for fs in filterStates"></select>
+                        <select class="form-control" ng-model="filterState" ng-options="fs.key | translate for fs in filterStates"></select>
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="r in rights | matchRightsFilter:searchText:filterState.filter.isAllowed:filterState.filter.isForbidden">
-                            <!--<li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText, isAllowed: filterState.filter.isAllowed, isForbidden: filterState.filter.isForbidden }">-->
+                            <li class="list-group-item" ng-repeat="r in rights | matchRightsFilter:searchText:filterState.filter.isAllowed:filterState.filter.isForbidden" ng-style="setStyle(r);">
                                 <label>
-                                    <input type="checkbox" ng-change="setRight('allow', r)" ng-model="r.isAllowed">
-                                    +
+                                    <input type="checkbox" ng-change="setRight(r)" ng-model="r.isAllowed">
+                                    <span class="glyphicon glyphicon-ok" popover="textAllow" popover-trigger="mouseenter"></span>
                                 </label>
                                 <label>
-                                    <input type="checkbox" ng-change="setRight('forbidden', r)" ng-model="r.isForbidden"/>
-                                    -
+                                    <input type="checkbox" ng-change="setRight(r)" ng-model="r.isForbidden"/>
+                                    <span class="glyphicon glyphicon-remove" popover="textForbidden" popover-trigger="mouseenter"></span>
                                 </label>
                                 {{ r.name }}
                                 <div class="small"><em>{{ r.description }}</em></div>
