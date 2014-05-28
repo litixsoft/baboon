@@ -93,19 +93,19 @@ angular.module('admin', [
             tmhDynamicLocale.set($translate.use());
         });
     })
-    .service('countFilter', function() {
-        var pub = {};
-        var count = 0;
-        pub.countFilter = function() {
-            count++;
-            console.log('Filtercount: ', count);
-        };
-        return pub;
-    })
-    .filter('matchRightsFilter', function (countFilter) {
+//    .service('countFilter', function() {
+//        var pub = {};
+//        var count = 0;
+//        pub.countFilter = function() {
+//            count++;
+//            console.log('Filtercount: ', count);
+//        };
+//        return pub;
+//    })
+    .filter('matchRightsFilter', function (/*countFilter*/) {
         return function (rights, searchFilter, isAllowedFilter, isForbiddenFilter) {
             var r = [];
-            countFilter.countFilter();
+//            countFilter.countFilter();
             if (rights) {
                 for (var i = 0; i < rights.length; i++) {
                     if ((typeof searchFilter === 'undefined' || rights[i].name.indexOf(searchFilter) > -1) &&
@@ -181,12 +181,7 @@ angular.module('admin', [
                     delete result.register_date;
 
                     if (result.name === 'guest') {
-                        result.editIsLocked = true;
-                    }
-
-                    if (result.name === 'admin') {
-                        result.editIsLocked = true;
-                        result.rightIsLocked = true;
+                        result.isGuest = true;
                     }
 
                     $scope.bbcForm.setModel(result);
@@ -254,6 +249,19 @@ angular.module('admin', [
         var extractId = function (e) {
             return e._id;
         };
+
+//        var getRolesDetails = function () {
+//            var rolesDetails = [];
+//            if (!$bbcForm.model.roles) {
+//                for (var i = 0; i < $bbcForm.model.roles.length; i++) {
+//                    $bbcTransport.emit(adminModulePath + 'role/getById', {id: $bbcForm.model.roles[i]}, function (errorRole, resultRole) {
+//                        if (resultRole) {
+//                            rolesDetails.push(resultRole);
+//                        }
+//                    });
+//                }
+//            }
+//        };
 
         $scope.setRight = function (right) {
             var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);

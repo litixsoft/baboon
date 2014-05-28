@@ -18,7 +18,7 @@ module.exports = function (baboon) {
     /**
      * Gets all roles and the number of roles from db.
      *
-     * @roles
+     * @roles admin
      * @description Gets all roles and the number of roles from db.
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -41,7 +41,7 @@ module.exports = function (baboon) {
     /**
      * Gets a single role post by id.
      *
-     * @roles
+     * @roles admin
      * @description Gets a single role post by id.
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -58,7 +58,7 @@ module.exports = function (baboon) {
     /**
      * Creates a new role in the db.
      *
-     * @roles
+     * @roles admin
      * @description Creates a new role in the db.
      * @param {object} data The role data.
      * @param {!object} request The request object.
@@ -97,7 +97,7 @@ module.exports = function (baboon) {
     /**
      * Updates a role in the db.
      *
-     * @roles
+     * @roles admin
      * @description Updates a role in the db.
      * @param {object} data The role data.
      * @param {!object} request The request object.

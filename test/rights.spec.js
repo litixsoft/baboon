@@ -107,6 +107,10 @@ describe('Rights', function () {
                 _id: 4,
                 name: 'chief',
                 groups: [2, 6]
+            },
+            {
+                _id: 5,
+                name: 'sysadmin'
             }
         ];
 
@@ -192,10 +196,7 @@ describe('Rights', function () {
         });
 
         it('should return true when the user has the role admin', function () {
-            var user = users[0];
-            user.rolesAsObjects = [
-                {_id: 1, name: 'Admin'}
-            ];
+            var user = users[4];
 
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeTruthy();
             expect(sut.userHasAccessTo(user, 'someUnknownRight')).toBeTruthy();
@@ -1714,10 +1715,10 @@ describe('Rights', function () {
         it('should create system users in db if they do not exist', function (done) {
             sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();
-                expect(res).toBe(2);
+                expect(res).toBe(3);
 
                 expect(appMock.logging.syslog.info).toHaveBeenCalled();
-                expect(appMock.logging.syslog.info.calls.length).toBe(5);
+                expect(appMock.logging.syslog.info.calls.length).toBe(6);
 
                 sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                     expect(err).toBeNull();

@@ -38,5 +38,6 @@
     "SET_ALLOW_RIGHT": "Set to allow right",
     "UNSET_ALLOW_RIGHT": "Unset to delete allow",
     "SET_FORBIDDEN_RIGHT": "Set to prohibit right",
-    "UNSET_FORBIDDEN_RIGHT": "Unset to delete prohibit"
+    "UNSET_FORBIDDEN_RIGHT": "Unset to delete prohibit",
+    "BACK_TO_OVERVIEW": "Back to overview"
 }

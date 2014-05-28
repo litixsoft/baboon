@@ -1,6 +1,7 @@
 <div class="p-wrapper">
     <div class="page-header">
         <h1>{{ 'USERS' | translate}}</h1>
+        <a ng-href="/admin/user" name="back" >{{ 'BACK_TO_OVERVIEW' | translate }}</a>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">{{ bbcForm.model._id ? 'EDIT_USER' : 'CREATE_USER' | translate }}</div>
@@ -11,7 +12,7 @@
                 <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                     <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required ng-disabled="bbcForm.model.editIsLocked" />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required ng-disabled="bbcForm.model.isGuest" />
                         <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.name.$error.required">{{ 'REQUIRED_NAME' | translate }}</span>
@@ -25,7 +26,7 @@
                     <div class="col-lg-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="bbcForm.model.is_active"  ng-disabled="bbcForm.model.editIsLocked">
+                                <input type="checkbox" ng-model="bbcForm.model.is_active"  ng-disabled="bbcForm.model.isGuest">
                             </label>
                         </div>
                     </div>
@@ -34,7 +35,7 @@
                 <div class="form-group" ng-class="{'has-error': ((form.email.$dirty && form.email.$invalid) || form.errors.email)}">
                     <label class="col-lg-2 control-label" for="email">{{ 'MAIL' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.email" id="email" name="email" placeholder="{{ 'ENTER_MAIL' | translate }}" required ng-disabled="bbcForm.model.editIsLocked" />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.email" id="email" name="email" placeholder="{{ 'ENTER_MAIL' | translate }}" required ng-disabled="bbcForm.model.isGuest" />
                         <label ng-show="((form.email.$dirty && form.email.$invalid) || form.errors.email)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.email.$error.required">{{ 'REQUIRED_MAIL' | translate }}</span>
@@ -47,7 +48,7 @@
                 <div ng-if="!bbcForm.model._id" class="form-group" ng-class="{'has-error': ((form.password.$dirty && form.password.$invalid) || form.errors.password)}">
                     <label class="col-lg-2 control-label" for="password">{{ 'PASSWORD' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="password" class="form-control" ng-model="bbcForm.model.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
+                        <input type="password" class="form-control" ng-model="bbcForm.model.password" id="password" name="password" placeholder="{{ 'ENTER_PASSWORD' | translate }}" ng-disabled="bbcForm.model.isGuest" />
                         <label ng-show="((form.password.$dirty && form.password.$invalid) || form.errors.password)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
@@ -59,7 +60,7 @@
                 <div ng-if="!bbcForm.model._id"  class="form-group" ng-class="{'has-error': ((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())}">
                     <label class="col-lg-2 control-label" for="confirmed_password">{{ 'CONFIRM_PASSWORD' | translate }}</label>
                     <div class="col-lg-10 lxvalidation">
-                        <input type="password" class="form-control" ng-model="bbcForm.model.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
+                        <input type="password" class="form-control" ng-model="bbcForm.model.confirmed_password" id="confirmed_password" name="confirmed_password" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" ng-disabled="bbcForm.model.isGuest" />
                         <label ng-show="((form.confirmed_password.$dirty && form.confirmed_password.$invalid) || form.errors.confirmed_password || !isPasswordConfirmed())" style="cursor:pointer;" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.confirmed_password.$error.required">{{ 'REQUIRED_PASSWORD' | translate }}</span>
@@ -72,7 +73,7 @@
                 <div class="form-group" ng-class="{'has-error': ((form.language.$dirty && form.language.$invalid) || form.errors.language)}">
                     <label class="col-lg-2 control-label" for="language">{{ 'LANGUAGE' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" ng-disabled="bbcForm.model.editIsLocked" />
+                        <input type="text" class="form-control" ng-model="bbcForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" ng-disabled="bbcForm.model.isGuest" />
                         <label ng-show="((form.language.$dirty && form.language.$invalid) || form.errors.language)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.errors.language">{{form.errors.language}}</span>
@@ -80,24 +81,24 @@
                      </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-if="!bbcForm.model.isGuest">
                     <label class="col-lg-2 control-label">{{ 'GROUPS' | translate }}</label>
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="g in groups">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.groups" checklist-value="g._id" ng-disabled="bbcForm.model.rightIsLocked" /> {{g.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.groups" checklist-value="g._id" /> {{g.name}}
                                 <span ng-if="g.description" class="glyphicon glyphicon-question-sign" popover="{{ g.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-if="!bbcForm.model.isGuest">
                     <label class="col-lg-2 control-label">{{ 'ROLES' | translate }}</label>
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="r in roles">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.rightIsLocked" /> {{r.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.isGuest" /> {{r.name}}
                                 <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
@@ -106,6 +107,7 @@
 
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{ 'RIGHTS' | translate }}</label>
+
                     <div class="col-lg-10">
                         <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
                         <select class="form-control" ng-model="filterState" ng-options="fs.key | translate for fs in filterStates"></select>

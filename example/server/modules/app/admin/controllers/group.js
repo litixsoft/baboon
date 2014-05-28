@@ -18,7 +18,7 @@ module.exports = function (baboon) {
     /**
      * Gets all groups and the number of groups from db.
      *
-     * @roles
+     * @roles admin
      * @description Gets all groups and the number of groups from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -41,7 +41,7 @@ module.exports = function (baboon) {
     /**
      * Gets a single group post by id.
      *
-     * @roles
+     * @roles admin
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
      * @param {!object} request The request object.
@@ -58,7 +58,7 @@ module.exports = function (baboon) {
     /**
      * Creates a new group in the db.
      *
-     * @roles
+     * @roles admin
      * @description Creates a new group in the db
      * @param {object} data The group data.
      * @param {!object} request The request object.
@@ -97,7 +97,7 @@ module.exports = function (baboon) {
     /**
      * Updates a group in the db.
      *
-     * @roles
+     * @roles admin
      * @description Updates a group in the db
      * @param {object} data The group data.
      * @param {!object} request The request object.
