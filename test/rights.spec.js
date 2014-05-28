@@ -107,6 +107,10 @@ describe('Rights', function () {
                 _id: 4,
                 name: 'chief',
                 groups: [2, 6]
+            },
+            {
+                _id: 5,
+                name: 'sysadmin'
             }
         ];
 
@@ -192,10 +196,7 @@ describe('Rights', function () {
         });
 
         it('should return true when the user has the role admin', function () {
-            var user = users[0];
-            user.rolesAsObjects = [
-                {_id: 1, name: 'Admin'}
-            ];
+            var user = users[4];
 
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeTruthy();
             expect(sut.userHasAccessTo(user, 'someUnknownRight')).toBeTruthy();
