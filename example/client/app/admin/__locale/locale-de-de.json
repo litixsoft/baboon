@@ -38,5 +38,6 @@
     "SET_ALLOW_RIGHT": "Click um Recht zu erlauben",
     "UNSET_ALLOW_RIGHT": "Click um Erlaubnis zu entziehen",
     "SET_FORBIDDEN_RIGHT": "Click um Recht zu verbieten",
-    "UNSET_FORBIDDEN_RIGHT": "Click um Verbot zu entziehen"
+    "UNSET_FORBIDDEN_RIGHT": "Click um Verbot zu entziehen",
+    "BACK_TO_OVERVIEW": "Zurück zur Übersicht"
 }
