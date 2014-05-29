@@ -17,13 +17,13 @@ describe('Rights', function () {
         spyOn(appMock.logging.syslog, 'info');
 
         rights = [
-            {_id: 1, name: 'login'},
-            {_id: 2, name: 'addUser'},
-            {_id: 3, name: 'addProject'},
-            {_id: 4, name: 'addTicket'},
-            {_id: 5, name: 'addTime'},
-            {_id: 6, name: 'addUserStory'},
-            {_id: 7, name: 'addImprovement'}
+            {_id: 1, name: 'login', controller: 'app/login'},
+            {_id: 2, name: 'addUser', controller: 'app/addUser'},
+            {_id: 3, name: 'addProject', controller: 'app/addProject'},
+            {_id: 4, name: 'addTicket', controller: 'app/addTicket'},
+            {_id: 5, name: 'addTime', controller: 'app/addTime'},
+            {_id: 6, name: 'addUserStory', controller: 'app/addUserStory'},
+            {_id: 7, name: 'addImprovement', controller: 'app/addImprovement'}
         ];
 
         roles = [
@@ -155,6 +155,7 @@ describe('Rights', function () {
     it('should be initialized correctly', function () {
         expect(typeof sut.getRepositories).toBe('function');
         expect(typeof sut.userHasAccessTo).toBe('function');
+        expect(typeof sut.userHasAccessToController).toBe('function');
         expect(typeof sut.userIsInRole).toBe('function');
         expect(typeof sut.addRoleToUser).toBe('function');
         expect(typeof sut.getUserRights).toBe('function');
@@ -195,7 +196,7 @@ describe('Rights', function () {
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeFalsy();
         });
 
-        it('should return true when the user has the role admin', function () {
+        it('should return true when the user has name sysadmin', function () {
             var user = users[4];
 
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeTruthy();
@@ -259,6 +260,53 @@ describe('Rights', function () {
             config.rights.enabled = false;
 
             expect(sut.userHasAccessTo(user, 'wayne')).toBeTruthy();
+
+            config.rights.enabled = true;
+        });
+    });
+
+    describe('.userHasAccessToController()', function () {
+        it('should throw an Error when the param "user" is of wrong type', function () {
+            var func = function () { return sut.userHasAccessToController('user', '123');};
+
+            expect(func).toThrow(new RightsError('param "user" is not an object'));
+        });
+
+        it('should return false when the user has no acl', function () {
+            var user = users[0];
+
+            expect(sut.userHasAccessToController(user, 'app/addTicket')).toBeFalsy();
+        });
+
+        it('should return true when the user has name sysadmin', function () {
+            var user = users[4];
+
+            expect(sut.userHasAccessToController(user, 'app/addTicket')).toBeTruthy();
+            expect(sut.userHasAccessToController(user, 'app/someUnknownRight')).toBeTruthy();
+        });
+
+        it('should return true when the user has the right', function () {
+            var user = users[0];
+            user.roles = [5]; // Manager
+            user.rights = [
+                {_id: 1, hasAccess: false},
+                {_id: 5, hasAccess: false}
+            ]; // addTime
+
+            user.acl = sut.getUserAcl(user, rights, roles, groups);
+
+            expect(sut.userHasAccessToController(user, 'app/addTicket')).toBeTruthy();
+            expect(sut.userHasAccessToController(user, 'app/addUserStory')).toBeTruthy();
+            expect(sut.userHasAccessToController(user, 'app/addImprovement')).toBeTruthy();
+            expect(sut.userHasAccessToController(user, 'app/login')).toBeFalsy();
+            expect(sut.userHasAccessToController(user, 'app/addUser')).toBeFalsy();
+        });
+
+        it('should return true when the rights system is disabled', function () {
+            var user = users[0];
+            config.rights.enabled = false;
+
+            expect(sut.userHasAccessToController(user, 'app/addTicket')).toBeTruthy();
 
             config.rights.enabled = true;
         });
@@ -345,11 +393,93 @@ describe('Rights', function () {
             });
         });
 
-        it('', function (done) {
+        it('should add a role to the user', function (done) {
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
                     sut.addRoleToUser(userObj[0], roleObj[0].name, function(error, result){
                         expect(result.roles.length).toBe(1);
+
+                        sut.addRoleToUser(userObj[0], roleObj[0].name, function(error, result){
+                            expect(result.roles.length).toBe(1);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        it('should mongodb to return null on users.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.users.findOne = function(a, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            repo.users.insert(user, function (error, userObj) {
+                repo.roles.insert(role, function (error, roleObj) {
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+                    mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
+                        expect(err).toEqual({ name : 'RightsError', message : 'user wayne: not found' });
+                        expect(res).toBeUndefined();
+
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should mongodb to return null on roles.findOne', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.roles.findOne = function(a, callback){
+                callback(null, null);
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            repo.users.insert(user, function (error, userObj) {
+                repo.roles.insert(role, function (error, roleObj) {
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+                    mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
+                        expect(err).toEqual({ name : 'RightsError', message : 'role reporter: not found' });
+                        expect(res).toBeUndefined();
+
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should mongodb to throw error on users.update', function (done) {
+            var proxyquire = require('proxyquire');
+            var repos = sut.getRepositories();
+            repos.users.update = function(a, b, callback){
+                callback('error');
+            };
+
+            var stubs = {};
+            stubs['./repositories'] = function(){
+                return repos;
+            };
+
+            repo.users.insert(user, function (error, userObj) {
+                repo.roles.insert(role, function (error, roleObj) {
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+
+                    mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
+                        expect(err).toEqual('error');
+                        expect(res).toBeUndefined();
+
                         done();
                     });
                 });
@@ -492,9 +622,9 @@ describe('Rights', function () {
             var res = sut.getUserAcl(user, rights, roles, groups);
 
             expect(res).toEqual({
-                'addTicket': {hasAccess: true},
-                'addUserStory': {hasAccess: true},
-                'addImprovement': {hasAccess: true}
+                'addTicket': {controller : 'app/addTicket', hasAccess: true},
+                'addUserStory': {controller : 'app/addUserStory', hasAccess: true},
+                'addImprovement': {controller : 'app/addImprovement', hasAccess: true}
             });
         });
 
@@ -506,9 +636,9 @@ describe('Rights', function () {
             ]);
 
             expect(res).toEqual({
-                'login': {hasAccess: true},
-                'addTicket': {hasAccess: true, resource: 'baboon'},
-                'addTime': {hasAccess: true, resource: 'baboon'}
+                'login': {controller : 'app/login', hasAccess: true},
+                'addTicket': {controller : 'app/addTicket', hasAccess: true, resource: 'baboon'},
+                'addTime': {controller : 'app/addTime', hasAccess: true, resource: 'baboon'}
             });
         });
     });
