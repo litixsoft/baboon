@@ -467,10 +467,10 @@ describe('Rights', function () {
             expect(Object.keys(res).length).toBe(0);
         });
 
-        it('should return all rights when the user has the role "Admin"', function () {
+        it('should return all rights when the user is sysadmin', function () {
             var user = {
                     id: 1,
-                    name: 'admin',
+                    name: 'sysadmin',
                     rolesAsObjects: [
                         {_id: 1, name: 'Admin'}
                     ]
