@@ -1,7 +1,7 @@
 <div class="p-wrapper">
     <div class="page-header">
         <h1>{{ 'ROLES' | translate}}</h1>
-        <a ng-href="/admin/role" name="back" >{{ 'BACK_TO_OVERVIEW' | translate }}</a>
+        <a ng-href="/admin/roles" name="back" >{{ 'BACK_TO_OVERVIEW' | translate }}</a>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">{{ bbcForm.model._id ? 'EDIT_ROLE' : 'CREATE_ROLE' | translate }}</div>
@@ -45,7 +45,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-primary" ng-if="!isAdmin" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
                         <button type="button" class="btn btn-default" ng-if="!isAdmin" ng-click="bbcForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
-                        <a class="btn btn-default" ng-href="/admin/role" name="back" >{{ 'BACK' | translate }}</a>
+                        <a class="btn btn-default" ng-href="/admin/roles" name="back" >{{ 'BACK' | translate }}</a>
                     </div>
                 </div>
             </form>

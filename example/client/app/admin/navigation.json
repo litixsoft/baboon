@@ -2,32 +2,32 @@
     "title": "ADMIN",
     "route": "/admin",
     "roles": ["Admin"],
-    "controller": "/app/admin/index",
+    "controller": "/app/admin/*",
     "app": "admin",
     "order": 4,
     "children": [
         {
             "title": "GROUPS",
-            "route": "/admin/group",
-            "controller": "/app/admin/group",
+            "route": "/admin/groups",
+            "controller": "/app/admin/groups",
             "app": "admin"
         },
         {
             "title": "RIGHTS",
-            "route": "/admin/right",
-            "controller": "/app/admin/right",
+            "route": "/admin/rights",
+            "controller": "/app/admin/rights",
             "app": "admin"
         },
         {
             "title": "ROLES",
-            "route": "/admin/role",
-            "controller": "/app/admin/role",
+            "route": "/admin/roles",
+            "controller": "/app/admin/roles/roles",
             "app": "admin"
         },
         {
             "title": "USERS",
-            "route": "/admin/user",
-            "controller": "/app/admin/user",
+            "route": "/admin/users",
+            "controller": "/app/admin/users/users",
             "app": "admin"
         }
     ]

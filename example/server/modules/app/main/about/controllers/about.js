@@ -4,10 +4,18 @@ module.exports = function (baboon) {
 
     var pub = {};
 
-    pub.placeholderForRights = function(data, request, callback) {
+    /**
+     * Placeholder
+     *
+     * @roles Guest
+     * @description Placeholder for rights system
+     * @param {object} data The member data.
+     * @param {!object} request The request object.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.placeholder = function(data, request, callback) {
         callback(data, request, baboon.config);
     };
 
     return pub;
-
 };

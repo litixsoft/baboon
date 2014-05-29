@@ -12,7 +12,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <a href="/admin/role/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                                <a href="/admin/roles/new"><span class="glyphicon glyphicon-plus-sign"></span></a>
                             </th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="name" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'NAME' | translate }}</th>
                             <th><bbc-sort sort-opts="sortOpts" field-name="description" on-sorting="load(sortingOptions, pagingOptions)" />{{ 'DESCRIPTION' | translate }}</th>
@@ -20,7 +20,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="r in roles">
-                            <td><a href="/admin/role/edit/{{ r._id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            <td><a href="/admin/roles/edit/{{ r._id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
                             <td>{{ r.name }}</td>
                             <td>{{ r.description }}</td>
                         </tr>

@@ -20,7 +20,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="u in users">
-                        <td><a href="/admin/user/edit/{{u._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td><a href="/admin/users/edit/{{u._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                         <td>{{ u.name }}</td>
                         <td>{{ u.email }}</td>
                         <td><i ng-class="{'glyphicon glyphicon-ok': u.is_active}"></i></td>
