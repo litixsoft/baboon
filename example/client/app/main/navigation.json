@@ -8,7 +8,7 @@
         {
            "title": "ABOUT",
            "route": "/about",
-           "controller": "/app/main/home",
+           "controller": "/app/main/about",
            "app": "main"
         },
         {

@@ -2,7 +2,7 @@
     "title": "DEMO",
     "route": "/demo",
     "roles": ["Admin","Guest","User"],
-    "controller": "/app/demo/enterprise/enterprise",
+    "controller": "/app/demo/*",
     "app": "demo",
     "children": [
         {

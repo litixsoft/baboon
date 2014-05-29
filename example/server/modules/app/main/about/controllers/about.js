@@ -7,7 +7,7 @@ module.exports = function (baboon) {
     /**
      * Placeholder
      *
-     * @roles Guest
+     * @roles Guest, User, Admin
      * @description Placeholder for rights system
      * @param {object} data The member data.
      * @param {!object} request The request object.

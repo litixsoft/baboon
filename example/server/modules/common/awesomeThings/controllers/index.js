@@ -7,7 +7,7 @@ module.exports = function() {
     /**
      * Gets all awesome things.
      *
-     * @roles Guest, User
+     * @roles Guest, User, Admin
      * @description Gets all awesome things
      * @param {!Object} data The query.
      * @param {!Object} request The request object.

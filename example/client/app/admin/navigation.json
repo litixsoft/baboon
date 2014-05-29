@@ -9,13 +9,13 @@
         {
             "title": "GROUPS",
             "route": "/admin/groups",
-            "controller": "/app/admin/groups",
+            "controller": "/app/admin/groups/groups",
             "app": "admin"
         },
         {
             "title": "RIGHTS",
             "route": "/admin/rights",
-            "controller": "/app/admin/rights",
+            "controller": "/app/admin/rights/rights",
             "app": "admin"
         },
         {

@@ -47,7 +47,7 @@ module.exports = function (baboon) {
     /**
      * Gets all users and the number of users from db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Gets all users and the number of users from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -75,7 +75,7 @@ module.exports = function (baboon) {
     /**
      * Gets a single user by id.
      *
-     * @roles admin
+     * @roles Admin
      * @description Gets a single user by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -96,7 +96,7 @@ module.exports = function (baboon) {
     /**
      * Creates a new user in the db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Creates a new user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.
@@ -129,7 +129,7 @@ module.exports = function (baboon) {
     /**
      * Updates a user in the db.
      *
-     * @roles admin
+     * @roles Admin
      * @description Updates a user in the db
      * @param {object} data The user data.
      * @param {!object} request The request object.
