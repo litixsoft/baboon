@@ -2,8 +2,8 @@
 
 var async = require('async'),
     lxHelpers = require('lx-helpers'),
-    protectedFields = ['password', 'salt'],
-    crypto = require('../../../../../../../lib/crypto')();
+    protectedFields = ['password', 'salt'];
+
 
 function removeProtectedFields (options) {
     if (!options.fields || lxHelpers.isEmpty(options.fields)) {
@@ -42,7 +42,8 @@ function removeProtectedFields (options) {
 module.exports = function (baboon) {
     var pub = {},
         repo = baboon.rights.getRepositories(),
-        audit = baboon.loggers.audit;
+        audit = baboon.loggers.audit,
+        crypto = baboon.crypto;
 
     /**
      * Gets all users and the number of users from db.

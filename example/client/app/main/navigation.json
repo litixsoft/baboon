@@ -1,20 +1,19 @@
 {
     "title": "HOME",
     "route": "/",
-    "roles": ["Admin","Guest","User"],
-    "controller": "/app/main/home",
+    "controller": "app/main/*",
     "app": "main",
     "children": [
         {
            "title": "ABOUT",
            "route": "/about",
-           "controller": "/app/main/about",
+           "controller": "app/main/about/about",
            "app": "main"
         },
         {
            "title": "CONTACT",
            "route": "/contact",
-           "controller": "/app/main/contact",
+           "controller": "app/main/contact/contact",
            "app": "main"
         }
     ],

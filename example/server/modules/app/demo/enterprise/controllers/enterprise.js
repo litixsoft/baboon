@@ -11,7 +11,7 @@ module.exports = function (baboon) {
      * Gets all members from db.
      *
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Gets all members from db
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -26,7 +26,7 @@ module.exports = function (baboon) {
     /**
      * Gets a single member by id.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Gets a single member by id
      * @param {!object} data The data from client.
      * @param {!string} data.id The id.
@@ -43,7 +43,7 @@ module.exports = function (baboon) {
     /**
      * Creates a new member in the db.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Creates a new member in the db
      * @param {object} data The blog post data.
      * @param {!object} request The request object.
@@ -82,7 +82,7 @@ module.exports = function (baboon) {
     /**
      * Updates a member in the db.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Updates a member in the db
      * @param {object} data The member data.
      * @param {!object} request The request object.
@@ -124,7 +124,7 @@ module.exports = function (baboon) {
     /**
      * Deletes a member.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Deletes a member
      * @param {object} data The data.
      * @param {string|object} data.id The id.
@@ -151,7 +151,7 @@ module.exports = function (baboon) {
     /**
      * Create test members in crew collection.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Create test members in crew collection
      * @param {object} data The query.
      * @param {!object} request The request object.
@@ -184,7 +184,7 @@ module.exports = function (baboon) {
      * Delete all members in crew collection.
      * Generate test crew members in crew collection.
      *
-     * @roles Guest, User, Admin
+     * @roles Guest
      * @description Delete all members in crew collection. Generate test crew members in crew collection
      * @param {object} data The query.
      * @param {!object} request The request object.

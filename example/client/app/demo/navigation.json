@@ -1,14 +1,13 @@
 {
     "title": "DEMO",
     "route": "/demo",
-    "roles": ["Admin","Guest","User"],
-    "controller": "/app/demo/*",
+    "controller": "app/demo/*",
     "app": "demo",
     "children": [
         {
            "title": "ENTERPRISE",
            "route": "/demo/enterprise",
-           "controller": "/app/demo/enterprise/enterprise",
+           "controller": "app/demo/enterprise/enterprise",
            "app": "demo"
         }
     ],
