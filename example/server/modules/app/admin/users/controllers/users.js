@@ -57,16 +57,17 @@ module.exports = function (baboon) {
      */
     pub.getAll = function (data, request, callback) {
         var options = data.options || {};
-
         // remove protected fields from options.fields
         removeProtectedFields(options);
+        var query = data.params = data.params || {};
+        query.name = { $ne: 'sysadmin' }
 
         async.auto({
             getAll: function (callback) {
-                repo.users.find(data.params || {}, options, callback);
+                repo.users.find(query, options, callback);
             },
             getCount: function (callback) {
-                repo.users.count(data.params || {}, callback);
+                repo.users.count(query, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});

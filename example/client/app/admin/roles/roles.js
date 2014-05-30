@@ -33,7 +33,7 @@ angular.module('admin.roles', [])
 
         getData();
     })
-    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
+    /*.controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
         $scope.bbcForm = $bbcForm('baboon_role', '_id');
         $scope.isReadOnly = false;
         $scope.isPartialReadOnly = false;
@@ -89,4 +89,77 @@ angular.module('admin.roles', [])
                 $scope.rights = result.items;
             }
         });
+    })*/
+    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport, $q) {
+        $scope.bbcForm = $bbcForm('baboon_role', '_id');
+        $scope.isReadOnly = false;
+
+        function initState() {
+            $scope.isReadOnly = $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest';
+
+            for(var i = 0; i < $scope.rights.length; i++) {
+                var r = $scope.rights[i];
+                r.checked = hasUserRight(r._id);
+                r.sort = r.checked;
+            }
+        }
+
+        function loadRole() {
+            var deferred = $q.defer();
+            if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+                $bbcTransport.emit(adminModulePath + 'roles/roles/getById', { id: $routeParams.id }, function (error, result) {
+                    if (result) {
+                        deferred.resolve(result);
+                    }
+                });
+            } else {
+                deferred.resolve($scope.bbcForm.model);
+            }
+            return deferred.promise;
+        }
+
+        function hasUserRight(id) {
+            if($scope.bbcForm.model.rights) {
+                for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+                    if ($scope.bbcForm.model.rights[i] === id) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        loadRole().then(function(result){
+            $scope.bbcForm.setModel(result);
+
+            $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
+                if (result) {
+                    $scope.rights = result.items;
+                    initState();
+                }
+            });
+        });
+
+        $scope.setStyle = function (r) {
+            return r.checked === true ? { 'border-left': '3px solid green' } : null;
+        };
+
+        $scope.save = function (model) {
+            if ($scope.form) {
+                $scope.form.errors = {};
+            }
+
+            var method = model._id ? 'roles/roles/update' : 'roles/roles/create';
+
+            $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
+                if (result) {
+                    $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
+                    $location.path('/admin/roles');
+                } else if (error) {
+                    if (error.name === 'ValidationError') {
+                        $scope.bbcForm.populateValidation($scope.form, error.errors);
+                    }
+                }
+            });
+        };
     });
