@@ -52,10 +52,10 @@ angular.module('admin.groups', [])
 
             $bbcTransport.emit(adminModulePath + method, model, function (error, result) {
                 if (result) {
-                    $scope.bbcForm.setModel(typeof(result.data) === 'object' ? result.data : model, true);
+                    $scope.bbcForm.setModel(typeof(result) === 'object' ? result : model, true);
                     $location.path('/admin/groups');
                 }
-                else if (error) {
+                else {
                     if (error.name === 'ValidationError') {
                         $scope.bbcForm.populateValidation($scope.form, error.errors);
                     }
