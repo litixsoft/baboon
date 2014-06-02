@@ -3,32 +3,32 @@ module.exports = function () {
     return [
         {
             title: 'HOME',
-            root: true,
             route: '/',
-            roles: [
-                'Admin','Guest','User'
-            ],
+            controller: 'app/main/*',
             app: 'main',
             children: [
                 {
                     title: 'LOCALE',
                     route: '/localization',
+                    controller: 'app/main/locale/locale',
                     app: 'main'
                 },
                 {
                     title: 'ABOUT',
                     route: '/about',
-                    roles: ['Admin'],
+                    controller: 'app/main/locale/locale',
                     app: 'main'
                 },
                 {
                     title: 'CONTACT',
                     route: '/contact',
                     app: 'main',
+                    controller: 'app/main/contact/*',
                     children: [
                         {
                             title: 'EDIT',
                             route: '/contact/edit',
+                            controller: 'app/main/contact/edit',
                             app: 'main'
                         }
                     ]
@@ -40,21 +40,20 @@ module.exports = function () {
             title: 'PROJECT1',
             route: '/project1',
             app: 'project1',
+            controller: 'app/project1/project1',
             order: 2
         },
         {
             title: 'ADMIN',
             route: '/admin',
-            roles: [
-                'Admin'
-            ],
             app: 'admin',
+            controller: 'app/admin/*',
             order: 4,
             children: [
                 {
                     title: 'EDIT',
                     route: '/admin/edit',
-                    roles: ['Admin'],
+                    controller: 'app/admin/edit/edit',
                     app: 'admin'
                 }
             ]

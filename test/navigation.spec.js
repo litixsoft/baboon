@@ -13,13 +13,8 @@ describe('Navigation', function () {
     //var sut, data, request, mock, nav, navArr;
     var sut, mock;
 
-    it('should throw an Error when not given parameter navigationFilePath', function () {
-        conf.rights.enabled= true;
-        var func = function () {
-            return navigation({},conf);
-        };
-        expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
-    });
+
+
 
     beforeEach(function () {
         mock = appMock();
@@ -27,13 +22,31 @@ describe('Navigation', function () {
         sut = navigation(navigationFilePath, conf);
     });
 
-    it('should be defined', function () {
+    it('should throw an Error when not given parameter navigationFilePath', function () {
+
+        var rights = {};
+
+        var func = function () {
+            return navigation({},rights);
+        };
+        expect(func).toThrow(new NavigationError('Parameter navigationFilePath is required and must be a string type!'));
+    });
+
+    it('should throw an Error when not given parameter rights', function () {
+        conf.rights.enabled= true;
+        var func = function () {
+            return navigation(navigationFilePath,'string');
+        };
+        expect(func).toThrow(new NavigationError('Parameter rights is required and must be a object type!'));
+    });
+
+    it('should be all methods defined', function () {
         expect(sut).toBeDefined();
         expect(sut.getTree).toBeDefined();
         expect(sut.getList).toBeDefined();
-        //expect(sut.getTopList).toBeDefined();
-        //expect(sut.getSubTree).toBeDefined();
-        //expect(sut.getSubList).toBeDefined();
+        expect(sut.getTopList).toBeDefined();
+        expect(sut.getSubTree).toBeDefined();
+        expect(sut.getSubList).toBeDefined();
     });
 
 //    describe('.getTree()', function () {
