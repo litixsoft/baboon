@@ -136,5 +136,39 @@ module.exports = function (baboon) {
         });
     };
 
+    /**
+     * Deletes a group in the db.
+     *
+     * @roles Admin
+     * @description Updates a group in the db
+     * @param {object} data The group data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.remove = function(data, request, callback) {
+        if (!data || !data.id) {
+            callback();
+            return;
+        }
+
+        var options = { limit: 1, fields: ['_id'] };
+        var convertedId = repo.users.convertId(data.id);
+
+        repo.users.find({ 'groups' : convertedId }, options, function(error, result) {
+            if(error) {
+                callback(callback);
+                return;
+            }
+
+            if(result.length > 0) {
+                callback(new baboon.ControllerError('GROUP_USED', 500, true, '', ''));
+                return;
+            }
+
+            repo.groups.remove({ _id: data.id }, callback);
+        });
+    };
+
     return pub;
 };

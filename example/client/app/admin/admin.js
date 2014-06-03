@@ -7,6 +7,7 @@ angular.module('admin', [
     'bbc.navigation',
     'bbc.cache',
     'bbc.form',
+    'bbc.modal',
     'bbc.pager',
     'bbc.sort',
     'bbc.session',

@@ -19,6 +19,7 @@
     "BACK": "Back",
     "RESET": "Reset",
     "SAVE": "Save",
+    "DELETE": "Delete",
     "ID": "ID",
     "EDIT_GROUP": "Edit group",
     "CREATE_GROUP": "Create group",
@@ -39,5 +40,8 @@
     "UNSET_ALLOW_RIGHT": "Unset to delete allow",
     "SET_FORBIDDEN_RIGHT": "Set to prohibit right",
     "UNSET_FORBIDDEN_RIGHT": "Unset to delete prohibit",
-    "BACK_TO_OVERVIEW": "Back to overview"
+    "BACK_TO_OVERVIEW": "Back to overview",
+    "GROUP_USED": "This group is still assigned to users.",
+    "ROLE_USED": "This role is still assigned to users.",
+    "DELETE_MSG": "Do you want to delete this record?"
 }

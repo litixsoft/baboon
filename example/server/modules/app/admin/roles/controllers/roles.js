@@ -111,11 +111,7 @@ module.exports = function (baboon) {
         }
 
         repo.roles.findOneById(data._id, { fields: ['name'] }, function(error, result) {
-            var originalUser = result.name.toLowerCase();
-            if(originalUser === 'admin') {
-                callback(new baboon.ControllerError('Editing disabled', 403, false));
-                return;
-            }
+            var originalRole = result.name.toLowerCase();
 
             repo.roles.validate(data, {}, function (error, result) {
                 if (error) {
@@ -126,7 +122,7 @@ module.exports = function (baboon) {
                 if (result.valid) {
                     var query = { $set: data };
 
-                    if(originalUser === 'user' || originalUser === 'guest') {
+                    if(originalRole === 'user' || originalRole === 'guest' || originalRole === 'admin') {
                         query = { $set: { rights: data.rights } };
                     }
 
@@ -144,6 +140,48 @@ module.exports = function (baboon) {
                 } else {
                     callback(new baboon.ValidationError(result.errors));
                 }
+            });
+        });
+    };
+
+    /**
+     * Deletes a role in the db.
+     *
+     * @roles Admin
+     * @description Updates a group in the db
+     * @param {object} data The group data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.remove = function(data, request, callback) {
+        if (!data || !data.id) {
+            callback();
+            return;
+        }
+
+        repo.roles.findOneById(data.id, { fields: ['name'] }, function(error, result) {
+            var role = result.name.toLowerCase();
+            if(role === 'user' || role === 'guest' || role === 'admin') {
+                callback(new baboon.ControllerError('FORBIDDEN', 403));
+                return;
+            }
+
+            var options = { limit: 1, fields: ['_id'] };
+            var convertedId = repo.users.convertId(data.id);
+
+            repo.users.find({ 'roles' : convertedId }, options, function(error, result) {
+                if(error) {
+                    callback(callback);
+                    return;
+                }
+
+                if(result.length > 0) {
+                    callback(new baboon.ControllerError('ROLE_USED', 500, true, '', ''));
+                    return;
+                }
+
+                repo.roles.remove({ _id: data.id }, callback);
             });
         });
     };

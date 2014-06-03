@@ -32,5 +32,7 @@
     "SETTINGS": "Settings",
     "LANGUAGE": "Language",
     "GERMAN":"german",
-    "ENGLISH":"english"
+    "ENGLISH":"english",
+    "YES": "Yes",
+    "NO": "No"
 }
