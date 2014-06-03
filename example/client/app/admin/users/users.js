@@ -6,10 +6,27 @@ angular.module('admin.users', [])
         $routeProvider.when('/admin/users/edit/:id', {templateUrl: 'app/admin/users/editUser.html', controller: 'AdminEditUserCtrl'});
         $routeProvider.when('/admin/users/new', {templateUrl: 'app/admin/users/editUser.html', controller: 'AdminEditUserCtrl'});
     })
-    .controller('AdminUserListCtrl', function ($scope, adminModulePath, $bbcTransport) {
+    .controller('AdminUserListCtrl', function ($scope, adminModulePath, $bbcTransport, $bbcModal, $translate, $rootScope) {
         $scope.initialPageSize = 10;
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize };
         $scope.sortOpts = { name: 1 };
+
+        var header = 'Del';
+        var msg = 'Del';
+        var btnTextValues = { yes: 'j', no: 'n' };
+
+        $rootScope.$on('$translateChangeSuccess', function () {
+            setLang();
+        });
+
+        var setLang = function() {
+            $translate(['DELETE_USER', 'DELETE_USER_MSG', 'YES', 'NO']).then(function (v) {
+                header = v.DELETE_USER;
+                msg = v.DELETE_USER_MSG;
+                btnTextValues.yes = v.YES;
+                btnTextValues.no = v.NO;
+            });
+        };
 
         var getData = function () {
             var options = { options: $scope.pagingOptions };
@@ -18,6 +35,11 @@ angular.module('admin.users', [])
 
             $bbcTransport.emit(adminModulePath + 'users/users/getAll', options, function (error, result) {
                 if (result) {
+                    for(var i = 0; i < result.items.length; i++) {
+                        var name = result.items[i].name.toLowerCase();
+                        result.items[i].canDelete = name !== 'guest';
+                    }
+
                     $scope.users = result.items;
                     $scope.count = result.count;
                 }
@@ -28,6 +50,32 @@ angular.module('admin.users', [])
             $scope.pagingOptions = page;
             $scope.sortOpts = sort;
             getData();
+        };
+
+        $scope.alerts = [];
+        $scope.remove = function(id, name) {
+            $scope.alerts.length = 0;
+            header = header + ' ' + name;
+            var options = { id: 'deleteUser', message: msg, headline: header, backdrop: false, buttonTextValues: btnTextValues };
+            options.callObj = {
+                cbYes: function () {
+                    $bbcTransport.emit(adminModulePath + 'users/users/remove', { id: id }, function (error) {
+                        if (error) {
+                            if (error.name === 'ControllerError') {
+                                $scope.alerts.push({ type: 'danger', msg: error.message });
+                            }
+                            else {
+                                $scope.alerts.push({ type: 'danger', msg: 'GENERIC_ERROR' });
+                            }
+                        }
+                        else {
+                            getData();
+                        }
+                    });
+                },
+                cbNo: function () { }
+            };
+            $bbcModal.open(options);
         };
 
         getData();
@@ -255,5 +303,10 @@ angular.module('admin.users', [])
                 $scope.roles = result.items;
             }
         });
+
+        $scope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
+
     });
 

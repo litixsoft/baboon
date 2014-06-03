@@ -192,5 +192,24 @@ module.exports = function (baboon) {
         });
     };
 
+    /**
+     * Deletes a user in the db.
+     *
+     * @roles Admin
+     * @description Deletes a user in the db
+     * @param {object} data The user data.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.remove = function(data, request, callback) {
+        if (!data || !data.id) {
+            callback();
+            return;
+        }
+
+        repo.users.remove({ _id: data.id }, callback);
+    };
+
     return pub;
 };

@@ -42,5 +42,7 @@
     "BACK_TO_OVERVIEW": "Back to overview",
     "GROUP_USED": "This group is still assigned to users.",
     "ROLE_USED": "This role is still assigned to users.",
-    "DELETE_MSG": "Do you want to delete this record?"
+    "DELETE_MSG": "Do you want to delete this record?",
+    "DELETE_USER_MSG": "Do you want to delete this user?",
+    "DELETE_USER": "Delete user"
 }
