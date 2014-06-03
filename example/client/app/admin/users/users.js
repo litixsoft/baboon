@@ -45,6 +45,11 @@ angular.module('admin.users', [])
         ];
         $scope.filterState = $scope.filterStates[0];
 
+        $scope.languages = [
+            {key: 'GERMAN', value: 'de-de'},
+            {key: 'ENGLISH', value: 'en-us'}
+        ];
+
         $scope.isPasswordConfirmed = function () {
             return $scope.bbcForm.model.password === $scope.bbcForm.model.confirmed_password;
         };
@@ -61,6 +66,14 @@ angular.module('admin.users', [])
                     $scope.bbcForm.setModel(result);
                 } else {
                     $log.log(error);
+                }
+            });
+        } else if (!$routeParams.id) {
+            // set default guest role for new user
+            $scope.bbcForm.model.roles = [];
+            $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {name: 'Guest'}, options: {fields: ['_id']}}, function (error, result) {
+                if (result && result.items && result.items.length > 0) {
+                    $scope.bbcForm.model.roles.push(result.items[0]._id);
                 }
             });
         }
@@ -90,7 +103,63 @@ angular.module('admin.users', [])
             }
         };
 
-        var setRights = function (allRights, selectedRights) {
+//        var initRights = function (allRights, selectedRights) {
+//            var extractHasAccessId = function (e) {
+//                return e.hasAccess ? e._id : null;
+//            };
+//
+//            var extractForbiddenAccessId = function (e) {
+//                return e.hasAccess ? null : e._id;
+//            };
+//
+//            if (angular.isArray(allRights)) {
+//                for (var i = 0; i < allRights.length; i++) {
+//                    var hasAccess = selectedRights.map(extractHasAccessId).indexOf(allRights[i]._id) > -1;
+//                    var forbiddenAccess = selectedRights.map(extractForbiddenAccessId).indexOf(allRights[i]._id) > -1;
+//
+//                    allRights[i].isAllowed = hasAccess || false;
+//                    allRights[i].isForbidden = forbiddenAccess || false;
+//                }
+//            }
+//        };
+
+//        var initRights = function (allRights, selectedRights, rolesRights) {
+//            if (angular.isArray(allRights)) {
+//                for (var i = 0; i < allRights.length; i++) {
+//                    allRights[i].source = allRights[i].source || [];
+//
+//                    for (var j = 0; j < rolesRights.items.length; j++) {
+//                        for (var k = 0; k < rolesRights.rights.length; k++) {
+//                            if (allRights[i]._id === rolesRights[j].items.rights[k]._id) {
+//                                allRights[i].source.push(rolesRights[j].name);
+//                            }
+//                        }
+//                    }
+//                }
+//                console.log('###', rolesRights, allRights);
+//            }
+//        };
+
+        $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
+            if (result) {
+                $scope.rights = result.items;
+//                $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
+//                $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
+//
+//                $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {_id: {$in: $scope.bbcForm.model.roles}}}, function (error, result) {
+//                    if (result) {
+//                        $scope.userRolesDetails = result || [];
+//                        initRights($scope.rights, $scope.bbcForm.model.rights, $scope.userRolesDetails);
+//                    }
+//                });
+            }
+        });
+
+        var extractId = function (e) {
+            return e._id;
+        };
+
+        var initRights = function (allRights, selectedRights) {
             var extractHasAccessId = function (e) {
                 return e.hasAccess ? e._id : null;
             };
@@ -109,33 +178,6 @@ angular.module('admin.users', [])
                 }
             }
         };
-
-        $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
-            if (result) {
-                $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
-
-                setRights(result.items, $scope.bbcForm.model.rights);
-
-                $scope.rights = result.items;
-            }
-        });
-
-        var extractId = function (e) {
-            return e._id;
-        };
-
-//        var getRolesDetails = function () {
-//            var rolesDetails = [];
-//            if (!$bbcForm.model.roles) {
-//                for (var i = 0; i < $bbcForm.model.roles.length; i++) {
-//                    $bbcTransport.emit(adminModulePath + 'role/getById', {id: $bbcForm.model.roles[i]}, function (errorRole, resultRole) {
-//                        if (resultRole) {
-//                            rolesDetails.push(resultRole);
-//                        }
-//                    });
-//                }
-//            }
-//        };
 
         $scope.setRight = function (right) {
             var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);
@@ -163,7 +205,7 @@ angular.module('admin.users', [])
         };
 
         $scope.setListItemStyle = function (r) {
-            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
                 if ($scope.bbcForm.model.rights[i]._id === r._id) {
                     if (r.isAllowed) {
                         return { 'border-left': '3px solid green' };
@@ -176,7 +218,7 @@ angular.module('admin.users', [])
         };
 
         $scope.setAllowIconStyle = function (r) {
-            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
                 if ($scope.bbcForm.model.rights[i]._id === r._id) {
                     if (r.isAllowed) {
                         return { 'border': '3px solid green' };
@@ -187,7 +229,7 @@ angular.module('admin.users', [])
         };
 
         $scope.setForbiddenIconStyle = function (r) {
-            for (var i = 0; i < $scope.bbcForm.model.rights.length; i++) {
+            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
                 if ($scope.bbcForm.model.rights[i]._id === r._id) {
                     if (r.isForbidden) {
                         return { 'border': '3px solid red' };
@@ -199,7 +241,7 @@ angular.module('admin.users', [])
 
         $scope.reset = function (form) {
             $scope.bbcForm.reset(form);
-            setRights($scope.rights, $scope.bbcForm.model.rights);
+            initRights($scope.rights, $scope.bbcForm.model.rights);
         };
 
         $bbcTransport.emit(adminModulePath + 'groups/groups/getAll', {options: {sort: {name: 1}, fields: ['name', 'description']}}, function (error, result) {

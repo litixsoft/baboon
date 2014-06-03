@@ -2,7 +2,8 @@
 
 var async = require('async'),
     lxHelpers = require('lx-helpers'),
-    protectedFields = ['password', 'salt'];
+    protectedFields = ['password', 'salt'],
+    secretUsers = ['sysadmin'];
 
 
 function removeProtectedFields (options) {
@@ -31,6 +32,13 @@ function removeProtectedFields (options) {
     }
 }
 
+function removeSecretUsers (params) {
+    params.$and = params.$and || [];
+    lxHelpers.forEach(secretUsers, function (field) {
+        params.$and.push({name: {$ne: field}});
+    });
+}
+
 /**
  * The user api.
  *
@@ -57,17 +65,19 @@ module.exports = function (baboon) {
      */
     pub.getAll = function (data, request, callback) {
         var options = data.options || {};
+        var params = data.params || {};
+
         // remove protected fields from options.fields
         removeProtectedFields(options);
-        var query = data.params = data.params || {};
-        query.name = { $ne: 'sysadmin' }
+        // remove sysadmin user
+        removeSecretUsers(params);
 
         async.auto({
             getAll: function (callback) {
-                repo.users.find(query, options, callback);
+                repo.users.find(params, options, callback);
             },
             getCount: function (callback) {
-                repo.users.count(query, callback);
+                repo.users.count(params, callback);
             }
         }, function (error, results) {
             callback(error, {items: results.getAll, count: results.getCount});
@@ -92,7 +102,12 @@ module.exports = function (baboon) {
         removeProtectedFields(options);
 
         // query user
-        repo.users.findOneById(data.id, options, callback);
+        repo.users.findOneById(data.id, options, function(error, result) {
+            if (result && result.name in secretUsers) {
+                result = null;
+            }
+            callback(error, result);
+        });
     };
 
     /**

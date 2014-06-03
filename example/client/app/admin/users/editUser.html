@@ -72,8 +72,10 @@
 
                 <div class="form-group" ng-class="{'has-error': ((form.language.$dirty && form.language.$invalid) || form.errors.language)}">
                     <label class="col-lg-2 control-label" for="language">{{ 'LANGUAGE' | translate }}</label>
-                        <div class="col-lg-10 lxvalidation">
-                        <input type="text" class="form-control" ng-model="bbcForm.model.language" id="language" name="language" placeholder="{{ 'ENTER_LANGUAGE' | translate }}" ng-disabled="bbcForm.model.isGuest" />
+                    <div class="col-lg-10 lxvalidation">
+                        <select class="form-control" ng-model="bbcForm.model.language" ng-options="lang.value as lang.key | translate for lang in languages" id="language" name="language" ng-disabled="bbcForm.model.isGuest">
+                            <option value="">{{ 'DEFAULT_LANGUAGE' | translate }}</option>
+                        </select>
                         <label ng-show="((form.language.$dirty && form.language.$invalid) || form.errors.language)" class="label label-danger">
                             <div class="glyphicon glyphicon-fire"></div>
                             <span ng-show="form.errors.language">{{form.errors.language}}</span>
@@ -98,7 +100,7 @@
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="r in roles">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.isGuest" /> {{r.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.isGuest || r.name === 'Guest'" /> {{r.name}}
                                 <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
