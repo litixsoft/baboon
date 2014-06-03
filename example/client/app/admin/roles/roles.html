@@ -23,7 +23,7 @@
                         <tr ng-repeat="r in roles">
                             <td>
                                 <a href="/admin/roles/edit/{{ r._id }}"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a href="" ng-show="canDelete(r)" ng-click="remove(r._id)" title="{{ 'DELETE' | translate }}"><i class="glyphicon glyphicon-trash"></i></a>
+                                <a href="" ng-show="r.canDelete" ng-click="remove(r._id)" title="{{ 'DELETE' | translate }}"><i class="glyphicon glyphicon-trash"></i></a>
                             </td>
                             <td>{{ r.name }}</td>
                             <td>{{ r.description }}</td>

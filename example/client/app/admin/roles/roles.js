@@ -35,6 +35,11 @@ angular.module('admin.roles', [])
 
             $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', options, function (error, result) {
                 if (result) {
+                    for(var i = 0; i < result.items.length; i++) {
+                        var name = result.items[i].name.toLowerCase();
+                        result.items[i].canDelete = name !== 'user' && name !== 'guest' && name !== 'admin';
+                    }
+
                     $scope.roles = result.items;
                     $scope.count = result.count;
                 }
@@ -42,13 +47,6 @@ angular.module('admin.roles', [])
         };
 
         setLang();
-
-        $scope.canDelete = function(r) {
-            return true;
-            var name = r.name.toLowerCase();
-            console.log(r.name);
-            return  name !== 'user' && name !== 'guest' && name !== 'admin';
-        };
 
         $scope.load = function (sort, page) {
             $scope.pagingOptions = page;
