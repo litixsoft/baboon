@@ -11,9 +11,9 @@ angular.module('admin.roles', [])
         $scope.initialPageSize = 10;
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = { name: 1 };
-        var header = 'Del';
-        var msg = 'Del';
-        var btnTextValues = { yes: 'j', no: 'n' };
+        var header = 'DEL';
+        var msg = 'DEL';
+        var btnTextValues = { yes: 'Y', no: 'N' };
 
         $rootScope.$on('$translateChangeSuccess', function () {
             setLang();

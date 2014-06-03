@@ -11,9 +11,9 @@ angular.module('admin.groups', [])
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize};
         $scope.sortOpts = { name: 1 };
 
-        var header = 'Del';
-        var msg = 'Del';
-        var btnTextValues = { yes: 'j', no: 'n' };
+        var header = 'DEL';
+        var msg = 'DEL';
+        var btnTextValues = { yes: 'Y', no: 'N' };
 
         $rootScope.$on('$translateChangeSuccess', function () {
             setLang();
@@ -56,7 +56,7 @@ angular.module('admin.groups', [])
         $scope.alerts = [];
         $scope.remove = function(id) {
             $scope.alerts.length = 0;
-            var options = { id: 'deleteGroup', message: msg, headline: header, backdrop: false, buttonTextValues: btnTextValues };
+            var options = { id: 'deleteGroup', message: msg, headline: header, backdrop: true, buttonTextValues: btnTextValues };
             options.callObj = {
                 cbYes: function () {
                     $bbcTransport.emit(adminModulePath + 'groups/groups/remove', { id: id }, function (error) {
