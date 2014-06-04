@@ -30,19 +30,12 @@
     "IS_ACTIVE": "Aktiviert",
     "SEARCH_TEXT_PLACEHOLDER": "Suchtext eingeben...",
     "ROLE_ALREADY_EXISTS": "Diese Rolle existiert bereits.",
-    "SHOW_ALL": "Zeige alle Rechte",
-    "SHOW_IGNORE": "Zeige nicht gewählte Rechte",
-    "SHOW_ALLOW": "Zeige zugewiesene Rechte",
-    "SHOW_FORBIDDEN": "Zeige verbotene Rechte",
-    "SET_ALLOW_RIGHT": "Click um Recht zu erlauben",
-    "UNSET_ALLOW_RIGHT": "Click um Erlaubnis zu entziehen",
-    "SET_FORBIDDEN_RIGHT": "Click um Recht zu verbieten",
-    "UNSET_FORBIDDEN_RIGHT": "Click um Verbot zu entziehen",
     "DEFAULT_LANGUAGE": "Voreingestellte Sprache",
     "BACK_TO_OVERVIEW": "Zurück zur Übersicht",
     "GROUP_USED": "Dieser Gruppe sind noch Benutzer zugeordnet.",
     "ROLE_USED": "Dieser Rolle sind noch Benutzer zugeordnet.",
     "DELETE_MSG": "Möchten Sie den Datensatz wirklich löschen?",
     "DELETE_USER_MSG": "Möchten Sie den Benutzer wirklich löschen?",
-    "DELETE_USER": "Lösche Benutzer"
+    "DELETE_USER": "Lösche Benutzer",
+    "RIGHT_INHERIT_FROM": "Recht geerbt von "
 }

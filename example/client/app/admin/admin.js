@@ -85,30 +85,4 @@ angular.module('admin', [
         $rootScope.$on('$translateChangeSuccess', function () {
             tmhDynamicLocale.set($translate.use());
         });
-    })
-//    .service('countFilter', function() {
-//        var pub = {};
-//        var count = 0;
-//        pub.countFilter = function() {
-//            count++;
-//            console.log('Filtercount: ', count);
-//        };
-//        return pub;
-//    })
-    .filter('matchRightsFilter', function (/*countFilter*/) {
-        return function (rights, searchFilter, isAllowedFilter, isForbiddenFilter) {
-            var r = [];
-//            countFilter.countFilter();
-            if (rights) {
-                for (var i = 0; i < rights.length; i++) {
-                    if ((typeof searchFilter === 'undefined' || rights[i].name.indexOf(searchFilter) > -1) &&
-                        (typeof isAllowedFilter === 'undefined' || rights[i].isAllowed === isAllowedFilter) &&
-                        (typeof isForbiddenFilter === 'undefined' || rights[i].isForbidden === isForbiddenFilter)) {
-                        r.push(rights[i]);
-                    }
-                }
-            }
-
-            return r;
-        };
     });

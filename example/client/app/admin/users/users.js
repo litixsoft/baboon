@@ -11,9 +11,9 @@ angular.module('admin.users', [])
         $scope.pagingOptions = { skip: 0, limit: $scope.initialPageSize };
         $scope.sortOpts = { name: 1 };
 
-        var header = 'Del';
-        var msg = 'Del';
-        var btnTextValues = { yes: 'j', no: 'n' };
+        var header = 'DEL';
+        var msg = 'DEL';
+        var btnTextValues = { yes: 'Y', no: 'N' };
 
         $rootScope.$on('$translateChangeSuccess', function () {
             setLang();
@@ -46,17 +46,23 @@ angular.module('admin.users', [])
             });
         };
 
+        setLang();
+
         $scope.load = function (sort, page) {
             $scope.pagingOptions = page;
             $scope.sortOpts = sort;
             getData();
         };
 
+        $scope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
+
         $scope.alerts = [];
         $scope.remove = function(id, name) {
             $scope.alerts.length = 0;
             header = header + ' ' + name;
-            var options = { id: 'deleteUser', message: msg, headline: header, backdrop: false, buttonTextValues: btnTextValues };
+            var options = { id: 'deleteUser', message: msg, headline: header, backdrop: true, buttonTextValues: btnTextValues };
             options.callObj = {
                 cbYes: function () {
                     $bbcTransport.emit(adminModulePath + 'users/users/remove', { id: id }, function (error) {
@@ -80,18 +86,8 @@ angular.module('admin.users', [])
 
         getData();
     })
-    .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath) {
+    .controller('AdminEditUserCtrl', function ($scope, $routeParams, $location, $bbcForm, $bbcTransport, $log, adminModulePath, $q) {
         $scope.bbcForm = $bbcForm('baboon_right', '_id');
-
-        $scope.popupDelay = 800;
-
-        $scope.filterStates = [
-            {key: 'SHOW_ALL', filter: {}},
-            {key: 'SHOW_IGNORE', filter: {isAllowed: false, isForbidden: false}},
-            {key: 'SHOW_ALLOW', filter: {isAllowed: true, isForbidden: false}},
-            {key: 'SHOW_FORBIDDEN', filter: {isAllowed: false, isForbidden: true}}
-        ];
-        $scope.filterState = $scope.filterStates[0];
 
         $scope.languages = [
             {key: 'GERMAN', value: 'de-de'},
@@ -102,29 +98,53 @@ angular.module('admin.users', [])
             return $scope.bbcForm.model.password === $scope.bbcForm.model.confirmed_password;
         };
 
-        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
-            $bbcTransport.emit(adminModulePath + 'users/users/getById', {id: $routeParams.id}, function (error, result) {
-                if (result) {
-                    delete result.register_date;
-
-                    if (result.name === 'guest') {
-                        result.isGuest = true;
-                    }
-
-                    $scope.bbcForm.setModel(result);
-                } else {
-                    $log.log(error);
-                }
-            });
-        } else if (!$routeParams.id) {
-            // set default guest role for new user
-            $scope.bbcForm.model.roles = [];
-            $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {name: 'Guest'}, options: {fields: ['_id']}}, function (error, result) {
-                if (result && result.items && result.items.length > 0) {
-                    $scope.bbcForm.model.roles.push(result.items[0]._id);
-                }
-            });
+        function initState() {
+            for(var i = 0; i < $scope.rights.length; i++) {
+                $scope.rights[i].sort = $scope.rights[i].isSelected;
+            }
         }
+
+        function loadUser() {
+            var deferred = $q.defer();
+            if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+                $bbcTransport.emit(adminModulePath + 'users/users/getById', {id: $routeParams.id}, function (error, result) {
+                    if (result) {
+                        delete result.register_date;
+
+                        if (result.name === 'guest') {
+                            result.isGuest = true;
+                        }
+
+                        //$scope.bbcForm.setModel(result);
+                        deferred.resolve(result);
+                    } else {
+                        $log.log(error);
+                        deferred.resolve();
+                    }
+                });
+            } else {
+                if (!$routeParams.id) {
+                    // set default guest role for new users
+                    $scope.bbcForm.model.roles = [];
+                    $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {name: 'Guest'}, options: {fields: ['_id']}}, function (error, result) {
+                        if (result && result.items && result.items.length > 0) {
+                            $scope.bbcForm.model.roles.push(result.items[0]._id);
+                            deferred.resolve($scope.bbcForm.model);
+                        }
+                    });
+                } else {
+                    deferred.resolve();
+                }
+            }
+            return deferred.promise;
+        }
+
+        loadUser().then( function(result) {
+            if (result) {
+                $scope.bbcForm.setModel(result);
+            }
+            initRights();
+        });
 
         $scope.save = function (model) {
             if ($scope.form) {
@@ -151,145 +171,113 @@ angular.module('admin.users', [])
             }
         };
 
-//        var initRights = function (allRights, selectedRights) {
-//            var extractHasAccessId = function (e) {
-//                return e.hasAccess ? e._id : null;
-//            };
-//
-//            var extractForbiddenAccessId = function (e) {
-//                return e.hasAccess ? null : e._id;
-//            };
-//
-//            if (angular.isArray(allRights)) {
-//                for (var i = 0; i < allRights.length; i++) {
-//                    var hasAccess = selectedRights.map(extractHasAccessId).indexOf(allRights[i]._id) > -1;
-//                    var forbiddenAccess = selectedRights.map(extractForbiddenAccessId).indexOf(allRights[i]._id) > -1;
-//
-//                    allRights[i].isAllowed = hasAccess || false;
-//                    allRights[i].isForbidden = forbiddenAccess || false;
-//                }
-//            }
-//        };
+        var getAllUserRoles = function(callback) {
+            //console.log('####', $scope.bbcForm.model.groups);
+            $bbcTransport.emit(adminModulePath + 'groups/groups/getAll', {params: {_id: {$in: $scope.bbcForm.model.groups}}}, function (error, result) {
+                if (result) {
+                    var allRoles = [];
+                    var allRolesWithoutDups = [];
 
-//        var initRights = function (allRights, selectedRights, rolesRights) {
-//            if (angular.isArray(allRights)) {
-//                for (var i = 0; i < allRights.length; i++) {
-//                    allRights[i].source = allRights[i].source || [];
-//
-//                    for (var j = 0; j < rolesRights.items.length; j++) {
-//                        for (var k = 0; k < rolesRights.rights.length; k++) {
-//                            if (allRights[i]._id === rolesRights[j].items.rights[k]._id) {
-//                                allRights[i].source.push(rolesRights[j].name);
-//                            }
-//                        }
-//                    }
-//                }
-//                console.log('###', rolesRights, allRights);
-//            }
-//        };
+                    // collect all roles from groups and user
+                    angular.forEach(result.items, function(group) {
+                        allRoles = allRoles.concat(group.roles);
+                    });
+
+                    allRoles = allRoles.concat($scope.bbcForm.model.roles);
+
+                    // remove duplicates
+                    var found;
+                    for (var x = 0; x < allRoles.length; x++) {
+                        found = false;
+                        for (var y = 0; y < allRolesWithoutDups.length; y++) {
+                            if (allRoles[x] === allRolesWithoutDups[y]) {
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            allRolesWithoutDups.push(allRoles[x]);
+                        }
+                    }
+                    $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {_id: {$in: allRolesWithoutDups}}}, function (error, result) {
+                        if (result) {
+                            callback(error, result.items || []);
+                        }
+                    });
+                }
+            });
+        };
+
+        function initRights() {
+            getAllUserRoles(function(error, result) {
+                if (result) {
+                    var rolesRights = result;
+                    $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
+                    $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
+                    var allRights = $scope.rights;
+                    var selectedRights = $scope.bbcForm.model.rights;
+
+                    if (angular.isArray(allRights)) {
+                        angular.forEach(allRights, function(right) {
+                            right.source = [];
+                            right.isSelected = false;
+
+                            angular.forEach(rolesRights, function(role) {
+                                angular.forEach(role.rights, function(roleRight) {
+                                    if (right._id === roleRight) {
+                                        right.source.push(role.name);
+                                        right.isSelected = true;
+                                    }
+                                });
+                            });
+
+                            angular.forEach(selectedRights, function(selectedRight) {
+                                if (right._id === selectedRight._id) {
+                                    right.isSelected = selectedRight.hasAccess;
+                                    //return;
+                                }
+                            });
+                        });
+                    }
+                    initState();
+                }
+            });
+        }
+
+        $scope.setRight = function (right) {
+            var extractId = function (e) {
+                return e._id;
+            };
+
+            var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);
+
+            if (right.source.length > 0 && right.isSelected || right.source.length <= 0 && !right.isSelected) {
+                // delete from userrights
+                if (index > -1) {
+                    $scope.bbcForm.model.rights.splice(index, 1);
+                }
+            } else {
+                // set userrights to (don't) has access
+                if (index > -1) {
+                    $scope.bbcForm.model.rights[index].hasAccess = right.isSelected;
+                } else {
+                    $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: right.isSelected});
+                }
+            }
+        };
 
         $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
             if (result) {
                 $scope.rights = result.items;
-//                $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
-//                $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
-//
-//                $bbcTransport.emit(adminModulePath + 'roles/roles/getAll', {params: {_id: {$in: $scope.bbcForm.model.roles}}}, function (error, result) {
-//                    if (result) {
-//                        $scope.userRolesDetails = result || [];
-//                        initRights($scope.rights, $scope.bbcForm.model.rights, $scope.userRolesDetails);
-//                    }
-//                });
             }
         });
 
-        var extractId = function (e) {
-            return e._id;
-        };
-
-        var initRights = function (allRights, selectedRights) {
-            var extractHasAccessId = function (e) {
-                return e.hasAccess ? e._id : null;
-            };
-
-            var extractForbiddenAccessId = function (e) {
-                return e.hasAccess ? null : e._id;
-            };
-
-            if (angular.isArray(allRights)) {
-                for (var i = 0; i < allRights.length; i++) {
-                    var hasAccess = selectedRights.map(extractHasAccessId).indexOf(allRights[i]._id) > -1;
-                    var forbiddenAccess = selectedRights.map(extractForbiddenAccessId).indexOf(allRights[i]._id) > -1;
-
-                    allRights[i].isAllowed = hasAccess || false;
-                    allRights[i].isForbidden = forbiddenAccess || false;
-                }
-            }
-        };
-
-        $scope.setRight = function (right) {
-            var index = $scope.bbcForm.model.rights.map(extractId).indexOf(right._id);
-
-            if (right.isAllowed && right.isForbidden) {
-                if (index > -1) {
-                    $scope.bbcForm.model.rights[index].hasAccess = !$scope.bbcForm.model.rights[index].hasAccess;
-                    right.isAllowed = $scope.bbcForm.model.rights[index].hasAccess;
-                    right.isForbidden = !$scope.bbcForm.model.rights[index].hasAccess;
-                } else {
-                    right.isAllowed = false;
-                    right.isForbidden = false;
-                }
-            } else if (right.isAllowed !== right.isForbidden) {
-                if (index > -1) {
-                    $scope.bbcForm.model.rights[index].hasAccess = right.isAllowed;
-                } else {
-                    $scope.bbcForm.model.rights.push({_id: right._id, hasAccess: right.isAllowed});
-                }
-            } else /*if (!right.isAllowed && !right.isForbidden)*/ {
-                if (index > -1) {
-                    $scope.bbcForm.model.rights.splice(index, 1);
-                }
-            }
-        };
-
         $scope.setListItemStyle = function (r) {
-            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
-                if ($scope.bbcForm.model.rights[i]._id === r._id) {
-                    if (r.isAllowed) {
-                        return { 'border-left': '3px solid green' };
-                    } else if (r.isForbidden) {
-                        return { 'border-left': '3px solid red' };
-                    }
-                }
-            }
-            return null;
-        };
-
-        $scope.setAllowIconStyle = function (r) {
-            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
-                if ($scope.bbcForm.model.rights[i]._id === r._id) {
-                    if (r.isAllowed) {
-                        return { 'border': '3px solid green' };
-                    }
-                }
-            }
-            return null;
-        };
-
-        $scope.setForbiddenIconStyle = function (r) {
-            for (var i = 0; $scope.bbcForm.model.rights && i < $scope.bbcForm.model.rights.length; i++) {
-                if ($scope.bbcForm.model.rights[i]._id === r._id) {
-                    if (r.isForbidden) {
-                        return { 'border': '3px solid red' };
-                    }
-                }
-            }
-            return null;
+            return r.isSelected ? { 'border-left': '3px solid green' } : null;
         };
 
         $scope.reset = function (form) {
             $scope.bbcForm.reset(form);
-            initRights($scope.rights, $scope.bbcForm.model.rights);
+            initRights();
         };
 
         $bbcTransport.emit(adminModulePath + 'groups/groups/getAll', {options: {sort: {name: 1}, fields: ['name', 'description']}}, function (error, result) {
@@ -304,9 +292,12 @@ angular.module('admin.users', [])
             }
         });
 
-        $scope.closeAlert = function (index) {
-            $scope.alerts.splice(index, 1);
-        };
+        $scope.$watchCollection('bbcForm.model.groups', function() {
+            initRights();
+        });
 
+        $scope.$watchCollection('bbcForm.model.roles', function() {
+            initRights();
+        });
     });
 

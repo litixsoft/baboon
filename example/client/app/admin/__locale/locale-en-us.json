@@ -30,19 +30,12 @@
     "IS_ACTIVE": "Active",
     "SEARCH_TEXT_PLACEHOLDER": "Insert search text...",
     "ROLE_ALREADY_EXISTS": "Role already exists.",
-    "SHOW_ALL": "Show all rights",
-    "SHOW_IGNORE": "Show ignored rights",
-    "SHOW_ALLOW": "Show allowed rights",
-    "SHOW_FORBIDDEN": "Show forbidden rights",
-    "SET_ALLOW_RIGHT": "Set to allow right",
-    "UNSET_ALLOW_RIGHT": "Unset to delete allow",
-    "SET_FORBIDDEN_RIGHT": "Set to prohibit right",
-    "UNSET_FORBIDDEN_RIGHT": "Unset to delete prohibit",
     "DEFAULT_LANGUAGE": "Default Language",
     "BACK_TO_OVERVIEW": "Back to overview",
     "GROUP_USED": "This group is still assigned to users.",
     "ROLE_USED": "This role is still assigned to users.",
     "DELETE_MSG": "Do you want to delete this record?",
     "DELETE_USER_MSG": "Do you want to delete this user?",
-    "DELETE_USER": "Delete user"
+    "DELETE_USER": "Delete user",
+    "RIGHT_INHERIT_FROM": "Right inherit from "
 }

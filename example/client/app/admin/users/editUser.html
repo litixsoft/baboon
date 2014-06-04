@@ -112,37 +112,29 @@
 
                     <div class="col-lg-10">
                         <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
-                        <select class="form-control" ng-model="filterState" ng-options="fs.key | translate for fs in filterStates"></select>
                         <hr />
                         <ul class="list-group">
-
-                            <li class="list-group-item" ng-repeat="r in rights | matchRightsFilter:searchText:filterState.filter.isAllowed:filterState.filter.isForbidden" ng-style="setListItemStyle(r);">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <div>
+                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText } | orderBy:['-sort', 'name'] " ng-style="setListItemStyle(r);">
+                                <div class="row">
+                                    <div class="col-md-1">
                                         <label>
-                                            <input type="checkbox" ng-change="setRight(r)" ng-model="r.isAllowed" ng-show="false">
-                                            <span ng-if="r.isAllowed" class="glyphicon glyphicon-ok-circle"
-                                                  popover="{{ 'UNSET_ALLOW_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
-                                            <span ng-if="!r.isAllowed" class="glyphicon glyphicon-ok"
-                                                  popover="{{ 'SET_ALLOW_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
+                                            <input type="checkbox" ng-change="setRight(r)" ng-model="r.isSelected" ng-show="true">
                                         </label>
                                     </div>
-                                    <div>
-                                        <label>
-                                            <input type="checkbox" ng-change="setRight(r)" ng-model="r.isForbidden" ng-show="false"/>
-                                            <span ng-if="r.isForbidden" class="glyphicon glyphicon-remove-circle"
-                                                  popover="{{ 'UNSET_FORBIDDEN_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
-                                            <span ng-if="!r.isForbidden" class="glyphicon glyphicon-remove"
-                                                  popover="{{ 'SET_FORBIDDEN_RIGHT' | translate }}" popover-trigger="mouseenter" popover-popup-delay="{{ popupDelay }}"></span>
-                                        </label>
+                                    <div class="col-md-11">
+                                        {{ r.name }}
+                                        <div class="small"><em>{{ r.description }}</em></div>
+                                        <div class="small" ng-show="r.source.length > 0">
+                                            <em>{{ 'RIGHT_INHERIT_FROM' | translate }}:</em>
+                                            <em ng-repeat="s in r.source">
+                                                {{ s }}
+                                                <em ng-show="!$last">
+                                                    {{ ', ' }}
+                                                </em>
+                                            </em>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-11">
-                                    {{ r.name }}
-                                    <div class="small"><em>{{ r.description }}</em></div>
-                                </div>
-                            </div>
                             </li>
                         </ul>
                     </div>
@@ -152,7 +144,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-primary" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
                         <button type="button" class="btn btn-default" ng-click="reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
-                        <a class="btn btn-default" ng-href="/admin/users" name="back" >{{ 'BACK' | translate }}</a>
+                        <a class="btn btn-default" ng-href="/admin/users" >{{ 'BACK' | translate }}</a>
                     </div>
                 </div>
             </form>
