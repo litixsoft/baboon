@@ -128,7 +128,7 @@
                                             <em>{{ 'RIGHT_INHERIT_FROM' | translate }}:</em>
                                             <em ng-repeat="s in r.source">
                                                 {{ s }}
-                                                <em ng-show="!$last">
+                                                <em ng-if="!$last">
                                                     {{ ', ' }}
                                                 </em>
                                             </em>
