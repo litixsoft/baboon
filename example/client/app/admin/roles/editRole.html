@@ -30,7 +30,7 @@
                         <input ng-model="searchText" type="text" class="form-control" placeholder="{{ 'SEARCH_TEXT_PLACEHOLDER' | translate }}" />
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText } | orderBy:'sort':true" ng-style="setStyle(r);">
+                            <li class="list-group-item" ng-repeat="r in rights | filter:{ name: searchText } | orderBy:['-sort','name']" ng-style="setStyle(r);">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" ng-click="r.checked = !r.checked" checklist-model="bbcForm.model.rights" checklist-value="r._id" /> {{ r.name }}

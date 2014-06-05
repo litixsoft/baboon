@@ -254,7 +254,7 @@ angular.module('admin.users', [])
                                 });
                             });
 
-                            // and with rightsettings in user
+                            // and with right settings in user
                             angular.forEach(selectedRights, function(selectedRight) {
                                 if (right._id === selectedRight._id) {
                                     right.isSelected = selectedRight.hasAccess;
