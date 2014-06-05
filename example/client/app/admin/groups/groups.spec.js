@@ -19,7 +19,7 @@ describe('Module: admin.groups', function () {
         });
     });
 
-    describe('AdminGroupListCtrl', function() {
+    describe('AdminGroupListCtrl', function () {
         var $transport, $scope, $ctrl;
         var data = [
             { _id: '1', description: 'The description for Group 1', name: 'Group 1' },
@@ -34,12 +34,24 @@ describe('Module: admin.groups', function () {
 
                 $transport = $injector.get('$bbcTransport');
                 $transport.emit = function (event, options, callback) {
-                    event = null;
-                    if(options.options.sort) {
-                        callback(null, { items: data, count: data.length });
+                    if (event === 'api/app/admin/groups/groups/remove') {
+                        if (options.id === 1) {
+                            callback(null, 1);
+                        }
+                        else if (options.id === 2) {
+                            callback({name: 'ControllerError', message: 'internal test error' });
+                        }
+                        else {
+                            callback({name: 'Error', message: 'generic test error' });
+                        }
                     }
                     else {
-                        callback({ error: true});
+                        if (options.options.sort) {
+                            callback(null, { items: data, count: data.length });
+                        }
+                        else {
+                            callback({ error: true});
+                        }
                     }
                 };
 
@@ -52,6 +64,9 @@ describe('Module: admin.groups', function () {
         it('should be initialized correctly', function () {
             expect($scope.groups.length).toBe(4);
             expect($scope.count).toBe(4);
+            expect(typeof $scope.load).toBe('function');
+            expect(typeof $scope.closeAlert).toBe('function');
+            expect(typeof $scope.remove).toBe('function');
         });
 
         describe('has a function load() which', function () {
@@ -71,30 +86,112 @@ describe('Module: admin.groups', function () {
                 expect($scope.count).toBe(0);
             });
         });
+
+        describe('has a function closeAlert() which', function () {
+            it('should close an alert', function () {
+                $scope.alerts = [
+                    {type: 'danger', msg: 'error'}
+                ];
+                $scope.closeAlert(0);
+                expect($scope.alerts.length).toBe(0);
+            });
+        });
+
+        describe('has a function remove', function () {
+            var options = null;
+
+            beforeEach(function (done) {
+                inject(function ($controller, _$rootScope_, _$httpBackend_, $translate, $q) {
+                    $translate = function () {
+                        var deferred = $q.defer();
+                        deferred.resolve({ 'DELETE': 'delete', 'DELETE_MSG': 'the delete message', 'YES': 'yes', 'NO': 'no' });
+                        return deferred.promise;
+                    };
+
+                    _$httpBackend_.whenGET('/locale/admin/locale-en-us.json').respond(200, {
+                        DELETE: 'delete',
+                        DELETE_MSG: 'the delete message',
+                        YES: 'yes',
+                        NO: 'no'
+                    });
+                    var modal = {};
+                    modal.open = function (popUpOptions) {
+                        options = popUpOptions;
+                        popUpOptions.callObj.cbYes();
+                    };
+
+                    $scope = _$rootScope_.$new();
+                    $ctrl = $controller('AdminGroupListCtrl', { $rootScope: _$rootScope_, $scope: $scope, $bbcModal: modal, $translate: $translate });
+                });
+                done();
+            });
+
+            it('should remove a group', function () {
+                $scope.alerts = [];
+                $scope.remove(1);
+                expect($scope.alerts.length).toBe(0);
+            });
+
+            it('should throw a controller error', function () {
+                $scope.alerts = [];
+                $scope.remove(2);
+                expect($scope.alerts.length).toBe(1);
+            });
+
+            it('should throw an error', function () {
+                $scope.alerts = [];
+                $scope.remove(3);
+                expect($scope.alerts.length).toBe(1);
+            });
+
+            it('should raise the $translateChangeSuccess event', function () {
+                inject(function ($rootScope) {
+                    $scope.$digest();
+                    $rootScope.$broadcast('$translateChangeSuccess');
+                    $scope.remove(1);
+                    expect(options).not.toBeNull();
+                    expect(options.buttonTextValues).toBeDefined();
+                    expect(options.buttonTextValues.yes).toBeDefined();
+                    expect(options.buttonTextValues.no).toBeDefined();
+                    expect(options.buttonTextValues.yes).toBe('yes');
+                    expect(options.buttonTextValues.no).toBe('no');
+                });
+            });
+        });
     });
 
-    describe('AdminGroupEditCtrl', function() {
+    describe('AdminGroupEditCtrl', function () {
         var $transport, $scope, $ctrl;
         beforeEach(function (done) {
             inject(function ($controller, $rootScope, $injector) {
 
                 $transport = $injector.get('$bbcTransport');
                 $transport.emit = function (event, options, callback) {
-                    if(event === 'api/app/admin/roles/roles/getAll') {
-                        callback(null, { items: [{ _id: '1', name: 'Role 1', description: 'Testrole 1' }, { _id: '2', name: 'Role 2', description: 'Testrole 2' }] });
+                    if (event === 'api/app/admin/roles/roles/getAll') {
+                        callback(null, { items: [
+                            { _id: '1', name: 'Role 1', description: 'Testrole 1' },
+                            { _id: '2', name: 'Role 2', description: 'Testrole 2' }
+                        ] });
                     }
-                    else if(event === 'api/app/admin/groups/groups/getById') {
-                        callback(null, { _id: '1', name: 'Group 1', description: 'Testgroup 1' });
+                    else if (event === 'api/app/admin/groups/groups/getById') {
+                        if (options.id === -1) {
+                            callback({});
+                        }
+                        else {
+                            callback(null, { _id: '1', name: 'Group 1', description: 'Testgroup 1' });
+                        }
                     }
-                    else if(event === 'api/app/admin/groups/groups/update') {
-                        if(!options.name) {
-                            callback({name: 'ValidationError', errors: [{ actual: '', attribute: 'format', expected: 'string', message: 'name is required', property: 'name' }]});
+                    else if (event === 'api/app/admin/groups/groups/update') {
+                        if (!options.name) {
+                            callback({name: 'ValidationError', errors: [
+                                { actual: '', attribute: 'format', expected: 'string', message: 'name is required', property: 'name' }
+                            ]});
                         }
                         else {
                             callback(null, 1);
                         }
                     }
-                    else if(event === 'api/app/admin/groups/groups/create') {
+                    else if (event === 'api/app/admin/groups/groups/create') {
                         options._id = 2;
                         callback(null, options);
                     }
@@ -112,18 +209,25 @@ describe('Module: admin.groups', function () {
             expect($scope.roles.length).toBe(2);
         });
 
-
-        describe('has an id param', function() {
+        describe('has an id param', function () {
             beforeEach(function () {
+                var routeParams = { id: 1 };
                 inject(function ($controller) {
-                    var routeParams = { id: '1' };
-                    $ctrl = $controller('AdminEditGroupCtrl', { $scope: $scope, $routeParams : routeParams });
+                    $ctrl = $controller('AdminEditGroupCtrl', { $scope: $scope, $routeParams: routeParams });
                 });
             });
 
-            it('should load a group', function() {
+            it('should load a group', function () {
                 expect($scope.bbcForm.model.name).toBe('Group 1');
                 expect($scope.bbcForm.model.description).toBe('Testgroup 1');
+            });
+
+            it('should not load a group', function () {
+                var routeParams = { id: -1 };
+                inject(function ($controller) {
+                    $ctrl = $controller('AdminEditGroupCtrl', { $scope: $scope, $routeParams: routeParams });
+                });
+                expect($scope.bbcForm.model.id).not.toBeDefined();
             });
         });
 
@@ -144,7 +248,7 @@ describe('Module: admin.groups', function () {
 
             it('should return error on update', function () {
                 var group = { _id: 2, description: 'Testgroup 2' };
-                $scope.form =  {};
+                $scope.form = {};
                 $scope.save(group);
 
                 expect($scope.form.errors).toBeDefined();

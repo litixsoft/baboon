@@ -4,8 +4,28 @@ angular.module('admin.roles', [])
     .config(function ($routeProvider) {
 
         $routeProvider.when('/admin/roles', {templateUrl: 'app/admin/roles/roles.html', controller: 'AdminRoleListCtrl'});
-        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/roles/editRole.html', controller: 'AdminEditRoleCtrl'});
-        $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/roles/editRole.html', controller: 'AdminEditRoleCtrl'});
+        $routeProvider.when('/admin/roles/edit/:id', {templateUrl: 'app/admin/roles/editRole.html', controller: 'AdminEditRoleCtrl', resolve: {
+            rights: function(srvLibrary) {
+                return srvLibrary.getRights();
+            }
+        }});
+        $routeProvider.when('/admin/roles/new', {templateUrl: 'app/admin/roles/editRole.html', controller: 'AdminEditRoleCtrl', resolve: {
+            rights: function(srvLibrary) {
+                return srvLibrary.getRights();
+            }
+        }});
+    })
+    .factory('srvLibrary', function($q, $bbcTransport, adminModulePath) {
+        var sdo = {
+            getRights: function() {
+                var deferred = $q.defer();
+                $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
+                    deferred.resolve(result.items);
+                });
+                return deferred.promise;
+            }
+        };
+        return sdo;
     })
     .controller('AdminRoleListCtrl', function ($rootScope, $scope, adminModulePath, $bbcTransport, $bbcModal, $translate) {
         $scope.initialPageSize = 10;
@@ -85,9 +105,10 @@ angular.module('admin.roles', [])
 
         getData();
     })
-    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport, $q) {
+    .controller('AdminEditRoleCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport, rights) {
         $scope.bbcForm = $bbcForm('baboon_role', '_id');
         $scope.isReadOnly = false;
+        $scope.rights = rights;
 
         function initState() {
             $scope.isReadOnly = $scope.bbcForm.model.name === 'User' || $scope.bbcForm.model.name === 'Guest' || $scope.bbcForm.model.name === 'Admin';
@@ -99,18 +120,15 @@ angular.module('admin.roles', [])
             }
         }
 
-        function loadRole() {
-            var deferred = $q.defer();
-            if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
-                $bbcTransport.emit(adminModulePath + 'roles/roles/getById', { id: $routeParams.id }, function (error, result) {
-                    if (result) {
-                        deferred.resolve(result);
-                    }
-                });
-            } else {
-                deferred.resolve($scope.bbcForm.model);
-            }
-            return deferred.promise;
+        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+            $bbcTransport.emit(adminModulePath + 'roles/roles/getById', { id: $routeParams.id }, function (error, result) {
+                if (result) {
+                    $scope.bbcForm.setModel(result);
+                    initState();
+                }
+            });
+        } else {
+            initState();
         }
 
         function hasUserRight(id) {
@@ -123,17 +141,6 @@ angular.module('admin.roles', [])
             }
             return false;
         }
-
-        loadRole().then(function(result){
-            $scope.bbcForm.setModel(result);
-
-            $bbcTransport.emit(adminModulePath + 'rights/rights/getAll', function (error, result) {
-                if (result) {
-                    $scope.rights = result.items;
-                    initState();
-                }
-            });
-        });
 
         $scope.setStyle = function (r) {
             return r.checked === true ? { 'border-left': '3px solid green' } : null;
