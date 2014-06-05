@@ -178,6 +178,7 @@ describe('Errors', function () {
         expect(error instanceof RightsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
+
     it('should throw an ControllerError with message, status, displayClient, controller and resource', function() {
         var ControllerError = errors.ControllerError;
         var error = new ControllerError('ControllerTestError', 400, true, 'TestController', 'TestResource');
@@ -202,6 +203,36 @@ describe('Errors', function () {
         expect(error.controller).toBe('empty');
         expect(error.resource).toBe('empty');
         expect(error instanceof ControllerError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+
+    it('should throw an AccountError with message', function() {
+        var error = new errors.AccountError('AccountTestError');
+
+        expect(error.message).toBe('AccountTestError');
+        expect(error instanceof errors.AccountError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an AccountError without message', function() {
+        var error = new errors.AccountError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof errors.AccountError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+
+    it('should throw an SettingsError with message', function() {
+        var error = new errors.SettingsError('SettingsTestError');
+
+        expect(error.message).toBe('SettingsTestError');
+        expect(error instanceof errors.SettingsError).toBe(true);
+        expect(error instanceof Error).toBe(true);
+    });
+    it('should throw an SettingsError without message', function() {
+        var error = new errors.SettingsError();
+
+        expect(error.message).toBe('');
+        expect(error instanceof errors.SettingsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
 });
