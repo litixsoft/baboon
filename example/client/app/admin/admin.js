@@ -22,7 +22,6 @@ angular.module('admin', [
 ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, $bbcTransportProvider, tmhDynamicLocaleProvider) {
 
-        $routeProvider.otherwise({redirectTo: '/admin/users'});
         $locationProvider.html5Mode(true);
 
         $bbcNavigationProvider.set({

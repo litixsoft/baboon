@@ -15,7 +15,7 @@
         {
             "title": "RIGHTS",
             "route": "/admin/rights",
-            "controller": "app/admin/rights/rights",
+            "controller": "app/admin/rights/*",
             "app": "admin"
         },
         {
