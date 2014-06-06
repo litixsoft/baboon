@@ -38,7 +38,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-primary" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
                         <button type="button" class="btn btn-default" ng-click="bbcForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
-                        <a class="btn btn-default" ng-href="/admin/groups" name="back" >{{ 'BACK' | translate }}</a>
+                        <a class="btn btn-default" ng-href="/admin/groups" ng-click="bbcForm.reset(form)" name="back" >{{ 'BACK' | translate }}</a>
                     </div>
                 </div>
             </form>

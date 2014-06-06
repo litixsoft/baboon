@@ -120,7 +120,7 @@ angular.module('admin.roles', [])
             }
         }
 
-        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+        if ($routeParams.id && !$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'roles/roles/getById', { id: $routeParams.id }, function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(result);

@@ -83,7 +83,7 @@ angular.module('admin.groups', [])
     .controller('AdminEditGroupCtrl', function ($scope, $routeParams, $location, $bbcForm, adminModulePath, $bbcTransport) {
         $scope.bbcForm = $bbcForm('baboon_group', '_id');
 
-        if (!$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
+        if ($routeParams.id && !$scope.bbcForm.hasLoadedModelFromCache($routeParams.id)) {
             $bbcTransport.emit(adminModulePath + 'groups/groups/getById', {id: $routeParams.id}, function (error, result) {
                 if (result) {
                     $scope.bbcForm.setModel(result);
