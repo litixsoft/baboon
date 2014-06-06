@@ -146,6 +146,9 @@ module.exports = function () {
             syslog: syslog
         },
         rights: {
+            enabled: true,
+            masterLoginPage: false,
+            database: 'localhost:27017/baboon_rights',
             getUser: function (id, callback) {
                 callback(null, {id: id, name: 'guest'});
             },
@@ -153,6 +156,9 @@ module.exports = function () {
                 if (route === '/userHasNoAccessToFunction') {
                     return false;
                 }
+            },
+            userHasAccessToController: function (){
+                return true;
             }
         }
     };
