@@ -216,7 +216,7 @@ describe('Errors', function () {
     it('should throw an AccountError without message', function() {
         var error = new errors.AccountError();
 
-        expect(error.message).toBe('');
+        expect(error.message).toBe('Internal Server Error');
         expect(error instanceof errors.AccountError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
@@ -231,7 +231,7 @@ describe('Errors', function () {
     it('should throw an SettingsError without message', function() {
         var error = new errors.SettingsError();
 
-        expect(error.message).toBe('');
+        expect(error.message).toBe('Internal Server Error');
         expect(error instanceof errors.SettingsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
