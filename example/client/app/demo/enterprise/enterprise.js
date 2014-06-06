@@ -12,8 +12,7 @@ angular.module('demo.enterprise', [])
         $scope.crew = [];
         var options = { id: 'uniqueId', headline: 'Delete', message: 'Do you want to delete this entry?', backdrop: false, buttonTextValues: { yes: 'Yes', no: 'No' } };
 
-        // getAll members from service
-        var getAllMembers = function () {
+        var getData = function () {
             $bbcTransport.emit(enterpriseModulePath + 'enterprise/getAllMembers', {}, function (error, result) {
                 if (error) {
                     $log.error(error);
@@ -24,24 +23,21 @@ angular.module('demo.enterprise', [])
             });
         };
 
-        // init get all members and register watch for crew
-        getAllMembers();
-
         $scope.createTestMembers = function (reset) {
             reset = reset || null;
             if ($scope.crew.length === 0) {
                 $bbcTransport.emit(enterpriseModulePath + 'enterprise/createTestMembers', {}, function (error, result) {
                     if (error) {
-                        getAllMembers();
+                        getData();
                     }
                     else if (result) {
                         $scope.crew = result;
-                        $scope.bbcAlert.success(reset ? 'db reset.' : 'crew created.');
+                        $scope.bbcAlert.success(reset ? 'Database reseted.' : 'Crew created.');
                     }
                 });
             }
             else {
-                $scope.bbcAlert.danger('can\'t create test crew, already exists.');
+                $scope.bbcAlert.danger('Can not create test crew, already exists.');
             }
         };
 
@@ -58,17 +54,16 @@ angular.module('demo.enterprise', [])
                 });
             }
             else {
-                $scope.bbcAlert.danger('can\'t reset db, find no data.');
+                $scope.bbcAlert.danger('Can not reset db, no data found.');
             }
         };
 
-        $scope.deleteMember = function (id, name) {
+        $scope.delete = function (id) {
             options.callObj = {
                 cbYes: function () {
-                    $bbcTransport.emit(enterpriseModulePath + 'enterprise/deleteMember', {id: id}, function (error, result) {
+                    $bbcTransport.emit(enterpriseModulePath + 'enterprise/deleteMember', { id: id }, function (error, result) {
                         if (result) {
-                            $scope.bbcAlert.success('crew member ' + name + ' deleted.');
-                            getAllMembers();
+                            getData();
                         }
                         else if (error) {
                             $scope.bbcAlert.danger(error);
@@ -79,6 +74,8 @@ angular.module('demo.enterprise', [])
             };
             $bbcModal.open(options);
         };
+
+        getData();
     })
     .controller('DemoEnterpriseEditCtrl', function ($scope, $location, $routeParams, $bbcTransport, $bbcForm, enterpriseModulePath) {
         $scope.bbcForm = $bbcForm('enterpriseEdit', '_id');
@@ -93,7 +90,6 @@ angular.module('demo.enterprise', [])
             var method = enterpriseModulePath + (model._id ? 'enterprise/updateMember' : 'enterprise/createMember');
 
             $bbcTransport.emit(method, model, function (error, result) {
-
                 if (result) {
                     $location.path('/enterprise');
                 }

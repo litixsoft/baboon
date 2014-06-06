@@ -1,5 +1,10 @@
 {
     "LANGUAGE_SELECT": "Deutsch",
     "ENTERPRISE_EXAMPLE": "Enterprise Beispiel",
-    "ENTERPRISE_ADMIN": "Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon."
+    "ENTERPRISE_ADMIN": "Die Verwaltung der Enterprise-Crew ist ein kleines Beispiel für die Verwendung von Baboon.",
+    "RESET_DATABASE": "Datenbank zurücksetzen",
+    "CREATE_CREW": "Crew erstellen",
+    "DESCRIPTION": "Beschreibung",
+    "EDIT_MEMBER": "Mitglied bearbeiten",
+    "CREATE_MEMBER": "Mitglied erstellen"
 }

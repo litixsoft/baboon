@@ -1,5 +1,10 @@
 {
     "LANGUAGE_SELECT": "English",
     "ENTERPRISE_EXAMPLE": "Enterprise example",
-    "ENTERPRISE_ADMIN": "The administration of enterprise crew is a simple example using baboon."
+    "ENTERPRISE_ADMIN": "The administration of enterprise crew is a simple example using baboon.",
+    "RESET_DATABASE": "Reset database",
+    "CREATE_CREW": "Create crew",
+    "DESCRIPTION": "Description",
+    "EDIT_MEMBER": "Edit member",
+    "CREATE_MEMBER": "Create member"
 }

@@ -13,9 +13,7 @@ angular.module('demo', [
         'common.auth',
         'pascalprecht.translate',
         'tmh.dynamicLocale',
-        'demo.enterprise',
-
-        'hljs'
+        'demo.enterprise'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
 

@@ -34,5 +34,10 @@
     "GERMAN":"german",
     "ENGLISH":"english",
     "YES": "Yes",
-    "NO": "No"
+    "NO": "No",
+    "BACK": "Back",
+    "RESET": "Reset",
+    "SAVE": "Save",
+    "DELETE": "Delete",
+    "NEW": "New"
 }

@@ -34,5 +34,10 @@
     "GERMAN":"deutsch",
     "ENGLISH":"englisch",
     "YES": "Ja",
-    "NO": "Nein"
+    "NO": "Nein",
+    "BACK": "Zurück",
+    "RESET": "Zurücksetzen",
+    "SAVE": "Speichern",
+    "DELETE": "Löschen",
+    "NEW": "Neu"
 }

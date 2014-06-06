@@ -4,7 +4,7 @@
             <h1>Enterprise</h1>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading">{{ bbcForm.model._id ? 'Edit Member' : 'Create Member' }}</div>
+            <div class="panel-heading">{{ bbcForm.model._id ? 'EDIT_MEMBER' : 'CREATE_MEMBER' | translate }}</div>
             <div class="panel-body">
                 <form name="form" class="form-horizontal" novalidate>
                     <div class="form-group" ng-class="{'has-error' : ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error' : ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
-                        <label class="col-lg-2 control-label" for="description">Description</label>
+                        <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
                             <input type="text" class="form-control" id="description" name="description" ng-model="bbcForm.model.description" placeholder="Enter Description" required maxlength="300"/>
                             <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" class="label label-danger">
@@ -31,8 +31,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <button ng-click="save(bbcForm.model)" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
-                            <a ng-href="/enterprise" ng-click="bbcForm.reset(form)" class="btn btn-default">Back</a>
+                            <button ng-click="save(bbcForm.model)" class="btn btn-primary" ng-disabled="form.$invalid">{{ 'SAVE' | translate }}</button>
+                            <a ng-href="/enterprise" ng-click="bbcForm.reset(form)" class="btn btn-default">{{ 'BACK' | translate }}</a>
                         </div>
                     </div>
                 </form>

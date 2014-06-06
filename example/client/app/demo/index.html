@@ -12,11 +12,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(client) styles/main/vendor.css -->
+    <!-- build:css(client) styles/demo/vendor.css -->
     <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/bower_components/highlightjs/styles/github.css" />
     <!-- endbuild -->
-    <!-- build:css({.tmp,client}) styles/main/main.css -->
+    <!-- build:css({.tmp,client}) styles/demo/main.css -->
     <link rel="stylesheet" href="styles/demo/demo.css">
     <!-- endbuild -->
   </head>
@@ -28,9 +27,7 @@
         <div class="header">
             <div class="p-wrapper">
                 <div class="action-area">
-
                     <div class="pull-right" ng-include="'common/popup_login/popup_login.html'"></div>
-
                     <div class="flag-area pull-right">
                         <div class="btn-group dark-select">
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -39,12 +36,11 @@
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
-                                    <a ng-href="" ng-click="switchLocale('en-en')"><img src="assets/images/flag-usa48.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                    <a ng-href="" ng-click="switchLocale('en-us')"><img src="assets/images/flag-usa48.png" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-
                 </div>
                 <h3 class="text-muted">{{ 'APP_HEADER' | translate }}</h3>
             </div>
@@ -79,16 +75,13 @@
 
     <script src="/socket.io/socket.io.js"></script>
 
-    <!-- build:js(client) scripts/main/vendor.js -->
+    <!-- build:js(client) scripts/demo/vendor.js -->
     <script src="assets/bower_components/angular/angular.js"></script>
     <script src="assets/bower_components/angular-route/angular-route.js"></script>
     <script src="assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="assets/bower_components/angular-translate/angular-translate.js"></script>
     <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js"></script>
-    <script src="assets/bower_components/highlightjs/highlight.pack.js"></script>
-    <script src="assets/bower_components/angular-highlightjs/angular-highlightjs.js"></script>
-
     <script src="assets/bower_components/angular-socket-io/socket.js"></script>
     <script src="assets/bower_components/baboon-client/modules/alert/alert.js"></script>
     <script src="assets/bower_components/baboon-client/modules/modal/modal.js"></script>
@@ -104,7 +97,7 @@
     <script src="common/popup_login/popup_login.js"></script>
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,client}) scripts/main/scripts.js -->
+        <!-- build:js({.tmp,client}) scripts/demo/scripts.js -->
         <script src="app/demo/demo.js"></script>
         <script src="app/demo/enterprise/enterprise.js"></script>
         <!-- endbuild -->
