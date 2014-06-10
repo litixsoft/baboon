@@ -36,17 +36,13 @@ angular.module('admin.roles', [])
         var btnTextValues = { yes: 'Y', no: 'N' };
 
         $rootScope.$on('$translateChangeSuccess', function () {
-            setLang();
-        });
-
-        var setLang = function() {
             $translate(['DELETE', 'DELETE_MSG', 'YES', 'NO']).then(function (v) {
                 header = v.DELETE;
                 msg = v.DELETE_MSG;
                 btnTextValues.yes = v.YES;
                 btnTextValues.no = v.NO;
             });
-        };
+        });
 
         var getData = function () {
             var options = { options: $scope.pagingOptions };
@@ -66,7 +62,7 @@ angular.module('admin.roles', [])
             });
         };
 
-        setLang();
+        $rootScope.$broadcast('$translateChangeSuccess');
 
         $scope.load = function (sort, page) {
             $scope.pagingOptions = page;

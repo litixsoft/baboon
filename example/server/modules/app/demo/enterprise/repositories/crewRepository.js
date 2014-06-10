@@ -34,7 +34,7 @@ module.exports = function (collection) {
 
         // query search the name in other documents
         var query = {
-            name: doc.name,
+            name: { $regex : new RegExp('^' + doc.name + '$', 'i') },
             _id: {
                 $ne: typeof doc._id === 'string' ? baseRepo.convertId(doc._id) : doc._id
             }
@@ -56,7 +56,7 @@ module.exports = function (collection) {
                                 property: 'name',
                                 expected: false,
                                 actual: true,
-                                message: 'name already exists'
+                                message: 'NAME_ALREADY_EXISTS'
                             }
                         ]
                     }

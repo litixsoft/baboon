@@ -39,5 +39,6 @@
     "RESET": "Zurücksetzen",
     "SAVE": "Speichern",
     "DELETE": "Löschen",
-    "NEW": "Neu"
+    "NEW": "Neu" ,
+    "DELETE_MSG": "Möchten Sie den Datensatz wirklich löschen?"
 }

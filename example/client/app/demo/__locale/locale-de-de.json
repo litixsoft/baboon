@@ -6,5 +6,10 @@
     "CREATE_CREW": "Crew erstellen",
     "DESCRIPTION": "Beschreibung",
     "EDIT_MEMBER": "Mitglied bearbeiten",
-    "CREATE_MEMBER": "Mitglied erstellen"
+    "CREATE_MEMBER": "Mitglied erstellen",
+    "NAME_PLACEHOLDER": "Name eingeben",
+    "DESCRIPTION_PLACEHOLDER": "Beschreibung eingeben",
+    "NAME_REQUIRED": "Der Name muss angegeben werden.",
+    "DESCRIPTION_REQUIRED": "Die Beschreibung muss angegeben werden.",
+    "NAME_ALREADY_EXISTS": "Der Name existiert bereits."
 }

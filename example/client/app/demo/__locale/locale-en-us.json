@@ -6,5 +6,10 @@
     "CREATE_CREW": "Create crew",
     "DESCRIPTION": "Description",
     "EDIT_MEMBER": "Edit member",
-    "CREATE_MEMBER": "Create member"
+    "CREATE_MEMBER": "Create member",
+    "NAME_PLACEHOLDER": "Enter Name",
+    "DESCRIPTION_PLACEHOLDER": "Enter Description",
+    "NAME_REQUIRED": "Name is required.",
+    "DESCRIPTION_REQUIRED": "Description is required.",
+    "NAME_ALREADY_EXISTS": "Name already exists."
 }

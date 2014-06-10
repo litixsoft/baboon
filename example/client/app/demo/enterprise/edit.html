@@ -10,21 +10,21 @@
                     <div class="form-group" ng-class="{'has-error' : ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
                         <label class="col-lg-2 control-label" for="name">Name</label>
                         <div class="col-lg-10 lxvalidation">
-                            <input type="text" class="form-control" id="name" name="name" ng-model="bbcForm.model.name" placeholder="Enter Name" required maxlength="200"/>
+                            <input type="text" class="form-control" id="name" name="name" ng-model="bbcForm.model.name" placeholder="{{ 'NAME_PLACEHOLDER' | translate }}" required maxlength="200"/>
                             <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
-                                <span ng-show="form.name.$error.required">Title is required</span>
-                                <span ng-show="form.errors.name">{{ form.errors.name }}</span>
+                                <span ng-show="form.name.$error.required">{{ 'NAME_REQUIRED' | translate }}</span>
+                                <span ng-show="form.errors.name">{{ form.errors.name | translate }}</span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error' : ((form.description.$dirty && form.description.$invalid) || form.errors.description)}">
                         <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
                         <div class="col-lg-10 lxvalidation">
-                            <input type="text" class="form-control" id="description" name="description" ng-model="bbcForm.model.description" placeholder="Enter Description" required maxlength="300"/>
+                            <input type="text" class="form-control" id="description" name="description" ng-model="bbcForm.model.description" placeholder="{{ 'DESCRIPTION_PLACEHOLDER' | translate }}" required maxlength="300"/>
                             <label ng-show="((form.description.$dirty && form.description.$invalid) || form.errors.description)" class="label label-danger">
                                 <div class="glyphicon glyphicon-fire"></div>
-                                <span ng-show="form.description.$error.required">Description is required</span>
+                                <span ng-show="form.description.$error.required">{{ 'DESCRIPTION_REQUIRED' | translate }}</span>
                                 <span ng-show="form.errors.description">{{ form.errors.description }}</span>
                             </label>
                         </div>

@@ -7,10 +7,21 @@ angular.module('demo.enterprise', [])
         $routeProvider.when('/demo/enterprise/edit/:id', { templateUrl: 'app/demo/enterprise/edit.html', controller: 'DemoEnterpriseEditCtrl' });
     })
     .constant('enterpriseModulePath', 'api/app/demo/enterprise/')
-    .controller('DemoEnterpriseCtrl', function ($scope, $bbcTransport, enterpriseModulePath, $log, $bbcAlert, $bbcModal) {
+    .controller('DemoEnterpriseCtrl', function ($rootScope, $scope, $bbcTransport, enterpriseModulePath, $log, $bbcAlert, $bbcModal, $translate) {
         $scope.bbcAlert = $bbcAlert;
         $scope.crew = [];
-        var options = { id: 'uniqueId', headline: 'Delete', message: 'Do you want to delete this entry?', backdrop: false, buttonTextValues: { yes: 'Yes', no: 'No' } };
+        var options = { id: 'uniqueId', headline: 'DEL', message: 'MSG', backdrop: false, buttonTextValues: { yes: 'Y', no: 'N' } };
+
+        $rootScope.$on('$translateChangeSuccess', function () {
+            $translate(['DELETE', 'DELETE_MSG', 'YES', 'NO']).then(function (v) {
+                options.headline = v.DELETE;
+                options.message = v.DELETE_MSG;
+                options.buttonTextValues.yes = v.YES;
+                options.buttonTextValues.no = v.NO;
+            });
+        });
+
+        $rootScope.$broadcast('$translateChangeSuccess');
 
         var getData = function () {
             $bbcTransport.emit(enterpriseModulePath + 'enterprise/getAllMembers', {}, function (error, result) {

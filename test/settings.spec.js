@@ -271,10 +271,10 @@ describe('Settings', function () {
                     }
                 };
 
-                sut.setUserSettings({language: 'en-en', wayne: 'ee'}, request, function (err, res) {
+                sut.setUserSettings({language: 'en-us', wayne: 'ee'}, request, function (err, res) {
                     expect(err).toBeNull();
                     expect(res).toBeTruthy();
-                    expect(request.session.user.settings).toEqual({language: 'en-en'});
+                    expect(request.session.user.settings).toEqual({language: 'en-us'});
 
                     done();
                 });
