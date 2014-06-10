@@ -19,7 +19,6 @@ module.exports = function (baboon) {
      * @param {!function(result)} callback The callback.
      */
     pub.getAllMembers = function (data, request, callback) {
-        console.log('getAllMembers');
         repo.crew.find(data.params || {}, data.options || {}, callback);
     };
 
