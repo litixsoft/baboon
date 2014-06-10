@@ -234,8 +234,7 @@ module.exports = function (grunt) {
                     src: [
                         '<%= yeoman.dist %>/public/scripts/**/*.js',
                         '<%= yeoman.dist %>/public/styles/**/*.css',
-                        '<%= yeoman.dist %>/public/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.dist %>/public/styles/fonts/*'
+                        '<%= yeoman.dist %>/public/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
             }
@@ -338,8 +337,8 @@ module.exports = function (grunt) {
                         src: [
                             '**/*.{ico,png,txt}',
                             'assets/bower_components/**/*',
-                            'assets/images/**/*.{webp}',
-                            'assets/fonts/**/*'
+                            'assets/images/**/*.{webp}'
+
                         ]
                     },
                     {
@@ -347,6 +346,16 @@ module.exports = function (grunt) {
                         cwd: '.tmp/images',
                         dest: '<%= yeoman.dist %>/public/assets/images',
                         src: ['generated/*']
+                    },
+                    {
+
+                        expand: true,
+                        dot: true,
+                        cwd: '<%= yeoman.client %>/assets',
+                        dest: '<%= yeoman.dist %>/public/styles',
+                        src: [
+                            'fonts/**/*'
+                        ]
                     }
                 ]
             },
