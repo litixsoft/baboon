@@ -140,7 +140,7 @@ angular.module('admin.users', [])
             // from groups
             angular.forEach($scope.bbcForm.model.groups, function(selectedGroup) {
                 angular.forEach($scope.groups, function(group) {
-                    if (selectedGroup._id === group._id) {
+                    if (selectedGroup === group._id) {
                         allRoles = allRoles.concat(group.roles);
                         return false;
                     }

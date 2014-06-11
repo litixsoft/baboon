@@ -162,10 +162,20 @@ describe('Module: admin.users', function () {
                 $transport.emit = function (event, options, callback) {
                     if (event === 'api/app/admin/users/users/getUserData') {
                         callback(null, {
-                            user: { _id: '1', name: 'guest', email: 'a@b.c', rights: [{_id: '2', hasAccess: false}], groups: ['1'], roles: ['1']},
-                            groups: [{ _id: '1', name: 'Guest', description: 'Testgroup 1', roles: ['1', '2']}, { _id: '2', name: 'Group 2', description: 'Testgroup 2', roles: ['1'] }],
-                            roles: [{ _id: '1', name: 'Role 1', description: 'Testrole 1', rights: ['2'] }, { _id: '2', name: 'Role 2', description: 'Testrole 2' }],
-                            rights: [{ _id: '1', name: 'Right 1', description: 'Testright 1' }, { _id: '2', name: 'Right 2', description: 'Testright 2' }]
+                            user: { _id: '1', name: 'guest', email: 'a@b.c', rights: [{_id: '2', hasAccess: false}], groups: ['1', '2'], roles: ['1']},
+                            groups: [
+                                { _id: '1', name: 'Guest', description: 'Testgroup 1', roles: ['1', '2']},
+                                { _id: '2', name: 'Group 2', description: 'Testgroup 2', roles: ['1'] }
+                            ],
+                            roles: [
+                                { _id: '1', name: 'User', description: 'Userrole', rights: ['2'] },
+                                { _id: '2', name: 'Role 2', description: 'Testrole 2' },
+                                { _id: '3', name: 'Guest', description: 'Guestrole', rights: ['1'] }
+                            ],
+                            rights: [
+                                { _id: '1', name: 'Right 1', description: 'Testright 1' },
+                                { _id: '2', name: 'Right 2', description: 'Testright 2' }
+                            ]
                         });
                     }
                     else if (event === 'api/app/admin/users/users/update') {
@@ -194,7 +204,20 @@ describe('Module: admin.users', function () {
         it('should be initialized correctly', function () {
             expect(typeof $scope.save).toBe('function');
             expect($scope.roles).toBeDefined();
-            expect($scope.roles.length).toBe(2);
+            expect($scope.roles.length).toBe(3);
+        });
+
+        describe('initializ a new user which', function () {
+            beforeEach(function () {
+                inject(function ($controller) {
+                    var routeParams = {};
+                    $ctrl = $controller('AdminEditUserCtrl', { $scope: $scope, $routeParams: routeParams });
+                });
+            });
+
+            it('should get preseleted roles', function () {
+                expect($scope.bbcForm.model.roles).toEqual(['1', '3']);
+            });
         });
 
         describe('has an id param', function() {
@@ -334,7 +357,7 @@ describe('Module: admin.users', function () {
             });
 
             it('should unset a right', function () {
-                var right = {_id: '2', source: ['Role 1'], isSelected: false};
+                var right = {_id: '2', source: ['User'], isSelected: false};
                 $scope.setRight(right);
 
                 expect($scope.bbcForm.model.rights).toEqual([{_id: '2', hasAccess: false}]);
