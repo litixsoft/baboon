@@ -221,6 +221,14 @@ Build application in production mode only.
 
     $ grunt build
 
+Create the api documentation
+
+    $ grunt doc
+
+Create the api documentation and start the docu-application in browser
+
+    $ grunt doc:serve
+
 Run all unit tests
 
     $ grunt test
