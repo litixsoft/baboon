@@ -100,7 +100,7 @@
                     <div class="col-lg-10">
                         <div class="checkbox" ng-repeat="r in roles">
                             <label>
-                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.isGuest || r.name === 'Guest'" /> {{r.name}}
+                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" ng-disabled="bbcForm.model.isGuest || r.name === 'Guest' || r.name === 'User'" /> {{r.name}}
                                 <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
                             </label>
                         </div>
