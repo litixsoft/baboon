@@ -11,11 +11,9 @@ Baboon takes care of the complete setup of an immediately usable architecture fo
 the basic functionality of the application. In addition to simple things like LESS-based design,
 it also includes the complete implementation of a websocket transport for the real-time communication inside the application. Last but not least the availability of many modules makes Baboon a full SPA-framework. All that is left to you is taking care of your business logic - the rest is done by Baboon.
 
-* Web site: http://www.litixsoft.de/baboon
-* Tutorial: http://www.litixsoft.de/baboon/tutorial
-* API Docs: http://www.litixsoft.de/baboon/api
-* Developer Guide: http://www.litixsoft.de/baboon/guide
-* Baboon example app live demo http://demo.baboon.litixsoft.de
+* Web site: http://baboon.litixsoft.de
+* API Docs: http://baboon.litixsoft.de/api
+* Developer Guide: http://baboon.litixsoft.de/guide
 * Baboon project generator https://github.com/litixsoft/generator-baboon
 
 # Install
@@ -26,7 +24,6 @@ The installation of a Baboon project is very simple. However, some preparatory w
 Baboon need only NodeJS on the respective system.
 In production mode on server with activated rights system following stack is desirable:
 
-* RedisIo 2.6.12 or newer
 * MongoDb 2.4.5 or newer
 * NodeJs 10.22 or newer
 
@@ -38,11 +35,11 @@ Without using baboon-stack, you need install Baboon's global dependencies. Skip 
 
 Linux / Mac:
 
-    $ sudo npm install -g karma bower grunt-cli yo generator-baboon protractor
+    $ sudo npm install -g karma bower grunt-cli yo generator-baboon
 
 Windows:
 
-    $ npm install -g karma bower grunt-cli yo generator-baboon protractor
+    $ npm install -g karma bower grunt-cli yo generator-baboon
 
 ## Create and start your baboon project
 You can simply create a Baboon project with a yeoman generator-baboon and start with grunt serve.
@@ -62,7 +59,7 @@ Easily expand Baboon with your own extensions or changes in the functionality of
 
 1. Write your functionality
 2. Write unit tests for your functionality
-3. Create an example of your functionality in the sample application
+3. Create an example of your functionality in the sample application (optional)
 4. Document your functionality in the documentation section of example app
 5. Write unit tests for the example
 6. Add end to end tests for the example
@@ -80,7 +77,6 @@ This section describes how to set up your development environment to build and t
 Baboon need only NodeJS on the respective system.
 In production mode on server with activated rights system following stack is desirable:
 
-* RedisIo 2.6.12 or newer
 * MongoDb 2.4.5 or newer
 * NodeJs 10.22 or newer
 
@@ -92,11 +88,11 @@ Without using baboon-stack, you need install Baboon's global dependencies. Skip 
 
 Linux / Mac:
 
-    $ sudo npm install -g karma bower grunt-cli yo generator-baboon protractor
+    $ sudo npm install -g karma bower grunt-cli yo generator-baboon
 
 Windows:
 
-    $ npm install -g karma bower grunt-cli yo generator-baboon protractor
+    $ npm install -g karma bower grunt-cli yo generator-baboon
 
 ## Install Baboon and example app
 The example application is also the reference implementation of Baboon.
