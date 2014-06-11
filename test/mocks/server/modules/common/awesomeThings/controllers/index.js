@@ -59,6 +59,10 @@ module.exports = function () {
     };
 
     pub.sessionTest = function (data, request, callback) {
+        pub.getAll(data, request, function(){
+
+        });
+
         // get session
         var session = request.session || {};
 

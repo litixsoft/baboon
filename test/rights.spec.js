@@ -289,9 +289,9 @@ describe('Rights', function () {
             var user = users[0];
             user.roles = [5]; // Manager
             user.rights = [
-                {_id: 1, hasAccess: false},
-                {_id: 5, hasAccess: false}
-            ]; // addTime
+                {_id: 1, hasAccess: false}, // login
+                {_id: 5, hasAccess: false}  // addTime
+            ];
 
             user.acl = sut.getUserAcl(user, rights, roles, groups);
 
@@ -300,6 +300,9 @@ describe('Rights', function () {
             expect(sut.userHasAccessToController(user, 'app/addImprovement')).toBeTruthy();
             expect(sut.userHasAccessToController(user, 'app/login')).toBeFalsy();
             expect(sut.userHasAccessToController(user, 'app/addUser')).toBeFalsy();
+
+            expect(sut.userHasAccessToController(user, 'app/*')).toBeTruthy();
+            expect(sut.userHasAccessToController(user, 'app/demo/*')).toBeFalsy();
         });
 
         it('should return true when the rights system is disabled', function () {
