@@ -125,8 +125,7 @@ module.exports = function (baboon) {
         async.auto({
             getUser: function (next) {
                 if (data.id) {
-                    var tmpPub = pub;
-                    tmpPub.getById(data, request, next);
+                    pub.getById(data, request, next);
                 } else {
                     next();
                 }

@@ -177,7 +177,7 @@ angular.module('admin.users', [])
             return rolesWithRights;
         }
 
-       function initRights() {
+        function initRights() {
             $scope.bbcForm.model.rights = $scope.bbcForm.model.rights || [];
             $scope.bbcForm.model.roles = $scope.bbcForm.model.roles || [];
             $scope.bbcForm.model.groups = $scope.bbcForm.model.groups || [];
