@@ -103,11 +103,51 @@ module.exports = function (baboon) {
 
         // query user
         repo.users.findOneById(data.id, options, function(error, result) {
-            if (result && result.name in secretUsers) {
+            if (result && secretUsers.indexOf(result.name) > -1) {
                 result = null;
             }
             callback(error, result);
         });
+    };
+
+    /**
+     * Gets a single user by id and all groups, roles and rights.
+     *
+     * @roles Admin
+     * @description Gets a single user by id and all groups, roles and rights.
+     * @param {!object} data The data from client.
+     * @param {!string} data.id The id.
+     * @param {!object} request The request object.
+     * @param {!function(err, res)} request.getSession Returns the current session object.
+     * @param {!function(result)} callback The callback.
+     */
+    pub.getUserData = function (data, request, callback) {
+        async.auto({
+            getUser: function (next) {
+                if (data.id) {
+                    var tmpPub = pub;
+                    tmpPub.getById(data, request, next);
+                } else {
+                    next();
+                }
+            },
+            getGroups: function (next) {
+                repo.groups.find({}, {sort: {name: 1}}, next);
+            },
+            getRoles: function (next) {
+                repo.roles.find({}, {sort: {name: 1}}, next);
+            },
+            getRights: function (next) {
+                repo.rights.find({}, {sort: {name: 1}, fields: {controller: 0}}, next);
+            }
+        }, function (error, result) {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, {user: result.getUser, groups: result.getGroups, roles: result.getRoles, rights: result.getRights});
+                }
+            }
+        );
     };
 
     /**

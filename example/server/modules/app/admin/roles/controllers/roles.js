@@ -39,32 +39,6 @@ module.exports = function (baboon) {
     };
 
     /**
-     * Gets roles and the number of roles in id list from db.
-     *
-     * @roles Admin
-     * @description Gets roles and the number of roles in id list from db.
-     * @param {object} data The query.
-     * @param {array} data.ids The id list.
-     * @param {!object} request The request object.
-     * @param {!function(err, res)} request.getSession Returns the current session object.
-     * @param {!function(result)} callback The callback.
-     */
-    pub.getByIds = function (data, request, callback) {
-        data.ids = data.ids || [];
-
-        async.auto({
-            getAll: function (callback) {
-                repo.roles.find({_id: {$in: data.ids}}, data.options || {}, callback);
-            },
-            getCount: function (callback) {
-                repo.roles.count({_id: {$in: data.ids}}, callback);
-            }
-        }, function (error, results) {
-            callback(error, {items: results.getAll, count: results.getCount});
-        });
-    };
-
-    /**
      * Gets a single role post by id.
      *
      * @roles Admin
