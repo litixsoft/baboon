@@ -1,6 +1,6 @@
+/*
 'use strict';
 
-/* global describe, it, expect, beforeEach */
 describe('Mail', function () {
     var path = require('path');
     var grunt = require('grunt');
@@ -171,4 +171,4 @@ describe('Mail', function () {
 
         done();
     });
-});
+});*/

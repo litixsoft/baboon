@@ -35,8 +35,12 @@ describe('Account', function () {
         var request = { };
         beforeEach(function (done) {
             userRepo.remove({name: 'JohnDoe_accounttest'}, function(){
-                rolesRepo.remove({name: 'User'}, function(){
-                    rolesRepo.insert({name: 'User'}, done);
+                rolesRepo.remove({name: 'User', key: 'AccountTest'}, function(){
+                    rolesRepo.insert({name: 'User', key: 'AccountTest'}, function() {
+                        rolesRepo.remove({name: 'Guest', key: 'AccountTest'}, function(){
+                            rolesRepo.insert({name: 'Guest', key: 'AccountTest'}, done);
+                        });
+                    });
                 });
             });
         });

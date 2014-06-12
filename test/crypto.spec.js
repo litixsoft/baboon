@@ -25,6 +25,42 @@ describe('Crypto', function () {
                 done();
             });
         });
+
+        it('should catch thrown error by crypto.randomBytes', function(done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.crypto = {
+                randomBytes: function (a, callback) {
+                    callback('error');
+                }
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'crypto'), stubs)();
+            sut.hashWithRandomSalt('', function(error){
+                expect(error).toBe('error');
+
+                done();
+            });
+        });
+
+        it('should catch thrown error by crypto.pbkdf2', function(done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.crypto = {
+                pbkdf2: function (a, b, c, d, callback) {
+                    callback('error');
+                }
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'crypto'), stubs)();
+            sut.hashWithRandomSalt('pwd', function(error){
+                expect(error).toBe('error');
+
+                done();
+            });
+        });
     });
 
     describe('has a function randomBytes which', function () {
@@ -87,6 +123,24 @@ describe('Crypto', function () {
                 expect(error).toBe(null);
                 expect(result).toBeDefined();
                 expect(result.is_equal).toBeFalsy();
+
+                done();
+            });
+        });
+
+        it('should catch thrown error by crypto.pbkdf2', function(done) {
+            var proxyquire = require('proxyquire');
+
+            var stubs = {};
+            stubs.crypto = {
+                pbkdf2: function (a, b, c, d, callback) {
+                    callback('error');
+                }
+            };
+
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'crypto'), stubs)();
+            sut.compare('', '', '', function(error){
+                expect(error).toBe('error');
 
                 done();
             });
