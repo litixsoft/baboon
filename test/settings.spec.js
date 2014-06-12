@@ -536,5 +536,4 @@ describe('Settings', function () {
             });
         });
     });
-})
-;
+});
