@@ -1,0 +1,154 @@
+
+#singlepageFrame {
+  .layout-content{
+    background-color:#3C4148;
+    position: fixed;
+    top: 0px;
+    padding:55px 0 0 0;
+
+    .col-center{
+      border-right: 1px solid #E5E5E5;
+      border-left: 1px solid #E5E5E5;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+      background:white;
+//      border-radius: 30px 0 0 0;
+      .container .content{
+        .p-wrapper{
+//          width:100%;
+          max-width:none;
+        }
+      }
+    }
+    .col-left{
+      background-color:#3C4148;
+      .container{
+        padding: 0;
+      }
+    }
+    .col-right{
+    }
+    &.close-menu{
+      .col-left{
+        display:none;
+      }
+      .col-center{
+        border-radius:0;
+      }
+    }
+  }
+
+
+  /* Custom page header */
+  .header {
+    padding:10px 0;
+    text-align:center;
+    //  position:fixed;
+    //  top:0;
+    //  left:0;
+    //  width:100%;
+//    background-color:#3C4148;
+    background-color:transparent;
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+
+    /* Make the masthead heading the same height as the navigation */
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+      line-height: 40px;
+      padding-bottom: 19px;
+      font-weight:bold;
+      color:#e65b44;
+      text-shadow:0 1px 6px rgba(0,0,0,0.4);
+    }
+
+    .p-wrapper{
+      width:100%;
+      max-width:none;
+      padding:0 10px;
+
+      .action-area{
+        right:10px;
+      }
+
+      .flag-area,.login-area{
+        .btn-default,.btn-success{
+          background-color:#3C4148;
+          border: 1px solid #2b2b2b;
+          box-shadow:0 0 1px #777777;
+          color:#ddd;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+          &:hover{
+            background-color:rgba(255,255,255,0.1);
+          }
+        }
+      }
+      .login-area{
+        .btn-success {
+          background-color: #1191c8;
+          &:hover{
+            background-color: #1191c8;
+          }
+          &+.btn-success{
+            &:hover{
+              background-color: #0e7cab;
+            }
+          }
+        }
+      }
+    }
+
+    ul.nav{
+      display:inline-block;
+    }
+  }
+  .content{
+    padding:10px 0;
+    .jumbotron{
+      box-shadow:0 0 6px rgba(0,0,0,0.4);
+      border:1px solid white;
+    }
+  }
+  .content.beige-noise{
+    //  background:#f4f4f4;
+  }
+
+  /* Custom page footer */
+  .footer {
+    display:none;
+  }
+}
+
+
+
+
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+

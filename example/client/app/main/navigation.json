@@ -1,0 +1,21 @@
+{
+    "title": "HOME",
+    "route": "/",
+    "controller": "app/main/*",
+    "app": "main",
+    "children": [
+        {
+           "title": "ABOUT",
+           "route": "/about",
+           "controller": "app/main/about/about",
+           "app": "main"
+        },
+        {
+           "title": "CONTACT",
+           "route": "/contact",
+           "controller": "app/main/contact/contact",
+           "app": "main"
+        }
+    ],
+    "order": "1"
+}

@@ -1,7 +1,9 @@
 .idea
-build
+.reports
+.tmp
+.dist
+client/assets/bower_components
+example/server/var/config
+example/server/var/db
+example/server/var/logs
 node_modules
-server/logs
-client/vendor
-client/app/doc/md/*.html
-server/settings

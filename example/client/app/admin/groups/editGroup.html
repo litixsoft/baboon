@@ -1,0 +1,47 @@
+<div class="p-wrapper">
+    <div class="page-header">
+        <h1>{{ 'GROUPS' | translate}}</h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ bbcForm.model._id ? 'EDIT_GROUP' : 'CREATE_GROUP' | translate }}</div>
+        <div class="panel-body">
+            <form name="form" class="form-horizontal" novalidate>
+                <div class="form-group" ng-class="{'has-error': ((form.name.$dirty && form.name.$invalid) || form.errors.name)}">
+                    <label class="col-lg-2 control-label" for="name">{{ 'NAME' | translate }}</label>
+                    <div class="col-lg-10 lxvalidation">
+                        <input type="text" class="form-control" ng-model="bbcForm.model.name" id="name" name="name" placeholder="{{ 'ENTER_NAME' | translate }}" required maxlength="100" />
+                        <label ng-show="((form.name.$dirty && form.name.$invalid) || form.errors.name)" class="label label-danger">
+                            <div class="glyphicon glyphicon-fire"></div>
+                            <span ng-show="form.name.$error.required">{{ 'REQUIRED_NAME' | translate }}</span>
+                            <span ng-show="form.errors.name">{{ form.errors.name | translate }}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="description">{{ 'DESCRIPTION' | translate }}</label>
+                    <div class="col-lg-10">
+                        <textarea rows="6" type="text" class="form-control" id="description" name="description" ng-model="bbcForm.model.description" maxlength="5000"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">{{ 'ROLES' | translate }}</label>
+                    <div class="col-lg-10">
+                        <div class="checkbox" ng-repeat="r in roles">
+                            <label>
+                                <input type="checkbox" checklist-model="bbcForm.model.roles" checklist-value="r._id" /> {{r.name}}
+                                <span ng-if="r.description" class="glyphicon glyphicon-question-sign" popover="{{ r.description }}" popover-trigger="mouseenter"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-primary" ng-click="save(bbcForm.model)" name="save" ng-disabled="form.$invalid || bbcForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+                        <button type="button" class="btn btn-default" ng-click="bbcForm.reset(form)" name="reset" ng-disabled="bbcForm.isUnchanged()">{{ 'RESET' | translate }}</button>
+                        <a class="btn btn-default" ng-href="/admin/groups" ng-click="bbcForm.reset(form)" name="back" >{{ 'BACK' | translate }}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

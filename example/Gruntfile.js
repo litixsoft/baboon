@@ -1,12 +1,9 @@
 'use strict';
 
-var lxHelpers = require('lx-helpers');
+var path = require('path');
+var config_dev = require('./config')().development();
 
 module.exports = function (grunt) {
-    var path = require('path');
-
-    // load all grunt tasks
-    require('load-grunt-tasks')(grunt);
 
     /**
      * Gets the index.html file from the code coverage folder.
@@ -23,752 +20,662 @@ module.exports = function (grunt) {
         return '';
     }
 
-    // Project configuration.
-    //noinspection JSUnresolvedFunction,JSUnresolvedVariable
+    // Load grunt tasks automatically
+    require('load-grunt-tasks')(grunt);
+
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+    // Define the configuration for all the tasks
     grunt.initConfig({
+        bowerrc: grunt.file.readJSON('.bowerrc'),
+        // Project settings
+        yeoman: {
+            // configurable paths
+            client: 'client',
+            assets: 'client/assets',
+            server: 'server',
+            dist: '.dist',
+            jshint: {
+                files: [
+                    'server/controllers/**/*.js',
+                    'client/app/**/*.js',
+                    'client/common/**/*.js',
+                    'test/**/*.js',
+                    'config.js',
+                    'Gruntfile.js',
+                    'server.js',
+                    '!client/app/apidoc/parts/docNavigation.js'
+                ],
+                client_files: [
+                    'client/app/**/*.js',
+                    'client/common/**/*.js'
+                ],
+                server_files: [
+                    'server/controllers/**/*.js',
+                    'test/server/**/*.js'
+                ]
+            }
+        },
+        express: {
+            options: {
+                port: config_dev.port,
+                host: config_dev.host
+            },
+            dev: {
+                options: {
+                    args: ['--config', 'development', '--livereload'],
+                    script: 'server.js',
+                    debug: true
+                }
+            },
+            prod: {
+                options: {
+                    script: 'server.js'
+                }
+            },
+            e2e: {
+                options: {
+                    args: ['--config', 'e2eTest'],
+                    script: 'server.js'
+                }
+            },
+            e2e_prod: {
+                options: {
+                    args: ['--config', 'e2eProductionTest'],
+                    script: 'server.js'
+                }
+            }
+        },
+        open: {
+            server: {
+                url: 'http://<%= express.options.host %>:<%= express.options.port %>'
+            },
+            coverageClient: {
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/client/'));
+                }
+            },
+            coverageServer: {
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/server/'));
+                }
+            }
+        },
+        watch: {
+            js: {
+                files: ['<%= yeoman.client %>/app/**/*.js', '<%= yeoman.client %>/common/**/*.js'],
+                tasks: ['newer:jshint:test'],
+                options: {
+                    livereload: true
+                }
+            },
+            jsTest: {
+                files: ['<%= yeoman.client %>/app/**/*.spec.js', '<%= yeoman.client %>/common/**/*.spec.js'],
+                tasks: ['newer:jshint:test']
+            },
+            styles: {
+                files: ['<%= yeoman.client %>/less/**/*.less', '<%= yeoman.client %>/app/**/*.less', '<%= yeoman.client %>/common/**/*.less'],
+                tasks: ['less', 'autoprefixer']
+            },
+            views: {
+                files: ['<%= yeoman.client %>/*.html', '<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
+                tasks: ['newer:copy:views']
+            },
+            partials: {
+                files: ['<%= yeoman.client %>/app/**/*.html', '!<%= yeoman.client %>/*.html', '!<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/*.html', '!<%= yeoman.client %>/common/**/index.html'],
+                tasks: ['newer:copy:partials']
+            },
+            livereload: {
+                files: [
+                    '{.tmp,<%= yeoman.client %>}/app/**/*.html',
+                    '{.tmp,<%= yeoman.client %>}/common/**/*.html',
+                    '.tmp/styles/**/*.css',
+                    '<%= yeoman.client %>/app/**/*.js',
+                    '<%= yeoman.client %>/common/**/*.js',
+                    '<%= yeoman.assets %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                ],
 
-        // load package.json config file
-        pkg: grunt.file.readJSON('package.json'),
-
-        // load app.conf.json
-        conf: grunt.file.readJSON('config/app.conf.json').base,
-
-        // config files and folders
-
-        // build folder
-        buildFolder: 'build',
-        buildDistFolder: '<%= buildFolder %>/dist',
-        buildReportsFolder: '<%= buildFolder %>/reports',
-        buildTmpFolder: '<%= buildFolder %>/tmp',
-        buildDistPublicFolder: '<%= buildDistFolder %>/public',
-        buildDistPublicVendorFolder: '<%= buildDistPublicFolder %>/vendor',
-        buildDistAppFolder: '<%= buildDistFolder %>/app',
-
-        // client folder
-        clientFolder: 'client',
-        clientAppFolder: '<%= clientFolder %>/app',
-        clientModulesFolder: '<%= clientFolder %>/modules',
-        clientPublicFolder: '<%= clientFolder %>/public',
-        clientVendorFolder: '<%= clientFolder %>/vendor',
-        clientVendorBaboonFolder: '<%= clientVendorFolder %>/baboon-client',
-
-        // server folder
-        serverFolder: 'server',
-
-        // config folder
-        configFolder: 'config',
-
-        // test folder
-        testFolder: 'test',
-
-        // scripts folder
-        scriptsFolder: 'scripts',
-
-        // js module prefix and suffix for concat
-        module_prefix: '(function (window, angular, undefined) {\n    \'use strict\';\n\n',
-        module_suffix: '\n})(window, window.angular);',
-
-        // banner for created files
-        banner: '/*!\n' +
-            ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-            '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
-            ' *\n' +
-            ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
-            ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
-            ' */\n\n',
-
-        // files for jshint
-        jshintFiles: [
-            '*.js',
-            '<%= clientFolder %>/**/*.js',
-            '!<%= clientVendorFolder %>/**/*.js',
-            '!<%= clientPublicFolder %>/**/*.js',
-            '<%= serverFolder %>/**/*.js',
-            '<%= testFolder %>/**/*.js',
-            '<%= configFolder %>/**/*.js',
-            '<%= scriptsFolder %>/**/*.js',
-            '!<%= clientModulesFolder %>/**/*.js'
-        ],
-
-        // config tasks
-
-        // Before generating any new files, remove any previously-created files.
-        clean: {
-            jshint: ['<%= buildReportsFolder %>/lint'],
-            dist: ['<%= buildDistFolder %>'],
-            jasmine: ['<%= buildReportsFolder %>/tests/server'],
-            karma: ['<%= buildReportsFolder %>/tests/client'],
-            coverageServer: ['<%= buildReportsFolder %>/coverage/server'],
-            coverageClient: ['<%= buildReportsFolder %>/coverage/client'],
-            reports: ['<%= buildReportsFolder %>'],
-            tmp: ['<%= buildTmpFolder %>']
+                options: {
+                    livereload: true
+                }
+            },
+            express: {
+                files: [
+                    'server.js',
+                    'server/**/*.{js,json}',
+                    '!server/var/**/*.{js,json}'
+                ],
+                tasks: ['express:dev', 'wait'],
+                options: {
+                    livereload: true,
+                    nospawn: true //Without this option specified express won't be reloaded
+                }
+            }
         },
 
-        // lint files
+        // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options: {
-                jshintrc: true
+                jshintrc: true,
+                reporter: require('jshint-stylish')
             },
-            test: '<%= jshintFiles %>',
+            test: {
+                src: '<%= yeoman.jshint.files %>'
+            },
+            test_client: {
+                src: '<%= yeoman.jshint.client_files %>'
+            },
+            test_server: {
+                src: '<%= yeoman.jshint.server_files %>'
+            },
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint.xml'
+                    reporterOutput: '.reports/lint/jshint.xml'
                 },
                 files: {
-                    src: '<%= jshintFiles %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             },
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: '<%= buildReportsFolder %>/lint/jshint_checkstyle.xml'
+                    reporterOutput: '.reports/lint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: '<%= jshintFiles %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             }
         },
 
-        // just copies files from client or vendor to dist.
-        copy: {
-            app: {
+        // Empties folders to start fresh
+        clean: {
+            dist: {
                 files: [
                     {
-                        // copy all from client/app folder without js, less and html files to dist public
-                        dest: '<%= buildDistPublicFolder %>',
-                        src: ['**/*.*', '!**/*.js', '!**/*.json', '!**/*.less', '!**/*.html', '!**/*.md'],
-                        expand: true,
-                        cwd: '<%= clientAppFolder %>'
-                    },
-                    {
-                        // copy all index.html files as toplevel apps
-                        dest: '<%= buildDistAppFolder %>',
-                        src: ['**/index.html'],
-                        expand: true,
-                        cwd: '<%= clientAppFolder %>'
-                    },
-                    {
-                        // copy public
-                        dest: '<%= buildDistPublicFolder %>',
-                        src: ['**'],
-                        expand: true,
-                        cwd: '<%= clientFolder %>/public/'
+                        dot: true,
+                        src: [
+                            '.tmp',
+                            '<%= yeoman.dist %>/views/*',
+                            '<%= yeoman.dist %>/public/*'
+                        ]
                     }
                 ]
             },
-            vendor: {
-                files: [
-                    {
-                        // angular
-                        dest: '<%= buildDistPublicVendorFolder %>/angular',
-                        src: ['*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular/'
-                    },
-                    {
-                        // angular-animate
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-animate',
-                        src: ['*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-animate/'
-                    },
-                    {
-                        // angular-route
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-route',
-                        src: ['*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-route/'
-                    },
-                    {
-                        // bootstrap dist
-                        dest: '<%= buildDistPublicVendorFolder %>/bootstrap',
-                        src: ['**/*.*', '!**/*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/bootstrap/dist/'
-                    },
-                    {
-                        // angular-bootstrap  src: ['**/*-tpls.*'],  cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-bootstrap',
-                        src: ['*-tpls*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-bootstrap/'
-                    },
-                    {
-                        // bootstrap assets
-                        dest: '<%= buildDistPublicFolder %>',
-                        src: ['**/*.png'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/bootstrap/assets/'
-                    },
-                    {
-                        // baboon-client public
-                        dest: '<%= buildDistPublicFolder %>',
-                        src: ['**/*.*'],
-                        expand: true,
-                        cwd: '<%= clientVendorBaboonFolder %>/public/'
-                    },
-                    {
-                        // showdown
-                        dest: '<%= buildDistPublicVendorFolder %>/showdown',
-                        src: ['**/*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/showdown/'
-                    },
-                    {
-                        // angular-highlight
-                        dest: '<%= buildDistPublicVendorFolder %>/angular-highlightjs',
-                        src: ['*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/angular-highlightjs/'
-                    },
-                    {
-                        // highlightjs
-                        dest: '<%= buildDistPublicVendorFolder %>/highlightjs',
-                        src: ['highlight.pack.js', 'styles/arta.css', 'styles/default.css', 'styles/github.css'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/highlightjs/'
-                    },
-                    {
-                        // chroma-js
-                        dest: '<%= buildDistPublicVendorFolder %>/chroma-js',
-                        src: ['**/*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/chroma-js/'
-                    },
-                    {
-                        // d3
-                        dest: '<%= buildDistPublicVendorFolder %>/d3',
-                        src: ['**/*.js'],
-                        expand: true,
-                        cwd: '<%= clientVendorFolder %>/d3/'
-                    }
-                ]
-            }
+            coverage_client: '.reports/coverage/client',
+            coverage_server: '.reports/coverage/server',
+            test: '.reports/test',
+            jshint: '.reports/jshint',
+            server: '.tmp'
         },
 
-        // image minification
-        imagemin: {
+        // Add vendor prefixed styles
+        autoprefixer: {
             options: {
-                optimizationLevel: 7
+                browsers: ['last 1 version']
             },
-            dynamic: {
+            dist: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= buildDistPublicFolder %>/img/', // Src matches are relative to this path
-                        src: ['**/*.{png,jpg,gif}'],              // Actual patterns to match
-                        dest: '<%= buildDistPublicFolder %>/img/' // Destination path prefix
+                        cwd: '.tmp/styles/',
+                        src: '**/*.css',
+                        dest: '.tmp/styles/'
                     }
                 ]
             }
         },
 
-        /**
-         * Baboon build
-         * The Baboon build process overwrites all configuration settings for concat, html2js,
-         * ngmin, uglify and less outside this range. These tasks can be configured only in this area.
-         */
-        baboon: {
-
-            /**
-             * Builds the templates from baboon.common and client.common.
-             * The Baboon build expanded this configuration with the templates from baboon-client.
-             * In addition, baboon-build expanded this configuration with the application templates.
-             * Baboon-build uses the prefixes bb_ *.
-             */
-            html2js: {
-            },
-
-            /**
-             * The concat configuration overwrite dynamically by baboon-build with the prefixes bb_ *.
-             * Currently you can only adjust the base here. Extending concat is not yet possible.
-             */
-            concat: {
-                /**
-                 * The basis for all applications will be inserted into any application.
-                 * The dest is generated dynamically from baboon build.
-                 * Here is regulated, what all should be included in the application.
-                 */
-                base: {
-                    options: {
-                        banner: '<%= banner %>\n<%= module_prefix %>',
-                        footer: '<%= module_suffix %>'
-                    },
+        // Renames files for browser caching purposes
+        rev: {
+            dist: {
+                files: {
                     src: [
-                        '<%= clientVendorFolder %>/angular-ui-utils/ui-utils.js',
-                        '<%= clientVendorFolder %>/angular-translate/angular-translate.js',
-                        '<%= clientVendorFolder %>/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
+                        '<%= yeoman.dist %>/public/scripts/**/*.js',
+                        '<%= yeoman.dist %>/public/styles/**/*.css',
+                        '<%= yeoman.dist %>/public/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
-            },
-
-            /**
-             * The includes for all applications. The optional includes from app.conf.json are added by baboon-build.
-             * This Includes Angular needed for injection. Use here the correct module name.
-             */
-            includes: {
-                concat: [
-                    'ui.utils',
-                    'pascalprecht.translate'
-                ],
-                system: [
-                    'lib.templates',
-                    'client.templates',
-                    'app.templates'
-                ],
-                modules: [
-                    'lx.alert',
-                    'lx.auth',
-                    'lx.datepicker',
-                    'lx.float',
-                    'lx.integer',
-                    'lx.modal',
-                    'lx.nav',
-                    'lx.session',
-                    'lx.transport',
-                    'lx.socket',
-                    'lx.rest'
-                ]
-            },
-
-            /**
-             * Less configuration skeleton. Baboon-build to insert the application less files.
-             * You can simply insert your configurations here.
-             */
-            less: {
-                debug: {
-                    files: {}
-                },
-                release: {
-                    options: {
-                        yuicompress: true
-                    },
-                    files: {}
-                }
-            },
-
-            /**
-             * ngmin configuration skeleton. Baboon-build is to insert all the javascript files of the application.
-             * You can simply insert your configurations here.
-             */
-            ngmin: {},
-
-            /**
-             * uglify configuration skeleton. Baboon-build is to insert all the javascript files of the application.
-             * You can simply insert your configurations here.
-             */
-            uglify: {
-                target: {
-                    files: {}
-                }
             }
         },
 
-        // commandline
-        bgShell: {
-            e2e: {
-                cmd: 'node test/fixtures/resetDB.js e2e'
-            },
-            setup: {
-                cmd: 'node <%= scriptsFolder %>/setup.js'
-            },
-            coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir <%= buildReportsFolder %>/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
-            },
-            cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root <%= buildReportsFolder %>/coverage/server --dir <%= buildReportsFolder %>/coverage/server cobertura'
-            }
-        },
-
-        // express server
-        express: {
-            dev: {
-                options: {
-                    port: 3000,
-                    script: 'app.js',
-                    delay: 1
-                }
-            },
-            e2e: {
-                options: {
-                    args: ['e2e'],
-                    script: 'app.js'
-                }
-            }
-        },
-
-        // Configuration to be run (and then tested)
-        watch: {
+        // Reads HTML for usemin blocks to enable smart builds that automatically
+        // concat, minify and revision files. Creates configurations in memory so
+        // additional tasks can operate on them
+        useminPrepare: {
+            html: ['<%= yeoman.client %>/app/**/index.html', '<%= yeoman.client %>/common/**/index.html'],
             options: {
-                livereload: 35729,
-                forever: false
-            },
-            client: {
-                files: [
-                    '<%= clientFolder %>/**/*.*',
-                    '!<%= clientFolder %>/**/*.spec.js',
-                    '!<%= clientVendorFolder %>/**/*.*'
-                ],
-                tasks: ['build:watch']
-            },
-            server: {
-                files: [
-                    '<%= serverFolder %>/modules/**/*.*',
-                    '!<%= serverFolder %>/**/*.spec.js',
-                    '<%= configFolder %>/app.conf.json',
-                    '<%= configFolder %>/navigation.js',
-                    'app.js'
-                ],
-                tasks: ['build:rights', 'express:dev', 'wait'],
-                options: {
-                    spawn: false //Without this option specified express won't be reloaded
-                }
+                dest: '<%= yeoman.dist %>/public'
             }
         },
 
-        // open browser
-        open: {
-            browser: {
-                url: '<%= conf.protocol %>://<%= conf.host %>:<%= conf.port %>'
-            },
-            coverageServer: {
-                path: path.join(__dirname, getCoverageReport('build/reports/coverage/server/'))
-            },
-            coverageClient: {
-                path: path.join(__dirname, getCoverageReport('build/reports/coverage/client/'))
+        // Performs rewrites based on rev and the usemin Prepare configuration
+        usemin: {
+            html: ['<%= yeoman.dist %>/views/**/*.html'],
+            css: ['<%= yeoman.dist %>/public/styles/**/*.css'],
+            options: {
+                assetsDirs: ['<%= yeoman.dist %>/public']
             }
         },
 
-        // replacements in app index files
-        replace: {
-            debug: {
-                src: ['<%= buildDistAppFolder %>/**/*.html'],
-                overwrite: true,
-                replacements: [
-                    {from: '<!--@@min-->', to: ''},
-                    {from: '<!--@@livereload-->', to: ''}
-                ]
-            },
-            release: {
-                src: ['<%= buildDistAppFolder %>/**/*.html'],
-                overwrite: true,
-                replacements: [
-                    {from: '<!--@@min-->', to: '.min'},
-                    {from: '<!--@@livereload-->', to: ''}
-                ]
-            },
-            livereload: {
-                src: ['<%= buildDistAppFolder %>/**/*.html'],
-                overwrite: true,
-                replacements: [
-                    {from: '<!--@@min-->', to: ''},
+        // The following *-min tasks produce minified files in the dist folder
+        imagemin: {
+            dist: {
+                files: [
                     {
-                        from: '<!--@@livereload-->',
-                        to: '<script src="<%= conf.protocol %>://<%= conf.host %>:' +
-                            '<%=watch.options.livereload%>/livereload.js?snipver=1"></script>'
+                        expand: true,
+                        cwd: '<%= yeoman.assets %>/images',
+                        src: '**/*.{png,jpg,jpeg,gif}',
+                        dest: '<%= yeoman.dist %>/public/assets/images'
+                    }
+                ]
+            }
+        },
+        svgmin: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.assets %>/images',
+                        src: '**/*.svg',
+                        dest: '<%= yeoman.dist %>/public/assets/images'
+                    }
+                ]
+            }
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    //collapseWhitespace: true,
+                    //collapseBooleanAttributes: true,
+                    //removeCommentsFromCDATA: true,
+                    //removeOptionalTags: true
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.client %>',
+                        src: ['*.html', 'app/**/index.html', 'common/**/index.html'],
+                        dest: '<%= yeoman.dist %>/views'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.client %>',
+                        src: ['app/**/*.html', '!app/**/index.html', 'common/**/*.html', '!common/**/index.html'],
+                        dest: '<%= yeoman.dist %>/views/partials'
                     }
                 ]
             }
         },
 
-        // karma client tests
+        // Allow the use of non-minsafe AngularJS files. Automatically makes it
+        // minsafe compatible so Uglify does not destroy the ng references
+        ngmin: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '.tmp/concat/scripts',
+                        src: '**/*.js',
+                        dest: '.tmp/concat/scripts'
+                    }
+                ]
+            }
+        },
+
+        // Copies remaining files to places other tasks can use
+        copy: {
+            dist: {
+                files: [
+                    {
+
+                        expand: true,
+                        dot: true,
+                        cwd: '<%= yeoman.client %>',
+                        dest: '<%= yeoman.dist %>/public',
+                        src: [
+                            '**/*.{ico,png,txt}',
+                            'assets/bower_components/**/*',
+                            'assets/images/**/*.{webp}'
+
+                        ]
+                    },
+                    {
+                        expand: true,
+                        cwd: '.tmp/images',
+                        dest: '<%= yeoman.dist %>/public/assets/images',
+                        src: ['generated/*']
+                    },
+                    {
+
+                        expand: true,
+                        dot: true,
+                        cwd: '<%= yeoman.client %>/assets',
+                        dest: '<%= yeoman.dist %>/public/styles',
+                        src: [
+                            'fonts/**/*'
+                        ]
+                    }
+                ]
+            },
+            views: {
+                expand: true,
+                cwd: '<%= yeoman.client %>',
+                dest: '.tmp/views/',
+                src: ['*.html', '**/index.html', '!assets/**/*']
+            },
+            locale_dev: {
+                expand: true,
+                cwd: './client/app/',
+                src: '**//__locale/*.json',
+                dest: './.tmp/locale/',
+                rename: function(dest, src) {
+                    var modulePath = src.substring(0, src.indexOf('/__locale'));
+                    return path.resolve(dest, modulePath, path.basename(src));
+                }
+            },
+            locale_pro: {
+                expand: true,
+                cwd: './client/app/',
+                src: '**//__locale//*.json',
+                dest: './.dist/public/locale/',
+                rename: function(dest, src) {
+                    var modulePath = src.substring(0, src.indexOf('/__locale'));
+                    return path.resolve(dest, modulePath, path.basename(src));
+                }
+            }
+        },
+
+        // Run some tasks in parallel to speed up the build process
+        concurrent: {
+            server: [
+                'less',
+                'copy:views'
+            ],
+            dist: [
+                'less',
+                'imagemin',
+                'svgmin',
+                'htmlmin'
+            ]
+        },
+        shell: {
+            protractor: {
+                options: {
+                    stdout: true
+                },
+                command: 'protractor test/e2e.conf.js'
+            }
+        },
+        // Test settings
         karma: {
             unit: {
-                configFile: '<%= configFolder %>/karma.conf.js'
+                configFile: 'test/karma.conf.js',
+                singleRun: true
+            },
+            coverage: {
+                configFile: 'test/karma.coverage.conf.js'
             },
             ci: {
-                configFile: '<%= configFolder %>/karma.conf.js',
+                configFile: 'test/karma.conf.js',
                 reporters: ['mocha', 'junit'],
                 junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/tests/client/karma.xml',
+                    outputFile: '.reports/test/client/karma.xml',
                     suite: 'karma'
                 }
             },
-            debug: {
-                configFile: '<%= configFolder %>/karma.conf.js',
-                detectBrowsers: {
-                    enabled: false
-                },
-                singleRun: false
-            },
-            coverage: {
-                configFile: '<%= configFolder %>/karma.coverage.conf.js'
-            },
             cobertura: {
-                configFile: '<%= configFolder %>/karma.coverage.conf.js',
+                configFile: 'test/karma.coverage.conf.js',
                 coverageReporter: {
                     type: 'cobertura',
-                    dir: '<%= buildReportsFolder %>/coverage/client'
-                }
-            },
-            e2e: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js'
-            },
-            e2e_chrome: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js'
-            },
-            e2e_chrome_canary: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js',
-                browsers: ['ChromeCanary'],
-                junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/jasmine/chrome_canary.xml',
-                    suite: 'ChromeCanary'
-                }
-            },
-            e2e_firefox: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js',
-                browsers: ['Firefox'],
-                junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/jasmine/firefox.xml',
-                    suite: 'Firefox'
-                }
-            },
-            e2e_safari: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js',
-                browsers: ['Safari'],
-                junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/jasmine/safari.xml',
-                    suite: 'Safari'
-                }
-            },
-            e2e_ie: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js',
-                browsers: ['IE'],
-                junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/jasmine/ie.xml',
-                    suite: 'IE'
-                }
-            },
-            e2e_phantom: {
-                configFile: '<%= configFolder %>/karma.e2e.conf.js',
-                browsers: ['PhantomJS'],
-                junitReporter: {
-                    outputFile: '<%= buildReportsFolder %>/jasmine/phantomJS.xml',
-                    suite: 'PhantomJS'
+                    dir: '.reports/coverage/client'
                 }
             }
         },
-
-        // jasmine server tests
         jasmine_node: {
             specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: '<%= testFolder %>',
+            projectRoot: 'test/server',
             requirejs: false,
             forceExit: true,
-            verbose: false,
             jUnit: {
                 report: true,
-                savePath: '<%= buildReportsFolder %>/tests/server/',
+                savePath: './.reports/test/server/',
                 useDotNotation: true,
                 consolidate: true
+            }
+        },
+        bgShell: {
+            coverage: {
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir .reports/coverage/server node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test/server --forceexit'
+            },
+            cobertura: {
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage/server --dir .reports/coverage/server cobertura'
+            },
+            update_webdriver: {
+                cmd: 'node node_modules/protractor/bin/webdriver-manager update',
+                fail: true
+            },
+            protractor: {
+                cmd: 'node node_modules/protractor/bin/protractor test/e2e.conf.js',
+                fail: true
+            },
+            setup: {
+                cmd: 'node scripts/setup.js'
+            }
+        },
+        less: {
+            target: {
+                options: {
+                    paths: ['client/less']
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'client/app',
+                        src: ['**/*.less'],
+                        dest: '.tmp/styles/',
+                        ext: '.css'
+                    }
+                ]
+            }
+        },
+        'merge-locale': {
+            dev: {
+                common: './client/locale*//*.json',
+                src: './.tmp/locale/**//*.json'
+            },
+            pro: {
+                common: './client/locale*//*.json',
+                src: './.dist/public/locale/**//*.json'
+            }
+        },
+        'merge-nav': {
+            nav: {
+                src: './client/app/**//navigation.json',
+                dest: './.dist/navigation.js'
             }
         }
     });
 
-    // Register tasks.
-
-    // baboon build task
-    grunt.registerTask('baboon', 'Baboon build helper.', function (arg1) {
-
-        // release flag
-        var release = false;
-
-        // check release argument
-        if (arg1 === 'release') {
-            grunt.log.writeln('baboon task running in release mode, file minification');
-            release = true;
-        }
-        else {
-            grunt.log.writeln('baboon task running in develop mode, no file minification');
-        }
-
-        // buildHelper
-        var buildHelper = require('../lib/buildHelper')(__dirname, grunt.config.data.baboon);
-
-        // write include files for app
-        lxHelpers.forEach(buildHelper.fileContents, function (value, key) {
-            grunt.file.write('build/tmp/includes/' + key + '.js', value);
+    grunt.registerMultiTask('merge-nav', function() {
+        var ar = [];
+        this.files.forEach(function(file) {
+            file.src.forEach(function (src) {
+                var nav = grunt.file.readJSON(src);
+                ar.push(nav);
+            });
         });
 
-        // append concat, ngmin, uglify and less config
-        grunt.config.data.concat = buildHelper.concatConfig;
-        grunt.config.data.html2js = buildHelper.html2jsConfig;
-        grunt.config.data.ngmin = buildHelper.ngminConfig;
-        grunt.config.data.uglify = buildHelper.uglifyConfig;
-        grunt.config.data.less = buildHelper.lessConfig;
+        ar.sort(function(a, b) {
+            var ao = parseInt(a.order) || 999;
+            var bo = parseInt(b.order) || 999;
+            return ao > bo;
+        });
 
-        // start concat
-        grunt.task.run('html2js');
-        grunt.task.run('concat');
+        var json = [];
+        ar.forEach(function(a) {
+            json.push(JSON.stringify(a, null, '\t'));
+        });
 
-        // if release mode, start ngmin
-        if (release) {
-            grunt.task.run('ngmin');
-            grunt.task.run('uglify');
-            grunt.task.run('less:release');
-        }
-        else {
-            grunt.task.run('less:debug');
+        var content = '\'use strict\';\nmodule.exports = function () {\nreturn [\n';
+        content += json.join(',');
+        content += '\n];\n};';
+
+        grunt.file.write(this.data.dest, content);
+    });
+
+    grunt.registerMultiTask('merge-locale', function () {
+        var sourceFiles = grunt.file.expand(this.data.src);
+        var commonFiles = grunt.file.expand(this.data.common);
+
+        var sort = function (ar) {
+            ar.sort(function (a, b) {
+                return path.basename(a) > path.basename(b);
+            });
+        };
+
+        sort(sourceFiles);
+        sort(commonFiles);
+
+        var commonLocale = null;
+        // saves the common json
+        // because all languages are sorted there is no need to load the same json from file for every same project locale
+        var commonLocaleJSON = null;
+
+        for (var i = 0; i < sourceFiles.length; i++) {
+            var sourceFile = path.basename(sourceFiles[i]);
+
+            if (commonLocale !== sourceFile) {
+                for (var j = 0; j < commonFiles.length; j++) {
+                    var commonFile = path.basename(commonFiles[j]);
+                    if (commonFile === sourceFile) {
+                        commonLocale = commonFile;
+                        commonLocaleJSON = grunt.file.readJSON(commonFiles[j]);
+                        break;
+                    }
+                }
+            }
+
+            var sourceLocaleJSON = grunt.file.readJSON(sourceFiles[i]);
+            // deep copy to keep the common json object
+            var commonTemp = grunt.util._.extend({}, commonLocaleJSON);
+            var json = grunt.util._.extend(commonTemp, sourceLocaleJSON);
+            grunt.file.write(sourceFiles[i], JSON.stringify(json, null, '\t'));
         }
     });
 
-    // task that simply waits for 1 second, usefull for livereload
-    grunt.registerTask('wait', function () {
-        grunt.log.ok('Waiting...');
-
-        var done = this.async();
-
-        setTimeout(function () {
-            grunt.log.writeln('Done waiting!');
-            done();
-        }, 2000);
+    grunt.registerTask('express-keepalive', 'Keep grunt running', function () {
+        this.async();
     });
 
-    grunt.registerTask('build:rights', [
+    grunt.registerTask('setup', [
         'bgShell:setup'
     ]);
-    grunt.registerTask('build:client', [
-        'clean:dist',
-        'clean:tmp',
-        'copy',
-        'baboon',
-        'replace:debug'
-    ]);
+
+    // build productive version
     grunt.registerTask('build', [
-        'build:rights',
-        'build:client'
-    ]);
-    grunt.registerTask('build:watch', [
         'clean:dist',
-        'clean:tmp',
-        'copy',
-        'baboon',
-        'replace:livereload'
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'concat',
+        'ngmin',
+        'copy:dist',
+        'cssmin',
+        'uglify',
+        'rev',
+        'usemin',
+        'copy:locale_pro',
+        'merge-locale:pro',
+        'merge-nav:nav',
+        'setup'
     ]);
-    grunt.registerTask('build:deploy', [
-        'clean:dist',
-        'clean:tmp',
-        'copy',
-        'imagemin',
-        'baboon:release',
-        'build:rights',
-        'replace:release'
+
+    // build development version
+    grunt.registerTask('build:dev', [
+        'clean:server',
+        'concurrent:server',
+        'autoprefixer',
+        'copy:locale_dev',
+        'merge-locale:dev',
+        'merge-nav:nav'
     ]);
-    grunt.registerTask('lint', [
-        'jshint:test'
+
+    grunt.registerTask('serve', function (target) {
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'express:prod', 'open:server', 'express-keepalive']);
+        }
+
+        return grunt.task.run([
+            'build:dev',
+            'express:dev',
+            'wait',
+            'open:server',
+            'watch'
+        ]);
+    });
+
+    grunt.registerTask('server', function () {
+        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+        grunt.task.run(['serve']);
+    });
+
+    // all tests
+    grunt.registerTask('test', [
+        'clean:test',
+        'newer:jshint:test',
+        'karma:unit',
+        'jasmine_node'
     ]);
-    grunt.registerTask('test:unit', [
-        'clean:jasmine',
-        'clean:tmp',
-        'baboon:html2js',
-        'jshint:test',
-        'jasmine_node',
-        'karma:unit'
-    ]);
-    grunt.registerTask('debug', [
-        'karma:debug'
-    ]);
+
+    // client tests
     grunt.registerTask('test:client', [
-        'clean:tmp',
-        'baboon:html2js',
-        'jshint:test',
+        'clean:test',
+        'newer:jshint:test_client',
         'karma:unit'
     ]);
+
+    // server tests
+    grunt.registerTask('test:server', [
+        'clean:test',
+        'newer:jshint:test_server',
+        'jasmine_node'
+    ]);
+
+    // coverage all
+    grunt.registerTask('cover', [
+        'clean:test',
+        'clean:coverage_client',
+        'clean:coverage_server',
+        'karma:coverage',
+        'bgShell:coverage',
+        'open:coverageClient',
+        'open:coverageServer'
+    ]);
+
+    // coverage client
     grunt.registerTask('cover:client', [
-        'clean:coverageClient',
-        'clean:tmp',
-        'baboon:html2js',
-        'jshint:test',
+        'clean:test',
+        'clean:coverage_client',
         'karma:coverage',
         'open:coverageClient'
     ]);
-    grunt.registerTask('test:server', [
-        'clean:jasmine',
-        'jshint:test',
-        'jasmine_node'
-    ]);
+
+    // coverage server
     grunt.registerTask('cover:server', [
-        'clean:coverageServer',
-        'jshint:test',
+        'clean:test',
+        'clean:coverage_server',
         'bgShell:coverage',
         'open:coverageServer'
     ]);
-    grunt.registerTask('cover', [
-        'clean:coverageServer',
-        'clean:coverageClient',
-        'clean:tmp',
-        'baboon:html2js',
-        'jshint:test',
-        'bgShell:coverage',
-        'karma:coverage',
-        'open:coverageServer',
-        'open:coverageClient'
-    ]);
-    grunt.registerTask('e2e', [
-        'jshint:test',
-        'bgShell:e2e',
-        'build',
-        'express:e2e',
-        'karma:e2e'
-    ]);
-    grunt.registerTask('e2e:all', [
-        'jshint:test',
-        'bgShell:e2e',
-        'build',
-        'express:e2e',
-        'karma:e2e_chrome',
-        'bgShell:e2e',
-        'karma:e2e_firefox',
-        'bgShell:e2e',
-        'karma:e2e_chrome_canary',
-        'bgShell:e2e',
-        'karma:e2e_phantom',
-        'bgShell:e2e',
-        'karma:e2e_safari',
-        'bgShell:e2e',
-        'karma:e2e_ie'
-    ]);
-    grunt.registerTask('e2e:release', [
-        'jshint:test',
-        'bgShell:e2e',
-        'build:deploy',
-        'express:e2e',
-        'karma:e2e'
-    ]);
-    grunt.registerTask('test', [
-//        'bgShell:e2e',
-        'clean:jasmine',
-        'clean:tmp',
-        'jshint:test',
-        'jasmine_node',
-        'build',
-        'karma:unit'
-        //'express:e2e',
-        //'karma:e2e'
-    ]);
-    grunt.registerTask('test:release', [
-        'bgShell:e2e',
-        'clean:jasmine',
-        'clean:tmp',
-        'jshint:test',
-        'jasmine_node',
-        'build:deploy',
-        'karma:unit'
-        //'express:e2e',
-        //'karma:e2e'
-    ]);
-    grunt.registerTask('server', [
-        'build:rights',
-        'build:watch',
-        'express:dev',
-        'wait',
-        'open:browser',
-        'watch'
-    ]);
+
+    // test and coverage for ci
     grunt.registerTask('ci', [
-        'clean',
-        'build',
+        'clean:test',
+        'clean:coverage_server',
+        'clean:coverage_client',
+        'clean:jshint',
         'jshint:jslint',
         'jshint:checkstyle',
         'jasmine_node',
@@ -779,6 +686,37 @@ module.exports = function (grunt) {
         'karma:cobertura'
     ]);
 
-    // Default task.
-    grunt.registerTask('default', ['build']);
+    // test scenarios
+    grunt.registerTask('e2e', [
+        'bgShell:update_webdriver',
+        'build:dev',
+        'express:e2e',
+        'bgShell:protractor'
+    ]);
+
+    // test scenarios production mode
+    grunt.registerTask('e2e:dist', [
+        'bgShell:update_webdriver',
+        'build',
+        'express:e2e_prod',
+        'bgShell:protractor'
+    ]);
+
+    // test all and build productive version
+    grunt.registerTask('default', [
+        'test',
+        'build'
+    ]);
+
+    // task that simply waits for 1 second, usefull for livereload
+    grunt.registerTask('wait', function () {
+        grunt.log.ok('Waiting...');
+
+        var done = this.async();
+
+        setTimeout(function () {
+            grunt.log.writeln('Done waiting!');
+            done();
+        }, 1000);
+    });
 };

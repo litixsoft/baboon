@@ -1,0 +1,15 @@
+{
+    "title": "DEMO",
+    "route": "/demo",
+    "controller": "app/demo/*",
+    "app": "demo",
+    "children": [
+        {
+           "title": "ENTERPRISE",
+           "route": "/demo/enterprise",
+           "controller": "app/demo/enterprise/enterprise",
+           "app": "demo"
+        }
+    ],
+    "order": "1"
+}

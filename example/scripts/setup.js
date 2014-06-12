@@ -1,15 +1,13 @@
 'use strict';
 
-var grunt = require('grunt'),
-    path = require('path'),
-    async = require('async'),
-    lxHelpers = require('lx-helpers'),
-    rootPath = path.resolve(),
-    config = require('../../lib/config.js')(rootPath),
-    logging = require('../../lib/logging.js')(config),
-    rights = require('../../lib/rights.js')(config, logging);
+var path = require('path');
+var config = require('../../lib/config')(path.join(__dirname, '../'), {config: 'production'});
+var loggers = require('../../lib/logging')(config);
+var rights = require('../../lib/rights.js')(config, loggers);
+var grunt = require('grunt');
 
 grunt.log.ok('Start setup script for baboon example app.');
+grunt.log.ok('config.rights.enabled: ' + config.rights.enabled);
 
 function finalCallback (error) {
     if (error) {
@@ -21,87 +19,8 @@ function finalCallback (error) {
     process.exit(0);
 }
 
-// create default system users
-rights.ensureThatDefaultSystemUsersExists(function (error) {
-    if (error) {
-        finalCallback(error);
-        return;
-    }
-
-    grunt.log.ok('rights: All system users are there.');
-
-    if (config.useRightsSystem) {
-        // create/refresh rights in db
-        rights.refreshRightsIdDb(function (error) {
-            if (error) {
-                finalCallback(error);
-                return;
-            }
-
-            grunt.log.ok('rights: All rights are stored in db.');
-
-            // add roles to users
-            var repo = rights.getRepositories();
-            repo.roles.find({}, {fields: ['_id', 'name']}, function (error, result) {
-                if (error) {
-                    finalCallback(error);
-                    return;
-                }
-
-                var roles = {};
-
-                result.forEach(function (role) {
-                    roles[role.name] = role._id;
-                });
-
-                repo.users.find({name: { $in: ['admin', 'guest']}}, {fields: ['_id', 'name', 'roles']}, function (error, result) {
-                    if (error) {
-                        finalCallback(error);
-                        return;
-                    }
-
-                    async.eachSeries(result, function (user, next) {
-                        var roleExists = false;
-                        user.roles = user.roles || [];
-
-                        if (user.name === 'admin') {
-                            lxHelpers.forEach(user.roles, function (role) {
-                                if (role.toString() === roles.Admin.toString()) {
-                                    roleExists = true;
-                                    return false;
-                                }
-                            });
-
-                            if (!roleExists && roles.Admin) {
-                                user.roles.push(roles.Admin);
-
-                                repo.users.update({_id: user._id}, {$set: user}, next);
-                            } else {
-                                next();
-                            }
-                        } else if (user.name === 'guest') {
-                            lxHelpers.forEach(user.roles, function (role) {
-                                if (role.toString() === roles.Guest.toString()) {
-                                    roleExists = true;
-                                    return false;
-                                }
-                            });
-
-                            if (!roleExists && roles.Guest) {
-                                user.roles.push(roles.Guest);
-
-                                repo.users.update({_id: user._id}, {$set: user}, next);
-                            } else {
-                                next();
-                            }
-                        } else {
-                            next();
-                        }
-                    }, finalCallback);
-                });
-            });
-        });
-    } else {
-        finalCallback();
-    }
+rights.ensureThatDefaultSystemUsersExists(function () {
+    rights.refreshRightsIdDb(function () {
+        finalCallback(null);
+    });
 });

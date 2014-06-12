@@ -1,18 +1,14 @@
 'use strict';
 
 module.exports = function (grunt) {
-    var path = require('path'),
-        fs = require('fs'),
-        gitHooksScriptFolder = path.join('example', 'scripts', 'git-hooks'),
-        gitHooksPath = path.join('.git', 'hooks'),
-        gitHooks = ['post-merge'];
+    var path = require('path');
 
     /**
      * Gets the index.html file from the code coverage folder.
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport (folder) {
+    function getCoverageReport(folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
@@ -25,98 +21,135 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+
     // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        jshint_files_to_test: ['Gruntfile.js', 'lib/**/*.js', 'lib_client/directives/**/*.js',
-            'lib_client/services/**/*.js', 'lib_client/module/**/*.js', 'test/**/*.js'],
+
+        // Project settings
+        yeoman: {
+            jshint: {
+                files: [
+                    'lib/**/*.js',
+                    'test/**/*.js',
+                    'Gruntfile.js'
+                ]
+            }
+        },
         clean: {
-            jasmine: ['build/reports/tests', 'build/tmp'],
-            lint: ['build/reports/lint'],
-            coverage: ['build/reports/coverage', 'build/tmp']
+            jasmine: ['.reports/test', '.tmp'],
+            lint: ['.reports/lint'],
+            coverage: ['.reports/coverage', '.tmp'],
+            ci: ['.reports', '.tmp']
         },
         jshint: {
             options: {
-                jshintrc: true
+                jshintrc: true,
+                reporter: require('jshint-stylish')
             },
-            test: '<%= jshint_files_to_test %>',
+            test: '<%= yeoman.jshint.files %>',
             jslint: {
                 options: {
                     reporter: 'jslint',
-                    reporterOutput: 'build/reports/lint/jshint.xml'
+                    reporterOutput: '.reports/lint/jshint.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             },
             checkstyle: {
                 options: {
                     reporter: 'checkstyle',
-                    reporterOutput: 'build/reports/lint/jshint_checkstyle.xml'
+                    reporterOutput: '.reports/lint/jshint_checkstyle.xml'
                 },
                 files: {
-                    src: '<%= jshint_files_to_test %>'
+                    src: '<%= yeoman.jshint.files %>'
                 }
             }
         },
         bgShell: {
             coverage: {
-                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir build/reports/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test/lib --forceexit'
+                cmd: 'node node_modules/istanbul/lib/cli.js cover --dir .reports/coverage node_modules/grunt-jasmine-node/node_modules/jasmine-node/bin/jasmine-node -- test --forceexit'
             },
             cobertura: {
-                cmd: 'node node_modules/istanbul/lib/cli.js report --root build/reports/coverage --dir build/reports/coverage cobertura'
+                cmd: 'node node_modules/istanbul/lib/cli.js report --root .reports/coverage --dir .reports/coverage cobertura'
             }
         },
         open: {
             coverage: {
-                path: path.join(__dirname, getCoverageReport('build/reports/coverage/'))
+                path: function () {
+                    return path.join(__dirname, getCoverageReport('.reports/coverage/'));
+                }
             }
         },
         jasmine_node: {
-            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'test/lib',
-            requirejs: false,
-            forceExit: true,
-            verbose: false,
-            jUnit: {
-                report: true,
-                savePath: './build/reports/tests/',
-                useDotNotation: true,
-                consolidate: true
+            options: {
+                specNameMatcher: './*.spec', // load only specs containing specNameMatcher
+                requirejs: false,
+                forceExit: true
+            },
+            test: ['test/'],
+            ci: {
+                options: {
+                    jUnit: {
+                        report: true,
+                        savePath: '.reports/test/',
+                        useDotNotation: true,
+                        consolidate: true
+                    }
+                },
+                src: ['test/']
+            }
+        },
+        changelog: {
+            options: {
+            }
+        },
+        bump: {
+            options: {
+                updateConfigs: ['pkg'],
+                commitFiles: ['-a'],
+                commitMessage: 'chore: release v%VERSION%',
+                push: false
+            }
+        },
+        subgrunt: {
+            docs: {
+                projects: {
+                    'docs/': 'build'
+                }
+            },
+            docsserve: {
+                projects: {
+                    'docs/': 'serve'
+                }
             }
         }
     });
 
-    // Register tasks.
-    grunt.registerTask('git:registerHooks', 'Install git hooks', function () {
-        gitHooks.forEach(function (hook) {
-            var src = path.join(gitHooksScriptFolder, hook),
-                dest = path.join(gitHooksPath, hook.replace('.js', ''));
+    grunt.loadNpmTasks('grunt-subgrunt');
 
-            grunt.file.copy(src, dest);
-            fs.chmodSync(dest, '0755');
-
-            grunt.log.ok('Registered git hook %s.', dest);
-        });
+    grunt.registerTask('git:commitHook', 'Install git commit hook', function () {
+        grunt.file.copy('validate-commit-msg.js', '.git/hooks/commit-msg');
+        require('fs').chmodSync('.git/hooks/commit-msg', '0755');
+        grunt.log.ok('Registered git hook: commit-msg');
     });
 
-    grunt.registerTask('git:removeHooks', 'Remove git hooks', function () {
-        gitHooks.forEach(function (hook) {
-            var dest = path.join(gitHooksPath, hook.replace('.js', ''));
-
-            if (grunt.file.exists(dest)) {
-                grunt.file.delete(dest);
-                grunt.log.ok('Removed git hook %s.', dest);
-            } else {
-                grunt.log.ok('Git hook %s was already removed.', dest);
-            }
-        });
-    });
-
+    grunt.registerTask('doc', ['subgrunt:docs']);
+    grunt.registerTask('doc:serve', ['subgrunt:docsserve']);
     grunt.registerTask('lint', ['jshint:test']);
-    grunt.registerTask('test', ['clean:jasmine', 'jshint:test', 'jasmine_node']);
+    grunt.registerTask('test', ['git:commitHook', 'clean:jasmine', 'jshint:test', 'jasmine_node:test']);
     grunt.registerTask('cover', ['clean:coverage', 'jshint:test', 'bgShell:coverage', 'open:coverage']);
-    grunt.registerTask('ci', ['clean', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('ci', ['clean:ci', 'jshint:jslint', 'jshint:checkstyle', 'jasmine_node:ci', 'bgShell:coverage', 'bgShell:cobertura']);
+    grunt.registerTask('release', 'Bump version, update changelog and tag version', function (version) {
+        grunt.task.run([
+                'bump:' + (version || 'patch') + ':bump-only',
+            'changelog',
+            'bump-commit'
+        ]);
+    });
 
     // Default task.
     grunt.registerTask('default', ['test']);

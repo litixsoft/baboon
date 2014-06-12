@@ -1,0 +1,110 @@
+.bbc-checkbox{border:1px solid black;background:white;border-radius:4px;width:20px;height:20px;display:inline-block;margin:0;padding:0 2px;cursor:default}.bbc-checkbox span{height:14px;margin:0;padding:0}.bbc-checkbox.disabled{border:1px solid #545454;background:lightgray;color:#545454;cursor:not-allowed}.bbc-radio{display:inline-block;padding-right:10px}.bbc-radio>.radio-button{display:inline-block;width:15px;height:15px;border:1px solid #b9b9b9;border-radius:50%}.bbc-radio>.radio-button>input[type=radio]{display:none}.bbc-radio>.title{display:inline-block;position:relative;top:-1px;margin-left:5px}.bbc-radio>.title>label{display:inline-block;padding-top:-5px;font-weight:normal}.bbc-radio>.radio-button>input[type=radio]+label span{display:inline-block;position:relative;top:-0.27em;left:0.16em;border-radius:50%}.bbc-radio>.radio-button>input[type=radio]:checked+label span{background-color:#000}.bbc-radio>.radio-button>label>span.radio-checked{display:inline-block;width:9px;height:9px}.has-error .input-group-btn .btn{border-left-color:#D43F3A}.has-error .input-group-btn .btn:hover,.has-error .input-group-btn .btn:focus,.has-error .input-group-btn .btn:active,.has-error .input-group-btn .btn.active{border-left-color:#ac2925}.form-group.has-error .bbcvalidation div[bbc-datepicker]+label.label-danger{right:auto;left:110px}.bbc-datepicker-frame{display:inline;position:relative}.bbc-datepicker{background:#fcfcfc;background:-moz-linear-gradient(top, #fcfcfc 0%, #eeeeee 100%);background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#eeeeee));background:-webkit-linear-gradient(top, #fcfcfc 0%, #eeeeee 100%);background:-o-linear-gradient(top, #fcfcfc 0%, #eeeeee 100%);background:-ms-linear-gradient(top, #fcfcfc 0%, #eeeeee 100%);background:linear-gradient(to bottom, #fcfcfc 0%, #eeeeee 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fcfcfc', endColorstr='#00eeeeee', GradientType=0 );border-radius:7px;box-shadow:0 1px 17px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.5);text-align:center;padding:0 15px;width:550px;position:absolute;top:40px;left:0;z-index:9999}.bbc-datepicker .bbc-datepicker-body{padding:20px 0;-moz-user-select:-moz-none;-khtml-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year{border-right:1px solid rgba(255,255,255,0.5);height:228px;padding:50px 0;position:relative;overflow:hidden;float:left;width:75px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year ul{list-style-type:none;padding:0;margin:auto 0}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year .bbc-datepicker-year-btn{position:absolute;font-size:24px;left:50%;margin-left:-10px;width:24px;height:24px;color:rgba(0,0,0,0.6)}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year .bbc-datepicker-year-btn:hover{cursor:pointer;color:rgba(0,0,0,0.3)}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year .bbc-datepicker-year-btn.year-up{top:0}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year .bbc-datepicker-year-btn.year-down{bottom:3px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year .bbc-datepicker-year-container{display:block;height:100%;width:120%;overflow-x:hidden;overflow-y:scroll;font-size:17px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-month{border-right:1px solid rgba(255,255,255,0.5);border-left:1px solid rgba(0,0,0,0.1);padding:0 5px;float:left;width:91px;max-width:91px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-month ul{list-style-type:none;padding:0 8px;margin:auto 0;font-size:0.928em;line-height:19px;text-align:left}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day{border-left:1px solid rgba(0,0,0,0.1);float:left;padding:0 30px 0 45px;position:relative}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .bbc-datepicker-month-btn{cursor:pointer;font-size:24px;color:rgba(0,0,0,0.6);position:absolute;top:50%}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .bbc-datepicker-month-btn:hover{color:rgba(0,0,0,0.3)}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .bbc-datepicker-month-btn.month-down{left:10px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .bbc-datepicker-month-btn.month-up{right:10px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day table{width:95%;text-align:center}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day table thead th{text-align:center;width:37px;padding-bottom:15px}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day table thead th:first-child{padding-right:20px;text-align:left}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day table tbody td:first-child{text-align:left}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .btn.btn-default.other{background:#ddd;color:#777}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-day .btn.btn-default.today:not(.btn-primary){background-color:rgba(0,255,0,0.1)}.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-year ul li:hover,.bbc-datepicker .bbc-datepicker-body .bbc-datepicker-month ul li:hover{font-weight:bold;cursor:pointer}.bbc-datepicker .bbc-datepicker-body .active{font-weight:bold;color:#428BCA}.bbc-datepicker .bbc-datepicker-footer{margin-top:10px;background:rgba(0,0,0,0.05);border-radius:0 0 7px 7px}.bbc-datepicker .bbc-datepicker-footer .bbc-datepicker-btn{margin:5px 17px 5px 0}.bbc-datepicker .bbc-datepicker-close-btn{font-size:19px;color:rgba(0,0,0,0.2);position:absolute;right:5px;top:5px;cursor:pointer}.bbc-datepicker .bbc-datepicker-close-btn:hover{color:rgba(0,0,0,0.6)}.right-inner-addon{position:relative}.right-inner-addon input{padding-right:30px}.right-inner-addon span{position:absolute;right:8px;padding:10px 12px;color:#C0C0C0;cursor:pointer}.right-inner-addon span:hover{color:#428bca}.btn-toolbar.bbc-pager{display:inline}.btn-toolbar.bbc-pager,.btn-toolbar.bbc-pager .btn-group{margin:0}.btn-toolbar.bbc-pager .btn-group input,.btn-toolbar.bbc-pager .btn-group select,.btn-toolbar.bbc-pager .btn-group .btn{border-radius:0}.btn-toolbar.bbc-pager .count-control{width:60px}.btn-toolbar.bbc-pager .btn.btn-default.count-number[disabled=disabled]{background:#dddddd;border:0;border-top:1px solid #aaa;border-bottom:1px solid #aaa}.btn-toolbar.bbc-pager .btn-group:last-child .btn:last-child{border-radius:0 4px 4px 0}.btn-toolbar.bbc-pager .btn-group:first-child select:first-child,.btn-toolbar.bbc-pager .btn-group:first-child .btn:first-child{border-radius:4px 0 0 4px}.btn-toolbar.bbc-pager select.form-control{padding:6px}body{padding-top:50px;padding-bottom:20px}.navigation{margin-top:1em}.sent{color:darkgreen}.response{color:darkblue}.events{color:lightcoral}.error{color:red}.header img{max-height:40px;padding-right:20px;margin-top:5px}.header img+.brand{padding:10px 20px 10px 10px}#singlepageFrame{padding-top:20px}ul.nav-tabs li a:hover{cursor:pointer}
+
+h1{
+    font-size:27px;
+    font-weight:bold;
+    color:#428BCA;
+}
+hr{
+    margin-bottom: 40px;
+}
+.navbar-inverse{
+    border:none;
+    border-bottom:3px solid rgba(255,255,255,1.0);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+}
+.navbar-inverse .navbar-brand{
+    font-size:30px;
+    font-weight:bold;
+    padding: 13px 25px 13px 12px;
+    color:white;
+}
+ul.nav.nav-pills.nav-stacked > li > .link-container{
+    background:rgba(0,0,0,0.1);
+    color:#428BCA;
+    border-radius: 4px;
+    padding:10px 15px;
+    position: relative;
+}
+ul.nav.nav-pills.nav-stacked > li > .link-container > .opener {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 200;
+}
+ul.nav.nav-pills.nav-stacked > li > .link-container > a{
+    margin-right: 30px;
+    display:block;
+}
+
+ul.nav.nav-pills.nav-stacked > li.active > .link-container{
+    background:#428BCA;
+}
+ul.nav.nav-pills.nav-stacked > li.active > .link-container >.opener{
+    color: rgba(255,255,255,0.4);
+}
+ul.nav.nav-pills.nav-stacked > li.active > .link-container > a{
+    color:white;
+}
+ul.nav.nav-pills.nav-stacked ul li a{
+    color:#555;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    display: block;
+    padding: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ul.nav.nav-pills.nav-stacked ul li:last-child a{
+    border-bottom: none;
+}
+.nav-tabs {
+    border-bottom: none;
+}
+.well{
+    box-shadow:none;
+    border-radius: 0 4px 4px 4px;
+}
+.bs-example {
+    margin-left: 0;
+    margin-right: 0;
+    border:1px solid #ddd;
+    border-radius: 4px 4px;
+    box-shadow: none;
+    padding:10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.bs-example:after {
+    content: "Parameter";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 10px;
+    color: #ddd;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.bs-example table{
+    margin-bottom: 0;
+}
+
+.label.label-info.radius.ctx-type{
+    margin-right:10px;
+}
+span.glyphicon.glyphicon-arrow-right{
+    margin:8px;
+}
+h2{
+    font-size: 20px;
+    font-weight: bold;
+    color: #444;
+}
+.text-overflow{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
