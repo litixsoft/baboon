@@ -22,9 +22,7 @@ module.exports = function (config) {
             'client/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'client/assets/bower_components/angular-translate/angular-translate.js',
             'client/assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-            'client/assets/bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js',
-            'client/assets/bower_components/highlightjs/highlight.pack.js',
-            'client/assets/bower_components/angular-highlightjs/angular-highlightjs.js',
+            'client/assets/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
             'client/assets/bower_components/angular-socket-io/socket.js',
             'client/assets/bower_components/baboon-client/modules/navigation/navigation.js',
             'client/assets/bower_components/baboon-client/modules/**/*.js',
@@ -43,10 +41,8 @@ module.exports = function (config) {
         // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
         logLevel: config.LOG_INFO,
 
-
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: false,
-
 
         // Start these browsers, currently available:
         // - Chrome
@@ -57,7 +53,6 @@ module.exports = function (config) {
         // - PhantomJS
         // - IE (only Windows)
         browsers: ['Chrome'],
-
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

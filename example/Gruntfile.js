@@ -434,15 +434,22 @@ module.exports = function (grunt) {
             }
         },
         jasmine_node: {
-            specNameMatcher: './*.spec', // load only specs containing specNameMatcher
-            projectRoot: 'test/server',
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: true,
-                savePath: './.reports/test/server/',
-                useDotNotation: true,
-                consolidate: true
+            options: {
+                specNameMatcher: 'spec', // load only specs containing specNameMatcher
+                requirejs: false,
+                forceExit: true
+            },
+            test: ['test/server/'],
+            ci: {
+                options: {
+                    jUnit: {
+                        report: true,
+                        savePath: './.reports/test/server/',
+                        useDotNotation: true,
+                        consolidate: true
+                    }
+                },
+                src: ['test/server/']
             }
         },
         bgShell: {
@@ -626,7 +633,7 @@ module.exports = function (grunt) {
         'clean:test',
         'newer:jshint:test',
         'karma:unit',
-        'jasmine_node'
+        'jasmine_node:test'
     ]);
 
     // client tests
@@ -640,7 +647,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test:server', [
         'clean:test',
         'newer:jshint:test_server',
-        'jasmine_node'
+        'jasmine_node:test'
     ]);
 
     // coverage all
@@ -678,7 +685,7 @@ module.exports = function (grunt) {
         'clean:jshint',
         'jshint:jslint',
         'jshint:checkstyle',
-        'jasmine_node',
+        'jasmine_node:ci',
         'bgShell:coverage',
         'bgShell:cobertura',
         'karma:ci',

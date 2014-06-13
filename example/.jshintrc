@@ -11,7 +11,6 @@
     "newcap": true,
     "noarg": true,
     "quotmark": "single",
-    "regexp": true,
     "undef": true,
     "unused": true,
     "strict": true,
@@ -31,8 +30,6 @@
         "jasmine": false,
         "spyOn": false,
         "element": false,
-        "by": false,
-        "runs": false,
-        "waitsFor": false
+        "by": false
     }
 }

@@ -14,8 +14,7 @@ angular.module('main', [
         'main.home',
         'main.about',
         'main.contact',
-        'common.auth',
-        'hljs'
+        'common.auth'
     ])
     .config(function ($routeProvider, $locationProvider, $bbcNavigationProvider, $translateProvider, tmhDynamicLocaleProvider, $bbcTransportProvider) {
 
