@@ -108,7 +108,6 @@ module.exports = function (grunt) {
         },
         bump: {
             options: {
-                updateConfigs: ['pkg'],
                 commitFiles: ['.'],
                 commitMessage: 'chore: release v%VERSION%',
                 push: false
