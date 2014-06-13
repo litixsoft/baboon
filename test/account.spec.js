@@ -23,6 +23,7 @@ describe('Account', function () {
         }
 
         spyOn(appMock.logging.syslog, 'info');
+        spyOn(appMock.logging.syslog, 'error');
     });
 
     it('should be initialized correctly', function () {
