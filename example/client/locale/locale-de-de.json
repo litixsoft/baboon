@@ -1,7 +1,5 @@
 {
     "CANCEL": "abbrechen",
-    "SAVE": "speichern",
-    "RESET": "zurücksetzen",
     "APP_HEADER": "Baboon-Beispiel-Anwendung",
     "HOME": "Start",
     "LOCALE": "Lokalisierung",
