@@ -6,13 +6,13 @@
         <div class="form-group">
             <label class="col-lg-3 control-label">{{ 'LANGUAGE' | translate }}</label>
             <div class="col-lg-9">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle">
                         <img style="height: 20px;" ng-src="{{ lxForm.model.language.flagURL }}"/> {{ lxForm.model.language }}&nbsp;&nbsp;<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li ng-class="{active: lxForm.model.language === lang.code}" ng-repeat="lang in languages track by lang.code">
-                            <a href="#" ng-click="lxForm.model.language = lang.code"><img style="width: 30px;" ng-src="{{ lang.flagURL }}"/>&nbsp;&nbsp;{{ lang.name | translate}}</a>
+                            <a dropdown-toggle style="cursor: pointer;" ng-click="lxForm.model.language = lang.code"><img style="width: 30px;" ng-src="{{ lang.flagURL }}"/>&nbsp;&nbsp;{{ lang.name | translate}}</a>
                         </li>
                     </ul>
                 </div>
@@ -22,13 +22,13 @@
         <div class="form-group">
             <label class="col-lg-3 control-label">Test</label>
             <div class="col-lg-9">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle">
                         {{ lxForm.model.test }}&nbsp;&nbsp;<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li ng-repeat="te in test">
-                            <a href="#" ng-click="lxForm.model.test = te">{{ te }}</a>
+                            <a dropdown-toggle style="cursor: pointer;" ng-click="lxForm.model.test = te">{{ te }}</a>
                         </li>
                     </ul>
                 </div>
@@ -37,8 +37,8 @@
         <!--<div class="form-group">-->
             <!--<label class="col-lg-3 control-label">{{ 'DEFAULT_VIEW' | translate }}</label>-->
             <!--<div class="col-lg-9">-->
-                <!--<div class="btn-group">-->
-                    <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
+                <!--<div class="btn-group" dropdown>-->
+                    <!--<button type="button" class="btn btn-default dropdown-toggle">-->
                         <!--<i ng-class="lxForm.model.default_view.cssClass"></i>&nbsp;&nbsp; {{ lxForm.model.default_view.name | translate }}&nbsp;&nbsp;<span class="caret"></span>-->
                     <!--</button>-->
                     <!--<ul class="dropdown-menu">-->

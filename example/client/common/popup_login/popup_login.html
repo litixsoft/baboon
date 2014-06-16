@@ -1,14 +1,18 @@
 <div ng-controller="CommonAuthLoginCtrl">
-    <div class="btn-group pull-right" ng-if="isLoggedIn || !rightSystem">
+    <div class="btn-group pull-right" ng-if="isLoggedIn || !rightSystem" dropdown>
         <button type="button" class="btn btn-success">{{ userName }}</button>
-        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-success dropdown-toggle">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu" role="menu">
-            <li><a ng-href="" ng-click="editSettings()">{{ 'SETTINGS' | translate}}</a></li>
+            <li>
+                <a style="cursor: pointer;" dropdown-toggle ng-href="" ng-click="editSettings()">{{ 'SETTINGS' | translate}}</a>
+            </li>
             <li class="divider" ng-if="rightSystem"></li>
-            <li ng-if="rightSystem"><a ng-href="/api/auth/logout" target="_self">Logout</a></li>
+            <li ng-if="rightSystem">
+                <a ng-href="/api/auth/logout" target="_self">Logout</a>
+            </li>
         </ul>
     </div>
 

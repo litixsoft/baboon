@@ -36,14 +36,14 @@
                     <div class="pull-right" ng-include="'common/popup_login/popup_login.html'"></div>
 
                     <div class="flag-area pull-right">
-                        <div class="btn-group dark-select">
-                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <div class="btn-group dark-select" dropdown>
+                            <button class="btn btn-default dropdown-toggle">
                                 {{ 'LANGUAGE_SELECT' | translate }}&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" width="48px" height="48px" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
-                                    <a ng-href="" ng-click="switchLocale('en-us')"><img src="assets/images/flag-usa48.png" width="48px" height="48px" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
+                                    <a dropdown-toggle ng-href="" ng-click="switchLocale('de-de')"><img src="assets/images/flag-germany48.png" width="48px" height="48px" title="Sprachauswahl: deutsche Sprache auswählen!"/>&nbsp;&nbsp;Deutsch</a>
+                                    <a dropdown-toggle ng-href="" ng-click="switchLocale('en-us')"><img src="assets/images/flag-usa48.png" width="48px" height="48px" title="Language selection: select english language!"/>&nbsp;&nbsp;English</a>
                                 </li>
                             </ul>
                         </div>
