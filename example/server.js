@@ -6,7 +6,6 @@ var rootPath = __dirname;
 var baboon = require('../lib/baboon')(rootPath);
 var routes = require('./server/routes')(baboon);
 
-
 // Express
 var app = express();
 
@@ -23,5 +22,4 @@ var io = require('socket.io').listen(server);
 require('../lib/config/socket-io')(io, baboon);
 
 // Expose app
-var exports;
-exports = module.exports = app;
+module.exports = app;

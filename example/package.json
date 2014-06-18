@@ -1,7 +1,7 @@
 {
     "name": "baboon-example",
     "description": "Reference and sample application for the Baboon Webtoolkit.",
-    "version": "0.4.0",
+    "version": "0.4.2",
     "homepage": "https://github.com/litixsoft/baboon-example",
     "author": {
         "name": "Litixsoft GmbH",
@@ -43,7 +43,7 @@
         "grunt-contrib-htmlmin": "^0.3.0",
         "grunt-contrib-imagemin": "^0.7.1",
         "grunt-contrib-jshint": "^0.10.0",
-        "grunt-contrib-less": "^0.11.1",
+        "grunt-contrib-less": "^0.11.2",
         "grunt-contrib-uglify": "^0.5.0",
         "grunt-contrib-watch": "^0.6.1",
         "grunt-express-server": "^0.4.17",
@@ -70,7 +70,7 @@
         "karma-requirejs": "^0.2.2",
         "karma-script-launcher": "^0.1.0",
         "load-grunt-tasks": "^0.5.0",
-        "protractor": "^0.24.1",
+        "protractor": "^0.24.2",
         "requirejs": "^2.1.14",
         "time-grunt": "^0.3.2"
     },
