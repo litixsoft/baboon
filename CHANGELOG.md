@@ -1,3 +1,18 @@
+<a name="0.4.3"></a>
+### 0.4.3 (2014-06-19)
+
+
+#### Features
+
+* change location of routes.js files. ([77b74c1b](https://github.com/litixsoft/baboon/commit/77b74c1b94b52eae759b5c0aac75709767a2cf08))
+
+
+#### Breaking Changes
+
+* The routes.js files, which contains all server routes for a toplevel app, are now moved from the folder client/app/[appname] to server/modules/[appname]
+ ([77b74c1b](https://github.com/litixsoft/baboon/commit/77b74c1b94b52eae759b5c0aac75709767a2cf08))
+
+
 <a name="0.4.2"></a>
 ### 0.4.2 (2014-06-18)
 
