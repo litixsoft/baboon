@@ -34,12 +34,12 @@ function getRouteFiles (pathName) {
 module.exports = function (baboon) {
     var router = express.Router();
 
-    // Retrives all "routes.js" files in client/app folder and subfolder
-    var clientAppPath = path.join(baboon.config.path.root, 'client', 'app');
-    var clientRoutes = getRouteFiles(clientAppPath);
+    // Retrives all "routes.js" files in server/modules folder and subfolder
+    var routeFilesFolder = path.join(baboon.config.path.root, 'server', 'modules', 'app');
+    var routes = getRouteFiles(routeFilesFolder);
 
     // Require all routes
-    clientRoutes.forEach(function(routeFile) {
+    routes.forEach(function(routeFile) {
         router = require(routeFile)(baboon, router);
     });
 
