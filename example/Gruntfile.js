@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             dist: '.dist',
             jshint: {
                 files: [
-                    'server/controllers/**/*.js',
+                    'server/modules/**/*.js',
                     'client/app/**/*.js',
                     'client/common/**/*.js',
                     'test/**/*.js',
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                     'client/common/**/*.js'
                 ],
                 server_files: [
-                    'server/controllers/**/*.js',
+                    'server/modules/**/*.js',
                     'test/server/**/*.js'
                 ]
             }

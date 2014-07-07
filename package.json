@@ -62,7 +62,6 @@
         "pwd": "0.0.3",
         "redis": "^0.10.3",
         "sessionstore": "^0.4.6",
-        "static-favicon": "^1.0.0",
         "stdio": "^0.1.6",
         "tingodb": "0.2.1"
     },
