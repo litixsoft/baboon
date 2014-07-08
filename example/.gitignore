@@ -1,9 +1,0 @@
-.idea
-.reports
-.tmp
-.dist
-client/assets/bower_components
-example/server/var/config
-example/server/var/db
-example/server/var/logs
-node_modules
