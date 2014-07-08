@@ -17,9 +17,7 @@ Baboon takes care of the complete setup of an immediately usable architecture fo
 the basic functionality of the application. In addition to simple things like LESS-based design,
 it also includes the complete implementation of a websocket transport for the real-time communication inside the application. Last but not least the availability of many modules makes Baboon a full SPA-framework. All that is left to you is taking care of your business logic - the rest is done by Baboon.
 
-* Web site: http://baboon.litixsoft.de
-* API Docs: http://baboon.litixsoft.de/api
-* Developer Guide: http://baboon.litixsoft.de/guide
+* Web site: http://baboon.litixsoft.de/products-baboon
 * Baboon project generator https://github.com/litixsoft/generator-baboon
 
 # Install
