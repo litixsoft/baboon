@@ -7,3 +7,4 @@ test/
 .jshintrc
 .travis.yml
 Gruntfile.js
+logo.png
