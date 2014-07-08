@@ -1,3 +1,18 @@
+<a name="0.4.4"></a>
+### 0.4.4 (2014-07-08)
+
+
+#### Bug Fixes
+
+* correct path of ssl cert files ([e79afa09](https://github.com/litixsoft/baboon/commit/e79afa0924ec7c417f601dd777fb81dde8c988c5))
+
+
+#### Features
+
+* prepare expressjs plugins for next release (fix deprecated messages) ([61215673](https://github.com/litixsoft/baboon/commit/61215673425cc5ea86e441cdcbd0c08c95da0792))
+* update dependencies ([43adf010](https://github.com/litixsoft/baboon/commit/43adf0104b8f1b13a1ddc9868b66e4d029db9bea))
+
+
 <a name="0.4.3"></a>
 ### 0.4.3 (2014-06-19)
 
