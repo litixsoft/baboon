@@ -1,0 +1,69 @@
+{
+    "name": "baboon",
+    "version": "0.5.0",
+    "description": "Baboon Web Toolkit, modular fullstack web application framework for single-page realtime apps.",
+    "homepage": "https://github.com/litixsoft/baboon",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "development@litixsoft.de",
+        "url": "http://www.litixsoft.de"
+    },
+    "maintainers": [
+        "Timo Liebetrau <t.liebetrau@litixsoft.de>",
+        "Marco Kannenberg <m.kannenberg@litixsoft.de>",
+        "Sven Bernstein <s.bernstein@litixsoft.de>",
+        "Dominic Sachs <d.sachs@litixsoft.de>",
+        "Thomas Scheibe <th.scheibe@litixsoft.de>",
+        "Mike Alig <m.alig@litixsoft.de>",
+        "Joerg Raschke <j.Raschke@litixsoft.de>",
+        "Andreas Krummsdorf <a.krummsdorf@litixsoft.de>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/baboon"
+    },
+    "bugs": {
+        "url": "https://github.com/litixsoft/baboon/issues"
+    },
+    "license": "MIT",
+    "licenses": [
+        {
+           "type": "MIT",
+           "url": "https://github.com/litixsoft/baboon/blob/master/LICENSE"
+        }
+    ],
+    "keywords": [
+        "single-page",
+        "realtime app",
+        "web application framework",
+        "web toolkit",
+        "fullstack web application framework"
+    ], 
+    "main": "lib/baboon.js",
+    "directories": {
+       "lib": "./lib"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "test": "grunt test --stack"
+    },
+    "dependencies": {
+
+    },
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-bg-shell": "^2.3.1",
+        "grunt-bump": "^0.0.14",
+        "grunt-contrib-clean": "^0.5.0",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-conventional-changelog": "^1.1.0",
+        "grunt-jasmine-node": "^0.2.1",
+        "grunt-open": "^0.2.3",
+        "grunt-release": "^0.7.0",
+        "istanbul": "^0.2.13",
+        "load-grunt-tasks": "^0.6.0",
+        "time-grunt": "^0.3.2"
+    }
+}
