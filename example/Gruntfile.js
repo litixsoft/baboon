@@ -466,9 +466,6 @@ module.exports = function (grunt) {
             protractor: {
                 cmd: 'node node_modules/protractor/bin/protractor test/e2e.conf.js',
                 fail: true
-            },
-            setup: {
-                cmd: 'node scripts/setup.js'
             }
         },
         less: {
@@ -576,9 +573,13 @@ module.exports = function (grunt) {
         this.async();
     });
 
-    grunt.registerTask('setup', [
-        'bgShell:setup'
-    ]);
+    grunt.registerTask('setup', function (config) {
+        var done = this.async();
+
+        grunt.util.spawn({cmd: 'node', args: ['scripts/setup.js', config || 'production'], opts: {stdio: 'inherit', env: process.env}}, function (error) {
+            done(error);
+        });
+    });
 
     // build productive version
     grunt.registerTask('build', [
