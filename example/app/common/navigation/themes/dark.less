@@ -1,0 +1,176 @@
+@import '../../../less/methods';
+
+ul.navlist{
+  list-style-type: none;
+  margin:49px 0 0 0;
+  background-color:#25272a;
+  border-top:1px solid #24282c;
+  border-bottom:1px solid #4a4f58;
+  padding:0;
+  width: 100%;
+  display: table;
+  white-space: nowrap;
+
+  ul{
+    display:block;
+    list-style-type: none;
+    margin:0;
+    background-color:#25272a;
+    position:relative;
+  }
+
+  ul:after {
+    content:"";
+    width:20px;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    background:-webkit-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.2));
+    background:-ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.2));
+    background:-o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.2));
+    background:-moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.2));
+    background:linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.2));
+  }
+
+  div.list-item {
+    display:block;
+    background:#3c4148;
+    color:#c2cad6;
+    border-bottom:1px solid #24282c;
+    border-top:1px solid #4a4f58;
+    border-radius: 2px 0 0 2px;
+    line-height:25px;
+    padding:0 10px 0 0px;
+    margin:0;
+    position:relative;
+    .box-sizing ('border-box');
+
+    a{
+      display:block;
+      text-decoration:none;
+      color:#c2cad6;
+    }
+
+    .spacer {margin-left:26px;}
+
+    span{
+      font-size:14px;
+      line-height:28px;
+      padding:0 8px;
+      text-shadow:0 1px 3px rgba(0,0,0,0.8);
+    }
+
+    .opensub{
+      border:1px solid #24282c;
+      box-shadow:0 0 3px #4a4f58 inset;
+      background:#3c4148 url('../img/rightarrow.png') no-repeat center center;
+      font-family: 'Glyphicons Halflings'; //based on twitter boostrap
+      font-size: 9px;
+      color:white;
+      width:18px;
+      height:18px;
+      display:block;
+      float:left;
+      margin:5px 0 0 5px;
+      border-radius:3px;
+      text-align:center;
+      line-height: 17px;
+      cursor:pointer;
+
+      &:before{
+        content: "\e080";
+      }
+
+      &.nav-close:before{
+        content: "\e080";
+//        background:#3c4148 url('../img/rightarrow.png') no-repeat center center;
+      }
+
+      &.nav-open:before{
+        content: "\e114";
+//        background:#3c4148 url('../img/downarrow.png') no-repeat center center;
+      }
+    }
+
+    .nav-icon{
+      display:none;
+      width:10px;
+      height:10px;
+      background:yellow;
+      float:left;
+      width:18px;
+      height:18px;
+      margin-top:5px;
+      margin-left:5px;
+    }
+    .nav-icon.gear{
+      display:block;
+      background:transparent url('https://cdn1.iconfinder.com/data/icons/skype-icons/512/skype_camera_s.png') no-repeat center center;
+      background-size:18px 18px;
+    }
+    .nav-icon.home{
+      display:block;
+      background:transparent url('http://future-centre.org/x/images/slideshow_footer/Home-icon.png') no-repeat center center;
+      background-size:18px 18px;
+    }
+  }
+
+  div.list-item:hover{
+    background:#525860;
+
+    a{
+      color:white;
+      text-shadow:0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .opensub{
+      background-color:rgba(255,255,255,0.2);//white;
+      border-color:white;
+    }
+  }
+
+  div.list-item.active{
+    .gradientFromTop('07a4eb','0684be');  //creates gradients for all browsers
+
+    a span{
+      color:white;
+    }
+  }
+
+  .display {
+    display:block;
+    //        -webkit-transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    opacity: 0;
+    height:0;
+    width:0;
+    padding-left:20px;
+    -webkit-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transform-origin: top;
+  }
+  .display.nav-close {
+    //  -webkit-transition: all 0.3s ease-in-out;
+    opacity: 0;
+    height:0;
+    width:0;
+    -webkit-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    transform: scaleY(0);
+  }
+  .display.nav-open {
+    //  -webkit-transition: all 0.3s ease-in-out;
+    opacity: 1;
+    height:auto;
+    width:auto;
+    -webkit-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+
+}

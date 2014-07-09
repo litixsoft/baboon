@@ -1,0 +1,129 @@
+ul.navlist {
+  list-style-type: none;
+  margin: 3px 0 0 0;
+  padding: 0;
+  width: 100%;
+  display: table;
+  white-space: nowrap;
+
+  ul {
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    position: relative;
+  }
+
+  div.list-item {
+
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 1px 0;
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+
+    &:hover {
+      background: #eeeeee;
+    }
+
+    &.active {
+      background: #428bca;
+
+      a span {
+        color: white;
+      }
+      .opensub {
+        color: white;
+      }
+    }
+
+    .spacer {
+      margin-left: 26px;
+    }
+
+    .opensub {
+
+      font-family: 'Glyphicons Halflings'; //based on twitter boostrap
+      color: #428bca;
+      display: block;
+      float: left;
+      margin: 2px 0 0 0;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 17px;
+      cursor: pointer;
+
+      &:before {
+        content: "\e081";
+      }
+
+      &.nav-close:before {
+        content: "\e081";
+      }
+
+      &.nav-open:before {
+        content: "\e082";
+      }
+    }
+
+    .nav-icon {
+      display: none;
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      float: left;
+      width: 18px;
+      height: 18px;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+    .nav-icon.gear {
+      display: block;
+      background: transparent url('https://cdn1.iconfinder.com/data/icons/skype-icons/512/skype_camera_s.png') no-repeat center center;
+      background-size: 18px 18px;
+    }
+    .nav-icon.home {
+      display: block;
+      background: transparent url('http://future-centre.org/x/images/slideshow_footer/Home-icon.png') no-repeat center center;
+      background-size: 18px 18px;
+    }
+  }
+  .display {
+    display: block;
+    //        -webkit-transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    padding-left: 20px;
+    -webkit-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transform-origin: top;
+
+    &.nav-close {
+      //  -webkit-transition: all 0.3s ease-in-out;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      -webkit-transform: scaleY(0);
+      -o-transform: scaleY(0);
+      -ms-transform: scaleY(0);
+      transform: scaleY(0);
+    }
+
+    &.nav-open {
+      //  -webkit-transition: all 0.3s ease-in-out;
+      opacity: 1;
+      height: auto;
+      width: auto;
+      -webkit-transform: scaleY(1);
+      -o-transform: scaleY(1);
+      -ms-transform: scaleY(1);
+      transform: scaleY(1);
+    }
+  }
+}
