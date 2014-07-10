@@ -25,7 +25,6 @@
             "url": "https://github.com/litixsoft/baboon-example/blob/master/LICENSE"
         }
     ],
-    "readmeFilename": "README.md",
     "dependencies": {
         "express": "^4.5.1",
         "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
@@ -50,7 +49,7 @@
         "grunt-jasmine-node": "^0.2.1",
         "grunt-karma": "^0.8.3",
         "grunt-newer": "^0.7.0",
-        "grunt-ngmin": "^0.0.3",
+        "grunt-ng-annotate": "^0.2.2",
         "grunt-open": "^0.2.3",
         "grunt-rev": "^0.1.0",
         "grunt-shell": "^0.7.0",
