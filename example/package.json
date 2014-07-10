@@ -55,9 +55,9 @@
         "grunt-shell": "^0.7.0",
         "grunt-svgmin": "^0.4.0",
         "grunt-usemin": "^2.3.0",
-        "istanbul": "^0.2.16",
+        "istanbul": "^0.3.0",
         "jpegtran-bin": "0.2.7",
-        "jshint-stylish": "^0.2.0",
+        "jshint-stylish": "^0.4.0",
         "karma-coverage": "^0.2.4",
         "karma-detect-browsers": "^0.1.2",
         "karma-html2js-preprocessor": "^0.1.0",
@@ -71,7 +71,7 @@
         "load-grunt-tasks": "^0.6.0",
         "protractor": "^0.24.2",
         "requirejs": "^2.1.14",
-        "time-grunt": "^0.3.2"
+        "time-grunt": "^0.4.0"
     },
     "engines": {
         "node": ">=0.10.0"
