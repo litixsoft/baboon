@@ -1,7 +1,6 @@
 {
     "LOGIN": "Login",
     "LOGIN_DESCRIPTION": "Log in with your username and password.",
-    "REGISTER": "Register",
     "REGISTER_DESCRIPTION": "Create your user account.",
     "USERNAME": "Username",
     "PASSWORD": "Password",
@@ -14,7 +13,6 @@
     "ENTER_EMAIL": "Enter e-mail",
     "REGISTER": "Register",
     "FORGET_PASSWORD": "Forgot password",
-    "FORGOT_USERNAME": "Forgot username",
     "REQUIRED_USERNAME": "Username is required",
     "REQUIRED_PASSWORD": "Password is required",
     "REQUIRED_DISPLAYNAME": "Display name is required",

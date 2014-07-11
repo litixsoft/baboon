@@ -1,7 +1,6 @@
 'use strict';
 angular.module('common.auth', [])
     .controller('CommonAuthLoginCtrl', function ($scope, $bbcForm, $bbcTransport, $translate, $log, $window, $bbcSession, $modal) {
-
         $scope.$bbcForm = $bbcForm('accountLoginCtrl', '_id'); //login popup form
         $scope.user = {};
         $scope.authFailed = false;
@@ -94,10 +93,26 @@ angular.module('common.auth', [])
             }, angular.noop);
         };
 
-    })
-    .controller('CommonUserSettingsCtrl', ['$scope', '$bbcTransport', '$modalInstance', '$bbcForm', function ($scope, transport, $modalInstance, lxForm) {
+        /**
+         * Open the changePassword modal.
+         */
+        $scope.changePassword = function () {
+            $scope.modalChangePassword = $modal.open({
+                backdrop: true, //static, true, false
+                modalFade: true,
+                controller: 'CommonUserChangePasswordCtrl',
+                keyboard: false,
+                templateUrl: 'common/popup_login/popup_change_password.html'
+            });
 
-        $scope.lxForm = lxForm('settings', '_id');
+            $scope.modalChangePassword.result.then(function () {
+                $window.location = '/api/auth/logout';
+            }, angular.noop);
+        };
+
+    })
+    .controller('CommonUserSettingsCtrl', function ($scope, $bbcTransport, $modalInstance, $bbcForm) {
+        $scope.lxForm = $bbcForm('settings', '_id');
         $scope.languages = [
             {
                 name: 'ENGLISH',
@@ -114,7 +129,7 @@ angular.module('common.auth', [])
         $scope.test = [0, 1, 2, 3, 4, 5, 6];
         $scope.item = {};
 
-        transport.emit('api/settings/getUserSettings', {}, function (error, result) {
+        $bbcTransport.emit('api/settings/getUserSettings', {}, function (error, result) {
             if (error) {
                 $scope.item.error = error;
             } else if (result) {
@@ -128,7 +143,7 @@ angular.module('common.auth', [])
         });
 
         $scope.save = function () {
-            transport.emit('api/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
+            $bbcTransport.emit('api/settings/setUserSettings', $scope.lxForm.model, function (error, result) {
                 if (error) {
                     $scope.item.error = error;
                 } else if (result) {
@@ -142,4 +157,24 @@ angular.module('common.auth', [])
                 $modalInstance.dismiss('cancel');
             }
         };
-    }]);
+    })
+    .controller('CommonUserChangePasswordCtrl', function ($scope, $bbcTransport, $modalInstance, $bbcForm) {
+        $scope.bbcForm = $bbcForm('change_password');
+        $scope.item = {};
+
+        $scope.save = function () {
+            $bbcTransport.emit('api/account/changePassword', $scope.bbcForm.model, function (error, result) {
+                if (error) {
+                    $scope.item.error = error.message;
+                } else if (result) {
+                    $modalInstance.close();
+                }
+            });
+        };
+
+        $scope.cancel = function () {
+            if ($modalInstance) {
+                $modalInstance.dismiss('cancel');
+            }
+        };
+    });

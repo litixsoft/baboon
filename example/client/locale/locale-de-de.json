@@ -38,5 +38,12 @@
     "SAVE": "Speichern",
     "DELETE": "Löschen",
     "NEW": "Neu" ,
-    "DELETE_MSG": "Möchten Sie den Datensatz wirklich löschen?"
+    "DELETE_MSG": "Möchten Sie den Datensatz wirklich löschen?",
+    "CHANGE_PASSWORD": "Passwort ändern",
+    "CURRENT_PASSWORD": "aktuelles Passwort",
+    "REQUIRED_CURRENT_PASSWORD": "Bitte das aktuelle Passwort eingeben",
+    "NEW_PASSWORD": "neues Passwort",
+    "REQUIRED_NEW_PASSWORD": "Bitte das neue Passwort eingeben",
+    "NEW_PASSWORD_CONFIRMED": "neues Passwort wiederholen",
+    "REQUIRED_NEW_PASSWORD_CONFIRMED": "Bitte das neue Passwort wiederholen"
 }

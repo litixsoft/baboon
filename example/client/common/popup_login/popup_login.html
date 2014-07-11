@@ -9,6 +9,9 @@
             <li>
                 <a style="cursor: pointer;" dropdown-toggle ng-href="" ng-click="editSettings()">{{ 'SETTINGS' | translate}}</a>
             </li>
+            <li>
+                <a style="cursor: pointer;" dropdown-toggle ng-href="" ng-click="changePassword()">{{ 'CHANGE_PASSWORD' | translate}}</a>
+            </li>
             <li class="divider" ng-if="rightSystem"></li>
             <li ng-if="rightSystem">
                 <a ng-href="/api/auth/logout" target="_self">Logout</a>
