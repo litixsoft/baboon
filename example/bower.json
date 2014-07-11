@@ -1,6 +1,6 @@
 {
     "name": "baboonExample",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "dependencies": {
         "angular": "1.2.19",
         "angular-bootstrap": "~0.11.0",

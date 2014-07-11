@@ -1,3 +1,14 @@
+<a name="0.4.5"></a>
+### 0.4.5 (2014-07-11)
+
+
+#### Features
+
+* switch from ngmin to ng-annotate ([2c1329ad](https://github.com/litixsoft/baboon/commit/2c1329ad17a077a6975595a6c6f379445567010e))
+* update setup script in example app ([ee07be44](https://github.com/litixsoft/baboon/commit/ee07be440126112f3ad48a0beb45834cdd2d29b1))
+* **account:** user can now change his password ([1e057635](https://github.com/litixsoft/baboon/commit/1e057635bc82ee059e35670e29eb588a97549d5a))
+
+
 <a name="0.4.4"></a>
 ### 0.4.4 (2014-07-08)
 
