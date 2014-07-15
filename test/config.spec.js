@@ -141,10 +141,19 @@ describe('Config', function () {
 
     it('should fail to create log/db directories and use default home directory instead', function () {
         var proxyquire = require('proxyquire');
+        var i = 0;
 
         var stubs = {};
         stubs.fs = {
-            existsSync: function (path) {throw new Error(path);}
+            existsSync: function (path) {
+                i++;
+
+                if (i === 1) {
+                    throw new Error(path);
+                }
+
+                return true;
+            }
         };
 
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
@@ -152,7 +161,26 @@ describe('Config', function () {
 
         expect(config).toBeDefined();
 
-        var p = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon');
+        var p = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon', 'logs');
+        expect(config.path.logs).toEqual(p);
+    });
+
+    it('should fail to create log/db directories and use temporary directory instead', function () {
+        var proxyquire = require('proxyquire');
+
+        var stubs = {};
+        stubs.fs = {
+            openSync: function () {
+                throw new Error();
+            }
+        };
+
+        var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
+        var config = sut(path.join(rootPath), {config: 'production'});
+
+        expect(config).toBeDefined();
+
+        var p = path.join(require('os').tmpdir(), 'logs');
         expect(config.path.logs).toEqual(p);
     });
 });
