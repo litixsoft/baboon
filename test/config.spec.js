@@ -156,6 +156,11 @@ describe('Config', function () {
             }
         };
 
+        var pa = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon');
+        if (!fs.existsSync(pa) || !fs.statSync(pa).isDirectory()) {
+            fs.mkdirSync(pa);
+        }
+
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
         var config = sut(path.join(rootPath), {config: 'production'});
 
