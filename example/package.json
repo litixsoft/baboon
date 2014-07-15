@@ -26,7 +26,7 @@
         }
     ],
     "dependencies": {
-        "express": "^4.5.1",
+        "express": "^4.6.1",
         "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
     },
     "devDependencies": {
