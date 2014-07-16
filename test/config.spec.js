@@ -143,6 +143,8 @@ describe('Config', function () {
         var proxyquire = require('proxyquire');
         var i = 0;
 
+        var func = fs.existsSync;
+
         var stubs = {};
         stubs.fs = {
             existsSync: function (path) {
@@ -152,7 +154,7 @@ describe('Config', function () {
                     throw new Error(path);
                 }
 
-                return true;
+                return func(path);
             }
         };
 
