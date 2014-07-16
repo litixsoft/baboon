@@ -52,6 +52,7 @@
         "express": "^4.6.1",
         "express-session": "^1.6.5",
         "glob": "^4.0.4",
+        "grunt": "0.4.5",
         "log4js": "^0.6.15",
         "log4js-node-mongodb": "^0.1.1",
         "lx-helpers": "^0.5.1",
@@ -61,13 +62,12 @@
         "nodemailer": "^0.7.1",
         "pwd": "0.0.4",
         "redis": "^0.11.0",
-        "sessionstore": "^0.4.6",
+        "sessionstore": "^0.4.7",
         "stdio": "^0.1.6",
         "tingodb": "0.2.1"
     },
     "devDependencies": {
         "connect-livereload": "^0.4.0",
-        "grunt": "0.4.5",
         "grunt-bg-shell": "^2.3.1",
         "grunt-bump": "^0.0.14",
         "grunt-contrib-clean": "^0.5.0",
