@@ -1723,7 +1723,7 @@ describe('Rights', function () {
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
-                expect(res).toBe(5);
+                expect(res).toBe(6);
 
                 done();
             });
@@ -1748,7 +1748,7 @@ describe('Rights', function () {
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
-                expect(res).toBe(5);
+                expect(res).toBe(6);
 
                 done();
             });
@@ -1773,7 +1773,7 @@ describe('Rights', function () {
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
-                expect(res).toBe(5);
+                expect(res).toBe(6);
 
                 done();
             });
@@ -1795,7 +1795,7 @@ describe('Rights', function () {
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
-                expect(res).toBe(5);
+                expect(res).toBe(6);
 
                 done();
             });
@@ -1817,7 +1817,7 @@ describe('Rights', function () {
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
-                expect(res).toBe(5);
+                expect(res).toBe(6);
 
                 done();
             });

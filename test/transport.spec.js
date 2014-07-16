@@ -33,7 +33,7 @@ describe('Transport', function () {
         expect(sut.registerSocketEvents).toBeDefined();
     });
 
-    it('should be initialzied correctly with missing param "config.useRightSystem"', function () {
+    it('should be initialzied correctly with missing param "config.rights"', function () {
         var sut = transport({
             config: {
                 path: {
@@ -49,11 +49,37 @@ describe('Transport', function () {
     });
 
     describe('.getControllers()', function () {
-        beforeEach(function () {
-            sut = transport(baboon);
+        it('should return object of controllers and their actions', function () {
+            var sut = transport({
+                config: {
+                    path: {
+                        modules: path.join(path.resolve('./test/mocks'), 'server', 'modules')
+                    },
+                    rights: {
+                        enabled: true,
+                        database: baboon.rights.database
+                    }
+                }
+            });
+
+            var controllers = sut.getControllers();
+            expect(Object.keys(controllers).length).toBe(2);
+
+            var adminController = controllers[Object.keys(controllers)[0]];
+            expect(Object.keys(adminController).length).toBe(1);
+
+            var commonController = controllers[Object.keys(controllers)[1]];
+            expect(Object.keys(commonController).length).toBe(4);
         });
 
-        it('should return object of controllers and their actions', function () {
+        it('should not load admin controllers when rights system is disabled', function () {
+            var sut = transport({
+                config: {
+                    path: {
+                        modules: path.join(path.resolve('./test/mocks'), 'server', 'modules')
+                    }
+                }
+            });
             var controllers = sut.getControllers();
 
             expect(Object.keys(controllers).length).toBe(1);

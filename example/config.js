@@ -128,6 +128,25 @@ module.exports = function () {
     };
 
     /**
+     * The noRights configuration
+     * NoRights inherits all settings of the development.
+     * These can be changed, overwritten or extended.
+     *
+     * @returns {Object} config
+     */
+    config.noRights = function () {
+
+        // Config contains all settings from production.
+        var settings = config.development();
+
+        // Overwrite the settings for this configuration
+        settings.rights.enabled = false;
+        settings.rights.database = null;
+
+        return settings;
+    };
+
+    /**
      * The unitTest configuration
      * UnitTest inherits all settings of the development.
      * These can be changed, overwritten or extended.
