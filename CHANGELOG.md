@@ -1,3 +1,12 @@
+<a name="0.4.7"></a>
+### 0.4.7 (2014-07-16)
+
+
+#### Bug Fixes
+
+* move grunt to dependencies so that baboon will work in production mode (npm inst ([4df32e99](https://github.com/litixsoft/baboon/commit/4df32e99e581b5d0461533b2665c35b1c46dbe18))
+
+
 <a name="0.4.6"></a>
 ### 0.4.6 (2014-07-16)
 
