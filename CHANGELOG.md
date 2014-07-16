@@ -1,3 +1,15 @@
+<a name="0.4.6"></a>
+### 0.4.6 (2014-07-16)
+
+
+#### Bug Fixes
+
+* app now does not load unnecessary modules when rights system is disabled ([82f35480](https://github.com/litixsoft/baboon/commit/82f35480c93c29d181d0ebe0b367bb58c01a7078))
+* do not load account and auth modules when rights system is disabled ([83b7d35c](https://github.com/litixsoft/baboon/commit/83b7d35cace47606c2bd0f8b39f32df9a91690ba))
+* **account:** input fields when changing password are now of type password ([b49732ed](https://github.com/litixsoft/baboon/commit/b49732ed9ab0cc28bb3b42f8f3dbb7a4d63fa31b))
+* **config:** add fallback to os temp folder when user has no user folder ([fa1c603d](https://github.com/litixsoft/baboon/commit/fa1c603d94adec1a94146f872f0971e840346806))
+
+
 <a name="0.4.5"></a>
 ### 0.4.5 (2014-07-11)
 
