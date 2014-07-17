@@ -62,7 +62,7 @@
         "nodemailer": "^0.7.1",
         "pwd": "0.0.4",
         "redis": "^0.11.0",
-        "sessionstore": "^0.4.7",
+        "sessionstore": "^0.4.8",
         "stdio": "^0.1.6",
         "tingodb": "0.2.1"
     },
