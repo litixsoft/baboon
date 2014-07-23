@@ -1,3 +1,13 @@
+<a name="0.4.8"></a>
+### 0.4.8 (2014-07-23)
+
+
+#### Features
+
+* do not create user admin by default when running `grunt setup` ([0942135f](https://github.com/litixsoft/baboon/commit/0942135fa121f3f469ab8513d6a4656131f11c22))
+* update dependencies ([857c762d](https://github.com/litixsoft/baboon/commit/857c762d7cbc020f3245690cfa4e9aa16eb9e2a4))
+
+
 <a name="0.4.7"></a>
 ### 0.4.7 (2014-07-16)
 
