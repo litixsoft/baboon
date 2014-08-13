@@ -1,3 +1,12 @@
+<a name="0.4.9"></a>
+### 0.4.9 (2014-08-13)
+
+
+#### Bug Fixes
+
+* change field token in schema of user repository to be null or string ([3ba6041e](https://github.com/litixsoft/baboon/commit/3ba6041e4a956a02ad8d4f9c806ce791dc79dcc7))
+
+
 <a name="0.4.8"></a>
 ### 0.4.8 (2014-07-23)
 
