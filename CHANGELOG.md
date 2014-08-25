@@ -1,3 +1,12 @@
+<a name="0.4.10"></a>
+### 0.4.10 (2014-08-25)
+
+
+#### Features
+
+* replace cli-color with chalk ([144b73be](https://github.com/litixsoft/baboon/commit/144b73be19f77a92da43f7b5f06330f6cc8bbb9f))
+
+
 <a name="0.4.9"></a>
 ### 0.4.9 (2014-08-13)
 
