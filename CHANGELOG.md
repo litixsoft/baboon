@@ -1,3 +1,12 @@
+<a name="0.4.12"></a>
+### 0.4.12 (2014-08-26)
+
+
+#### Bug Fixes
+
+* update .gitignore and .npmignore to reduce size of module when installing it ([4850372d](https://github.com/litixsoft/baboon/commit/4850372d16c74a65bd5439e1d1006366d0609486))
+
+
 <a name="0.4.11"></a>
 ### 0.4.11 (2014-08-25)
 
