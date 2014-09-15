@@ -143,6 +143,8 @@ describe('Config', function () {
         var proxyquire = require('proxyquire');
         var i = 0;
 
+        var func = fs.existsSync;
+
         var stubs = {};
         stubs.fs = {
             existsSync: function (path) {
@@ -152,9 +154,14 @@ describe('Config', function () {
                     throw new Error(path);
                 }
 
-                return true;
+                return func(path);
             }
         };
+
+        var pa = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon');
+        if (!fs.existsSync(pa) || !fs.statSync(pa).isDirectory()) {
+            fs.mkdirSync(pa);
+        }
 
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
         var config = sut(path.join(rootPath), {config: 'production'});

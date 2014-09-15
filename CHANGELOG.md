@@ -1,3 +1,61 @@
+<a name="0.4.11"></a>
+### 0.4.11 (2014-08-25)
+
+
+#### Features
+
+* update to angular 1.2.23 ([719cce1d](https://github.com/litixsoft/baboon/commit/719cce1d2c1169278a999e4c74b23984541d0e79))
+
+
+<a name="0.4.10"></a>
+### 0.4.10 (2014-08-25)
+
+
+#### Features
+
+* replace cli-color with chalk ([144b73be](https://github.com/litixsoft/baboon/commit/144b73be19f77a92da43f7b5f06330f6cc8bbb9f))
+
+
+<a name="0.4.9"></a>
+### 0.4.9 (2014-08-13)
+
+
+#### Bug Fixes
+
+* change field token in schema of user repository to be null or string ([3ba6041e](https://github.com/litixsoft/baboon/commit/3ba6041e4a956a02ad8d4f9c806ce791dc79dcc7))
+
+
+<a name="0.4.8"></a>
+### 0.4.8 (2014-07-23)
+
+
+#### Features
+
+* do not create user admin by default when running `grunt setup` ([0942135f](https://github.com/litixsoft/baboon/commit/0942135fa121f3f469ab8513d6a4656131f11c22))
+* update dependencies ([857c762d](https://github.com/litixsoft/baboon/commit/857c762d7cbc020f3245690cfa4e9aa16eb9e2a4))
+
+
+<a name="0.4.7"></a>
+### 0.4.7 (2014-07-16)
+
+
+#### Bug Fixes
+
+* move grunt to dependencies so that baboon will work in production mode (npm inst ([4df32e99](https://github.com/litixsoft/baboon/commit/4df32e99e581b5d0461533b2665c35b1c46dbe18))
+
+
+<a name="0.4.6"></a>
+### 0.4.6 (2014-07-16)
+
+
+#### Bug Fixes
+
+* app now does not load unnecessary modules when rights system is disabled ([82f35480](https://github.com/litixsoft/baboon/commit/82f35480c93c29d181d0ebe0b367bb58c01a7078))
+* do not load account and auth modules when rights system is disabled ([83b7d35c](https://github.com/litixsoft/baboon/commit/83b7d35cace47606c2bd0f8b39f32df9a91690ba))
+* **account:** input fields when changing password are now of type password ([b49732ed](https://github.com/litixsoft/baboon/commit/b49732ed9ab0cc28bb3b42f8f3dbb7a4d63fa31b))
+* **config:** add fallback to os temp folder when user has no user folder ([fa1c603d](https://github.com/litixsoft/baboon/commit/fa1c603d94adec1a94146f872f0971e840346806))
+
+
 <a name="0.4.5"></a>
 ### 0.4.5 (2014-07-11)
 
