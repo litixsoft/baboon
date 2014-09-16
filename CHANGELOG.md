@@ -1,3 +1,13 @@
+<a name="0.4.13"></a>
+### 0.4.13 (2014-09-16)
+
+
+#### Bug Fixes
+
+* requirering of 'crypto' in auth changed ([ef8fd570](https://github.com/litixsoft/baboon/commit/ef8fd5707335ef2fe8169a6f728a524c5be4a0a3))
+* **config:** config ([da2403b2](https://github.com/litixsoft/baboon/commit/da2403b2d3eafed06e22f7ef069a8a0e7d587312))
+
+
 <a name="0.4.12"></a>
 ### 0.4.12 (2014-08-26)
 
