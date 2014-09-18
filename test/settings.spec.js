@@ -7,7 +7,7 @@ describe('Settings', function () {
     var rootPath = path.resolve(path.join(__dirname, '../'));
     var appMock = require(path.resolve(path.join(rootPath, 'test', 'mocks', 'appMock')))();
     var config = require(path.join(rootPath, 'lib', 'config'))(path.join(rootPath, 'test', 'mocks'), {config: 'unitTest'});
-    var rights = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
+    var rights = require(path.join(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging});
     var userRepo = require(path.join(rootPath, 'lib', 'repositories'))(config.rights.database).users;
     var SettingsError = require('../lib/errors').SettingsError;
     var ValidationError = require('../lib/errors').ValidationError;
@@ -92,7 +92,7 @@ describe('Settings', function () {
             });
 
             it('should return an error when there is a database error', function (done) {
-                var rightsMock = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
+                var rightsMock = require(path.join(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging});
                 rightsMock.getRepositories = function () {
                     return {
                         users: {
@@ -180,7 +180,7 @@ describe('Settings', function () {
             });
 
             it('should return an error there is a database error', function (done) {
-                var rightsMock = require(path.join(rootPath, 'lib', 'rights'))(config, appMock.logging);
+                var rightsMock = require(path.join(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging});
                 rightsMock.getRepositories = function () {
                     return {
                         users: {

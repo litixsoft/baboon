@@ -9,7 +9,8 @@ describe('Rights', function () {
         RightsError = require(path.resolve(rootPath, 'lib', 'errors')).RightsError,
         appMock = require('./mocks/appMock')(),
         config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'}),
-        sut = require(path.resolve(rootPath, 'lib', 'rights'))(config, appMock.logging),
+        crypto = require(path.resolve(rootPath, 'lib', 'crypto'))(),
+        sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: crypto}),
         repo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database),
         users, roles, rights, groups, projects, navigation, user;
 
@@ -137,18 +138,25 @@ describe('Rights', function () {
         var func = function () {
             return require(path.resolve(rootPath, 'lib', 'rights'))();
         };
+        expect(func).toThrow(new RightsError('Parameter baboon is required and must be a object type!'));
+    });
+
+    it('should throw an Error when not given param "config"', function () {
+        var func = function () {
+            return require(path.resolve(rootPath, 'lib', 'rights'))({});
+        };
         expect(func).toThrow(new RightsError('Parameter config is required and must be a object type!'));
     });
 
     it('should throw an Error when not given param "logging"', function () {
         var func = function () {
-            return require(path.resolve(rootPath, 'lib', 'rights'))({});
+            return require(path.resolve(rootPath, 'lib', 'rights'))({config:{}});
         };
         expect(func).toThrow(new RightsError('Parameter logging is required and must be a object type!'));
     });
 
     it('should not throw an Error when given params are of correct type', function () {
-        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({}, {});
+        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config:{}, loggers:{}});
         expect(sut).toBeDefined();
     });
 
@@ -205,7 +213,7 @@ describe('Rights', function () {
 
         it('should return true when the rights system is disabled', function () {
             var user = users[0];
-            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({rights:{enabled: false}}, {});
+            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({config: {rights:{enabled: false}}, loggers:{}});
 
             expect(sut1.userHasAccessTo(user, 'addTicket')).toBeTruthy();
             expect(sut1.userHasAccessTo(user, 'someUnknownRight')).toBeTruthy();
@@ -425,7 +433,7 @@ describe('Rights', function () {
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
                         expect(err).toEqual({ name : 'RightsError', message : 'user wayne: not found' });
@@ -451,7 +459,7 @@ describe('Rights', function () {
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
                         expect(err).toEqual({ name : 'RightsError', message : 'role reporter: not found' });
@@ -477,7 +485,7 @@ describe('Rights', function () {
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
                         expect(err).toEqual('error');
@@ -719,7 +727,7 @@ describe('Rights', function () {
             var testConfig = lxHelpers.clone(config);
             testConfig.rights.enabled = false;
 
-            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))(testConfig, appMock.logging);
+            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({config: testConfig, loggers: appMock.logging});
 
             sut1.getAclObj(null, function (err, res) {
                 expect(err).toBeUndefined();
@@ -1209,7 +1217,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             repo.rights.insert([
                 {name: 'add'},
@@ -1366,7 +1374,7 @@ describe('Rights', function () {
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.getExtendedAcl(user, ['role'], function (err, res) {
                 expect(err).toBeDefined();
@@ -1460,7 +1468,7 @@ describe('Rights', function () {
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
                 expect(err).toBeNull();
@@ -1484,7 +1492,7 @@ describe('Rights', function () {
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
                 expect(err).toBeDefined();
@@ -1512,7 +1520,7 @@ describe('Rights', function () {
                 callback('error');
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.getPublicFunctionsFromControllers(function (err, res) {
                 expect(err).toBeDefined();
@@ -1532,7 +1540,7 @@ describe('Rights', function () {
                 }
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.getPublicFunctionsFromControllers(function (err, res) {
                 expect(err).toBeDefined();
@@ -1581,7 +1589,7 @@ describe('Rights', function () {
                 callback('error');
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             sut.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1603,7 +1611,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1625,7 +1633,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1647,7 +1655,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
@@ -1672,7 +1680,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1697,7 +1705,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
@@ -1719,7 +1727,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1744,7 +1752,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1769,7 +1777,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
@@ -1791,7 +1799,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1813,7 +1821,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeUndefined();
@@ -1833,7 +1841,7 @@ describe('Rights', function () {
 
         it('should do nothing when rights system is disabled', function (done) {
             config.rights.enabled = false;
-            var sut = require(path.resolve(rootPath, 'lib', 'rights'))(config, appMock.logging);
+            var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: crypto});
 
             sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();
@@ -1874,7 +1882,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1896,7 +1904,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1907,18 +1915,12 @@ describe('Rights', function () {
         });
 
         it('should crypto to throw error', function (done) {
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs['./crypto'] = function(){
-                return{
-                    hashWithRandomSalt: function (password, callback) {
-                        callback('error');
-                    }
-                };
+            var cryptoMock = lxHelpers.clone(crypto);
+            cryptoMock.hashWithRandomSalt = function (password, callback) {
+                callback('error');
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: cryptoMock});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1929,18 +1931,12 @@ describe('Rights', function () {
         });
 
         it('should crypto to return null on data', function (done) {
-            var proxyquire = require('proxyquire');
-
-            var stubs = {};
-            stubs['./crypto'] = function(){
-                return{
-                    hashWithRandomSalt: function (password, callback) {
-                        callback(null, null);
-                    }
-                };
+            var cryptoMock = lxHelpers.clone(crypto);
+            cryptoMock.hashWithRandomSalt = function (password, callback) {
+                callback(null, null);
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: cryptoMock});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1962,7 +1958,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1984,7 +1980,7 @@ describe('Rights', function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)(config, appMock.logging);
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();

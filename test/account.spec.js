@@ -11,7 +11,10 @@ describe('Account', function () {
         sut = null,
         userRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).users,
         rolesRepo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database).roles,
-        AccountError = require(path.resolve(__dirname, '../', 'lib', 'errors')).AccountError;
+        AccountError = require(path.resolve(__dirname, '../', 'lib', 'errors')).AccountError,
+        crypto = require(path.resolve(rootPath, 'lib', 'crypto'))(),
+        rights = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging});
+
 
     beforeEach(function () {
         if (!fs.existsSync(emlDir)) {
@@ -19,7 +22,9 @@ describe('Account', function () {
         }
 
         if (sut === null) {
-            sut = require(path.resolve(rootPath, 'lib', 'account'))(config, appMock.logging);
+            var baboonMock = {config: config, loggers: appMock.logging, crypto: crypto, rights: rights};
+
+            sut = require(path.resolve(rootPath, 'lib', 'account'))(baboonMock);
         }
 
         spyOn(appMock.logging.syslog, 'info');
