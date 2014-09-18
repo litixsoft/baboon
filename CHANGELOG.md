@@ -1,3 +1,12 @@
+<a name="0.4.14"></a>
+### 0.4.14 (2014-09-18)
+
+
+#### Bug Fixes
+
+* require of 'crypto' and 'logging' in baboon changed, tests adapted ([efa00b26](https://github.com/litixsoft/baboon/commit/efa00b2682ee30ddfecd9672a27e4d1e86d40e9a))
+
+
 <a name="0.4.13"></a>
 ### 0.4.13 (2014-09-16)
 
