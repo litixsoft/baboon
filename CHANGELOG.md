@@ -1,3 +1,12 @@
+<a name="0.4.15"></a>
+### 0.4.15 (2014-09-24)
+
+
+#### Features
+
+* **setting:** add function getUserSetting() to get a single user setting by key ([952f7271](https://github.com/litixsoft/baboon/commit/952f7271c6c62dfba3f181a501c664fb24375af2))
+
+
 <a name="0.4.14"></a>
 ### 0.4.14 (2014-09-18)
 
