@@ -27,6 +27,7 @@ describe('Settings', function () {
 
     beforeEach(function () {
         spyOn(appMock.logging.syslog, 'warn');
+        spyOn(appMock.logging.syslog, 'error');
     });
 
     it('should log an error when the default client settings file cannot be parsed', function () {
@@ -74,7 +75,7 @@ describe('Settings', function () {
             it('should return an error when the param setting is no object', function (done) {
                 sut.setUserSetting(null, {session: {user: testUser}}, function (err, res) {
                     expect(err instanceof SettingsError).toBeTruthy();
-                    expect(err.message).toBe('Param setting is missing or has no/wrong property key');
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
                     expect(res).toBeUndefined();
 
                     done();
@@ -84,7 +85,17 @@ describe('Settings', function () {
             it('should return an error when the param setting has no property "key"', function (done) {
                 sut.setUserSetting({a: 'w', value: 4}, {session: {user: testUser}}, function (err, res) {
                     expect(err instanceof SettingsError).toBeTruthy();
-                    expect(err.message).toBe('Param setting is missing or has no/wrong property key');
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the key in the param setting is an empty string', function (done) {
+                sut.setUserSetting({key: '', value: 4}, {session: {user: testUser}}, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
                     expect(res).toBeUndefined();
 
                     done();
@@ -108,7 +119,7 @@ describe('Settings', function () {
                 var sut2 = require(path.join(rootPath, 'lib', 'settings'))({config: config, loggers: appMock.logging, rights: rightsMock});
 
                 sut2.setUserSetting({key: '1', value: 4}, {session: {user: testUser}}, function (err, res) {
-                    expect(err).toBe('error');
+                    expect(err).toEqual({ name : 'SettingsError', message : 'Error while loading the settings', status : 500, displayClient : false });
                     expect(res).toBeUndefined();
 
                     done();
@@ -376,6 +387,138 @@ describe('Settings', function () {
                 });
             });
         });
+
+        describe('getUserSetting()', function () {
+            it('should return an error when the param session is wrong', function (done) {
+                sut.getUserSetting(null, {session: null}, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param "session" is of type null! Type object expected');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the param data is empty', function (done) {
+                sut.getUserSetting(null, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the param data.key is missing', function (done) {
+                sut.getUserSetting({}, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the param data.key is an empty string', function (done) {
+                sut.getUserSetting({key: ''}, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return the an error when there is an mongodb error', function (done) {
+                testUser.settings = null;
+                var mock = lxHelpers.clone(rights);
+                mock.getRepositories = function () {
+                    return {
+                        users: {
+                            findOneById: function (a, b, cb) {
+                                cb('err');
+                            }
+
+                        }
+                    };
+                };
+
+                var sutter = require(path.join(rootPath, 'lib', 'settings'))({config: config, loggers: appMock.logging, rights: mock});
+                sutter.getUserSetting({key: 'aa'}, {session: {user: testUser}}, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Error while loading the settings');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the user does not exists', function (done) {
+                testUser.settings = null;
+                sut.getUserSetting({key: 'aa'}, {session: {user: testUser}}, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Setting with key %s not found');
+                    expect(res).toBeUndefined();
+
+                    expect(appMock.logging.syslog.warn).toHaveBeenCalled();
+                    expect(appMock.logging.syslog.warn.calls.length).toBe(1);
+                    expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: user not found: %j');
+                    expect(appMock.logging.syslog.warn.mostRecentCall.args[1]).toEqual(testUser);
+
+                    done();
+                });
+            });
+
+            it('should return an error when the user has no settings', function (done) {
+                userRepo.insert(testUser, function (err, res) {
+                    var user = res[0];
+
+                    expect(err).toBeNull();
+                    expect(user.id).toBe(testUser.id);
+
+                    sut.getUserSetting({key: 'aa'}, {session: {user: testUser}}, function (err, res) {
+                        expect(err instanceof SettingsError).toBeTruthy();
+                        expect(err.message).toBe('Setting with key %s not found');
+                        expect(res).toBeUndefined();
+
+                        expect(appMock.logging.syslog.warn).not.toHaveBeenCalled();
+
+                        done();
+                    });
+                });
+            });
+
+            it('should return the setting from the session', function (done) {
+                testUser.settings = {aa: 33};
+                sut.getUserSetting({key: 'aa'}, {session: {user: testUser}}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toEqual(33);
+
+                    done();
+                });
+            });
+
+            it('should return the setting of the user', function (done) {
+                userRepo.insert(testUser, function (err, res) {
+                    var user = res[0];
+
+                    expect(err).toBeNull();
+                    expect(user.id).toBe(testUser.id);
+
+                    sut.setUserSettings({test: 11, demo: false}, {session: {user: testUser}}, function (err, res) {
+                        expect(err).toBeNull();
+                        expect(res).toBeTruthy();
+
+                        sut.getUserSetting({key: 'test'}, {session: {user: testUser}}, function (err, res) {
+                            expect(err).toBeNull();
+                            expect(res).toEqual(11);
+
+                            done();
+                        });
+                    });
+                });
+            });
+        });
     });
 
     describe('with rights system disabled', function () {
@@ -447,6 +590,114 @@ describe('Settings', function () {
                     sut.getUserSettings(null, {session: {user: testUser}}, function (err, res) {
                         expect(err).toBeNull();
                         expect(res).toEqual({test: 44, demo: false});
+
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('getUserSetting()', function () {
+            it('should return the an error when the param data is empty', function (done) {
+                sut.getUserSetting(null, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return the an error when the param data.key is missing', function (done) {
+                sut.getUserSetting({}, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return the an error when the param data.key is an empty string', function (done) {
+                sut.getUserSetting({key: ''}, sessionForGuestUser, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Param data is missing or has no/wrong/empty property key');
+                    expect(res).toBeUndefined();
+
+                    done();
+                });
+            });
+
+            it('should return an error when the setting file does not exists', function (done) {
+                var settingsFile = path.join(settingsFolder, testUser.name + '.json');
+                if (fs.existsSync(settingsFile)) {
+                    fs.unlinkSync(settingsFile);
+                }
+
+                if (fs.existsSync(settingsFolder)) {
+                    fs.rmdirSync(settingsFolder);
+                }
+
+                sut.getUserSetting({key: 'a'}, {session: {user: testUser}}, function (err, res) {
+                    expect(err instanceof SettingsError).toBeTruthy();
+                    expect(err.message).toBe('Setting with key %s not found');
+                    expect(res).toBeUndefined();
+
+                    expect(appMock.logging.syslog.error).toHaveBeenCalled();
+                    expect(appMock.logging.syslog.error.calls.length).toBe(2);
+                    expect(appMock.logging.syslog.error.calls[0].args[0]).toBe('settings: Error loading settings file: %s');
+                    expect(appMock.logging.syslog.error.mostRecentCall.args[0]).toEqual({ errno: 34, code: 'ENOENT', path: settingsFile });
+
+                    done();
+                });
+            });
+
+            it('should return an error when the setting files cannot be parsed', function (done) {
+                var settingsFile = path.join(settingsFolder, testUser.name + '.json');
+                sut.setUserSettings({test: 1}, {session: {user: testUser}}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toBeTruthy();
+
+                    fs.writeFileSync(settingsFile, 'aaa,bbb');
+
+                    sut.getUserSetting({key: 'a'}, {session: {user: testUser}}, function (err, res) {
+                        expect(err instanceof SettingsError).toBeTruthy();
+                        expect(err.message).toBe('Setting with key %s not found');
+                        expect(res).toBeUndefined();
+
+                        expect(appMock.logging.syslog.warn).toHaveBeenCalled();
+                        expect(appMock.logging.syslog.warn.calls.length).toBe(1);
+                        expect(appMock.logging.syslog.warn.calls[0].args[0]).toBe('settings: Cannot parse settings file: %s');
+                        expect(appMock.logging.syslog.warn.calls[0].args[1]).toBe(settingsFile);
+
+                        done();
+                    });
+                });
+            });
+
+            it('should return an error when the key not exists in the settings', function (done) {
+                sut.setUserSettings({test: 44, demo: false}, {session: {user: testUser}}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toBeTruthy();
+
+                    sut.getUserSetting({key: 'aa'}, {session: {user: testUser}}, function (err, res) {
+                        expect(err instanceof SettingsError).toBeTruthy();
+                        expect(err.message).toBe('Setting with key %s not found');
+                        expect(res).toBeUndefined();
+
+                        done();
+                    });
+                });
+            });
+
+            it('should return the setting of the user', function (done) {
+                sut.setUserSettings({test: 44, demo: false}, {session: {user: testUser}}, function (err, res) {
+                    expect(err).toBeNull();
+                    expect(res).toBeTruthy();
+
+                    sut.getUserSetting({key: 'test'}, {session: {user: testUser}}, function (err, res) {
+                        expect(err).toBeNull();
+                        expect(res).toEqual(44);
 
                         done();
                     });
