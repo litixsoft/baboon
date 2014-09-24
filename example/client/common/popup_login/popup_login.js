@@ -9,12 +9,9 @@ angular.module('common.auth', [])
 
         $scope.getUserSettings = function () {
             $bbcTransport.emit('api/settings/getUserSettings', {}, function (error, result) {
-                if (error) {
-                    $scope.item.error = error;
-                } else if (result) {
-                    if (result.language) { //setLanguage on app start
-                        $scope.switchLocale(result.language);
-                    }
+                if (result && result.language) {
+                    //set language on app start
+                    $scope.switchLocale(result.language);
                 }
             });
         };

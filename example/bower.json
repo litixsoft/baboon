@@ -2,14 +2,14 @@
     "name": "baboonExample",
     "version": "0.4.14",
     "dependencies": {
-        "angular": "1.2.23",
+        "angular": "1.2.24",
         "angular-bootstrap": "~0.11.0",
-        "angular-cookies": "1.2.23",
+        "angular-cookies": "1.2.24",
         "angular-dynamic-locale": "0.1.17",
-        "angular-i18n": "1.2.23",
-        "angular-resource": "1.2.23",
-        "angular-route": "1.2.23",
-        "angular-sanitize": "1.2.23",
+        "angular-i18n": "1.2.24",
+        "angular-resource": "1.2.24",
+        "angular-route": "1.2.24",
+        "angular-sanitize": "1.2.24",
         "angular-translate": "~2.2.0",
         "angular-translate-loader-static-files": "~2.2.0",
         "baboon-client": "~0.4.11",
@@ -19,11 +19,11 @@
         "json3": "~3.3.1"
     },
     "devDependencies": {
-        "angular-mocks": "1.2.23",
-        "angular-scenario": "1.2.23"
+        "angular-mocks": "1.2.24",
+        "angular-scenario": "1.2.24"
     },
     "resolutions": {
-        "angular-route": "1.2.23",
-        "angular": "1.2.23"
+        "angular-route": "1.2.24",
+        "angular": "1.2.24"
     }
 }

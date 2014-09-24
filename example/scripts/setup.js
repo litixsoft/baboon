@@ -3,7 +3,8 @@
 var configParam = process.argv[2] || 'production';
 var config = require('../../lib/config')(require('path').join(__dirname, '../'), {config: configParam});
 var loggers = require('../../lib/logging')(config);
-var rights = require('../../lib/rights.js')(config, loggers);
+var crypto = require('../../lib/crypto')();
+var rights = require('../../lib/rights.js')({config: config, loggers: loggers, crypto: crypto});
 var grunt = require('grunt');
 
 grunt.log.ok('Start setup script for baboon example app.');
