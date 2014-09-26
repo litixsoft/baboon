@@ -1,3 +1,12 @@
+<a name="0.4.16"></a>
+### 0.4.16 (2014-09-26)
+
+
+#### Bug Fixes
+
+* bump mongodb to 1.4.15 since 1.4.14 contain bugs ([d9acd849](https://github.com/litixsoft/baboon/commit/d9acd8492bfe8c2b5b524050740bbcbd38fccf80))
+
+
 <a name="0.4.15"></a>
 ### 0.4.15 (2014-09-24)
 
