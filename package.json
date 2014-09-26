@@ -58,7 +58,7 @@
         "lx-helpers": "^0.5.1",
         "lx-mongodb": "^0.6.0",
         "lx-valid": "^0.2.15",
-        "mongodb": "1.4.14",
+        "mongodb": "1.4.15",
         "nodemailer": "^0.7.1",
         "pwd": "0.0.4",
         "redis": "^0.12.1",
