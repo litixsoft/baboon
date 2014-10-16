@@ -26,7 +26,7 @@
         }
     ],
     "dependencies": {
-        "express": "^4.9.4",
+        "express": "^4.9.7",
         "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
     },
     "devDependencies": {
@@ -37,7 +37,7 @@
         "grunt-concurrent": "^1.0.0",
         "grunt-contrib-clean": "^0.6.0",
         "grunt-contrib-concat": "^0.5.0",
-        "grunt-contrib-copy": "^0.6.0",
+        "grunt-contrib-copy": "^0.7.0",
         "grunt-contrib-cssmin": "^0.10.0",
         "grunt-contrib-htmlmin": "^0.3.0",
         "grunt-contrib-imagemin": "^0.8.1",
@@ -64,12 +64,12 @@
         "karma-jasmine": "^0.2.1",
         "karma-junit-reporter": "^0.2.2",
         "karma-mocha-reporter": "^0.3.1",
-        "karma-ng-html2js-preprocessor": "^0.1.0",
+        "karma-ng-html2js-preprocessor": "^0.1.1",
         "karma-ng-scenario": "^0.1.0",
         "karma-requirejs": "^0.2.2",
         "karma-script-launcher": "^0.1.0",
         "load-grunt-tasks": "^0.6.0",
-        "protractor": "^1.3.0",
+        "protractor": "^1.3.1",
         "requirejs": "^2.1.15",
         "time-grunt": "^1.0.0"
     },
