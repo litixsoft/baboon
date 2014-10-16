@@ -1,3 +1,13 @@
+<a name="0.4.19"></a>
+### 0.4.19 (2014-10-16)
+
+
+#### Bug Fixes
+
+* do not use sslv2/sslv3 ([03718e2a](https://github.com/litixsoft/baboon/commit/03718e2a581f97584c872fcfc5e6ddea6b597c7a))
+* app crash when user was created in admin section without password ([c4370105](https://github.com/litixsoft/baboon/commit/c4370105b6b9576bd0b2d87908617ac6e5da1257))
+
+
 <a name="0.4.18"></a>
 ### 0.4.18 (2014-10-02)
 

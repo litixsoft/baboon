@@ -1,7 +1,7 @@
 {
     "name": "baboon-example",
     "description": "Reference and sample application for the Baboon Webtoolkit.",
-    "version": "0.4.18",
+    "version": "0.4.19",
     "homepage": "https://github.com/litixsoft/baboon-example",
     "author": {
         "name": "Litixsoft GmbH",
