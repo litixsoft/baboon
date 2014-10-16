@@ -5,7 +5,6 @@ var async = require('async'),
     protectedFields = ['password', 'salt'],
     secretUsers = ['sysadmin'];
 
-
 function removeProtectedFields (options) {
     if (!options.fields || lxHelpers.isEmpty(options.fields)) {
         options.fields = {};
@@ -102,7 +101,7 @@ module.exports = function (baboon) {
         removeProtectedFields(options);
 
         // query user
-        repo.users.findOneById(data.id, options, function(error, result) {
+        repo.users.findOneById(data.id, options, function (error, result) {
             if (result && secretUsers.indexOf(result.name) > -1) {
                 result = null;
             }
@@ -123,23 +122,23 @@ module.exports = function (baboon) {
      */
     pub.getUserData = function (data, request, callback) {
         async.auto({
-            getUser: function (next) {
-                if (data.id) {
-                    pub.getById(data, request, next);
-                } else {
-                    next();
+                getUser: function (next) {
+                    if (data.id) {
+                        pub.getById(data, request, next);
+                    } else {
+                        next();
+                    }
+                },
+                getGroups: function (next) {
+                    repo.groups.find({}, {sort: {name: 1}}, next);
+                },
+                getRoles: function (next) {
+                    repo.roles.find({}, {sort: {name: 1}}, next);
+                },
+                getRights: function (next) {
+                    repo.rights.find({}, {sort: {name: 1}, fields: {controller: 0}}, next);
                 }
-            },
-            getGroups: function (next) {
-                repo.groups.find({}, {sort: {name: 1}}, next);
-            },
-            getRoles: function (next) {
-                repo.roles.find({}, {sort: {name: 1}}, next);
-            },
-            getRights: function (next) {
-                repo.rights.find({}, {sort: {name: 1}, fields: {controller: 0}}, next);
-            }
-        }, function (error, result) {
+            }, function (error, result) {
                 if (error) {
                     callback(error);
                 } else {
@@ -161,6 +160,10 @@ module.exports = function (baboon) {
      */
     pub.create = function (data, request, callback) {
         data = data || {};
+
+        if (!data.password) {
+            return callback(new baboon.ValidationError([{attribute: 'required', property: 'password', message: 'Password is required'}], 500, true));
+        }
 
         // validate client data
         repo.users.validate(data, {}, function (error, result) {
@@ -241,7 +244,7 @@ module.exports = function (baboon) {
      * @param {!function(err, res)} request.getSession Returns the current session object.
      * @param {!function(result)} callback The callback.
      */
-    pub.remove = function(data, request, callback) {
+    pub.remove = function (data, request, callback) {
         if (!data || !data.id) {
             callback();
             return;
