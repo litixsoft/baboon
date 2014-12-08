@@ -143,9 +143,10 @@ describe('Errors', function () {
 
     it('should throw an ValidationError with errors and status', function() {
         var ValidationError = errors.ValidationError;
-        var error = new ValidationError([{property:'test', error:'test'}], 401);
+        var error = new ValidationError([{property:'test', error:'test', message: 'not valid'}], 401);
 
         expect(error.name).toBe('ValidationError');
+        expect(error.message).toBe('test: not valid');
         expect(error.errors[0].property).toBe('test');
         expect(error.status).toBe(401);
         expect(error instanceof ValidationError).toBe(true);
@@ -156,6 +157,7 @@ describe('Errors', function () {
         var error = new ValidationError();
 
         expect(error.name).toBe('ValidationError');
+        expect(error.message).toBe('');
         expect(error.status).toBe(200);
         expect(error.errors.length).toBe(0);
         expect(error instanceof ValidationError).toBe(true);
