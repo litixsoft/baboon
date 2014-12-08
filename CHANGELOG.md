@@ -1,3 +1,12 @@
+<a name="0.4.20"></a>
+### 0.4.20 (2014-12-08)
+
+
+#### Features
+
+* add message property to ValidationError ([5d48ea4f](https://github.com/litixsoft/baboon/commit/5d48ea4f37afef17c02d1b92bf250c3ad6eb9453))
+
+
 <a name="0.4.19"></a>
 ### 0.4.19 (2014-10-16)
 
