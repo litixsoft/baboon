@@ -1,3 +1,13 @@
+<a name="0.4.21"></a>
+### 0.4.21 (2015-02-10)
+
+
+#### Bug Fixes
+
+* **auth:** send json result when user successfully logged in ([8b02d7d9](https://github.com/litixsoft/baboon/commit/8b02d7d9867e13a0108286447ed0547a3d05686b))
+* **transport:** send json result when user has no access ([243bbbe6](https://github.com/litixsoft/baboon/commit/243bbbe645cc617e1cadf72e847f79bb0d3676cd))
+
+
 <a name="0.4.20"></a>
 ### 0.4.20 (2014-12-08)
 
