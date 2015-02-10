@@ -155,14 +155,14 @@ describe('Transport', function () {
 
     describe('.processRequest()', function () {
 
-        beforeEach(function() {
+        beforeEach(function () {
             spyOn(console, 'log');
         });
 
         it('should process the request and call the corresponding action with rightsystem disabled', function (done) {
             var req = appMock.req;
             var res = {
-                set: function(){},
+                set: function () {},
                 send: function (status, json) {
 
                     var result = JSON.parse(json);
@@ -184,7 +184,7 @@ describe('Transport', function () {
         it('should process the request and return wrong url', function (done) {
             var req = appMock.req;
             var res = {
-                set: function(){},
+                set: function () {},
                 send: function (status, json) {
 
                     var result = JSON.parse(json);
@@ -205,7 +205,7 @@ describe('Transport', function () {
         it('should process the request and return an raised error', function (done) {
             var req = appMock.req;
             var res = {
-                set: function(){},
+                set: function () {},
                 send: function (status, json) {
 
                     var result = JSON.parse(json);
@@ -305,7 +305,16 @@ describe('Transport', function () {
                     var result = JSON.parse(json);
 
                     expect(status).toBe(403);
-                    expect(result).toBe('Access denied');
+                    expect(result).toEqual({
+                        message: 'Access denied',
+                        status: 403,
+                        route: {
+                            action: 'noAccessTo',
+                            controllerName: 'index',
+                            controllerFullPath: 'api/common/awesomeThings/index'
+                        },
+                        reqBody: {current: 'main', top: 'main'}
+                    });
 
                     baboon.config.rights.enabled = false;
 
