@@ -426,7 +426,11 @@ module.exports = function (grunt) {
                 junitReporter: {
                     outputFile: '.reports/test/client/karma.xml',
                     suite: 'karma'
-                },
+                }
+            },
+            travis: {
+                configFile: 'test/karma.conf.js',
+                singleRun: true,
                 detectBrowsers: {
                     enabled: false
                 },
@@ -641,6 +645,14 @@ module.exports = function (grunt) {
         'clean:test',
         'newer:jshint:test',
         'karma:unit',
+        'jasmine_node:test'
+    ]);
+
+    // all tests in travis
+    grunt.registerTask('test:travis', [
+        'clean:test',
+        'newer:jshint:test',
+        'karma:travis',
         'jasmine_node:test'
     ]);
 
