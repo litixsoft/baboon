@@ -172,6 +172,20 @@ describe('Transport', function () {
                     expect(result.length).toBe(5);
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(200);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+
+                            expect(result).toBeDefined();
+                            expect(result.length).toBe(5);
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -193,6 +207,18 @@ describe('Transport', function () {
                     expect(result).toBe('Wrong url');
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(404);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result).toBe('Wrong url');
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -215,6 +241,19 @@ describe('Transport', function () {
                     expect(result.stack).toBe('Error stack');
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(500);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result.message).toBe('Error raised');
+                            expect(result.stack).toBe('Error stack');
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -238,6 +277,19 @@ describe('Transport', function () {
                     expect(result.stack).toBe('Error stack');
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(500);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result.message).toBe('Error raised');
+                            expect(result.stack).toBe('Error stack');
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -260,6 +312,18 @@ describe('Transport', function () {
                     expect(result).toBeDefined();
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(200);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result).toBeDefined();
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -285,6 +349,21 @@ describe('Transport', function () {
                     req.session = {};
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(403);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result).toBeDefined();
+
+                            baboon.config.rights.enabled = false;
+                            req.session = {};
+
+                            done();
+                        }
+                    };
                 }
             };
 
@@ -319,6 +398,29 @@ describe('Transport', function () {
                     baboon.config.rights.enabled = false;
 
                     done();
+                },
+                status: function (status) {
+                    expect(status).toBe(403);
+
+                    return {
+                        json: function (json) {
+                            var result = JSON.parse(json);
+                            expect(result).toEqual({
+                                message: 'Access denied',
+                                status: 403,
+                                route: {
+                                    action: 'noAccessTo',
+                                    controllerName: 'index',
+                                    controllerFullPath: 'api/common/awesomeThings/index'
+                                },
+                                reqBody: {current: 'main', top: 'main'}
+                            });
+
+                            baboon.config.rights.enabled = false;
+
+                            done();
+                        }
+                    };
                 }
             };
 

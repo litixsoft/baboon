@@ -31,7 +31,7 @@ module.exports = function () {
         };
 
         return {
-            unhook: function unhook() {
+            unhook: function unhook () {
                 stream.write = oldWrite;
             },
             captured: function () {
@@ -60,6 +60,15 @@ module.exports = function () {
         json: function (status, value) {
             res.statusCode = status;
             res.data = value;
+        },
+        status: function (status) {
+            res.statusCode = status;
+
+            return {
+                json: function (value) {
+                    res.data = value;
+                }
+            };
         }
     };
 
@@ -99,7 +108,7 @@ module.exports = function () {
                 modules: path.join(path.resolve('./test/mocks'), 'server', 'modules'),
                 lib_controller: path.join(path.resolve('./test/mocks'), 'lib', 'controller')
             },
-            session:{
+            session: {
                 stores: {
                     inMemory: {
                         type: 'inMemory'
@@ -157,7 +166,7 @@ module.exports = function () {
                     return false;
                 }
             },
-            userHasAccessToController: function (){
+            userHasAccessToController: function () {
                 return true;
             }
         }
