@@ -646,7 +646,8 @@ describe('Settings', function () {
                     expect(appMock.logging.syslog.error).toHaveBeenCalled();
                     expect(appMock.logging.syslog.error.calls.length).toBe(2);
                     expect(appMock.logging.syslog.error.calls[0].args[0]).toBe('settings: Error loading settings file: %s');
-                    expect(appMock.logging.syslog.error.mostRecentCall.args[0]).toEqual({ errno: 34, code: 'ENOENT', path: settingsFile });
+                    expect(appMock.logging.syslog.error.mostRecentCall.args[0].path).toBe(settingsFile);
+                    expect(appMock.logging.syslog.error.mostRecentCall.args[0].code).toBe('ENOENT');
 
                     done();
                 });

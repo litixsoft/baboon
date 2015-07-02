@@ -51,8 +51,6 @@ describe('Logging', function () {
         expect(typeof log4js.appenders['log4js-node-mongodb']).toBe('function');
     });
 
-
-
     it('should write an syslog error in syslog file', function (done) {
         if (!fs.existsSync(tmpPath)) {
             fs.mkdirSync(tmpPath);

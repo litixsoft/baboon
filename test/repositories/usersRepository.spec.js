@@ -240,7 +240,7 @@ describe('Repositories/UsersRepositiory', function () {
             sut.getUserForLogin({ $set: {_id: 1 }}, function (error, result) {
                 expect(error).toBeDefined();
                 expect(error.name).toBe('MongoError');
-                expect(error.message).toBe('invalid operator: $set');
+                expect(error.message).toContain('$set');
                 expect(result).not.toBeDefined();
 
                 done();
