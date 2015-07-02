@@ -1,3 +1,12 @@
+<a name"0.4.22"></a>
+### 0.4.22 (2015-07-02)
+
+
+#### Features
+
+* add callback to baboon.appListen() ([124819cc](https://github.com/litixsoft/baboon/commit/124819cc))
+
+
 <a name="0.4.21"></a>
 ### 0.4.21 (2015-02-10)
 
