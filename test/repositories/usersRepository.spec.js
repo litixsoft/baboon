@@ -87,9 +87,9 @@ describe('Repositories/UsersRepositiory', function () {
                 expect(res.errors.length).toBe(4);
                 expect(res.errors[0].property).toBe('email');
                 expect(res.errors[0].attribute).toBe('required');
-                expect(res.errors[1].property).toBe('roles');
+                expect(res.errors[1].property).toBe('roles.0');
                 expect(res.errors[1].attribute).toBe('format');
-                expect(res.errors[2].property).toBe('roles');
+                expect(res.errors[2].property).toBe('roles.1');
                 expect(res.errors[2].attribute).toBe('format');
                 expect(res.errors[3].property).toBe('name');
                 expect(res.errors[3].attribute).toBe('required');

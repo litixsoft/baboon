@@ -730,7 +730,7 @@ describe('Rights', function () {
             var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({config: testConfig, loggers: appMock.logging});
 
             sut1.getAclObj(null, function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBeDefined();
                 expect(typeof res).toBe('object');
                 expect(Object.keys(res).length).toBeGreaterThan(0);
@@ -1506,7 +1506,7 @@ describe('Rights', function () {
     describe('.getPublicFunctionsFromControllers()', function () {
         it('should return an array with the full name of the rights', function () {
             sut.getPublicFunctionsFromControllers(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(Array.isArray(res)).toBeTruthy();
                 expect(res.length).toBeGreaterThan(0);
             });
@@ -1564,7 +1564,7 @@ describe('Rights', function () {
 
         it('should save all rights in the db', function (done) {
             sut.refreshRightsIdDb(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBeDefined();
                 expect(res).toBeGreaterThan(0);
 
@@ -1572,7 +1572,7 @@ describe('Rights', function () {
                 expect(appMock.logging.syslog.info.calls.length).toBeGreaterThan(0);
 
                 sut.refreshRightsIdDb(function (err, res) {
-                    expect(err).toBeUndefined();
+                    expect(err).toBeNull();
                     expect(res).toBeDefined();
                     expect(typeof res).toBe('number');
 
@@ -1658,7 +1658,7 @@ describe('Rights', function () {
             var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBe(0);
 
                 done();
@@ -1708,7 +1708,7 @@ describe('Rights', function () {
             var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBe(0);
 
                 done();
@@ -1780,7 +1780,7 @@ describe('Rights', function () {
             var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBe(6);
 
                 done();
@@ -1824,7 +1824,7 @@ describe('Rights', function () {
             var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
 
             mock.refreshRightsIdDb(function (err, res) {
-                expect(err).toBeUndefined();
+                expect(err).toBeNull();
                 expect(res).toBe(6);
 
                 done();
