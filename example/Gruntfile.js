@@ -426,7 +426,11 @@ module.exports = function (grunt) {
                 junitReporter: {
                     outputFile: '.reports/test/client/karma.xml',
                     suite: 'karma'
-                }
+                },
+                detectBrowsers: {
+                    enabled: false
+                },
+                browsers: ['Firefox', 'PhantomJS']
             },
             cobertura: {
                 configFile: 'test/karma.coverage.conf.js',
