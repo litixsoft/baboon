@@ -28,7 +28,7 @@
         "web toolkit",
         "fullstack web application framework"
     ],
-    "license": "The MIT License (MIT)",
+    "license": "MIT",
     "licenses": [
         {
             "type": "MIT",
