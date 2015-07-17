@@ -10,7 +10,7 @@ module.exports = function () {
     config.filesPath = '../.tmp';
 
     /**
-     * The production confuguration
+     * The production configuration
      * This configuration used when no other configuration is specified.
      *
      * @returns {Object} config
@@ -72,6 +72,20 @@ module.exports = function () {
                 directory: './test/.tmp/eml' // required for type PICKUP
             }
         };
+
+        return settings;
+    };
+
+    /**
+     * The local production configuration
+     * This configuration is a copy of production settings.
+     *
+     * @returns {Object} config     */
+    config.localproduction = function () {
+        var settings =  config.production();
+
+        settings.app_name = 'baboon';
+        settings.useHomeDir = true;
 
         return settings;
     };

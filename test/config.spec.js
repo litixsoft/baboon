@@ -69,6 +69,7 @@ describe('Config', function () {
         expect(sut.path.root).toBeDefined();
         expect(sut.path.logs).toBeDefined();
         expect(sut.path.appFolder).toBeDefined();
+        expect(sut.path.appDataRoot).toBeDefined();
         expect(sut.node_env).toBe('production');
         expect(process.env.NODE_ENV).toBe(sut.node_env);
         expect(sut.app_name).toBe('Baboon Example App');
@@ -150,7 +151,7 @@ describe('Config', function () {
             existsSync: function (path) {
                 i++;
 
-                if (i === 1) {
+                if (i === 2) {
                     throw new Error(path);
                 }
 
@@ -165,8 +166,6 @@ describe('Config', function () {
 
         var sut = proxyquire(path.resolve(__dirname, '../', 'lib', 'config'), stubs);
         var config = sut(path.join(rootPath), {config: 'production'});
-
-        expect(config).toBeDefined();
 
         var p = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon', 'logs');
         expect(config.path.logs).toEqual(p);
@@ -189,5 +188,21 @@ describe('Config', function () {
 
         var p = path.join(require('os').tmpdir(), 'logs');
         expect(config.path.logs).toEqual(p);
+    });
+
+    it('should return appFolder as appDataRoot Folder when config.useHomeDir is not used', function () {
+        var sut = config(path.join(rootPath), {config: 'production'});
+
+        expect(sut.path.appDataRoot).toBeDefined();
+        expect(sut.path.appDataRoot).toBe(sut.path.appFolder);
+    });
+
+    it('should return users homedir as appDataRoot Folder when config.useHomeDir is True', function () {
+        var sut = config(path.join(rootPath), {config: 'localproduction'});
+
+        expect(sut.path.appDataRoot).toBeDefined();
+        expect(sut.path.appDataRoot).toBe(path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.baboon'));
+
+
     });
 });
