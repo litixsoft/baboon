@@ -1,3 +1,12 @@
+<a name"0.4.23"></a>
+### 0.4.23 (2015-07-17)
+
+
+#### Features
+
+* add functionality to enable save Application Data in Users Homedir ([124819cc](https://github.com/litixsoft/baboon/commit/124819cc))
+
+
 <a name"0.4.22"></a>
 ### 0.4.22 (2015-07-02)
 
