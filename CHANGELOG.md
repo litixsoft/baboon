@@ -1,3 +1,12 @@
+<a name"0.4.24"></a>
+### 0.4.24 (2015-07-21)
+
+
+#### Features
+
+* update to lx-mongodb 0.7.0 ([7ec92416](https://github.com/litixsoft/baboon/commit/7ec92416))
+
+
 <a name"0.4.23"></a>
 ### 0.4.23 (2015-07-17)
 
