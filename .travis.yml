@@ -1,11 +1,13 @@
+sudo: false
 services:
   - mongodb
 language: node_js
 node_js:
   - '0.10'
-  - '0.11'
   - '0.12'
-  - 'iojs'
+  - 'iojs-v2'
+  - 'iojs-v3'
+  - '4'
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -17,4 +19,5 @@ before_script:
   - cd ..
 matrix:
   allow_failures:
-    - node_js: '0.11'
+    - node_js: 'iojs-v3'
+    - node_js: '4'
