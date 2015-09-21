@@ -1,3 +1,13 @@
+<a name="0.4.25"></a>
+## [0.4.25](https://github.com/litixsoft/baboon/compare/v0.4.24...v0.4.25) (2015-09-21)
+
+
+### Bug Fixes
+
+* **session:** change import of cookie-parser ([6e6f20e](https://github.com/litixsoft/baboon/commit/6e6f20e))
+
+
+
 <a name"0.4.24"></a>
 ### 0.4.24 (2015-07-21)
 
