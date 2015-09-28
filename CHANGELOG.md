@@ -1,3 +1,13 @@
+<a name="0.4.26"></a>
+## [0.4.26](https://github.com/litixsoft/baboon/compare/v0.4.25...v0.4.26) (2015-09-28)
+
+
+### Features
+
+* update node-mailer ([9ac746f](https://github.com/litixsoft/baboon/commit/9ac746f))
+
+
+
 <a name="0.4.25"></a>
 ## [0.4.25](https://github.com/litixsoft/baboon/compare/v0.4.24...v0.4.25) (2015-09-21)
 
