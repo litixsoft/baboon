@@ -31,7 +31,7 @@ module.exports = function () {
         };
 
         return {
-            unhook: function unhook () {
+            unhook: function unhook() {
                 stream.write = oldWrite;
             },
             captured: function () {

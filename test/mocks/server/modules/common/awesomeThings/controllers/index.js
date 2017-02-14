@@ -51,15 +51,15 @@ module.exports = function () {
      * @param {function(Object)} callback The callback function.
      */
     pub.raiseError = function (data, request, callback) {
-        callback({message:'Error raised', stack:'Error stack'});
+        callback({message: 'Error raised', stack: 'Error stack'});
     };
 
     pub.raiseErrorWithStatus = function (data, request, callback) {
-        callback({status: 300, message:'Error raised', stack:'Error stack'});
+        callback({status: 300, message: 'Error raised', stack: 'Error stack'});
     };
 
     pub.sessionTest = function (data, request, callback) {
-        pub.getAll(data, request, function(){
+        pub.getAll(data, request, function () {
 
         });
 

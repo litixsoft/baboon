@@ -28,8 +28,8 @@ describe('Repositories/ResourceRightsRepositiory', function () {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
                 expect(data.resource).toBe('projectA');
-                expect(data.group_id).toEqual(sut.convertId('5204cf825dd46a6c15000001'));
-                expect(data.role_id).toEqual(sut.convertId('5204cf825dd46a6c15000001'));
+                expect(data.group_id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.role_id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
 
                 done();
             });
@@ -40,8 +40,8 @@ describe('Repositories/ResourceRightsRepositiory', function () {
                 expect(res.valid).toBeTruthy();
                 expect(res.errors.length).toBe(0);
                 expect(data.resource).toBe('projectA');
-                expect(data.group_id).toEqual(sut.convertId('5204cf825dd46a6c15000001'));
-                expect(data.role_id).toEqual(sut.convertId('5204cf825dd46a6c15000001'));
+                expect(data.group_id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.role_id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
 
                 done();
             });

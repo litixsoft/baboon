@@ -15,7 +15,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.production = function() {
+    config.production = function () {
 
         // Contains all settings for this configuration
         var settings = {
@@ -82,7 +82,7 @@ module.exports = function () {
      *
      * @returns {Object} config     */
     config.localproduction = function () {
-        var settings =  config.production();
+        var settings = config.production();
 
         settings.app_name = 'baboon';
         settings.useHomeDir = true;
@@ -97,7 +97,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.development = function() {
+    config.development = function () {
 
         // Config contains all settings from production.
         var settings = config.production();
@@ -121,7 +121,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.unitTest = function() {
+    config.unitTest = function () {
 
         // Config contains all settings from development.
         var settings = config.production();
@@ -143,7 +143,7 @@ module.exports = function () {
      *
      * @returns {Object} config
      */
-    config.e2eTest = function() {
+    config.e2eTest = function () {
 
         // Config contains all settings from development.
         var settings = config.development();

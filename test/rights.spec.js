@@ -10,7 +10,11 @@ describe('Rights', function () {
         appMock = require('./mocks/appMock')(),
         config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'}),
         crypto = require(path.resolve(rootPath, 'lib', 'crypto'))(),
-        sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: crypto}),
+        sut = require(path.resolve(rootPath, 'lib', 'rights'))({
+            config: config,
+            loggers: appMock.logging,
+            crypto: crypto
+        }),
         repo = require(path.resolve(rootPath, 'lib', 'repositories'))(config.rights.database),
         users, roles, rights, groups, projects, navigation, user;
 
@@ -122,15 +126,19 @@ describe('Rights', function () {
         ];
 
         navigation = [
-            {title: 'APP_EXAMPLE', route: '/', children: [
+            {
+                title: 'APP_EXAMPLE', route: '/', children: [
                 {title: 'HOME', route: '/home'},
                 {title: 'ABOUT', route: '/home/about'},
                 {title: 'LOGIN', route: '/login', right: 'login'}
-            ]},
-            {title: 'PROJECTS', route: '/admin', right: 'addTicket', children: [
+            ]
+            },
+            {
+                title: 'PROJECTS', route: '/admin', right: 'addTicket', children: [
                 {title: 'USERS', route: '/admin/users', right: 'addUser'},
                 {title: 'LIST', route: '/admin/groups'}
-            ]}
+            ]
+            }
         ];
     });
 
@@ -150,13 +158,13 @@ describe('Rights', function () {
 
     it('should throw an Error when not given param "logging"', function () {
         var func = function () {
-            return require(path.resolve(rootPath, 'lib', 'rights'))({config:{}});
+            return require(path.resolve(rootPath, 'lib', 'rights'))({config: {}});
         };
         expect(func).toThrow(new RightsError('Parameter logging is required and must be a object type!'));
     });
 
     it('should not throw an Error when given params are of correct type', function () {
-        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config:{}, loggers:{}});
+        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: {}, loggers: {}});
         expect(sut).toBeDefined();
     });
 
@@ -193,7 +201,9 @@ describe('Rights', function () {
 
     describe('.userHasAccessTo()', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
-            var func = function () { return sut.userHasAccessTo('user', '123');};
+            var func = function () {
+                return sut.userHasAccessTo('user', '123');
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
@@ -213,7 +223,10 @@ describe('Rights', function () {
 
         it('should return true when the rights system is disabled', function () {
             var user = users[0];
-            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({config: {rights:{enabled: false}}, loggers:{}});
+            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({
+                config: {rights: {enabled: false}},
+                loggers: {}
+            });
 
             expect(sut1.userHasAccessTo(user, 'addTicket')).toBeTruthy();
             expect(sut1.userHasAccessTo(user, 'someUnknownRight')).toBeTruthy();
@@ -275,7 +288,9 @@ describe('Rights', function () {
 
     describe('.userHasAccessToController()', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
-            var func = function () { return sut.userHasAccessToController('user', '123');};
+            var func = function () {
+                return sut.userHasAccessToController('user', '123');
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
@@ -325,7 +340,9 @@ describe('Rights', function () {
 
     describe('.userIsInRole()', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
-            var func = function () { return sut.userIsInRole('user', '123');};
+            var func = function () {
+                return sut.userIsInRole('user', '123');
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
@@ -407,10 +424,10 @@ describe('Rights', function () {
         it('should add a role to the user', function (done) {
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    sut.addRoleToUser(userObj[0], roleObj[0].name, function(error, result){
+                    sut.addRoleToUser(userObj[0], roleObj[0].name, function (error, result) {
                         expect(result.roles.length).toBe(1);
 
-                        sut.addRoleToUser(userObj[0], roleObj[0].name, function(error, result){
+                        sut.addRoleToUser(userObj[0], roleObj[0].name, function (error, result) {
                             expect(result.roles.length).toBe(1);
                             done();
                         });
@@ -422,21 +439,24 @@ describe('Rights', function () {
         it('should mongodb to return null on users.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.users.findOne = function(a, callback){
+            repos.users.findOne = function (a, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                        config: config,
+                        loggers: appMock.logging
+                    });
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
-                        expect(err).toEqual({ name : 'RightsError', message : 'user wayne: not found' });
+                        expect(err).toEqual({name: 'RightsError', message: 'user wayne: not found'});
                         expect(res).toBeUndefined();
 
                         done();
@@ -448,21 +468,24 @@ describe('Rights', function () {
         it('should mongodb to return null on roles.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOne = function(a, callback){
+            repos.roles.findOne = function (a, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                        config: config,
+                        loggers: appMock.logging
+                    });
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
-                        expect(err).toEqual({ name : 'RightsError', message : 'role reporter: not found' });
+                        expect(err).toEqual({name: 'RightsError', message: 'role reporter: not found'});
                         expect(res).toBeUndefined();
 
                         done();
@@ -474,18 +497,21 @@ describe('Rights', function () {
         it('should mongodb to throw error on users.update', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.users.update = function(a, b, callback){
+            repos.users.update = function (a, b, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
             repo.users.insert(user, function (error, userObj) {
                 repo.roles.insert(role, function (error, roleObj) {
-                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+                    var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                        config: config,
+                        loggers: appMock.logging
+                    });
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
                         expect(err).toEqual('error');
@@ -500,7 +526,9 @@ describe('Rights', function () {
 
     describe('.getUserRights()', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
-            var func = function () { return sut.getUserRights('user', '123');};
+            var func = function () {
+                return sut.getUserRights('user', '123');
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
@@ -562,7 +590,7 @@ describe('Rights', function () {
 
         it('should add no rights', function () {
             var user = users[0];
-            user.rights = [{name:'noAccess'}];
+            user.rights = [{name: 'noAccess'}];
             user.roles = [5]; // Manager
 
             var res = sut.getUserRights(user, [], [], ['noRole']);
@@ -573,7 +601,9 @@ describe('Rights', function () {
 
     describe('.getUserAcl()', function () {
         it('should throw an Error when the param "user" is of wrong type', function () {
-            var func = function () { return sut.getUserAcl('user', '123');};
+            var func = function () {
+                return sut.getUserAcl('user', '123');
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
         });
@@ -633,9 +663,9 @@ describe('Rights', function () {
             var res = sut.getUserAcl(user, rights, roles, groups);
 
             expect(res).toEqual({
-                'addTicket': {controller : 'app/addTicket', hasAccess: true},
-                'addUserStory': {controller : 'app/addUserStory', hasAccess: true},
-                'addImprovement': {controller : 'app/addImprovement', hasAccess: true}
+                'addTicket': {controller: 'app/addTicket', hasAccess: true},
+                'addUserStory': {controller: 'app/addUserStory', hasAccess: true},
+                'addImprovement': {controller: 'app/addImprovement', hasAccess: true}
             });
         });
 
@@ -647,9 +677,9 @@ describe('Rights', function () {
             ]);
 
             expect(res).toEqual({
-                'login': {controller : 'app/login', hasAccess: true},
-                'addTicket': {controller : 'app/addTicket', hasAccess: true, resource: 'baboon'},
-                'addTime': {controller : 'app/addTime', hasAccess: true, resource: 'baboon'}
+                'login': {controller: 'app/login', hasAccess: true},
+                'addTicket': {controller: 'app/addTicket', hasAccess: true, resource: 'baboon'},
+                'addTime': {controller: 'app/addTime', hasAccess: true, resource: 'baboon'}
             });
         });
     });
@@ -746,11 +776,21 @@ describe('Rights', function () {
         });
 
         it('should throw an Exception when the param "user" is not of type object', function () {
-            var func = function () { return sut.secureNavigation('user');};
-            var func1 = function () { return sut.secureNavigation([]);};
-            var func2 = function () { return sut.secureNavigation(null);};
-            var func3 = function () { return sut.secureNavigation(undefined);};
-            var func4 = function () { return sut.secureNavigation(123);};
+            var func = function () {
+                return sut.secureNavigation('user');
+            };
+            var func1 = function () {
+                return sut.secureNavigation([]);
+            };
+            var func2 = function () {
+                return sut.secureNavigation(null);
+            };
+            var func3 = function () {
+                return sut.secureNavigation(undefined);
+            };
+            var func4 = function () {
+                return sut.secureNavigation(123);
+            };
 
             expect(func).toThrow(new RightsError('param "user" is not an object'));
             expect(func1).toThrow(new RightsError('param "user" is not an object'));
@@ -760,11 +800,21 @@ describe('Rights', function () {
         });
 
         it('should throw an Exception when the param "navigation" is not of type array', function () {
-            var func = function () { return sut.secureNavigation(users[0]);};
-            var func1 = function () { return sut.secureNavigation(users[0], null);};
-            var func2 = function () { return sut.secureNavigation(users[0], {});};
-            var func3 = function () { return sut.secureNavigation(users[0], '');};
-            var func4 = function () { return sut.secureNavigation(users[0], 123);};
+            var func = function () {
+                return sut.secureNavigation(users[0]);
+            };
+            var func1 = function () {
+                return sut.secureNavigation(users[0], null);
+            };
+            var func2 = function () {
+                return sut.secureNavigation(users[0], {});
+            };
+            var func3 = function () {
+                return sut.secureNavigation(users[0], '');
+            };
+            var func4 = function () {
+                return sut.secureNavigation(users[0], 123);
+            };
 
             expect(func).toThrow(new RightsError('param "navigation" is not an array'));
             expect(func1).toThrow(new RightsError('param "navigation" is not an array'));
@@ -783,14 +833,18 @@ describe('Rights', function () {
             var res = sut.secureNavigation(user, navigation);
 
             expect(res).toEqual([
-                {title: 'APP_EXAMPLE', route: '/', children: [
+                {
+                    title: 'APP_EXAMPLE', route: '/', children: [
                     {title: 'HOME', route: '/home'},
                     {title: 'ABOUT', route: '/home/about'},
                     {title: 'LOGIN', route: '/login'}
-                ]},
-                {title: 'PROJECTS', route: '/admin', children: [
+                ]
+                },
+                {
+                    title: 'PROJECTS', route: '/admin', children: [
                     {title: 'LIST', route: '/admin/groups'}
-                ]}
+                ]
+                }
             ]);
         });
 
@@ -806,10 +860,12 @@ describe('Rights', function () {
             var res = sut.secureNavigation(user, navigation);
 
             expect(res).toEqual([
-                {title: 'APP_EXAMPLE', route: '/', children: [
+                {
+                    title: 'APP_EXAMPLE', route: '/', children: [
                     {title: 'HOME', route: '/home'},
                     {title: 'ABOUT', route: '/home/about'}
-                ]}
+                ]
+                }
             ]);
         });
 
@@ -821,15 +877,19 @@ describe('Rights', function () {
             var res = sut.secureNavigation(user, navigation);
 
             expect(res).toEqual([
-                {title: 'APP_EXAMPLE', route: '/', children: [
+                {
+                    title: 'APP_EXAMPLE', route: '/', children: [
                     {title: 'HOME', route: '/home'},
                     {title: 'ABOUT', route: '/home/about'},
                     {title: 'LOGIN', route: '/login'}
-                ]},
-                {title: 'PROJECTS', route: '/admin', children: [
+                ]
+                },
+                {
+                    title: 'PROJECTS', route: '/admin', children: [
                     {title: 'USERS', route: '/admin/users'},
                     {title: 'LIST', route: '/admin/groups'}
-                ]}
+                ]
+                }
             ]);
         });
     });
@@ -856,11 +916,15 @@ describe('Rights', function () {
         });
 
         it('should throw an error when the param "name" is not of type "string"', function () {
-            expect(function () { return sut.getUser(1); }).toThrow(new RightsError('param "name" is not a string'));
+            expect(function () {
+                return sut.getUser(1);
+            }).toThrow(new RightsError('param "name" is not a string'));
         });
 
         it('should throw an error when the param "callback" is not of type "function"', function () {
-            expect(function () { return sut.getUser('Wayne'); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getUser('Wayne');
+            }).toThrow(new RightsError('param "callback" is not a function'));
         });
 
         it('should return the user with his rights as acl', function (done) {
@@ -961,7 +1025,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1005,7 +1072,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1054,7 +1124,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1105,7 +1178,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1121,7 +1197,10 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
-                            sut.addResourceRight('a', {user_id: user._id, right_id: user.rights[0]._id}, function (err) {
+                            sut.addResourceRight('a', {
+                                user_id: user._id,
+                                right_id: user.rights[0]._id
+                            }, function (err) {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
@@ -1162,7 +1241,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1208,16 +1290,19 @@ describe('Rights', function () {
 
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOneById = function(a, callback){
+            repos.roles.findOneById = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             repo.rights.insert([
                 {name: 'add'},
@@ -1231,7 +1316,10 @@ describe('Rights', function () {
                     {_id: rights[1]._id, hasAccess: false}
                 ];
 
-                repo.roles.insert({name: 'dev', rights: [rights[0]._id, rights[1]._id, rights[2]._id]}, function (err, roles) {
+                repo.roles.insert({
+                    name: 'dev',
+                    rights: [rights[0]._id, rights[1]._id, rights[2]._id]
+                }, function (err, roles) {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
@@ -1245,7 +1333,10 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
-                            mock.addResourceRight('a', {group_id: groups[0]._id, role_id: roles[0]._id}, function (err) {
+                            mock.addResourceRight('a', {
+                                group_id: groups[0]._id,
+                                role_id: roles[0]._id
+                            }, function (err) {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
@@ -1287,14 +1378,30 @@ describe('Rights', function () {
         });
 
         it('should throw an error when the param "callback" is not of type "function"', function () {
-            expect(function () { return sut.getExtendedAcl({}, []); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], 1); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], '1'); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], null); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], undefined); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], true); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], {}); }).toThrow(new RightsError('param "callback" is not a function'));
-            expect(function () { return sut.getExtendedAcl({}, [], []); }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, []);
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], 1);
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], '1');
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], null);
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], undefined);
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], true);
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], {});
+            }).toThrow(new RightsError('param "callback" is not a function'));
+            expect(function () {
+                return sut.getExtendedAcl({}, [], []);
+            }).toThrow(new RightsError('param "callback" is not a function'));
         });
 
         it('should throw an error when the param "user" is not of type "object"', function (done) {
@@ -1354,27 +1461,30 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return {
-                    roles:{
-                        find: function(a,callback){
+                    roles: {
+                        find: function (a, callback) {
                             callback('error');
                         }
                     },
-                    rights:{
-                        find: function(a,callback){
+                    rights: {
+                        find: function (a, callback) {
                             callback('error');
                         }
                     },
-                    groups:{
-                        find: function(a,callback){
+                    groups: {
+                        find: function (a, callback) {
                             callback('error');
                         }
                     }
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.getExtendedAcl(user, ['role'], function (err, res) {
                 expect(err).toBeDefined();
@@ -1387,15 +1497,23 @@ describe('Rights', function () {
 
     describe('.addResourceRight()', function () {
         beforeEach(function (done) {
-            repo.resourceRights.remove({resource: 'projectA'}, function () {done();});
+            repo.resourceRights.remove({resource: 'projectA'}, function () {
+                done();
+            });
 
             spyOn(console, 'log');
         });
 
         it('should throw an error when callback is not a function', function () {
-            var func = function () { return sut.addResourceRight();};
-            var func1 = function () { return sut.addResourceRight(1);};
-            var func2 = function () { return sut.addResourceRight(1, {});};
+            var func = function () {
+                return sut.addResourceRight();
+            };
+            var func1 = function () {
+                return sut.addResourceRight(1);
+            };
+            var func2 = function () {
+                return sut.addResourceRight(1, {});
+            };
 
             expect(func).toThrow(new RightsError('param "callback" is not a function'));
             expect(func1).toThrow(new RightsError('param "callback" is not a function'));
@@ -1433,7 +1551,7 @@ describe('Rights', function () {
         });
 
         it('should return an error when role_id and right_id are not in options', function (done) {
-            sut.addResourceRight({}, {group_id:1}, function (err) {
+            sut.addResourceRight({}, {group_id: 1}, function (err) {
                 expect(err).toBeDefined();
                 expect(err instanceof RightsError).toBeTruthy();
                 expect(err.message).toContain('missing param "options.role_id" or missing param "options.right_id"');
@@ -1458,17 +1576,20 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return {
-                    resourceRights:{
-                        insert: function(a,callback){
+                    resourceRights: {
+                        insert: function (a, callback) {
                             callback(null, null);
                         }
                     }
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
                 expect(err).toBeNull();
@@ -1482,17 +1603,20 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return {
-                    resourceRights:{
-                        insert: function(a,callback){
+                    resourceRights: {
+                        insert: function (a, callback) {
                             callback('error');
                         }
                     }
                 };
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
                 expect(err).toBeDefined();
@@ -1516,11 +1640,14 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs.glob = function(a, callback){
+            stubs.glob = function (a, callback) {
                 callback('error');
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.getPublicFunctionsFromControllers(function (err, res) {
                 expect(err).toBeDefined();
@@ -1540,7 +1667,10 @@ describe('Rights', function () {
                 }
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.getPublicFunctionsFromControllers(function (err, res) {
                 expect(err).toBeDefined();
@@ -1585,11 +1715,14 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs.glob = function(a, callback){
+            stubs.glob = function (a, callback) {
                 callback('error');
             };
 
-            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var sut = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             sut.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1602,16 +1735,19 @@ describe('Rights', function () {
         it('should mongodb to throw error on rights.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.rights.findOne = function(a, callback){
+            repos.rights.findOne = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1624,16 +1760,19 @@ describe('Rights', function () {
         it('should mongodb to throw error on rights.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.rights.insert = function(a, callback){
+            repos.rights.insert = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1646,16 +1785,19 @@ describe('Rights', function () {
         it('should mongodb to return null on rights.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.rights.insert = function(a, callback){
+            repos.rights.insert = function (a, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeNull();
@@ -1668,19 +1810,22 @@ describe('Rights', function () {
         it('should mongodb to throw error on rights.update', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.rights.findOne = function(a, callback){
-                callback(null, {_id:1, description:'a'});
+            repos.rights.findOne = function (a, callback) {
+                callback(null, {_id: 1, description: 'a'});
             };
-            repos.rights.update = function(a, b, callback){
+            repos.rights.update = function (a, b, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1693,19 +1838,22 @@ describe('Rights', function () {
         it('should mongodb to return null on rights.update', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.rights.findOne = function(a, callback){
-                callback(null, {_id:1, description:'a'});
+            repos.rights.findOne = function (a, callback) {
+                callback(null, {_id: 1, description: 'a'});
             };
-            repos.rights.update = function(a, b, callback){
+            repos.rights.update = function (a, b, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeNull();
@@ -1718,16 +1866,19 @@ describe('Rights', function () {
         it('should mongodb to throw error on roles.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOne = function(a, callback){
+            repos.roles.findOne = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1740,19 +1891,22 @@ describe('Rights', function () {
         it('should mongodb to throw error on roles.update', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOne = function(a, callback){
-                callback(null, {_id:1});
+            repos.roles.findOne = function (a, callback) {
+                callback(null, {_id: 1});
             };
-            repos.roles.update = function(a, b, callback){
+            repos.roles.update = function (a, b, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1765,19 +1919,22 @@ describe('Rights', function () {
         it('should mongodb to return null on roles.update', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOne = function(a, callback){
-                callback(null, {_id:1});
+            repos.roles.findOne = function (a, callback) {
+                callback(null, {_id: 1});
             };
-            repos.roles.update = function(a, b, callback){
+            repos.roles.update = function (a, b, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeNull();
@@ -1790,16 +1947,19 @@ describe('Rights', function () {
         it('should mongodb to throw error on roles.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.insert = function(a, callback){
+            repos.roles.insert = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeDefined();
@@ -1812,16 +1972,19 @@ describe('Rights', function () {
         it('should mongodb to return null on roles.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.insert = function(a, callback){
+            repos.roles.insert = function (a, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging
+            });
 
             mock.refreshRightsIdDb(function (err, res) {
                 expect(err).toBeNull();
@@ -1841,7 +2004,11 @@ describe('Rights', function () {
 
         it('should do nothing when rights system is disabled', function (done) {
             config.rights.enabled = false;
-            var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: crypto});
+            var sut = require(path.resolve(rootPath, 'lib', 'rights'))({
+                config: config,
+                loggers: appMock.logging,
+                crypto: crypto
+            });
 
             sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();
@@ -1873,16 +2040,20 @@ describe('Rights', function () {
         it('should mongodb to throw error on roles.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.roles.findOne = function(a, callback){
+            repos.roles.findOne = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging,
+                crypto: crypto
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1895,16 +2066,20 @@ describe('Rights', function () {
         it('should mongodb to throw error on users.findOne', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.users.findOne = function(a, callback){
+            repos.users.findOne = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging,
+                crypto: crypto
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1920,11 +2095,15 @@ describe('Rights', function () {
                 callback('error');
             };
 
-            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: cryptoMock});
+            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({
+                config: config,
+                loggers: appMock.logging,
+                crypto: cryptoMock
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
-                expect(res).toBe(0);
+                expect(res).toBe(1);
 
                 done();
             });
@@ -1936,11 +2115,15 @@ describe('Rights', function () {
                 callback(null, null);
             };
 
-            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({config: config, loggers: appMock.logging, crypto: cryptoMock});
+            var mock = require(path.resolve(rootPath, 'lib', 'rights'))({
+                config: config,
+                loggers: appMock.logging,
+                crypto: cryptoMock
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
-                expect(res).toBe(0);
+                expect(res).toBe(1);
 
                 done();
             });
@@ -1949,16 +2132,20 @@ describe('Rights', function () {
         it('should mongodb to throw error on users.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.users.insert = function(a, callback){
+            repos.users.insert = function (a, callback) {
                 callback('error');
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging,
+                crypto: crypto
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeDefined();
@@ -1971,16 +2158,20 @@ describe('Rights', function () {
         it('should mongodb to return null on users.insert', function (done) {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
-            repos.users.insert = function(a, callback){
+            repos.users.insert = function (a, callback) {
                 callback(null, null);
             };
 
             var stubs = {};
-            stubs['./repositories'] = function(){
+            stubs['./repositories'] = function () {
                 return repos;
             };
 
-            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({config: config, loggers: appMock.logging, crypto: crypto});
+            var mock = proxyquire(path.resolve(rootPath, 'lib', 'rights'), stubs)({
+                config: config,
+                loggers: appMock.logging,
+                crypto: crypto
+            });
 
             mock.ensureThatDefaultSystemUsersExists(function (err, res) {
                 expect(err).toBeNull();

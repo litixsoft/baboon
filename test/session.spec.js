@@ -116,13 +116,13 @@ describe('Session', function () {
 
                 // overwrite sessionStore
                 var sessionStore = sut.getSessionStore();
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}'};
                 var cookie = 'baboon.sid=s%3AkuXMThISDw9LA7mkEQ0pnOZt.rtGhLaq%2FeZqAeRk39PFWSaqDKDOnK4ncrst%2BmNOQZ%2F8';
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -139,7 +139,7 @@ describe('Session', function () {
 
                 // overwrite sessionStore
                 var sessionStore = sut.getSessionStore();
-                sessionStore.sessions = { puXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {puXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}'};
                 var cookie = 'baboon.sid=s%3AkuXMThISDw9LA7mkEQ0pnOZt.rtGhLaq%2FeZqAeRk39PFWSaqDKDOnK4ncrst%2BmNOQZ%2F8';
 
                 sut.getSession(cookie, function (error, session) {
@@ -193,12 +193,12 @@ describe('Session', function () {
 
                 // overwrite sessionStore
                 var sessionStore = sut.getSessionStore();
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSessionById('kuXMThISDw9LA7mkEQ0pnOZt', function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -215,7 +215,7 @@ describe('Session', function () {
 
                 // overwrite sessionStore
                 var sessionStore = sut.getSessionStore();
-                sessionStore.sessions = { puXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {puXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSessionById('kuXMThISDw9LA7mkEQ0pnOZt', function (error, session) {
 
@@ -265,14 +265,14 @@ describe('Session', function () {
 
                 // overwrite sessionStore
                 var sessionStore = sut.getSessionStore();
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"2014-03-18T09:35:52.768Z","start":"2014-03-18T09:35:52.767Z","data":{},"user":{"id":-1,"name":"guest"}}'};
                 var cookie = 'baboon.sid=s%3AkuXMThISDw9LA7mkEQ0pnOZt.rtGhLaq%2FeZqAeRk39PFWSaqDKDOnK4ncrst%2BmNOQZ%2F8';
 
                 // get session for new params
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -294,7 +294,7 @@ describe('Session', function () {
                         sut.getSession(cookie, function (error, session) {
                             expect(error).toBeNull();
 
-                            var sess = new Session({sessionID:'kuXMThISDw9LA7mkEQ0pnOZt'}, session);
+                            var sess = new Session({sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt'}, session);
 
                             expect(sess.id).toBe('kuXMThISDw9LA7mkEQ0pnOZt');
                             expect(sess.user.name).toBe('test');
@@ -372,7 +372,7 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setMinutes(startDate.getMinutes() - 10);
                 activityDate.setMinutes(activityDate.getMinutes() - 5);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 // get session
                 sut.getSession(cookie, function (error, session) {
@@ -397,7 +397,7 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setHours(startDate.getHours() - 12);
                 activityDate.setMinutes(activityDate.getMinutes() - 5);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 spyOn(mock.logging.syslog, 'warn');
 
@@ -430,7 +430,7 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setHours(startDate.getHours() - 3);
                 activityDate.setHours(activityDate.getHours() - 2);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 spyOn(mock.logging.syslog, 'warn');
 
@@ -479,12 +479,12 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setMinutes(startDate.getMinutes() - 10);
                 activityDate.setMinutes(activityDate.getMinutes() - 5);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -499,7 +499,7 @@ describe('Session', function () {
                         headers: {}
                     };
 
-                    sut.setActivity({}, request, function(error, result) {
+                    sut.setActivity({}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toBe(true);
                         done();
@@ -512,14 +512,14 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setHours(startDate.getHours() - 3);
                 activityDate.setHours(activityDate.getHours() - 2);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 spyOn(mock.logging.syslog, 'warn');
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -538,7 +538,7 @@ describe('Session', function () {
                         headers: {}
                     };
 
-                    sut.setActivity({}, request, function(error, result) {
+                    sut.setActivity({}, request, function (error, result) {
 
                         expect(error.message).toBe('Session too long inactive or session expired, regenerate session.');
                         expect(result).toBeUndefined();
@@ -553,14 +553,14 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setHours(startDate.getHours() - 3);
                 activityDate.setHours(activityDate.getHours() - 2);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 spyOn(mock.logging.syslog, 'warn');
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -579,7 +579,7 @@ describe('Session', function () {
                         headers: {}
                     };
 
-                    sut.setActivity({}, request, function(error, result) {
+                    sut.setActivity({}, request, function (error, result) {
 
                         expect(error.message).toBe('Unknown session error in setSession');
                         expect(result).toBeUndefined();
@@ -594,12 +594,12 @@ describe('Session', function () {
                 // overwrite sessionStore
                 startDate.setMinutes(startDate.getMinutes() - 10);
                 activityDate.setMinutes(activityDate.getMinutes() - 5);
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -610,7 +610,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getLastActivity({}, request, function(error, result) {
+                    sut.getLastActivity({}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result.activity).toBe(activityDate.toISOString());
                         done();
@@ -623,7 +623,7 @@ describe('Session', function () {
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -635,7 +635,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getLastActivity({}, request, function(error, result) {
+                    sut.getLastActivity({}, request, function (error, result) {
                         expect(error.message).toBe('Property activity not found in session');
                         expect(result).toBeUndefined();
                         done();
@@ -646,12 +646,12 @@ describe('Session', function () {
             it('should be getData successfully without key', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -662,7 +662,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getData({}, request, function(error, result) {
+                    sut.getData({}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toEqual({});
                         done();
@@ -673,12 +673,12 @@ describe('Session', function () {
             it('should be getData successfully without key and session.data', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -690,7 +690,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getData({}, request, function(error, result) {
+                    sut.getData({}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toEqual({});
                         done();
@@ -701,12 +701,12 @@ describe('Session', function () {
             it('should be getData successfully with key', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -718,9 +718,9 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getData({key:'testKey'}, request, function(error, result) {
+                    sut.getData({key: 'testKey'}, request, function (error, result) {
                         expect(error).toBeNull();
-                        expect(result).toEqual({testKey:'testValue'});
+                        expect(result).toEqual({testKey: 'testValue'});
                         done();
                     });
                 });
@@ -729,12 +729,12 @@ describe('Session', function () {
             it('should be getData successfully with not exists key', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -746,7 +746,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getData({key:'testKey'}, request, function(error, result) {
+                    sut.getData({key: 'testKey'}, request, function (error, result) {
                         expect(error.message).toBe('Key: testKey not found in session container');
                         expect(result).toBeUndefined();
                         done();
@@ -755,7 +755,7 @@ describe('Session', function () {
             });
 
             it('should be setData return error when not given key', function (done) {
-                sut.setData({}, request, function(error, result) {
+                sut.setData({}, request, function (error, result) {
                     expect(error.message).toBe('Parameter key is required');
                     expect(result).toBeUndefined();
                     done();
@@ -763,7 +763,7 @@ describe('Session', function () {
             });
 
             it('should be setData return error when not given value', function (done) {
-                sut.setData({key:'testKey'}, request, function(error, result) {
+                sut.setData({key: 'testKey'}, request, function (error, result) {
                     expect(error.message).toBe('Parameter value is required');
                     expect(result).toBeUndefined();
                     done();
@@ -773,12 +773,12 @@ describe('Session', function () {
             it('should be setData successfully', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -792,7 +792,7 @@ describe('Session', function () {
                         }
                     };
 
-                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    sut.setData({key: 'testKey', value: 'testValue'}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toEqual('testKey is saved in session');
                         done();
@@ -803,12 +803,12 @@ describe('Session', function () {
             it('should be setData successfully without session.data', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -823,7 +823,7 @@ describe('Session', function () {
                         }
                     };
 
-                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    sut.setData({key: 'testKey', value: 'testValue'}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toEqual('testKey is saved in session');
                         done();
@@ -834,12 +834,12 @@ describe('Session', function () {
             it('should be setData return error in setSession', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -853,7 +853,7 @@ describe('Session', function () {
                         }
                     };
 
-                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    sut.setData({key: 'testKey', value: 'testValue'}, request, function (error, result) {
                         expect(error).toBeDefined();
                         expect(error instanceof SessionError).toBe(true);
                         expect(error.status).toBe(400);
@@ -867,12 +867,12 @@ describe('Session', function () {
             it('should be setData return unknown error in setSession', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -886,7 +886,7 @@ describe('Session', function () {
                         }
                     };
 
-                    sut.setData({key:'testKey', value:'testValue'}, request, function(error, result) {
+                    sut.setData({key: 'testKey', value: 'testValue'}, request, function (error, result) {
                         expect(error).toBeDefined();
                         expect(error instanceof SessionError).toBe(true);
                         expect(error.status).toBe(400);
@@ -897,15 +897,15 @@ describe('Session', function () {
                 });
             });
 
-            it('should be deleteData successfully with key', function(done) {
+            it('should be deleteData successfully with key', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -917,7 +917,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.deleteData({key:'testKey'}, request, function(error, result) {
+                    sut.deleteData({key: 'testKey'}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toBe('testKey is deleted in session');
                         done();
@@ -925,15 +925,15 @@ describe('Session', function () {
                 });
             });
 
-            it('should be deleteData successfully without session.data', function(done) {
+            it('should be deleteData successfully without session.data', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -945,7 +945,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.deleteData({key:'testKey'}, request, function(error, result) {
+                    sut.deleteData({key: 'testKey'}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toBe('container session.data deleted');
                         done();
@@ -953,15 +953,15 @@ describe('Session', function () {
                 });
             });
 
-            it('should be deleteData successfully without key', function(done) {
+            it('should be deleteData successfully without key', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -973,7 +973,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.deleteData({}, request, function(error, result) {
+                    sut.deleteData({}, request, function (error, result) {
                         expect(error).toBeNull();
                         expect(result).toBe('container session.data deleted');
                         done();
@@ -981,15 +981,15 @@ describe('Session', function () {
                 });
             });
 
-            it('should be deleteData return error when key not found', function(done) {
+            it('should be deleteData return error when key not found', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -1001,7 +1001,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.deleteData({key:'testKey2'}, request, function(error, result) {
+                    sut.deleteData({key: 'testKey2'}, request, function (error, result) {
                         expect(error.message).toBe('Key: testKey2 not found in session container');
                         expect(result).toBeUndefined();
                         done();
@@ -1009,15 +1009,15 @@ describe('Session', function () {
                 });
             });
 
-            it('should be return correct user data', function(done) {
+            it('should be return correct user data', function (done) {
 
                 // overwrite sessionStore
-                sessionStore.sessions = { kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}' };
+                sessionStore.sessions = {kuXMThISDw9LA7mkEQ0pnOZt: '{"cookie":{"originalMaxAge":false,"expires":false,"httpOnly":true,"path":"/"},"_sessionid":"kuXMThISDw9LA7mkEQ0pnOZt","activity":"' + activityDate.toISOString() + '","start":"' + startDate.toISOString() + '","data":{},"user":{"id":-1,"name":"guest"}}'};
 
                 sut.getSession(cookie, function (error, session) {
 
                     var data = {
-                        sessionID:'kuXMThISDw9LA7mkEQ0pnOZt',
+                        sessionID: 'kuXMThISDw9LA7mkEQ0pnOZt',
                         sessionStore: sessionStore
                     };
 
@@ -1032,7 +1032,7 @@ describe('Session', function () {
                         session: sess
                     };
 
-                    sut.getUserDataForClient (null, request, function(error, result) {
+                    sut.getUserDataForClient(null, request, function (error, result) {
 
                         expect(error).toBeNull();
                         expect(result.isLoggedIn).toBe(true);

@@ -96,12 +96,23 @@ describe('Transport', function () {
 
         it('should add a controller with wrong action signatures', function () {
             var controllerNotOk = {
-                foo1: function () {},
-                foo2: function (data) {return data;},
-                foo3: function (data, request) {return [data, request];},
-                foo4: function (data, callback) {callback(data);},
-                foo5: function (request, callback) {callback(request);},
-                foo6: function (data, request, callback, bar) {callback([data, request, bar]);}
+                foo1: function () {
+                },
+                foo2: function (data) {
+                    return data;
+                },
+                foo3: function (data, request) {
+                    return [data, request];
+                },
+                foo4: function (data, callback) {
+                    callback(data);
+                },
+                foo5: function (request, callback) {
+                    callback(request);
+                },
+                foo6: function (data, request, callback, bar) {
+                    callback([data, request, bar]);
+                }
             };
 
             sut.addController(controllerNotOk, 'user/rights/', null);
@@ -114,9 +125,15 @@ describe('Transport', function () {
 
         it('should add a controller with actions', function () {
             var controllerOk = {
-                read: function (data, request, callback) {callback([data, request]);},
-                write: function (data, request, callback) {callback([data, request]);},
-                remove: function (data, request, callback) {callback([data, request]);}
+                read: function (data, request, callback) {
+                    callback([data, request]);
+                },
+                write: function (data, request, callback) {
+                    callback([data, request]);
+                },
+                remove: function (data, request, callback) {
+                    callback([data, request]);
+                }
             };
 
             sut.addController(controllerOk, 'user/rights', null);
@@ -162,7 +179,8 @@ describe('Transport', function () {
         it('should process the request and call the corresponding action with rightsystem disabled', function (done) {
             var req = appMock.req;
             var res = {
-                set: function () {},
+                set: function () {
+                },
                 send: function (status, json) {
 
                     var result = JSON.parse(json);
@@ -198,7 +216,8 @@ describe('Transport', function () {
         it('should process the request and return wrong url', function (done) {
             var req = appMock.req;
             var res = {
-                set: function () {},
+                set: function () {
+                },
                 send: function (status, json) {
 
                     var result = JSON.parse(json);
@@ -231,7 +250,8 @@ describe('Transport', function () {
         it('should process the request and return an raised error', function (done) {
             var req = appMock.req;
             var res = {
-                set: function () {},
+                set: function () {
+                },
                 send: function (status, json) {
 
                     var result = JSON.parse(json);

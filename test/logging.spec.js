@@ -127,9 +127,9 @@ describe('Logging', function () {
 
     describe('Logging Db-Test', function () {
 
-        var lxDb = require('lx-mongodb');
-        var db = lxDb.GetDb(config.logging.appenders.db, ['audit']);
-        var repo = lxDb.BaseRepo(db.audit);
+        var lxDb = require('../lib/lx-mongodb-core');
+        var db = lxDb.GetDb(config.logging.appenders.db);
+        var repo = lxDb.BaseRepo(db.collection('audit'));
 
         // delete db before test
         beforeEach(function (done) {

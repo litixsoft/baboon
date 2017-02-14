@@ -29,7 +29,9 @@ beforeEach(function (done) {
         confirmed_password: 'a'
     };
 
-    sut.remove({name: data.name}, function () {done();});
+    sut.remove({name: data.name}, function () {
+        done();
+    });
 });
 
 describe('Repositories/UsersRepositiory', function () {
@@ -46,11 +48,9 @@ describe('Repositories/UsersRepositiory', function () {
                 expect(res.errors.length).toBe(0);
                 expect(data.name).toBe('wayne');
                 expect(data.email).toBe('wayne@wat.com');
-                expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
-                expect(data.groups).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
-                expect(data.rights).toEqual([
-                    {_id: sut.convertId('5204cf825dd46a6c15000001'), hasAccess: true}
-                ]);
+                expect(data.roles[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.groups[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.rights[0]._id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
 
                 done();
             });
@@ -62,11 +62,9 @@ describe('Repositories/UsersRepositiory', function () {
                 expect(res.errors.length).toBe(0);
                 expect(data.name).toBe('wayne');
                 expect(data.email).toBe('wayne@wat.com');
-                expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
-                expect(data.groups).toEqual([sut.convertId('5204cf825dd46a6c15000001')]);
-                expect(data.rights).toEqual([
-                    {_id: sut.convertId('5204cf825dd46a6c15000001'), hasAccess: true}
-                ]);
+                expect(data.roles[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.groups[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.rights[0]._id.equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
 
                 done();
             });
@@ -133,7 +131,7 @@ describe('Repositories/UsersRepositiory', function () {
 
     describe('.checkName()', function () {
         it('should return valid = true when param "doc" is empty', function (done) {
-            sut.checkName(null, function(err, res){
+            sut.checkName(null, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -143,11 +141,11 @@ describe('Repositories/UsersRepositiory', function () {
 
         it('should check the name', function (done) {
             var doc = {
-                name:'wayne',
-                _id:'5204cf825dd46a6c15000003'
+                name: 'wayne',
+                _id: '5204cf825dd46a6c15000003'
             };
 
-            sut.checkName(doc, function(err, res){
+            sut.checkName(doc, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -156,25 +154,37 @@ describe('Repositories/UsersRepositiory', function () {
         });
 
         it('should mongodb to throw error', function (done) {
-            var findOne = function(query, options, callback){return callback('error');};
-            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
+            var baseRepo = require('../../lib/lx-mongodb-core').BaseRepo({
+                prepare: function (cb) {
+                    cb(null, {
+                        ensureIndex: function (n, cb) {
+                            cb(null);
+                        },
+                        findOne: function (query, options, callback) {
+                            return callback('error');
+                        }
+                    });
+                }
+            }, {});
 
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['lx-mongodb'] = {
-                BaseRepo: function(){return baseRepo;}
+            stubs['../lx-mongodb-core'] = {
+                BaseRepo: function () {
+                    return baseRepo;
+                }
             };
 
             var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({});
 
 
             var doc = {
-                name:'wayne',
-                _id:'5204cf825dd46a6c15000003'
+                name: 'wayne',
+                _id: '5204cf825dd46a6c15000003'
             };
 
-            repo.checkName(doc, function(err){
+            repo.checkName(doc, function (err) {
                 expect(err).toBeDefined();
 
                 done();
@@ -184,7 +194,7 @@ describe('Repositories/UsersRepositiory', function () {
 
     describe('.createUser()', function () {
         it('should create a user with password hash and salt', function (done) {
-            var user = { name: 'wayne', password: 'a', salt: 'a' };
+            var user = {name: 'wayne', password: 'a', salt: 'a'};
 
             sut.createUser(user, function (err, res) {
                 expect(err).toBeNull();
@@ -205,7 +215,7 @@ describe('Repositories/UsersRepositiory', function () {
         });
 
         it('should throw an error', function (done) {
-            sut.createUser({ $set: {_id: 1 }}, function (error, result) {
+            sut.createUser({$set: {_id: 1}}, function (error, result) {
                 expect(error).toBeDefined();
                 expect(result).not.toBeDefined();
 
@@ -215,14 +225,18 @@ describe('Repositories/UsersRepositiory', function () {
     });
 
     describe('has a function getUserForLogin which', function () {
-        var user = { name: 'wayne', password: 'hash', salt: 'salt' };
+        var user = {name: 'wayne', password: 'hash', salt: 'salt'};
 
         beforeEach(function (done) {
-            repo.users.insert(user, function() { done(); });
+            repo.users.insert(user, function () {
+                done();
+            });
         });
 
-        afterEach(function(done) {
-            repo.users.remove({name: user.name}, function () {done();});
+        afterEach(function (done) {
+            repo.users.remove({name: user.name}, function () {
+                done();
+            });
         });
 
         it('should return the user with minimal data', function (done) {
@@ -237,7 +251,7 @@ describe('Repositories/UsersRepositiory', function () {
         });
 
         it('should return an mongodb error', function (done) {
-            sut.getUserForLogin({ $set: {_id: 1 }}, function (error, result) {
+            sut.getUserForLogin({$set: {_id: 1}}, function (error, result) {
                 expect(error).toBeDefined();
                 expect(error.name).toBe('MongoError');
                 expect(error.message).toContain('$set');
@@ -250,7 +264,7 @@ describe('Repositories/UsersRepositiory', function () {
 
     describe('has a function checkMail', function () {
         it('should return valid = true when param "doc" is empty', function (done) {
-            sut.checkMail(null, function(err, res){
+            sut.checkMail(null, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -260,7 +274,7 @@ describe('Repositories/UsersRepositiory', function () {
 
         it('should return valid = true when param email has an invalid format', function (done) {
             sut.createUser(data, function () {
-                sut.checkMail({ email: 'wayne@wat.com', _id: '1104cf825dd46a6c15000003' }, function(err, res){
+                sut.checkMail({email: 'wayne@wat.com', _id: '1104cf825dd46a6c15000003'}, function (err, res) {
                     expect(err).toBeNull();
                     expect(res.valid).toBeFalsy();
 
@@ -270,9 +284,9 @@ describe('Repositories/UsersRepositiory', function () {
         });
 
         it('should check the mail', function (done) {
-            var doc = { email: 'test@test.com', _id: '5204cf825dd46a6c15000003' };
+            var doc = {email: 'test@test.com', _id: '5204cf825dd46a6c15000003'};
 
-            sut.checkName(doc, function(err, res){
+            sut.checkName(doc, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -281,20 +295,32 @@ describe('Repositories/UsersRepositiory', function () {
         });
 
         it('should mongodb to throw error', function (done) {
-            var findOne = function(query, options, callback){return callback('error');};
-            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
+            var baseRepo = require('../../lib/lx-mongodb-core').BaseRepo({
+                prepare: function (cb) {
+                    cb(null, {
+                        ensureIndex: function (n, cb) {
+                            cb(null);
+                        },
+                        findOne: function (query, options, callback) {
+                            return callback('error');
+                        }
+                    });
+                }
+            }, {});
 
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['lx-mongodb'] = {
-                BaseRepo: function(){return baseRepo;}
+            stubs['../lx-mongodb-core'] = {
+                BaseRepo: function () {
+                    return baseRepo;
+                }
             };
 
             var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'usersRepository'), stubs)({});
-            var doc = { email: 'wayne@wat.com', _id: '5204cf825dd46a6c15000003' };
+            var doc = {email: 'wayne@wat.com', _id: '5204cf825dd46a6c15000003'};
 
-            repo.checkMail(doc, function(err){
+            repo.checkMail(doc, function (err) {
                 expect(err).toBeDefined();
 
                 done();

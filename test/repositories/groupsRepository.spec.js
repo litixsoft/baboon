@@ -19,7 +19,9 @@ beforeEach(function (done) {
         ]
     };
 
-    sut.remove({name: data.name}, function () {done();});
+    sut.remove({name: data.name}, function () {
+        done();
+    });
 });
 
 describe('Repositories/GroupsRepositiory', function () {
@@ -35,7 +37,8 @@ describe('Repositories/GroupsRepositiory', function () {
                 expect(res.errors.length).toBe(0);
                 expect(data.name).toBe('Admins');
                 expect(data.description).toBe('wayne');
-                expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001'), sut.convertId('5204cf825dd46a6c15000002')]);
+                expect(data.roles[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.roles[1].equals(sut.convertId('5204cf825dd46a6c15000002'))).toBeTruthy();
 
                 done();
             });
@@ -47,7 +50,8 @@ describe('Repositories/GroupsRepositiory', function () {
                 expect(res.errors.length).toBe(0);
                 expect(data.name).toBe('Admins');
                 expect(data.description).toBe('wayne');
-                expect(data.roles).toEqual([sut.convertId('5204cf825dd46a6c15000001'), sut.convertId('5204cf825dd46a6c15000002')]);
+                expect(data.roles[0].equals(sut.convertId('5204cf825dd46a6c15000001'))).toBeTruthy();
+                expect(data.roles[1].equals(sut.convertId('5204cf825dd46a6c15000002'))).toBeTruthy();
 
                 done();
             });
@@ -108,7 +112,7 @@ describe('Repositories/GroupsRepositiory', function () {
 
     describe('.checkName()', function () {
         it('should return valid = true when param "doc" is empty', function (done) {
-            sut.checkName(null, function(err, res){
+            sut.checkName(null, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -118,11 +122,11 @@ describe('Repositories/GroupsRepositiory', function () {
 
         it('should check the name', function (done) {
             var doc = {
-                name:'Admins',
-                _id:'5204cf825dd46a6c15000003'
+                name: 'Admins',
+                _id: '5204cf825dd46a6c15000003'
             };
 
-            sut.checkName(doc, function(err, res){
+            sut.checkName(doc, function (err, res) {
                 expect(err).toBeNull();
                 expect(res.valid).toBeTruthy();
 
@@ -131,25 +135,37 @@ describe('Repositories/GroupsRepositiory', function () {
         });
 
         it('should mongodb to throw error', function (done) {
-            var findOne = function(query, options, callback){return callback('error');};
-            var baseRepo = require('lx-mongodb').BaseRepo({findOne: findOne}, {});
+            var baseRepo = require('../../lib/lx-mongodb-core').BaseRepo({
+                prepare: function (cb) {
+                    cb(null, {
+                        ensureIndex: function (n, cb) {
+                            cb(null);
+                        },
+                        findOne: function (query, options, callback) {
+                            return callback('error');
+                        }
+                    });
+                }
+            }, {});
 
             var proxyquire = require('proxyquire');
 
             var stubs = {};
-            stubs['lx-mongodb'] = {
-                BaseRepo: function(){return baseRepo;}
+            stubs['../lx-mongodb-core'] = {
+                BaseRepo: function () {
+                    return baseRepo;
+                }
             };
 
             var repo = proxyquire(path.resolve(__dirname, '../', '../', 'lib', 'repositories', 'groupsRepository'), stubs)({});
 
 
             var doc = {
-                name:'Admins',
-                _id:'5204cf825dd46a6c15000003'
+                name: 'Admins',
+                _id: '5204cf825dd46a6c15000003'
             };
 
-            repo.checkName(doc, function(err){
+            repo.checkName(doc, function (err) {
                 expect(err).toBeDefined();
 
                 done();
