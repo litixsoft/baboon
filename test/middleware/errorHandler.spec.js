@@ -155,9 +155,11 @@ describe('Middleware/ErrorHandler', function () {
         };
 
         var res = mock.res;
+
         sut.errorHandler(error, {}, res, function () {
         });
-        expect(json).toEqual(res.data);
+
+        expect(res.data).toEqual(json);
     });
 
     it('should be return correct error json when status < 400', function () {

@@ -37,9 +37,11 @@ describe('Settings', function () {
         require(path.join(rootPath, 'lib', 'settings'))({config: configMock, loggers: appMock.logging, rights: rights});
 
         expect(appMock.logging.syslog.warn).toHaveBeenCalled();
-        expect(appMock.logging.syslog.warn.calls.length).toBe(1);
-        expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: Cannot parse default client settings file: %s');
-        expect(appMock.logging.syslog.warn.mostRecentCall.args[1]).toEqual(path.join(configMock.path.root, 'client_settings.js'));
+        expect(appMock.logging.syslog.warn.calls.count()).toBe(1);
+
+        var mostRecentCall = appMock.logging.syslog.warn.calls.mostRecent();
+        expect(mostRecentCall.args[0]).toEqual('settings: Cannot parse default client settings file: %s');
+        expect(mostRecentCall.args[1]).toEqual(path.join(configMock.path.root, 'client_settings.js'));
     });
 
     it('should log no warning when the default client settings files not exists', function (done) {
@@ -119,7 +121,7 @@ describe('Settings', function () {
                 var sut2 = require(path.join(rootPath, 'lib', 'settings'))({config: config, loggers: appMock.logging, rights: rightsMock});
 
                 sut2.setUserSetting({key: '1', value: 4}, {session: {user: testUser}}, function (err, res) {
-                    expect(err).toEqual({ name : 'SettingsError', message : 'Error while loading the settings', status : 500, displayClient : false });
+                    expect(err).toEqual(new SettingsError('Error while loading the settings', 500, false));
                     expect(res).toBeUndefined();
 
                     done();
@@ -330,9 +332,11 @@ describe('Settings', function () {
                     expect(err).toBeNull();
                     expect(res).toEqual({language: 'de-de', test: 1});
                     expect(appMock.logging.syslog.warn).toHaveBeenCalled();
-                    expect(appMock.logging.syslog.warn.calls.length).toBe(1);
-                    expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: user not found: %j');
-                    expect(appMock.logging.syslog.warn.mostRecentCall.args[1]).toEqual(testUser);
+                    expect(appMock.logging.syslog.warn.calls.count()).toBe(1);
+
+                    var mostRecentCall = appMock.logging.syslog.warn.calls.mostRecent();
+                    expect(mostRecentCall.args[0]).toEqual('settings: user not found: %j');
+                    expect(mostRecentCall.args[1]).toEqual(testUser);
 
                     done();
                 });
@@ -461,9 +465,11 @@ describe('Settings', function () {
                     expect(res).toBeUndefined();
 
                     expect(appMock.logging.syslog.warn).toHaveBeenCalled();
-                    expect(appMock.logging.syslog.warn.calls.length).toBe(1);
-                    expect(appMock.logging.syslog.warn.mostRecentCall.args[0]).toEqual('settings: user not found: %j');
-                    expect(appMock.logging.syslog.warn.mostRecentCall.args[1]).toEqual(testUser);
+                    expect(appMock.logging.syslog.warn.calls.count()).toBe(1);
+
+                    var mostRecentCall = appMock.logging.syslog.warn.calls.mostRecent();
+                    expect(mostRecentCall.args[0]).toEqual('settings: user not found: %j');
+                    expect(mostRecentCall.args[1]).toEqual(testUser);
 
                     done();
                 });
@@ -575,7 +581,7 @@ describe('Settings', function () {
                         expect(res).toEqual({language: 'de-de', 'test': 1});
 
                         expect(appMock.logging.syslog.warn).toHaveBeenCalled();
-                        expect(appMock.logging.syslog.warn.calls.length).toBe(1);
+                        expect(appMock.logging.syslog.warn.calls.count()).toBe(1);
 
                         done();
                     });
@@ -644,10 +650,11 @@ describe('Settings', function () {
                     expect(res).toBeUndefined();
 
                     expect(appMock.logging.syslog.error).toHaveBeenCalled();
-                    expect(appMock.logging.syslog.error.calls.length).toBe(2);
-                    expect(appMock.logging.syslog.error.calls[0].args[0]).toBe('settings: Error loading settings file: %s');
-                    expect(appMock.logging.syslog.error.mostRecentCall.args[0].path).toBe(settingsFile);
-                    expect(appMock.logging.syslog.error.mostRecentCall.args[0].code).toBe('ENOENT');
+                    expect(appMock.logging.syslog.error.calls.count()).toBe(2);
+
+                    var mostRecentCall = appMock.logging.syslog.error.calls.mostRecent();
+                    expect(mostRecentCall.args[0].path).toBe(settingsFile);
+                    expect(mostRecentCall.args[0].code).toBe('ENOENT');
 
                     done();
                 });
@@ -667,9 +674,11 @@ describe('Settings', function () {
                         expect(res).toBeUndefined();
 
                         expect(appMock.logging.syslog.warn).toHaveBeenCalled();
-                        expect(appMock.logging.syslog.warn.calls.length).toBe(1);
-                        expect(appMock.logging.syslog.warn.calls[0].args[0]).toBe('settings: Cannot parse settings file: %s');
-                        expect(appMock.logging.syslog.warn.calls[0].args[1]).toBe(settingsFile);
+                        expect(appMock.logging.syslog.warn.calls.count()).toBe(1);
+
+                        var mostRecentCall = appMock.logging.syslog.warn.calls.mostRecent();
+                        expect(mostRecentCall.args[0]).toBe('settings: Cannot parse settings file: %s');
+                        expect(mostRecentCall.args[1]).toBe(settingsFile);
 
                         done();
                     });

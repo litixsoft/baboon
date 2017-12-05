@@ -435,10 +435,7 @@ describe('Navigation', function () {
 
         beforeEach(function () {
             mockNot.baboon.rights.userHasAccessToController = function (user, controller) {
-                if (controller === 'app/main/*') {
-                    return false;
-                }
-                return true;
+                return (controller !== 'app/main/*');
             };
             sutNot = navigation(navigationFilePath, mockNot.baboon.rights);
 

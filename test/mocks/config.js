@@ -18,7 +18,7 @@ module.exports = function () {
     config.production = function () {
 
         // Contains all settings for this configuration
-        var settings = {
+        return {
             node_env: 'production',
             app_name: 'Baboon Example App',
             protocol: 'http',
@@ -72,8 +72,6 @@ module.exports = function () {
                 directory: './test/.tmp/eml' // required for type PICKUP
             }
         };
-
-        return settings;
     };
 
     /**

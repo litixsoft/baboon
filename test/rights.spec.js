@@ -8,7 +8,7 @@ describe('Rights', function () {
         ObjectID = require('../node_modules/mongodb').ObjectID,
         RightsError = require(path.resolve(rootPath, 'lib', 'errors')).RightsError,
         appMock = require('./mocks/appMock')(),
-        config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), {config: 'unitTest'}),
+        config = require(path.resolve(rootPath, 'lib', 'config'))(path.resolve(rootPath, 'test', 'mocks'), { config: 'unitTest' }),
         crypto = require(path.resolve(rootPath, 'lib', 'crypto'))(),
         sut = require(path.resolve(rootPath, 'lib', 'rights'))({
             config: config,
@@ -22,13 +22,13 @@ describe('Rights', function () {
         spyOn(appMock.logging.syslog, 'info');
 
         rights = [
-            {_id: 1, name: 'login', controller: 'app/login'},
-            {_id: 2, name: 'addUser', controller: 'app/addUser'},
-            {_id: 3, name: 'addProject', controller: 'app/addProject'},
-            {_id: 4, name: 'addTicket', controller: 'app/addTicket'},
-            {_id: 5, name: 'addTime', controller: 'app/addTime'},
-            {_id: 6, name: 'addUserStory', controller: 'app/addUserStory'},
-            {_id: 7, name: 'addImprovement', controller: 'app/addImprovement'}
+            { _id: 1, name: 'login', controller: 'app/login' },
+            { _id: 2, name: 'addUser', controller: 'app/addUser' },
+            { _id: 3, name: 'addProject', controller: 'app/addProject' },
+            { _id: 4, name: 'addTicket', controller: 'app/addTicket' },
+            { _id: 5, name: 'addTime', controller: 'app/addTime' },
+            { _id: 6, name: 'addUserStory', controller: 'app/addUserStory' },
+            { _id: 7, name: 'addImprovement', controller: 'app/addImprovement' }
         ];
 
         roles = [
@@ -120,23 +120,23 @@ describe('Rights', function () {
         ];
 
         projects = [
-            {_id: 1, name: 'baboon'},
-            {_id: 2, name: 'baboon-stack'},
-            {_id: 3, name: 'lx-mongoDB'}
+            { _id: 1, name: 'baboon' },
+            { _id: 2, name: 'baboon-stack' },
+            { _id: 3, name: 'lx-mongoDB' }
         ];
 
         navigation = [
             {
                 title: 'APP_EXAMPLE', route: '/', children: [
-                {title: 'HOME', route: '/home'},
-                {title: 'ABOUT', route: '/home/about'},
-                {title: 'LOGIN', route: '/login', right: 'login'}
+                { title: 'HOME', route: '/home' },
+                { title: 'ABOUT', route: '/home/about' },
+                { title: 'LOGIN', route: '/login', right: 'login' }
             ]
             },
             {
                 title: 'PROJECTS', route: '/admin', right: 'addTicket', children: [
-                {title: 'USERS', route: '/admin/users', right: 'addUser'},
-                {title: 'LIST', route: '/admin/groups'}
+                { title: 'USERS', route: '/admin/users', right: 'addUser' },
+                { title: 'LIST', route: '/admin/groups' }
             ]
             }
         ];
@@ -158,13 +158,13 @@ describe('Rights', function () {
 
     it('should throw an Error when not given param "logging"', function () {
         var func = function () {
-            return require(path.resolve(rootPath, 'lib', 'rights'))({config: {}});
+            return require(path.resolve(rootPath, 'lib', 'rights'))({ config: {} });
         };
         expect(func).toThrow(new RightsError('Parameter logging is required and must be a object type!'));
     });
 
     it('should not throw an Error when given params are of correct type', function () {
-        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({config: {}, loggers: {}});
+        var sut = require(path.resolve(rootPath, 'lib', 'rights'))({ config: {}, loggers: {} });
         expect(sut).toBeDefined();
     });
 
@@ -224,7 +224,7 @@ describe('Rights', function () {
         it('should return true when the rights system is disabled', function () {
             var user = users[0];
             var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({
-                config: {rights: {enabled: false}},
+                config: { rights: { enabled: false } },
                 loggers: {}
             });
 
@@ -246,8 +246,8 @@ describe('Rights', function () {
             var user = users[0];
             user.roles = [5]; // Manager
             user.rights = [
-                {_id: 1, hasAccess: false},
-                {_id: 5, hasAccess: false}
+                { _id: 1, hasAccess: false },
+                { _id: 5, hasAccess: false }
             ]; // addTime
 
             user.acl = sut.getUserAcl(user, rights, roles, groups);
@@ -262,8 +262,8 @@ describe('Rights', function () {
         it('should return true when the user has the right and access to the resource', function () {
             var user = users[0];
             user.acl = sut.getUserAcl(user, rights, roles, groups, [roles[2]], [
-                {right_id: 4, resource: 'baboon'},
-                {right_id: 5, resource: 'baboon'}
+                { right_id: 4, resource: 'baboon' },
+                { right_id: 5, resource: 'baboon' }
             ]);
 
             expect(sut.userHasAccessTo(user, 'addTicket')).toBeTruthy();
@@ -312,8 +312,8 @@ describe('Rights', function () {
             var user = users[0];
             user.roles = [5]; // Manager
             user.rights = [
-                {_id: 1, hasAccess: false}, // login
-                {_id: 5, hasAccess: false}  // addTime
+                { _id: 1, hasAccess: false }, // login
+                { _id: 5, hasAccess: false }  // addTime
             ];
 
             user.acl = sut.getUserAcl(user, rights, roles, groups);
@@ -356,7 +356,7 @@ describe('Rights', function () {
         it('should return false when the user does not have the role', function () {
             var user = users[0];
             user.rolesAsObjects = [
-                {_id: 1, name: 'admin'}
+                { _id: 1, name: 'admin' }
             ];
 
             expect(sut.userIsInRole(user, 'guest')).toBeFalsy();
@@ -365,7 +365,7 @@ describe('Rights', function () {
         it('should return true when the user has the role and the role is a mongo-id', function () {
             var user = users[0];
             user.rolesAsObjects = [
-                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+                { _id: new ObjectID('511106fc574d81d815000001'), name: 'admin' }
             ];
 
             expect(sut.userIsInRole(user, new ObjectID('511106fc574d81d815000001'))).toBeTruthy();
@@ -374,7 +374,7 @@ describe('Rights', function () {
         it('should return true when the user has the role and the role is a mongo-id string', function () {
             var user = users[0];
             user.rolesAsObjects = [
-                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+                { _id: new ObjectID('511106fc574d81d815000001'), name: 'admin' }
             ];
 
             expect(sut.userIsInRole(user, '511106fc574d81d815000001')).toBeTruthy();
@@ -383,7 +383,7 @@ describe('Rights', function () {
         it('should return true when the user has the role and the role is a mongo-id string', function () {
             var user = users[0];
             user.rolesAsObjects = [
-                {_id: new ObjectID('511106fc574d81d815000001'), name: 'admin'}
+                { _id: new ObjectID('511106fc574d81d815000001'), name: 'admin' }
             ];
 
             expect(sut.userIsInRole(user, 'admin')).toBeTruthy();
@@ -414,8 +414,8 @@ describe('Rights', function () {
                 name: 'reporter'
             };
 
-            repo.users.remove({name: user.name}, function () {
-                repo.roles.remove({name: 'reporter'}, function () {
+            repo.users.remove({ name: user.name }, function () {
+                repo.roles.remove({ name: 'reporter' }, function () {
                     done();
                 });
             });
@@ -456,7 +456,7 @@ describe('Rights', function () {
                     });
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
-                        expect(err).toEqual({name: 'RightsError', message: 'user wayne: not found'});
+                        expect(err).toEqual(new RightsError('user wayne: not found'));
                         expect(res).toBeUndefined();
 
                         done();
@@ -485,7 +485,7 @@ describe('Rights', function () {
                     });
 
                     mock.addRoleToUser(userObj[0], roleObj[0].name, function (err, res) {
-                        expect(err).toEqual({name: 'RightsError', message: 'role reporter: not found'});
+                        expect(err).toEqual(new RightsError('role reporter: not found'));
                         expect(res).toBeUndefined();
 
                         done();
@@ -540,29 +540,29 @@ describe('Rights', function () {
             var res2 = sut.getUserRights(users[2], roles, groups);
 
             expect(res.length).toBe(1);
-            expect(res[0]).toEqual({_id: 1, hasAccess: true});
+            expect(res[0]).toEqual({ _id: 1, hasAccess: true });
             expect(res2.length).toBe(4);
-            expect(res2[0]).toEqual({_id: 1, hasAccess: true});
-            expect(res2[1]).toEqual({_id: 4, hasAccess: true});
-            expect(res2[2]).toEqual({_id: 5, hasAccess: true});
-            expect(res2[3]).toEqual({_id: 6, hasAccess: true});
+            expect(res2[0]).toEqual({ _id: 1, hasAccess: true });
+            expect(res2[1]).toEqual({ _id: 4, hasAccess: true });
+            expect(res2[2]).toEqual({ _id: 5, hasAccess: true });
+            expect(res2[3]).toEqual({ _id: 6, hasAccess: true });
         });
 
         it('should add all rights from the roles/groups of the user and overwrite with the user specific rights', function () {
             var user = users[0];
             user.roles = [5]; // Manager
             user.rights = [
-                {_id: 1, hasAccess: false},
-                {_id: 5, hasAccess: false}
+                { _id: 1, hasAccess: false },
+                { _id: 5, hasAccess: false }
             ]; // addTime
 
             var res = sut.getUserRights(user, roles, groups);
             expect(res.length).toBe(5);
-            expect(res[0]).toEqual({_id: 1, hasAccess: false});
-            expect(res[1]).toEqual({_id: 4, hasAccess: true});
-            expect(res[2]).toEqual({_id: 5, hasAccess: false});
-            expect(res[3]).toEqual({_id: 6, hasAccess: true});
-            expect(res[4]).toEqual({_id: 7, hasAccess: true});
+            expect(res[0]).toEqual({ _id: 1, hasAccess: false });
+            expect(res[1]).toEqual({ _id: 4, hasAccess: true });
+            expect(res[2]).toEqual({ _id: 5, hasAccess: false });
+            expect(res[3]).toEqual({ _id: 6, hasAccess: true });
+            expect(res[4]).toEqual({ _id: 7, hasAccess: true });
         });
 
         it('should add all rights from the roles/groups of the user and add the rights of the additional roles', function () {
@@ -570,27 +570,27 @@ describe('Rights', function () {
 
             var res = sut.getUserRights(user, roles, groups, [roles[2]]); // additional role Reporter
             expect(res.length).toBe(2);
-            expect(res[0]).toEqual({_id: 1, hasAccess: true});
-            expect(res[1]).toEqual({_id: 4, hasAccess: true});
+            expect(res[0]).toEqual({ _id: 1, hasAccess: true });
+            expect(res[1]).toEqual({ _id: 4, hasAccess: true });
         });
 
         it('should add all rights from the roles/groups of the user and add the rights of the resourceRights', function () {
             var user = users[0];
 
             var res = sut.getUserRights(user, roles, groups, [roles[2]], [
-                {right_id: 4, resource: 'baboon'},
-                {right_id: 5, resource: 'baboon'}
+                { right_id: 4, resource: 'baboon' },
+                { right_id: 5, resource: 'baboon' }
             ]);
 
             expect(res.length).toBe(3);
-            expect(res[0]).toEqual({_id: 1, hasAccess: true});
-            expect(res[1]).toEqual({_id: 4, hasAccess: true, resource: 'baboon'});
-            expect(res[2]).toEqual({_id: 5, hasAccess: true, resource: 'baboon'});
+            expect(res[0]).toEqual({ _id: 1, hasAccess: true });
+            expect(res[1]).toEqual({ _id: 4, hasAccess: true, resource: 'baboon' });
+            expect(res[2]).toEqual({ _id: 5, hasAccess: true, resource: 'baboon' });
         });
 
         it('should add no rights', function () {
             var user = users[0];
-            user.rights = [{name: 'noAccess'}];
+            user.rights = [{ name: 'noAccess' }];
             user.roles = [5]; // Manager
 
             var res = sut.getUserRights(user, [], [], ['noRole']);
@@ -613,7 +613,7 @@ describe('Rights', function () {
                     id: 0,
                     name: 'admin',
                     rights: [
-                        {_id: 1, hasAccess: true}
+                        { _id: 1, hasAccess: true }
                     ]
                 },
                 res = sut.getUserAcl(user);
@@ -623,7 +623,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights', function () {
-            var user = {id: 0, name: 'admin'},
+            var user = { id: 0, name: 'admin' },
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -631,7 +631,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty object when the user has no rights and his groups have no rights', function () {
-            var user = {id: 0, name: 'admin', groups: [1]},
+            var user = { id: 0, name: 'admin', groups: [1] },
                 res = sut.getUserAcl(user, rights);
 
             expect(typeof res).toBe('object');
@@ -643,7 +643,7 @@ describe('Rights', function () {
                     id: 1,
                     name: 'sysadmin',
                     rolesAsObjects: [
-                        {_id: 1, name: 'Admin'}
+                        { _id: 1, name: 'Admin' }
                     ]
                 },
                 res = sut.getUserAcl(user, rights, roles);
@@ -656,30 +656,30 @@ describe('Rights', function () {
             var user = users[0];
             user.roles = [5]; // Manager
             user.rights = [
-                {_id: 1, hasAccess: false},
-                {_id: 5, hasAccess: false}
+                { _id: 1, hasAccess: false },
+                { _id: 5, hasAccess: false }
             ]; // addTime
 
             var res = sut.getUserAcl(user, rights, roles, groups);
 
             expect(res).toEqual({
-                'addTicket': {controller: 'app/addTicket', hasAccess: true},
-                'addUserStory': {controller: 'app/addUserStory', hasAccess: true},
-                'addImprovement': {controller: 'app/addImprovement', hasAccess: true}
+                'addTicket': { controller: 'app/addTicket', hasAccess: true },
+                'addUserStory': { controller: 'app/addUserStory', hasAccess: true },
+                'addImprovement': { controller: 'app/addImprovement', hasAccess: true }
             });
         });
 
         it('should return an array with the right names strings from user and his groups/roles and additional roles and resources', function () {
             var user = users[0];
             var res = sut.getUserAcl(user, rights, roles, groups, [roles[2]], [
-                {right_id: 4, resource: 'baboon'},
-                {right_id: 5, resource: 'baboon'}
+                { right_id: 4, resource: 'baboon' },
+                { right_id: 5, resource: 'baboon' }
             ]);
 
             expect(res).toEqual({
-                'login': {controller: 'app/login', hasAccess: true},
-                'addTicket': {controller: 'app/addTicket', hasAccess: true, resource: 'baboon'},
-                'addTime': {controller: 'app/addTime', hasAccess: true, resource: 'baboon'}
+                'login': { controller: 'app/login', hasAccess: true },
+                'addTicket': { controller: 'app/addTicket', hasAccess: true, resource: 'baboon' },
+                'addTime': { controller: 'app/addTime', hasAccess: true, resource: 'baboon' }
             });
         });
     });
@@ -757,7 +757,7 @@ describe('Rights', function () {
             var testConfig = lxHelpers.clone(config);
             testConfig.rights.enabled = false;
 
-            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({config: testConfig, loggers: appMock.logging});
+            var sut1 = require(path.resolve(rootPath, 'lib', 'rights'))({ config: testConfig, loggers: appMock.logging });
 
             sut1.getAclObj(null, function (err, res) {
                 expect(err).toBeNull();
@@ -826,8 +826,8 @@ describe('Rights', function () {
         it('should return the navigation array with the items the user has access to', function () {
             var user = users[0];
             user.acl = sut.getUserAcl(user, rights, roles, groups, [roles[2]], [
-                {right_id: 4, resource: 'baboon'},
-                {right_id: 5, resource: 'baboon'}
+                { right_id: 4, resource: 'baboon' },
+                { right_id: 5, resource: 'baboon' }
             ]);
 
             var res = sut.secureNavigation(user, navigation);
@@ -835,14 +835,14 @@ describe('Rights', function () {
             expect(res).toEqual([
                 {
                     title: 'APP_EXAMPLE', route: '/', children: [
-                    {title: 'HOME', route: '/home'},
-                    {title: 'ABOUT', route: '/home/about'},
-                    {title: 'LOGIN', route: '/login'}
+                    { title: 'HOME', route: '/home' },
+                    { title: 'ABOUT', route: '/home/about' },
+                    { title: 'LOGIN', route: '/login' }
                 ]
                 },
                 {
                     title: 'PROJECTS', route: '/admin', children: [
-                    {title: 'LIST', route: '/admin/groups'}
+                    { title: 'LIST', route: '/admin/groups' }
                 ]
                 }
             ]);
@@ -852,8 +852,8 @@ describe('Rights', function () {
             var user = users[0];
             user.roles = [1]; // Admin
             user.rights = [
-                {_id: 1, hasAccess: false},
-                {_id: 5, hasAccess: false}
+                { _id: 1, hasAccess: false },
+                { _id: 5, hasAccess: false }
             ];
             user.acl = sut.getUserAcl(user, rights, roles, groups);
 
@@ -862,8 +862,8 @@ describe('Rights', function () {
             expect(res).toEqual([
                 {
                     title: 'APP_EXAMPLE', route: '/', children: [
-                    {title: 'HOME', route: '/home'},
-                    {title: 'ABOUT', route: '/home/about'}
+                    { title: 'HOME', route: '/home' },
+                    { title: 'ABOUT', route: '/home/about' }
                 ]
                 }
             ]);
@@ -879,15 +879,15 @@ describe('Rights', function () {
             expect(res).toEqual([
                 {
                     title: 'APP_EXAMPLE', route: '/', children: [
-                    {title: 'HOME', route: '/home'},
-                    {title: 'ABOUT', route: '/home/about'},
-                    {title: 'LOGIN', route: '/login'}
+                    { title: 'HOME', route: '/home' },
+                    { title: 'ABOUT', route: '/home/about' },
+                    { title: 'LOGIN', route: '/login' }
                 ]
                 },
                 {
                     title: 'PROJECTS', route: '/admin', children: [
-                    {title: 'USERS', route: '/admin/users'},
-                    {title: 'LIST', route: '/admin/groups'}
+                    { title: 'USERS', route: '/admin/users' },
+                    { title: 'LIST', route: '/admin/groups' }
                 ]
                 }
             ]);
@@ -902,11 +902,11 @@ describe('Rights', function () {
                 salt: 'salt'
             };
 
-            repo.users.remove({name: user.name}, function () {
-                repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
-                    repo.roles.remove({name: 'dev'}, function () {
-                        repo.groups.remove({name: 'devs'}, function () {
-                            repo.resourceRights.remove({resource: 'a'}, function () {
+            repo.users.remove({ name: user.name }, function () {
+                repo.rights.remove({ name: { $in: ['add', 'save', 'delete'] } }, function () {
+                    repo.roles.remove({ name: 'dev' }, function () {
+                        repo.groups.remove({ name: 'devs' }, function () {
+                            repo.resourceRights.remove({ resource: 'a' }, function () {
                                 done();
                             });
                         });
@@ -929,17 +929,17 @@ describe('Rights', function () {
 
         it('should return the user with his rights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, res) {
                 expect(err).toBeNull();
                 expect(res.length).toBe(3);
 
                 user.rights = [
-                    {_id: res[0]._id, hasAccess: true},
-                    {_id: res[1]._id, hasAccess: false},
-                    {_id: res[2]._id, hasAccess: true}
+                    { _id: res[0]._id, hasAccess: true },
+                    { _id: res[1]._id, hasAccess: false },
+                    { _id: res[2]._id, hasAccess: true }
                 ];
 
                 repo.users.insert(user, function (err, res) {
@@ -954,8 +954,8 @@ describe('Rights', function () {
                         expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
-                            'add': {hasAccess: true},
-                            'delete': {hasAccess: true}
+                            'add': { controller: undefined, hasAccess: true },
+                            'delete': { controller: undefined, hasAccess: true }
                         });
                         expect(res.rolesAsObjects.length).toBe(0);
 
@@ -976,18 +976,18 @@ describe('Rights', function () {
 
         it('should return the user found by his id with his rights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, res) {
                 expect(err).toBeNull();
                 expect(res.length).toBe(3);
 
                 user.id = 99;
                 user.rights = [
-                    {_id: res[0]._id, hasAccess: true},
-                    {_id: res[1]._id, hasAccess: false},
-                    {_id: res[2]._id, hasAccess: true}
+                    { _id: res[0]._id, hasAccess: true },
+                    { _id: res[1]._id, hasAccess: false },
+                    { _id: res[2]._id, hasAccess: true }
                 ];
 
                 repo.users.insert(user, function (err, res) {
@@ -1002,8 +1002,8 @@ describe('Rights', function () {
                         expect(res.salt).toBeDefined();
                         expect(res.acl).toBeDefined();
                         expect(res.acl).toEqual({
-                            'add': {hasAccess: true},
-                            'delete': {hasAccess: true}
+                            'add': { controller: undefined, hasAccess: true },
+                            'delete': { controller: undefined, hasAccess: true }
                         });
 
                         done();
@@ -1014,15 +1014,15 @@ describe('Rights', function () {
 
         it('should return the user with his rights and role rights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1046,8 +1046,8 @@ describe('Rights', function () {
                             expect(res.salt).toBeDefined();
                             expect(res.acl).toBeDefined();
                             expect(res.acl).toEqual({
-                                'add': {hasAccess: true},
-                                'delete': {hasAccess: true}
+                                'add': { controller: undefined, hasAccess: true },
+                                'delete': { controller: undefined, hasAccess: true }
                             });
                             expect(res.rolesAsObjects.length).toBe(1);
                             expect(res.rolesAsObjects[0].name).toBe('dev');
@@ -1061,15 +1061,15 @@ describe('Rights', function () {
 
         it('should return the user with his rights and group rights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1079,7 +1079,7 @@ describe('Rights', function () {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
-                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({ name: 'devs', roles: [roles[0]._id] }, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
@@ -1097,8 +1097,8 @@ describe('Rights', function () {
                                 expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
-                                    'add': {hasAccess: true},
-                                    'delete': {hasAccess: true}
+                                    'add': { controller: undefined, hasAccess: true },
+                                    'delete': { controller: undefined, hasAccess: true }
                                 });
                                 expect(res.rolesAsObjects.length).toBe(1);
                                 expect(res.rolesAsObjects[0].name).toBe('dev');
@@ -1113,15 +1113,15 @@ describe('Rights', function () {
 
         it('should return the user with his rights and group rights and role rights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1133,7 +1133,7 @@ describe('Rights', function () {
 
                     user.roles = [roles[0]._id];
 
-                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({ name: 'devs', roles: [roles[0]._id] }, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
@@ -1151,8 +1151,8 @@ describe('Rights', function () {
                                 expect(res.salt).toBeDefined();
                                 expect(res.acl).toBeDefined();
                                 expect(res.acl).toEqual({
-                                    'add': {hasAccess: true},
-                                    'delete': {hasAccess: true}
+                                    'add': { controller: undefined, hasAccess: true },
+                                    'delete': { controller: undefined, hasAccess: true }
                                 });
                                 expect(res.rolesAsObjects.length).toBe(1);
                                 expect(res.rolesAsObjects[0].name).toBe('dev');
@@ -1167,15 +1167,15 @@ describe('Rights', function () {
 
         it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1187,7 +1187,7 @@ describe('Rights', function () {
 
                     user.roles = [roles[0]._id];
 
-                    repo.groups.insert({name: 'devs', roles: [roles[0]._id]}, function (err, groups) {
+                    repo.groups.insert({ name: 'devs', roles: [roles[0]._id] }, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
@@ -1212,9 +1212,9 @@ describe('Rights', function () {
                                     expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
-                                        'add': {hasAccess: true},
-                                        'delete': {hasAccess: true},
-                                        'save': {hasAccess: true, resource: 'a'}
+                                        'add': { controller: undefined, hasAccess: true },
+                                        'delete': { controller: undefined, hasAccess: true },
+                                        'save': { controller: undefined, hasAccess: true, resource: 'a' }
                                     });
                                     expect(res.rolesAsObjects.length).toBe(1);
                                     expect(res.rolesAsObjects[0].name).toBe('dev');
@@ -1230,15 +1230,15 @@ describe('Rights', function () {
 
         it('should return the user with his rights and group rights and role rights and resourceRights as acl', function (done) {
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1248,7 +1248,7 @@ describe('Rights', function () {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
-                    repo.groups.insert({name: 'devs'}, function (err, groups) {
+                    repo.groups.insert({ name: 'devs' }, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
@@ -1258,7 +1258,7 @@ describe('Rights', function () {
                             expect(err).toBeNull();
                             expect(users).toBeDefined();
 
-                            sut.addResourceRight('a', {group_id: groups[0]._id, role_id: roles[0]._id}, function (err) {
+                            sut.addResourceRight('a', { group_id: groups[0]._id, role_id: roles[0]._id }, function (err) {
                                 expect(err).toBeNull();
                                 expect(users).toBeDefined();
 
@@ -1270,9 +1270,9 @@ describe('Rights', function () {
                                     expect(res.salt).toBeDefined();
                                     expect(res.acl).toBeDefined();
                                     expect(res.acl).toEqual({
-                                        'add': {hasAccess: true, resource: 'a'},
-                                        'delete': {hasAccess: true, resource: 'a'},
-                                        'save': {hasAccess: true, resource: 'a'}
+                                        'add': { controller: undefined, hasAccess: true, resource: 'a' },
+                                        'delete': { controller: undefined, hasAccess: true, resource: 'a' },
+                                        'save': { controller: undefined, hasAccess: true, resource: 'a' }
                                     });
                                     expect(res.rolesAsObjects.length).toBe(0);
 
@@ -1305,15 +1305,15 @@ describe('Rights', function () {
             });
 
             repo.rights.insert([
-                {name: 'add'},
-                {name: 'save'},
-                {name: 'delete'}
+                { name: 'add' },
+                { name: 'save' },
+                { name: 'delete' }
             ], function (err, rights) {
                 expect(err).toBeNull();
                 expect(rights.length).toBe(3);
 
                 user.rights = [
-                    {_id: rights[1]._id, hasAccess: false}
+                    { _id: rights[1]._id, hasAccess: false }
                 ];
 
                 repo.roles.insert({
@@ -1323,7 +1323,7 @@ describe('Rights', function () {
                     expect(err).toBeNull();
                     expect(roles).toBeDefined();
 
-                    repo.groups.insert({name: 'devs'}, function (err, groups) {
+                    repo.groups.insert({ name: 'devs' }, function (err, groups) {
                         expect(err).toBeNull();
                         expect(groups).toBeDefined();
 
@@ -1364,11 +1364,11 @@ describe('Rights', function () {
 
             spyOn(console, 'log');
 
-            repo.users.remove({name: user.name}, function () {
-                repo.rights.remove({name: {$in: ['add', 'save', 'delete']}}, function () {
-                    repo.roles.remove({name: 'dev'}, function () {
-                        repo.groups.remove({name: 'devs'}, function () {
-                            repo.resourceRights.remove({resource: 'a'}, function () {
+            repo.users.remove({ name: user.name }, function () {
+                repo.rights.remove({ name: { $in: ['add', 'save', 'delete'] } }, function () {
+                    repo.roles.remove({ name: 'dev' }, function () {
+                        repo.groups.remove({ name: 'devs' }, function () {
+                            repo.resourceRights.remove({ resource: 'a' }, function () {
                                 done();
                             });
                         });
@@ -1415,7 +1415,7 @@ describe('Rights', function () {
         });
 
         it('should throw an error when the param "additionalRoles" is not of type "array"', function (done) {
-            sut.getExtendedAcl({1: 1}, {1: 1}, function (err) {
+            sut.getExtendedAcl({ 1: 1 }, { 1: 1 }, function (err) {
                 expect(err).toBeDefined();
                 expect(err instanceof RightsError).toBeTruthy();
                 expect(err.message).toContain('additionalRoles');
@@ -1443,7 +1443,7 @@ describe('Rights', function () {
         });
 
         it('should return an empty result when param "additionalRoles" has empty roles but user has groups', function (done) {
-            repo.groups.insert({name: 'devs'}, function (err, res) {
+            repo.groups.insert({ name: 'devs' }, function (err, res) {
                 user.rights = [1];
                 user.roles = [1];
                 user.groups = [res[0]._id];
@@ -1497,7 +1497,7 @@ describe('Rights', function () {
 
     describe('.addResourceRight()', function () {
         beforeEach(function (done) {
-            repo.resourceRights.remove({resource: 'projectA'}, function () {
+            repo.resourceRights.remove({ resource: 'projectA' }, function () {
                 done();
             });
 
@@ -1541,7 +1541,7 @@ describe('Rights', function () {
         });
 
         it('should return an error when group_id and user_id are not in options', function (done) {
-            sut.addResourceRight({}, {role_id: 1}, function (err) {
+            sut.addResourceRight({}, { role_id: 1 }, function (err) {
                 expect(err).toBeDefined();
                 expect(err instanceof RightsError).toBeTruthy();
                 expect(err.message).toContain('missing param "options.group_id" or missing param "options.user_id"');
@@ -1551,7 +1551,7 @@ describe('Rights', function () {
         });
 
         it('should return an error when role_id and right_id are not in options', function (done) {
-            sut.addResourceRight({}, {group_id: 1}, function (err) {
+            sut.addResourceRight({}, { group_id: 1 }, function (err) {
                 expect(err).toBeDefined();
                 expect(err instanceof RightsError).toBeTruthy();
                 expect(err.message).toContain('missing param "options.role_id" or missing param "options.right_id"');
@@ -1561,7 +1561,7 @@ describe('Rights', function () {
         });
 
         it('should add an resource right', function (done) {
-            sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
+            sut.addResourceRight('projectA', { group_id: 1, role_id: 2 }, function (err, res) {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
                 expect(res[0].resource).toBe('projectA');
@@ -1591,7 +1591,7 @@ describe('Rights', function () {
                 loggers: appMock.logging
             });
 
-            sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
+            sut.addResourceRight('projectA', { group_id: 1, role_id: 2 }, function (err, res) {
                 expect(err).toBeNull();
                 expect(res).toBeNull();
 
@@ -1618,7 +1618,7 @@ describe('Rights', function () {
                 loggers: appMock.logging
             });
 
-            sut.addResourceRight('projectA', {group_id: 1, role_id: 2}, function (err, res) {
+            sut.addResourceRight('projectA', { group_id: 1, role_id: 2 }, function (err, res) {
                 expect(err).toBeDefined();
                 expect(res).toBeUndefined();
 
@@ -1697,9 +1697,8 @@ describe('Rights', function () {
                 expect(err).toBeNull();
                 expect(res).toBeDefined();
                 expect(res).toBeGreaterThan(0);
-
                 expect(appMock.logging.syslog.info).toHaveBeenCalled();
-                expect(appMock.logging.syslog.info.calls.length).toBeGreaterThan(0);
+                expect(appMock.logging.syslog.info.calls.count()).toBeGreaterThan(0);
 
                 sut.refreshRightsIdDb(function (err, res) {
                     expect(err).toBeNull();
@@ -1811,7 +1810,7 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
             repos.rights.findOne = function (a, callback) {
-                callback(null, {_id: 1, description: 'a'});
+                callback(null, { _id: 1, description: 'a' });
             };
             repos.rights.update = function (a, b, callback) {
                 callback('error');
@@ -1839,7 +1838,7 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
             repos.rights.findOne = function (a, callback) {
-                callback(null, {_id: 1, description: 'a'});
+                callback(null, { _id: 1, description: 'a' });
             };
             repos.rights.update = function (a, b, callback) {
                 callback(null, null);
@@ -1892,7 +1891,7 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
             repos.roles.findOne = function (a, callback) {
-                callback(null, {_id: 1});
+                callback(null, { _id: 1 });
             };
             repos.roles.update = function (a, b, callback) {
                 callback('error');
@@ -1920,7 +1919,7 @@ describe('Rights', function () {
             var proxyquire = require('proxyquire');
             var repos = sut.getRepositories();
             repos.roles.findOne = function (a, callback) {
-                callback(null, {_id: 1});
+                callback(null, { _id: 1 });
             };
             repos.roles.update = function (a, b, callback) {
                 callback(null, null);
@@ -1997,7 +1996,7 @@ describe('Rights', function () {
 
     describe('.ensureThatDefaultSystemUsersExists()', function () {
         beforeEach(function (done) {
-            repo.users.remove({locked: true}, function () {
+            repo.users.remove({ locked: true }, function () {
                 done();
             });
         });
@@ -2026,7 +2025,7 @@ describe('Rights', function () {
                 expect(res).toBe(2);
 
                 expect(appMock.logging.syslog.info).toHaveBeenCalled();
-                expect(appMock.logging.syslog.info.calls.length).toBe(5);
+                expect(appMock.logging.syslog.info.calls.count()).toBe(5);
 
                 sut.ensureThatDefaultSystemUsersExists(function (err, res) {
                     expect(err).toBeNull();

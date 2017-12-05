@@ -11,11 +11,11 @@ module.exports = function () {
         debug: logging,
         info: logging,
         warn: logging,
-        error: logging,
-        fatal: logging,
-        isLevelEnabled: function () {
-            return true;
-        }
+        error: logging
+        // fatal: logging,
+        // isLevelEnabled: function () {
+        //     return true;
+        // }
     };
 
     var trimConsole = function (msg) {
@@ -31,7 +31,7 @@ module.exports = function () {
         };
 
         return {
-            unhook: function unhook () {
+            unhook: function unhook() {
                 stream.write = oldWrite;
             },
             captured: function () {
@@ -59,14 +59,23 @@ module.exports = function () {
         },
         json: function (status, value) {
             res.statusCode = status;
-            res.data = value;
+
+            res.data = new Object({});
+
+            Object.keys(value).forEach(function (keyname) {
+                res.data[keyname] = value[keyname];
+            });
         },
         status: function (status) {
             res.statusCode = status;
 
             return {
                 json: function (value) {
-                    res.data = value;
+                    res.data = new Object({});
+
+                    Object.keys(value).forEach(function (keyname) {
+                        res.data[keyname] = value[keyname];
+                    });
                 }
             };
         }
@@ -136,7 +145,7 @@ module.exports = function () {
         session: {
             getSession: function (cookie, callback) {
                 if (cookie === '12345' && callback) {
-                    callback(null, {user: {acl: []}});
+                    callback(null, { user: { acl: [] } });
                 } else if (callback) {
                     callback(null, {});
                 }
@@ -159,7 +168,7 @@ module.exports = function () {
             masterLoginPage: false,
             database: 'localhost:27017/baboon_rights',
             getUser: function (id, callback) {
-                callback(null, {id: id, name: 'guest'});
+                callback(null, { id: id, name: 'guest' });
             },
             userHasAccessTo: function (user, route) {
                 if (route === '/userHasNoAccessToFunction') {

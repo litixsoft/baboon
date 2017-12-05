@@ -120,7 +120,7 @@ describe('Logging', function () {
         hook.unhook();
 
         var exp = trim(result[0]);
-        expect(exp).toBe('\u001b[33m warning - \u001b[39mlogger express is inactive');
+        expect(exp).toContain('logger express is inactive');
 
         config.logging.loggers.express.active = true;
     });
