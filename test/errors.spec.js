@@ -5,7 +5,7 @@ describe('Errors', function () {
     var path = require('path');
     var errors = require(path.resolve(__dirname, '../', 'lib', 'errors'));
 
-    it('should throw an ConfigError with message', function() {
+    it('should throw an ConfigError with message', function () {
         var ConfigError = errors.ConfigError;
         var error = new ConfigError('ConfigTestError');
 
@@ -13,7 +13,7 @@ describe('Errors', function () {
         expect(error instanceof ConfigError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an ConfigError without message', function() {
+    it('should throw an ConfigError without message', function () {
         var ConfigError = errors.ConfigError;
         var error = new ConfigError();
 
@@ -22,7 +22,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an LogError with message', function() {
+    it('should throw an LogError with message', function () {
         var LogError = errors.LogError;
         var error = new LogError('LogTestError');
 
@@ -30,7 +30,7 @@ describe('Errors', function () {
         expect(error instanceof LogError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an LogError without message', function() {
+    it('should throw an LogError without message', function () {
         var LogError = errors.LogError;
         var error = new LogError();
 
@@ -39,7 +39,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an TransportError with message', function() {
+    it('should throw an TransportError with message', function () {
         var TransportError = errors.TransportError;
         var error = new TransportError(400, 'unitTest', 'TransportTestError');
 
@@ -50,7 +50,7 @@ describe('Errors', function () {
         expect(error instanceof TransportError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an TransportError without message', function() {
+    it('should throw an TransportError without message', function () {
         var TransportError = errors.TransportError;
         var error = new TransportError();
 
@@ -60,7 +60,7 @@ describe('Errors', function () {
         expect(error.resource).toBe('undefined');
     });
 
-    it('should throw an NavigationError with message and status', function() {
+    it('should throw an NavigationError with message and status', function () {
         var NavigationError = errors.NavigationError;
         var error = new NavigationError('NavigationTestError', 400);
 
@@ -71,7 +71,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
 
     });
-    it('should throw an NavigationError without parameters', function() {
+    it('should throw an NavigationError without parameters', function () {
         var NavigationError = errors.NavigationError;
         var error = new NavigationError();
 
@@ -82,7 +82,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an MailError with message', function() {
+    it('should throw an MailError with message', function () {
         var MailError = errors.MailError;
         var error = new MailError('MailTestError');
 
@@ -90,7 +90,7 @@ describe('Errors', function () {
         expect(error instanceof MailError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an MailError without message', function() {
+    it('should throw an MailError without message', function () {
         var MailError = errors.MailError;
         var error = new MailError();
 
@@ -99,7 +99,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an SessionError with message and status', function() {
+    it('should throw an SessionError with message and status', function () {
         var SessionError = errors.SessionError;
         var error = new SessionError('SessionTestError', 400);
 
@@ -109,7 +109,7 @@ describe('Errors', function () {
         expect(error instanceof SessionError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an SessionError without parameters', function() {
+    it('should throw an SessionError without parameters', function () {
         var SessionError = errors.SessionError;
         var error = new SessionError();
 
@@ -120,7 +120,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an AuthError with message and status', function() {
+    it('should throw an AuthError with message and status', function () {
         var AuthError = errors.AuthError;
         var error = new AuthError('AuthTestError', 400);
 
@@ -130,7 +130,7 @@ describe('Errors', function () {
         expect(error instanceof AuthError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an AuthError without parameters', function() {
+    it('should throw an AuthError without parameters', function () {
         var AuthError = errors.AuthError;
         var error = new AuthError();
 
@@ -141,9 +141,9 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an ValidationError with errors and status', function() {
+    it('should throw an ValidationError with errors and status', function () {
         var ValidationError = errors.ValidationError;
-        var error = new ValidationError([{property:'test', error:'test', message: 'not valid'}], 401);
+        var error = new ValidationError([{property: 'test', error: 'test', message: 'not valid'}], 401);
 
         expect(error.name).toBe('ValidationError');
         expect(error.message).toBe('test: not valid');
@@ -152,7 +152,7 @@ describe('Errors', function () {
         expect(error instanceof ValidationError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an ValidationError without parameters', function() {
+    it('should throw an ValidationError without parameters', function () {
         var ValidationError = errors.ValidationError;
         var error = new ValidationError();
 
@@ -164,7 +164,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an RightsError with message', function() {
+    it('should throw an RightsError with message', function () {
         var RightsError = errors.RightsError;
         var error = new RightsError('RightsTestError');
 
@@ -172,7 +172,7 @@ describe('Errors', function () {
         expect(error instanceof RightsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an RightsError without message', function() {
+    it('should throw an RightsError without message', function () {
         var RightsError = errors.RightsError;
         var error = new RightsError();
 
@@ -181,7 +181,7 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an ControllerError with message, status, displayClient, controller and resource', function() {
+    it('should throw an ControllerError with message, status, displayClient, controller and resource', function () {
         var ControllerError = errors.ControllerError;
         var error = new ControllerError('ControllerTestError', 400, true, 'TestController', 'TestResource');
 
@@ -194,7 +194,7 @@ describe('Errors', function () {
         expect(error instanceof ControllerError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an ControllerError without parameters', function() {
+    it('should throw an ControllerError without parameters', function () {
         var ControllerError = errors.ControllerError;
         var error = new ControllerError();
 
@@ -208,14 +208,14 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an AccountError with message', function() {
+    it('should throw an AccountError with message', function () {
         var error = new errors.AccountError('AccountTestError');
 
         expect(error.message).toBe('AccountTestError');
         expect(error instanceof errors.AccountError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an AccountError without message', function() {
+    it('should throw an AccountError without message', function () {
         var error = new errors.AccountError();
 
         expect(error.message).toBe('Internal Server Error');
@@ -223,14 +223,14 @@ describe('Errors', function () {
         expect(error instanceof Error).toBe(true);
     });
 
-    it('should throw an SettingsError with message', function() {
+    it('should throw an SettingsError with message', function () {
         var error = new errors.SettingsError('SettingsTestError');
 
         expect(error.message).toBe('SettingsTestError');
         expect(error instanceof errors.SettingsError).toBe(true);
         expect(error instanceof Error).toBe(true);
     });
-    it('should throw an SettingsError without message', function() {
+    it('should throw an SettingsError without message', function () {
         var error = new errors.SettingsError();
 
         expect(error.message).toBe('Internal Server Error');

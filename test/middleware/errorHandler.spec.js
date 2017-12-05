@@ -11,18 +11,18 @@ describe('Middleware/ErrorHandler', function () {
     var AuthError = Error.AuthError;
     var mock, sut;
 
-    beforeEach(function() {
+    beforeEach(function () {
         spyOn(console, 'log');
         mock = appMock();
         sut = errorHandler(mock.baboon.config, mock.baboon.loggers.syslog);
     });
 
-    it('should be defined errorHandler', function() {
+    it('should be defined errorHandler', function () {
         expect(sut).toBeDefined();
         expect(sut.errorHandler).toBeDefined();
     });
 
-    it('should be return correct error html', function() {
+    it('should be return correct error html', function () {
 
         var errorTitle = 'Error: ' + mock.baboon.config.app_name;
         var appName = mock.baboon.config.app_name;
@@ -45,11 +45,12 @@ describe('Middleware/ErrorHandler', function () {
             '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(html).toBe(res.data);
     });
 
-    it('should be return correct error html with displayClient parameter', function() {
+    it('should be return correct error html with displayClient parameter', function () {
 
         // overwrite sut
         mock.baboon.config.node_env = 'production';
@@ -77,11 +78,12 @@ describe('Middleware/ErrorHandler', function () {
             '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(html).toBe(res.data);
     });
 
-    it('should be return correct error html without status code', function() {
+    it('should be return correct error html without status code', function () {
 
         var errorTitle = 'Error: ' + mock.baboon.config.app_name;
         var appName = mock.baboon.config.app_name;
@@ -105,11 +107,12 @@ describe('Middleware/ErrorHandler', function () {
             '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(html).toBe(res.data);
     });
 
-    it('should be return correct error html in production mode', function() {
+    it('should be return correct error html in production mode', function () {
 
         // overwrite sut
         mock.baboon.config.node_env = 'production';
@@ -135,11 +138,12 @@ describe('Middleware/ErrorHandler', function () {
             '<h2><em>' + errorCode + '</em>' + errorMessage + '</h2> <ul id="stacktrace">' + errorStack + '</ul></div></body></html>';
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(html).toBe(res.data);
     });
 
-    it('should be return correct error json', function() {
+    it('should be return correct error json', function () {
 
         var error = new AuthError('unit test error', 400);
 
@@ -151,11 +155,12 @@ describe('Middleware/ErrorHandler', function () {
         };
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(json).toEqual(res.data);
     });
 
-    it('should be return correct error json when status < 400', function() {
+    it('should be return correct error json when status < 400', function () {
 
         var error = new AuthError('unit test error', 200);
 
@@ -167,7 +172,8 @@ describe('Middleware/ErrorHandler', function () {
         };
 
         var res = mock.res;
-        sut.errorHandler(error, {}, res, function(){});
+        sut.errorHandler(error, {}, res, function () {
+        });
         expect(json).toEqual(res.data);
         expect(500).toBe(res.statusCode);
     });

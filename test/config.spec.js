@@ -34,17 +34,23 @@ describe('Config', function () {
     });
 
     it('should throw an Error when the param "rootPath" is of wrong type', function () {
-        var func = function () { return config(2, {});};
+        var func = function () {
+            return config(2, {});
+        };
         expect(func).toThrow(new ConfigError('Parameter rootPath must be a string type!'));
     });
 
     it('should throw an Error when the param "argv" is of wrong type', function () {
-        var func = function () { return config(rootPath, 'test');};
+        var func = function () {
+            return config(rootPath, 'test');
+        };
         expect(func).toThrow(new ConfigError('Parameter argv must be of type object!'));
     });
 
     it('should throw an Error when not given params', function () {
-        var func = function () { return config();};
+        var func = function () {
+            return config();
+        };
         expect(func).toThrow(new ConfigError('Parameter missing, rootPath and argv are required!'));
     });
 

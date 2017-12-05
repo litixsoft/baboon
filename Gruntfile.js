@@ -8,7 +8,7 @@ module.exports = function (grunt) {
      *
      * @param {!string} folder The path to the code coverage folder.
      */
-    function getCoverageReport (folder) {
+    function getCoverageReport(folder) {
         var reports = grunt.file.expand(folder + '*/index.html');
 
         if (reports && reports.length > 0) {
