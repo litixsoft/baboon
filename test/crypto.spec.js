@@ -49,7 +49,7 @@ describe('Crypto', function () {
 
             var stubs = {};
             stubs.crypto = {
-                pbkdf2: function (a, b, c, d, callback) {
+                pbkdf2: function (a, b, c, d, e, callback) {
                     callback('error');
                 }
             };
@@ -132,7 +132,7 @@ describe('Crypto', function () {
 
             var stubs = {};
             stubs.crypto = {
-                pbkdf2: function (a, b, c, d, callback) {
+                pbkdf2: function (a, b, c, d, e, callback) {
                     callback('error');
                 }
             };

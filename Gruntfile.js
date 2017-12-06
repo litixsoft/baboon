@@ -103,7 +103,7 @@ module.exports = function (grunt) {
             },
             test: { specs: ['test/**'] },
             ci: {
-                specs: { specs: ['test/**'] },
+                specs: ['test/**'],
                 options: {
                     reporters: {
                         junit: {
