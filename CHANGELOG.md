@@ -1,3 +1,14 @@
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/litixsoft/baboon/compare/v0.4.27...v0.6.1) (2017-12-06)
+
+
+### Bug Fixes
+
+* Electron (Default) App Issue ([df013c1](https://github.com/litixsoft/baboon/commit/df013c1))
+* node 6.x.x crypto deprecated message; baboon required now nodejs 6.x.x ([61d0df6](https://github.com/litixsoft/baboon/commit/61d0df6))
+
+
+
 <a name="0.4.26"></a>
 ## [0.4.26](https://github.com/litixsoft/baboon/compare/v0.4.25...v0.4.26) (2015-09-28)
 
