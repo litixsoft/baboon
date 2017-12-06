@@ -30,7 +30,7 @@
     ],
     "main": "lib/baboon.js",
     "scripts": {
-        "test": "grunt test --stack && cd example && grunt test:travis --stack"
+        "test": "grunt test --stack"
     },
     "engines": {
         "node": ">=6.0.0"
